@@ -1,9 +1,11 @@
-# React list of goods
+# React list of goods (Hooks)
 - Replace `<your_account>` with your Github username in the [DEMO LINK](https://<your_account>.github.io/react_list-of-goods/)
 - Follow the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline)
 - Use [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript)
 
 ## Tasks
+> Starting from this task you should use ONLY functional components
+
 1. At first show a button `Start` on the page
 1. After clicking the button show a `GoodsList` (ul > li) with the given goods and hide the button
 1. Add `Reverse` button to show the goods in reversed order
