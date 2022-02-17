@@ -21,6 +21,7 @@ const App: React.FC<{}> = () => {
   const [reversed, setReversed] = useState(false);
   const [sortBy, setSortBy] = useState('default');
   const [lengthLimit, setLengthLimit] = useState(1);
+  const lengthOptions = Object.keys(Array(10).fill(0));
 
   const startApp = () => setStarted(true);
 
@@ -86,7 +87,7 @@ const App: React.FC<{}> = () => {
               value={lengthLimit}
               onChange={onLengthChange}
             >
-              {Object.keys(Array(10).fill(0)).map(key => (
+              {lengthOptions.map(key => (
                 <option value={+key + 1}>{+key + 1}</option>
               ))}
             </select>
