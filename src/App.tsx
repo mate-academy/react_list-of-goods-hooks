@@ -20,7 +20,7 @@ const App: React.FC = () => {
   const [isStarted, setListStartValue] = useState(false);
   const [isReversed, setListOrder] = useState(false);
   const [sortBy, setSortMethod] = useState('default');
-  const [length, setLength] = useState('default');
+  const [filterLength, setLength] = useState(0);
 
   const toggleListStart = () => {
     setListStartValue(!isStarted);
@@ -41,12 +41,35 @@ const App: React.FC = () => {
   const resetList = () => {
     setListOrder(false);
     setSortMethod('default');
-    setLength('default');
+    setLength(0);
   };
 
-  const filterByLength = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const filterByLength = (event: React.ChangeEvent<any>) => {
     setLength(event.target.value);
   };
+
+  let goodsCopy = [...goodsFromServer];
+
+  if (filterLength > 0) {
+    goodsCopy = goodsCopy.filter((item: string) => item.length <= filterLength);
+  }
+
+  goodsCopy.sort((good1: string, good2: string) => {
+    switch (sortBy) {
+      case 'letters':
+        return good1.localeCompare(good2);
+
+      case 'length':
+        return good1.length - good2.length;
+
+      default:
+        return 0;
+    }
+  });
+
+  if (isReversed) {
+    goodsCopy.reverse();
+  }
 
   return (
     <div className="App">
@@ -73,18 +96,14 @@ const App: React.FC = () => {
               reset
             </button>
             <form action="get">
-              Filetr by item length:
-              {' '}
               <GoodsListSelect
                 selectSize={goodsFromServer.length}
                 filterBy={filterByLength}
+                filterLength={filterLength}
               />
             </form>
             <GoodsList
-              goods={goodsFromServer}
-              reversed={isReversed}
-              sortBy={sortBy}
-              length={length}
+              goods={goodsCopy}
             />
           </>
         )}
