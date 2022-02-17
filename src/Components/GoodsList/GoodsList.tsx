@@ -16,13 +16,13 @@ export const GoodsList: React.FC<Props> = ({
     goodsCopy = goodsCopy.filter((item: string) => item.length <= length);
   }
 
-  goodsCopy.sort((item1: string, item2: string) => {
+  goodsCopy.sort((good1: string, good2: string) => {
     switch (sortBy) {
       case 'letters':
-        return item1.localeCompare(item2);
+        return good1.localeCompare(good2);
 
       case 'length':
-        return item1.length - item2.length;
+        return good1.length - good2.length;
 
       default:
         return 0;
@@ -33,9 +33,9 @@ export const GoodsList: React.FC<Props> = ({
     goodsCopy.reverse();
   }
 
-  const goodsItems = goodsCopy.map((item: string) => (
-    <li key={item}>
-      {item}
+  const goodsItems = goodsCopy.map((good: string) => (
+    <li key={good}>
+      {good}
     </li>
   ));
 

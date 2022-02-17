@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import { GoodsList } from './Components/GoodsList/GoodsList';
+import { GoodsListSelect } from './Components/GoodsListSelect/GoodsLIstSelect';
 
 const goodsFromServer: string[] = [
   'Dumplings',
@@ -16,17 +17,17 @@ const goodsFromServer: string[] = [
 ];
 
 const App: React.FC = () => {
-  const [startList, setListVisibility] = useState(false);
-  const [reverseList, setListOrder] = useState(false);
+  const [isStarted, setListStartValue] = useState(false);
+  const [isReversed, setListOrder] = useState(false);
   const [sortBy, setSortMethod] = useState('default');
   const [length, setLength] = useState('default');
 
-  const showList = () => {
-    setListVisibility(current => !current);
+  const toggleListStart = () => {
+    setListStartValue(!isStarted);
   };
 
   const makeListReversed = () => {
-    setListOrder(current => !current);
+    setListOrder(!isReversed);
   };
 
   const sortAlphabetically = () => {
@@ -43,44 +44,20 @@ const App: React.FC = () => {
     setLength('default');
   };
 
-  const filterByLength = (event: {
-    target: { value: any }
-  }) => {
+  const filterByLength = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setLength(event.target.value);
-  };
-
-  const seletct = (selectSize: number) => {
-    const options = Array(selectSize);
-
-    for (let i = 1; i <= selectSize; i += 1) {
-      options[i - 1] = (
-        <option key={i} value={i}>
-          {i}
-        </option>
-      );
-    }
-
-    return (
-      <select
-        name="select"
-        id="select"
-        onChange={filterByLength}
-      >
-        {options}
-      </select>
-    );
   };
 
   return (
     <div className="App">
       <h1>Goods</h1>
-      {!startList
+      {!isStarted
       && (
-        <button type="button" onClick={showList}>
+        <button type="button" onClick={toggleListStart}>
           Start
         </button>
       )}
-      {startList
+      {isStarted
         && (
           <>
             <button type="button" onClick={makeListReversed}>
@@ -98,11 +75,14 @@ const App: React.FC = () => {
             <form action="get">
               Filetr by item length:
               {' '}
-              {seletct(10)}
+              <GoodsListSelect
+                selectSize={goodsFromServer.length}
+                filterBy={filterByLength}
+              />
             </form>
             <GoodsList
               goods={goodsFromServer}
-              reversed={reverseList}
+              reversed={isReversed}
               sortBy={sortBy}
               length={length}
             />
