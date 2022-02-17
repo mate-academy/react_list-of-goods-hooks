@@ -31,7 +31,7 @@ const App: React.FC<{}> = () => {
     setLengthLimit(1);
   };
 
-  const reverse = () => setReversed(current => !current);
+  const reverse = () => setReversed(!reversed);
 
   const sortByAlpha = () => {
     setSorted(true);
