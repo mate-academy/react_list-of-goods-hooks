@@ -19,27 +19,24 @@ const goodsFromServer: string[] = [
 const App: React.FC<{}> = () => {
   const [started, setStarted] = useState(false);
   const [reversed, setReversed] = useState(false);
-  const [sorted, setSorted] = useState(false);
-  const [sortBy, setSortBy] = useState('alpha');
+  const [sortBy, setSortBy] = useState('default');
   const [lengthLimit, setLengthLimit] = useState(1);
 
   const startApp = () => setStarted(true);
 
   const reset = () => {
     setReversed(false);
-    setSorted(false);
+    setSortBy('default');
     setLengthLimit(1);
   };
 
   const reverse = () => setReversed(!reversed);
 
   const sortByAlpha = () => {
-    setSorted(true);
     setSortBy('alpha');
   };
 
   const sortByLength = () => {
-    setSorted(true);
     setSortBy('length');
   };
 
@@ -49,19 +46,17 @@ const App: React.FC<{}> = () => {
 
   const visibleGoods = goodsFromServer.filter(g => g.length >= lengthLimit);
 
-  if (sorted) {
-    visibleGoods.sort((a, b) => {
-      switch (sortBy) {
-        case 'length':
-          return a.length - b.length;
+  switch (sortBy) {
+    case 'alpha':
+      visibleGoods.sort((a, b) => a.localeCompare(b));
+      break;
 
-        case 'alpha':
-          return a.localeCompare(b);
+    case 'length':
+      visibleGoods.sort((a, b) => a.length - b.length);
+      break;
 
-        default:
-          return 0;
-      }
-    });
+    default:
+      break;
   }
 
   if (reversed) {
@@ -91,16 +86,9 @@ const App: React.FC<{}> = () => {
               value={lengthLimit}
               onChange={onLengthChange}
             >
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
+              {Object.keys(Array(10).fill(0)).map(key => (
+                <option value={+key + 1}>{+key + 1}</option>
+              ))}
             </select>
           </>
         )}
