@@ -16,12 +16,13 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
+const lengthOptions = Object.keys(Array(10).fill(0));
+
 const App: React.FC<{}> = () => {
   const [started, setStarted] = useState(false);
   const [reversed, setReversed] = useState(false);
   const [sortBy, setSortBy] = useState('default');
   const [lengthLimit, setLengthLimit] = useState(1);
-  const lengthOptions = Object.keys(Array(10).fill(0));
 
   const startApp = () => setStarted(true);
 
