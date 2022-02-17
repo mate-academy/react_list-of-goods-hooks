@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
 import GoodsList from './components/GoodsList';
-import { Params } from './types/Params';
 
 const goodsFromServer: string[] = [
   'Dumplings',
@@ -52,13 +51,19 @@ const App: React.FC = () => {
     setGoodsLength(+event.target.value);
   };
 
-  const parameters:Params = [
-    goodsFromServer,
-    isReversed,
-    sortedAlphabetically,
-    sortedByLength,
-    goodsLength,
-  ];
+  const visibleGoods = goodsFromServer.filter(good => good.length >= goodsLength);
+
+  if (sortedAlphabetically) {
+    visibleGoods.sort();
+  }
+
+  if (sortedByLength) {
+    visibleGoods.sort((g1, g2) => g1.length - g2.length);
+  }
+
+  if (isReversed) {
+    visibleGoods.reverse();
+  }
 
   return (
     <div className="App">
@@ -74,7 +79,7 @@ const App: React.FC = () => {
       {started && (
         <>
           <GoodsList
-            parameters={parameters}
+            goods={visibleGoods}
           />
           <button
             type="button"
