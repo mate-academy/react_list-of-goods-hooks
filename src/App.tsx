@@ -17,35 +17,35 @@ const goodsFromServer: string[] = [
 ];
 
 const App: React.FC = () => {
-  const [isStarted, setListStartValue] = useState(false);
-  const [isReversed, setListOrder] = useState(false);
-  const [sortBy, setSortMethod] = useState('default');
-  const [filterLength, setLength] = useState(0);
+  const [isStarted, setIsStarted] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
+  const [sortBy, setSortBy] = useState('default');
+  const [filterLength, setFilterLength] = useState(0);
 
   const toggleListStart = () => {
-    setListStartValue(!isStarted);
+    setIsStarted(!isStarted);
   };
 
   const makeListReversed = () => {
-    setListOrder(!isReversed);
+    setIsReversed(!isReversed);
   };
 
   const sortAlphabetically = () => {
-    setSortMethod('letters');
+    setSortBy('letters');
   };
 
   const sortByLength = () => {
-    setSortMethod('length');
+    setSortBy('length');
   };
 
   const resetList = () => {
-    setListOrder(false);
-    setSortMethod('default');
-    setLength(0);
+    setIsReversed(false);
+    setSortBy('default');
+    setFilterLength(0);
   };
 
   const filterByLength = (value: string) => {
-    setLength(Number(value));
+    setFilterLength(Number(value));
   };
 
   let goodsCopy = [...goodsFromServer];
