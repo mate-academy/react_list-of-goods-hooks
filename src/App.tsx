@@ -18,9 +18,8 @@ const goodsFromServer: string[] = [
 const App: React.FC = () => {
   const [isListOpened, setIsListOpened] = useState(false);
   const [isReversed, setIsReversed] = useState(false);
-  const [isSortedByLength, setIsSortedByLength] = useState(false);
-  const [isSortedByAlphabet, setIsSortedByAlphabet] = useState(false);
   const [minWordsLength, setMinWordsLength] = useState(1);
+  const [sortedBy, setSortedBy] = useState('');
   const lengthVariations = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   const listOpener = () => {
@@ -32,21 +31,18 @@ const App: React.FC = () => {
   };
 
   const sortByAphabet = () => {
-    setIsSortedByAlphabet(true);
+    setSortedBy('alphabet');
     setIsReversed(false);
-    setIsSortedByLength(false);
   };
 
   const sortByLength = () => {
-    setIsSortedByLength(true);
-    setIsSortedByAlphabet(false);
+    setSortedBy('length');
     setIsReversed(false);
   };
 
   const reset = () => {
     setIsReversed(false);
-    setIsSortedByLength(false);
-    setIsSortedByAlphabet(false);
+    setSortedBy('');
     setMinWordsLength(1);
   };
 
@@ -56,12 +52,15 @@ const App: React.FC = () => {
 
   const searchedGoods = goodsFromServer.filter(good => good.length >= minWordsLength);
 
-  if (isSortedByLength) {
-    searchedGoods.sort((good1, good2) => good1.length - good2.length);
-  }
+  switch (sortedBy) {
+    case 'length':
+      searchedGoods.sort((good1, good2) => good1.length - good2.length);
+      break;
 
-  if (isSortedByAlphabet) {
-    searchedGoods.sort((good1, good2) => good1.localeCompare(good2));
+    case 'alphabet':
+      searchedGoods.sort((good1, good2) => good1.localeCompare(good2));
+      break;
+    default:
   }
 
   if (isReversed) {
