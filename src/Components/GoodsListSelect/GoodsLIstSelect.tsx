@@ -3,7 +3,7 @@ import React from 'react';
 type Props = {
   selectSize: number,
   filterLength: number,
-  filterBy: (event: React.ChangeEvent<HTMLSelectElement>) => void,
+  filterBy: (value: string) => void,
 };
 
 export const GoodsListSelect: React.FC<Props> = ({ selectSize, filterBy, filterLength }) => {
@@ -26,7 +26,7 @@ export const GoodsListSelect: React.FC<Props> = ({ selectSize, filterBy, filterL
     <select
       name="select"
       value={filterLength}
-      onChange={filterBy}
+      onChange={({ target }) => filterBy(target.value)}
     >
       <option
         key={0}

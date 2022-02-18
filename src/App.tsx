@@ -44,8 +44,8 @@ const App: React.FC = () => {
     setLength(0);
   };
 
-  const filterByLength = (event: React.ChangeEvent<any>) => {
-    setLength(event.target.value);
+  const filterByLength = (value: string) => {
+    setLength(Number(value));
   };
 
   let goodsCopy = [...goodsFromServer];
