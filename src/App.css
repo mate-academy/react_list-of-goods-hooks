@@ -1,1 +1,68 @@
-/* put styles here */
+.App {
+  box-sizing: border-box;
+  margin: 32px;
+  padding: 6px;
+  width: 298px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  font-family: Arial Arial, Helvetica, sans-serif;
+  
+  background-color: #ccc;
+  border: 2px solid black;
+  border-radius: 12px;
+}
+
+h1 {
+  font-size: 2em;
+  margin: 8px;
+}
+
+button {
+  margin-bottom: 6px;
+  border-radius: 12px;
+  width: 190px;
+  height: 32px;
+  font-size: 1.2em;
+  background-color: #ddd;
+}
+
+select {
+  width: 190px;
+  height: 32px;
+  margin-bottom: 6px;
+  border-radius: 12px;
+  font-size: 1.2em;
+  background-color: #ddd;
+  text-align: center;
+  border-width: 2px;
+  border-style: outset;
+  border-color: rgb(118, 118, 118), rgb(133, 133, 133);
+  border-image: initial;
+}
+
+.startButton {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+
+  font-size: 1.2em;
+  font-weight: bold;
+
+  background-color: rgb(8, 202, 50);
+
+}
+
+.finButton {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+
+  font-size: 1.2em;
+  font-weight: bold;
+
+  background-color: rgb(209, 49, 49);
+}
