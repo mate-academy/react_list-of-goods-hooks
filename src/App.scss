@@ -1,0 +1,15 @@
+.App {
+  font-size: 30px;
+
+  &__list {
+    list-style: none;
+  }
+
+  &__active {
+    background-color: green;
+  }
+
+  &__button {
+    font-size: 24px;
+  }
+}
