@@ -29,7 +29,7 @@ const App: React.FC = () => {
   visibleGoods = goods.filter(good => good.length >= +curentLength);
 
   switch (sortedBy) {
-    case 'Alf': visibleGoods.sort((g1, g2) => g1.localeCompare(g2));
+    case 'Alphabetically': visibleGoods.sort((g1, g2) => g1.localeCompare(g2));
       break;
     case 'Length': visibleGoods.sort((g1, g2) => g1.length - g2.length);
       break;
@@ -56,7 +56,7 @@ const App: React.FC = () => {
             </button>
             <button
               type="button"
-              onClick={() => (setSortedBy('Alf'))}
+              onClick={() => (setSortedBy('Alphabetically'))}
             >
               Sort
             </button>
