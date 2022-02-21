@@ -1,5 +1,5 @@
 # React list of goods (Hooks)
-- Replace `<your_account>` with your Github username in the [DEMO LINK](https://ArtemPaskall.github.io/react_list-of-goods/)
+- Replace `<your_account>` with your Github username in the [DEMO LINK](https://ArtemPaskall.github.io/react_list-of-goods-hook/)
 - Follow the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline)
 - Use [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript)
 

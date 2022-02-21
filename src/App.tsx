@@ -20,6 +20,10 @@ const App: React.FC = () => {
   const [goods, setGoods] = useState(goodsFromServer);
   const [showList, setShowList] = useState(false);
 
+  const isVisible = () => {
+    setShowList(true);
+  };
+
   const reverseList = () => {
     setGoods([...goods].reverse());
   };
@@ -74,7 +78,7 @@ const App: React.FC = () => {
         : (
           <button
             type="button"
-            onClick={() => setShowList(true)}
+            onClick={isVisible}
           >
             Start
           </button>
