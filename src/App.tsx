@@ -28,7 +28,7 @@ const App: React.FC = () => {
     setGoods(() => [...goods].reverse());
   };
 
-  const sortAlphabet = () => {
+  const sortByAlphabet = () => {
     setGoods(() => [...goods].sort((a, b) => a.localeCompare(b)));
   };
 
