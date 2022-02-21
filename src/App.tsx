@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { MakeGoodsList } from './makeGoodsList';
 
@@ -15,129 +15,111 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-type State = {
-  goods: string[],
-  isVisible: boolean,
-  isReversed: boolean,
-  sortBy: string,
-};
+const App: React.FC = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
+  const [isSortByAphabetically, setIsSortedByAphabetically] = useState(false);
+  const [isSortedByLength, setIsSortedByLength] = useState(false);
 
-class App extends React.Component<{}, State> {
-  state = {
-    goods: goodsFromServer,
-    isVisible: false,
-    isReversed: false,
-    sortBy: '',
+  const start = () => {
+    setIsVisible(true);
   };
 
-  start = () => {
-    this.setState({ isVisible: true });
+  const reverse = () => {
+    setIsReversed(!isReversed);
   };
 
-  stop = () => {
-    this.setState({ isVisible: false });
+  const sortByAphabetically = () => {
+    setIsSortedByAphabetically(true);
+    setIsSortedByLength(false);
   };
 
-  sortAphabetically = () => {
-    this.setState({
-      sortBy: 'alphabet',
-    });
+  const sortByLength = () => {
+    setIsSortedByLength(true);
+    setIsSortedByAphabetically(false);
   };
 
-  reverse = () => {
-    this.setState(state => ({
-      isReversed: !state.isReversed,
-    }));
+  const reset = () => {
+    setIsReversed(false);
+    setIsSortedByAphabetically(false);
+    setIsSortedByLength(false);
   };
 
-  sortByLength = () => {
-    this.setState({
-      sortBy: 'length',
-    });
+  const stop = () => {
+    setIsVisible(false);
+    setIsReversed(false);
+    setIsSortedByAphabetically(false);
+    setIsSortedByLength(false);
   };
 
-  reset = () => {
-    this.setState({
-      isReversed: false,
-      sortBy: '',
-    });
-  };
+  const visibleGoods = [...goodsFromServer];
 
-  render() {
-    const {
-      goods, isVisible, isReversed, sortBy,
-    } = this.state;
-    const visibleGoods = [...goods];
+  if (isSortByAphabetically) {
+    visibleGoods.sort((item1, item2) => item1.localeCompare(item2));
+  }
 
-    switch (sortBy) {
-      case 'length':
-        visibleGoods.sort((item1, item2) => item1.length - item2.length);
-        break;
+  if (isSortedByLength) {
+    visibleGoods.sort((item1, item2) => item1.length - item2.length);
+  }
 
-      case 'alphabet':
-        visibleGoods.sort((item1, item2) => item1.localeCompare(item2));
-        break;
+  if (isReversed) {
+    visibleGoods.reverse();
+  }
 
-      default:
-        break;
-    }
+  return (
+    <div>
+      <h1>React List Of Goods</h1>
+      {!isVisible ? (
+        <button
+          type="button"
+          onClick={start}
+        >
+          Start
+        </button>
+      ) : (
+        <>
+          <MakeGoodsList
+            goodsList={visibleGoods}
+          />
 
-    if (isReversed) {
-      visibleGoods.reverse();
-    }
-
-    return (
-      <div>
-        <h1>Goods</h1>
-        {!isVisible ? (
           <button
             type="button"
-            onClick={this.start}
+            onClick={reverse}
           >
-            Start
+            Reverse
           </button>
-        ) : (
-          <div>
-            <MakeGoodsList
-              goodsList={visibleGoods}
-            />
-            <div>
-              <button
-                type="button"
-                onClick={this.reverse}
-              >
-                Reverse
-              </button>
-              <button
-                type="button"
-                onClick={this.sortAphabetically}
-              >
-                Sort alphabetically
-              </button>
-              <button
-                type="button"
-                onClick={this.sortByLength}
-              >
-                Sort by length
-              </button>
-              <button
-                type="button"
-                onClick={this.reset}
-              >
-                Reset
-              </button>
-              <button
-                type="button"
-                onClick={this.stop}
-              >
-                Stop
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
-    );
-  }
-}
+
+          <button
+            type="button"
+            onClick={sortByAphabetically}
+          >
+            Sort by Alphabet
+          </button>
+
+          <button
+            type="button"
+            onClick={sortByLength}
+          >
+            Sort by Length
+          </button>
+
+          <button
+            type="button"
+            onClick={reset}
+          >
+            Reset
+          </button>
+
+          <button
+            type="button"
+            onClick={stop}
+          >
+            Stop
+          </button>
+        </>
+      )}
+    </div>
+  );
+};
 
 export default App;
