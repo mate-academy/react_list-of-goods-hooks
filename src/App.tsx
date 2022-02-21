@@ -18,7 +18,7 @@ type Props = {
   goodsList: string[]
 };
 
-export const GoodsList: React.FC<Props> = ({ goodsList }) => {
+const GoodsList: React.FC<Props> = ({ goodsList }) => {
   return (
     <ul>
       {goodsList.map(good => (
@@ -30,7 +30,7 @@ export const GoodsList: React.FC<Props> = ({ goodsList }) => {
   );
 };
 
-const App: React.FC = () => {
+export const App: React.FC = () => {
   const [goods, setGoods] = useState([...goodsFromServer]);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -126,5 +126,3 @@ const App: React.FC = () => {
     </div>
   );
 };
-
-export default App;
