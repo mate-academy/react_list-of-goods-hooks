@@ -16,20 +16,20 @@ const goodsFromServer: string[] = [
 ];
 
 const App: React.FC = () => {
-  const [isStarted, setStarted] = useState(false);
-  const [isReverse, setReversed] = useState(false);
+  const [isStarted, setIsStarted] = useState(false);
+  const [isReverse, setIsReversed] = useState(false);
   const [sortBy, setSortBy] = useState('');
 
-  const start = () => setStarted(true);
+  const start = () => setIsStarted(true);
 
   const reset = () => {
-    setReversed(false);
+    setIsReversed(false);
     setSortBy('');
   };
 
-  const reverse = () => setReversed(!isReverse);
+  const reverse = () => setIsReversed(!isReverse);
 
-  const sortByAlpha = () => {
+  const sortByAlphabet = () => {
     setSortBy('alpha');
   };
 
@@ -38,20 +38,17 @@ const App: React.FC = () => {
   };
 
   const visibleGoods = [...goodsFromServer];
-  const buttonClass = 'button is-primary';
 
-  switch (sortBy) {
-    case 'alpha':
-      visibleGoods.sort((a, b) => a.localeCompare(b));
-      break;
-
-    case 'length':
-      visibleGoods.sort((a, b) => a.length - b.length);
-      break;
-
-    default:
-      break;
-  }
+  visibleGoods.sort((good1, good2) => {
+    switch (sortBy) {
+      case 'alphabet':
+        return good1.localeCompare(good2);
+      case 'length':
+        return good1.length - good2.length;
+      default:
+        return 0;
+    }
+  });
 
   if (isReverse) {
     visibleGoods.reverse();
@@ -64,9 +61,7 @@ const App: React.FC = () => {
       <div className="buttons__container">
         <button
           type="button"
-          className={isReverse
-            ? `${buttonClass} is-active`
-            : `${buttonClass}`}
+          className="button is-primary"
           onClick={reverse}
         >
           Reverse
@@ -80,18 +75,14 @@ const App: React.FC = () => {
         </button>
         <button
           type="button"
-          className={sortBy
-            ? `${buttonClass} is-active`
-            : `${buttonClass}`}
-          onClick={sortByAlpha}
+          className="button is-primary"
+          onClick={sortByAlphabet}
         >
           Sort alphabetically
         </button>
         <button
           type="button"
-          className={sortBy
-            ? `${buttonClass} is-active`
-            : `${buttonClass}`}
+          className="button is-primary"
           onClick={sortByLength}
         >
           Sort by length

@@ -8,7 +8,7 @@ body {
   margin: unset;
 }
 
-h1 {
+.title {
   text-align: center;
 }
 
@@ -19,6 +19,6 @@ h1 {
   margin: 0 auto 30px;
 }
 
-.is-active {
+.buttton {
   background-color: #35e2d4;
 }

@@ -17,7 +17,7 @@
 }
 
 .button__container {
-  background-color: whitesmoke;
+  background-color: black;
   height: 100vh;
   margin-top: -172px;
   position: sticky;
@@ -32,7 +32,7 @@
   height: 60px;
   text-align: center;
   line-height: 60px;
-  color: black;
+  color: white;
   font-size: 24px;
   font-weight: bold;
   text-transform: uppercase;
@@ -58,6 +58,22 @@
     }
   }
 
+  &:before {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    z-index: -1;
+    background: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
+    background-size: 400%;
+    border-radius: 40px;
+    filter: blur(20px);
+    opacity: 0;
+    transition: 0.3s;
+  }
+  
   &:hover:before {
     filter: blur(20px);
     opacity: 1;
