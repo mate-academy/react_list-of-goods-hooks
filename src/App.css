@@ -1,1 +1,24 @@
-/* put styles here */
+@import "bulma/css/bulma.css";
+
+.App {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  margin: unset;
+}
+
+.title {
+  text-align: center;
+}
+
+.buttons__container {
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+  margin: 0 auto 30px;
+}
+
+.buttton {
+  background-color: #35e2d4;
+}
