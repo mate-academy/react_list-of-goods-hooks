@@ -1,1 +1,27 @@
-/* put styles here */
+.app {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.app__title {
+  margin-left: 40px;
+  padding: 3px;
+  display: inline-block;
+  border: 3px solid greenyellow;
+  border-radius: 5px;
+}
+
+.app__buttons {
+  display: inline-flex;
+  gap: 20px;
+  margin-left: 40px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid greenyellow;
+}
+
+.app__list {
+  list-style: none;
+}
+
+.app__item {
+  padding-bottom: 10px;
+}
