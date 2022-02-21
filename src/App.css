@@ -1,1 +1,44 @@
-/* put styles here */
+body,
+h1 {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  background-color: #3c3a3e;
+}
+
+.App {
+  display: flex;
+  gap: 50px;
+  border: 3px solid #00f593;
+  margin-top: 50px;
+}
+
+.App__buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  border-left: 3px solid #00f593;
+}
+
+.App__buttons-close {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.App__buttons,
+.App__list {
+  padding: 10px;
+}
+
+button:hover {
+  background-color: #35f499;
+}
+
+.App__list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-left: 40px;
+  color: #8ae8b9;
+}
