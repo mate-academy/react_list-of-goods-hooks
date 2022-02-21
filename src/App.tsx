@@ -66,36 +66,42 @@ function App() {
             : 'Show'}
         </button>
 
-        <button
-          type="button"
-          onClick={() => setIsReversed(!isReversed)}
-        >
-          Reverse
-        </button>
+        {isVisible
+          ? (
+            <>
+              <button
+                type="button"
+                onClick={() => setIsReversed(!isReversed)}
+              >
+                Reverse
+              </button>
 
-        <button
-          type="button"
-          onClick={() => setSortBy('alphabet')}
-        >
-          Sort alphabetically
-        </button>
+              <button
+                type="button"
+                onClick={() => setSortBy('alphabet')}
+              >
+                Sort alphabetically
+              </button>
 
-        <button
-          type="button"
-          onClick={() => setSortBy('length')}
-        >
-          Sort by length
-        </button>
+              <button
+                type="button"
+                onClick={() => setSortBy('length')}
+              >
+                Sort by length
+              </button>
 
-        <button
-          type="button"
-          onClick={() => {
-            setSortBy('length');
-            setIsReversed(false);
-          }}
-        >
-          Reset
-        </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setSortBy('length');
+                  setIsReversed(false);
+                }}
+              >
+                Reset
+              </button>
+            </>
+          ) : null}
+
       </div>
 
       {isVisible
