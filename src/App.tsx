@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Component } from './components/Component';
 import './App.css';
 
 import { Button } from './components/Button';
@@ -21,7 +22,7 @@ const App: React.FC = () => {
   const [goods, setGoods] = useState(goodsFromServer);
 
   const togling = () => {
-    setState((bool) => !bool);
+    setState((boolean) => !boolean);
   };
 
   const reverseList = () => {
@@ -52,9 +53,9 @@ const App: React.FC = () => {
     <div className="App buttons">
       <h1>Goods</h1>
       <Button clicked={togling} name="START" />
-      <Button clicked={reversing} name="Reverse" />
-      <Button clicked={sortAlphabet} name="Sort alphabetically" />
-      <Button clicked={reseting} name="Reset" />
+      <Button clicked={reverseList} name="Reverse" />
+      <Button clicked={sortByAlphabet} name="Sort alphabetically" />
+      <Button clicked={reset} name="Reset" />
       <Button clicked={sortByLength} name="Sort by length" />
       <select name="length" onChange={chooseLength} className="browser-default">
         <option value="">
@@ -66,11 +67,7 @@ const App: React.FC = () => {
           </option>
         ))}
       </select>
-      <ul>
-        {state && goods.map((good) => (
-          <li key={good}>{good}</li>
-        ))}
-      </ul>
+      {state && <Component goodsAfterFilter={goods} />}
     </div>
   );
 };
