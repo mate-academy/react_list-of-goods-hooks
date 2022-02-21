@@ -36,7 +36,7 @@ const App: React.FC = () => {
     setGoods(() => [...goods].sort((a, b) => a.length - b.length));
   };
 
-  const reseting = () => {
+  const reset = () => {
     setGoods(() => [...goodsFromServer]);
   };
 
