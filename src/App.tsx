@@ -63,7 +63,7 @@ function App() {
         >
           {isVisible
             ? 'Hide'
-            : 'Start'}
+            : 'Show'}
         </button>
 
         <button
