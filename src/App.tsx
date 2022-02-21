@@ -67,7 +67,7 @@ const App: React.FC = () => {
           </option>
         ))}
       </select>
-      {state && <Component goodsAfterFilter={goods} />}
+      {state && <Component goods={goods} />}
     </div>
   );
 };
