@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import './App.scss';
+import { GoodsList } from './components/GoodsList/GoodsList';
 
 const goodsFromServer: string[] = [
   'Dumplings',
@@ -25,16 +26,16 @@ const App: React.FC = () => {
 
   const visibleGoods = [...goodsFromServer].filter(value => value.length >= selectedValue);
 
-  switch (sortBy) {
-    case 'order':
-      visibleGoods.sort();
-      break;
-    case 'length':
-      visibleGoods.sort((a, b) => a.length - b.length);
-      break;
-    default:
-      break;
-  }
+  visibleGoods.sort((a, b) => {
+    switch (sortBy) {
+      case 'order':
+        return a.localeCompare(b);
+      case 'length':
+        return a.length - b.length;
+      default:
+        return 0;
+    }
+  });
 
   if (isReverse) {
     visibleGoods.reverse();
@@ -46,7 +47,7 @@ const App: React.FC = () => {
     setReverse(false);
   };
 
-  const showHideFunc = () => {
+  const toggleVisibility = () => {
     reset();
     setVisible(!isVisible);
   };
@@ -57,7 +58,7 @@ const App: React.FC = () => {
       <button
         type="button"
         className="App__button"
-        onClick={showHideFunc}
+        onClick={toggleVisibility}
       >
         {isVisible ? 'Hide List' : 'Show List'}
       </button>
@@ -104,12 +105,7 @@ const App: React.FC = () => {
               <option value={value}>{value}</option>
             ))}
           </select>
-
-          <ul>
-            {visibleGoods.map(good => (
-              <li key={good}>{good}</li>
-            ))}
-          </ul>
+          <GoodsList visibleGoods={visibleGoods} />
         </>
       )}
     </div>
