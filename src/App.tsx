@@ -1,5 +1,6 @@
-import React from 'react';
+import { useState } from 'react';
 import './App.css';
+import { GoodsList } from './GoodsList';
 
 const goodsFromServer: string[] = [
   'Dumplings',
@@ -14,11 +15,99 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-const App: React.FC = () => (
-  <div className="App">
-    <h1>Goods</h1>
-    {goodsFromServer.length}
-  </div>
-);
+export const App = () => {
+  const [isVisible, setVision] = useState(false);
+  const [sortBy, setSortingOrder] = useState('');
+  const [isReversed, setReverse] = useState(false);
+  const [items] = useState(goodsFromServer);
 
-export default App;
+  const start = () => {
+    setVision(true);
+  };
+
+  const sortByLength = () => {
+    setSortingOrder('length');
+  };
+
+  const sortByAlphabet = () => {
+    setSortingOrder('alphabet');
+  };
+
+  const reverse = () => {
+    setReverse(true);
+  };
+
+  const reset = () => {
+    setReverse(true);
+    setSortingOrder('');
+  };
+
+  const copyOfGoods = [...items];
+
+  copyOfGoods.sort((g1, g2) => {
+    switch (sortBy) {
+      case 'length':
+        return g1.length - g2.length;
+
+      case 'alphabet':
+        return g1.localeCompare(g2);
+      default:
+        return 0;
+    }
+  });
+
+  if (!isReversed) {
+    copyOfGoods.reverse();
+  }
+
+  return (
+    <div className="App">
+
+      {isVisible ? (
+        <>
+          <GoodsList listOfGoods={copyOfGoods} />
+
+          <button
+            type="button"
+            className="reverse-button"
+            onClick={reverse}
+          >
+            Reverse
+          </button>
+
+          <button
+            type="button"
+            className="sortedByAlphabet-button"
+            onClick={sortByAlphabet}
+          >
+            Sort alphabetically
+          </button>
+
+          <button
+            type="button"
+            className="ortedByLength-button"
+            onClick={sortByLength}
+          >
+            Sort by length
+          </button>
+
+          <button
+            type="button"
+            className="reset-button"
+            onClick={reset}
+          >
+            Reset
+          </button>
+        </>
+      ) : (
+        <button
+          type="button"
+          className="start-button"
+          onClick={start}
+        >
+          Start
+        </button>
+      )}
+    </div>
+  );
+};
