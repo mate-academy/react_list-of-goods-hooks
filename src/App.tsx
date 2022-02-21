@@ -18,7 +18,7 @@ const goodsFromServer: string[] = [
 const App: React.FC = () => {
   const [isVisible, setVisible] = useState(false);
   const [sortBy, setSortBy] = useState('');
-  const [isReverse, reverse] = useState(false);
+  const [isReverse, setReverse] = useState(false);
   const [selectedValue, setSelectedValue] = useState(1);
 
   const selectValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -40,40 +40,35 @@ const App: React.FC = () => {
     visibleGoods.reverse();
   }
 
-  const reverseFunc = () => {
-    reverse(current => !current);
-  };
-
   const reset = () => {
     setSortBy('');
     setSelectedValue(1);
-    reverse(false);
+    setReverse(false);
+  };
+
+  const showHideFunc = () => {
+    reset();
+    setVisible(!isVisible);
   };
 
   return (
     <div className="App">
       <h1>Goods</h1>
-      {!isVisible
-          && (
-            <button
-              type="button"
-              className="App__button"
-              onClick={() => setVisible(true)}
-            >
-              Start
-            </button>
-          )}
+      <button
+        type="button"
+        className="App__button"
+        onClick={showHideFunc}
+      >
+        {isVisible ? 'Hide List' : 'Show List'}
+      </button>
+      <br />
+      <br />
       {isVisible && (
         <>
-          <ul>
-            {visibleGoods.map(good => (
-              <li key={good}>{good}</li>
-            ))}
-          </ul>
           <button
             type="button"
             className={classNames('App__button', { App__active: isReverse })}
-            onClick={reverseFunc}
+            onClick={() => setReverse(!isReverse)}
           >
             Reverse
           </button>
@@ -109,6 +104,12 @@ const App: React.FC = () => {
               <option value={value}>{value}</option>
             ))}
           </select>
+
+          <ul>
+            {visibleGoods.map(good => (
+              <li key={good}>{good}</li>
+            ))}
+          </ul>
         </>
       )}
     </div>
