@@ -1,1 +1,104 @@
-/* put styles here */
+body {
+  background-color: lightgrey;
+}
+
+.App {
+  width: 400px;
+  margin: 0 auto;
+  border: 1px solid palevioletred;
+  border-radius: 5px;
+}
+
+.App__title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  border-radius: 4px;
+  margin: 0 0 15px;
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  color: aliceblue;
+  animation: gradient 5s normal infinite;
+  font-family: sans-serif;
+}
+
+.container__button {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.goods__container {
+  margin: 0 auto;
+}
+
+.start_button {
+  margin: 10px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background: indianred;
+  color: lightgrey;
+  font-weight: bold;
+  transition: 1s;
+}
+
+.start_button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.list__goods {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.list__goods__item {
+  display: flex;
+  justify-content: center;
+  padding: 5px;
+  margin-bottom: 5px;
+  background-color: palevioletred;
+  color: aliceblue;
+  font-weight: bold;
+  font-family: sans-serif;
+  border: 1px solid indianred;
+  border-radius: 5px;
+}
+
+.button {
+  height: 30px;
+  font-family: sans-serif;
+  background-color: orangered;
+  border-color: red;
+  border-radius: 15px;
+  color: aliceblue;
+}
+
+.button:hover {
+  background-color: indianred;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.button:active {
+  background-color: darkseagreen;
+  box-shadow: inset;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
