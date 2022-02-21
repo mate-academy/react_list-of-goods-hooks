@@ -8,6 +8,6 @@ type typeOfBtn = {
 
 export const Button: React.FC<typeOfBtn> = ({ clicked, name }) => {
   return (
-    <button type="button" onClick={clicked}>{name}</button>
+    <button type="button" className="waves-effect waves-light btn-flat" onClick={clicked}>{name}</button>
   );
 };
