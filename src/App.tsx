@@ -24,7 +24,7 @@ const App: React.FC = () => {
     setState((bool) => !bool);
   };
 
-  const reversing = () => {
+  const reverseList = () => {
     setGoods(() => [...goods].reverse());
   };
 
