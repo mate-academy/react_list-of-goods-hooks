@@ -15,28 +15,27 @@ const goodsFromServer: string[] = [
 ];
 
 const App: React.FC = () => {
-  const [goods, setgoods] = useState([...goodsFromServer]);
+  const [goods, setGoods] = useState([...goodsFromServer]);
   const [visible, setVisible] = useState(false);
-  const visibleGoods = [...goods];
 
   const start = () => {
     setVisible(true);
   };
 
   const reverse = () => {
-    setgoods([...goods].reverse());
+    setGoods([...goods].reverse());
   };
 
   const sortAbc = () => {
-    setgoods([...goods].sort((a, b) => a.localeCompare(b)));
+    setGoods([...goods].sort((a, b) => a.localeCompare(b)));
   };
 
   const sortLength = () => {
-    setgoods([...goods].sort((a, b) => a.length - b.length));
+    setGoods([...goods].sort((a, b) => a.length - b.length));
   };
 
   const reset = () => {
-    setgoods([...goodsFromServer]);
+    setGoods([...goodsFromServer]);
   };
 
   return (
@@ -54,7 +53,7 @@ const App: React.FC = () => {
       {visible && (
         <>
           <ul className="list">
-            {visibleGoods.map(good => (
+            {goods.map(good => (
               <li
                 className="list-item"
                 key={good}
