@@ -49,7 +49,7 @@ function App() {
     setGoods(goodsFromServer);
   }, [isReversed, sortBy]);
 
-  const visebleGoods = getVisibleGoods(goods, isReversed, sortBy);
+  const visibleGoods = getVisibleGoods(goods, isReversed, sortBy);
 
   return (
     <div className="app">
@@ -66,47 +66,43 @@ function App() {
             : 'Show'}
         </button>
 
-        {isVisible
-          ? (
-            <>
-              <button
-                type="button"
-                onClick={() => setIsReversed(!isReversed)}
-              >
-                Reverse
-              </button>
+        {isVisible && (
+          <>
+            <button
+              type="button"
+              onClick={() => setIsReversed(!isReversed)}
+            >
+              Reverse
+            </button>
 
-              <button
-                type="button"
-                onClick={() => setSortBy('alphabet')}
-              >
-                Sort alphabetically
-              </button>
+            <button
+              type="button"
+              onClick={() => setSortBy('alphabet')}
+            >
+              Sort alphabetically
+            </button>
 
-              <button
-                type="button"
-                onClick={() => setSortBy('length')}
-              >
-                Sort by length
-              </button>
+            <button
+              type="button"
+              onClick={() => setSortBy('length')}
+            >
+              Sort by length
+            </button>
 
-              <button
-                type="button"
-                onClick={() => {
-                  setSortBy('length');
-                  setIsReversed(false);
-                }}
-              >
-                Reset
-              </button>
-            </>
-          ) : null}
-
+            <button
+              type="button"
+              onClick={() => {
+                setSortBy('');
+                setIsReversed(false);
+              }}
+            >
+              Reset
+            </button>
+          </>
+        )}
       </div>
 
-      {isVisible
-        ? <GoodsList goods={visebleGoods} />
-        : null}
+      {isVisible && <GoodsList goods={visibleGoods} />}
     </div>
   );
 }

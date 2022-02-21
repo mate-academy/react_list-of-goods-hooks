@@ -1,5 +1,3 @@
-import './App';
-
 type Props = {
   goods: string[];
 };
