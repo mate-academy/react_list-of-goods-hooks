@@ -1,0 +1,46 @@
+.App {
+  position: relative;
+  width: 400px;
+  height: 370px;
+  margin: 100px auto;
+  background-color: beige;
+  border: 1px solid black;
+  border-radius: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+
+  &__buttons {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    font-family: inherit;
+  }
+
+  &__button {
+    border-radius: 5px;
+  }
+
+  &__start-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 50px;
+    font-family: inherit;
+    font-size: 30px;
+    border-radius: 10px;
+  }
+
+  &__label {
+    display: flex;
+    gap: 20px;
+    width: fit-content;
+    margin: 0 auto;
+  }
+
+  &__select {
+    background-color: rgb(236, 236, 236);
+    border-radius: 5px;
+    border: 1px solid black;
+  }
+}
