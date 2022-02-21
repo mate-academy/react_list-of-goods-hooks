@@ -1,14 +1,14 @@
 import React from 'react';
 
 type Props = {
-  reverse: boolean;
+  isReversed: boolean;
   sortBy: string,
   goods: string[];
   minLength: number;
 };
 
 export const GoodsList: React.FC<Props> = ({
-  reverse,
+  isReversed,
   sortBy,
   goods,
   minLength,
@@ -35,7 +35,7 @@ export const GoodsList: React.FC<Props> = ({
       break;
   }
 
-  if (reverse) {
+  if (isReversed) {
     visibleGoods.reverse();
   }
 

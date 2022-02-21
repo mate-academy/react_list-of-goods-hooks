@@ -17,29 +17,29 @@ const goodsFromServer: string[] = [
 
 const App: React.FC = () => {
   const [isStarted, setIsStarted] = useState(false);
-  const [isReverse, setIsReverse] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
   const [sortBy, setSortBy] = useState('');
   const [minLength, setMinLength] = useState(1);
   const [goods] = useState(goodsFromServer);
 
   const start = () => setIsStarted(true);
 
-  const reverse = () => setIsReverse(!isReverse);
+  const reverse = () => setIsReversed(!isReversed);
 
   const sortAlphabetically = () => {
     setSortBy('alphabet');
-    setIsReverse(false);
+    setIsReversed(false);
   };
 
   const reset = () => {
     setSortBy('');
-    setIsReverse(false);
+    setIsReversed(false);
     setMinLength(1);
   };
 
   const sortByLength = () => {
     setSortBy('length');
-    setIsReverse(false);
+    setIsReversed(false);
   };
 
   const setLimit = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -54,14 +54,16 @@ const App: React.FC = () => {
     <div className="App">
       <h1>Goods</h1>
 
-      <button type="button" onClick={start}>
-        Start
-      </button>
+      {!isStarted && (
+        <button type="button" onClick={start}>
+          Start
+        </button>
+      )}
 
       {isStarted && (
         <>
           <GoodsList
-            reverse={isReverse}
+            isReversed={isReversed}
             sortBy={sortBy}
             goods={goods}
             minLength={minLength}
