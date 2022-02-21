@@ -61,7 +61,9 @@ function App() {
           type="button"
           onClick={() => setIsVisible(!isVisible)}
         >
-          Start
+          {isVisible
+            ? 'Hide'
+            : 'Start'}
         </button>
 
         <button
