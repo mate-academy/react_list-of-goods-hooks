@@ -21,7 +21,7 @@ function getVisibleProduct(
   basket: string[],
   sortBy: string,
   reversed: boolean,
-  selectValue: string,
+  selectValue: number,
 ): string[] {
   let visibleProduct = [];
 
@@ -46,11 +46,11 @@ function getVisibleProduct(
 
 function App() {
   const [sortBy, setSortBy] = useState('');
-  const [selectValue, setSelectValue] = useState('1');
+  const [selectValue, setSelectValue] = useState(1);
   const [reversed, setReversed] = useState(false);
   const [basket, setBasket] = useState<string[]>([]);
 
-  const visibleProduct = getVisibleProduct(basket, sortBy, reversed, selectValue);
+  const visibleProducts = getVisibleProduct(basket, sortBy, reversed, selectValue);
 
   const toggleReverse = () => {
     setReversed(!reversed);
@@ -83,13 +83,13 @@ function App() {
           setSortBy('alphabet');
         }}
       >
-        Sort by alphabetically
+        Sort alphabetically
       </button>
       <button
         type="button"
         onClick={() => {
           setSortBy('');
-          setSelectValue('1');
+          setSelectValue(1);
           setReversed(false);
         }}
       >
@@ -106,7 +106,7 @@ function App() {
       <select
         value={selectValue}
         onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
-          setSelectValue(event.currentTarget.value);
+          setSelectValue(+event.currentTarget.value);
         }}
       >
         {options.map(el => (
@@ -118,7 +118,7 @@ function App() {
           </option>
         ))}
       </select>
-      <GoodsList products={visibleProduct} />
+      <GoodsList products={visibleProducts} />
     </div>
   );
 }
