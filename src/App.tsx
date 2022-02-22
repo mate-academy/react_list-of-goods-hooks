@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import { List } from './List';
 
 const goodsFromServer: string[] = [
   'Dumplings',
@@ -15,49 +16,66 @@ const goodsFromServer: string[] = [
 ];
 
 const App: React.FC = () => {
-  const [start, setStart] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const [goods, setGoods] = useState(goodsFromServer);
+
+  const reverse = () => (
+    setGoods(current => [...current].reverse())
+  );
+  const sortAlphabetically = () => (
+    setGoods(current => [...current].sort((a, b) => a.localeCompare(b)))
+  );
+  const reset = () => (
+    setGoods([...goodsFromServer])
+  );
+  const sortByLength = () => (
+    setGoods(current => [...current].sort((a, b) => a.length - b.length))
+  );
 
   return (
     <div className="App">
-      <button
-        type="button"
-        hidden={start}
-        onClick={() => setStart(current => !current)}
-      >
-        Start
-      </button>
-      <div hidden={!start}>
-        <ul>
-          {goods.map(good => (
-            <li>{good}</li>
-          ))}
+      {!isVisible
+        && (
           <button
             type="button"
-            onClick={() => setGoods(current => [...current].reverse())}
+            onClick={() => setIsVisible(current => !current)}
           >
-            Reverse
+            Start
           </button>
-          <button
-            type="button"
-            onClick={() => setGoods(current => [...current].sort((a, b) => a.localeCompare(b)))}
-          >
-            Sort alphabetically
-          </button>
-          <button
-            type="button"
-            onClick={() => setGoods([...goodsFromServer])}
-          >
-            Reset
-          </button>
-          <button
-            type="button"
-            onClick={() => setGoods(current => [...current].sort((a, b) => a.length - b.length))}
-          >
-            Sort by length
-          </button>
-        </ul>
-      </div>
+        )}
+
+      {isVisible
+        && (
+          <div>
+            <List goods={goods} />
+
+            <button
+              type="button"
+              onClick={reverse}
+            >
+              Reverse
+            </button>
+            <button
+              type="button"
+              onClick={sortAlphabetically}
+            >
+              Sort alphabetically
+            </button>
+            <button
+              type="button"
+              onClick={reset}
+            >
+              Reset
+            </button>
+            <button
+              type="button"
+              onClick={sortByLength}
+            >
+              Sort by length
+            </button>
+          </div>
+        )}
+
     </div>
   );
 };
