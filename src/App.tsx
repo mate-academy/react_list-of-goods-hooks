@@ -38,7 +38,7 @@ export const App = () => {
   };
 
   const reset = () => {
-    setReverse(true);
+    setReverse(false);
     setSortingOrder('');
   };
 
