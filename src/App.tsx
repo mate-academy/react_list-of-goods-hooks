@@ -17,11 +17,11 @@ const goodsFromServer: string[] = [
 
 const App: React.FC = () => {
   const [goods] = useState(goodsFromServer);
-  const [isVisibleGoods, setIsVisibleGoods] = useState(false);
+  const [isGoodsVisible, setIsGoodsVisible] = useState(false);
   const [isReverse, setIsReverse] = useState(false);
   const [sortBy, setSortBy] = useState('');
 
-  const isVisible = () => (setIsVisibleGoods(current => !current));
+  const isVisible = () => (setIsGoodsVisible(current => !current));
 
   const reverse = () => (setIsReverse(!isReverse));
 
@@ -63,7 +63,7 @@ const App: React.FC = () => {
       >
         Goods List
       </h1>
-      {isVisibleGoods
+      {isGoodsVisible
         ? (
           <div className="container__button">
             <button
