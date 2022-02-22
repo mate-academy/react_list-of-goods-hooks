@@ -1,1 +1,30 @@
-/* put styles here */
+.App {
+  margin: 0 auto;
+  max-width: 1600px;
+}
+
+.list {
+  font-size: 25px;
+}
+
+.buttons {
+  display: flex;
+  gap: 20px;
+}
+
+.button {
+  height: 50px;
+  width: 150px;
+  font-size: 16px;
+  background-color: yellowgreen;
+  border-radius: 15px;
+}
+
+.start__button {
+  height: 60px;
+  width: 200px;
+  font-size: 18px;
+  font-weight: bold;
+  background-color: green;
+  border-radius: 15px;
+}
