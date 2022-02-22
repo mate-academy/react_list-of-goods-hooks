@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import { GoodsList } from './GoodList';
 
 const goodsFromServer: string[] = [
   'Dumplings',
@@ -13,22 +14,6 @@ const goodsFromServer: string[] = [
   'Jam',
   'Garlic',
 ];
-
-type Props = {
-  goodsList: string[]
-};
-
-const GoodsList: React.FC<Props> = ({ goodsList }) => {
-  return (
-    <ul>
-      {goodsList.map(good => (
-        <li key={good}>
-          {good}
-        </li>
-      ))}
-    </ul>
-  );
-};
 
 export const App: React.FC = () => {
   const [goods, setGoods] = useState([...goodsFromServer]);
@@ -67,9 +52,7 @@ export const App: React.FC = () => {
       {!isVisible ? (
         <button
           type="button"
-          onClick={() => {
-            start();
-          }}
+          onClick={start}
         >
           Start
         </button>
@@ -77,9 +60,7 @@ export const App: React.FC = () => {
       ) : (
         <button
           type="button"
-          onClick={() => {
-            stop();
-          }}
+          onClick={stop}
         >
           Stop
         </button>
@@ -89,33 +70,25 @@ export const App: React.FC = () => {
             <div>
               <button
                 type="button"
-                onClick={() => {
-                  reverse();
-                }}
+                onClick={reverse}
               >
                 reverse
               </button>
               <button
                 type="button"
-                onClick={() => {
-                  sortAlphabet();
-                }}
+                onClick={sortAlphabet}
               >
                 Sort in AlphaBet
               </button>
               <button
                 type="button"
-                onClick={() => {
-                  sortByLength();
-                }}
+                onClick={sortByLength}
               >
                 sort by length
               </button>
               <button
                 type="button"
-                onClick={() => {
-                  reset();
-                }}
+                onClick={reset}
               >
                 Reset
               </button>
