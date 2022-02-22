@@ -48,52 +48,74 @@ const App: React.FC = () => {
     setMinLength(length);
   };
 
+  const visibleGoods = goods.filter(
+    good => good.length >= minLength,
+  );
+
+  switch (sortBy) {
+    case 'alphabet':
+      visibleGoods.sort();
+      break;
+
+    case 'length':
+      visibleGoods.sort((a, b) => {
+        const firstLength = a.length;
+        const secondLength = b.length;
+
+        return firstLength - secondLength;
+      });
+      break;
+
+    default:
+      break;
+  }
+
+  if (isReversed) {
+    visibleGoods.reverse();
+  }
+
   const options = Array.from(Array(10).keys());
 
   return (
     <div className="App">
       <h1>Goods</h1>
 
-      {!isStarted && (
-        <button type="button" onClick={start}>
-          Start
-        </button>
-      )}
-
-      {isStarted && (
-        <>
-          <GoodsList
-            isReversed={isReversed}
-            sortBy={sortBy}
-            goods={goods}
-            minLength={minLength}
-          />
-
-          <button type="button" onClick={reverse}>
-            Reverse
+      {!isStarted
+        ? (
+          <button type="button" onClick={start}>
+            Start
           </button>
+        ) : (
+          <>
+            <GoodsList
+              goods={visibleGoods}
+            />
 
-          <button type="button" onClick={sortAlphabetically}>
-            Sort alphabetically
-          </button>
+            <button type="button" onClick={reverse}>
+              Reverse
+            </button>
 
-          <button type="button" onClick={reset}>
-            Reset
-          </button>
+            <button type="button" onClick={sortAlphabetically}>
+              Sort alphabetically
+            </button>
 
-          <button type="button" onClick={sortByLength}>
-            Sort by length
-          </button>
+            <button type="button" onClick={reset}>
+              Reset
+            </button>
 
-          <select onChange={setLimit} value={minLength}>
-            {options.map((option) => (
-              <option key={option} value={option + 1}>
-                {option + 1}
-              </option>
-            ))}
-          </select>
-        </>
-      )}
+            <button type="button" onClick={sortByLength}>
+              Sort by length
+            </button>
+
+            <select onChange={setLimit} value={minLength}>
+              {options.map((option) => (
+                <option key={option} value={option + 1}>
+                  {option + 1}
+                </option>
+              ))}
+            </select>
+          </>
+        )}
     </div>
   );
 };
