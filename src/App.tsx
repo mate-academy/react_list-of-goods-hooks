@@ -56,7 +56,7 @@ export const App = () => {
     }
   });
 
-  if (!isReversed) {
+  if (isReversed) {
     copyOfGoods.reverse();
   }
 
