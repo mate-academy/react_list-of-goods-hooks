@@ -29,7 +29,7 @@ const App: React.FC = () => {
   };
 
   const sortAlphabetically = () => {
-    setSortBy('alfabet');
+    setSortBy('alphabet');
   };
 
   const sortByLength = () => {
