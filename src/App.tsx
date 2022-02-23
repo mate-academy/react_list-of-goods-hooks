@@ -23,7 +23,7 @@ const App: React.FC = () => {
   const isVisible = () => {
     setShowList(true);
   };
-
+Ё
   const reverseList = () => {
     setGoods([...goods].reverse());
   };
