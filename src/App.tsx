@@ -32,7 +32,13 @@ const App: React.FC = () => {
     <div className="App bg-info">
       <div className="App-wrap">
         {!start && (
-          <button className="btn bg-primary btn-my" type="button" onClick={() => setStart(true)}>Start</button>
+          <button
+            className="btn bg-primary btn-my"
+            type="button"
+            onClick={() => setStart(true)}
+          >
+            Start
+          </button>
         )}
         {start && (
           <div>
