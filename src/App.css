@@ -1,1 +1,33 @@
 /* put styles here */
+* {
+  box-sizing: border-box;
+  background-color: rgb(104, 155, 214);
+}
+
+h1 {
+  color: white;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  text-align: center;
+  text-shadow: 0 0 2px #000;
+}
+
+.button-section {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+
+.button {
+  background-color: rgb(64, 102, 173);
+  color: aliceblue;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  border-radius: 20px;
+  height: 50px;
+  width: 100px;
+}
+
+.ranger-button {
+  transform-origin: bottom left;
+  width: 300px;
+  transform: rotate(90deg);
+}
