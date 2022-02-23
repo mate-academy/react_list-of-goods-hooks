@@ -16,13 +16,15 @@ const goodsFromServer: string[] = [
 ];
 
 const App: React.FC = () => {
-  const [goods, setGoods] = useState([...goodsFromServer]);
+  // const [goods, setGoods] = useState([...goodsFromServer]);
   const [sortBy, setSortBy] = useState('default');
   const [isReversed, setIsReversed] = useState(false);
-  const [start, setStart] = useState(false);
+  const [isStarted, setIsStarted] = useState(false);
 
-  const isStarted = () => {
-    setStart(true);
+  let goods = [...goodsFromServer];
+
+  const start = () => {
+    setIsStarted(true);
   };
 
   const reverse = () => {
@@ -38,8 +40,9 @@ const App: React.FC = () => {
   };
 
   const resetSort = () => {
-    setGoods([...goodsFromServer]);
+    goods = [...goodsFromServer];
     setSortBy('default');
+    setIsReversed(false);
   };
 
   goods.sort((a, b) => {
@@ -61,12 +64,12 @@ const App: React.FC = () => {
 
   return (
     <div className="app">
-      {!start
+      {!isStarted
         ? (
           <button
             type="button"
             className="app__start"
-            onClick={isStarted}
+            onClick={start}
           >
             Start
           </button>
