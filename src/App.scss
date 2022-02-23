@@ -1,0 +1,24 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital@1&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Lato", sans-serif;
+  font-size: 20px;
+  height: 100vh;
+  background: linear-gradient(to right, #4ac29a, #bdfff3);
+}
+
+.App {
+  margin: 0 auto;
+  width: fit-content;
+  text-align: center;
+
+  &__title {
+    padding-top: 24px;
+  }
+}
