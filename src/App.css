@@ -1,1 +1,33 @@
-/* put styles here */
+.App {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.App-wrap {
+  border-radius: 5px;
+
+  padding: 60px;
+  background-color: rgba(238, 238, 238, 0.72);
+}
+
+.btn-my {
+  width: 100px;
+  height: 100px;
+  border-radius: 25%;
+
+  transition: border-radius 0.5s, color 0.5s, transform 0.5s;
+}
+
+.btn-my:hover {
+  border-radius: 50%;
+  color: white;
+  transform: scale(1.4);
+}
+
+.btn-wrap {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
