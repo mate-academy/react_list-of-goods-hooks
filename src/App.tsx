@@ -30,15 +30,16 @@ export const App: React.FC = () => {
     const copiedGoods = [...goods];
 
     copiedGoods.sort((el1, el2) => {
-      if (sortedBy === 'alphabet') {
-        return el1.localeCompare(el2);
-      }
+      switch (sortedBy) {
+        case 'alphabet':
+          return el1.localeCompare(el2);
 
-      if (sortedBy === 'length') {
-        return el1.length - el2.length;
-      }
+        case 'length':
+          return el1.length - el2.length;
 
-      return 0;
+        default:
+          return 0;
+      }
     });
 
     if (isReversed) {
@@ -51,7 +52,8 @@ export const App: React.FC = () => {
   return (
     <>
       <div className="App">
-        {!isVisible && (
+
+        {!isVisible ? (
           <button
             type="button"
             className="start-button"
@@ -59,47 +61,47 @@ export const App: React.FC = () => {
           >
             Start
           </button>
-        )}
+        )
 
-        {isVisible && (
-          <>
-            <GoodsList goodslist={sortedGoods()} />
+          : (
+            <>
+              <GoodsList goodslist={sortedGoods()} />
 
-            <button
-              type="button"
-              className="reverse-button"
-              onClick={() => (
-                setIsReversed(true)
-              )}
-            >
-              Reverse
-            </button>
+              <button
+                type="button"
+                className="reverse-button"
+                onClick={() => (
+                  setIsReversed(!isReversed)
+                )}
+              >
+                Reverse
+              </button>
 
-            <button
-              type="button"
-              className="alphabetSortingButton"
-              onClick={() => setSortedBy('alphabet')}
-            >
-              Sort by alphabet
-            </button>
+              <button
+                type="button"
+                className="alphabetSortingButton"
+                onClick={() => setSortedBy('alphabet')}
+              >
+                Sort by alphabet
+              </button>
 
-            <button
-              type="button"
-              className="lengthSortingButton"
-              onClick={() => setSortedBy('length')}
-            >
-              Sort by length
-            </button>
+              <button
+                type="button"
+                className="lengthSortingButton"
+                onClick={() => setSortedBy('length')}
+              >
+                Sort by length
+              </button>
 
-            <button
-              type="button"
-              className="resetButton"
-              onClick={() => reset()}
-            >
-              RESET
-            </button>
-          </>
-        )}
+              <button
+                type="button"
+                className="resetButton"
+                onClick={reset}
+              >
+                RESET
+              </button>
+            </>
+          )}
       </div>
     </>
   );
