@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Component } from './components/Component';
+import { PreparedGoods } from './components/PreparedGoods';
 import './App.css';
 
 import { Button } from './components/Button';
@@ -18,11 +18,11 @@ const goodsFromServer: string[] = [
 ];
 
 const App: React.FC = () => {
-  const [state, setState] = useState(false);
+  const [goodsVisible, setGoodsVisible] = useState(false);
   const [goods, setGoods] = useState(goodsFromServer);
 
-  const togling = () => {
-    setState((boolean) => !boolean);
+  const toggleVisible = () => {
+    setGoodsVisible((boolean) => !boolean);
   };
 
   const reverseList = () => {
@@ -52,7 +52,7 @@ const App: React.FC = () => {
   return (
     <div className="App buttons">
       <h1>Goods</h1>
-      <Button clicked={togling} name="START" />
+      <Button clicked={toggleVisible} name="START" />
       <Button clicked={reverseList} name="Reverse" />
       <Button clicked={sortByAlphabet} name="Sort alphabetically" />
       <Button clicked={reset} name="Reset" />
@@ -67,7 +67,7 @@ const App: React.FC = () => {
           </option>
         ))}
       </select>
-      {state && <Component goods={goods} />}
+      {goodsVisible && <PreparedGoods goods={goods} />}
     </div>
   );
 };
