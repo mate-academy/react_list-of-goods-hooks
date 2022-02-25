@@ -1,1 +1,38 @@
 /* put styles here */
+.App {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.list {
+  list-style: none;
+
+  border: solid black;
+  padding: 40px;
+
+  border-radius: 20px;
+}
+
+.list__item {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.buttons__container {
+  border: solid black;
+  border-width: 5px;
+  border-radius: 10px;
+
+  padding: 20px;
+}
+
+.button {
+  color: white;
+  background-color: black;
+
+  border-radius: 10px;
+
+  margin: 5px;
+  padding: 10px;
+}
