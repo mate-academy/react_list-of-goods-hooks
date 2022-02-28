@@ -18,40 +18,33 @@ const goodsFromServer: string[] = [
 const App: React.FC = () => {
   const [confirmBtn, setState] = useState(true);
   const [selectedOption, setSelect] = useState(1);
-  const [goodsList, setGoodsList] = useState(
-    [...goodsFromServer].filter(item => item.length >= selectedOption),
-  );
+  const [isreversed, setReverse] = useState(false);
+  const [sort, setSort] = useState('');
+  const serverGoodsList = [...goodsFromServer].filter(item => item.length >= selectedOption);
+
+  serverGoodsList.sort((a, b) => {
+    switch (sort) {
+      case 'a-z':
+        return a.localeCompare(b);
+      case 'length':
+        return a.length - b.length;
+      default:
+        return 0;
+    }
+  });
 
   const handleSelector = (e: string) => {
     setSelect(+e);
-    setGoodsList([...goodsFromServer].filter(item => item.length >= selectedOption));
   };
 
-  const onReverse = () => {
-    const newList = [...goodsList].reverse();
-
-    setGoodsList(newList);
-  };
-
-  const onSortAZ = () => {
-    const newList = [...goodsList].sort((a, b) => {
-      return a.localeCompare(b);
-    });
-
-    setGoodsList(newList);
-  };
-
-  const onSortLength = () => {
-    const newList = [...goodsList].sort((a, b) => {
-      return a.length - b.length;
-    });
-
-    setGoodsList(newList);
-  };
+  if (isreversed) {
+    serverGoodsList.reverse();
+  }
 
   const resetList = () => {
     setSelect(1);
-    setGoodsList([...goodsFromServer]);
+    setSort('');
+    setReverse(false);
   };
 
   return (
@@ -84,7 +77,7 @@ const App: React.FC = () => {
             <button
               className="button"
               type="button"
-              onClick={() => onReverse()}
+              onClick={() => setReverse(prev => !prev)}
             >
               Reverse
             </button>
@@ -92,7 +85,7 @@ const App: React.FC = () => {
         <button
           className="button"
           type="button"
-          onClick={() => onSortAZ()}
+          onClick={() => setSort('a-z')}
         >
           Sort A-Z
         </button>
@@ -106,7 +99,7 @@ const App: React.FC = () => {
         <button
           className="button"
           type="button"
-          onClick={() => onSortLength()}
+          onClick={() => setSort('length')}
         >
           Sort Length
         </button>
@@ -127,7 +120,7 @@ const App: React.FC = () => {
           <option value="10">10</option>
         </select>
       </div>
-      {!confirmBtn && <ListOfGoods goods={goodsList} />}
+      {!confirmBtn && <ListOfGoods goods={serverGoodsList} />}
     </div>
   );
 };
