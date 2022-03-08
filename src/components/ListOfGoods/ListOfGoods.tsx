@@ -27,27 +27,21 @@ export const ListOfGoods: React.FC<Props> = ({ goodsFromServer }) => {
     setSort('');
   };
 
-  let goodsList = useMemo(() => {
-    return goodsFromServer.filter(good => good.length >= goodsLength);
-  }, [goodsLength, isReversed, sort]);
+  const goodsList = useMemo(() => {
+    return [...goodsFromServer]
+      .filter(good => good.length >= goodsLength)
+      .sort((a, b) => {
+        switch (sort) {
+          case 'name':
+            return (isReversed) ? a.localeCompare(b) : b.localeCompare(a);
 
-  goodsList = useMemo(() => {
-    return [...goodsList].sort((a, b) => {
-      switch (sort) {
-        case 'name':
-          return a.localeCompare(b);
+          case 'length':
+            return (isReversed) ? a.length - b.length : b.length - a.length;
 
-        case 'length':
-          return a.length - b.length;
-
-        default:
-          return 0;
-      }
-    });
-  }, [goodsLength, isReversed, sort]);
-
-  goodsList = useMemo(() => {
-    return (isReversed) ? [...goodsList].reverse() : [...goodsList];
+          default:
+            return 0;
+        }
+      });
   }, [goodsLength, isReversed, sort]);
 
   return (
@@ -72,8 +66,7 @@ export const ListOfGoods: React.FC<Props> = ({ goodsFromServer }) => {
           </ul>
           <div className="goods__buttons">
             <label htmlFor="good">
-              Show only goods having more than
-              {' '}
+              {'Show only goods having more than '}
               <select
                 className="goods__select"
                 name="good"
@@ -84,8 +77,7 @@ export const ListOfGoods: React.FC<Props> = ({ goodsFromServer }) => {
                   <option value={length}>{length}</option>
                 ))}
               </select>
-              {' '}
-              letter(s).
+              {' letter(s)'}
             </label>
             <button
               type="button"
