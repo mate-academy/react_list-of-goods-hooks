@@ -1,19 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import './ListOfGoods.scss';
 
 type Props = {
   goodsFromServer: string[]
 };
 
+const goodsLengths = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
 export const ListOfGoods: React.FC<Props> = ({ goodsFromServer }) => {
   const [start, setStart] = useState(false);
   const [goodsLength, setGoodsLength] = useState(1);
   const [isReversed, setIsReversed] = useState(false);
   const [sort, setSort] = useState('');
-
-  const goodsLengths = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
-  const goodsList = goodsFromServer.filter(good => good.length >= goodsLength);
 
   const sortByAbc = () => {
     setSort('name');
@@ -23,28 +21,34 @@ export const ListOfGoods: React.FC<Props> = ({ goodsFromServer }) => {
     setSort('length');
   };
 
-  goodsList.sort((a, b) => {
-    switch (sort) {
-      case 'name':
-        return a.localeCompare(b);
-
-      case 'length':
-        return a.length - b.length;
-
-      default:
-        return 0;
-    }
-  });
-
-  if (isReversed) {
-    goodsList.reverse();
-  }
-
   const reset = () => {
     setGoodsLength(1);
     setIsReversed(false);
     setSort('');
   };
+
+  let goodsList = useMemo(() => {
+    return goodsFromServer.filter(good => good.length >= goodsLength);
+  }, [goodsLength, isReversed, sort]);
+
+  goodsList = useMemo(() => {
+    return [...goodsList].sort((a, b) => {
+      switch (sort) {
+        case 'name':
+          return a.localeCompare(b);
+
+        case 'length':
+          return a.length - b.length;
+
+        default:
+          return 0;
+      }
+    });
+  }, [goodsLength, isReversed, sort]);
+
+  goodsList = useMemo(() => {
+    return (isReversed) ? [...goodsList].reverse() : [...goodsList];
+  }, [goodsLength, isReversed, sort]);
 
   return (
     <>
@@ -86,7 +90,7 @@ export const ListOfGoods: React.FC<Props> = ({ goodsFromServer }) => {
             <button
               type="button"
               className="button"
-              onClick={() => setIsReversed(prev => !prev)}
+              onClick={() => setIsReversed(!isReversed)}
             >
               Reverse
             </button>
