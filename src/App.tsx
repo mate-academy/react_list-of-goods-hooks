@@ -38,24 +38,15 @@ const App: React.FC = () => {
   const [clicked, setClicked] = useState(false);
 
   const handlerToggleReverse = () => {
-    const nextList = [...list];
-
-    nextList.reverse();
-    setList(nextList);
+    setList(prevList => [...prevList].reverse());
   };
 
   const handlerSortByAlphabet = () => {
-    const nextList = [...list];
-
-    nextList.sort((a, b) => compareGoods(a, b, 'alphabet'));
-    setList(nextList);
+    setList(prevList => [...prevList].sort((a, b) => compareGoods(a, b, 'alphabet')));
   };
 
   const handlerSortByLength = () => {
-    const nextList = [...list];
-
-    nextList.sort((a, b) => compareGoods(a, b, 'length'));
-    setList(nextList);
+    setList(prevList => [...prevList].sort((a, b) => compareGoods(a, b, 'length')));
   };
 
   const handlerReset = () => {
