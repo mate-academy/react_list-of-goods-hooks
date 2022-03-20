@@ -1,5 +1,5 @@
 # React list of goods (Hooks)
-- [DEMO LINK](https://and1yk.github.io/react_list-of-goods-hooks/)
+- [DEMO LINK](https://andr1yk.github.io/react_list-of-goods-hooks/)
 - Follow the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline)
 - Use [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript)
 
