@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React, { useState } from 'react';
 import './App.scss';
 import GoodsList from './components/GoodsList';
+import Options from './components/Options';
 
 const goodsFromServer: string[] = [
   'Dumplings',
@@ -26,13 +27,16 @@ const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [sortBy, setSortBy] = useState(SortBy.none);
+  const [minLength, setMinLength] = useState(1);
 
   const reset = () => {
     setIsReversed(false);
     setSortBy(SortBy.none);
+    setMinLength(1);
   };
 
-  const preparedGoods = [...goodsFromServer];
+  const preparedGoods = [...goodsFromServer]
+    .filter(e => e.length >= minLength);
 
   preparedGoods.sort((a, b) => {
     switch (sortBy) {
@@ -104,6 +108,17 @@ const App: React.FC = () => {
           >
             Reset
           </button>
+
+          <select
+            className="button"
+            name="minLength"
+            id="minLength"
+            value={minLength}
+            onChange={(e) => setMinLength(+e.target.value)}
+          >
+            <Options length={10} />
+          </select>
+
         </div>
       )}
 
