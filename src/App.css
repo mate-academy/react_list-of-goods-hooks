@@ -1,1 +1,61 @@
-/* put styles here */
+body {
+  margin: 0;
+}
+
+.App {
+  display: flex;
+  padding: 20px;
+}
+
+.App--before {
+  justify-content: center;
+  height: 100vh;
+  background-color: #1c1a1a;
+}
+
+.App--after {
+  flex-direction: column;
+  background-color: #e3e3e3;
+  height: 100vh;
+}
+
+.buttons {
+  display: flex;
+  gap: 20px;
+}
+
+.button {
+  height: 50px;
+  width: 150px;
+  border: none;
+  border-radius: 10px;
+  transition: transform 0.3s, background-color 0.3s, color 0.3s;
+}
+
+.button:hover {
+  transform: scale(1.05);
+}
+
+.button:active {
+  background-color: #1c1a1a;
+  color: azure;
+}
+
+.button--start {
+  align-self: center;
+  background-color: #14d976;
+  color: #1c1a1a;
+}
+
+.button--start:active {
+  background-color: #40fa07;
+}
+
+.goods-list {
+  padding: 0;
+  list-style: none;
+}
+
+.goods-list__item {
+  margin: 10px 15px;
+}
