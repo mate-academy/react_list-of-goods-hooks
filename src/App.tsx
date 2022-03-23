@@ -1,6 +1,8 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
 import './App.css';
+import { GoodsList } from './components/GoodsList';
+import { ListControl } from './components/ListControl';
 
 const goodsFromServer: string[] = [
   'Dumplings',
@@ -16,12 +18,12 @@ const goodsFromServer: string[] = [
 ];
 
 const App: React.FC = () => {
-  const [start, show] = useState(false);
-  const [isReversed, reverse] = useState(false);
+  const [isListVisible, setisListVisible] = useState(false);
+  const [isReversed, setisReversed] = useState(false);
   const [sortBy, setSortBy] = useState('');
 
   const reset = () => {
-    reverse(false);
+    setisReversed(false);
     setSortBy('');
   };
 
@@ -46,15 +48,15 @@ const App: React.FC = () => {
 
   return (
     <div className={classNames('App', {
-      'App--before': !start,
-      'App--after': start,
+      'App--before': !isListVisible,
+      'App--after': isListVisible,
     })}
     >
-      {!start
+      {!isListVisible
         ? (
           <button
             type="button"
-            onClick={() => show(true)}
+            onClick={() => setisListVisible(true)}
             className="button button--start"
           >
             Start
@@ -62,41 +64,13 @@ const App: React.FC = () => {
         )
         : (
           <>
-            <ul className="goods-list">
-              {visibleGoods.map(good => (
-                <li className="goods-list__item">{good}</li>
-              ))}
-            </ul>
-            <div className="buttons">
-              <button
-                type="button"
-                onClick={() => reverse(!isReversed)}
-                className="button"
-              >
-                reverse
-              </button>
-              <button
-                type="button"
-                onClick={() => setSortBy('alpha')}
-                className="button"
-              >
-                Sort alphabetically
-              </button>
-              <button
-                type="button"
-                onClick={() => setSortBy('length')}
-                className="button"
-              >
-                Sort by length
-              </button>
-              <button
-                type="button"
-                onClick={reset}
-                className="button"
-              >
-                Reset
-              </button>
-            </div>
+            <GoodsList goods={visibleGoods} />
+            <ListControl
+              isReversed={isReversed}
+              setIsReversed={setisReversed}
+              setSortBy={setSortBy}
+              reset={reset}
+            />
           </>
         )}
     </div>
