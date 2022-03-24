@@ -1,1 +1,40 @@
-/* put styles here */
+@import url("https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap");
+
+* {
+  background-color: lightgoldenrodyellow;
+  font-family: "Architects Daughter", cursive;
+  font-weight: bold;
+}
+
+.App {
+  text-align: center;
+  font-size: 30px;
+}
+
+.App__title {
+  color: green;
+}
+
+.App__buttons {
+  border: 2px solid green;
+  border-radius: 10px;
+  height: 30px;
+  width: 80px;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  text-align: center;
+  margin: 0 10px;
+}
+
+.App__buttons:hover {
+  background-color: green;
+  border-color: transparent;
+  color: lightgoldenrodyellow;
+  transform: scale(1.2);
+}
+
+.App__goodsList {
+  list-style: none;
+  padding: 0;
+  font-size: 25px;
+}
