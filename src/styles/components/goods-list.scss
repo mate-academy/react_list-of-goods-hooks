@@ -1,0 +1,22 @@
+.goods-list {
+  width: 80%;
+  margin: 0 auto;
+
+  &__settings {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+
+  &__item {
+    margin-bottom: 12px;
+    padding: 16px;
+
+    color: #000;
+
+    border-radius: 3px;
+    background-color: aliceblue;
+    box-shadow: $box-shadow-default;
+  }
+}
