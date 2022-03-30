@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { GoodsList } from './components/GoodsList/GoodsList';
+import { v4 as uuidv4 } from 'uuid';
+
+import { Good } from './types/Good';
 
 import './App.scss';
 import './additional_styles/button.css';
+import { GoodsList } from './components/GoodsList/GoodsList';
 
-const goodsFromServer: string[] = [
+const goodsFromServer: Good[] = [
   'Dumplings',
   'Carrot',
   'Eggs',
@@ -15,11 +18,11 @@ const goodsFromServer: string[] = [
   'Honey',
   'Jam',
   'Garlic',
-];
+].map(good => ({ id: uuidv4(), name: good }));
 
 const App: React.FC = () => {
   const [start, setStarted] = useState(false);
-  const [goodsList, setGoodsList] = useState<string[]>([]);
+  const [goodsList, setGoodsList] = useState<Good[]>([]);
 
   const reverse = () => {
     setGoodsList([...goodsList].reverse());
@@ -29,9 +32,9 @@ const App: React.FC = () => {
     const sortedList = [...goodsFromServer].sort((a, b) => {
       switch (sortType) {
         case 'alphabet':
-          return a.localeCompare(b);
+          return a.name.localeCompare(b.name);
         case 'length':
-          return a.length - b.length;
+          return a.name.length - b.name.length;
         default:
           return 0;
       }
