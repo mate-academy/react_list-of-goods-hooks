@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { SortBy } from '../../enums/SortBy';
 
-const options: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const options: number[] = Array.from({ length: 10 }, (_, i) => i + 1);
 
 interface Props {
   goods: string[];
@@ -9,7 +10,7 @@ interface Props {
 export const GoodsList: React.FC<Props> = ({ goods }) => {
   const [isReversed, setReverse] = useState(false);
   const [wordMinLength, setWordMinLength] = useState(1);
-  const [sortBy, setSortBy] = useState('none');
+  const [sortBy, setSortBy] = useState(SortBy.none);
 
   const reverse = () => {
     setReverse((current) => !current);
@@ -19,36 +20,38 @@ export const GoodsList: React.FC<Props> = ({ goods }) => {
     setWordMinLength(value);
   };
 
-  const sortByAlph = () => {
-    setSortBy('alph');
-  };
-
-  const sortByLength = () => {
-    setSortBy('length');
+  const toSortBy = (sortType: SortBy) => {
+    setSortBy(sortType);
   };
 
   const reset = () => {
     setReverse(false);
     setWordMinLength(1);
-    setSortBy('none');
+    setSortBy(SortBy.none);
   };
 
-  const currentGoods = goods.filter(good => good.length >= wordMinLength);
+  const createCurrentGoods = () => {
+    const currentGoods = goods.filter(good => good.length >= wordMinLength);
 
-  currentGoods.sort((a, b) => {
-    switch (sortBy) {
-      case 'alph':
-        return a.localeCompare(b);
-      case 'length':
-        return a.length - b.length;
-      default:
-        return 0;
+    currentGoods.sort((a, b) => {
+      switch (sortBy) {
+        case SortBy.alph:
+          return a.localeCompare(b);
+        case SortBy.length:
+          return a.length - b.length;
+        default:
+          return 0;
+      }
+    });
+
+    if (isReversed) {
+      currentGoods.reverse();
     }
-  });
 
-  if (isReversed) {
-    currentGoods.reverse();
-  }
+    return currentGoods;
+  };
+
+  const currentGoods = createCurrentGoods();
 
   return (
     <div className="goods-list">
@@ -64,7 +67,9 @@ export const GoodsList: React.FC<Props> = ({ goods }) => {
         <button
           className="button"
           type="button"
-          onClick={sortByAlph}
+          onClick={() => {
+            toSortBy(SortBy.alph);
+          }}
         >
           Sort alphabetically
         </button>
@@ -72,7 +77,9 @@ export const GoodsList: React.FC<Props> = ({ goods }) => {
         <button
           className="button"
           type="button"
-          onClick={sortByLength}
+          onClick={() => {
+            toSortBy(SortBy.length);
+          }}
         >
           Sort by length
         </button>
