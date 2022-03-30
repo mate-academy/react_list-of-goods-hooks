@@ -24,22 +24,22 @@ const goodsFromServer: Good[] = [
 
 const App: React.FC = () => {
   const [isStarted, setStart] = useState(false);
-  const [isReversed, setReversed] = useState(false);
-  const [sortBy, SortBy] = useState('');
+  const [reversed, setReversed] = useState(false);
+  const [sorted, setSorted] = useState('');
 
   const start = () => setStart(true);
   const reverse = () => setReversed(current => !current);
-  const sortByName = () => SortBy('name');
-  const sortByLength = () => SortBy('length');
+  const sortByName = () => setSorted('name');
+  const sortByLength = () => setSorted('length');
   const reset = () => {
     setReversed(false);
-    SortBy('');
+    setSorted('');
   };
 
   const renderedGoods = [...goodsFromServer];
 
   renderedGoods.sort((good1, good2) => {
-    switch (sortBy) {
+    switch (sorted) {
       case 'name':
         return good1.name.localeCompare(good2.name);
       case 'length':
@@ -49,7 +49,7 @@ const App: React.FC = () => {
     }
   });
 
-  if (isReversed) {
+  if (reversed) {
     renderedGoods.reverse();
   }
 
@@ -59,11 +59,41 @@ const App: React.FC = () => {
 
       {isStarted
         ? (
-          <ul>
-            {renderedGoods.map(good => (
-              <li key={good.id}>{good.name}</li>
-            ))}
-          </ul>
+          <>
+            <ul>
+              {renderedGoods.map(good => (
+                <li key={good.id}>{good.name}</li>
+              ))}
+            </ul>
+
+            <button
+              type="button"
+              onClick={reverse}
+            >
+              Reverse
+            </button>
+
+            <button
+              type="button"
+              onClick={sortByName}
+            >
+              Sort Alphabetically
+            </button>
+
+            <button
+              type="button"
+              onClick={sortByLength}
+            >
+              Sort by length
+            </button>
+
+            <button
+              type="button"
+              onClick={reset}
+            >
+              Reset
+            </button>
+          </>
         )
         : (
           <button
@@ -73,34 +103,6 @@ const App: React.FC = () => {
             Start
           </button>
         )}
-
-      <button
-        type="button"
-        onClick={reverse}
-      >
-        Reverse
-      </button>
-
-      <button
-        type="button"
-        onClick={sortByName}
-      >
-        Sort Alphabetically
-      </button>
-
-      <button
-        type="button"
-        onClick={sortByLength}
-      >
-        Sort by length
-      </button>
-
-      <button
-        type="button"
-        onClick={reset}
-      >
-        Reset
-      </button>
     </div>
   );
 };
