@@ -1,0 +1,27 @@
+.button {
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+
+  width: auto;
+  outline: none;
+  padding: 13px;
+  margin: 0;
+  cursor: pointer;
+
+  font-family: Circular, -apple-system, Roboto, "Helvetica Neue", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 10px;
+
+  background-color: aquamarine;
+  border: 1px solid #222;
+  border-radius: 10px;
+  box-sizing: border-box;
+  color: #222;
+
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}

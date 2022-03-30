@@ -1,0 +1,26 @@
+html {
+  background-color: black;
+  color: aquamarine;
+}
+
+body {
+  margin: 0;
+}
+
+.App {
+  padding: 50px;
+
+  &__start {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+  }
+
+  &__sort-by {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+
+    margin-bottom: 50px;
+  }
+}
