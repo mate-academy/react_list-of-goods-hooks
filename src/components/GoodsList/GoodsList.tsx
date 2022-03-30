@@ -89,7 +89,7 @@ export const GoodsList: React.FC<Props> = ({ goods }) => {
           id="select-length"
           value={wordMinLength}
           onChange={({ target }) => {
-            setLength(+target.value);
+            setLength(Number(target.value));
           }}
         >
           {options.map(option => (
