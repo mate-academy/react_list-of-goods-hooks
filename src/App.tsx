@@ -26,7 +26,7 @@ const App: React.FC = () => {
   };
 
   const sortBy = (sortType: 'alphabet' | 'length') => {
-    const sortedList = [...goodsList].sort((a, b) => {
+    const sortedList = [...goodsFromServer].sort((a, b) => {
       switch (sortType) {
         case 'alphabet':
           return a.localeCompare(b);
