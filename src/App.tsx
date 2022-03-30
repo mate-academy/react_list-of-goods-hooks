@@ -1,5 +1,5 @@
-import React from 'react';
-import './App.css';
+import './App.scss';
+import { FC } from 'react';
 
 const goodsFromServer: string[] = [
   'Dumplings',
@@ -14,11 +14,10 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-const App: React.FC = () => (
+export const App: FC = () => (
   <div className="App">
     <h1>Goods</h1>
+
     {goodsFromServer.length}
   </div>
 );
-
-export default App;
