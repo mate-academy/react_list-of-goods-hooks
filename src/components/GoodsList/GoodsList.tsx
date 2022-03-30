@@ -15,10 +15,8 @@ export const GoodsList: React.FC<Props> = ({ goods }) => {
     setReverse((current) => !current);
   };
 
-  const setLength = (event: React.SyntheticEvent) => {
-    const target = event.target as HTMLInputElement;
-
-    setWordMinLength(+target.value);
+  const setLength = (value: number) => {
+    setWordMinLength(value);
   };
 
   const sortByAlph = () => {
@@ -83,7 +81,9 @@ export const GoodsList: React.FC<Props> = ({ goods }) => {
           name="select-length"
           id="select-length"
           value={wordMinLength}
-          onChange={setLength}
+          onChange={({ target }) => {
+            setLength(+target.value);
+          }}
         >
           {options.map(option => (
             <option key={option} value={option}>
