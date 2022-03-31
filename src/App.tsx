@@ -16,7 +16,7 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App = () => {
+export const App: React.FC = () => {
   const [isVisible, setVivible] = useState(false);
   const [isReverse, setReverse] = useState(false);
   const [sortBy, setSortBy] = useState('');
