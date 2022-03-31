@@ -36,18 +36,22 @@ const App: React.FC = () => {
     setSorted('');
   };
 
+  const sort = (goods: Good[], sortBy: string) => {
+    return goods.sort((good1, good2) => {
+      switch (sortBy) {
+        case 'name':
+          return good1.name.localeCompare(good2.name);
+        case 'length':
+          return good1.name.length - good2.name.length;
+        default:
+          return 0;
+      }
+    });
+  };
+
   const renderedGoods = [...goodsFromServer];
 
-  renderedGoods.sort((good1, good2) => {
-    switch (sorted) {
-      case 'name':
-        return good1.name.localeCompare(good2.name);
-      case 'length':
-        return good1.name.length - good2.name.length;
-      default:
-        return 0;
-    }
-  });
+  sort(renderedGoods, sorted);
 
   if (reversed) {
     renderedGoods.reverse();
