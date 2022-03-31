@@ -25,7 +25,7 @@ const App: React.FC = () => {
   const [goodsList, setGoodsList] = useState<Good[]>([]);
 
   const reverse = () => {
-    setGoodsList([...goodsList].reverse());
+    setGoodsList(prevGoods => [...prevGoods].reverse());
   };
 
   const sortBy = (sortType: 'alphabet' | 'length') => {
@@ -70,7 +70,7 @@ const App: React.FC = () => {
               <button
                 type="button"
                 className="button"
-                onClick={() => reverse()}
+                onClick={reverse}
               >
                 Reverse
               </button>
