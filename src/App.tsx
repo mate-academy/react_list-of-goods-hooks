@@ -22,22 +22,10 @@ export const App: React.FC = () => {
   const [sortBy, setSortBy] = useState('');
   const [length, setLength] = useState(1);
 
-  const start = () => {
-    setVivible(current => !current);
-  };
-
-  const reversList = () => {
-    setReverse(current => !current);
-  };
-
   const reset = () => {
     setReverse(false);
     setSortBy('');
     setLength(1);
-  };
-
-  const lengthChanger = (value: number) => {
-    setLength(value);
   };
 
   const visibleGoodsList = goodsFromServer.filter(good => good.length >= length);
@@ -64,7 +52,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button button--start"
-            onClick={start}
+            onClick={() => setVivible(true)}
           >
             start
           </button>
@@ -75,7 +63,7 @@ export const App: React.FC = () => {
             <button
               type="button"
               className="button goods__button"
-              onClick={reversList}
+              onClick={() => setReverse(current => !current)}
             >
               Reverse
             </button>
@@ -102,7 +90,7 @@ export const App: React.FC = () => {
                 step="1"
                 value={length}
                 onChange={({ target }) => (
-                  lengthChanger(+target.value)
+                  setLength(+target.value)
                 )}
               />
               <span className="wrapper__button wrapper__button--plus">+</span>
