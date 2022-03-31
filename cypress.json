@@ -2,9 +2,8 @@
   "baseUrl": "http://localhost:3000",
   "video": true,
   "pluginsFile": false,
-  "supportFile": false,
-  "viewportHeight": 1920,
-  "viewportWidth": 1080,
+  "viewportHeight": 660,
+  "viewportWidth": 1000,
   "screenshotOnRunFailure": true,
   "reporter": "mochawesome",
   "reporterOptions": {

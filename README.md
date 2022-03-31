@@ -18,3 +18,13 @@
   should now show only goods having length >= than the selected value. When you change the
   value the items should be immediately re-rendered accordingly.
 1. `Reset` button should set the default value to the `<select>`
+
+## Requirements
+1. `GoodsList` should contain `data-cy="goods"` attribute
+1. `Start` button should contain `data-cy="start"` attribute
+1. `Sort alphabetically` button should contain `data-cy="sortAlphabetically"` attribute
+1. `Reset` button should contain `data-cy="reset"` attribute
+1. `Reverse` button should contain `data-cy="reverse"` attribute
+1. `Sort by length` button should contain `data-cy="sortByLength"` attribute
+1. (*) Advanced: `<select>` should contain `data-cy="select"` attribute
+1. (*) Advanced: each `<option>` of `<select>` should contain `data-cy="option"` attribute
