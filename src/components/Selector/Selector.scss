@@ -1,0 +1,32 @@
+.Selector {
+  padding: 5px 10px;
+
+  color: dimgray;
+  border-radius: 5px;
+  background-color: lightgrey;
+
+  transition: background-color 300ms;
+
+  &__label {
+    margin-right: 10px;
+    font-size: 17px;
+    font-weight: 600;
+  }
+
+  &__select {
+    padding: 1px 3px;
+
+    text-align: center;
+    border-radius: 5px;
+    border-color: lightgrey;
+
+    appearance: none;
+    outline-color: dimgray;
+    cursor: pointer;
+  }
+
+  &:hover {
+    background-color: rgb(186, 186, 186);
+    cursor: pointer;
+  }
+}

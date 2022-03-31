@@ -1,0 +1,20 @@
+$c-custom-gray: rgba(211, 211, 211, 0.33);
+
+%bsh-primary {
+  box-shadow: rgba(99, 99, 99, 0.2) 0 2px 8px 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+ul, li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+html {
+  font-family: Arial Helvetica sans-serif;
+  letter-spacing: -1px;
+}
