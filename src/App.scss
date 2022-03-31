@@ -1,0 +1,126 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Josefin Sans", sans-serif;
+}
+
+body,
+h1,
+li,
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+.app {
+  padding: 70px;
+  min-height: 100vh;
+  background: linear-gradient(to right, #8995b6 , #454e63);
+
+  &__button-wrapper {
+    height: 75vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__title {
+    margin-bottom: 25px;
+    color: #501010;
+  }
+
+  &__button {
+    position: relative;
+    margin-bottom: 20px;
+    padding: 20px;
+    width: 200px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #ddfeff;
+
+    background-color: #580e0e;
+    border: none;
+    border-radius: 5px;
+
+    box-shadow: 0 5px 15px #193047;
+    transition-duration: 0.3s;
+
+    &:nth-child(2) {
+      margin-bottom: 180px;
+    }
+
+    &:hover {
+      background-color: #cefffc;
+      color: #501010;
+      cursor: pointer;
+    }
+
+    &:active {
+      animation: gradient 150ms;
+      transform: scale(0.99);
+    }
+
+    &--start {
+      font-size: 20px;
+      letter-spacing: 4px;
+      background-color: #16a085;
+
+      &:hover {
+        box-shadow: 0 2px 10px 5px #1abc9c;
+      }
+    }
+
+    &--exit {
+      background-color: #8b0202;
+    }
+  }
+
+  &__wrapper {
+    margin: 0 auto;
+    padding: 20px 50px;
+    max-width: 800px;
+    text-align: center;
+    background: linear-gradient(to right, #1abc9c , #18806b);
+    border: 1px solid transparent;
+    border-radius: 20px;
+    box-shadow: 10px 10px 8px #2d3443;
+  }
+
+  &__frame {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+  }
+
+  &__action {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background: radial-gradient(circle at center,
+    #ff7d7d00 0%, #fff 0%, #fff 100%);
+  }
+  25% {
+    background: radial-gradient(circle at center,
+    #ff7d7d4d 24%, #fff 25%, #fff 100%);
+  }
+  50% {
+    background: radial-gradient(circle at center,
+    #ff7d7d80 49%, #fff 50%, #fff 100%);
+  }
+  75% {
+    background: radial-gradient(circle at center,
+    #fe6e6ecc 74%, #fff 75%, #fff 100%);
+  }
+  100% {
+    color: #fff;
+    background: radial-gradient(circle at center,
+    #fb7070 99%, #fff 100%, #fff 100%);
+  }
+}
