@@ -1,1 +1,7 @@
-/* put styles here */
+.app {
+  text-align: center;
+}
+
+.list {
+  list-style: none;
+}
