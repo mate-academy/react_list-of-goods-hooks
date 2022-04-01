@@ -26,6 +26,11 @@ const goodsFromServer: Good[] = [
 const App: React.FC = () => {
   const [goods, setGoods] = useState([...goodsFromServer]);
   const [isListVisible, setIsListVisible] = useState(false);
+  const [value, setValue] = useState('1');
+
+  const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setValue(e.target.value);
+  };
 
   const sortedByAlphbet = () => {
     const sorted = [...goods].sort((a, b) => a.name.localeCompare(b.name));
@@ -48,7 +53,7 @@ const App: React.FC = () => {
   };
 
   const reset = () => {
-    setGoods([...goodsFromServer]);
+    setValue('1');
   };
 
   return (
@@ -88,14 +93,28 @@ const App: React.FC = () => {
         reset
       </button>
 
-      {isListVisible
-          && (
-            <ul>
-              {goods.map(good => (
-                <li key={good.id}>{good.name}</li>
-              ))}
-            </ul>
-          )}
+      <select onChange={(e) => onChange(e)}>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+      </select>
+
+      <ul>
+        {goods.map(good => {
+          const isVisible = good.name.length >= Number(value);
+
+          return (
+            isVisible && <li key={good.id}>{good.name}</li>
+          );
+        })}
+      </ul>
     </div>
   );
 };
