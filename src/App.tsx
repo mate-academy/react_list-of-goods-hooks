@@ -26,22 +26,6 @@ export const App: React.FC = () => {
   const [isReverse, setReversingList] = useState(false);
   const [sortBy, setSortBy] = useState('none');
 
-  const changeVisibility = () => {
-    setVisibility(true);
-  };
-
-  const reverseList = () => {
-    setReversingList(!isReverse);
-  };
-
-  const sortByAbc = () => {
-    setSortBy('abc');
-  };
-
-  const sortByLength = () => {
-    setSortBy('len');
-  };
-
   const resetByDefault = () => {
     setReversingList(false);
     setSortBy('none');
@@ -83,7 +67,7 @@ export const App: React.FC = () => {
             <button
               type="button"
               className="app__button app__button--start"
-              onClick={changeVisibility}
+              onClick={() => setVisibility(true)}
             >
               Start
             </button>
@@ -100,7 +84,7 @@ export const App: React.FC = () => {
                 <button
                   type="button"
                   className="app__button"
-                  onClick={sortByAbc}
+                  onClick={() => setSortBy('abc')}
                 >
                   Sort by alphabet
                 </button>
@@ -108,7 +92,7 @@ export const App: React.FC = () => {
                 <button
                   type="button"
                   className="app__button"
-                  onClick={sortByLength}
+                  onClick={() => setSortBy('len')}
                 >
                   Sort by length
                 </button>
@@ -120,7 +104,7 @@ export const App: React.FC = () => {
                 <button
                   type="button"
                   className="app__button"
-                  onClick={reverseList}
+                  onClick={() => setReversingList(!isReverse)}
                 >
                   Reverse
                 </button>
