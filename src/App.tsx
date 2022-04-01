@@ -62,59 +62,61 @@ const App: React.FC = () => {
         type="button"
         onClick={showList}
       >
-        Start
+        {isListVisible ? 'Hide' : 'Start'}
       </button>
 
-      <button
-        type="button"
-        onClick={reverse}
-      >
-        Reverse
-      </button>
+      {isListVisible
+        && (
+          <>
+            <button
+              type="button"
+              onClick={reverse}
+            >
+              Reverse
+            </button>
+            <button
+              type="button"
+              onClick={sortedByAlphbet}
+            >
+              Sort Alphabetically
+            </button>
+            <button
+              type="button"
+              onClick={sortedByLength}
+            >
+              Sort By Length
+            </button>
+            <button
+              type="button"
+              onClick={reset}
+            >
+              reset
+            </button>
 
-      <button
-        type="button"
-        onClick={sortedByAlphbet}
-      >
-        Sort Alphabetically
-      </button>
+            <select value={value} onChange={(event) => onChange(event)}>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option>
+            </select>
 
-      <button
-        type="button"
-        onClick={sortedByLength}
-      >
-        Sort By Length
-      </button>
+            <ul>
+              {goods.map(good => {
+                const isVisible = good.name.length >= Number(value);
 
-      <button
-        type="button"
-        onClick={reset}
-      >
-        reset
-      </button>
-
-      <select onChange={(e) => onChange(e)}>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
-      </select>
-
-      <ul>
-        {goods.map(good => {
-          const isVisible = good.name.length >= Number(value);
-
-          return (
-            isVisible && <li key={good.id}>{good.name}</li>
-          );
-        })}
-      </ul>
+                return (
+                  isVisible && <li key={good.id}>{good.name}</li>
+                );
+              })}
+            </ul>
+          </>
+        )}
     </div>
   );
 };
