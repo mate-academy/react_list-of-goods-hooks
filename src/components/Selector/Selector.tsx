@@ -1,15 +1,13 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 
 interface Props {
   options: number[];
   selectedLength: number;
-  onChangeFunc: (value: string) => void;
+  onChange: (value: string) => void;
 }
 
-export const Selector: FC<Props> = ({
-  options,
-  selectedLength,
-  onChangeFunc,
+export const Selector: FC<Props> = memo(({
+  options, selectedLength, onChange,
 }) => (
   <div className="Selector">
     <span className="Selector__label">
@@ -20,7 +18,7 @@ export const Selector: FC<Props> = ({
       className="Selector__select"
       value={selectedLength}
       onChange={({ target }) => {
-        onChangeFunc(target.value);
+        onChange(target.value);
       }}
     >
       {options.map(item => (
@@ -30,4 +28,4 @@ export const Selector: FC<Props> = ({
       ))}
     </select>
   </div>
-);
+));

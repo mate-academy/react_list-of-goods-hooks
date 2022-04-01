@@ -1,6 +1,8 @@
 import './styles/App.scss';
 import { Button } from 'react-bootstrap';
-import { FC, useState } from 'react';
+import {
+  FC, memo, useCallback, useState,
+} from 'react';
 import { GoodsList } from './components/GoodsList';
 
 const goodsFromServer: string[] = [
@@ -16,15 +18,15 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: FC = () => {
+export const App: FC = memo(() => {
   const [
     isButtonVisible,
     setButtonVisible,
   ] = useState(true);
 
-  const handleStartClick = () => {
+  const handleStartClick = useCallback(() => {
     setButtonVisible(false);
-  };
+  }, []);
 
   return (
     <div className="App">
@@ -38,9 +40,12 @@ export const App: FC = () => {
           </Button>
         ) : (
           <div className="App__goodsList">
-            <GoodsList goods={goodsFromServer} />
+            <GoodsList
+              goods={goodsFromServer}
+              compareRange={[1, 10]}
+            />
           </div>
         )}
     </div>
   );
-};
+});

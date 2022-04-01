@@ -1,43 +1,46 @@
-import { range } from 'lodash';
+import { range as getRange } from 'lodash';
 import { Button } from 'react-bootstrap';
-import { FC, useState } from 'react';
+import {
+  FC, memo, useCallback, useMemo, useState,
+} from 'react';
 import { SortType } from '../../enums/SortType';
 import { Selector } from '../Selector';
 
 interface Props {
   goods: string[];
+  compareRange: [number, number];
 }
 
-export const GoodsList: FC<Props> = ({ goods }) => {
-  const [minLength] = useState(1);
-  const [maxLength] = useState(10);
+export const GoodsList: FC<Props> = memo(({ goods, compareRange }) => {
+  const [minLength, maxLength] = compareRange;
+
   const [selectedLength, setLength] = useState(minLength);
   const [sortBy, setSortType] = useState(SortType.Default);
   const [isReversed, setReversed] = useState(false);
 
-  const handleReverseClick = () => {
+  const handleReverseClick = useCallback(() => {
     setReversed(true);
-  };
+  }, []);
 
-  const handleSortByLengthClick = () => {
+  const handleSortByLengthClick = useCallback(() => {
     setSortType(SortType.ByLength);
-  };
+  }, []);
 
-  const handleSortAlphabeticallyClick = () => {
+  const handleSortAlphabeticallyClick = useCallback(() => {
     setSortType(SortType.Alphabetical);
-  };
+  }, []);
 
-  const handleResetClick = () => {
+  const handleResetClick = useCallback(() => {
     setReversed(false);
     setSortType(SortType.Default);
     setLength(minLength);
-  };
+  }, []);
 
-  const handleSelectorChange = (value: string) => {
+  const handleSelectorChange = useCallback((value: string) => {
     setLength(Number(value));
-  };
+  }, []);
 
-  const getVisibleGoodsList = () => {
+  const getVisibleGoods = () => {
     const visibleGoodsList = goods.filter(
       item => item.length >= selectedLength,
     );
@@ -67,7 +70,15 @@ export const GoodsList: FC<Props> = ({ goods }) => {
     return visibleGoodsList;
   };
 
-  const availableOptions = range(minLength, maxLength + 1);
+  const visibleGoods = useMemo(
+    getVisibleGoods,
+    [isReversed, sortBy, selectedLength],
+  );
+
+  const availableOptions = useMemo(
+    () => getRange(minLength, maxLength + 1),
+    [],
+  );
 
   const ifNothingToReset = (
     selectedLength === minLength
@@ -112,12 +123,12 @@ export const GoodsList: FC<Props> = ({ goods }) => {
         <Selector
           options={availableOptions}
           selectedLength={selectedLength}
-          onChangeFunc={handleSelectorChange}
+          onChange={handleSelectorChange}
         />
       </div>
 
       <ul className="GoodsList__list">
-        {getVisibleGoodsList().map(item => (
+        {visibleGoods.map(item => (
           <li
             className="GoodsList__list-item"
             key={item}
@@ -128,4 +139,4 @@ export const GoodsList: FC<Props> = ({ goods }) => {
       </ul>
     </div>
   );
-};
+});
