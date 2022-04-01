@@ -1,1 +1,40 @@
-/* put styles here */
+html {
+  font-family: Helvetica, Arial, sans-serif;
+  text-align: center;
+}
+
+body,
+ul,
+li {
+  margin: 0;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  width: 30vw;
+  margin: 0 auto 4px;
+  padding: 10px 20px;
+  border: 2px solid gray;
+}
+
+button {
+  background-color: transparent;
+  border: 2px solid gray;
+  margin: 0 10px 10px 0;
+  padding: 10px 40px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+button:hover {
+  background-color: lightgray;
+}
+
+.App {
+  width: 50vw;
+  margin: 0 auto;
+}
