@@ -1,0 +1,131 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Josefin Sans", sans-serif;
+}
+
+body,
+h1,
+li,
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+.app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  min-height: 100vh;
+  background: linear-gradient(140deg,#ff8db7 0%, #405589 100%);
+
+  &__title {
+    margin-bottom: 25px;
+    color: #501010;
+  }
+
+  &__button {
+    position: relative;
+    margin-bottom: 20px;
+    padding: 20px;
+    width: 200px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #ddfeff;
+
+    background: linear-gradient(140deg, #881d1d 0%, #580e0e 100%);
+    border: none;
+    border-radius: 5px;
+
+    box-shadow: 5px 5px 10px #193047;
+    transition-duration: 0.3s;
+
+    &:nth-child(2) {
+      margin-bottom: 180px;
+    }
+
+    &:hover {
+      background: linear-gradient(140deg, #cefffc 0%, #4cb4ad 100%);
+      color: #501010;
+      cursor: pointer;
+    }
+
+    &:active {
+      animation: gradient 150ms;
+      transform: scale(0.99);
+    }
+
+    &:disabled {
+      opacity: 0.7;
+      background: #cefffc;
+      color: #501010;
+      cursor: no-drop;
+    }
+
+    &--start {
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: 4px;
+      background: linear-gradient(140deg, #16a085 0%, #146d5b 100%);
+
+      &:hover {
+        box-shadow: 4px 4px 8px #193047;
+      }
+    }
+
+    &--exit {
+      background: linear-gradient(140deg, #f00 0%, #8b0202 100%);
+    }
+  }
+
+  &__wrapper {
+    padding: 20px 30px;
+    max-width: 800px;
+    text-align: center;
+
+    background: linear-gradient(140deg, #1abc9c 0%, #18806b 100%);
+    border: 1px solid transparent;
+    border-radius: 15px;
+    box-shadow: 10px 10px 8px #2d3443;
+  }
+
+  &__frame {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 30px;
+
+  }
+
+  &__action {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background: radial-gradient(circle at center,
+    #ff7d7d00 0%, #4cb4ad 0%, #4cb4ad 100%);
+  }
+  25% {
+    background: radial-gradient(circle at center,
+    #580e0e 24%, #4cb4ad 25%, #4cb4ad 100%);
+  }
+  50% {
+    background: radial-gradient(circle at center,
+    #881d1d 49%, #4cb4ad 50%, #4cb4ad 100%);
+  }
+  75% {
+    background: radial-gradient(circle at center,
+    #b72929 74%, #4cb4ad 75%, #4cb4ad 100%);
+  }
+  100% {
+    color: #4cb4ad;
+    background: radial-gradient(circle at center,
+    #ce2e2e 99%, #4cb4ad 100%, #4cb4ad 100%);
+  }
+}

@@ -1,0 +1,18 @@
+.goods {
+  &__list {
+    margin: 0 auto 15px;
+    min-width: 200px;
+    list-style: none;
+  }
+
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px;
+    margin-bottom: 8px;
+
+    background: linear-gradient(140deg, #b0fcef 0%, #4affe1 100%);
+    border: 1px solid transparent;
+    border-radius: 5px;
+  }
+}
