@@ -85,6 +85,7 @@ export const App: React.FC = () => {
                   type="button"
                   className="app__button"
                   onClick={() => setSortBy('abc')}
+                  disabled={sortBy === 'abc'}
                 >
                   Sort by alphabet
                 </button>
@@ -93,6 +94,7 @@ export const App: React.FC = () => {
                   type="button"
                   className="app__button"
                   onClick={() => setSortBy('len')}
+                  disabled={sortBy === 'len'}
                 >
                   Sort by length
                 </button>
