@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './App.css';
-import { GoodList } from './components/GoodList/GoodList';
+import { GoodsList } from './components/GoodList/GoodList';
 
 const goodsFromServer: string[] = [
   'Dumplings',
@@ -16,91 +16,95 @@ const goodsFromServer: string[] = [
 ];
 
 const App: React.FC = () => {
-  const [isStarted, setIsStarted] = useState(false);
-  const [isReverse, setIsReversed] = useState(false);
-  const [sortBy, setSortBy] = useState('');
+  const [isVisible, setIsVisible] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
+  const [sortedBy, setSortedBy] = useState('');
 
-  const start = () => setIsStarted(true);
+  const start = () => {
+    setIsVisible(true);
+  };
+
+  const reverse = () => {
+    setIsReversed(!isReversed);
+  };
+
+  const sortedByAlphabet = () => {
+    setSortedBy('alphabet');
+  };
+
+  const sortedByLength = () => {
+    setSortedBy('length');
+  };
 
   const reset = () => {
     setIsReversed(false);
-    setSortBy('');
+    setSortedBy('');
   };
 
-  const reverse = () => setIsReversed(!isReverse);
+  const prepareGoods = () => {
+    const copyGoods = [...goodsFromServer];
 
-  const sortByAlphabet = () => {
-    setSortBy('alpha');
-  };
+    copyGoods.sort((good1, good2) => {
+      switch (sortedBy) {
+        case 'alphabet':
+          return good1.localeCompare(good2);
+        case 'length':
+          return good1.length - good2.length;
+        default:
+          return 0;
+      }
+    });
 
-  const sortByLength = () => {
-    setSortBy('length');
-  };
-
-  const visibleGoods = [...goodsFromServer];
-
-  visibleGoods.sort((good1, good2) => {
-    switch (sortBy) {
-      case 'alphabet':
-        return good1.localeCompare(good2);
-      case 'length':
-        return good1.length - good2.length;
-      default:
-        return 0;
+    if (isReversed) {
+      copyGoods.reverse();
     }
-  });
 
-  if (isReverse) {
-    visibleGoods.reverse();
-  }
+    return copyGoods;
+  };
 
   return (
     <div className="App">
-      <h1 className="title">Goods</h1>
+      {!isVisible && (
+        <button
+          type="button"
+          onClick={start}
+        >
+          Start
+        </button>
+      )}
 
-      <div className="buttons__container">
-        <button
-          type="button"
-          className="button is-primary"
-          onClick={reverse}
-        >
-          Reverse
-        </button>
-        <button
-          type="button"
-          className="button is-primary"
-          onClick={reset}
-        >
-          Reset
-        </button>
-        <button
-          type="button"
-          className="button is-primary"
-          onClick={sortByAlphabet}
-        >
-          Sort alphabetically
-        </button>
-        <button
-          type="button"
-          className="button is-primary"
-          onClick={sortByLength}
-        >
-          Sort by length
-        </button>
-      </div>
+      {isVisible && (
+        <>
+          <GoodsList goods={prepareGoods()} />
 
-      {isStarted ? (
-        <GoodList goods={visibleGoods} />
-      ) : (
-        <div className="button__container">
           <button
             type="button"
-            className="button-start"
-            onClick={start}
+            onClick={reverse}
           >
-            Start
+            Reverse
           </button>
-        </div>
+
+          <button
+            type="button"
+            onClick={sortedByAlphabet}
+          >
+            Sort alphabetically
+          </button>
+
+          <button
+            type="button"
+            onClick={sortedByLength}
+          >
+            Sort by length
+          </button>
+
+          <button
+            type="button"
+            onClick={reset}
+          >
+            Reset
+          </button>
+        </>
       )}
     </div>
   );
