@@ -63,15 +63,16 @@ const App: FC = () => {
       <h1>
         React list of goods
       </h1>
-      {isShowedGoods ? (
-        <ul className="goods">
-          { copyGoods.map(good => (
-            <li className="goods_list" key={good.id}>
-              {good.name}
-            </li>
-          ))}
-        </ul>
-      )
+      {isShowedGoods
+        ? (
+          <ul className="goods">
+            { copyGoods.map(good => (
+              <li className="goods_list" key={good.id}>
+                {good.name}
+              </li>
+            ))}
+          </ul>
+        )
         : (
           <button
             type="button"
