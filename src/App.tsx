@@ -63,15 +63,13 @@ export const App: React.FC = () => {
     <div className="app">
       {!isVisible
         ? (
-          <div className="app__button-wrapper">
-            <button
-              type="button"
-              className="app__button app__button--start"
-              onClick={() => setVisibility(true)}
-            >
-              Start
-            </button>
-          </div>
+          <button
+            type="button"
+            className="app__button app__button--start"
+            onClick={() => setVisibility(true)}
+          >
+            Start
+          </button>
         )
         : (
           <div className="app__wrapper">
