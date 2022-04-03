@@ -57,6 +57,10 @@ export const GoodsList = () => {
 
   const renderingGoods = sortGoods([...goods]);
 
+  if (isReverseSort) {
+    renderingGoods.reverse();
+  }
+
   return (
     <div className="goodsMenu">
       <div className="goodsMenu__buttons">
