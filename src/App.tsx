@@ -1,7 +1,13 @@
-import React from 'react';
-import './App.css';
+import React, { useMemo, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
-const goodsFromServer: string[] = [
+import './App.scss';
+
+import { SortBy } from './types/SortBy';
+import { Good } from './types/Good';
+import { GoodsList } from './components/GoodsList';
+
+const goodsFromServer: Good[] = [
   'Dumplings',
   'Carrot',
   'Eggs',
@@ -12,13 +18,120 @@ const goodsFromServer: string[] = [
   'Honey',
   'Jam',
   'Garlic',
-];
+].map(good => ({
+  name: good,
+  id: uuidv4(),
+}));
 
-const App: React.FC = () => (
-  <div className="App">
-    <h1>Goods</h1>
-    {goodsFromServer.length}
-  </div>
-);
+const App: React.FC = () => {
+  const [isVisible, setVisibility] = useState(false);
+  const [isReversed, setReverse] = useState(false);
+  const [sortBy, setSortBy] = useState(SortBy.none);
+
+  const goodsListVisibleToggle = () => {
+    setVisibility(current => !current);
+  };
+
+  const reverseGoods = () => {
+    setReverse(current => !current);
+  };
+
+  const toSortBy = (value: SortBy) => {
+    setSortBy(value);
+  };
+
+  const reset = () => {
+    setReverse(false);
+    setSortBy(SortBy.none);
+  };
+
+  const prepareGoods = (visibleGoods: Good[]) => {
+    visibleGoods.sort((good1, good2) => {
+      switch (sortBy) {
+        case SortBy.alphabet:
+          return good1.name.localeCompare(good2.name);
+        case SortBy.length:
+          return good1.name.length - good2.name.length;
+        default:
+          return 0;
+      }
+    });
+
+    if (isReversed) {
+      visibleGoods.reverse();
+    }
+
+    return visibleGoods;
+  };
+
+  const preparedGoods = useMemo(() => prepareGoods([...goodsFromServer]), [isReversed, sortBy]);
+
+  return (
+    <div className="App">
+      <h1 className="App__title">Goods</h1>
+      {
+        isVisible
+          ? (
+            <>
+              <GoodsList goods={preparedGoods} />
+
+              <div className="actions">
+                <button
+                  type="button"
+                  className="actions__button"
+                  onClick={() => {
+                    reverseGoods();
+                  }}
+                >
+                  Reverse
+                </button>
+
+                <button
+                  type="button"
+                  className="actions__button"
+                  onClick={() => {
+                    toSortBy(SortBy.alphabet);
+                  }}
+                >
+                  Sort alphabetically
+                </button>
+
+                <button
+                  type="button"
+                  className="actions__button"
+                  onClick={() => {
+                    toSortBy(SortBy.length);
+                  }}
+                >
+                  Sort by length
+                </button>
+
+                <button
+                  type="button"
+                  className="actions__button actions__button--reset"
+                  onClick={() => {
+                    reset();
+                  }}
+                >
+                  Reset
+                </button>
+              </div>
+            </>
+          )
+          : (
+            <button
+              type="button"
+              className="start-button"
+              onClick={() => {
+                goodsListVisibleToggle();
+              }}
+            >
+              Start
+            </button>
+          )
+      }
+    </div>
+  );
+};
 
 export default App;
