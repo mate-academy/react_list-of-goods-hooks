@@ -23,12 +23,18 @@ const goodsFromServer: Good[] = [
   id: uuidv4(),
 }));
 
+enum SortBy {
+  none,
+  name,
+  length,
+}
+
 export const App: React.FC = () => {
   const [isReversed, setReversed] = useState(false);
-  const [sortBy, setSortBy] = useState('none');
+  const [sortBy, setSortBy] = useState(SortBy.none);
   const [isVisible, setVisible] = useState(false);
 
-  const visibilityApp = () => {
+  const showGoods = () => {
     setVisible(true);
   };
 
@@ -37,9 +43,9 @@ export const App: React.FC = () => {
 
     const preperedCreater = copyGoods.sort((firstGood, secondGood) => {
       switch (sortBy) {
-        case 'name':
-          return firstGood[sortBy].localeCompare(secondGood[sortBy]);
-        case 'length':
+        case SortBy.name:
+          return firstGood.name.localeCompare(secondGood.name);
+        case SortBy.length:
           return firstGood.name.length - secondGood.name.length;
         default:
           return 0;
@@ -57,16 +63,8 @@ export const App: React.FC = () => {
     setReversed(current => !current);
   };
 
-  const sortByName = () => {
-    setSortBy('name');
-  };
-
-  const sortByLength = () => {
-    setSortBy('length');
-  };
-
-  const resetGoods = () => {
-    setSortBy('none');
+  const resetFilters = () => {
+    setSortBy(SortBy.none);
     setReversed(false);
   };
 
@@ -74,9 +72,9 @@ export const App: React.FC = () => {
     ? (
       <button
         type="button"
-        onClick={visibilityApp}
+        onClick={showGoods}
       >
-        Select
+        Start
       </button>
     )
     : (
@@ -84,13 +82,11 @@ export const App: React.FC = () => {
         <h1>List of Goods</h1>
         <ul>
           {getVisibilityGoods()
-            .map(good => {
-              return (
-                <li key={good.id}>
-                  {good.name}
-                </li>
-              );
-            })}
+            .map(good => (
+              <li key={good.id}>
+                {good.name}
+              </li>
+            ))}
         </ul>
 
         <button
@@ -101,21 +97,21 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={sortByName}
+          onClick={() => setSortBy(SortBy.name)}
           type="button"
         >
           Sort by ABC
         </button>
 
         <button
-          onClick={sortByLength}
+          onClick={() => setSortBy(SortBy.length)}
           type="button"
         >
           Sort by Length
         </button>
 
         <button
-          onClick={resetGoods}
+          onClick={resetFilters}
           type="button"
         >
           Reset
