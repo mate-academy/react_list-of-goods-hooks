@@ -77,8 +77,7 @@ const App: React.FC = () => {
         Start
       </button>
 
-      {isListVisible
-        && (
+      {isListVisible && (
           <>
             <button
               type="button"
