@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import './App.scss';
@@ -28,7 +28,7 @@ const App: React.FC = () => {
   const [isReversed, setReverse] = useState(false);
   const [sortBy, setSortBy] = useState(SortBy.none);
 
-  const showComponent = () => {
+  const goodsListVisibleToggle = () => {
     setVisibility(current => !current);
   };
 
@@ -45,7 +45,7 @@ const App: React.FC = () => {
     setSortBy(SortBy.none);
   };
 
-  const sortGoods = (visibleGoods: Good[]) => {
+  const prepareGoods = (visibleGoods: Good[]) => {
     visibleGoods.sort((good1, good2) => {
       switch (sortBy) {
         case SortBy.alphabet:
@@ -56,15 +56,15 @@ const App: React.FC = () => {
           return 0;
       }
     });
+
+    if (isReversed) {
+      visibleGoods.reverse();
+    }
+
+    return visibleGoods;
   };
 
-  const preparedGoods = [...goodsFromServer];
-
-  sortGoods(preparedGoods);
-
-  if (isReversed) {
-    preparedGoods.reverse();
-  }
+  const preparedGoods = useMemo(() => prepareGoods([...goodsFromServer]), [isReversed, sortBy]);
 
   return (
     <div className="App">
@@ -123,7 +123,7 @@ const App: React.FC = () => {
               type="button"
               className="start-button"
               onClick={() => {
-                showComponent();
+                goodsListVisibleToggle();
               }}
             >
               Start
