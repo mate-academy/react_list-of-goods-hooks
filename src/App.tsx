@@ -78,61 +78,61 @@ const App: React.FC = () => {
       </button>
 
       {isListVisible && (
-          <>
-            <button
-              type="button"
-              onClick={reverse}
-            >
-              Reverse
-            </button>
-            <button
-              type="button"
-              onClick={sortedByAlphbet}
-            >
-              Sort Alphabetically
-            </button>
-            <button
-              type="button"
-              onClick={sortedByLength}
-            >
-              Sort By Length
-            </button>
-            <button
-              type="button"
-              onClick={reset}
-            >
-              reset
-            </button>
+        <>
+          <button
+            type="button"
+            onClick={reverse}
+          >
+            Reverse
+          </button>
+          <button
+            type="button"
+            onClick={sortedByAlphbet}
+          >
+            Sort Alphabetically
+          </button>
+          <button
+            type="button"
+            onClick={sortedByLength}
+          >
+            Sort By Length
+          </button>
+          <button
+            type="button"
+            onClick={reset}
+          >
+            reset
+          </button>
 
-            <select
-              value={defaultLength}
-              onChange={event => {
-                setDefaultLength(event.target.value);
-              }}
-            >
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-              <option>6</option>
-              <option>7</option>
-              <option>8</option>
-              <option>9</option>
-              <option>10</option>
-            </select>
+          <select
+            value={defaultLength}
+            onChange={event => {
+              setDefaultLength(event.target.value);
+            }}
+          >
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+            <option>7</option>
+            <option>8</option>
+            <option>9</option>
+            <option>10</option>
+          </select>
 
-            <ul>
-              {preparedGoods(goodsFromServer).map(good => {
-                const isVisible = good.name.length >= Number(defaultLength);
+          <ul>
+            {preparedGoods(goodsFromServer).map(good => {
+              const isVisible = good.name.length >= Number(defaultLength);
 
-                return (
-                  isVisible && <li key={good.id}>{good.name}</li>
-                );
-              })}
-            </ul>
-          </>
-        )}
+              return (
+                isVisible && <li key={good.id}>{good.name}</li>
+              );
+            })}
+          </ul>
+        </>
+      )}
     </div>
   );
 };
