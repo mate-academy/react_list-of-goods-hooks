@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { Good, SortType } from './types';
 import './App.css';
-
-interface Good {
-  name: string;
-  id:string;
-}
 
 const goodsFromServer: Good[] = [
   'Dumplings',
@@ -24,36 +20,52 @@ const goodsFromServer: Good[] = [
 }));
 
 const App: React.FC = () => {
-  const [goods, setGoods] = useState([...goodsFromServer]);
   const [isListVisible, setIsListVisible] = useState(false);
-  const [value, setValue] = useState('1');
+  const [isReversed, setIsReversed] = useState(false);
+  const [defaultLength, setDefaultLength] = useState('1');
+  const [sortBy, setSortBy] = useState(SortType.none);
 
-  const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setValue(e.target.value);
+  const preparedGoods = (goods: Good[]) => {
+    const prepareGoods = [...goods];
+
+    prepareGoods.sort((a, b) => {
+      switch (sortBy) {
+        case SortType.alphabet:
+          return a.name.localeCompare(b.name);
+        case SortType.length:
+          return a.name.length - b.name.length;
+        default:
+          return 0;
+      }
+    });
+
+    if (isReversed) {
+      prepareGoods.reverse();
+    }
+
+    return prepareGoods;
   };
 
   const sortedByAlphbet = () => {
-    const sorted = [...goods].sort((a, b) => a.name.localeCompare(b.name));
-
-    setGoods(sorted);
+    setSortBy(SortType.alphabet);
   };
 
   const sortedByLength = () => {
-    const sorted = [...goods].sort((a, b) => a.name.length - b.name.length);
-
-    setGoods(sorted);
+    setSortBy(SortType.length);
   };
 
   const showList = () => {
-    setIsListVisible(!isListVisible);
+    setIsListVisible(true);
   };
 
   const reverse = () => {
-    setGoods([...goods].reverse());
+    setIsReversed(true);
   };
 
   const reset = () => {
-    setValue('1');
+    setDefaultLength('1');
+    setSortBy(SortType.none);
+    setIsReversed(false);
   };
 
   return (
@@ -62,7 +74,7 @@ const App: React.FC = () => {
         type="button"
         onClick={showList}
       >
-        {isListVisible ? 'Hide' : 'Start'}
+        Start
       </button>
 
       {isListVisible
@@ -93,7 +105,12 @@ const App: React.FC = () => {
               reset
             </button>
 
-            <select value={value} onChange={(event) => onChange(event)}>
+            <select
+              value={defaultLength}
+              onChange={event => {
+                setDefaultLength(event.target.value);
+              }}
+            >
               <option>1</option>
               <option>2</option>
               <option>3</option>
@@ -107,8 +124,8 @@ const App: React.FC = () => {
             </select>
 
             <ul>
-              {goods.map(good => {
-                const isVisible = good.name.length >= Number(value);
+              {preparedGoods(goodsFromServer).map(good => {
+                const isVisible = good.name.length >= Number(defaultLength);
 
                 return (
                   isVisible && <li key={good.id}>{good.name}</li>
