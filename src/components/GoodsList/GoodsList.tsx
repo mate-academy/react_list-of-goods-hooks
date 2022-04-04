@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import './GoodsList.scss';
 
 const goodsFromServer: string[] = [
@@ -17,36 +17,37 @@ const goodsFromServer: string[] = [
 export const GoodsList = () => {
   const [goods, setGoods] = useState(goodsFromServer);
   const [isReverseSort, setReverseSort] = useState(false);
-  const [isAlphabetSort, setAlphabetSort] = useState(false);
-  const [isLengthSort, setLengthSort] = useState(false);
+  const [sortBy, setSortBy] = useState('none');
 
   const reverseSort = () => {
     setReverseSort(!isReverseSort);
   };
 
   const alphabetSort = () => {
-    setAlphabetSort(!isAlphabetSort);
+    setSortBy('alphabet');
   };
 
   const lengthSort = () => {
-    setLengthSort(!isLengthSort);
+    setSortBy('length');
   };
 
   const reset = () => {
     setGoods(goodsFromServer);
     setReverseSort(false);
-    setAlphabetSort(false);
-    setLengthSort(false);
+    setSortBy('none');
   };
 
-  const sortGoods = (goodsArray: string[]): string[] => {
-    if (isAlphabetSort) {
-      return goodsArray.sort((a, b) => a.localeCompare(b));
-    }
-
-    if (isLengthSort) {
-      return goodsArray.sort((a, b) => a.length - b.length);
-    }
+  const prepareGoods = (goodsArray: string[]) => {
+    goodsArray.sort((a, b) => {
+      switch (sortBy) {
+        case 'alphabet':
+          return a.localeCompare(b);
+        case 'length':
+          return a.length - b.length;
+        default:
+          return 0;
+      }
+    });
 
     if (isReverseSort) {
       return goodsArray.reverse();
@@ -55,11 +56,8 @@ export const GoodsList = () => {
     return goodsArray;
   };
 
-  const renderingGoods = sortGoods([...goods]);
-
-  if (isReverseSort) {
-    renderingGoods.reverse();
-  }
+  const renderingGoods = useMemo(() => (prepareGoods([...goods])),
+    [isReverseSort, sortBy]);
 
   return (
     <div className="goodsMenu">

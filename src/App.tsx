@@ -6,7 +6,7 @@ const App: React.FC = () => {
   const [showedGoods, setVisibility] = useState(false);
 
   const showGoods = () => {
-    setVisibility(!showedGoods);
+    setVisibility(true);
   };
 
   return (
