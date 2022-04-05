@@ -18,23 +18,19 @@ const goodsFromServer: string[] = [
 const App: React.FC = () => {
   const [visible, setVisible] = useState(false);
 
-  // eslint-disable-next-line no-console
-  console.log(goodsFromServer);
-
   return (
     <div className="App">
       <h1>Goods</h1>
       {!visible
-        && (
+        ? (
           <button
-            type="submit"
+            type="button"
             onClick={() => setVisible(true)}
           >
             Show
           </button>
-        )}
-      {visible
-        && <GoodsList goods={goodsFromServer} />}
+        )
+        : <GoodsList goods={goodsFromServer} />}
     </div>
   );
 };
