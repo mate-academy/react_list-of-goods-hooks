@@ -1,5 +1,4 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 
 type Props = {
   goods: string[],
@@ -10,10 +9,13 @@ type Props = {
 
 export const GoodsList: React.FC<Props> = (
   {
-    goods, isReversed, typeOfSort, lengthMin,
+    goods,
+    isReversed,
+    typeOfSort,
+    lengthMin,
   },
 ) => {
-  let copy = [...goods].filter(good => good.length >= lengthMin);
+  let copy = goods.filter(good => good.length >= lengthMin);
 
   switch (typeOfSort) {
     case 'alpha': {
@@ -39,11 +41,7 @@ export const GoodsList: React.FC<Props> = (
     <ul>
       {copy.map(good => (
         <li key={good}>
-          {good}
-          {' '}
-          (
-          {good.length}
-          )
+          {`${good} ${good.length}`}
         </li>
       ))}
     </ul>
