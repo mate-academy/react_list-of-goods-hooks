@@ -1,24 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
+import MainContent from './MainContent';
 import './App.css';
 
-const goodsFromServer: string[] = [
-  'Dumplings',
-  'Carrot',
-  'Eggs',
-  'Ice cream',
-  'Apple',
-  'Bread',
-  'Fish',
-  'Honey',
-  'Jam',
-  'Garlic',
-];
+const App: React.FC = () => {
+  const [isStarted, setStart] = useState(false);
 
-const App: React.FC = () => (
-  <div className="App">
-    <h1>Goods</h1>
-    {goodsFromServer.length}
-  </div>
-);
+  return (
+    <div className="App">
+      { isStarted
+        ? <MainContent />
+        : (
+          <button
+            type="button"
+            onClick={() => setStart(true)}
+          >
+            Start
+          </button>
+        )}
+    </div>
+  );
+};
 
 export default App;
