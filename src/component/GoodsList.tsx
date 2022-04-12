@@ -1,13 +1,6 @@
 import React from 'react';
 import './GoodsList.css';
-
-type Props = {
-  goods: string[] | [],
-  isReversed: boolean,
-  sorted: boolean,
-  lengthSort: boolean,
-  choosedLength: number,
-};
+import { Props } from '../types/type';
 
 export const GoodList: React.FC<Props> = ({
   goods,
