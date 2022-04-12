@@ -1,0 +1,12 @@
+.title {
+  margin: 20px auto;
+}
+
+.goods-list {
+  margin: 0;
+}
+
+.goods-list__item {
+  padding: 3px 15px 0;
+  font-size: 18px;
+}
