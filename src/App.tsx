@@ -14,60 +14,40 @@ const goodsFromServer: string[] = [
 ];
 
 const App: React.FC<{}> = () => {
-  const [jsx, setJsx] = useState<JSX.Element[]>([]);
-
-  const showGoods = () => {
-    setJsx(goodsFromServer.map(good => (
-      <li>
-        {good}
-      </li>
-    )));
-  };
+  const [goods, setGoods] = useState<string[]>([]);
 
   const reverseGoods = () => {
-    const jsxCopy = [...jsx];
+    const goodsCopy = [...goods];
 
-    setJsx(jsxCopy.reverse());
+    setGoods(goodsCopy.reverse());
   };
 
   const sortAlphabetically = () => {
     const goodsCopy = [...goodsFromServer];
 
-    goodsCopy.sort(
+    setGoods(goodsCopy.sort(
       (a, b) => a.localeCompare(b),
-    );
-
-    setJsx(goodsCopy.map(good => (
-      <li>
-        {good}
-      </li>
-    )));
+    ));
   };
 
   const reset = () => {
-    showGoods();
+    setGoods(goodsFromServer);
   };
 
   const sortByNameLength = () => {
     const goodsCopy = [...goodsFromServer];
 
-    goodsCopy.sort(
+    setGoods(goodsCopy.sort(
       (a, b) => a.length - b.length,
-    );
-
-    setJsx(goodsCopy.map(good => (
-      <li>
-        {good}
-      </li>
-    )));
+    ));
   };
 
   return (
     <div className="App">
       <h1>Goods</h1>
       {
-        jsx.length === 0
-          ? <button type="button" onClick={showGoods}>Start</button>
+        goods.length === 0
+          ? <button type="button" onClick={reset}>Start</button>
           : (
             <div>
               <button type="button" onClick={reverseGoods}>
@@ -80,7 +60,7 @@ const App: React.FC<{}> = () => {
               <button type="button" onClick={sortByNameLength}>
                 Sort by length
               </button>
-              {jsx}
+              {goods.map(el => <li key={el}>{el}</li>)}
             </div>
           )
       }
