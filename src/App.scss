@@ -1,0 +1,84 @@
+html {
+  background-color: #eee;
+  box-sizing: border-box;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+h1,
+body {
+  margin: 0;
+}
+
+.App {
+  height: 100vh;
+  font-family: "Montserrat", sans-serif;
+  background-color: rgb(218, 143, 92);
+
+  &__content {
+    margin: 0 auto;
+    padding: 40px;
+    width: 360px;
+    border-radius: 10px;
+    background-color: #384f93;
+    box-shadow: rgba(50, 50, 93, 0.25) 0 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0 30px 60px -30px;
+    color: #eee;
+  }
+
+  &__title {
+    margin-bottom: 24px;
+    color: rgb(218, 143, 92);
+    text-align: center;
+    font-size: 48px;
+  }
+
+  &__buttons {
+    margin-bottom: 30px;
+  }
+
+  &__button {
+    display: block;
+    width: 150px;
+    height: 30px;
+    cursor: pointer;
+    margin: 0 auto 10px;
+    background-color: #91d18b;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 15px;
+    text-transform: uppercase;
+    transition: background 250ms ease-in-out,
+    transform 150ms ease;
+
+    &:hover {
+      background-color: #ea5455;
+    }
+
+    &:focus {
+      background-color: #ea5455;
+      outline: 1px solid #fff;
+      outline-offset: -4px;
+    }
+
+    &:active {
+      transform: scale(0.99);
+    }
+  }
+
+  &__select {
+    padding-left: 23%;
+    margin-bottom: 25px;
+  }
+
+  &__select-label {
+    font-size: 18px;
+    color: rgb(218, 143, 92);
+  }
+
+  &__select-list {
+    color: rgb(218, 143, 92);
+    outline: none;
+    border-radius: 5px;
+  }
+}
