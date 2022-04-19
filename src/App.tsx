@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import GoodsList from './components/GoodsList/GoodsList';
 import './App.scss';
 
@@ -16,9 +16,40 @@ const goodsFromServer: string[] = [
 ];
 
 const App: React.FC = () => {
-  const goods = [...goodsFromServer];
   const [showList, setShowList] = useState(false);
-  const [products, setProducts] = useState(goods);
+  const [products, setProducts] = useState(goodsFromServer);
+
+  const goodsReverse = useCallback(
+    () => {
+      setProducts([...products.reverse()]);
+    }, [],
+  );
+
+  const sortByAlphabetically = useCallback(
+    () => {
+      setProducts([...products].sort((prev, next) => prev.localeCompare(next)));
+    }, [],
+  );
+
+  const sortByLength = useCallback(
+    () => {
+      setProducts([...products].sort((prev, next) => prev.length - next.length));
+    }, [],
+  );
+
+  const resetGoods = useCallback(
+    () => {
+      setProducts(goodsFromServer);
+    }, [],
+  );
+
+  const onSelectChanger = useCallback(
+    (event: React.ChangeEvent<HTMLSelectElement>) => {
+      setProducts(
+        goodsFromServer.filter(good => good.length >= Number(event.target.value)),
+      );
+    }, [],
+  );
 
   return (
     <div className="App">
@@ -39,9 +70,7 @@ const App: React.FC = () => {
             <div className="App__buttons">
               <button
                 type="button"
-                onClick={() => setProducts(initialGoods => (
-                  [...initialGoods].reverse()
-                ))}
+                onClick={goodsReverse}
                 className="App__button"
               >
                 Reverse
@@ -49,9 +78,7 @@ const App: React.FC = () => {
 
               <button
                 type="button"
-                onClick={() => setProducts(initialGoods => (
-                  [...initialGoods].sort((prev, next) => prev.localeCompare(next))
-                ))}
+                onClick={sortByAlphabetically}
                 className="App__button"
               >
                 By alphabet
@@ -59,9 +86,7 @@ const App: React.FC = () => {
 
               <button
                 type="button"
-                onClick={() => setProducts(initialGoods => (
-                  [...initialGoods].sort((prev, next) => (prev.length - next.length))
-                ))}
+                onClick={sortByLength}
                 className="App__button"
               >
                 By length
@@ -69,7 +94,7 @@ const App: React.FC = () => {
 
               <button
                 type="button"
-                onClick={() => setProducts(goods)}
+                onClick={resetGoods}
                 className="App__button"
               >
                 Reset
@@ -84,20 +109,15 @@ const App: React.FC = () => {
                 className="App__select-list"
                 name="goods"
                 id="goods"
-                onChange={(event) => setProducts(initialGoods => (
-                  [...initialGoods].filter(good => (good.length >= Number(event.target.value)))
-                ))}
+                onChange={onSelectChanger}
               >
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
+                {goodsFromServer.map(
+                  (number, i) => (
+                    <option value={(i + 1).toString()} key={number}>
+                      {i + 1}
+                    </option>
+                  ),
+                )}
               </select>
             </div>
 
