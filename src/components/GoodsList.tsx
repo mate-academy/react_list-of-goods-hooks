@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import SelectList from './SelectList';
 import './GoodsList.css';
 
 type Props = {
@@ -8,6 +7,7 @@ type Props = {
 
 const Goods: React.FC<Props> = ({ goods }) => {
   const [selectValue, setSelectValue] = useState(1);
+  const select = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   const visibleList = [...goods].filter(
     good => good.length >= selectValue,
@@ -79,7 +79,9 @@ const Goods: React.FC<Props> = ({ goods }) => {
             value={selectValue}
             onChange={(event) => setSelectValue(+event.target.value)}
           >
-            <SelectList />
+            {select.map(num => (
+              <option key={num} value={num}>{num}</option>
+            ))}
           </select>
         </label>
       </button>
