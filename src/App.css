@@ -1,1 +1,15 @@
-/* put styles here */
+.App {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  padding: 0 30px;
+}
+
+.button {
+  font-size: 16px;
+  line-height: 25px;
+  margin-right: 10px;
+  height: 30px;
+
+  background-color: #8ac9e7;
+  border-color: hsl(199, 66%, 30%);
+  border-radius: 5px;
+}
