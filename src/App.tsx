@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import GoodList from './GoodList';
 
 const goodsFromServer: string[] = [
   'Dumplings',
@@ -15,13 +16,13 @@ const goodsFromServer: string[] = [
 ];
 
 const App: React.FC = () => {
-  const [isShowedGoods, setShowedGoods] = useState(false);
+  const [isGoodsVisible, setIsGoodsVisible] = useState(false);
   const [isReversed, setReversed] = useState(false);
   const [isSortBy, setSortBy] = useState('');
 
-  const showTheGoods = () => setShowedGoods(true);
+  const showTheGoods = () => setIsGoodsVisible(true);
 
-  const reverseGoods = () => setReversed(revers => !revers);
+  const reverseGoods = () => setReversed(reverse => !reverse);
 
   const sortByAlphabet = () => setSortBy('Alpha');
 
@@ -52,7 +53,7 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <h1>Goods</h1>
-      {isShowedGoods === false
+      {isGoodsVisible === false
         ? (
           <button
             type="button"
@@ -63,13 +64,7 @@ const App: React.FC = () => {
         )
         : (
           <>
-            <ul>
-              {newGoods.map(good => (
-                <li key={good}>
-                  {good}
-                </li>
-              ))}
-            </ul>
+            <GoodList newGoods={newGoods} />
             <button
               type="button"
               onClick={reverseGoods}

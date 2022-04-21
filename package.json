@@ -1,6 +1,6 @@
 {
   "name": "react_list-of-goods-hooks",
-  "homepage": ".",
+  "homepage": "https://k-romakovalchuk.github.io/react_list-of-goods-hooks/",
   "version": "0.1.0",
   "keywords": [],
   "author": "Mate Academy",
@@ -34,6 +34,7 @@
     "stylelint": "^13.13.1"
   },
   "scripts": {
+    "deploy": "gh-pages -d dist",
     "start": "mate-scripts start",
     "build": "mate-scripts build",
     "test": "mate-scripts test",
@@ -42,8 +43,7 @@
     "lint": "npm run lint-js && npm run lint-css",
     "update": "mate-scripts update",
     "postinstall": "npm run update",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "predeploy": "npm run build"
   },
   "eslintConfig": {
     "extends": "react-app"
