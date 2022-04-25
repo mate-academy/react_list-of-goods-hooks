@@ -1,0 +1,64 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+h1 {
+  margin: 5px;
+}
+
+.list {
+  display: flex;
+  padding: 10px;
+  margin: 10px;
+}
+
+ul {
+  padding-left: 0;
+}
+
+.button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 50px;
+  bottom: 50px;
+
+  &__option,
+  &__start,
+  &__form {
+    margin: 20px;
+    padding: 10px;
+    background-color: rgb(229, 182, 229);
+    border: 1px rgb(240, 171, 240) solid;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+
+    &__reset {
+      background-color: rgb(235, 180, 180);
+    }
+
+    &:hover {
+      background-color: rgb(237, 157, 237);
+    }
+  }
+}
+
+.button__option__reset {
+  &:hover {
+    background-color: rgb(239, 142, 142);
+  }
+}
+
+.hidden {
+  display: none;
+}
