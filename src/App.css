@@ -9,6 +9,7 @@ h1 {
 }
 
 .App {
+  position: relative;
   margin: 100px auto;
   padding: 40px 20px;
 
@@ -54,6 +55,21 @@ h1 {
   font-size: 16px;
 
   transition: 0.3s ease;
+}
+
+.button-start {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  transform: translate(-50%, -50%);
+  background-color: lightgreen;
+  display: block;
+  transition: 0.3s all
+}
+
+.button-start-hidden {
+  display: none;
 }
 
 .button:hover {

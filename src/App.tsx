@@ -19,6 +19,7 @@ const goodsFromServer: string[] = [
 
 const App: React.FC = () => {
   // const [visibleGoods, setVisibleGoods] = useState(goodsFromServer);
+  const [startPressed, setStartPressed] = useState(false);
   const [isReversed, setIsReversed] = useState(false);
   const [sortBy, setSortBy] = useState('');
   const [selectedLength, setSelectedLength] = useState(0);
@@ -50,67 +51,80 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <h1>Goods</h1>
-      <div className="App__container">
-        <div className="buttons">
+      <button
+        type="button"
+        className={classNames(
+          'button',
+          startPressed ? 'button-start-hidden' : 'button-start',
+        )}
+        onClick={() => setStartPressed(true)}
+      >
+        START
+      </button>
 
-          <button
-            className={classNames('button', { active: isReversed })}
-            type="button"
-            onClick={() => setIsReversed(!isReversed)}
-          >
-            Reverse
-          </button>
+      {startPressed && (
+        <div className="App__container">
 
-          <button
-            type="button"
-            className={classNames(
-              'button',
-              sortBy === 'alphabet' ? 'active' : '',
-            )}
-            onClick={() => setSortBy('alphabet')}
-          >
-            Sort by name
-          </button>
+          <div className="buttons">
+            <button
+              className={classNames('button', { active: isReversed })}
+              type="button"
+              onClick={() => setIsReversed(!isReversed)}
+            >
+              Reverse
+            </button>
 
-          <button
-            className={classNames(
-              'button',
-              sortBy === 'length' ? 'active' : '',
-            )}
-            type="button"
-            onClick={() => setSortBy('length')}
-          >
-            Sort by length
-          </button>
+            <button
+              type="button"
+              className={classNames(
+                'button',
+                sortBy === 'alphabet' ? 'active' : '',
+              )}
+              onClick={() => setSortBy('alphabet')}
+            >
+              Sort by name
+            </button>
 
-          <button
-            className="button reset"
-            type="button"
-            onClick={reset}
-          >
-            Reset
-          </button>
+            <button
+              className={classNames(
+                'button',
+                sortBy === 'length' ? 'active' : '',
+              )}
+              type="button"
+              onClick={() => setSortBy('length')}
+            >
+              Sort by length
+            </button>
 
-          <button
-            type="button"
-            className="button"
-          >
-            <label htmlFor="selectLength">
-              {'Select: '}
-              <select
-                id="selectLength"
-                value={selectedLength}
-                onChange={(event) => {
-                  setSelectedLength(+event.target.value);
-                }}
-              >
-                <SelectOptions />
-              </select>
-            </label>
-          </button>
+            <button
+              className="button reset"
+              type="button"
+              onClick={reset}
+            >
+              Reset
+            </button>
+
+            <button
+              type="button"
+              className="button"
+            >
+              <label htmlFor="selectLength">
+                {'Select: '}
+                <select
+                  id="selectLength"
+                  value={selectedLength}
+                  onChange={(event) => {
+                    setSelectedLength(+event.target.value);
+                  }}
+                >
+                  <SelectOptions />
+                </select>
+              </label>
+            </button>
+          </div>
+          <GoodsList goods={visibleGoods} />
         </div>
-        <GoodsList goods={visibleGoods} />
-      </div>
+      )}
     </div>
   );
 };
