@@ -1,1 +1,83 @@
-/* put styles here */
+* {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  margin-bottom: 28px;
+}
+
+.App {
+  position: relative;
+  margin: 100px auto;
+  padding: 40px 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 320px;
+  height: 320px;
+  border: 1px solid rgb(223, 223, 223);
+  border-radius: 36px;
+
+  transition: 0.3s ease-in;
+}
+
+.App__container {
+  display: flex;
+  gap: 20px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  width: 160px;
+  justify-content: space-around;
+  gap: 12px;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+
+  border: none;
+  outline: none;
+  background-color: lightblue;
+  height: 40px;
+  width: 140px;
+
+  padding: 0 18px;
+  border-radius: 4px;
+  font-size: 16px;
+
+  transition: 0.3s ease;
+}
+
+.button-start {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: lightgreen;
+  transition: 0.3s all;
+}
+
+.button-start-hidden {
+  display: none;
+}
+
+.button:hover {
+  box-shadow: 5px 5px 5px #888;
+}
+
+.reset {
+  background-color: pink;
+}
+
+.active {
+  background-color: lightgreen;
+}
