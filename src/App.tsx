@@ -22,10 +22,6 @@ const App: React.FC = () => {
   const [sortBy, sortByType] = useState('');
   const [needReset, startVer] = useState(false);
 
-  if (isReversed) {
-    listOfGoods.reverse();
-  }
-
   listOfGoods.sort((prev, next) => {
     switch (sortBy) {
       case 'name':
@@ -44,11 +40,14 @@ const App: React.FC = () => {
     listOfGoods = [...goodsFromServer];
   }
 
+  if (isReversed) {
+    listOfGoods.reverse();
+  }
+
   return (
     <>
       <div className="App">
         <h1>Goods</h1>
-        {goodsFromServer.length}
         {!isClicked && (
           <button
             type="button"
@@ -59,13 +58,16 @@ const App: React.FC = () => {
         )}
         <button
           type="button"
-          onClick={() => reverseList(true)}
+          onClick={() => reverseList(!isReversed)}
         >
           Reverse
         </button>
         <button
           type="button"
-          onClick={() => sortByType('name')}
+          onClick={() => {
+            sortByType('name');
+            reverseList(!isReversed);
+          }}
         >
           Sort alphabetically
         </button>
