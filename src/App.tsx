@@ -64,10 +64,7 @@ const App: React.FC = () => {
         </button>
         <button
           type="button"
-          onClick={() => {
-            sortByType('name');
-            reverseList(!isReversed);
-          }}
+          onClick={() => sortByType('name')}
         >
           Sort alphabetically
         </button>
