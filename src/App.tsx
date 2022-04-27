@@ -24,7 +24,7 @@ const App: React.FC = () => {
   const [isListHidden, setIsListHidden] = useState(true);
   const [isButtonHidden, setIsButtonHidden] = useState(false);
   const [isActionsActive, setIsActionsActive] = useState(false);
-  const [selectedLength, setSelectedLength] = useState(1);
+  const [selectedLength, setSelectedLength] = useState(10);
 
   const handleStartButtonClick = () => {
     setIsListHidden(false);
@@ -33,7 +33,7 @@ const App: React.FC = () => {
   };
 
   const handleReverseButtonClick = () => {
-    setVisibleGoodsArray([...goodsArray].reverse());
+    setVisibleGoodsArray([...visibleGoodsArray].reverse());
   };
 
   const handleSortButtonClick = () => {
@@ -43,7 +43,7 @@ const App: React.FC = () => {
 
   const handleResetButtonClick = () => {
     setVisibleGoodsArray(goodsArray);
-    setSelectedLength(1);
+    setSelectedLength(10);
   };
 
   const handleSortByLengthButtonClick = () => {
@@ -86,7 +86,7 @@ const App: React.FC = () => {
 
       <button
         type="button"
-        disabled={!isActionsActive}
+        hidden={!isActionsActive}
         className="Actions ReverseButton"
         onClick={handleReverseButtonClick}
       >
@@ -95,7 +95,7 @@ const App: React.FC = () => {
 
       <button
         type="button"
-        disabled={!isActionsActive}
+        hidden={!isActionsActive}
         className="Actions SortButton"
         onClick={handleSortButtonClick}
       >
@@ -104,7 +104,7 @@ const App: React.FC = () => {
 
       <button
         type="button"
-        disabled={!isActionsActive}
+        hidden={!isActionsActive}
         className="Actions ResetButton"
         onClick={handleResetButtonClick}
       >
@@ -113,7 +113,7 @@ const App: React.FC = () => {
 
       <button
         type="button"
-        disabled={!isActionsActive}
+        hidden={!isActionsActive}
         className="Actions SortByLengthButton"
         onClick={handleSortByLengthButtonClick}
       >
