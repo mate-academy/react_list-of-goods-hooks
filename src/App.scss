@@ -1,0 +1,37 @@
+.App {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  border: 1px solid #000;
+  border-radius: 12px;
+
+  &__title {
+    margin: 0 auto 15px;
+  }
+
+  &__button {
+    width: 10vw;
+    height: 32px;
+
+    border: 1px solid;
+    border-radius: 8px;
+    color: #000;
+
+    background-color: yellowgreen;
+    border-color: yellowgreen;
+
+    cursor: pointer;
+
+    transition: border, border-radius, transform, font-weight,
+      ease-in-out 0.4s;
+
+    &:hover {
+      border: 2px solid #000;
+      border-radius: 0;
+      transform: scale(1.05);
+      font-size: 700;
+    }
+  }
+}

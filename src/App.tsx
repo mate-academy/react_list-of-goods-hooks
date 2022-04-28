@@ -1,24 +1,34 @@
-import React from 'react';
-import './App.css';
+import React, { useState } from 'react';
+import './App.scss';
+import { GoodsList } from './components/GoodsList/GoodsList';
 
-const goodsFromServer: string[] = [
-  'Dumplings',
-  'Carrot',
-  'Eggs',
-  'Ice cream',
-  'Apple',
-  'Bread',
-  'Fish',
-  'Honey',
-  'Jam',
-  'Garlic',
-];
+const App: React.FC = () => {
+  const [showedGoods, setVisibility] = useState(false);
 
-const App: React.FC = () => (
-  <div className="App">
-    <h1>Goods</h1>
-    {goodsFromServer.length}
-  </div>
-);
+  const showGoods = () => {
+    setVisibility(true);
+  };
+
+  return (
+    <div className="App">
+      <h1 className="App__title">Goods</h1>
+      {
+        showedGoods
+          ? (
+            <GoodsList />
+          )
+          : (
+            <button
+              type="button"
+              onClick={showGoods}
+              className="App__button"
+            >
+              Start
+            </button>
+          )
+      }
+    </div>
+  );
+};
 
 export default App;

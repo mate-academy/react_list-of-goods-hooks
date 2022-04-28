@@ -1,0 +1,72 @@
+.goodsMenu {
+  width: 50vw;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  border: 1px solid #000;
+  border-radius: 12px;
+
+  background-color: azure;
+
+  &__buttons {
+    width: inherit;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__button {
+    width: 10vw;
+    height: 32px;
+
+    border: 1px solid;
+    border-radius: 8px;
+    color: #000;
+
+    background-color: cornsilk;
+    border-color: cornsilk;
+
+    transition: border, border-radius, transform, font-weight,
+      ease-in-out 0.4s;
+
+    &--resetSort {
+      background-color: crimson;
+      border-color: crimson;
+      color: azure;
+    }
+
+    &:hover {
+      border: 2px solid #000;
+      border-radius: 0;
+      transform: scale(1.05);
+      font-weight: 700;
+    }
+  }
+
+  &__list {
+    padding: 0;
+    width: 25vw;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    list-style: none;
+  }
+
+  &__item {
+    width: inherit;
+    padding: 10px 10px;
+
+    border: 1px solid #000;
+    border-radius: 12px;
+
+    background-color: snow;
+
+    font-size: 18px;
+    text-align: center;
+  }
+}
+
