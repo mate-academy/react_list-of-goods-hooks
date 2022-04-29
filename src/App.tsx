@@ -51,9 +51,8 @@ const App: React.FC = () => {
       .sort((g1, g2) => g1.length - g2.length));
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSelection = (event: { target: { value: any; }; }) => {
-    setSelectedLength(event.target.value);
+  const handleSelection = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedLength(+event.target.value);
   };
 
   return (

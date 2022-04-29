@@ -12,7 +12,7 @@ const GoodsList: React.FC<ArrayOfGoods> = ({ goods, lengthForDisplay }) => (
       return (
         <li
           className="GoodsList-item"
-          hidden={good.length >= lengthForDisplay}
+          hidden={good.length > lengthForDisplay}
           key={good}
         >
           {good}
