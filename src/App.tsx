@@ -19,12 +19,14 @@ const App: React.FC = () => {
   const [sortedBy, setSortBy] = useState('none');
   const [isReversed, setIsReversed] = useState(false);
   const [minLength, setLength] = useState(1);
+  const goods = [...goodsFromServer];
 
-  const filteredList = goodsFromServer.filter(g => g.length >= minLength);
+  const filteredList = goods.filter(g => g.length >= minLength);
 
   const reset = () => {
     setIsReversed(false);
     setLength(1);
+    setSortBy('none');
   };
 
   filteredList.sort((a, b) => {
