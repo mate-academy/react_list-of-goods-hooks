@@ -1,1 +1,11 @@
-/* put styles here */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  .goods {
+    list-style-type: none;
+  }
+  
+  .goods_list {
+    font-size: 20px;
+  }
