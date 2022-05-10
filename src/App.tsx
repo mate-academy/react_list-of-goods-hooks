@@ -74,7 +74,8 @@ const App: React.FC = () => {
       <input
         type="checkbox"
         id="reverseToggler"
-        onClick={() => setReversed(
+        checked={isReversed}
+        onChange={() => setReversed(
           (reversedValue) => !reversedValue,
         )}
       />
@@ -110,12 +111,24 @@ const App: React.FC = () => {
                 value={index + 1}
                 // eslint-disable-next-line
                 key={index + 1}
+                selected={index + 1 === minLen}
               >
                 {`${index + 1}+ letters`}
               </option>
             ))
         }
       </select>
+
+      <button
+        type="button"
+        onClick={() => {
+          setMinLen(1);
+          setReversed(false);
+          setSortProp(SortBy.none);
+        }}
+      >
+        Reset
+      </button>
 
       <GoodsList goods={visibleGoods} />
     </div>
