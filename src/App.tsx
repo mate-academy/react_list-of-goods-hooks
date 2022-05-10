@@ -23,7 +23,7 @@ enum SortBy {
 }
 
 const App: React.FC = () => {
-  const [isVisible, setVisible] = useState(true);
+  const [isVisible, setVisible] = useState(false);
   const [goods] = useState(goodsFromServer);
   const [isReversed, setReversed] = useState(false);
   const [sortProp, setSortProp] = useState(SortBy.none);
@@ -33,6 +33,7 @@ const App: React.FC = () => {
     return (
       <div className="App">
         <button
+          className="App__button"
           type="button"
           onClick={() => setVisible(true)}
         >
