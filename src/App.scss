@@ -1,0 +1,77 @@
+@import "./fonts";
+@import "./vars";
+
+body {
+  margin: 0;
+
+  font-family: "Graduate";
+
+  background-color: $olive;
+}
+
+.App {
+  width: 100vw;
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &__buttonsSection {
+    padding-top: 18px;
+
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+  }
+
+  &__checkbox {
+    display: none;
+  }
+
+  &__checkbox:checked + &__toggler {
+    color: $blue;
+
+    background-color: $orange;
+  }
+
+  &__button {
+    padding: 4px 16px;
+
+    color: $olive;
+    font-family: inherit;
+    font-size: 18px;
+    line-height: 150%;
+
+    background-color: $blue;
+    border: none;
+    border-radius: 2px;
+
+    &:hover {
+      color: $blue;
+
+      background-color: $orange;
+    }
+  }
+
+  &__dropdown {
+    font-family: inherit;
+    font-size: 18px;
+    line-height: 150%;
+    color: $olive;
+
+    outline: none;
+    border: none;
+    border-radius: 2px;
+    background-color: rgba($blue, 0.8);
+  }
+
+  &__goodsList {
+    flex-grow: 1;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { GoodsList } from './GoodsList';
 
-import './App.css';
+import './App.scss';
 
 const goodsFromServer: string[] = [
   'Dumplings',
@@ -23,7 +23,7 @@ enum SortBy {
 }
 
 const App: React.FC = () => {
-  const [isVisible, setVisible] = useState(false);
+  const [isVisible, setVisible] = useState(true);
   const [goods] = useState(goodsFromServer);
   const [isReversed, setReversed] = useState(false);
   const [sortProp, setSortProp] = useState(SortBy.none);
@@ -31,12 +31,14 @@ const App: React.FC = () => {
 
   if (!isVisible) {
     return (
-      <button
-        type="button"
-        onClick={() => setVisible(true)}
-      >
-        Start
-      </button>
+      <div className="App">
+        <button
+          type="button"
+          onClick={() => setVisible(true)}
+        >
+          Start
+        </button>
+      </div>
     );
   }
 
@@ -71,66 +73,78 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <input
-        type="checkbox"
-        id="reverseToggler"
-        checked={isReversed}
-        onChange={() => setReversed(
-          (reversedValue) => !reversedValue,
-        )}
-      />
+      <div className="App__buttonsSection">
+        <input
+          className="App__checkbox"
+          type="checkbox"
+          id="reverseToggler"
+          checked={isReversed}
+          onChange={() => setReversed(
+            (reversedValue) => !reversedValue,
+          )}
+        />
 
-      <label htmlFor="reverseToggler">
-        Reverse
-      </label>
+        <label
+          className="App__button App__toggler"
+          htmlFor="reverseToggler"
+        >
+          Reverse
+        </label>
 
-      <button
-        type="button"
-        onClick={() => setSortProp(SortBy.alphabet)}
-      >
-        Sort alphabetically
-      </button>
+        <button
+          className="App__button"
+          type="button"
+          onClick={() => setSortProp(SortBy.alphabet)}
+        >
+          Sort alphabetically
+        </button>
 
-      <button
-        type="button"
-        onClick={() => setSortProp(SortBy.nameLength)}
-      >
-        Sort by length
-      </button>
+        <button
+          className="App__button"
+          type="button"
+          onClick={() => setSortProp(SortBy.nameLength)}
+        >
+          Sort by length
+        </button>
 
-      <select
-        onChange={
-          ({ target: option }) => setMinLen(Number(option.value))
-        }
-      >
-        {
-          (new Array(10))
-            .fill(null)
-            .map((_, index) => (
-              <option
-                value={index + 1}
-                // eslint-disable-next-line
-                key={index + 1}
-                selected={index + 1 === minLen}
-              >
-                {`${index + 1}+ letters`}
-              </option>
-            ))
-        }
-      </select>
+        <select
+          className="App__dropdown"
+          onChange={
+            ({ target: option }) => setMinLen(Number(option.value))
+          }
+        >
+          {
+            (new Array(10))
+              .fill(null)
+              .map((_, index) => (
+                <option
+                  value={index + 1}
+                  // eslint-disable-next-line
+                  key={index + 1}
+                  selected={index + 1 === minLen}
+                >
+                  {`${index + 1}+ letters`}
+                </option>
+              ))
+          }
+        </select>
 
-      <button
-        type="button"
-        onClick={() => {
-          setMinLen(1);
-          setReversed(false);
-          setSortProp(SortBy.none);
-        }}
-      >
-        Reset
-      </button>
+        <button
+          className="App__button"
+          type="button"
+          onClick={() => {
+            setMinLen(1);
+            setReversed(false);
+            setSortProp(SortBy.none);
+          }}
+        >
+          Reset
+        </button>
+      </div>
 
-      <GoodsList goods={visibleGoods} />
+      <div className="App__goodsList">
+        <GoodsList goods={visibleGoods} />
+      </div>
     </div>
   );
 };
