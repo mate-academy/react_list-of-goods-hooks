@@ -18,7 +18,7 @@ const App: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [goods, setGoods] = useState(goodsFromServer);
 
-  const notVisible = () => {
+  const toggleVisibiity = () => {
     setIsVisible((current) => !current);
   };
 
@@ -45,7 +45,7 @@ const App: React.FC = () => {
         <button
           className="App__button"
           type="button"
-          onClick={notVisible}
+          onClick={toggleVisibiity}
         >
           Start
         </button>
