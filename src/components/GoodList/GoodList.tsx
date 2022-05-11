@@ -9,21 +9,21 @@ export const GoodList: React.FC<Goods> = ({ goodItems }) => {
   const [maxLength, setMaxLength] = useState(1);
 
   const reverseGoods = () => {
-    setGoods([...goods.reverse()]);
+    setGoods([...goods].reverse());
   };
 
   const sortAlphaBetically = () => {
-    setGoods([...goods.sort((
+    setGoods([...goods].sort((
       firstGood,
       secondGood,
-    ) => firstGood.localeCompare(secondGood))]);
+    ) => firstGood.localeCompare(secondGood)));
   };
 
   const sortByLength = () => {
-    setGoods([...goods.sort((
+    setGoods([...goods].sort((
       firstGood,
       secondGood,
-    ) => firstGood.length - secondGood.length)]);
+    ) => firstGood.length - secondGood.length));
   };
 
   const resetGoods = () => {
