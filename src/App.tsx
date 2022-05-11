@@ -1,4 +1,5 @@
 import React from 'react';
+import { GoodsList } from './GoodsList/GoodsList';
 import './App.css';
 
 const goodsFromServer: string[] = [
@@ -17,7 +18,7 @@ const goodsFromServer: string[] = [
 const App: React.FC = () => (
   <div className="App">
     <h1>Goods</h1>
-    {goodsFromServer.length}
+    <GoodsList goodsFromServer={goodsFromServer} />
   </div>
 );
 
