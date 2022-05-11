@@ -25,14 +25,12 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <h1>Goods</h1>
-      {goodsFromServer.length}
       <button type="button" onClick={goodsVisibility}>
         {isGoodsVisible ? 'Hide goods' : 'Start'}
       </button>
       {isGoodsVisible && (
         <GoodList goodItems={goodsFromServer} />
       )}
-
     </div>
   );
 };
