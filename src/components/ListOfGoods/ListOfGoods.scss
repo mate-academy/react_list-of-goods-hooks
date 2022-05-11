@@ -1,0 +1,47 @@
+.goods {
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  padding: 16px;
+  background: linear-gradient(to right, #a1ffce, #faffd1);
+
+  &__list {
+    list-style: none;
+
+    &::after {
+      display: inline-block;
+      content: "";
+      width: 80%;
+      height: 4px;
+      border-radius: 4px;
+      background-color: #f7b733;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 24px;
+  }
+
+  &__select {
+    border-radius: 4px;
+  }
+}
+
+.button {
+  margin-top: 8px;
+  font-family: "Lato", sans-serif;
+  width: 120px;
+  height: 40px;
+  font-size: 20px;
+  border-radius: 12px;
+  background: linear-gradient(to right, #fc4a1a, #f7b733);
+  border: 1px solid #f7b733;
+
+  &:hover {
+    background: transparent;
+    color: #fc4a1a;
+  }
+}
