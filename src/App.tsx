@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import './App.css';
 import { GoodsList } from './GoodsList';
 
@@ -16,10 +16,15 @@ const goodsFromServer: string[] = [
 ];
 
 const App: React.FC = () => {
+  const limitLength = 1;
   const [goods, setGoods] = useState(goodsFromServer);
   const [isVisible, setIsVisible] = useState(false);
-  const [limit, setLimit] = useState(1);
-  const visibleGoods = goods.filter((good) => good.length >= limit);
+  const [limit, setLimit] = useState(limitLength);
+  const filter = (array: string[], value: number) => {
+    return array.filter((elem) => elem.length >= value);
+  };
+
+  const visibleGoods = useMemo(() => filter(goods, limit), [goods, limit]);
 
   const visibleList = () => {
     setIsVisible((current) => !current);
@@ -46,7 +51,7 @@ const App: React.FC = () => {
   };
 
   const selectReset = () => {
-    setLimit(1);
+    setLimit(limitLength);
   };
 
   return (
@@ -64,7 +69,7 @@ const App: React.FC = () => {
 
       {isVisible && (
         <>
-          <GoodsList goods={visibleGoods} />
+          {visibleGoods.length > 0 && <GoodsList goods={visibleGoods} />}
           <div className="App__buttons">
             <button
               type="button"
