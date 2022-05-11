@@ -28,16 +28,14 @@ const App: React.FC = () => {
 
   const sort = () => {
     setGoods([...goods].sort(
-      (a: string, b:string) => {
-        return a.localeCompare(b);
-      },
+      (a: string, b:string) => a.localeCompare(b),
     ));
   };
 
   const sortByLength = () => {
-    setGoods([...goods].sort((a, b) => {
-      return (a.length - b.length);
-    }));
+    setGoods([...goods].sort(
+      (a, b) => a.length - b.length,
+    ));
   };
 
   const reset = () => {
