@@ -1,1 +1,68 @@
-/* put styles here */
+html {
+  background-color: rgb(214, 232, 233);
+}
+
+body {
+  padding: 50px;
+  font-family: Arial, sans-serif;
+}
+
+.App__title {
+  font-size: 48px;
+  text-align: center;
+}
+
+.App__buttons {
+  display: flex;
+  justify-content: space-between;
+  margin: 30px auto;
+  background-color: rgb(163, 226, 228);
+  border-radius: 10px;
+}
+
+.App__button {
+  width: 200px;
+  height: 60px;
+  margin: 30px;
+  border-radius: 8px;
+  border: 1px solid;
+  outline: none;
+  background-color: rgb(66, 77, 202);
+  color: white;
+  font-size: 18px;
+}
+
+.App__button:hover {
+  cursor: pointer;
+  background-color: rgb(70, 85, 170);
+}
+
+.Button__start {
+  display: block;
+  height: 50px;
+  margin: 30px auto;
+  background-color: rgb(27, 95, 58);
+  text-transform: uppercase;
+  font-size: 20px;
+}
+
+.Button__start:hover {
+  cursor: pointer;
+  background-color: rgb(57, 107, 80);
+}
+
+.Button__reset {
+  background-color: rgb(214, 114, 114);
+  text-transform: uppercase;
+}
+
+.App__select {
+  width: 60px;
+  height: 40px;
+  font-size: 20px;
+}
+
+.App__select:hover {
+  outline: none;
+  cursor: pointer;
+}
