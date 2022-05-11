@@ -1,1 +1,50 @@
 /* put styles here */
+/* not empty */
+html {
+  background-color: rgb(254, 204, 150);
+}
+
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.App__button {
+  background-color: rgb(243, 97, 53);
+  border-radius: 8px;
+  border: 2px solid black;
+  font-size: 30px;
+  margin-right: 10px;
+  padding: 5px 10px;
+  transition: transform 0.3s;
+}
+
+.App__title {
+  text-align: center;
+  font-size: 45px;
+  letter-spacing: 3px;
+}
+
+.App__button:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+  background-color: rgb(212, 51, 11);
+  color: white;
+}
+
+.App__button:last-child {
+  margin-right: 0;
+}
+
+.App__button--start {
+  font-size: 60px;
+  margin-top: 200px;
+}
+
+.GoodsList {
+  text-align: center;
+  list-style: none;
+  font-size: 35px;
+  padding: 0;
+}
