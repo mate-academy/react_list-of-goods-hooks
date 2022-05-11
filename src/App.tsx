@@ -71,7 +71,10 @@ const App: React.FC = () => {
 
             <button
               type="button"
-              onClick={() => setSortBy('alphabet')}
+              onClick={() => {
+                setSortBy('alphabet');
+                setReverse(false);
+              }}
               className="goods__button"
             >
               Sort alphabetically
@@ -87,7 +90,10 @@ const App: React.FC = () => {
 
             <button
               type="button"
-              onClick={() => setSortBy('length')}
+              onClick={() => {
+                setSortBy('length');
+                setReverse(false);
+              }}
               className="goods__button"
             >
               Sort by length
