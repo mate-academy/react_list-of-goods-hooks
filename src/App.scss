@@ -31,16 +31,16 @@ body {
   &__button {
     border: none;
     padding: 10px;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(202, 200, 200, 0.3);
     transition: background-color 0.3s;
 
     &:hover {
-      background-color: rgba(0, 0, 0, 0.2);
+      background-color: rgb(202, 200, 200);
     }
   }
 }
 
-.buttons {
+.sort {
   display: flex;
   gap: 10px;
 }

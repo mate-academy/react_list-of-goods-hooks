@@ -5,9 +5,10 @@ type Props = {
 };
 
 const GoodsList: React.FC<Props> = ({ goods }) => {
+  const [length, setLength] = useState(1);
   const [isReverse, setIsReverse] = useState(false);
   const [sortBy, setSortBy] = useState<string | null>(null);
-  const newGoods = [...goods];
+  const newGoods = [...goods].filter(good => good.length >= length);
 
   const reverse = () => {
     setIsReverse(!isReverse);
@@ -24,6 +25,7 @@ const GoodsList: React.FC<Props> = ({ goods }) => {
   };
 
   const reset = () => {
+    setLength(1);
     setSortBy(null);
     setIsReverse(false);
   };
@@ -58,7 +60,7 @@ const GoodsList: React.FC<Props> = ({ goods }) => {
         ))}
       </ul>
 
-      <div className="buttons">
+      <div className="sort">
         <button
           type="button"
           className="app__button"
@@ -90,6 +92,23 @@ const GoodsList: React.FC<Props> = ({ goods }) => {
         >
           Reset
         </button>
+
+        <select
+          className="app__button"
+          onChange={(event) => setLength(+event.target.value)}
+          value={length}
+        >
+          <option value={1}>1</option>
+          <option value={2}>2</option>
+          <option value={3}>3</option>
+          <option value={4}>4</option>
+          <option value={5}>5</option>
+          <option value={6}>6</option>
+          <option value={7}>7</option>
+          <option value={8}>8</option>
+          <option value={9}>9</option>
+          <option value={10}>10</option>
+        </select>
       </div>
     </>
   );
