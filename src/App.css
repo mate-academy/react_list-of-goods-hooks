@@ -1,1 +1,54 @@
-/* put styles here */
+.app {
+  width: 600px;
+  height: 500px;
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: bisque;
+  margin: 15px auto;
+}
+
+.app__title {
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.app__text {
+  text-align: center;
+  margin-top: 0;
+}
+
+.app__container {
+  padding: 0 35px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.app__buttons {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 300px;
+  margin-top: 20px;
+}
+
+.app__button {
+  display: block;
+  height: 40px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.app__item {
+  list-style: none;
+  text-align: left;
+  font-size: 25px;
+}
+
+.button__start {
+  display: block;
+  margin: 120px auto;
+  width: 300px;
+  height: 80px;
+  border-radius: 10px;
+  cursor: pointer;
+}
