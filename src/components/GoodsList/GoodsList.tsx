@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 
 type Props = {
   goods: string[],
 };
 
 const GoodsList: React.FC<Props> = ({ goods }) => {
-  const [length, setLength] = useState(1);
+  const startLength = 1;
+  const [length, setLength] = useState(startLength);
   const [isReverse, setIsReverse] = useState(false);
   const [sortBy, setSortBy] = useState<string | null>(null);
-  const newGoods = [...goods].filter(good => good.length >= length);
+  const newGoods = useMemo(() => [...goods]
+    .filter(good => good.length >= length), [length, sortBy === null]);
 
   const reverse = () => {
     setIsReverse(!isReverse);
@@ -25,7 +27,7 @@ const GoodsList: React.FC<Props> = ({ goods }) => {
   };
 
   const reset = () => {
-    setLength(1);
+    setLength(startLength);
     setSortBy(null);
     setIsReverse(false);
   };
