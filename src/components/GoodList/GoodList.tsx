@@ -72,7 +72,7 @@ export const GoodList: React.FC<Goods> = ({ goodItems }) => {
         onChange={(event) => selectGoods(event.target.value)}
       >
         {goods.map(item => (
-          <option value={`${goods.indexOf(item) + 1}`}>
+          <option key={item} value={`${goods.indexOf(item) + 1}`}>
             {goods.indexOf(item) + 1}
           </option>
         ))}
