@@ -19,81 +19,49 @@ const goodsFromServer: string[] = [
 const lengthFromServer: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 const App: React.FC = () => {
-  const [state, setState] = useState({
-    goods: [...goodsFromServer],
-    isVisible: false,
-    length: 1,
-  });
+  const [goods, setGoods] = useState([...goodsFromServer]);
+  const [visibility, setVisibility] = useState(false);
+  const [length, setLength] = useState(1);
 
   const reverseGoods = () => {
-    const reverseGood = {
-      ...state,
-      goods: [...state.goods].reverse(),
-    };
-
-    setState(reverseGood);
+    setGoods([...goods].reverse());
   };
 
   const sortByLength = () => {
-    const sortedGood = {
-      ...state,
-      goods: [...state.goods].sort((g1, g2) => (
-        g1.length - g2.length
-      )),
-    };
-
-    setState(sortedGood);
+    setGoods([...goods].sort((g1, g2) => (
+      g1.length - g2.length
+    )));
   };
 
   const sortByAlphabet = () => {
-    const sortedGood = {
-      ...state,
-      goods: [...state.goods].sort((g1, g2) => (
-        g1.localeCompare(g2)
-      )),
-    };
-
-    setState(sortedGood);
+    setGoods([...goods].sort((g1, g2) => (
+      g1.localeCompare(g2)
+    )));
   };
 
   const toggleVisibility = () => {
-    const setVisible = {
-      ...state,
-      isVisible: true,
-    };
-
-    setState(setVisible);
+    setVisibility(true);
   };
 
   const handleSubmit = (event: ChangeEvent<HTMLSelectElement>) => {
-    const filteredGoods = {
-      ...state,
-      length: +event.target.value,
-    };
-
-    setState(filteredGoods);
+    setLength(+event.target.value);
   };
 
   const reset = () => {
-    const primaryGoods = {
-      goods: [...goodsFromServer],
-      isVisible: true,
-      length: 0,
-    };
-
-    setState(primaryGoods);
+    setGoods([...goodsFromServer]);
+    setLength(1);
   };
 
-  const visibleGoods = [...state.goods].filter(
-    good => good.length >= state.length,
+  const visibleGoods = [...goods].filter(
+    good => good.length >= length,
   );
 
-  return state.isVisible === true ? (
+  return visibility === true ? (
     <div className="App">
       <h1>Goods</h1>
       <GoodsList goods={visibleGoods} />
 
-      <select name="good" onChange={handleSubmit}>
+      <select name="good" value={length} onChange={handleSubmit}>
         {lengthFromServer.map(len => (
           <option value={len}>
             {len}
