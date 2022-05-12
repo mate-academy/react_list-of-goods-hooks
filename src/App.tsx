@@ -21,11 +21,11 @@ const App: React.FC = () => {
   const [goodLength, setGoodLength] = useState('1');
 
   const reversedGoods = () => {
-    setGoods((current) => [...current].reverse());
+    setGoods([...goods].reverse());
   };
 
   const sortedGoods = () => {
-    setGoods((current) => [...current].sort((a, b) => a.localeCompare(b)));
+    setGoods([...goods].sort((a, b) => a.localeCompare(b)));
   };
 
   const resetGoods = () => {
@@ -33,7 +33,7 @@ const App: React.FC = () => {
   };
 
   const sortByLengthGoods = () => {
-    setGoods((current) => [...current].sort((a, b) => a.length - b.length));
+    setGoods([...goods].sort((a, b) => a.length - b.length));
   };
 
   const changeLength = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -46,7 +46,7 @@ const App: React.FC = () => {
   };
 
   const showGoods = () => {
-    setIsVisible((current) => !current);
+    setIsVisible(!isVisible);
   };
 
   return (
