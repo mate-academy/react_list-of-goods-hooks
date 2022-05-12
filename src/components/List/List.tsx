@@ -1,20 +1,29 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
+import './List.scss';
 
 type Props = {
   goodsList: string[];
 };
 
+enum SortBy {
+  Length = 'length',
+  Alphabet = 'alphabet',
+  None = '',
+}
+
 export const List: React.FC<Props> = ({ goodsList }) => {
   const [isReverse, setIsReverse] = useState(false);
-  const [sortBy, setSortBy] = useState('');
+  const [sortBy, setSortBy] = useState(SortBy.None);
   const [wordLength, setWordLength] = useState(1);
+
   const newGoodsList = goodsList.filter(word => word.length >= wordLength);
 
   switch (sortBy) {
-    case 'alphabet':
+    case SortBy.Alphabet:
       newGoodsList.sort((elem1, elem2) => elem1.localeCompare(elem2));
       break;
-    case 'length':
+    case SortBy.Length:
       newGoodsList.sort((elem1, elem2) => elem1.length - elem2.length);
       break;
     default:
@@ -25,66 +34,71 @@ export const List: React.FC<Props> = ({ goodsList }) => {
     newGoodsList.reverse();
   }
 
+  const reverse = () => {
+    setIsReverse(!isReverse);
+  };
+
+  const sort = (sortType: SortBy) => {
+    if (sortBy !== sortType) {
+      setSortBy(sortType);
+    } else {
+      setSortBy(SortBy.None);
+    }
+  };
+
+  const reset = () => {
+    setIsReverse(false);
+    setSortBy(SortBy.None);
+    setWordLength(1);
+  };
+
   return (
     <div className="goods">
       <div className="goods__buttons">
         <button
           type="button"
-          className={`goods__button ${isReverse && 'goods__button--active'}`}
-          onClick={() => setIsReverse(!isReverse)}
+          className={classNames('goods__button',
+            { 'goods__button--active': isReverse })}
+          onClick={reverse}
         >
           Reverse
         </button>
 
         <button
           type="button"
-          className={`goods__button ${sortBy === 'alphabet' && 'goods__button--active'}`}
-          onClick={() => {
-            const condition = sortBy === '' ? 'alphabet' : '';
-
-            setSortBy(condition);
-          }}
+          className={classNames('goods__button',
+            { 'goods__button--active': sortBy === SortBy.Alphabet })}
+          onClick={() => sort(SortBy.Alphabet)}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={`goods__button ${sortBy === 'length' && 'goods__button--active'}`}
-          onClick={() => {
-            const condition = sortBy === '' ? 'length' : '';
-
-            setSortBy(condition);
-          }}
+          className={classNames('goods__button',
+            { 'goods__button--active': sortBy === SortBy.Length })}
+          onClick={() => sort(SortBy.Length)}
         >
           Sort by length
         </button>
 
         <select
-          className={`goods__button ${wordLength !== 1 && 'goods__button--active'}`}
+          className={classNames('goods__button',
+            { 'goods__button--active': wordLength !== 1 })}
           onChange={event => setWordLength(Number(event.target.value))}
           value={wordLength}
         >
-          <option value="1">{'Word length >= 1'}</option>
-          <option value="2">{'Word length >= 2'}</option>
-          <option value="3">{'Word length >= 3'}</option>
-          <option value="4">{'Word length >= 4'}</option>
-          <option value="5">{'Word length >= 5'}</option>
-          <option value="6">{'Word length >= 6'}</option>
-          <option value="7">{'Word length >= 7'}</option>
-          <option value="8">{'Word length >= 8'}</option>
-          <option value="9">{'Word length >= 9'}</option>
-          <option value="10">{'Word length >= 10'}</option>
+          {
+            Array.from({ length: 10 }, (_, i) => i + 1).map(num => (
+              <option value={num} key={num}>{`Word length >= ${num}`}</option>
+            ))
+          }
         </select>
 
         <button
           type="button"
           className="goods__button"
-          onClick={() => {
-            setIsReverse(false);
-            setSortBy('');
-            setWordLength(1);
-          }}
+          onClick={reset}
         >
           Reset
         </button>

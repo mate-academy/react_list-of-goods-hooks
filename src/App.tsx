@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './App.scss';
-import { List } from './components/List';
+import { List } from './components/List/List';
 
 const goodsFromServer: string[] = [
   'Dumplings',
@@ -24,17 +24,15 @@ const App: React.FC = () => {
 
       {isVisible && <List goodsList={goodsFromServer} />}
 
-      {
-        !isVisible && (
-          <button
-            type="button"
-            onClick={() => setIsVisible(true)}
-            className="show-button"
-          >
-            Start
-          </button>
-        )
-      }
+      {!isVisible && (
+        <button
+          type="button"
+          onClick={() => setIsVisible(true)}
+          className="app__show-button"
+        >
+          Start
+        </button>
+      )}
     </div>
   );
 };

@@ -1,91 +1,20 @@
-@import url("https://fonts.googleapis.com/css2?family=Secular+One&display=swap");
-
-* {
-  box-sizing: border-box;
-}
-
-$hover-color: #ffcc70;
-
-html {
-  font-family: "Secular One", sans-serif;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(270deg, #69c0de, #d885c8, #5e8de3);
-  background-size: 800% 800%;
-  animation: gradient 15s ease infinite;
-}
-
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-body {
-  margin: 0;
-  padding: 0;
-}
-
-#root {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
+@import "./styles/fonts.scss";
+@import "./styles/variables.scss";
+@import "./styles/global.scss";
 
 .app {
   &__header {
     user-select: none;
     text-align: center;
   }
-}
 
-.show-button {
-  font-size: 20px;
-  font-weight: bold;
-  padding: 15px 30px;
-  background-color: #0000;
-  border: 1px solid black;
-  transition: 0.3s ease-in-out;
-
-  &:hover {
-    background-color: $hover-color;
-  }
-}
-
-.goods {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  &__item {
+  &__show-button {
     font-size: 20px;
-    user-select: none;
-  }
-
-  &__buttons {
-    display: flex;
-    gap: 10px;
-  }
-
-  &__button {
-    padding: 5px 10px;
+    font-weight: bold;
+    padding: 15px 30px;
     background-color: #0000;
     border: 1px solid black;
-    transition: 0.3s;
-    outline: none;
-    font-size: 15px;
-
-    &--active {
-      background-color: $hover-color;
-    }
+    transition: 0.3s ease-in-out;
 
     &:hover {
       background-color: $hover-color;
