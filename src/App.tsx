@@ -16,7 +16,7 @@ const goodsFromServer: string[] = [
 
 export const App: React.FC = () => {
   const [goods, setGoods] = useState(goodsFromServer);
-  const [isVisible, setIsXisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const [lengthName, setLengthName] = useState(1);
 
   const reverse = () => {
