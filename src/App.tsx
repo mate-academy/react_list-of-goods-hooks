@@ -14,11 +14,12 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 const numbers: number[] = Array.from(Array(10).keys());
+const defaultMinLength = '1';
 
 const App: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [goods, setGoods] = useState(goodsFromServer);
-  const [goodLength, setGoodLength] = useState('1');
+  const [goodLength, setGoodLength] = useState(defaultMinLength);
 
   const reversedGoods = () => {
     setGoods([...goods].reverse());
@@ -30,6 +31,7 @@ const App: React.FC = () => {
 
   const resetGoods = () => {
     setGoods(goodsFromServer);
+    setGoodLength(defaultMinLength);
   };
 
   const sortByLengthGoods = () => {
