@@ -1,0 +1,16 @@
+.btn {
+  font-size: 16px;
+  padding: 10px;
+
+  &:not(:last-child) {
+    margin-right: 10px;
+  }
+
+  &--start {
+    font-size: 20px;
+    font-weight: bold;
+    width: 150px;
+
+    padding: 20px;
+  }
+}

@@ -1,5 +1,6 @@
-import React from 'react';
-import './App.css';
+import React, { useState } from 'react';
+import './App.scss';
+import { GoodsList } from './Components/GoodsList';
 
 const goodsFromServer: string[] = [
   'Dumplings',
@@ -14,11 +15,87 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-const App: React.FC = () => (
-  <div className="App">
-    <h1>Goods</h1>
-    {goodsFromServer.length}
-  </div>
-);
+const App: React.FC = () => {
+  const [goods, setGoods] = useState([...goodsFromServer]);
+  const [isGoodsVisible, setIsGoodsVisible] = useState(false);
+
+  const showGoodsList = () => {
+    setIsGoodsVisible(true);
+  };
+
+  const reverseGoods = () => {
+    setGoods((currentGoods) => [...currentGoods].reverse());
+  };
+
+  const sortAlphabetical = () => {
+    setGoods((currentGoods) => [...currentGoods]
+      .sort((goodA, goodB) => goodA.localeCompare(goodB)));
+  };
+
+  const sortByLength = () => {
+    setGoods((currentGoods) => [...currentGoods]
+      .sort((goodA, goodB) => goodA.length - goodB.length));
+  };
+
+  const reset = () => {
+    setGoods([...goodsFromServer]);
+  };
+
+  return (
+    <div className="App">
+      <h1>Goods</h1>
+
+      {isGoodsVisible
+        ? (
+          <>
+            <GoodsList
+              goods={goods}
+            />
+
+            <button
+              type="button"
+              className="btn"
+              onClick={reverseGoods}
+            >
+              Reverse
+            </button>
+
+            <button
+              type="button"
+              className="btn"
+              onClick={sortAlphabetical}
+            >
+              Sort alphabetically
+            </button>
+
+            <button
+              type="button"
+              className="btn"
+              onClick={sortByLength}
+            >
+              Sort by Length
+            </button>
+
+            <button
+              type="button"
+              className="btn"
+              onClick={reset}
+            >
+              Reset
+            </button>
+          </>
+        )
+        : (
+          <button
+            type="button"
+            className="btn btn--start"
+            onClick={showGoodsList}
+          >
+            Show
+          </button>
+        )}
+    </div>
+  );
+};
 
 export default App;
