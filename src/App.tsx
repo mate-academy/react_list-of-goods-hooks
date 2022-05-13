@@ -16,36 +16,29 @@ const goodsFromServer: string[] = [
 ];
 
 const App: React.FC = () => {
+  const minLength = 1;
   const [isStarted, setIsStarted] = useState(false);
-  const [reverse, setReverse] = useState(false);
-  const [sortBy, setSortBy] = useState('');
-  const [lengthValue, setLengthValue] = useState(0);
+  const [lengthValue, setLengthValue] = useState(minLength);
+  const [goods, setGoods] = useState([...goodsFromServer]);
 
-  const goods = [...goodsFromServer].filter(good => good.length >= lengthValue);
-  const lengthSelector = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const filteredGoods = [...goods].filter(good => good.length >= lengthValue);
 
   const reset = () => {
-    setReverse(false);
-    setSortBy('');
-    setLengthValue(0);
+    setGoods([...goodsFromServer]);
+    setLengthValue(minLength);
   };
 
-  goods.sort((g1, g2) => {
-    switch (sortBy) {
-      case ('alphabet'):
-        return g1.localeCompare(g2);
+  const reverse = () => {
+    setGoods([...goods].reverse());
+  };
 
-      case ('length'):
-        return g1.length - g2.length;
+  const sortByAlphabet = () => {
+    setGoods([...goods].sort((g1, g2) => g1.localeCompare(g2)));
+  };
 
-      default:
-        return 0;
-    }
-  });
-
-  if (reverse) {
-    goods.reverse();
-  }
+  const sortByLength = () => {
+    setGoods([...goods].sort((g1, g2) => g1.length - g2.length));
+  };
 
   return (
     <div className="App">
@@ -59,11 +52,11 @@ const App: React.FC = () => {
         </button>
       ) : (
         <div className="goods">
-          <GoodsList goods={goods} />
+          <GoodsList goods={filteredGoods} />
           <div className="goods__buttons">
             <button
               type="button"
-              onClick={() => setReverse(!reverse)}
+              onClick={reverse}
               className="goods__button"
             >
               Reverse
@@ -71,10 +64,7 @@ const App: React.FC = () => {
 
             <button
               type="button"
-              onClick={() => {
-                setSortBy('alphabet');
-                setReverse(false);
-              }}
+              onClick={sortByAlphabet}
               className="goods__button"
             >
               Sort alphabetically
@@ -90,10 +80,7 @@ const App: React.FC = () => {
 
             <button
               type="button"
-              onClick={() => {
-                setSortBy('length');
-                setReverse(false);
-              }}
+              onClick={sortByLength}
               className="goods__button"
             >
               Sort by length
@@ -106,7 +93,7 @@ const App: React.FC = () => {
               onChange={(e) => setLengthValue(+e.target.value)}
               defaultValue={lengthValue}
             >
-              {lengthSelector.map(num => (
+              {Array.from({ length: 10 }, (_, i) => i + 1).map(num => (
                 <option
                   key={num}
                   value={num}
