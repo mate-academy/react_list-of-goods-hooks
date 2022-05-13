@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-import { Good, SortBy } from './components/types';
+import { Good } from './components/types';
 
 import './App.css';
 import { GoodsList } from './components/GoodsList/GoodsList';
@@ -21,32 +21,28 @@ const goodsFromServer: Good[] = [
 ].map(good => ({ name: good, id: uuidv4() }));
 
 const App: React.FC = () => {
+  const [goods, setGoods] = useState(goodsFromServer);
   const [isVisibleList, setVisibleList] = useState(false);
-  const [isReversedList, setReversedList] = useState(false);
-  const [sortBy, setSortBy] = useState(SortBy.none);
   const [lengthFilter, setLengthFilter] = useState(1);
 
-  const preparedGoods = [...goodsFromServer]
-    .filter(good => good.name.length >= lengthFilter);
+  const reverseList = () => {
+    setGoods([...goods].reverse());
+  };
 
-  preparedGoods.sort((firstGood, secondGood) => {
-    switch (sortBy) {
-      case SortBy.alphabet:
-        return firstGood.name.localeCompare(secondGood.name);
-      case SortBy.length:
-        return firstGood.name.length - secondGood.name.length;
-      default:
-        return 0;
-    }
-  });
+  const sortByName = () => {
+    setGoods([...goods]
+      .sort((goodA, goodB) => goodA.name.localeCompare(goodB.name)));
+  };
 
-  if (isReversedList) {
-    preparedGoods.reverse();
-  }
+  const sortByLength = () => {
+    setGoods([...goods]
+      .sort((goodA, goodB) => (goodA.name.length - goodB.name.length)));
+  };
+
+  const selectLength = goods.filter(good => good.name.length >= lengthFilter);
 
   const resetOfList = () => {
-    setReversedList(false);
-    setSortBy(SortBy.none);
+    setGoods(goodsFromServer);
     setLengthFilter(1);
   };
 
@@ -69,7 +65,7 @@ const App: React.FC = () => {
             <button
               className="button"
               type="button"
-              onClick={() => setReversedList(!isReversedList)}
+              onClick={reverseList}
             >
               Reverse
             </button>
@@ -77,7 +73,7 @@ const App: React.FC = () => {
             <button
               className="button"
               type="button"
-              onClick={() => setSortBy(SortBy.alphabet)}
+              onClick={sortByName}
             >
               Sort alphabetically
             </button>
@@ -85,7 +81,7 @@ const App: React.FC = () => {
             <button
               className="button"
               type="button"
-              onClick={() => setSortBy(SortBy.length)}
+              onClick={sortByLength}
             >
               Sort by length
             </button>
@@ -111,7 +107,7 @@ const App: React.FC = () => {
         )
       }
       {isVisibleList && (
-        <GoodsList goods={preparedGoods} />
+        <GoodsList goods={selectLength} />
       )}
     </div>
   );
