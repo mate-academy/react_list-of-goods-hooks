@@ -63,7 +63,7 @@ const App: React.FC = () => {
 
       <select name="good" value={length} onChange={handleSubmit}>
         {lengthFromServer.map(len => (
-          <option value={len}>
+          <option key={len} value={len}>
             {len}
           </option>
         ))}
