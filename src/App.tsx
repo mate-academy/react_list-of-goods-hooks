@@ -24,19 +24,19 @@ const App: React.FC = () => {
   const [length, setLength] = useState(1);
 
   const reverseGoods = () => {
-    setGoods([...goods].reverse());
+    setGoods((currentState) => ([...currentState].reverse()));
   };
 
   const sortByLength = () => {
-    setGoods([...goods].sort((g1, g2) => (
+    setGoods((currentState) => ([...currentState].sort((g1, g2) => (
       g1.length - g2.length
-    )));
+    ))));
   };
 
   const sortByAlphabet = () => {
-    setGoods([...goods].sort((g1, g2) => (
+    setGoods((currentState) => ([...currentState].sort((g1, g2) => (
       g1.localeCompare(g2)
-    )));
+    ))));
   };
 
   const toggleVisibility = () => {
