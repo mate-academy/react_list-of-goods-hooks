@@ -1,1 +1,3 @@
-/* put styles here */
+.button:hover {
+  cursor: pointer;
+}
