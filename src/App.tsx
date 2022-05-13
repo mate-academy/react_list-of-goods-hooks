@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.scss';
+import { List } from './List';
 
 const goodsFromServer: string[] = [
   'Dumplings',
@@ -14,10 +15,12 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
+const defaultLength = 1;
+
 export const App: React.FC = () => {
   const [goods, setGoods] = useState(goodsFromServer);
-  const [isVisible, setIsXisible] = useState(false);
-  const [lengthName, setLengthName] = useState(1);
+  const [isVisible, setIsVisible] = useState(false);
+  const [lengthName, setLengthName] = useState(defaultLength);
 
   const reverse = () => {
     setGoods([...goods].reverse());
@@ -33,7 +36,7 @@ export const App: React.FC = () => {
 
   const reset = () => {
     setGoods([...goodsFromServer]);
-    setLengthName(1);
+    setLengthName(defaultLength);
   };
 
   const changeLen = (event: { target: { value: string } }): void => {
@@ -48,13 +51,7 @@ export const App: React.FC = () => {
     ? (
       <div className="app">
         <h1>Goods</h1>
-        <ul className="app__list">
-          {selectLength.map(good => (
-            <li key={good} className="app__list-item">
-              {good}
-            </li>
-          ))}
-        </ul>
+        <List goods={selectLength} />
 
         <div className="app__buttonBox">
           <button
@@ -93,7 +90,7 @@ export const App: React.FC = () => {
             <span className="app__form">min length</span>
             <select value={lengthName} onChange={changeLen}>
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(item => (
-                <option value={item}>{item}</option>
+                <option key={item} value={item}>{item}</option>
               ))}
             </select>
           </form>
@@ -104,7 +101,7 @@ export const App: React.FC = () => {
       <button
         className="app__start"
         type="button"
-        onClick={() => setIsXisible(true)}
+        onClick={() => setIsVisible(!isVisible)}
       >
         START
       </button>
