@@ -1,0 +1,56 @@
+@font-face {
+  font-family: "Bahnschrift";
+  src: url("./fonts/Bahnschrift.ttf");
+}
+
+html {
+  font-family: "Bahnschrift", sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+}
+
+.app {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  &__title {
+    font-size: 4rem;
+    color: #3a3845;
+  }
+
+  &__button {
+    border: 1px solid transparent;
+    background-color: #f7ccac;
+    padding: 7px 14px;
+    border-radius: 3px;
+    transition: 0.3s all;
+    margin-left: 10px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &:hover {
+      background-color: transparent;
+      cursor: pointer;
+      border-color: #f7ccac;
+    }
+  }
+
+  &__list {
+    list-style: none;
+    padding-left: 0;
+    text-align: center;
+  }
+
+  &__item {
+    font-size: 1.5rem;
+    color: #826f66;
+  }
+}
