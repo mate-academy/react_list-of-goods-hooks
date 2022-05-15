@@ -24,16 +24,16 @@ const App: React.FC = () => {
   };
 
   const reverseGoods = () => {
-    setGoods((currentGoods) => [...currentGoods].reverse());
+    setGoods((prevGoods) => [...prevGoods].reverse());
   };
 
   const sortAlphabetical = () => {
-    setGoods((currentGoods) => [...currentGoods]
+    setGoods((prevGoods) => [...prevGoods]
       .sort((goodA, goodB) => goodA.localeCompare(goodB)));
   };
 
   const sortByLength = () => {
-    setGoods((currentGoods) => [...currentGoods]
+    setGoods((prevGoods) => [...prevGoods]
       .sort((goodA, goodB) => goodA.length - goodB.length));
   };
 
