@@ -16,29 +16,23 @@ const goodsFromServer: string[] = [
 ];
 
 const App: React.FC = () => {
+  const [goods, setGoods] = useState(goodsFromServer);
   const [isVisible, setVisibeled] = useState(false);
-  const [isReversed, setReversed] = useState(false);
-  const [sortedBy, setSortedBy] = useState('');
 
-  const prepareProducts = () => {
-    const copyProducts = [...goodsFromServer];
+  const reverse = () => {
+    setGoods([...goods].reverse());
+  };
 
-    copyProducts.sort((productA, productB) => {
-      switch (sortedBy) {
-        case 'alphabet':
-          return productA.localeCompare(productB);
-        case 'length':
-          return productA.length - productB.length;
-        default:
-          return 0;
-      }
-    });
+  const sortAlphabetically = () => {
+    setGoods([...goods].sort((goodA, goodB) => goodA.localeCompare(goodB)));
+  };
 
-    if (isReversed) {
-      copyProducts.reverse();
-    }
+  const sortByLength = () => {
+    setGoods([...goods].sort((goodA, goodB) => goodA.length - goodB.length));
+  };
 
-    return copyProducts;
+  const reset = () => {
+    setGoods([...goodsFromServer]);
   };
 
   return (
@@ -53,36 +47,36 @@ const App: React.FC = () => {
         </button>
       )}
       {isVisible && (
-        <>
-          <ProductsList products={prepareProducts()} />
+        <div>
           <button
             type="button"
-            onClick={() => setReversed(!isReversed)}
+            onClick={reverse}
           >
             Revers
           </button>
           <button
             type="button"
-            onClick={() => setSortedBy('alphabet')}
+            onClick={sortAlphabetically}
           >
             Sort alphabetically
           </button>
           <button
             type="button"
-            onClick={() => setSortedBy('length')}
+            onClick={sortByLength}
           >
             Sort by length
           </button>
           <button
             type="button"
-            onClick={() => {
-              setReversed(false);
-              setSortedBy('');
-            }}
+            onClick={reset}
           >
             Reset
           </button>
-        </>
+        </div>
+      )}
+
+      {isVisible && (
+        <ProductsList products={goodsFromServer} />
       )}
     </div>
   );
