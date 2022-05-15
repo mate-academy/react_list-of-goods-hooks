@@ -76,7 +76,7 @@ const App: React.FC = () => {
       )}
 
       {isVisible && (
-        <ProductsList products={goodsFromServer} />
+        <ProductsList products={goods} />
       )}
     </div>
   );
