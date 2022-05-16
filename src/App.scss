@@ -1,0 +1,60 @@
+.sortList {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  gap: 20px;
+
+  &__button {
+    border: none;
+    transition: all 0.3s;
+
+    &:hover {
+      transform: scale(1.5);
+    }
+
+    &--sort {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      border: 2px solid black;
+      border-radius: 30px;
+      padding: 10px;
+      transition: all 0.3s;
+      width: 120px;
+      height: 128px;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+
+
+      &:hover {
+        transform: scale(1.2);
+        border-radius: 20px;
+        box-shadow: 0 0 10px blue;
+      }
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  &__image {
+    height: 70px;
+    width: 70px;
+  }
+}
+
+.goodsList {
+  font-size: 46px;
+  list-style: none;
+  border: 2px solid black;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 0 5px blue;
+}
+
