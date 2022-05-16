@@ -53,8 +53,10 @@ const App: React.FC = () => {
             Start
           </button>
         ) : (
-          <div>
-            <h1>Goods</h1>
+          <div
+            className="wrap"
+          >
+            <h1 className="App__title">Goods</h1>
             <GoodList goods={goods} />
             <div>
               <button

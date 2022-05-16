@@ -1,3 +1,29 @@
+.button {
+  height: 30px;
+  background-color: rgb(238, 84, 84);
+  border: 2px solid;
+  border-radius: 20px;
+  transition: transform 0.2s;
+}
+
 .button:hover {
   cursor: pointer;
+  background-color: rgb(226, 133, 133);
+  transform: scale(1.1);
+}
+
+.App {
+  display: grid;
+  place-content: center;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.wrap {
+  background-color: rgb(214, 159, 159);
+  border: 1px solid;
+  border-radius: 20px;
+}
+
+.App__title {
+  text-align: center;
 }
