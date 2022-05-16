@@ -18,6 +18,7 @@ const goodsFromServer: string[] = [
 const App: React.FC = () => {
   const [goods, setGoods] = useState([...goodsFromServer]);
   const [isGoodsVisible, setIsGoodsVisible] = useState(false);
+  const [lettersLimit, setLettersLimit] = useState(1);
 
   const showGoodsList = () => {
     setIsGoodsVisible(true);
@@ -38,8 +39,15 @@ const App: React.FC = () => {
   };
 
   const reset = () => {
+    setLettersLimit(1);
     setGoods([...goodsFromServer]);
   };
+
+  const filterByLength = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setLettersLimit(Number(event.currentTarget.value));
+  };
+
+  const listToShow = goods.filter(g => g.length >= lettersLimit);
 
   return (
     <div className="App">
@@ -49,7 +57,7 @@ const App: React.FC = () => {
         ? (
           <>
             <GoodsList
-              goods={goods}
+              goods={listToShow}
             />
 
             <button
@@ -83,6 +91,28 @@ const App: React.FC = () => {
             >
               Reset
             </button>
+
+            <div className="select">
+              Select word Length:
+              {' '}
+              <select
+                name="length"
+                className="select__length"
+                value={lettersLimit}
+                onChange={filterByLength}
+              >
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>
+            </div>
           </>
         )
         : (

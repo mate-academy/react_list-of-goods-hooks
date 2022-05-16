@@ -14,3 +14,16 @@
     padding: 20px;
   }
 }
+
+.select {
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-top: 10px;
+
+  &__length {
+    font-size: 16px;
+    font-weight: bold;
+
+    padding: 10px;
+  }
+}
