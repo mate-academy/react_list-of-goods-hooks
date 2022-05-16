@@ -22,6 +22,7 @@ export const SortableList: FC<Props> = ({ goods }) => {
     return (
       <button
         type="button"
+        className="button"
         onClick={() => unsetHidden(false)}
       >
         Start
@@ -75,7 +76,7 @@ export const SortableList: FC<Props> = ({ goods }) => {
       <div className="sortable-list__buttons">
         <button
           type="button"
-          className="sortable-list__btn"
+          className="sortable-list__btn button"
           onClick={() => setSortBy(SortBy.alphabet)}
         >
           Sort alphabetically
@@ -83,7 +84,7 @@ export const SortableList: FC<Props> = ({ goods }) => {
 
         <button
           type="button"
-          className="sortable-list__btn"
+          className="sortable-list__btn button"
           onClick={() => setSortBy(SortBy.length)}
         >
           Sort by length
@@ -91,7 +92,7 @@ export const SortableList: FC<Props> = ({ goods }) => {
 
         <button
           type="button"
-          className="sortable-list__btn"
+          className="sortable-list__btn button"
           onClick={() => toggleReverse()}
         >
           Reverse
@@ -99,14 +100,14 @@ export const SortableList: FC<Props> = ({ goods }) => {
 
         <button
           type="button"
-          className="sortable-list__btn"
+          className="sortable-list__btn button"
           onClick={() => resetList()}
         >
           Reset
         </button>
 
         <select
-          className="sortable-list__select"
+          className="sortable-list__select button"
           value={minLength}
           onChange={({ target }) => {
             setMinLength(Number(target.value));
@@ -124,8 +125,9 @@ export const SortableList: FC<Props> = ({ goods }) => {
           }
         </select>
       </div>
-
-      <ListOfGoods goods={filteredByLengthGoods} />
+      <div>
+        <ListOfGoods goods={filteredByLengthGoods} />
+      </div>
     </div>
   );
 };

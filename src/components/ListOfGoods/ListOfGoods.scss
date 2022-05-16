@@ -1,5 +1,9 @@
 .goods-list {
-  list-style: none;
-  margin: 0;
+  width: max-content;
+  margin: 0 auto;
   padding: 20px 10px;
+
+  font-size: 1.2em;
+  list-style: none;
+  text-align-last: left;
 }
