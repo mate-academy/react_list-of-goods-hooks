@@ -1,0 +1,44 @@
+h1 {
+  padding-top: 15px;
+  text-align: center;
+}
+
+.App {
+  background-color: silver;
+  width: fit-content;
+  border-radius: 15px;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.button {
+
+  font-family: monospace;
+  background-color: transparent;
+  border-radius: 0.6em;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  width: 150px;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-color: #000;
+  color: rgb(0, 0, 0);
+  box-shadow: 0 0 40px 40px #a7a7a7 inset, 0 0 0 0 #cacaca;
+  transition: all 150ms ease-in-out;
+}
+
+.goods {
+  &__list {
+    border-radius: 15px;
+    padding-left: 5px;
+    font-size: 24px;
+    background-color: darkgray;
+  }
+
+  &__item {
+    list-style: none;
+  }
+}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './App.css';
+import './App.scss';
 import { GoodsList } from './components/GoodsList';
 
 const goodsFromServer: string[] = [
@@ -19,23 +19,25 @@ const App: React.FC = () => {
   const [goods, setGoods] = useState([...goodsFromServer]);
   const [isVisible, setIsVisible] = useState(false);
   const [isReversed, setIsReversed] = useState(false);
-  const [sortByAlphabet, setSrotByAlphabet] = useState(false);
-  const [sortByLength, setSrotByLength] = useState(false);
 
-  if (isReversed) {
-    goods.reverse();
-    setIsReversed(false);
-  }
+  const showGoods = () => {
+    setIsVisible(true);
+  };
 
-  if (sortByAlphabet) {
-    goods.sort((item1, item2) => item1.localeCompare(item2));
-    setSrotByAlphabet(false);
-  }
+  const reverseGoods = () => {
+    setGoods([...goods].reverse());
+    setIsReversed(!isReversed);
+  };
 
-  if (sortByLength) {
-    goods.sort((item1, item2) => item1.length - item2.length);
-    setSrotByLength(false);
-  }
+  const sortByAlphabet = () => {
+    setGoods([...goods]
+      .sort((item1, item2) => item1.localeCompare(item2)));
+  };
+
+  const sortByLength = () => {
+    setGoods([...goods]
+      .sort((item1, item2) => item1.length - item2.length));
+  };
 
   const reset = () => {
     setIsReversed(false);
@@ -49,26 +51,30 @@ const App: React.FC = () => {
         <h1>Goods</h1>
         <GoodsList goods={[...goods]} />
         <button
+          className="button"
           type="button"
-          onClick={() => setIsReversed(true)}
+          onClick={reverseGoods}
         >
           Reverse
         </button>
         <button
+          className="button"
           type="button"
-          onClick={() => setSrotByAlphabet(true)}
+          onClick={sortByAlphabet}
         >
           Srot by alphabet
         </button>
         <button
+          className="button"
           type="button"
           onClick={reset}
         >
           Reset
         </button>
         <button
+          className="button"
           type="button"
-          onClick={() => setSrotByLength(true)}
+          onClick={sortByLength}
         >
           Sort by length
         </button>
@@ -76,8 +82,9 @@ const App: React.FC = () => {
     )
     : (
       <button
+        className="button"
         type="button"
-        onClick={() => setIsVisible(true)}
+        onClick={showGoods}
       >
         Start
       </button>
