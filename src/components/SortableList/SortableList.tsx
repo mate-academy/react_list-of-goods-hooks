@@ -13,24 +13,11 @@ enum SortBy {
 }
 
 export const SortableList: FC<Props> = ({ goods }) => {
-  const [isHidden, unsetHidden] = useState(true);
   const [minLength, setMinLength] = useState(1);
   const [sortProp, setSortBy] = useState(SortBy.none);
   const [isReversed, setReversed] = useState(false);
 
-  if (isHidden) {
-    return (
-      <button
-        type="button"
-        className="button"
-        onClick={() => unsetHidden(false)}
-      >
-        Start
-      </button>
-    );
-  }
-
-  const filteredByLengthGoods = [...goods]
+  const filteredByLengthGoods = goods
     .filter(good => good.length >= minLength);
 
   switch (sortProp) {
