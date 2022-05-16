@@ -1,0 +1,19 @@
+.GoodsList {
+  height: 50vh;
+
+  &__list {
+    list-style: none;
+
+    padding: 40px;
+
+    background-color: #fff;
+    border: none;
+    border-radius: 40px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+  }
+
+  &__item {
+    font-size: 26px;
+    color: #2c5eb6;
+  }
+}
