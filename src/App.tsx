@@ -37,6 +37,7 @@ const App: React.FC = () => {
 
   const reset = () => {
     setGoods([...goodsFromServer]);
+    setItemLength('1');
   };
 
   return (
