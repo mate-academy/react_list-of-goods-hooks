@@ -1,6 +1,5 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useState } from 'react';
 import './App.css';
-import './Component/GoodsList';
 import { GoodsList } from './Component/GoodsList';
 
 const goodsFromServer: string[] = [
@@ -62,7 +61,11 @@ const App: React.FC = () => {
       <h1>Goods</h1>
       <GoodsList goods={visibleGoods} />
 
-      <select name="good" value={length} onChange={handleSubmit}>
+      <select
+        name="good"
+        value={length}
+        onChange={handleSubmit}
+      >
         {lengthFromServer.map(len => (
           <option key={len} value={len}>
             {len}
@@ -70,25 +73,45 @@ const App: React.FC = () => {
         ))}
       </select>
 
-      <button className="sort__button" type="button" onClick={reverse}>
+      <button
+        className="sort__button"
+        type="button"
+        onClick={reverse}
+      >
         reverse
       </button>
 
-      <button className="sort__button" type="button" onClick={sortByLength}>
+      <button
+        className="sort__button"
+        type="button"
+        onClick={sortByLength}
+      >
         Sort by length
       </button>
 
-      <button className="sort__button" type="button" onClick={sortAlphabetically}>
+      <button
+        className="sort__button"
+        type="button"
+        onClick={sortAlphabetically}
+      >
         Sort by Alphabet
       </button>
 
-      <button className="sort__button" type="button" onClick={reset}>
+      <button
+        className="sort__button"
+        type="button"
+        onClick={reset}
+      >
         Reset
       </button>
     </div>
   ) : (
     <div className="wrapper">
-      <button className="start" type="button" onClick={toggleVisibility}>
+      <button
+        className="start"
+        type="button"
+        onClick={toggleVisibility}
+      >
         Start
       </button>
     </div>
