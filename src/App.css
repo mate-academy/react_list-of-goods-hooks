@@ -1,1 +1,48 @@
-/* put styles here */
+body {
+  background-color: lightgreen;
+  color: darkgreen;
+}
+
+.app {
+  padding-top: 20px;
+  font-size: 24px;
+  text-align: center;
+}
+
+.title {
+  text-decoration: underline;
+}
+
+.button-block {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: center;
+}
+
+button,
+.select {
+  width: 150px;
+  height: 50px;
+  font-size: 18px;
+  font-weight: 500;
+  color: darkgreen;
+  background-color: lightgreen;
+  border: 1px solid darkgreen;
+  text-align: center;
+}
+
+button:hover,
+.select:hover {
+  background-color: darkgreen;
+  color: lightgreen;
+}
+
+.goods-list {
+  list-style: none;
+}
+
+.good {
+  padding-top: 10px;
+  text-decoration: underline;
+}
