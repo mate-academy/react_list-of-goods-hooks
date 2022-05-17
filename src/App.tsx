@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import './App.css';
+
 import { GoodsList } from './components/GoodsList';
 import { SortBy } from './enums/SortBy';
+
+import './App.scss';
 
 const goodsFromServer: string[] = [
   'Dumplings',

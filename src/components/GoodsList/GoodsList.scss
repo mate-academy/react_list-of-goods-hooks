@@ -1,0 +1,17 @@
+.goodsList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  justify-content: center;
+  align-items: center;
+
+  padding: 0;
+
+  list-style: none;
+
+  &__item:hover {
+    background-color: rgb(251, 235, 235);
+    border-radius: 5px;
+  }
+}
