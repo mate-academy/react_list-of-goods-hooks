@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import './App.scss';
-import { v4 as uuidv4 } from 'uuid';
-import { SortType, Good } from './types';
 
-const goodsFromServer: Good[] = [
+const goodsFromServer: string[] = [
   'Dumplings',
   'Carrot',
   'Eggs',
@@ -14,15 +12,11 @@ const goodsFromServer: Good[] = [
   'Honey',
   'Jam',
   'Garlic',
-].map(el => ({
-  name: el,
-  id: uuidv4(),
-}));
+];
 
 const App: React.FC = () => {
+  const [goods, setGoods] = useState(goodsFromServer);
   const [isVisibleToggle, setIsVisibleToggle] = useState(false);
-  const [isReversedToggle, setIsReversedToggle] = useState(false);
-  const [sortBy, setSortBy] = useState(SortType.none);
   const [itemLength, setItemLength] = useState('1');
 
   const showGoods = () => {
@@ -30,41 +24,19 @@ const App: React.FC = () => {
   };
 
   const reverse = () => {
-    setIsReversedToggle(!isReversedToggle);
+    setGoods([...goods].reverse());
   };
 
   const sortByAlph = () => {
-    setSortBy(SortType.alph);
+    setGoods([...goods].sort((a, b) => a.localeCompare(b)));
   };
 
   const sortByLength = () => {
-    setSortBy(SortType.length);
+    setGoods([...goods].sort((a, b) => a.length - b.length));
   };
 
   const reset = () => {
-    setSortBy(SortType.none);
-    setIsReversedToggle(false);
-  };
-
-  const preparedGoods = (goods: Good[]) => {
-    const prepareGoods = [...goods];
-
-    prepareGoods.sort((a, b) => {
-      switch (sortBy) {
-        case SortType.alph:
-          return a.name.localeCompare(b.name);
-        case SortType.length:
-          return a.name.length - b.name.length;
-        default:
-          return 0;
-      }
-    });
-
-    if (isReversedToggle) {
-      prepareGoods.reverse();
-    }
-
-    return prepareGoods;
+    setGoods([...goodsFromServer]);
   };
 
   return (
@@ -128,17 +100,17 @@ const App: React.FC = () => {
               </select>
             </div>
             <ul className="App__list">
-              {preparedGoods(goodsFromServer).map(good => {
-                const isVisible = good.name.length >= Number(itemLength);
+              {goods.map(good => {
+                const isVisible = good.length >= Number(itemLength);
 
                 return (
                   isVisible
                   && (
                     <li
-                      key={good.id}
+                      key={good}
                       className="App__list-item"
                     >
-                      {good.name}
+                      {good}
                     </li>
                   )
                 );
