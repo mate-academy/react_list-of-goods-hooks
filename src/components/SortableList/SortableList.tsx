@@ -33,7 +33,6 @@ export const SortableList: FC<Props> = ({ goods }) => {
       ));
       break;
 
-    case SortBy.none:
     default:
       break;
   }

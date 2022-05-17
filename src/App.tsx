@@ -16,18 +16,18 @@ const goodsFromServer: string[] = [
 ];
 
 const App: FC = () => {
-  const [isHidden, unsetHidden] = useState(true);
+  const [visibility, setVisibility] = useState(true);
 
   return (
     <div className="app">
       <h1>Goods</h1>
 
-      {isHidden
+      {visibility
         ? (
           <button
             type="button"
             className="button"
-            onClick={() => unsetHidden(false)}
+            onClick={() => setVisibility(false)}
           >
             Start
           </button>
