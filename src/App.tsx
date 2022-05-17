@@ -1,5 +1,6 @@
-import React from 'react';
+import { FC, useState } from 'react';
 import './App.css';
+import { SortableList } from './components/SortableList';
 
 const goodsFromServer: string[] = [
   'Dumplings',
@@ -14,11 +15,28 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-const App: React.FC = () => (
-  <div className="App">
-    <h1>Goods</h1>
-    {goodsFromServer.length}
-  </div>
-);
+const App: FC = () => {
+  const [visibility, setVisibility] = useState(true);
+
+  return (
+    <div className="app">
+      <h1>Goods</h1>
+
+      {visibility
+        ? (
+          <button
+            type="button"
+            className="button"
+            onClick={() => setVisibility(false)}
+          >
+            Start
+          </button>
+        )
+        : (
+          <SortableList goods={goodsFromServer} />
+        )}
+    </div>
+  );
+};
 
 export default App;
