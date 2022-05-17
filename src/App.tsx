@@ -24,7 +24,7 @@ const App: React.FC = () => {
   const [visibility, setVisibility] = useState(false);
   const [length, setLength] = useState(quant);
 
-  const reverseGoods = () => {
+  const reverse = () => {
     setGoods((currentState) => ([...currentState].reverse()));
   };
 
@@ -34,7 +34,7 @@ const App: React.FC = () => {
     ))));
   };
 
-  const sortByAlphabet = () => {
+  const sortAlphabetically = () => {
     setGoods((currentState) => ([...currentState].sort((a, b) => (
       a.localeCompare(b)
     ))));
@@ -70,7 +70,7 @@ const App: React.FC = () => {
         ))}
       </select>
 
-      <button className="sort__button" type="button" onClick={reverseGoods}>
+      <button className="sort__button" type="button" onClick={reverse}>
         reverse
       </button>
 
@@ -78,7 +78,7 @@ const App: React.FC = () => {
         Sort by length
       </button>
 
-      <button className="sort__button" type="button" onClick={sortByAlphabet}>
+      <button className="sort__button" type="button" onClick={sortAlphabetically}>
         Sort by Alphabet
       </button>
 
