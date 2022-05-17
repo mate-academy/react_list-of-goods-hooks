@@ -115,7 +115,7 @@ const App: React.FC = () => {
           >
             Reset
           </button>
-          <GoodsList goods={goodsFromServer} />
+          <GoodsList goods={goodsList} />
         </>
       )}
     </div>
