@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './GoodList.scss';
 
 type Goods = {
   goodItems: string[]
@@ -42,44 +43,61 @@ export const GoodList: React.FC<Goods> = ({ goodItems }) => {
   return (
     <div className="GoodList">
       <button
+        className="GoodList__button"
         type="button"
         onClick={reverseGoods}
       >
         Reverse
       </button>
       <button
+        className="GoodList__button"
         type="button"
         onClick={sortAlphaBetically}
       >
         Sort alphabetically
       </button>
       <button
+        className="GoodList__button"
         type="button"
         onClick={sortByLength}
       >
         Sort by length
       </button>
       <button
+        className="GoodList__button"
         type="button"
         onClick={resetGoods}
       >
         Reset
       </button>
-      <select
-        name="select"
-        id="select"
-        value={maxLength}
-        onChange={(event) => selectGoods(event.target.value)}
-      >
-        {goods.map(item => (
-          <option key={item} value={`${goods.indexOf(item) + 1}`}>
-            {goods.indexOf(item) + 1}
-          </option>
-        ))}
-      </select>
+      <label className="GoodList__goods">
+        <select
+          className="GoodList__goods-select"
+          name="select"
+          id="select"
+          value={maxLength}
+          onChange={(event) => selectGoods(event.target.value)}
+        >
+          {goods.map(item => (
+            <option
+              key={item}
+              value={`${goods.indexOf(item) + 1}`}
+              className="GoodList__option"
+            >
+              {goods.indexOf(item) + 1}
+            </option>
+          ))}
+        </select>
+      </label>
       <ul>
         {preparedGoods.map((item) => (
-          <li key={item}>{item}</li>
+          <li
+            className="GoodList__goods-list"
+            key={item}
+          >
+            {item}
+          </li
+          >
         ))}
       </ul>
     </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './App.css';
+import './App.scss';
 import { GoodList } from './components/GoodList/GoodList';
 
 const goodsFromServer: string[] = [
@@ -24,13 +24,19 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <h1>Goods</h1>
-      <button type="button" onClick={goodsVisibility}>
+      <h1 className="App__title">Goods</h1>
+      <button
+        type="button"
+        onClick={goodsVisibility}
+        className="App__start-button"
+      >
         {isGoodsVisible ? 'Hide goods' : 'Start'}
       </button>
-      {isGoodsVisible && (
-        <GoodList goodItems={goodsFromServer} />
-      )}
+      <div className="App__wrapper">
+        {isGoodsVisible && (
+          <GoodList goodItems={goodsFromServer} />
+        )}
+      </div>
     </div>
   );
 };
