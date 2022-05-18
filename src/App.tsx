@@ -15,7 +15,6 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-const lengthFromServer: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const quant = 1;
 
 const App: React.FC = () => {
@@ -66,9 +65,9 @@ const App: React.FC = () => {
         value={length}
         onChange={handleSubmit}
       >
-        {lengthFromServer.map(len => (
-          <option key={len} value={len}>
-            {len}
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(longness => (
+          <option key={longness} value={longness}>
+            {longness}
           </option>
         ))}
       </select>
