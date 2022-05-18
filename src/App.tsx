@@ -25,9 +25,8 @@ const App = () => {
 
   const onChange: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
     const { value } = e.currentTarget;
-    const newList = [...goodsFromServer];
 
-    setGoods(newList.filter(good => good.length >= +value));
+    setGoods(goodsFromServer.filter(good => good.length >= +value));
     setLength(+value);
   };
 
