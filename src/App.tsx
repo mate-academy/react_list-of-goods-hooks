@@ -1,5 +1,6 @@
-import React from 'react';
-import './App.css';
+import React, { useState } from 'react';
+import './App.scss';
+import { List } from './List';
 
 const goodsFromServer: string[] = [
   'Dumplings',
@@ -14,11 +15,95 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-const App: React.FC = () => (
-  <div className="App">
-    <h1>Goods</h1>
-    {goodsFromServer.length}
-  </div>
-);
+const defaultLength = 1;
 
-export default App;
+export const App: React.FC = () => {
+  const [goods, setGoods] = useState(goodsFromServer);
+  const [isVisible, setIsVisible] = useState(false);
+  const [lengthName, setLengthName] = useState(defaultLength);
+
+  const reverse = () => {
+    setGoods([...goods].reverse());
+  };
+
+  const sortAlph = () => {
+    setGoods([...goods].sort((i1, i2) => i1.localeCompare(i2)));
+  };
+
+  const sortLength = () => {
+    setGoods([...goods].sort((i1, i2) => i1.length - i2.length));
+  };
+
+  const reset = () => {
+    setGoods([...goodsFromServer]);
+    setLengthName(defaultLength);
+  };
+
+  const changeLen = (event: { target: { value: string } }): void => {
+    const { value } = event.target;
+
+    setLengthName(+value);
+  };
+
+  const selectLength = goods.filter(good => good.length >= lengthName);
+
+  return isVisible
+    ? (
+      <div className="app">
+        <h1>Goods</h1>
+        <List goods={selectLength} />
+
+        <div className="app__buttonBox">
+          <button
+            className="app__button"
+            type="button"
+            onClick={reverse}
+          >
+            Reverse
+          </button>
+
+          <button
+            className="app__button"
+            type="button"
+            onClick={sortAlph}
+          >
+            Sort alphabetically
+          </button>
+
+          <button
+            className="app__button"
+            type="button"
+            onClick={sortLength}
+          >
+            Sort by length
+          </button>
+
+          <button
+            className="app__button"
+            type="button"
+            onClick={reset}
+          >
+            Reset
+          </button>
+
+          <form method="GET" className="app__form">
+            <span className="app__form">min length</span>
+            <select value={lengthName} onChange={changeLen}>
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(item => (
+                <option key={item} value={item}>{item}</option>
+              ))}
+            </select>
+          </form>
+        </div>
+      </div>
+    )
+    : (
+      <button
+        className="app__start"
+        type="button"
+        onClick={() => setIsVisible(!isVisible)}
+      >
+        START
+      </button>
+    );
+};

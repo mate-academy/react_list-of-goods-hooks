@@ -1,0 +1,38 @@
+.app {
+
+  &__start {
+    height: 50px;
+    width: 150px;
+    background-color: aquamarine;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  &__list {
+    list-style: none;
+
+    &-item {
+      color: green;
+      font-size: 20px;
+    }
+  }
+
+  &__buttonBox {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  &__button {
+    height: 60px;
+    width: 150px;
+    font-size: 20px;
+    background-color: aquamarine;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  &__form {
+    font-size: 20px;
+    background-color: aquamarine;
+  }
+}
