@@ -1,7 +1,21 @@
+.App {
+  border: 4px solid burlywood;
+  width: fit-content;
+}
+
 .title {
   font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  justify-content: center;
 }
 
 .button {
-  margin-right: 5px;
+  margin: 5px;
+  min-width: 100px;
+  font-size: medium;
+  transition: box-shadow 0.3s;
+}
+
+.button:hover {
+  box-shadow: 0 0 15px 1px rgba(24,20,255,0.56);
 }
