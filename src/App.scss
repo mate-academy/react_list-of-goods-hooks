@@ -1,0 +1,42 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.goods-list {
+  height: 100vh;
+  background-color: #2c5eb6;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  &__btn {
+    padding: 30px 60px;
+    margin-left: 20px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    border: none;
+    border-radius: 40px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+
+    font-size: 24px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    color: #2c5eb6;
+
+    transition: transform 1s ease;
+
+    &:hover {
+      transform: translateY(20px);
+    }
+  }
+}
