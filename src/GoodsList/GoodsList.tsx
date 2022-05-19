@@ -9,7 +9,7 @@ export const GoodsList: React.FC<Props> = ({ goods }) => {
   return (
     <>
       <ul className="list">
-        <h1>List of goods:</h1>
+        <h2>List of goods:</h2>
         {goods.map(good => (
           <li key={good} className="list__item">
             <span>{good}</span>
