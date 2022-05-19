@@ -41,7 +41,7 @@ const App: React.FC = () => {
   };
 
   const goodsList = useMemo(() => {
-    return [...goodsFromServer]
+    return goodsFromServer
       .filter(good => good.length >= goodsLength)
       .sort((first, last) => {
         switch (sortGoods) {
