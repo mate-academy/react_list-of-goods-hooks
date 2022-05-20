@@ -1,1 +1,135 @@
-/* put styles here */
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+.background-main {
+  animation: slide 3s ease-in-out infinite alternate;
+  background-image: linear-gradient(-60deg, rgb(234, 0, 255) 50%,
+  rgb(0, 255, 242) 50%);
+  bottom: 0;
+  left: -50%;
+  opacity: 0.4;
+  position: fixed;
+  right: -50%;
+  top: 0;
+  z-index: -1;
+}
+
+.background-1 {
+  animation-direction: alternate-reverse;
+  animation-duration: 4s;
+}
+
+.background-2 {
+  animation-duration: 5s;
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(-25%);
+  }
+  100% {
+    transform: translateX(25%);
+  }
+}
+
+.App {
+  display: grid;
+  place-items: center;
+  background-color: rgba(255,255,255,0.8);
+  border-radius: 0.25em;
+  box-shadow: 0 0 0.25em rgba(0,0,0,0.25);
+  box-sizing: border-box;
+  left: 50%;
+  padding: 10vmin;
+  position: fixed;
+  text-align: center;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.App__content {
+  margin: 30px;
+}
+
+.App__content h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #39e1ff;
+}
+
+.App__buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.button-start {
+  margin: 100px;
+  padding: 15px 30px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  border-radius: 10px;
+  display: block;
+  border: 0;
+  font-weight: 700;
+  box-shadow: 0 0 14px -7px #f09819;
+  background-image: linear-gradient(45deg, #4af3ff 0%,
+  #ff26f1  51%, #1fdaff  100%);
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.button-start:hover {
+  background-position: right center;
+  color: #fff;
+  text-decoration: none;
+}
+
+.button-start:active {
+  transform: scale(0.95);
+}
+
+.button {
+  background-color: #fbeee0;
+  border: 2px solid #422800;
+  border-radius: 30px;
+  box-shadow: #422800 4px 4px 0 0;
+  color: #422800;
+  cursor: pointer;
+  display: block;
+  font-weight: 600;
+  font-size: 16px;
+  margin-right: 15px;
+  padding: 0 12px;
+  line-height: 30px;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.button:hover {
+  background-image: linear-gradient(45deg, #4ab7ff 25%,
+  #7bcbfd  51%, #cb1fff  100%);
+}
+
+.button:active {
+  box-shadow: #422800 2px 2px 0 0;
+  transform: translate(2px, 2px);
+}
+
+@media (min-width: 768px) {
+  .button {
+    min-width: 120px;
+    padding: 0 25px;
+  }
+}
