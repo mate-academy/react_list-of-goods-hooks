@@ -1,0 +1,19 @@
+.goodslist {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: left;
+  width: 200px;
+  list-style: none;
+
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3px;
+    padding-left: 4px;
+    font-size: 20px;
+    border: 1px solid black;
+    border-radius: 4px;
+    background-color: #6de86d;
+  }
+}
