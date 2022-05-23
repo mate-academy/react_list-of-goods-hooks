@@ -1,1 +1,42 @@
-/* put styles here */
+body {
+  margin: 0;
+  background-color: #452884;
+}
+
+.App {
+  color: white;
+}
+
+.App__title {
+  text-align: center;
+}
+
+.App__body {
+  margin: 0 100px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 30px;
+  grid-auto-rows: minmax(30px, auto);
+}
+
+.App__button {
+  display: grid;
+  background-color: #431326;
+  color: white;
+  width: 200px;
+  padding: 30px;
+  font-size: 32px;
+  align-items: center;
+  justify-content: center;
+}
+
+.App__list {
+  font-size: 32px;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+.App__selector {
+  width: 50px;
+}
