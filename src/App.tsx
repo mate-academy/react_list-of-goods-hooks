@@ -16,10 +16,10 @@ const goodsFromServer: string[] = [
 
 const App: React.FC = () => {
   const [goods, setGoods] = useState(goodsFromServer);
-  const [isHidden, setIsHidden] = useState(false);
+  const [isHidden, setIsHidden] = useState(true);
 
   const setHidden = () => {
-    setIsHidden(true);
+    setIsHidden(false);
   };
 
   const reverse = () => {
@@ -45,59 +45,56 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <h1 className="title">List of goods</h1>
-      <button
-        type="button"
-        className="button"
-        hidden={isHidden}
-        onClick={setHidden}
-      >
-        Start
-      </button>
-      <ul
-        className="list"
-        hidden={!isHidden}
-      >
-        {goods.map(item => (
-          <li
-            key={item}
-            className="list__item"
+      {isHidden ? (
+        <button
+          type="button"
+          className="button"
+          onClick={setHidden}
+        >
+          Start
+        </button>
+      ) : (
+        <>
+          <ul className="list">
+            {goods.map(item => (
+              <li
+                key={item}
+                className="list__item"
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
+          <button
+            type="button"
+            className="button"
+            onClick={reverse}
           >
-            {item}
-          </li>
-        ))}
-      </ul>
-      <button
-        type="button"
-        className="button"
-        hidden={!isHidden}
-        onClick={reverse}
-      >
-        Reverse
-      </button>
-      <button
-        type="button"
-        className="button"
-        hidden={!isHidden}
-        onClick={sortAlphabetically}
-      >
-        Sort alphabetically
-      </button>
-      <button
-        type="button"
-        className="button"
-        hidden={!isHidden}
-        onClick={sortByLength}
-      >
-        Sort by length
-      </button>
-      <button
-        type="button"
-        className="button"
-        hidden={!isHidden}
-        onClick={reset}
-      >
-        Reset
-      </button>
+            Reverse
+          </button>
+          <button
+            type="button"
+            className="button"
+            onClick={sortAlphabetically}
+          >
+            Sort alphabetically
+          </button>
+          <button
+            type="button"
+            className="button"
+            onClick={sortByLength}
+          >
+            Sort by length
+          </button>
+          <button
+            type="button"
+            className="button"
+            onClick={reset}
+          >
+            Reset
+          </button>
+        </>
+      )}
     </div>
   );
 };
