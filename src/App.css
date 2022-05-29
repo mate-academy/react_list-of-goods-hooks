@@ -1,1 +1,61 @@
-/* put styles here */
+.App {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin: auto;
+  padding: 10px;
+  width: 400px;
+  border: 5px solid black;
+  border-radius: 50px;
+  background-color: bisque;
+}
+
+.title {
+  padding: 10px;
+  text-align: center;
+  font-size: 25px;
+  color: blue;
+  width: 300px;
+  border: 2px solid black;
+  border-radius: 50px;
+  background-color: aliceblue;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  font-size: 20px;
+}
+
+.list__item {
+  text-align: center;
+  margin: 10px;
+  padding: 5px;
+  width: 200px;
+  border: 2px solid black;
+  border-radius: 20px;
+  background-color: aliceblue;
+  color: brown;
+}
+
+.button {
+  cursor: pointer;
+  font-size: 18px;
+  margin-bottom: 10px;
+  width: 180px;
+  height: 40px;
+  border: 2px solid black;
+  border-radius: 20px;
+  background-color: plum;
+}
+
+.button:hover {
+  border-radius: 20px;
+  transform: scale(1.2);
+  box-shadow: 0 0 25px blue;
+  color: red;
+}
