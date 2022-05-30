@@ -36,20 +36,6 @@
     border: 5px solid #000;
   }
 
-  &__list {
-    list-style: none;
-    padding: 20px;
-    margin: 0;
-    width: 280px;
-    border: 1px solid #000;
-    border-radius: 10px;
-    box-shadow: 10px 5px 5px #000;
-  }
-
-  &__item {
-    font-size: 24px;
-  }
-
   &__buttons {
     display: flex;
     justify-content: space-between;

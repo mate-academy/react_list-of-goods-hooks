@@ -1,24 +1,16 @@
 import React, { useState } from 'react';
-import './App.scss';
 
-const goodsFromServer: string[] = [
-  'Dumplings',
-  'Carrot',
-  'Eggs',
-  'Ice cream',
-  'Apple',
-  'Bread',
-  'Fish',
-  'Honey',
-  'Jam',
-  'Garlic',
-];
+import goodsFromServer from './api/goodsFromServer.json';
+
+import { GoodsList } from './components/GoodsList';
+import './App.scss';
 
 const App: React.FC = () => {
   const [goods, setGoods] = useState(goodsFromServer);
   const [isVisiable, setIsVisiable] = useState(true);
   const [goodLength, setGoodLength] = useState(1);
   const [isReversed, setIsReversed] = useState(false);
+  const [sortBy, setSortBy] = useState('');
 
   const copyGoods = [...goods].filter(
     good => good.length >= goodLength,
@@ -29,6 +21,17 @@ const App: React.FC = () => {
 
     setGoodLength(+selectValue);
   };
+
+  copyGoods.sort((name1, name2) => {
+    switch (sortBy) {
+      case 'alph':
+        return name1.localeCompare(name2);
+      case 'length':
+        return name1.length - name2.length;
+      default:
+        return 0;
+    }
+  });
 
   if (isReversed) {
     copyGoods.reverse();
@@ -53,13 +56,7 @@ const App: React.FC = () => {
       {!isVisiable && (
         <div className="App__content">
           <h1 className="App__title">Goods</h1>
-          <ul className="App__list">
-            {copyGoods.map(good => (
-              <li className="App__item" key={good}>
-                {good}
-              </li>
-            ))}
-          </ul>
+          <GoodsList copyGoods={copyGoods} />
           <div className="App__buttons">
             <button
               className="App__button"
@@ -71,9 +68,7 @@ const App: React.FC = () => {
             <button
               className="App__button"
               type="button"
-              onClick={
-                () => setGoods(copyGoods.sort((a, b) => a.localeCompare(b)))
-              }
+              onClick={() => setSortBy('alph')}
             >
               Sort alphabetically
             </button>
@@ -87,9 +82,7 @@ const App: React.FC = () => {
             <button
               className="App__button"
               type="button"
-              onClick={
-                () => setGoods(copyGoods.sort((a, b) => a.length - b.length))
-              }
+              onClick={() => setSortBy('length')}
             >
               Sort by length
             </button>
