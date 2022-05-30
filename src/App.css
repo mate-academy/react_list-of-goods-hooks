@@ -1,1 +1,13 @@
 /* put styles here */
+.main {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+}
+
+.select {
+  width: 200px;
+}
