@@ -30,10 +30,8 @@ export const Goods: React.FC<Props> = ({
         return w1.length - w2.length;
       });
       break;
-    case 'initial':
-      goodsSorted = [...goods];
-      break;
     default:
+      goodsSorted = [...goods];
       break;
   }
 

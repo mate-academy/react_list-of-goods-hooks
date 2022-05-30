@@ -40,11 +40,17 @@ const mainBoxStyled = {
   bgcolor: 'background.paper',
 };
 
+enum SortBy {
+  length = 'length',
+  alphabet = 'alphabet',
+  initial = 'initial',
+}
+
 const App: React.FC = () => {
-  const [showGoods, setShowGoods] = useState(false);
-  const [sortBy, setSortBy] = useState('initial');
-  const [isReversed, setIsReversed] = useState(false);
-  const [filterLength, setFilterLength] = useState(1);
+  const [showGoods, setShowGoods] = useState<true | false>(false);
+  const [sortBy, setSortBy] = useState<SortBy>(SortBy.initial);
+  const [isReversed, setIsReversed] = useState<true | false>(false);
+  const [filterLength, setFilterLength] = useState<number>(1);
 
   return (
     <Box sx={mainBoxStyled}>
@@ -70,14 +76,14 @@ const App: React.FC = () => {
           <Box sx={{ width: '100%', display: 'grid', gap: '20px' }}>
             <Button
               variant="contained"
-              onClick={() => setSortBy('alphabet')}
+              onClick={() => setSortBy(SortBy.alphabet)}
             >
               Sort alphabetically
             </Button>
 
             <Button
               variant="contained"
-              onClick={() => setSortBy('length')}
+              onClick={() => setSortBy(SortBy.length)}
             >
               Sort by length
             </Button>
@@ -93,7 +99,7 @@ const App: React.FC = () => {
               variant="outlined"
               startIcon={<DeleteIcon />}
               onClick={() => {
-                setSortBy('initial');
+                setSortBy(SortBy.initial);
                 setFilterLength(1);
               }}
               color="error"
