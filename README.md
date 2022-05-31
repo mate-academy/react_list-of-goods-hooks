@@ -6,13 +6,12 @@
 ## Tasks
 > Starting from this task you should use ONLY functional components
 
-1. At first show a button `Start` on the page
-2. After clicking the button show a `GoodsList` (ul > li) with the given goods and hide the button
-3. Add `Reverse` button to show the goods in reversed order
-4. Add `Sort alphabetically` button to show the goods in alphabetical order
-5. Add `Reset` button to show the goods in the initial order
-6. Add `Sort by length` button to show the goods ordered by name length
-
+1. At first show a button with text `Start` on the page
+2. Clicking the button shows a `GoodsList` (ul > li) with the given goods and hides the `Start` button
+3. Add button with text `Reverse` to show the goods in reversed order
+4. Add button with text `Sort alphabetically` to show the goods in alphabetical order
+5. Add button with text `Reset` to show the goods in the initial order
+6. Add button with text `Sort by length` to show the goods ordered by name length
 
 ## (*) Advanced tasks (require understanding of Forms in React)
 1. Add `<select>` with numbers from 1 to 10. (1 is default). All the previous buttons
