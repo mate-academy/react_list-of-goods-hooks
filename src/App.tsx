@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './App.css';
+import List from './components/List';
 
 const goodsFromServer: string[] = [
   'Dumplings',
@@ -18,10 +19,6 @@ const App: React.FC = () => {
   const [showList, setShowList] = useState(false);
   const [list, setList] = useState(goodsFromServer);
   const [minLength, setMinLength] = useState(1);
-
-  useEffect(() => {
-    setList([...goodsFromServer].filter(word => word.length >= minLength));
-  }, [minLength]);
 
   function changeMinLength(e: { target: { value: string; }; }) {
     setMinLength(+e.target.value);
@@ -44,6 +41,11 @@ const App: React.FC = () => {
       default:
         return list;
     }
+  }
+
+  function resetList() {
+    setList(goodsFromServer);
+    setMinLength(1);
   }
 
   if (!showList) {
@@ -81,7 +83,7 @@ const App: React.FC = () => {
         <button
           type="button"
           className="btn btn-outline-danger"
-          onClick={() => setList([...goodsFromServer])}
+          onClick={resetList}
         >
           Reset
         </button>
@@ -107,15 +109,7 @@ const App: React.FC = () => {
           ))
         }
       </select>
-      <ul className="list-group">
-        {list.map(item => {
-          return (
-            <li className="list-group-item text-center" key={item}>
-              {item}
-            </li>
-          );
-        })}
-      </ul>
+      <List goods={list.filter(item => item.length >= minLength)} />
     </div>
   );
 };
