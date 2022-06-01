@@ -1,0 +1,62 @@
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: max-content;
+
+  &__start {
+    margin-top: 60px;
+    width: 280px;
+    height: 60px;
+    background-color: darkgoldenrod;
+    color: #000;
+    border: 2px solid #000;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 24px;
+
+    &:hover {
+      background-color: #000;
+      color: darkgoldenrod;
+      border-color: darkgoldenrod;
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: darkgoldenrod;
+    margin: 0;
+    height: max-content;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 60px;
+    border-radius: 30px;
+    border: 5px solid #000;
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 60px;
+    gap: 60px;
+    flex-wrap: wrap;
+  }
+
+  &__button {
+    width: 140px;
+    height: 60px;
+    font-size: 20px;
+    background-color: #000;
+    color: darkgoldenrod;
+    border-radius: 10px;
+    border-color: 1px solid darkgoldenrod;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.2);
+      transition-delay: 0.3s;
+    }
+  }
+}
