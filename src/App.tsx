@@ -22,6 +22,11 @@ const App: React.FC = () => {
   const [SortBy, selectSort] = useState(SortType.Nothing);
   const [lengthMin, changeMinimum] = useState(1);
 
+  const Sort = (sortType: SortType) => {
+    selectSort(sortType);
+    makeReverse(false);
+  }
+
   return (
     <div className="App">
       <h1>Goods</h1>
@@ -42,13 +47,13 @@ const App: React.FC = () => {
           <br />
           <button
             type="button"
-            onClick={() => selectSort(SortType.Alfabet)}
+            onClick={() => Sort(SortType.Alfabet)}
           >
             Sort by alfabet
           </button>
           <button
             type="button"
-            onClick={() => selectSort(SortType.Length)}
+            onClick={() => Sort(SortType.Length)}
           >
             Sort by length
           </button>
