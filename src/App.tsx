@@ -22,6 +22,7 @@ const App: React.FC<Props> = () => {
   const [goodsList, setGoodsList] = useState([...goodsFromServer]);
   const [visibility, setVisibility] = useState(false);
   const [lengthLimit, setLengthLimit] = useState(1);
+  const [product, setProduct] = useState('');
 
   const visibilitySwitch = () => {
     setVisibility(prevVis => !prevVis);
@@ -54,6 +55,11 @@ const App: React.FC<Props> = () => {
       .filter(good => good.length >= +event.target.value));
   };
 
+  const addToList = () => {
+    setGoodsList(prevList => [...prevList, product]);
+    setProduct('');
+  };
+
   return (
     <div className="App has-text-centered">
       <br />
@@ -79,6 +85,26 @@ const App: React.FC<Props> = () => {
                 <option key={`${item}${index + 1}`} value={index + 1}>{index + 1}</option>
               ))}
             </select>
+          </div>
+          <br />
+          <div className="columns is-centered is-multiline">
+            <div className="column is-one-fifth">
+              <input
+                type="text"
+                value={product}
+                className="input is-success is-light is-outlined is-rounded"
+                onChange={(e) => setProduct(e.target.value)}
+              />
+            </div>
+            <div className="column is-one-fifth is-pulled-left">
+              <button
+                type="button"
+                className="button is-success is-light is-outlined is-rounded"
+                onClick={addToList}
+              >
+                Click to Add
+              </button>
+            </div>
           </div>
           <GoodsList goods={goodsList} />
         </>
