@@ -1,0 +1,23 @@
+@import "./styles/fonts.scss";
+@import "./styles/variables.scss";
+@import "./styles/global.scss";
+
+.app {
+  &__header {
+    user-select: none;
+    text-align: center;
+  }
+
+  &__show-button {
+    font-size: 20px;
+    font-weight: bold;
+    padding: 15px 30px;
+    background-color: #0000;
+    border: 1px solid black;
+    transition: 0.3s ease-in-out;
+
+    &:hover {
+      background-color: $hover-color;
+    }
+  }
+}
