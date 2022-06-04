@@ -70,7 +70,7 @@ const App: React.FC<Props> = () => {
           />
           <ButtonGenerator name="Reset" method={resetList} />
           <ButtonGenerator name="Sort by length" method={sortbyLength} />
-          <div className="select is-rounded is-info is-light is-outlined">
+          <div className="select is-rounded is-success is-light is-outlined">
             <select
               value={lengthLimit}
               onChange={changeLimit}
