@@ -1,1 +1,60 @@
-/* put styles here */
+html {
+  font-family: sans-serif;
+  box-sizing: border-box;
+}
+
+.App {
+  margin: 0 auto;
+  width: 450px;
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  border: 3px solid #b7ff4c;
+  border-radius: 10px;
+
+  background-color: #deedcd;
+}
+
+.title {
+  color: #2f5e00;
+}
+
+.button {
+  margin: 4px;
+  padding: 5px;
+  background-color: #d8eda5;
+  border: 3px solid #66803c;
+  border-radius: 7px;
+
+  transition: box-shadow, transform 0.5s;
+}
+
+.button:hover {
+  box-shadow: 1px 1px 20px #b7ff4c;
+  transform: scale(1.1);
+}
+
+.list {
+  margin-bottom: 0;
+  padding: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  list-style: none;
+}
+
+.item {
+  color: #526435;
+  margin-bottom: 5px;
+}
+
+.item:last-child {
+  margin-bottom: 0;
+}
