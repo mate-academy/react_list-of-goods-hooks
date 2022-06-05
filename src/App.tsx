@@ -14,14 +14,15 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-const App: React.FC = () => {
+export const App: React.FC = () => {
   const [status, isVisible] = useState(false);
   const [goods, setGoods] = useState([...goodsFromServer]);
   const [filteredNumber, setFilterNumber] = useState(1);
 
-  const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const numbers: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-  const filterGoods = [...goods].filter(good => good.length <= filteredNumber);
+  const filterGoods: string[] = [...goods]
+    .filter(good => good.length <= filteredNumber);
 
   return (
     <div className="App">
@@ -95,4 +96,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+// export default App;
