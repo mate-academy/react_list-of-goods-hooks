@@ -78,7 +78,7 @@ const App: React.FC = () => {
               onChange={(event) => setFilterNumber(+event.currentTarget.value)}
             >
               {numbers.map(number => (
-                <option value={number}>{number}</option>
+                <option value={number} key={number}>{number}</option>
               ))}
 
             </select>
