@@ -86,9 +86,8 @@ const App: React.FC<Props> = () => {
               ))}
             </select>
           </div>
-          <br />
-          <div className="columns is-centered is-multiline">
-            <div className="column is-one-fifth">
+          <div className="field has-addons has-addons-centered mt-4">
+            <div className="control is-one-fifth">
               <input
                 type="text"
                 value={product}
@@ -96,7 +95,7 @@ const App: React.FC<Props> = () => {
                 onChange={(e) => setProduct(e.target.value)}
               />
             </div>
-            <div className="column is-one-fifth is-pulled-left">
+            <div className="control is-one-fifth is-pulled-left">
               <button
                 type="button"
                 className="button is-success is-light is-outlined is-rounded"
