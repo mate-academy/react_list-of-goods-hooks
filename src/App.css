@@ -1,1 +1,13 @@
-/* put styles here */
+body {
+  background-color: rgb(53, 50, 50);
+  height: 100vh;
+}
+
+.App {
+  padding: 20px 10px;
+  width: 500px;
+  margin: 0 auto;
+  text-align: center;
+  border-radius: 30px;
+  border: 2px solid ;
+}
