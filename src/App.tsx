@@ -55,43 +55,39 @@ const App: React.FC = () => {
           : 'Show goods'}
       </button>
       {isGoodsVisible
-      && (
-        <GoodsList goods={goods} />
-      )}
-      {isGoodsVisible
-      && (
-        <>
-          <button
-            type="button"
-            className="btn-primary"
-            onClick={reverseGoods}
-          >
-            Reverse
-          </button>
-          <button
-            type="button"
-            className="btn-primary"
-            onClick={sortAlphabetically}
-          >
-            Sort alphabetically
-          </button>
-          <button
-            type="button"
-            className="btn-primary"
-            onClick={sortByLength}
-          >
-            Sort by length
-          </button>
-          <button
-            type="button"
-            className="btn-primary"
-            onClick={reset}
-          >
-            Reset
-          </button>
-        </>
-
-      )}
+        && (
+          <>
+            <GoodsList goods={goods} />
+            <button
+              type="button"
+              className="btn-primary"
+              onClick={reverseGoods}
+            >
+              Reverse
+            </button>
+            <button
+              type="button"
+              className="btn-primary"
+              onClick={sortAlphabetically}
+            >
+              Sort alphabetically
+            </button>
+            <button
+              type="button"
+              className="btn-primary"
+              onClick={sortByLength}
+            >
+              Sort by length
+            </button>
+            <button
+              type="button"
+              className="btn-primary"
+              onClick={reset}
+            >
+              Reset
+            </button>
+          </>
+        )}
     </div>
   );
 };
