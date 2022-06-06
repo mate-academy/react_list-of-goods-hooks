@@ -80,7 +80,7 @@ const App: React.FC<Props> = () => {
                 value={lengthLimit}
                 onChange={changeLimit}
               >
-                {Array(10).map((_, index) => (
+                {Array(10).fill('').map((_, index) => (
                   <option key={`${index + 1}`} value={index + 1}>{index + 1}</option>
                 ))}
               </select>
