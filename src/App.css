@@ -1,1 +1,89 @@
-/* put styles here */
+html {
+  font-family: "Lucida Grande", "Lucida Sans Unicode", sans-serif;
+}
+
+.app {
+  width: 200px;
+  margin: auto;
+  padding-bottom: 10px;
+  border: 1px solid rgb(227, 198, 164);
+  border-radius: 20px;
+}
+
+.app__title {
+  font-size: 46px;
+  font-weight: bold;
+  color: coral;
+  text-align: center;
+  margin: 0 0 10px;
+}
+
+.container {
+  text-align: center;
+}
+
+.list {
+  padding: 0;
+}
+
+.list__item {
+  list-style: none;
+  color: darkolivegreen;
+  font-size: 16px;
+  text-align: center;
+}
+
+.button__start {
+  text-align: center;
+  /* justify-content: center; */
+  /* margin: auto; */
+  /* align-items: center; */
+  height: 50px;
+  width: 50px;
+  border-radius: 10px;
+  font-weight: bold;
+  color: bisque;
+  background-color: coral;
+  border: none;
+  transition: background-color 300ms;
+}
+
+.button__start:hover {
+  background-color: rgb(255, 103, 47);
+}
+
+.button {
+  cursor: pointer;
+  height: 20px;
+  width: 150px;
+  color: rgb(106, 106, 106);
+  border-radius: 4px;
+  background-color: bisque;
+  border: 2px solid coral;
+  margin-bottom: 4px;
+}
+
+.button:hover {
+  background-color: rgb(251, 209, 157);
+}
+
+.button:focus {
+  background-color: coral;
+  color: bisque;
+}
+
+.button__finish {
+  height: 50px;
+  width: 50px;
+  border-radius: 10px;
+  font-weight: bold;
+  color: bisque;
+  background-color: coral;
+  border: none;
+  transition: background-color 300ms;
+  justify-content: center;
+}
+
+.button__finish:hover {
+  background-color: rgb(255, 103, 47);
+}
