@@ -61,8 +61,7 @@ const App: React.FC<Props> = () => {
   };
 
   return (
-    <div className="App has-text-centered">
-      <br />
+    <div className="App has-text-centered pt-6">
       <h1 className="title is-1">Goods list sorting</h1>
       {(!visibility)
         ? (<ButtonGenerator name="Start" method={visibilitySwitch} />)
