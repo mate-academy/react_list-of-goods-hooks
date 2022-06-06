@@ -1,0 +1,21 @@
+/* put styles here */
+.App {
+  text-align: center;
+  height: 100vh;
+  background-color: #acdc;
+  padding: 50px;
+
+  &__title {
+    font-size: 30px;
+    font-weight: bold;
+  }
+
+  &__item {
+    font-size: 25px;
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: space-evenly;
+  }
+}
