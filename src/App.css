@@ -1,1 +1,19 @@
-/* put styles here */
+@import "bulma/css/bulma.min.css";
+
+.box {
+  margin: auto;
+  margin-top: 50px;
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: max-content;
+  font-family: "Dancing Script", cursive;
+  background-color: rgb(163, 163, 163);
+  border: 3px solid cadetblue;
+  border-radius: 15px;
+}
+
+.button {
+  margin-top: 10px;
+}
