@@ -1,1 +1,24 @@
-/* put styles here */
+.app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.app-container {
+  border: 2px solid #48c78e;
+  border-radius: 10px;
+  padding: 20px;
+
+}
+
+.button-block {
+  border: 2px solid #48c78e;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.button-close {
+  display: flex;
+  justify-content: center;
+}
