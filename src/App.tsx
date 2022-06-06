@@ -166,7 +166,7 @@ const App:React.FC = () => {
                 type="button"
                 onClick={isVisibleFn}
               >
-                Hide
+                Hide list
               </button>
             </div>
 
