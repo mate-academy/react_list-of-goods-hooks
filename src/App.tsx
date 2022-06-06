@@ -70,12 +70,12 @@ const App:React.FC = () => {
       {isVisible
         && (
           <section className="box App__section">
-            <div className="is-flex is-justify-content-center mt-6">
+            <div className="App__title is-flex is-justify-content-center">
               <h1
                 className="
                 title is-1
                 is-inline-block
-                has-text-white has-background-grey-darker"
+                has-text-white"
               >
                 GoodsList:
               </h1>
@@ -83,14 +83,13 @@ const App:React.FC = () => {
 
             <div className="level-right">
               <h3 className="
-                mr-2 is-size-4
-                has-text-white
-                has-background-grey-darker"
+                mr-4 is-size-4
+                has-text-white"
               >
                 min length:
               </h3>
 
-              <div className="select">
+              <div className="select is-info">
                 <select
                   value={lengthValue}
                   onChange={(event) => {
@@ -118,7 +117,7 @@ const App:React.FC = () => {
                   key={good}
                 >
                   <h3
-                    className="title is-3 has-text-white"
+                    className="title is-4 has-text-white mb-1"
                   >
                     {good}
                   </h3>

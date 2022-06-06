@@ -4,19 +4,22 @@
   background-position: bottom;
   background-size: contain;
 
+  &__title {
+    margin-top: 150px;
+  }
+
   &__start {
     padding: 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 550px;
     margin: auto;
   }
 
   &__section {
     background-image: url(./images/food_small.jpg);
     background-size: 100%;
-    width: 550px;
+    width: 580px;
     margin: auto;
     border: 1px solid white;
   }
