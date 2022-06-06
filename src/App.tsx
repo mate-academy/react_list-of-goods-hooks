@@ -21,7 +21,7 @@ const App: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   const reverse = () => {
-    setGoods(prevState => [...prevState].reverse());
+    setGoods(prevGoods => [...prevGoods].reverse());
   };
 
   const sortAlphabetically = () => {
@@ -95,6 +95,16 @@ const App: React.FC = () => {
                   >
                     Sort by length
                   </button>
+
+                  <div className="button-close">
+                    <button
+                      type="button"
+                      onClick={showStart}
+                      className="button is-danger box mt-5 "
+                    >
+                      Finish
+                    </button>
+                  </div>
 
                 </div>
               </div>

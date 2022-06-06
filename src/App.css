@@ -17,3 +17,8 @@
   border-radius: 10px;
   padding: 20px;
 }
+
+.button-close {
+  display: flex;
+  justify-content: center;
+}
