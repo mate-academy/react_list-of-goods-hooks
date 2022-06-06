@@ -64,50 +64,49 @@ const App: React.FC<Props> = () => {
     <div className="App has-text-centered">
       <br />
       <h1 className="title is-1">Goods list sorting</h1>
-      {!visibility
-        && <ButtonGenerator name="Start" method={visibilitySwitch} />}
-      {visibility
-      && (
-        <>
-          <ButtonGenerator name="Reverse" method={reverseList} />
-          <ButtonGenerator
-            name="Sort alphabetically"
-            method={sortAlphabetically}
-          />
-          <ButtonGenerator name="Reset" method={resetList} />
-          <ButtonGenerator name="Sort by length" method={sortbyLength} />
-          <div className="select is-rounded is-success is-light is-outlined">
-            <select
-              value={lengthLimit}
-              onChange={changeLimit}
-            >
-              {Array(10).fill('option').map((item, index) => (
-                <option key={`${item}${index + 1}`} value={index + 1}>{index + 1}</option>
-              ))}
-            </select>
-          </div>
-          <div className="field has-addons has-addons-centered mt-4">
-            <div className="control is-one-fifth">
-              <input
-                type="text"
-                value={product}
-                className="input is-success is-light is-outlined is-rounded"
-                onChange={(e) => setProduct(e.target.value)}
-              />
-            </div>
-            <div className="control is-one-fifth is-pulled-left">
-              <button
-                type="button"
-                className="button is-success is-light is-outlined is-rounded"
-                onClick={addToList}
+      {(!visibility)
+        ? (<ButtonGenerator name="Start" method={visibilitySwitch} />)
+        : (
+          <>
+            <ButtonGenerator name="Reverse" method={reverseList} />
+            <ButtonGenerator
+              name="Sort alphabetically"
+              method={sortAlphabetically}
+            />
+            <ButtonGenerator name="Reset" method={resetList} />
+            <ButtonGenerator name="Sort by length" method={sortbyLength} />
+            <div className="select is-rounded is-success is-light is-outlined">
+              <select
+                value={lengthLimit}
+                onChange={changeLimit}
               >
-                Click to Add
-              </button>
+                {Array(10).map((_, index) => (
+                  <option key={`${index + 1}`} value={index + 1}>{index + 1}</option>
+                ))}
+              </select>
             </div>
-          </div>
-          <GoodsList goods={goodsList} />
-        </>
-      )}
+            <div className="field has-addons has-addons-centered mt-4">
+              <div className="control is-one-fifth">
+                <input
+                  type="text"
+                  value={product}
+                  className="input is-success is-light is-outlined is-rounded"
+                  onChange={(e) => setProduct(e.target.value)}
+                />
+              </div>
+              <div className="control is-one-fifth is-pulled-left">
+                <button
+                  type="button"
+                  className="button is-success is-light is-outlined is-rounded"
+                  onClick={addToList}
+                >
+                  Click to Add
+                </button>
+              </div>
+            </div>
+            <GoodsList goods={goodsList} />
+          </>
+        )}
     </div>
   );
 };
