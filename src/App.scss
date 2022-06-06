@@ -1,0 +1,29 @@
+.btn {
+  font-size: 16px;
+  padding: 10px;
+
+  &:not(:last-child) {
+    margin-right: 10px;
+  }
+
+  &--start {
+    font-size: 20px;
+    font-weight: bold;
+    width: 150px;
+
+    padding: 20px;
+  }
+}
+
+.select {
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-top: 10px;
+
+  &__length {
+    font-size: 16px;
+    font-weight: bold;
+
+    padding: 10px;
+  }
+}
