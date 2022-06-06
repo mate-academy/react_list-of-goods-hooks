@@ -1,1 +1,16 @@
-/* put styles here */
+body {
+  background-color: #eee;
+}
+
+.App {
+  width: 500px;
+  height: 500px;
+  margin: 20px auto auto;
+  padding-top: 10px;
+  border-radius: 5px;
+}
+
+.block {
+  display: flex;
+  justify-content: center;
+}
