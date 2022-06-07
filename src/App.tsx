@@ -20,11 +20,10 @@ const App: React.FC = () => {
   const [visibleGoods, setListOFGoods] = useState(false);
   const [copyArrGoods, setCopyArrGoods] = useState([...goodsFromServer]);
   const [selectValue, setSelectValue] = useState(1);
-  const [secondCopyArr] = useState([...goodsFromServer]);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectValue(Number(e.target.value));
-    setCopyArrGoods([...secondCopyArr]
+    setCopyArrGoods([...goodsFromServer]
       .filter(good => good.length <= Number(e.target.value)));
   };
 
