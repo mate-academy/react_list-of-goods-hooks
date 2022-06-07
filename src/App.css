@@ -1,1 +1,62 @@
-/* put styles here */
+body {
+  padding: 0;
+  margin: 0;
+
+  background-color: gainsboro;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.app__title {
+  font-size: 36px;
+  color: rgb(69, 62, 62);
+}
+
+.btn {
+  padding: 10px 12px;
+  font-size: 18px;
+  color: rgb(69, 62, 62);
+  border: 2px solid rgb(69, 62, 62);
+  border-radius: 8px;
+}
+
+.btn--hide {
+  margin-top: 20px;
+}
+
+.goods {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 400px;
+  padding: 20px 30px;
+
+  background-color: rgb(69, 62, 62);
+  border: 2px solid transparent;
+  border-radius: 8px;
+}
+
+.buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-item {
+  margin-right: 15px;
+
+  padding: 6px 8px;
+  font-size: 14px;
+  color: rgb(69, 62, 62);
+  border: 2px solid white;
+  border-radius: 2px;
+}
+
+.btn-item:last-of-type {
+  margin-right: 0;
+}

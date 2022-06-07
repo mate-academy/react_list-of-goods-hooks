@@ -1,0 +1,16 @@
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.goods-list__item {
+  margin-bottom: 15px;
+  font-size: 18px;
+  color: white;
+  text-align: center;
+}
+
+.goods-list__item:last-of-type {
+  margin-bottom: 0;
+}
