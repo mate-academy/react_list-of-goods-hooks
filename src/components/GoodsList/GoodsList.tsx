@@ -61,7 +61,10 @@ export const GoodsList: React.FC<Props> = ({ goodsFromServer }) => {
           className="
             button
             is-primary"
-          onClick={() => setGoods([...goodsFromServer])}
+          onClick={() => {
+            setGoods([...goodsFromServer]);
+            setFilter(numbersToFilter[0]);
+          }}
         >
           reset
         </button>
@@ -73,6 +76,7 @@ export const GoodsList: React.FC<Props> = ({ goodsFromServer }) => {
           <select
             name="length-filter"
             id="lengthFilter"
+            value={selectedFilter}
             onChange={event => {
               setFilter(+event.currentTarget.value);
             }}
