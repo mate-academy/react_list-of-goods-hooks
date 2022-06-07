@@ -16,6 +16,14 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
+const arrOfNumbers: number[] = [];
+
+for (let i = 1; i <= 10; i += 1) {
+  arrOfNumbers.push(i);
+}
+
+console.log(arrOfNumbers);
+
 const App: React.FC = () => {
   const [filteredGoods, setFilteredGoods] = useState(goodsFromServer);
   const [listIsVisible, setListIsVisible] = useState(false);
@@ -41,7 +49,7 @@ const App: React.FC = () => {
 
           <button
             type="button"
-            onClick={() => reverseGoods()}
+            onClick={reverseGoods}
           >
             Reverse
           </button>
@@ -77,45 +85,9 @@ const App: React.FC = () => {
               filterGoods(+event.target.value);
             }}
           >
-            <option value={1}>
-              1
-            </option>
-
-            <option value={2}>
-              2
-            </option>
-
-            <option value={3}>
-              3
-            </option>
-
-            <option value={4}>
-              4
-            </option>
-
-            <option value={5}>
-              5
-            </option>
-
-            <option value={6}>
-              6
-            </option>
-
-            <option value={7}>
-              7
-            </option>
-
-            <option value={8}>
-              8
-            </option>
-
-            <option value={9}>
-              9
-            </option>
-
-            <option value={10}>
-              10
-            </option>
+            {arrOfNumbers.map(option => (
+              <option>{option}</option>
+            ))}
           </select>
         </>
       )}
