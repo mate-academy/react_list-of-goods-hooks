@@ -101,6 +101,7 @@ const App: React.FC = () => {
             onClick={() => {
               setSortBy('');
               setIsReversed(false);
+              setNumberValue(0);
             }}
           >
             Reset
@@ -116,6 +117,7 @@ const App: React.FC = () => {
 
           <select
             className="select is-medium is-primary mx-4"
+            value={numberValue}
             onChange={(event) => (
               setNumberValue(+(event.target.value))
             )}
