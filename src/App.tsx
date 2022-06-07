@@ -19,7 +19,7 @@ const App: React.FC = () => {
   const [goods] = useState([...goodsFromServer]);
   const [listOfGoods, setListOfGoods] = useState(goods);
   const [visible, setVisible] = useState(false);
-  const [length, setLength] = useState(10);
+  const [length, setLength] = useState(1);
   const [sortBy, setSortBy] = useState('');
   const [reverse, setReverse] = useState(false);
 
@@ -35,7 +35,7 @@ const App: React.FC = () => {
 
   const resetAll = () => {
     setListOfGoods(goods);
-    setLength(10);
+    setLength(1);
     setSortBy('');
     setReverse(false);
     reverseOrNot = true;
@@ -52,7 +52,7 @@ const App: React.FC = () => {
     reversed: boolean,
   ) => {
     const result = [...array].filter((good: string) => (
-      good.length <= selectedLength));
+      good.length >= selectedLength));
 
     switch (sortType) {
       case 'abc':
