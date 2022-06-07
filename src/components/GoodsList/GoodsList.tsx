@@ -7,21 +7,31 @@ type Props = {
 
 export const GoodsList:React.FC<Props> = ({ goods }) => {
   const [gooddies, setGoodies] = useState([...goods]);
+  const [sortBy, setSortBy] = useState('');
 
   const reverseGoods = () => {
     setGoodies(current => [...current].reverse());
   };
 
-  const sort = () => {
-    setGoodies(current => [...current].sort((l1, l2) => l1.localeCompare(l2)));
-  };
+  const universalSort = () => {
+    setGoodies(current => [...current]
+      .sort((l1: string, l2: string): number => {
+        switch (sortBy) {
+          case 'alphabet':
+            return l1.localeCompare(l2);
+
+          case 'length':
+            return l1.length - l2.length;
+
+          default:
+            return 0;
+        }
+      }));
+    };
 
   const reset = () => {
     setGoodies(goods);
-  };
-
-  const sortByLength = () => {
-    setGoodies(current => [...current].sort((l1, l2) => l1.length - l2.length));
+    setSortBy('');
   };
 
   return (
@@ -53,7 +63,10 @@ export const GoodsList:React.FC<Props> = ({ goods }) => {
         <button
           className="button is-link"
           type="button"
-          onClick={sort}
+          onClick={() => {
+            setSortBy('alphabet');
+            universalSort();
+          }}
         >
           Sort alphabetically
         </button>
@@ -69,7 +82,10 @@ export const GoodsList:React.FC<Props> = ({ goods }) => {
         <button
           className="button is-link"
           type="button"
-          onClick={sortByLength}
+          onClick={() => {
+            setSortBy('length');
+            universalSort();
+          }}
         >
           Sort by length
         </button>
