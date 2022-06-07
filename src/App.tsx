@@ -17,25 +17,25 @@ const goodsFromServer: string[] = [
 
 export const App: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [isReversed, setIsReversed] = useState(false);
-  const [sortBy, setSortBy] = useState('');
+  const [goods, setGoods] = useState(goodsFromServer);
 
-  const goodsCopy = [...goodsFromServer];
+  const goodsCopy = [...goods];
 
-  goodsCopy.sort((a, b) => {
-    switch (sortBy) {
-      case 'name':
-        return a.localeCompare(b);
-      case 'length':
-        return a.length - b.length;
-      default:
-        return 0;
-    }
-  });
+  const reverse = () => {
+    setGoods(goodsCopy.reverse());
+  };
 
-  if (isReversed) {
-    goodsCopy.reverse();
-  }
+  const sortAlphabetically = () => {
+    setGoods(goodsCopy.sort((a, b) => a.localeCompare(b)));
+  };
+
+  const sortByLength = () => {
+    setGoods(goodsCopy.sort((a, b) => a.length - b.length));
+  };
+
+  const reset = () => {
+    setGoods(goodsFromServer);
+  };
 
   return (
     <div className="container text-center">
@@ -54,13 +54,13 @@ export const App: React.FC = () => {
         <>
           <h1>Goods</h1>
 
-          <GoodsList products={goodsCopy} />
+          <GoodsList products={goods} />
 
           <div className="buttons d-flex justify-content-evenly">
             <button
               className="btn btn-warning"
               type="button"
-              onClick={() => setIsReversed(current => !current)}
+              onClick={reverse}
             >
               Reverse
             </button>
@@ -68,7 +68,7 @@ export const App: React.FC = () => {
             <button
               className="btn btn-success"
               type="button"
-              onClick={() => setSortBy('name')}
+              onClick={sortAlphabetically}
             >
               Sort alphabetically
             </button>
@@ -76,7 +76,7 @@ export const App: React.FC = () => {
             <button
               className="btn btn-success"
               type="button"
-              onClick={() => setSortBy('length')}
+              onClick={sortByLength}
             >
               Sort by length
             </button>
@@ -84,10 +84,7 @@ export const App: React.FC = () => {
             <button
               className="btn btn-danger"
               type="button"
-              onClick={() => {
-                setSortBy('');
-                setIsReversed(false);
-              }}
+              onClick={reset}
             >
               Reset
             </button>
