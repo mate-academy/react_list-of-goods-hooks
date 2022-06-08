@@ -1,0 +1,41 @@
+.conteiner {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app {
+  width: fit-content;
+  display: flexbox;
+  justify-content: center;
+  align-items: center;
+
+  &__title {
+    font-size: 32px;
+    font-weight: 800;
+    color: orangered;
+  }
+
+  &__listConteiner {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    border: 20px transparent;
+    border-radius: 10px;
+    padding: 40px;
+    background-image: linear-gradient(rgba(191, 235, 216, 0.5),
+    rgba(105, 200, 238, 0.5));
+    gap: 10px;
+  }
+
+  &__list {
+    margin: 10px;
+    text-align: left;
+
+    &-item {
+      font-size: 20px;
+      font-weight: 500;
+    }
+  }
+}
