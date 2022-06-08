@@ -19,46 +19,32 @@ const goodsFromServer: string[] = [
 const numbers: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 const App: React.FC = () => {
-  const selectedGoods = [...goodsFromServer];
-  const numbersSelect = [...numbers];
-
+  const [selectedGoods, setSelectedGoods] = useState([...goodsFromServer]);
   const [isVisible, setIsVisible] = useState(false);
   const [numberValue, setNumberValue] = useState(0);
-  const [sortBy, setSortBy] = useState('');
-  const [isReversed, setIsReversed] = useState(false);
 
   const reverse = () => {
-    setIsReversed(current => !current);
+    setSelectedGoods(current => [...current].reverse());
   };
 
-  const sortAb = () => {
-    setSortBy('alphab');
-  };
+  const sort = (sortBy: string) => {
+    setSelectedGoods(current => [...current].sort((g1, g2) => {
+      switch (sortBy) {
+        case 'alphab':
+          return g1.localeCompare(g2);
 
-  const sortLength = () => {
-    setSortBy('length');
+        case 'length':
+          return g1.length - g2.length;
+
+        default:
+          return 0;
+      }
+    }));
   };
 
   const visibleGoods = selectedGoods.filter(good => (
     good.length >= numberValue
   ));
-
-  visibleGoods.sort((g1, g2) => {
-    switch (sortBy) {
-      case 'alphab':
-        return g1.localeCompare(g2);
-
-      case 'length':
-        return g1.length - g2.length;
-
-      default:
-        return 0;
-    }
-  });
-
-  if (isReversed) {
-    visibleGoods.reverse();
-  }
 
   return (
     <div className="App content is-large has-text-centered">
@@ -70,7 +56,7 @@ const App: React.FC = () => {
             type="button"
             className="button is-medium is-primary"
             onClick={() => {
-              setIsVisible(true);
+              setIsVisible(current => !current);
             }}
           >
             Start
@@ -82,7 +68,9 @@ const App: React.FC = () => {
           <button
             type="button"
             className="button is-medium is-link mx-2"
-            onClick={reverse}
+            onClick={() => {
+              reverse();
+            }}
           >
             Reverse
           </button>
@@ -90,7 +78,9 @@ const App: React.FC = () => {
           <button
             type="button"
             className="button is-medium is-primary mx-2"
-            onClick={sortAb}
+            onClick={() => {
+              sort('alphab');
+            }}
           >
             Sort alphabetically
           </button>
@@ -99,9 +89,8 @@ const App: React.FC = () => {
             type="button"
             className="button is-medium is-danger mx-2"
             onClick={() => {
-              setSortBy('');
-              setIsReversed(false);
               setNumberValue(0);
+              setSelectedGoods([...goodsFromServer]);
             }}
           >
             Reset
@@ -110,7 +99,9 @@ const App: React.FC = () => {
           <button
             type="button"
             className="button is-medium is-warning mx-2"
-            onClick={sortLength}
+            onClick={() => {
+              sort('length');
+            }}
           >
             Sort by length
           </button>
@@ -119,10 +110,10 @@ const App: React.FC = () => {
             className="select is-medium is-primary mx-4"
             value={numberValue}
             onChange={(event) => (
-              setNumberValue(+(event.target.value))
+              setNumberValue(Number(event.target.value))
             )}
           >
-            {numbersSelect.map(number => (
+            {numbers.map(number => (
               <option
                 value={number}
                 key={number}
