@@ -55,7 +55,8 @@ const App: React.FC = () => {
           </button>
           <button
             type="button"
-            onClick={() => (setCopyArrGoods([...copyArrGoods].sort()))}
+            onClick={() => (setCopyArrGoods([...copyArrGoods]
+              .sort((a, b) => a.localeCompare(b))))}
             className="button is-link is-outlined"
           >
             Sort alphabetically
@@ -72,7 +73,7 @@ const App: React.FC = () => {
           <div className="select is-success">
             <select
               name="select"
-              onChange={(e) => (handleChange(e))}
+              onChange={handleChange}
               value={selectValue}
             >
               {numArr.map(item => (
