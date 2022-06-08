@@ -33,7 +33,7 @@ export const ListOfGoods: React.FC<Props> = ({ goodsFromServer }) => {
       <button
         type="button"
         className="button is-warning is-outlined"
-        onClick={() => startFinishButton()}
+        onClick={startFinishButton}
       >
         {!clickStart
           ? 'Start'
@@ -55,7 +55,7 @@ export const ListOfGoods: React.FC<Props> = ({ goodsFromServer }) => {
             <button
               type="button"
               className="button is-warning is-small mr-1"
-              onClick={() => getReverse()}
+              onClick={getReverse}
             >
               Reverse
             </button>
@@ -63,7 +63,7 @@ export const ListOfGoods: React.FC<Props> = ({ goodsFromServer }) => {
             <button
               type="button"
               className="button is-warning is-small mr-1"
-              onClick={() => getSortAlphabetically()}
+              onClick={getSortAlphabetically}
             >
               Sort alphabetically
             </button>
@@ -71,7 +71,7 @@ export const ListOfGoods: React.FC<Props> = ({ goodsFromServer }) => {
             <button
               type="button"
               className="button is-warning is-small mr-1"
-              onClick={() => getSortByLength()}
+              onClick={getSortByLength}
             >
               Sort by length
             </button>
@@ -79,7 +79,7 @@ export const ListOfGoods: React.FC<Props> = ({ goodsFromServer }) => {
             <button
               type="button"
               className="button is-warning is-small mr-1"
-              onClick={() => getReset()}
+              onClick={getReset}
             >
               Reset
             </button>
