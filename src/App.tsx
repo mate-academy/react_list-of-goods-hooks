@@ -19,12 +19,12 @@ const App: React.FC = () => {
   const resetGoods = [...goodsFromServer];
   const [isVisible, setIsVisible] = useState(false);
 
-  const sortAlhabet = (products: string[]) => (
-    setGoods([...products].sort((good1: string, good2: string) => (
+  const sortAlhabet = () => (
+    setGoods([...goods].sort((good1: string, good2: string) => (
       good1.localeCompare(good2)))));
 
-  const sortLength = (products: string[]) => (
-    setGoods([...products].sort((good1: string, good2: string) => (
+  const sortLength = () => (
+    setGoods([...goods].sort((good1: string, good2: string) => (
       good1.length - good2.length))));
 
   return (
@@ -103,7 +103,7 @@ const App: React.FC = () => {
                 uk-button-secondary
                 uk-width-medium
                 uk-margin-small"
-                onClick={() => sortAlhabet(goods)}
+                onClick={sortAlhabet}
               >
                 Sort alphabetically
               </button>
@@ -127,7 +127,7 @@ const App: React.FC = () => {
                 uk-button-secondary
                 uk-width-medium
                 uk-margin-small"
-                onClick={() => sortLength(goods)}
+                onClick={sortLength}
               >
                 Sort by length
               </button>
