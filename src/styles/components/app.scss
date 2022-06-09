@@ -1,0 +1,16 @@
+.app {
+  margin: 0 auto;
+  max-width: 940px;
+  text-align: center;
+
+  &__header {
+    margin-bottom: 20px;
+  }
+
+  &__button {
+    padding: 30px 50px;
+    border-radius: 0.5em;
+
+    font-size: 20px;
+  }
+}
