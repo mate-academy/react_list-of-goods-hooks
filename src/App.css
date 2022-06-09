@@ -1,1 +1,27 @@
-/* put styles here */
+.App {
+  width: 590px;
+  margin: 50px auto;
+  padding: 30px;
+
+  border: 2px solid lightblue;
+  border-radius: 10px;
+  background-image: url("./images/App.jpg");
+  background-size: cover;
+}
+
+.title {
+  text-align: center;
+}
+
+.show-button {
+  display: flex;
+  margin: 0 auto;
+}
+
+.button-insert {
+  margin-right: 18px;
+}
+
+.button-insert:last-child {
+  margin-right: 0;
+}
