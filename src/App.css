@@ -1,1 +1,14 @@
-/* put styles here */
+.Button {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 200px;
+}
+
+.Button__show,
+.Button__reverse,
+.Button__alpha,
+.Button__reset,
+.Button__length {
+  width: 100px;
+}
