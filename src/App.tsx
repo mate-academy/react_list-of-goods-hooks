@@ -16,27 +16,22 @@ const goodsFromServer: string[] = [
 ];
 
 const App: React.FC = () => {
-  const goodsCopy = [...goodsFromServer];
   const [showButton, setToggle] = useState(true);
-  const [isReversed, setReverse] = useState(false);
-  const [sortBy, setSort] = useState('');
+  const [changeGoods, setGoods] = useState([...goodsFromServer]);
 
-  goodsCopy.sort((product1, product2) => {
-    switch (sortBy) {
-      case 'alphabet':
-        return product1.localeCompare(product2);
+  const reverse = () => {
+    setGoods([...changeGoods].reverse());
+  };
 
-      case 'length':
-        return product1.length - product2.length;
+  const sortGoodsByAlphabet = () => {
+    setGoods([...changeGoods]
+      .sort((product1, product2) => product1.localeCompare(product2)));
+  };
 
-      default:
-        return 0;
-    }
-  });
-
-  if (isReversed) {
-    goodsCopy.reverse();
-  }
+  const sortGoodsByLength = () => {
+    setGoods([...changeGoods]
+      .sort((product1, product2) => product1.length - product2.length));
+  };
 
   return (
     <div className="App">
@@ -57,40 +52,31 @@ const App: React.FC = () => {
       {!showButton
       && (
         <>
-          <GoodsList goods={goodsCopy} />
+          <GoodsList goods={changeGoods} />
           <button
             type="button"
-            onClick={() => setReverse(!isReversed)}
+            onClick={reverse}
             className="button-insert button is-primary is-light"
           >
             Reverse
           </button>
           <button
             type="button"
-            onClick={() => {
-              setReverse(false);
-              setSort('alphabet');
-            }}
+            onClick={sortGoodsByAlphabet}
             className="button-insert button is-primary is-light"
           >
             Sort alphabetically
           </button>
           <button
             type="button"
-            onClick={() => {
-              setReverse(false);
-              setSort('');
-            }}
+            onClick={() => setGoods([...goodsFromServer])}
             className="button-insert button is-primary is-light"
           >
             Reset
           </button>
           <button
             type="button"
-            onClick={() => {
-              setReverse(false);
-              setSort('length');
-            }}
+            onClick={sortGoodsByLength}
             className="button-insert button is-primary is-light"
           >
             Sort by length
