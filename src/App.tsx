@@ -19,7 +19,7 @@ const App: React.FC = () => {
   const [buttonVisibility, setButtonVisibility] = useState(false);
 
   return (
-    <div className="App">
+    <div>
       {buttonVisibility
         ? (
           <List goods={goodsFromServer} />

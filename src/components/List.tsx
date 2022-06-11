@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './List.scss';
 
 type Props = {
   goods: string[],
@@ -37,13 +36,11 @@ export const List:React.FC<Props> = ({ goods }) => {
   return (
     <div className="main">
 
-      <h1
-        className="title"
-      >
+      <h1>
         Goods
       </h1>
 
-      <ul className="list">
+      <ul>
         {products.map(good => (
           <li key={good}>
             {good}
@@ -54,7 +51,6 @@ export const List:React.FC<Props> = ({ goods }) => {
       <div>
 
         <button
-          className="button"
           type="button"
           onClick={() => {
             reverseGoods();
@@ -64,7 +60,6 @@ export const List:React.FC<Props> = ({ goods }) => {
         </button>
 
         <button
-          className="button"
           type="button"
           onClick={() => {
             setSortBy('alphabet');
@@ -75,7 +70,6 @@ export const List:React.FC<Props> = ({ goods }) => {
         </button>
 
         <button
-          className="button"
           type="button"
           onClick={reset}
         >
@@ -83,7 +77,6 @@ export const List:React.FC<Props> = ({ goods }) => {
         </button>
 
         <button
-          className="button"
           type="button"
           onClick={() => {
             setSortBy('length');
