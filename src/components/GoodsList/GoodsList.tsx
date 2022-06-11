@@ -61,7 +61,7 @@ export const GoodsList: React.FC<Props> = ({ goods }) => {
           type="button"
           className="button button-blue"
           onClick={() => {
-            setReverse(true);
+            setReverse(!reverse);
           }}
         >
           Revers
