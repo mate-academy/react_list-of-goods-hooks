@@ -1,5 +1,6 @@
-import React from 'react';
-import './App.css';
+import React, { useState } from 'react';
+import './App.scss';
+import { GoodsList } from './components/GoodsList/GoodsList';
 
 const goodsFromServer: string[] = [
   'Dumplings',
@@ -14,11 +15,28 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-const App: React.FC = () => (
-  <div className="App">
-    <h1>Goods</h1>
-    {goodsFromServer.length}
-  </div>
-);
+const App: React.FC = () => {
+  const [showButton, setShowButton] = useState<boolean>(true);
+  const [showGoods, setShowGoods] = useState<boolean>(false);
+
+  return (
+    <div className="App">
+      {showButton && (
+        <button
+          type="button"
+          className="button button-blue App__button"
+          onClick={() => {
+            setShowButton(false);
+            setShowGoods(true);
+          }}
+        >
+          Start
+        </button>
+      )}
+
+      {showGoods && <GoodsList goods={goodsFromServer} />}
+    </div>
+  );
+};
 
 export default App;
