@@ -1,1 +1,10 @@
-/* put styles here */
+@import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css";
+
+.App {
+  display: flex;
+  justify-content: center;
+}
+
+.button {
+  margin-right: 20px;
+}
