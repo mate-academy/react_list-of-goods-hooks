@@ -13,7 +13,7 @@ const GoodsList: React.FC<Props> = ({ goodsList }) => {
     reverseList(false);
   };
 
-  const getGoodsList = () => {
+  const getRenderList = () => {
     let visibleList = [...goodsList];
 
     if (sort) {
@@ -35,8 +35,6 @@ const GoodsList: React.FC<Props> = ({ goodsList }) => {
 
     return visibleList;
   };
-
-  const renderList = getGoodsList();
 
   return (
     <>
@@ -65,7 +63,7 @@ const GoodsList: React.FC<Props> = ({ goodsList }) => {
         Reset
       </button>
       <ul className="goodsList">
-        {renderList.map(good => (
+        {getRenderList().map(good => (
           <li
             key={good}
           >
