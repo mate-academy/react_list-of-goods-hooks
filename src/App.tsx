@@ -15,35 +15,37 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
+const selectValue = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
 const App: React.FC = () => {
   const [goods, setGoods] = useState([...goodsFromServer]);
-  const [counter, setCounter] = useState(0);
+  const [activeStart, setActiveStart] = useState(false);
 
   return (
     <div>
-      <div className={counter % 2 !== 0
+      <div className={activeStart
         ? 'App'
         : 'App-start'}
       >
         <button
           type="button"
-          className={counter % 2 !== 0
+          className={activeStart
             ? 'button is-danger is-light'
             : 'button is-success is-light'}
           onClick={() => {
-            return setCounter(counter + 1);
+            return setActiveStart(!activeStart);
           }}
         >
-          {counter % 2 !== 0
+          {activeStart
             ? 'Hide'
             : 'Start'}
         </button>
 
-        {counter % 2 !== 0
+        {activeStart
           ? <GoodsList goods={goods} />
           : null}
 
-        {counter % 2 !== 0
+        {activeStart
           ? (
             <>
               <button
@@ -97,16 +99,9 @@ const App: React.FC = () => {
                     el.length >= +event.currentTarget.value)))
                 )}
               >
-                <option value="1" selected>1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
+                {selectValue.map(el => (
+                  <option value={`${el}`}>{el}</option>
+                ))}
               </select>
             </>
           )
