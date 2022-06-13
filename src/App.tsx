@@ -23,15 +23,18 @@ export const App: React.FC = () => {
   };
 
   const makeReverse = () => {
-    setGoods([...goods].reverse());
+    setGoods((currentGoods) => [...currentGoods]
+      .reverse());
   };
 
   const makeSortAlphabet = () => {
-    setGoods([...goods].sort((a, b) => a.localeCompare(b)));
+    setGoods((currentGoods) => [...currentGoods]
+      .sort((a, b) => a.localeCompare(b)));
   };
 
   const makeSortLength = () => {
-    setGoods([...goods].sort((a, b) => a.length - b.length));
+    setGoods((currentGoods) => [...currentGoods]
+      .sort((a, b) => a.length - b.length));
   };
 
   const makeReset = () => {
@@ -42,7 +45,7 @@ export const App: React.FC = () => {
     <div className="App">
       <h1 className="title">Goods</h1>
 
-      {!visibleList && (
+      {!visibleList ? (
         <button
           type="button"
           className="
@@ -54,9 +57,7 @@ export const App: React.FC = () => {
         >
           Start
         </button>
-      )}
-
-      {visibleList && (
+      ) : (
         <ul className="list">
           <button
             type="button"
