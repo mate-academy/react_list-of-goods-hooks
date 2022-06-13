@@ -48,6 +48,7 @@ const App: React.FC = () => {
   const reset = () => {
     setReverse(false);
     setSortBy(SortBy.none);
+    setSelection(1);
   };
 
   const hideAndReset = () => {
