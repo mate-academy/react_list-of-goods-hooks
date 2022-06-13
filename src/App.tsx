@@ -20,6 +20,7 @@ const selectValue = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const App: React.FC = () => {
   const [goods, setGoods] = useState([...goodsFromServer]);
   const [activeStart, setActiveStart] = useState(false);
+  const [valueSelect, setValueSelect] = useState(1);
 
   return (
     <div>
@@ -72,9 +73,10 @@ const App: React.FC = () => {
               <button
                 type="button"
                 className="button is-info is-light"
-                onClick={() => (
-                  setGoods([...goodsFromServer])
-                )}
+                onClick={() => {
+                  setGoods([...goodsFromServer]);
+                  setValueSelect(1);
+                }}
               >
                 Reset
               </button>
@@ -94,10 +96,12 @@ const App: React.FC = () => {
               </p>
               <select
                 className="select is-info"
-                onChange={(event) => (
+                value={valueSelect}
+                onChange={(event) => {
+                  setValueSelect(+event.currentTarget.value);
                   setGoods([...goodsFromServer].filter(el => (
-                    el.length >= +event.currentTarget.value)))
-                )}
+                    el.length >= +event.currentTarget.value)));
+                }}
               >
                 {selectValue.map(el => (
                   <option value={`${el}`}>{el}</option>
