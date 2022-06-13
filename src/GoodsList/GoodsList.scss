@@ -1,0 +1,21 @@
+.select {
+  font-size: 1.2em;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  font-size: 1.2em;
+
+  &__item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    &:not(:last-child) {
+      padding-bottom: 5px;
+      border-bottom: 1px solid purple;
+    }
+  }
+}
