@@ -25,7 +25,7 @@ const App: React.FC = () => {
   return (
     <div className="conteiner">
       <div className="app">
-        {!listVisible && (
+        {!listVisible ? (
           <button
             className="button is-danger is-large"
             type="button"
@@ -33,9 +33,7 @@ const App: React.FC = () => {
           >
             Start
           </button>
-        )}
-
-        {listVisible && (
+        ) : (
           <div className="app__listConteiner">
             <h1 className="app__title">Goods:</h1>
 
@@ -56,7 +54,7 @@ const App: React.FC = () => {
               className="button is-primary"
               type="button"
               onClick={() => (setVisibleGoods(
-                [...visibleGoods].reverse(),
+                (prevVisibleGoods) => [...prevVisibleGoods].reverse(),
               ))}
             >
               Reverse
@@ -65,7 +63,9 @@ const App: React.FC = () => {
               className="button is-primary"
               type="button"
               onClick={() => (setVisibleGoods(
-                [...visibleGoods].sort((a, b) => a.localeCompare(b)),
+                (prevVisibleGoods) => [...prevVisibleGoods].sort(
+                  (a, b) => a.localeCompare(b),
+                ),
               ))}
             >
               Sort alphabetically
@@ -74,7 +74,9 @@ const App: React.FC = () => {
               className="button is-primary"
               type="button"
               onClick={() => (setVisibleGoods(
-                [...visibleGoods].sort((a, b) => a.length - b.length),
+                (prevVisibleGoods) => [...prevVisibleGoods].sort(
+                  (a, b) => a.length - b.length,
+                ),
               ))}
             >
               Sort by length
@@ -97,6 +99,7 @@ const App: React.FC = () => {
               </button>
             )}
           </div>
+
         )}
       </div>
     </div>
