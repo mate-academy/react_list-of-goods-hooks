@@ -23,45 +23,34 @@ enum SortBy {
 }
 
 const App: React.FC = () => {
-  const [goods] = useState([...goodsFromServer]);
+  const goods = [...goodsFromServer];
   const [isStarted, setStart] = useState(false);
   const [isReversed, reverse] = useState(false);
   const [sortBy, setSortBy] = useState(SortBy.None);
   const [length, setLength] = useState(1);
 
-  const prepareList = (
-    goodsArray: string[],
-    selectedLength: number,
-    sortType: string,
-  ) => {
-    const preparedList = [...goodsArray].filter(good => (
-      good.length >= selectedLength));
+  const visibleGoods = goods.filter(good => good.length >= length);
 
-    switch (sortType) {
-      case SortBy.Name:
-        preparedList.sort((good1, good2) => (
-          (good1.toLowerCase()).localeCompare(good2.toLowerCase())
-        ));
-        break;
+  switch (sortBy) {
+    case SortBy.Name:
+      visibleGoods.sort((good1, good2) => (
+        good1.localeCompare(good2)
+      ));
+      break;
 
-      case SortBy.Length:
-        preparedList.sort((good1, good2) => (
-          good1.length - good2.length
-        ));
-        break;
+    case SortBy.Length:
+      visibleGoods.sort((good1, good2) => (
+        good1.length - good2.length
+      ));
+      break;
 
-      default:
-        break;
-    }
+    default:
+      break;
+  }
 
-    if (isReversed) {
-      preparedList.reverse();
-    }
-
-    return preparedList;
-  };
-
-  const visibleGoods = prepareList(goods, length, sortBy);
+  if (isReversed) {
+    visibleGoods.reverse();
+  }
 
   return (
     <div className="App container.is-widescreen has-text-centered">
