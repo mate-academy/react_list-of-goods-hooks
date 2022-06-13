@@ -1,1 +1,31 @@
-/* put styles here */
+html {
+  background-image: url(https://www.foodnavigator.com/var/wrbm_gb_food_pharma/storage/images/media/images/news-photogalleries/nutrition-scientists-top-ten-festive-foods-for-a-delicious-nutritious-christmas-626307/nutrition-scientists-top-ten-festive-foods-for-a-delicious-nutritious-christmas2/10501077-1-eng-GB/Nutrition-scientists-top-ten-festive-foods-for-a-delicious-nutritious-Christmas.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow-y: hidden;
+}
+
+.App {
+  position: absolute;
+  transform: translate(50vh, 30vh);
+
+  background-color: blanchedalmond;
+  border: 1px solid rgb(255, 215, 156);
+  border-radius: 25px;
+
+  padding: 20px;
+}
+
+.App-start {
+  position: absolute;
+  transform: translate(50vh, 30vh);
+}
+
+.button {
+  margin-right: 5px;
+}
+
+.is-success {
+  transform: translate(35vh, 10vh);
+  width: 150px;
+}
