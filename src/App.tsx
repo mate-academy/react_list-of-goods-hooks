@@ -26,7 +26,9 @@ const App: React.FC = () => {
       goodsCopy.sort();
       break;
     case 'byLength':
-      goodsCopy.sort((a, b) => a.length - b.length);
+      goodsCopy.sort((goodItemA, goodItemB) => {
+        return goodItemA.length - goodItemB.length;
+      });
       break;
     default:
       break;
@@ -45,7 +47,7 @@ const App: React.FC = () => {
       <div>
         <button
           type="button"
-          onClick={() => reverseList(true)}
+          onClick={() => reverseList(!isReversed)}
         >
           Reverse
         </button>
