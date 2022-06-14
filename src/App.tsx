@@ -28,11 +28,11 @@ const App: React.FC = () => {
   const [sortBy, setSortBy] = useState(SortBy.null);
 
   const start = () => {
-    setStart(current => !current);
+    setStart(prev => !prev);
   };
 
   const reverse = () => {
-    setReverse(current => !current);
+    setReverse(prev => !prev);
   };
 
   const sortByName = () => {
