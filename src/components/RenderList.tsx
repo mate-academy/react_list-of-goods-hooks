@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import {
+  FC, useState, memo,
+} from 'react';
 
 const goodsFromServer: string[] = [
   'Dumplings',
@@ -13,10 +15,10 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-const RenderList: React.FC = () => {
+const RenderList: FC = () => {
   const [isClicked, setIsClicked] = useState(false);
-  const [goodsList, setGoodsList] = useState([...goodsFromServer]);
-  const [length, setLength] = useState(1);
+  const [goodsList, setGoodsList] = useState<string[]>([...goodsFromServer]);
+  const [length, setLength] = useState('1');
 
   const renderList = (goods: string[]) => {
     return goods.map(goodItem => (
@@ -28,13 +30,15 @@ const RenderList: React.FC = () => {
     ));
   };
 
-  const filterGoodsByLength = (goods: string[], itemLength: number) => {
-    const filteredGoods = goods.filter(goodItem => (
+  const filterGoodsByLength = (itemLength: number) => {
+    const filteredGoods = goodsFromServer.filter(goodItem => (
       goodItem.length >= itemLength
     ));
 
-    return renderList(filteredGoods);
+    return filteredGoods;
   };
+
+  const filteredGoods = filterGoodsByLength(parseInt(length, 10));
 
   const showList = (goods: string[]) => {
     if (isClicked) {
@@ -61,7 +65,7 @@ const RenderList: React.FC = () => {
   };
 
   const reset = () => {
-    setLength(1);
+    setLength('1');
 
     setGoodsList([...goodsFromServer]);
 
@@ -103,7 +107,7 @@ const RenderList: React.FC = () => {
       <article className="content is-medium">
         <ul>
           {
-            showList(goodsList)
+            showList(filteredGoods)
           }
         </ul>
       </article>
@@ -111,6 +115,7 @@ const RenderList: React.FC = () => {
       <hr />
       <article className="buttons">
         <button
+          disabled={!isClicked}
           className="button is-dark"
           type="button"
           onClick={() => {
@@ -121,6 +126,7 @@ const RenderList: React.FC = () => {
         </button>
 
         <button
+          disabled={!isClicked}
           className="button is-dark"
           type="button"
           onClick={() => {
@@ -131,6 +137,7 @@ const RenderList: React.FC = () => {
         </button>
 
         <button
+          disabled={!isClicked}
           className="button is-dark"
           type="button"
           onClick={() => {
@@ -141,6 +148,7 @@ const RenderList: React.FC = () => {
         </button>
 
         <button
+          disabled={!isClicked}
           className="button is-dark"
           type="button"
           onClick={() => {
@@ -152,16 +160,17 @@ const RenderList: React.FC = () => {
 
         <div className="select is-rounded is-primary">
           <select
+            disabled={!isClicked}
             name="filterOptions"
             id="filterOptions"
+            value={length}
             onChange={(event) => {
-              setLength(() => (
-                parseInt(event.target.value, 10)));
-
-              filterGoodsByLength(goodsList, length);
+              setLength(event.target.value);
+              setGoodsList(filteredGoods);
+              filterGoodsByLength(parseInt(length, 10));
             }}
           >
-            <option value={length}>1</option>
+            <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
             <option value="4">4</option>
@@ -178,4 +187,4 @@ const RenderList: React.FC = () => {
   );
 };
 
-export default React.memo(RenderList);
+export default memo(RenderList);
