@@ -5,12 +5,12 @@ type Props = {
 };
 
 const GoodsList: React.FC<Props> = ({ goodsList }) => {
-  const [sort, sortBy] = useState('');
-  const [isReversed, reverseList] = useState(false);
+  const [sort, setSortBy] = useState('');
+  const [isReversed, setReverseList] = useState(false);
 
   const reset = () => {
-    sortBy('');
-    reverseList(false);
+    setSortBy('');
+    setReverseList(false);
   };
 
   const getRenderList = () => {
@@ -40,19 +40,19 @@ const GoodsList: React.FC<Props> = ({ goodsList }) => {
     <>
       <button
         type="button"
-        onClick={() => reverseList(!isReversed)}
+        onClick={() => setReverseList(!isReversed)}
       >
         Reverse
       </button>
       <button
         type="button"
-        onClick={() => sortBy('alphabet')}
+        onClick={() => setSortBy('alphabet')}
       >
         Sort alphabetically
       </button>
       <button
         type="button"
-        onClick={() => sortBy('length')}
+        onClick={() => setSortBy('length')}
       >
         Sort by length
       </button>
