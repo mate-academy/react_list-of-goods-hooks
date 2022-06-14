@@ -40,11 +40,18 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <h1>Goods</h1>
+      <h1 className="App__header title">
+        Goods
+      </h1>
 
       <button
         type="button"
         onClick={showList}
+        className="
+          button
+          is-info
+          is-light
+          App__button"
       >
         Start
       </button>
@@ -52,6 +59,11 @@ const App: React.FC = () => {
       <button
         type="button"
         onClick={reverse}
+        className="
+          button
+          is-info
+          is-light
+          App__button"
       >
         Reverse
       </button>
@@ -59,6 +71,11 @@ const App: React.FC = () => {
       <button
         type="button"
         onClick={sortByAbc}
+        className="
+          button
+          is-info
+          is-light
+          App__button"
       >
         Sort alphavetically
       </button>
@@ -66,6 +83,11 @@ const App: React.FC = () => {
       <button
         type="button"
         onClick={sortByLength}
+        className="
+          button
+          is-info
+          is-light
+          App__button"
       >
         Sort by length
       </button>
@@ -73,14 +95,22 @@ const App: React.FC = () => {
       <button
         type="button"
         onClick={reset}
+        className="
+          button
+          is-info
+          is-light
+          App__button"
       >
         Reset
       </button>
 
       {isGoodsVisible && (
-        <ul>
+        <ul className="App__list">
           {goods.map(good => (
-            <li key={good}>
+            <li
+              key={good}
+              className="App__item has-text-weight-light"
+            >
               {good}
             </li>
           ))}

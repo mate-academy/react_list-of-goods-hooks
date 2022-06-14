@@ -1,1 +1,19 @@
-/* put styles here */
+.App__header {
+  color: #133a94;
+  padding: 10px;
+}
+
+.App__button {
+  margin: 10px;
+}
+
+.App__list {
+  margin-left: 20px;
+}
+
+.App__item {
+  color: black;
+  margin-bottom: 8px;
+  border-bottom: 0.5px solid black;
+  width: 100px;
+}
