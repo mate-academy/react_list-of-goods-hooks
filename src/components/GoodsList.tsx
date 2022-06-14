@@ -4,12 +4,17 @@ type Props = {
   goodsList: string[];
 };
 
+enum SortBy {
+  Default = '',
+  Alphabet = 'alphabet',
+  Length = 'length',
+}
 const GoodsList: React.FC<Props> = ({ goodsList }) => {
-  const [sort, setSortBy] = useState('');
-  const [isReversed, setReverseList] = useState(false);
+  const [sort, setSortBy] = useState<SortBy>(SortBy.Default);
+  const [isReversed, setReverseList] = useState<boolean>(false);
 
   const reset = () => {
-    setSortBy('');
+    setSortBy(SortBy.Default);
     setReverseList(false);
   };
 
@@ -19,9 +24,9 @@ const GoodsList: React.FC<Props> = ({ goodsList }) => {
     if (sort) {
       visibleList = [...visibleList].sort((a, b) => {
         switch (sort) {
-          case 'alphabet':
+          case SortBy.Alphabet:
             return a.localeCompare(b);
-          case 'length':
+          case SortBy.Length:
             return a.length - b.length;
           default:
             return 0;
@@ -46,13 +51,13 @@ const GoodsList: React.FC<Props> = ({ goodsList }) => {
       </button>
       <button
         type="button"
-        onClick={() => setSortBy('alphabet')}
+        onClick={() => setSortBy(SortBy.Alphabet)}
       >
         Sort alphabetically
       </button>
       <button
         type="button"
-        onClick={() => setSortBy('length')}
+        onClick={() => setSortBy(SortBy.Length)}
       >
         Sort by length
       </button>
