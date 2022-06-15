@@ -1,0 +1,56 @@
+body {
+  background-color: rgb(117, 117, 117);
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Courier New", Courier, monospace;
+  color: white;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.App {
+  text-align: center;
+  margin: 0 auto;
+  width: 500px;
+}
+
+.sort__button {
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  background-color: rgb(87, 86, 86);
+  border-radius: 10px;
+  transition: 0.3s;
+  font-family: "Courier New", Courier, monospace;
+
+  &:not(:first-child) {
+    margin-left: 10px;
+  }
+
+  &:hover {
+    background-color: rgb(99, 99, 99);
+  }
+}
+
+.start {
+  border: none;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  font-size: 32px;
+  transition: 0.3s;
+  cursor: pointer;
+  font-family: "Courier New", Courier, monospace;
+
+  &:hover {
+    -webkit-box-shadow: 0 0 15px 10px #fff;
+    box-shadow: 0 0 15px 10px #fff;
+  }
+}
