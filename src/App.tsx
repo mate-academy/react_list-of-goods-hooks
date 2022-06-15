@@ -36,7 +36,7 @@ const App: React.FC = () => {
   };
 
   const reverse = () => {
-    setIsReversed(!isReversed);
+    setIsReversed(prevState => !prevState);
   };
 
   const goodsList = useMemo(() => {
@@ -45,16 +45,18 @@ const App: React.FC = () => {
       .sort((first, second) => {
         switch (sortGoods) {
           case 'Alphabet':
-            return first.localeCompare(second);
+            return (isReversed) ? first.localeCompare(second)
+              : second.localeCompare(first);
 
           case 'Length':
-            return first.length - second.length;
+            return (isReversed) ? first.length - second.length
+              : second.length - first.length;
 
           default:
             return 0;
         }
       });
-  }, [sortGoods, goodsLength]);
+  }, [sortGoods, goodsLength, isReversed]);
 
   if (isReversed) {
     goodsList.reverse();
