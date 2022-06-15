@@ -45,12 +45,10 @@ const App: React.FC = () => {
       .sort((first, second) => {
         switch (sortGoods) {
           case 'Alphabet':
-            return (isReversed) ? first.localeCompare(second)
-              : second.localeCompare(first);
+            return first.localeCompare(second);
 
           case 'Length':
-            return (isReversed) ? first.length - second.length
-              : second.length - first.length;
+            return first.length - second.length;
 
           default:
             return 0;
