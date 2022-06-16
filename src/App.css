@@ -1,1 +1,11 @@
-/* put styles here */
+.App {
+  padding: 10px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button {
+  width: 100%;
+}
