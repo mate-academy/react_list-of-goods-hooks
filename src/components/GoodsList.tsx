@@ -56,7 +56,7 @@ export const GoodsList: React.FC<Props> = ({ goodsList }) => {
         onClick={() => reverse()}
         className="button is-info is-outlined"
       >
-        Rverse
+        Reverse
       </button>
       <button
         type="button"
