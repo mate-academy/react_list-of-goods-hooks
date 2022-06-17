@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
 const goodsFromServer: string[] = [
@@ -14,11 +14,100 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-const App: React.FC = () => (
-  <div className="App">
-    <h1>Goods</h1>
-    {goodsFromServer.length}
-  </div>
-);
+enum SortBy {
+  default,
+  name,
+  length,
+}
+
+export const App: React.FC = () => {
+  let goods = [...goodsFromServer];
+
+  const [isVisible, setStart] = useState(false);
+  const [isReverse, setReverse] = useState(false);
+  const [sortBy, setSortBy] = useState(SortBy.default);
+
+  const start = () => {
+    setStart(prev => !prev);
+  };
+
+  const reverse = () => {
+    setReverse(prev => !prev);
+  };
+
+  const sortByName = () => {
+    setSortBy(SortBy.name);
+  };
+
+  const reset = () => {
+    setReverse(false);
+    setSortBy(SortBy.default);
+  };
+
+  switch (sortBy) {
+    case SortBy.name:
+      goods.sort((good1, good2) => good1.localeCompare(good2));
+      break;
+    case SortBy.length:
+      goods.sort((good1, good2) => good1.length - good2.length);
+      break;
+    default:
+      goods = [...goodsFromServer];
+  }
+
+  if (isReverse) {
+    goods.reverse();
+  }
+
+  return (
+    <div className="App container.is-widescreen has-text-centered">
+      {!isVisible && (
+        <button
+          type="button"
+          className="button is-link mt-6"
+          onClick={start}
+        >
+          Start
+        </button>
+      )}
+      {isVisible && (
+        <div>
+          <ul className="my-5">
+            {goods.map((good) => (
+              <li key={good} className="is-size-5">
+                {good}
+              </li>
+            ))}
+          </ul>
+          <div>
+            <button
+              type="button"
+              className="button is-primary mx-5"
+              onClick={reverse}
+            >
+              Reverse
+            </button>
+
+            <button
+              type="button"
+              className="button is-primary mx-5"
+              onClick={sortByName}
+            >
+              Sort Alphabetically
+            </button>
+
+            <button
+              type="button"
+              className="button is-primary mx-5"
+              onClick={reset}
+            >
+              Reset
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default App;
