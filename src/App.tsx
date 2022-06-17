@@ -14,11 +14,15 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-const App: React.FC = () => (
-  <div className="App">
-    <h1>Goods</h1>
-    {goodsFromServer.length}
-  </div>
-);
-
+class App extends React.Component {
+  state = {};
+  render() {
+    return (
+      <div className="App">
+        <h1>Goods</h1>
+        {goodsFromServer.length}
+      </div>
+    );
+  }
+}
 export default App;
