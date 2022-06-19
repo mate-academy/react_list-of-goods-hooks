@@ -1,1 +1,40 @@
-/* put styles here */
+body {
+  background-color: rgb(117, 117, 117);
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: white;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.App {
+  text-align: center;
+  margin: 0 auto;
+  width: 500px;
+}
+
+.sort__button {
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  background-color: rgb(87, 86, 86);
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.start {
+  border: none;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  font-size: 32px;
+  transition: 0.3s;
+  cursor: pointer;
+}
