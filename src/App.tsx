@@ -23,8 +23,8 @@ enum SortBy {
 export const App: React.FC = () => {
   let goods = [...goodsFromServer];
 
-  const [isVisible, setStart] = useState(false);
-  const [isReverse, setReverse] = useState(false);
+  const [setIsVisible, setStart] = useState(false);
+  const [setIsReverse, setReverse] = useState(false);
   const [sortBy, setSortBy] = useState(SortBy.default);
 
   const start = () => {
@@ -44,6 +44,10 @@ export const App: React.FC = () => {
     setSortBy(SortBy.default);
   };
 
+  const sortByLength = () => {
+    setSortBy(SortBy.length);
+  };
+
   switch (sortBy) {
     case SortBy.name:
       goods.sort((good1, good2) => good1.localeCompare(good2));
@@ -55,13 +59,13 @@ export const App: React.FC = () => {
       goods = [...goodsFromServer];
   }
 
-  if (isReverse) {
+  if (setIsReverse) {
     goods.reverse();
   }
 
   return (
     <div className="App container.is-widescreen has-text-centered">
-      {!isVisible && (
+      {!setIsVisible && (
         <button
           type="button"
           className="button is-link mt-6"
@@ -70,7 +74,7 @@ export const App: React.FC = () => {
           Start
         </button>
       )}
-      {isVisible && (
+      {setIsVisible && (
         <div>
           <ul className="my-5">
             {goods.map((good) => (
@@ -99,6 +103,14 @@ export const App: React.FC = () => {
             <button
               type="button"
               className="button is-primary mx-5"
+              onClick={sortByLength}
+            >
+              Sort By Length
+            </button>
+
+            <button
+              type="button"
+              className="button is-primary mx-5"
               onClick={reset}
             >
               Reset
@@ -109,5 +121,3 @@ export const App: React.FC = () => {
     </div>
   );
 };
-
-export default App;
