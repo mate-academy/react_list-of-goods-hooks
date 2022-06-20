@@ -1,1 +1,16 @@
-/* put styles here */
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container__list {
+  align-items: center;
+  padding: 0;
+  list-style: none;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: column;
+}
