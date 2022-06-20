@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import { GoodsList } from './components/GoodsList';
 
 const goodsFromServer: string[] = [
   'Dumplings',
@@ -45,7 +46,7 @@ const App: React.FC = () => {
       <div>
         <button
           type="button"
-          onClick={() => reverseList(state => !state)}
+          onClick={() => reverseList(!isReversed)}
         >
           Reverse
         </button>
@@ -77,9 +78,7 @@ const App: React.FC = () => {
 
       {isListAvailable
         ? (
-          <ul>
-            {goodsCopy.map(goodItem => <li key={goodItem}>{goodItem}</li>)}
-          </ul>
+          <GoodsList goods={goodsCopy} />
         )
         : (
           <button
