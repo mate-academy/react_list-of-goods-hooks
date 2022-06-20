@@ -42,12 +42,10 @@ const App: React.FC = () => {
     <div className="App">
       <h1>Goods</h1>
 
-      {goodsFromServer.length}
-
       <div>
         <button
           type="button"
-          onClick={() => reverseList(!isReversed)}
+          onClick={() => reverseList(state => !state)}
         >
           Reverse
         </button>
