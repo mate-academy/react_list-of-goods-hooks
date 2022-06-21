@@ -23,11 +23,11 @@ const App:React.FC = () => {
   const [sortByValue, setSortBy] = useState('');
   const [selectValue, setSelectValue] = useState(1);
 
-  const isClickStart = () => {
+  const toggleStart = () => {
     setIsVisible(true);
   };
 
-  const isReverse = () => {
+  const reverseList = () => {
     setIsReversed(!isReversed);
   };
 
@@ -41,7 +41,7 @@ const App:React.FC = () => {
     setSelectValue(1);
   };
 
-  const isSelect = (e: React.ChangeEvent) => {
+  const setLengthValue = (e: React.ChangeEvent) => {
     const { value } = e.target as HTMLInputElement;
 
     setSelectValue(+value);
@@ -54,7 +54,7 @@ const App:React.FC = () => {
         <button
           type="button"
           className="button is-success"
-          onClick={isClickStart}
+          onClick={toggleStart}
         >
           Start
         </button>
@@ -63,16 +63,17 @@ const App:React.FC = () => {
       <div className="select is-success">
         <select
           value={selectValue}
-          onChange={isSelect}
+          onChange={setLengthValue}
         >
-          {selectOptionsValue
-            .map(el => <option key={el} value={el}>{el}</option>)}
+          {selectOptionsValue.map(
+            (el) => <option key={el} value={el}>{el}</option>,
+          )}
         </select>
 
       </div>
       <button
         type="button"
-        onClick={isReverse}
+        onClick={reverseList}
         className="button is-info is-light"
       >
         Reverse
