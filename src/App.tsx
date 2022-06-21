@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
+import { GoodsList } from './Components/GoodsList/GoodsList';
 
 const goodsFromServer: string[] = [
   'Dumplings',
@@ -14,11 +15,101 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-const App: React.FC = () => (
-  <div className="App">
-    <h1>Goods</h1>
-    {goodsFromServer.length}
-  </div>
-);
+const selectOptionsValue = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+const App:React.FC = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
+  const [sortByValue, setSortBy] = useState('');
+  const [selectValue, setSelectValue] = useState(1);
+
+  const toggleStart = () => {
+    setIsVisible(true);
+  };
+
+  const reverseList = () => {
+    setIsReversed(!isReversed);
+  };
+
+  const sortBy = (sortIdentifier: string) => {
+    setSortBy(sortIdentifier);
+  };
+
+  const reset = () => {
+    setSortBy('');
+    setIsReversed(false);
+    setSelectValue(1);
+  };
+
+  const setLengthValue = (e: React.ChangeEvent) => {
+    const { value } = e.target as HTMLInputElement;
+
+    setSelectValue(+value);
+  };
+
+  return (
+    <div className="App box">
+      {!isVisible
+      && (
+        <button
+          type="button"
+          className="button is-success"
+          onClick={toggleStart}
+        >
+          Start
+        </button>
+      )}
+      <h1 className="title is-1">Goods</h1>
+      <div className="select is-success">
+        <select
+          value={selectValue}
+          onChange={setLengthValue}
+        >
+          {selectOptionsValue.map(
+            (el) => <option key={el} value={el}>{el}</option>,
+          )}
+        </select>
+
+      </div>
+      <button
+        type="button"
+        onClick={reverseList}
+        className="button is-info is-light"
+      >
+        Reverse
+      </button>
+      <button
+        type="button"
+        onClick={() => sortBy('alphabetically')}
+        className="button is-success is-light"
+      >
+        Sort alphabetically
+      </button>
+      <button
+        type="button"
+        onClick={() => sortBy('length')}
+        className="button is-link is-light"
+      >
+        Sort by length
+      </button>
+      <button
+        type="button"
+        onClick={reset}
+        className="button is-danger is-light"
+      >
+        Reset
+      </button>
+      {isVisible
+        && (
+          <GoodsList
+            goodsFromServer={goodsFromServer}
+            isReversed={isReversed}
+            sortByValue={sortByValue}
+            selectValue={selectValue}
+          />
+        )}
+    </div>
+  );
+};
 
 export default App;
