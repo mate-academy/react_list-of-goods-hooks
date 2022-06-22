@@ -1,1 +1,85 @@
-/* put styles here */
+html {
+  background-image: url(./market.webp);
+  background-size: cover;
+}
+
+body {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+}
+
+.App {
+  background-image: url(./tablet.png);
+  background-size: cover;
+  width: 900px;
+  height: 550px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.StartButton {
+  width: 250px;
+  height: 250px;
+  background-color: lightgreen;
+  border: 1px solid black;
+  border-radius: 50%;
+  font-family: "Rampart One", cursive;
+  font-size: 50px;
+  cursor: pointer;
+}
+
+.AppCore {
+  width: 600px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.Title {
+  margin: 0;
+  font-family: "Fredoka One", cursive;
+  font-size: 30px;
+  cursor: default;
+}
+
+.Buttons {
+  margin: 15px 0 0;
+  width: 500px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.Button {
+  margin: 0;
+  width: 110px;
+  height: 30px;
+  background-color: lightgreen;
+  border: 1px solid black;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.GoodsList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  cursor: default;
+}
+
+.GoodsListItem {
+  font-family: "Caveat", cursive;
+  font-size: 25px;
+}
