@@ -1,24 +1,14 @@
 import React from 'react';
 import './App.css';
+import 'bulma/css/bulma.min.css';
+import GoodsList from './components/GoodsList';
 
-const goodsFromServer: string[] = [
-  'Dumplings',
-  'Carrot',
-  'Eggs',
-  'Ice cream',
-  'Apple',
-  'Bread',
-  'Fish',
-  'Honey',
-  'Jam',
-  'Garlic',
-];
-
-const App: React.FC = () => (
-  <div className="App">
-    <h1>Goods</h1>
-    {goodsFromServer.length}
-  </div>
-);
+const App: React.FC = () => {
+  return (
+    <div className="App container is-fluid">
+      <GoodsList />
+    </div>
+  );
+};
 
 export default App;
