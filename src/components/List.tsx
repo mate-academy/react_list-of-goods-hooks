@@ -8,6 +8,7 @@ import {
 const List: React.FC = () => {
   const [isClicked, setIsClicked] = useState(false);
   const [goodsList, setGoodsList] = useState([...goodsFromServer]);
+  const [defaultLength, setDefaultLength] = useState(true);
 
   const sortAlphabetically = (goods: string[]) => {
     setGoodsList([...goods].sort((goodItem1: string, goodItem2: string) => (
@@ -19,6 +20,7 @@ const List: React.FC = () => {
 
   const reset = () => {
     setGoodsList([...goodsFromServer]);
+    setDefaultLength(true);
 
     return renderList(goodsList);
   };
@@ -49,11 +51,7 @@ const List: React.FC = () => {
       <button
         className="button is-primary"
         type="button"
-        onClick={
-          () => {
-            setIsClicked(true);
-          }
-        }
+        onClick={() => setIsClicked(true)}
       >
         Start
       </button>
@@ -78,9 +76,7 @@ const List: React.FC = () => {
           disabled={!isClicked}
           className="button is-dark"
           type="button"
-          onClick={() => {
-            reverse(goodsList);
-          }}
+          onClick={() => reverse(goodsList)}
         >
           Reverse
         </button>
@@ -89,9 +85,7 @@ const List: React.FC = () => {
           disabled={!isClicked}
           className="button is-dark"
           type="button"
-          onClick={() => {
-            sortAlphabetically(goodsList);
-          }}
+          onClick={() => sortAlphabetically(goodsList)}
         >
           Sort alphabetically
         </button>
@@ -100,9 +94,7 @@ const List: React.FC = () => {
           disabled={!isClicked}
           className="button is-dark"
           type="button"
-          onClick={() => {
-            reset();
-          }}
+          onClick={() => reset()}
         >
           Reset
         </button>
@@ -111,9 +103,7 @@ const List: React.FC = () => {
           disabled={!isClicked}
           className="button is-dark"
           type="button"
-          onClick={() => {
-            sortByLength(goodsList);
-          }}
+          onClick={() => sortByLength(goodsList)}
         >
           Sort by length
         </button>
@@ -123,12 +113,16 @@ const List: React.FC = () => {
             disabled={!isClicked}
             name="filterOptions"
             id="filterOptions"
-            onChange={(event) => {
-              setGoodsList(filterGoodsByLength(+event.target.value));
-            }}
+            onChange={
+              (event) => {
+                setGoodsList(filterGoodsByLength(+event.target.value));
+                setDefaultLength(false);
+              }
+            }
           >
+            <option value="1" selected={defaultLength}>1</option>
             {
-              [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+              [2, 3, 4, 5, 6, 7, 8, 9, 10]
                 .map(lengthOption => (
                   <option
                     key={lengthOption}
