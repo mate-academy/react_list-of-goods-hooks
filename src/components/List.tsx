@@ -1,60 +1,13 @@
+import React, { useState } from 'react';
 import {
-  FC, useState, memo,
-} from 'react';
+  goodsFromServer,
+  renderList,
+  filterGoodsByLength,
+} from './Helpers';
 
-const goodsFromServer: string[] = [
-  'Dumplings',
-  'Carrot',
-  'Eggs',
-  'Ice cream',
-  'Apple',
-  'Bread',
-  'Fish',
-  'Honey',
-  'Jam',
-  'Garlic',
-];
-
-const RenderList: FC = () => {
+const List: React.FC = () => {
   const [isClicked, setIsClicked] = useState(false);
-  const [goodsList, setGoodsList] = useState<string[]>([...goodsFromServer]);
-  const [length, setLength] = useState('1');
-
-  const renderList = (goods: string[]) => {
-    return goods.map(goodItem => (
-      <li key={goodItem}>
-        {
-          goodItem
-        }
-      </li>
-    ));
-  };
-
-  const filterGoodsByLength = (itemLength: number) => {
-    const filteredGoods = goodsFromServer.filter(goodItem => (
-      goodItem.length >= itemLength
-    ));
-
-    return filteredGoods;
-  };
-
-  const filteredGoods = filterGoodsByLength(parseInt(length, 10));
-
-  const showList = (goods: string[]) => {
-    if (isClicked) {
-      return renderList(goods);
-    }
-
-    return null;
-  };
-
-  const reverse = (goods: string[]) => {
-    setGoodsList(
-      [...goods].reverse(),
-    );
-
-    return renderList(goodsList);
-  };
+  const [goodsList, setGoodsList] = useState([...goodsFromServer]);
 
   const sortAlphabetically = (goods: string[]) => {
     setGoodsList([...goods].sort((goodItem1: string, goodItem2: string) => (
@@ -65,9 +18,15 @@ const RenderList: FC = () => {
   };
 
   const reset = () => {
-    setLength('1');
-
     setGoodsList([...goodsFromServer]);
+
+    return renderList(goodsList);
+  };
+
+  const reverse = (goods: string[]) => {
+    setGoodsList(
+      [...goods].reverse(),
+    );
 
     return renderList(goodsList);
   };
@@ -84,7 +43,7 @@ const RenderList: FC = () => {
     return renderList(sortedGoods);
   };
 
-  const showOrHideButton = isClicked
+  const startButton = isClicked
     ? null
     : (
       <button
@@ -103,11 +62,12 @@ const RenderList: FC = () => {
   return (
     <>
       <h1 className="title is-1">Goods</h1>
-      {showOrHideButton}
+      {startButton}
       <article className="content is-medium">
         <ul>
           {
-            showList(filteredGoods)
+            (isClicked)
+            && renderList(goodsList)
           }
         </ul>
       </article>
@@ -163,23 +123,21 @@ const RenderList: FC = () => {
             disabled={!isClicked}
             name="filterOptions"
             id="filterOptions"
-            value={length}
             onChange={(event) => {
-              setLength(event.target.value);
-              setGoodsList(filteredGoods);
-              filterGoodsByLength(parseInt(length, 10));
+              setGoodsList(filterGoodsByLength(+event.target.value));
             }}
           >
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
+            {
+              [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                .map(lengthOption => (
+                  <option
+                    key={lengthOption}
+                    value={lengthOption}
+                  >
+                    {lengthOption}
+                  </option>
+                ))
+            }
           </select>
         </div>
       </article>
@@ -187,4 +145,4 @@ const RenderList: FC = () => {
   );
 };
 
-export default memo(RenderList);
+export default React.memo(List);
