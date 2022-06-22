@@ -5,7 +5,7 @@ import {
   filterGoodsByLength,
 } from './Helpers';
 
-const List: React.FC = () => {
+const GoodsList: React.FC = () => {
   const [isClicked, setIsClicked] = useState(false);
   const [goodsList, setGoodsList] = useState([...goodsFromServer]);
   const [defaultLength, setDefaultLength] = useState(true);
@@ -139,4 +139,4 @@ const List: React.FC = () => {
   );
 };
 
-export default React.memo(List);
+export default React.memo(GoodsList);
