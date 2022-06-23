@@ -8,13 +8,13 @@ export const GoodsList: React.FC<Props> = ({ goods }) => {
   const [goodsList, setGoodsList] = useState(goods);
 
   const reverseList = () => (
-    setGoodsList([...goods].reverse())
+    setGoodsList([...goodsList].reverse())
   );
   const sortAZ = () => (
-    setGoodsList([...goods].sort((a, b) => a.localeCompare(b)))
+    setGoodsList([...goodsList].sort((a, b) => a.localeCompare(b)))
   );
   const sort09 = () => (
-    setGoodsList([...goods].sort((a, b) => a.length - b.length))
+    setGoodsList([...goodsList].sort((a, b) => a.length - b.length))
   );
   const resetList = () => (
     setGoodsList(goods)
