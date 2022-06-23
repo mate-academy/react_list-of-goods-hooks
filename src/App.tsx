@@ -27,6 +27,8 @@ const App: React.FC = () => {
   const [sorted, setSorted] = useState(Goods.Default);
   const [length, setLength] = useState(1);
 
+  const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
   const handleToStart = () => {
     setStarted(!started);
   };
@@ -146,17 +148,14 @@ const App: React.FC = () => {
                   setLength(Number(event.target.value));
                 }}
               >
-                <option selected>--Choose--</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
+                <option selected hidden>--Choose--</option>
+                {options.map((option) => (
+                  <option
+                    value={option}
+                  >
+                    {option}
+                  </option>
+                ))}
               </select>
             </div>
             <br />
@@ -180,16 +179,4 @@ const App: React.FC = () => {
   );
 };
 
-// class App extends React.Component {
-//   state = {};
-
-//   render() {
-//     return (
-//       <div className="App">
-//         <h1>Goods</h1>
-//         {goodsFromServer.length}
-//       </div>
-//     );
-//   }
-// }
 export default App;
