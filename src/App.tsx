@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
 const goodsFromServer: string[] = [
@@ -14,11 +14,116 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-const App: React.FC = () => (
-  <div className="App">
-    <h1>Goods</h1>
-    {goodsFromServer.length}
-  </div>
-);
+enum SortBy {
+  name,
+  length,
+  null,
+}
+
+const App: React.FC = () => {
+  const goods = [...goodsFromServer];
+  const [isVisible, setStart] = useState(false);
+  const [isReversed, setReverse] = useState(false);
+  const [sortBy, setSortBy] = useState(SortBy.null);
+
+  const start = () => {
+    setStart(prev => !prev);
+  };
+
+  const reverse = () => {
+    setReverse(prev => !prev);
+  };
+
+  const sortAlphabetically = () => {
+    setSortBy(SortBy.name);
+  };
+
+  const sortByLength = () => {
+    setSortBy(SortBy.length);
+  };
+
+  const reset = () => {
+    setReverse(false);
+    setSortBy('');
+  };
+
+  const goodsList: string[] = goods;
+
+  switch (sortBy) {
+    case SortBy.name:
+      goodsList.sort((first, second) => first.localeCompare(second));
+      break;
+    case SortBy.length:
+      goodsList.sort((first, second) => first.length
+      - second.length);
+      break;
+    default:
+      break;
+  }
+
+  if (isReversed) {
+    goodsList.reverse();
+  }
+
+  return (
+    <div className="container">
+      {!isVisible && (
+        <button
+          type="button"
+          className="button"
+          onClick={start}
+        >
+          Start
+        </button>
+      )}
+
+      {isVisible && (
+        <div>
+          <ul className="container__list">
+            {goodsList.map((good) => (
+              <li key={good}>
+                {good}
+              </li>
+            ))}
+          </ul>
+          <div className="buttonContainer">
+            <button
+              type="button"
+              className="button"
+              onClick={reverse}
+            >
+              Reverse
+            </button>
+
+            <button
+              type="button"
+              className="button"
+              onClick={sortAlphabetically}
+            >
+              Sort by name
+            </button>
+
+            <button
+              type="button"
+              className="button"
+              onClick={sortByLength}
+            >
+              Sort by length
+            </button>
+
+            <button
+              type="button"
+              className="button"
+              onClick={reset}
+            >
+              Reset
+            </button>
+
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default App;
