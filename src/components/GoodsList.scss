@@ -1,0 +1,59 @@
+.GoodsList {
+  &__item {
+    list-style-type: none;
+    font-family: "Arvo", serif;
+    font-size: 30px;
+
+    &::before {
+      content: "\2713";
+      color: #29241e;
+    }
+  }
+
+  &__button {
+    margin: 20px;
+
+    display: inline-block;
+    text-transform: uppercase;
+    text-shadow: 1px 1px #fff;
+    text-decoration: none;
+    padding: 0.3em 1em;
+    border: 1px solid #aaa;
+    border-radius: 100px;
+    outline: none;
+    background: #d6dbbf no-repeat;
+    background-image: linear-gradient(to left, #aaa, #aaa),
+      linear-gradient(to left, #feffe8, #feffe8),
+      linear-gradient(#feffe8, #d6dbbf);
+    background-position: calc(100% - 2.7em) 0, calc(100% - 2.7em + 1px) 0, 0 0;
+    background-size: 1px 100%, 1px 100%, auto auto;
+    overflow: hidden;
+    cursor: pointer;
+
+    &:after {
+      content: "\bb";
+      position: relative;
+      bottom: 0;
+      display: inline-block;
+      margin-left: 1.4em;
+      vertical-align: middle;
+      font-family: "Arvo", serif;
+      font-weight: 700;
+      font-size: 140%;
+      -webkit-transform: rotate(90deg);
+      transform: rotate(90deg);
+    }
+
+    &:hover {
+      background-color: #fdfd9f;
+      background-image: linear-gradient(to left, #aaa, #aaa),
+        linear-gradient(to left, #feffe8, #feffe8),
+        linear-gradient(#fffce7, #fdfd9f);
+    }
+
+    &:active:after {
+      bottom: -1.2em;
+      transition: 0.3s;
+    }
+  }
+}
