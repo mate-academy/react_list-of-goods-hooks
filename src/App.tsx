@@ -14,11 +14,17 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
+enum SortBy {
+  name,
+  length,
+  null,
+}
+
 const App: React.FC = () => {
   const goods = [...goodsFromServer];
   const [isVisible, setStart] = useState(false);
   const [isReversed, setReverse] = useState(false);
-  const [sortBy, setSortBy] = useState('');
+  const [sortBy, setSortBy] = useState(SortBy.null);
 
   const start = () => {
     setStart(prev => !prev);
@@ -29,11 +35,11 @@ const App: React.FC = () => {
   };
 
   const sortAlphabetically = () => {
-    setSortBy('name');
+    setSortBy(SortBy.name);
   };
 
   const sortByLength = () => {
-    setSortBy('length');
+    setSortBy(SortBy.length);
   };
 
   const reset = () => {
@@ -44,10 +50,10 @@ const App: React.FC = () => {
   const goodsList: string[] = goods;
 
   switch (sortBy) {
-    case 'name':
+    case SortBy.name:
       goodsList.sort((first, second) => first.localeCompare(second));
       break;
-    case 'length':
+    case SortBy.length:
       goodsList.sort((first, second) => first.length
       - second.length);
       break;
