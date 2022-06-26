@@ -101,7 +101,7 @@ const App: React.FC = () => {
           <div className="goods">
             <ul>
               {goods.map((product) => (
-                <li>
+                <li key={product}>
                   {product}
                 </li>
               ))}
