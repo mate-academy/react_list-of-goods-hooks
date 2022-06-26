@@ -1,1 +1,11 @@
-/* put styles here */
+.App {
+  background-color: lightgrey;
+}
+
+.button {
+  background-color: aquamarine;
+}
+
+.goods {
+  background-color: darkgray;
+}
