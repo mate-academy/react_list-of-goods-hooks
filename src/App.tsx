@@ -102,7 +102,7 @@ const App: React.FC = () => {
           <div className="content is-medium tile box">
             <ul>
               {goods.map((good) => (
-                <li>
+                <li key={good}>
                   {good}
                 </li>
               ))}
