@@ -1,1 +1,16 @@
-/* put styles here */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  width: 490px;
+  height: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+ul {
+  height: 270px;
+}
