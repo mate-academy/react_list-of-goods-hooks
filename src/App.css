@@ -1,1 +1,18 @@
-/* put styles here */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.list-group {
+  margin-bottom: 20px;
+}
+
+.btn-group {
+  margin-bottom: 20px;
+}
+
+.form-select {
+  width: 70px;
+}
