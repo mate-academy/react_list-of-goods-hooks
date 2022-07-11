@@ -1,0 +1,115 @@
+body,
+div,
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+span,
+ul,
+li,
+ol {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.active {
+  background-color: green;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  min-width: 320px;
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: #37f5c2fc;
+  border-radius: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+
+  &__list {
+    list-style-type: none;
+  }
+
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    height: 40px;
+    background-color: #00c986;
+    border-radius: 20px;
+
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+
+    &--active {
+      display: flex;
+      justify-content: space-between;
+      height: 40px;
+      border-radius: 20px;
+      background-color: azure;
+
+      &:not(:last-child) {
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  &__span {
+    padding: 10px;
+  }
+
+  &__button {
+    width: 100px;
+
+    transition: hover 0.3s ease-in-out;
+
+    &--clear {
+      width: 200px;
+      margin: 20px auto;
+    }
+  }
+
+  &__title {
+    font-weight: 18px;
+  }
+
+  &__tools {
+    margin-top: 20px;
+
+    &--button {
+      background-color: yellow;
+
+      &:not(:last-child) {
+        margin-right: 2px;
+      }
+    }
+  }
+
+  &__select {
+    margin-top: 15px;
+
+    &--title {
+      margin-right: 5px;
+    }
+  }
+}
+
+.button {
+  height: 40px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: darkseagreen;
+    color: azure;
+  }
+}/* not empty */
