@@ -16,24 +16,35 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
+enum SortBy {
+  Length,
+  Alphabet,
+  Default,
+}
+
 const App: React.FC = () => {
   const goods: string[] = [...goodsFromServer];
 
   const [isVisible, setVisible] = useState(false);
   const [isReversed, setReversed] = useState(false);
-  const [sortBy, setSortBy] = useState('');
+  const [sortBy, setSortBy] = useState<SortBy>(SortBy.Default);
 
   const reset = () => {
     setReversed(false);
-    setSortBy('');
+    setSortBy(SortBy.Default);
   };
 
-  if (sortBy === 'length') {
-    goods.sort((a, b) => a.length - b.length);
-  }
+  switch (sortBy) {
+    case SortBy.Length:
+      goods.sort((a, b) => a.length - b.length);
+      break;
 
-  if (sortBy === 'alphabet') {
-    goods.sort((a, b) => a.localeCompare(b));
+    case SortBy.Alphabet:
+      goods.sort((a, b) => a.localeCompare(b));
+      break;
+
+    default:
+      break;
   }
 
   if (isReversed) {
@@ -47,7 +58,9 @@ const App: React.FC = () => {
         : (
           <>
             <h1 className="text-center">Goods</h1>
+
             <GoodsList goods={goods} />
+
             <button
               type="button"
               onClick={() => setReversed(!isReversed)}
@@ -55,20 +68,23 @@ const App: React.FC = () => {
             >
               Reverse
             </button>
+
             <button
               type="button"
-              onClick={() => setSortBy('alphabet')}
+              onClick={() => setSortBy(SortBy.Alphabet)}
               className="me-2 rounded"
             >
               Sort alphabetically
             </button>
+
             <button
               type="button"
-              onClick={() => setSortBy('length')}
+              onClick={() => setSortBy(SortBy.Length)}
               className="me-2 rounded"
             >
               Sort by length
             </button>
+
             <button
               type="button"
               onClick={reset}
