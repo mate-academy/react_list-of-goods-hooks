@@ -119,6 +119,7 @@ export const App: FC = () => {
           onClick={() => {
             setSortBy(SortType.nosort);
             setIsReversed(false);
+            setSelectedLength(1);
           }}
         >
           Reset
