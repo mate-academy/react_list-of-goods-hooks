@@ -16,21 +16,19 @@ const goodsFromServer: string[] = [
 ];
 
 const App: React.FC = () => {
-  const [hideGoods, setVisibleGoods] = useState(true);
+  const [areGoodsHidden, setAreGoodsHidden] = useState(true);
 
   return (
     <div className="App container is-fluid">
       <h1 className="title is-1">Goods</h1>
-      {hideGoods ? (
-        <>
-          <button
-            className="button is-success"
-            type="button"
-            onClick={() => setVisibleGoods(false)}
-          >
-            Start
-          </button>
-        </>
+      {areGoodsHidden ? (
+        <button
+          className="button is-success"
+          type="button"
+          onClick={() => setAreGoodsHidden(false)}
+        >
+          Start
+        </button>
       ) : (
         <GoodsList goods={goodsFromServer} />
       )}
