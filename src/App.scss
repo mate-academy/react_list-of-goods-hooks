@@ -1,0 +1,59 @@
+@import url("https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css");
+@import "../node_modules/bulma/bulma.sass";
+
+.App {
+  margin: 10px;
+
+  &__title {
+    display: flex;
+    width: 355px;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+  }
+}
+
+.title:not(:last-child) {
+  margin-bottom: 0;
+}
+
+.select {
+  &.is-small {
+    font-weight: bold;
+    font-size: 1rem;
+    padding-left: 8px;
+    border-radius: 8px;
+    background-color: #fff;
+  }
+
+  &:not(.is-multiple) {
+    height: 1.9em;
+  }
+}
+
+.goods .box {
+  width: 355px;
+  padding: 0.4rem;
+  background-color: $white-bis;
+  border: 1px solid $grey-lighter;
+}
+
+.App__title .box:not(:last-child) {
+  margin-bottom: 0;
+}
+
+.goods .box:not(:last-child) {
+  margin-bottom: 0.6rem;
+}
+
+.buttons .button {
+  margin-bottom: 0;
+}
+
+.buttons:not(:last-child) {
+  margin-bottom: 0.5rem;
+}
+
+.button.is-small:not(.is-rounded) {
+  border-radius: 8px;
+}
