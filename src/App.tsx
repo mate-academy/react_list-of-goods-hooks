@@ -22,22 +22,22 @@ export const App = () => {
   const [isSorted, setIsSorted] = useState(false);
   const [sortBy, setSortBy] = useState('alphabetically');
 
-  const onVisibleGoodsList = () => setVisible(!isVisible);
+  const onVisibleGoodsListClick = () => setVisible(!isVisible);
 
-  const onReverse = () => setIsReversed(!isReversed);
+  const onReverseClick = () => setIsReversed(!isReversed);
 
-  const onReset = () => {
+  const onResetClick = () => {
     setSortBy('');
     setIsReversed(false);
     setIsSorted(false);
   };
 
-  const onSortByLength = () => {
+  const onSortByLengthClick = () => {
     setIsSorted(true);
     setSortBy('length');
   };
 
-  const onSortByAlphabetically = () => {
+  const onSortByAlphabeticallyClick = () => {
     setIsSorted(true);
     setSortBy('alphabet');
   };
@@ -72,7 +72,7 @@ export const App = () => {
         <button
           type="button"
           className="App__button"
-          onClick={onVisibleGoodsList}
+          onClick={onVisibleGoodsListClick}
         >
           Start
         </button>
@@ -94,7 +94,7 @@ export const App = () => {
           <div className="App__service-container__button">
             <button
               className="App__button"
-              onClick={onReverse}
+              onClick={onReverseClick}
               type="button"
             >
               Reverse
@@ -102,7 +102,7 @@ export const App = () => {
 
             <button
               className="App__button"
-              onClick={onReset}
+              onClick={onResetClick}
               type="button"
             >
               Reset
@@ -112,7 +112,7 @@ export const App = () => {
           <div className="App__sorting-container__button">
             <button
               className="App__button"
-              onClick={onSortByLength}
+              onClick={onSortByLengthClick}
               type="button"
             >
               Sort by length
@@ -120,7 +120,7 @@ export const App = () => {
 
             <button
               className="App__button"
-              onClick={onSortByAlphabetically}
+              onClick={onSortByAlphabeticallyClick}
               type="button"
             >
               Sort alphabetically
