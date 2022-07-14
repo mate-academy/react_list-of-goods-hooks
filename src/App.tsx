@@ -1,5 +1,5 @@
-import React from 'react';
-import './App.css';
+import React, { useState } from 'react';
+import './App.scss';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const goodsFromServer: string[] = [
@@ -15,33 +15,92 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+type GoodsType = 'sortByAlph' | 'sortByLength' | 'reverse' | 'start' | 'reset';
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+interface Button {
+  value: GoodsType;
+  label: string
+}
 
-    <button type="button">
-      Sort by length
-    </button>
+export const App: React.FC = () => {
+  const [goods, setGoods] = useState(goodsFromServer);
+  const [showList, setShowList] = useState(false);
 
-    <button type="button">
-      Reverse
-    </button>
+  const isChange = (value: GoodsType) => {
+    switch (value) {
+      case 'sortByAlph':
+        setGoods([...goods].sort());
+        break;
 
-    <button type="button">
-      Reset
-    </button>
+      case 'sortByLength':
+        setGoods([...goods]
+          .sort((good1, good2) => good1.length - good2.length));
+        break;
 
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+      case 'reverse':
+        setGoods([...goods].reverse());
+        break;
+
+      case 'start':
+        setShowList(!showList);
+        break;
+
+      case 'reset':
+        setGoods(goodsFromServer);
+        break;
+
+      default:
+    }
+  };
+
+  const BUTTONS: Button[] = [
+    {
+      value: 'start',
+      label: 'Start',
+    },
+    {
+      value: 'sortByAlph',
+      label: 'Sort alphabetically',
+    },
+    {
+      value: 'sortByLength',
+      label: 'Sort by length',
+    },
+    {
+      value: 'reverse',
+      label: 'Reverse',
+    },
+    {
+      value: 'reset',
+      label: 'Reset',
+    },
+  ];
+
+  return (
+    <div className="App">
+      {BUTTONS.map(({ value, label }) => (
+        (!showList || value !== 'start') && (
+          <button
+            type="button"
+            key={label}
+            className="button"
+            onClick={() => isChange(value)}
+          >
+            {label}
+          </button>
+        )
+      ))}
+
+      <ul className="Goods">
+        {showList
+        && (
+          goods.map(good => (
+            <li className="Goods__item" key={good}>
+              {good}
+            </li>
+          ))
+        )}
+      </ul>
+    </div>
+  );
+};
