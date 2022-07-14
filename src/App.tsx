@@ -21,6 +21,7 @@ export const App: React.FC = () => {
   const [startButton, setStartButton] = useState(false);
   const [sort, setSort] = useState('');
   const [lengthLimit, setLimit] = useState(0);
+  const wordLength = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   const visibleGoods = [...goodsFromServer]
     .filter(good => good.length >= lengthLimit);
@@ -104,16 +105,15 @@ export const App: React.FC = () => {
               value={lengthLimit}
               onChange={(element) => setLimit(+element.target.value)}
             >
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">7</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
+              {wordLength
+                .map(digit => (
+                  <option
+                    value={digit}
+                    key={digit}
+                  >
+                    {digit}
+                  </option>
+                ))}
             </select>
           </div>
 
