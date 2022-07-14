@@ -17,13 +17,14 @@ const goodsFromServer: string[] = [
 
 const App: React.FC = () => {
   const goodsList = [...goodsFromServer];
-  const [initialButtonVisible, start] = useState(true);
-  const [isReversed, reverse] = useState(false);
-  const [isSortedByLength, sortByLength] = useState(false);
-  const [isSortedByName, sortByName] = useState(false);
-  const [isReset, reset] = useState(false);
+  const [isInitialButtonVisible, setIsInitialButtonVisible] = useState(true);
+  const [isReversed, setIsReversed] = useState(false);
+  const [isSortedByLength, setIsSortedByLength] = useState(false);
+  const [isSortedByName, setIsSortedByName] = useState(false);
+  const [isReset, setIsReset] = useState(false);
   const [goodsLength, setGoodsLength] = useState('1');
-  const visibleGoods = goodsList.filter(good => good.length >= +goodsLength);
+  const visibleGoods = goodsList
+    .filter(good => good.length >= Number(goodsLength));
 
   if (isSortedByLength) {
     visibleGoods.sort((a, b) => a.length - b.length);
@@ -38,16 +39,16 @@ const App: React.FC = () => {
   }
 
   if (isReset) {
-    reverse(false);
-    sortByLength(false);
-    sortByName(false);
-    reset(false);
+    setIsReversed(false);
+    setIsSortedByLength(false);
+    setIsSortedByName(false);
+    setIsReset(false);
     setGoodsLength('1');
   }
 
   return (
     <div className="App">
-      {!initialButtonVisible && (
+      {!isInitialButtonVisible && (
         <div className="App__container">
           <h1 className="title has-text-centered">{`You can see ${visibleGoods.length} goods`}</h1>
           <div className="App__flex-box container">
@@ -59,11 +60,9 @@ const App: React.FC = () => {
               type="button"
               className="button is-primary is-small"
               onClick={() => {
-                return (
-                  sortByName(true),
-                  sortByLength(false),
-                  reverse(false)
-                );
+                setIsSortedByName(true);
+                setIsSortedByLength(false);
+                setIsReversed(false);
               }}
             >
               Sort by name
@@ -73,11 +72,9 @@ const App: React.FC = () => {
               type="button"
               className="button is-primary is-small"
               onClick={() => {
-                return (
-                  sortByLength(true),
-                  sortByName(false),
-                  reverse(false)
-                );
+                setIsSortedByLength(true);
+                setIsSortedByName(false);
+                setIsReversed(false);
               }}
             >
               Sort by length
@@ -86,11 +83,7 @@ const App: React.FC = () => {
             <button
               type="button"
               className="button is-primary is-small"
-              onClick={() => {
-                return (
-                  reverse(!isReversed)
-                );
-              }}
+              onClick={() => setIsReversed(!isReversed)}
             >
               Reverse
             </button>
@@ -98,7 +91,7 @@ const App: React.FC = () => {
             <button
               type="button"
               className="button is-primary is-small"
-              onClick={() => reset(true)}
+              onClick={() => setIsReset(true)}
             >
               Reset
             </button>
@@ -128,11 +121,11 @@ const App: React.FC = () => {
         </div>
       )}
 
-      {initialButtonVisible && (
+      {isInitialButtonVisible && (
         <button
           type="button"
           className="button is-primary"
-          onClick={() => start(false)}
+          onClick={() => setIsInitialButtonVisible(false)}
         >
           Start
         </button>
