@@ -42,6 +42,7 @@ export const App: React.FC = () => {
 
   const reset = () => {
     setIsReversed(false);
+    setSortBy(SortBy.Default);
     setMinLength(1);
   };
 
