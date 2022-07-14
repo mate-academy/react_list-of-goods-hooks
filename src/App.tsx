@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const goodsFromServer: string[] = [
   'Dumplings',
   'Carrot',
@@ -15,33 +14,124 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+enum SortType {
+  Alphabetic = 'alphabetic',
+  Length = 'length',
+  Default = 'default',
+}
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+export const App: React.FC = () => {
+  const goods: string[] = [...goodsFromServer];
 
-    <button type="button">
-      Sort by length
-    </button>
+  const [isVisible, setVisible] = useState(false);
+  const [isReversed, setReversed] = useState(false);
+  const [sortBy, setSortBy] = useState<SortType>(SortType.Default);
 
-    <button type="button">
-      Reverse
-    </button>
+  const resetChanges = () => {
+    setReversed(false);
+    setSortBy(SortType.Default);
+  };
 
-    <button type="button">
-      Reset
-    </button>
+  const reverseList = () => {
+    setReversed(!isReversed);
+  };
 
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+  if (isReversed) {
+    goods.reverse();
+  }
+
+  switch (sortBy) {
+    case SortType.Alphabetic:
+      goods.sort((good1, good2) => good1.localeCompare(good2));
+      break;
+
+    case SortType.Length:
+      goods.sort(
+        (good1, good2) => (Number(good1.length) - Number(good2.length)),
+      );
+      break;
+
+    default:
+      break;
+  }
+
+  return (
+    <div className="App">
+      <div className="App__container">
+        {!isVisible && (
+          <button
+            className="
+              button
+              is-success
+              is-medium
+            "
+            type="button"
+            onClick={() => setVisible(true)}
+          >
+            Start
+          </button>
+        )}
+
+        {isVisible && (
+          <div>
+            <ul className="Goods">
+              {goods.map(good => (
+                <li className="Goods__item media" key={good}>
+                  {good}
+                </li>
+              ))}
+            </ul>
+
+            <button
+              className="
+                button
+                button-list
+                is-link
+              "
+              type="button"
+              onClick={() => setSortBy(SortType.Alphabetic)}
+            >
+              Sort alphabetically
+            </button>
+
+            <button
+              className="
+                button
+                button-list
+                is-info
+              "
+              type="button"
+              onClick={() => setSortBy(SortType.Length)}
+            >
+              Sort by length
+            </button>
+
+            <button
+              className="
+                button
+                button-list
+                is-warning
+              "
+              type="button"
+              onClick={reverseList}
+            >
+              Reverse
+            </button>
+
+            <button
+              className="
+                button
+                button-list
+                is-danger
+              "
+              type="button"
+              onClick={resetChanges}
+            >
+              Reset
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
