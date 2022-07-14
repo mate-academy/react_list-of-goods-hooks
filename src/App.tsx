@@ -22,22 +22,22 @@ export const App = () => {
   const [isSorted, setIsSorted] = useState(false);
   const [sortBy, setSortBy] = useState('alphabetically');
 
-  const visibleGoodsList = () => setVisible(!isVisible);
+  const onVisibleGoodsList = () => setVisible(!isVisible);
 
-  const reverse = () => setIsReversed(!isReversed);
+  const onReverse = () => setIsReversed(!isReversed);
 
-  const reset = () => {
+  const onReset = () => {
     setSortBy('');
     setIsReversed(false);
     setIsSorted(false);
   };
 
-  const sortByLength = () => {
+  const onSortByLength = () => {
     setIsSorted(true);
     setSortBy('length');
   };
 
-  const sortByAlphabetically = () => {
+  const onSortByAlphabetically = () => {
     setIsSorted(true);
     setSortBy('alphabet');
   };
@@ -45,18 +45,17 @@ export const App = () => {
   const newGoods = [...goods];
 
   if (isSorted) {
-    newGoods.sort((good1, good2): number => {
+    newGoods.sort((product1, product2): number => {
       switch (sortBy) {
         case 'length':
-          return good1.length - good2.length;
+          return product1.length - product2.length;
 
         case 'alphabet':
-          // I added "if" because if the array is flipped it will not sort correctly
           if (!isReversed) {
-            return good1.localeCompare(good2);
+            return product1.localeCompare(product2);
           }
 
-          return good2.localeCompare(good1);
+          return product2.localeCompare(product1);
 
         default: return 0;
       }
@@ -73,7 +72,7 @@ export const App = () => {
         <button
           type="button"
           className="App__button"
-          onClick={visibleGoodsList}
+          onClick={onVisibleGoodsList}
         >
           Start
         </button>
@@ -92,10 +91,10 @@ export const App = () => {
             )))}
           </ul>
 
-          <div className="App__serviceContainer-button">
+          <div className="App__service-container__button">
             <button
               className="App__button"
-              onClick={reverse}
+              onClick={onReverse}
               type="button"
             >
               Reverse
@@ -103,17 +102,17 @@ export const App = () => {
 
             <button
               className="App__button"
-              onClick={reset}
+              onClick={onReset}
               type="button"
             >
               Reset
             </button>
           </div>
 
-          <div className="App__sortingContainer-button">
+          <div className="App__sorting-container__button">
             <button
               className="App__button"
-              onClick={sortByLength}
+              onClick={onSortByLength}
               type="button"
             >
               Sort by length
@@ -121,7 +120,7 @@ export const App = () => {
 
             <button
               className="App__button"
-              onClick={sortByAlphabetically}
+              onClick={onSortByAlphabetically}
               type="button"
             >
               Sort alphabetically
