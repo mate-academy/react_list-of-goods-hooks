@@ -1,7 +1,6 @@
-import React from 'react';
+import { useState } from 'react';
 import './App.css';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const goodsFromServer: string[] = [
   'Dumplings',
   'Carrot',
@@ -15,33 +14,121 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+export const App = () => {
+  const goods = goodsFromServer;
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+  const [isVisible, setVisible] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
+  const [isSorted, setIsSorted] = useState(false);
+  const [sortBy, setSortBy] = useState('alphabetically');
 
-    <button type="button">
-      Sort by length
-    </button>
+  const visibleGoodsList = () => setVisible(!isVisible);
 
-    <button type="button">
-      Reverse
-    </button>
+  const reverse = () => setIsReversed(!isReversed);
 
-    <button type="button">
-      Reset
-    </button>
+  const reset = () => {
+    setSortBy('');
+    setIsReversed(false);
+    setIsSorted(false);
+  };
 
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+  const sortByLength = () => {
+    setIsSorted(true);
+    setSortBy('length');
+  };
+
+  const sortByAlphabetically = () => {
+    setIsSorted(true);
+    setSortBy('alphabet');
+  };
+
+  const newGoods = [...goods];
+
+  if (isSorted) {
+    newGoods.sort((good1, good2): number => {
+      switch (sortBy) {
+        case 'length':
+          return good1.length - good2.length;
+
+        case 'alphabet':
+          // I added "if" because if the array is flipped it will not sort correctly
+          if (!isReversed) {
+            return good1.localeCompare(good2);
+          }
+
+          return good2.localeCompare(good1);
+
+        default: return 0;
+      }
+    });
+  }
+
+  if (isReversed) {
+    newGoods.reverse();
+  }
+
+  return (
+    <div className="App">
+      {!isVisible && (
+        <button
+          type="button"
+          className="App__button"
+          onClick={visibleGoodsList}
+        >
+          Start
+        </button>
+      )}
+
+      {isVisible && (
+        <div className="App__container">
+          <ul className="App__list">
+            {(newGoods.map((good) => (
+              <li
+                key={good}
+                className="App__item"
+              >
+                {good}
+              </li>
+            )))}
+          </ul>
+
+          <div className="App__serviceContainer-button">
+            <button
+              className="App__button"
+              onClick={reverse}
+              type="button"
+            >
+              Reverse
+            </button>
+
+            <button
+              className="App__button"
+              onClick={reset}
+              type="button"
+            >
+              Reset
+            </button>
+          </div>
+
+          <div className="App__sortingContainer-button">
+            <button
+              className="App__button"
+              onClick={sortByLength}
+              type="button"
+            >
+              Sort by length
+            </button>
+
+            <button
+              className="App__button"
+              onClick={sortByAlphabetically}
+              type="button"
+            >
+              Sort alphabetically
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
