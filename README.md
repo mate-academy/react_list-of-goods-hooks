@@ -1,4 +1,7 @@
 # React list of goods (Hooks)
+
+> [React + Typescript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript)
+
 Reimplement the [React list of goods](https://github.com/mate-academy/react_list-of-goods#react-list-of-goods)
 using hooks. Keep CSS classes for tests.
 
