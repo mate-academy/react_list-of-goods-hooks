@@ -15,37 +15,35 @@ const goodsFromServer: string[] = [
 ];
 
 export const App = () => {
-  const goods = goodsFromServer;
-
   const [isVisible, setVisible] = useState(false);
   const [isReversed, setIsReversed] = useState(false);
   const [isSorted, setIsSorted] = useState(false);
   const [sortBy, setSortBy] = useState('alphabetically');
 
-  const onVisibleGoodsListClick = () => setVisible(!isVisible);
+  const handleVisibleGoodsListClick = () => setVisible(!isVisible);
 
-  const onReverseClick = () => setIsReversed(!isReversed);
+  const handleReverseClick = () => setIsReversed(!isReversed);
 
-  const onResetClick = () => {
+  const handleResetClick = () => {
     setSortBy('');
     setIsReversed(false);
     setIsSorted(false);
   };
 
-  const onSortByLengthClick = () => {
+  const handleSortByLengthClick = () => {
     setIsSorted(true);
     setSortBy('length');
   };
 
-  const onSortByAlphabeticallyClick = () => {
+  const handleSortByAlphabeticallyClick = () => {
     setIsSorted(true);
     setSortBy('alphabet');
   };
 
-  const newGoods = [...goods];
+  const goods = [...goodsFromServer];
 
   if (isSorted) {
-    newGoods.sort((product1, product2): number => {
+    goods.sort((product1, product2): number => {
       switch (sortBy) {
         case 'length':
           return product1.length - product2.length;
@@ -63,7 +61,7 @@ export const App = () => {
   }
 
   if (isReversed) {
-    newGoods.reverse();
+    goods.reverse();
   }
 
   return (
@@ -72,7 +70,7 @@ export const App = () => {
         <button
           type="button"
           className="App__button"
-          onClick={onVisibleGoodsListClick}
+          onClick={handleVisibleGoodsListClick}
         >
           Start
         </button>
@@ -81,7 +79,7 @@ export const App = () => {
       {isVisible && (
         <div className="App__container">
           <ul className="App__list">
-            {(newGoods.map((good) => (
+            {(goods.map((good) => (
               <li
                 key={good}
                 className="App__item"
@@ -94,7 +92,7 @@ export const App = () => {
           <div className="App__service-container__button">
             <button
               className="App__button"
-              onClick={onReverseClick}
+              onClick={handleReverseClick}
               type="button"
             >
               Reverse
@@ -102,7 +100,7 @@ export const App = () => {
 
             <button
               className="App__button"
-              onClick={onResetClick}
+              onClick={handleResetClick}
               type="button"
             >
               Reset
@@ -112,7 +110,7 @@ export const App = () => {
           <div className="App__sorting-container__button">
             <button
               className="App__button"
-              onClick={onSortByLengthClick}
+              onClick={handleSortByLengthClick}
               type="button"
             >
               Sort by length
@@ -120,7 +118,7 @@ export const App = () => {
 
             <button
               className="App__button"
-              onClick={onSortByAlphabeticallyClick}
+              onClick={handleSortByAlphabeticallyClick}
               type="button"
             >
               Sort alphabetically
