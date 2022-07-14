@@ -1,0 +1,48 @@
+/* put styles here */
+.App {
+  &__buttons-block {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__info {
+    background-color: blanchedalmond;
+  }
+}
+
+.Goods {
+  margin: 0;
+  padding: 0;
+  height: 650px;
+  list-style: none;
+
+  &__item {
+    display: block;
+    margin-bottom: 10px;
+    text-align: center;
+    padding: 10px;
+    background-color: rgba(255, 228, 196, 0.2);
+
+    text-transform: uppercase;
+
+    border: 1px solid rgb(116, 116, 116);
+    border-radius: 10px;
+  }
+}
+
+.button {
+  width: 160px;
+  margin: 0 0 20px 20px;
+  text-transform: uppercase;
+  background-color: transparent;
+  border-radius: 5px;
+  transition: all 0.3s;
+
+  &:hover {
+    background-color: aquamarine;
+  }
+}
+
+input {
+  width: 100%;
+}
