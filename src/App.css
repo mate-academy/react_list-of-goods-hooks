@@ -1,1 +1,23 @@
-/* put styles here */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.list-group {
+  width: 400px;
+}
+
+.form-select {
+  width: 80px;
+}
+
+.btn {
+  margin: 10px;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+}
