@@ -1,47 +1,135 @@
-import React from 'react';
-import './App.css';
+import React, { useState } from 'react';
+import './App.scss';
+import { GoodsList } from './components/GoodsList';
+import { goodsFromServer } from './api/goods';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const goodsFromServer: string[] = [
-  'Dumplings',
-  'Carrot',
-  'Eggs',
-  'Ice cream',
-  'Apple',
-  'Bread',
-  'Fish',
-  'Honey',
-  'Jam',
-  'Garlic',
-];
+const App: React.FC<{}> = () => {
+  const [state, setState] = useState({
+    lengthLimit: 0,
+    goods: goodsFromServer,
+    isReverse: false,
+    sortBy: '',
+  });
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+  const showAll = () => {
+    setState((currentState) => ({
+      ...currentState,
+      lengthLimit: -1,
+    }));
+  };
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+  const reverse = () => {
+    setState((currentState) => ({
+      ...currentState,
+      isReverse: !state.isReverse,
+    }));
+  };
 
-    <button type="button">
-      Sort by length
-    </button>
+  const sortByLength = () => {
+    setState((currentState) => ({
+      ...currentState,
+      sortBy: 'length',
+    }));
+  };
 
-    <button type="button">
-      Reverse
-    </button>
+  const sortByName = () => {
+    setState((currentState) => ({
+      ...currentState,
+      sortBy: 'name',
+    }));
+  };
 
-    <button type="button">
-      Reset
-    </button>
+  const reset = () => {
+    setState((currentState) => ({
+      ...currentState,
+      sortBy: '',
+      isReverse: false,
+      lengthLimit: -1,
+    }));
+  };
 
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+  const {
+    goods,
+    isReverse,
+    sortBy,
+    lengthLimit,
+  } = state;
+
+  const visibleGoods = goods.filter(good => {
+    if (lengthLimit === -1) {
+      return true;
+    }
+
+    return good.length <= lengthLimit;
+  });
+
+  visibleGoods.sort((f1, f2) => {
+    switch (sortBy) {
+      case 'length':
+        return f1.length - f2.length;
+      case 'name':
+        return f1.localeCompare(f2);
+      default:
+        return 0;
+    }
+  });
+
+  if (isReverse) {
+    visibleGoods.reverse();
+  }
+
+  return (
+    <div className="App">
+      <GoodsList
+        goods={visibleGoods}
+      />
+
+      {(visibleGoods.length > 0 && (
+        <div className="level">
+          <button
+            className="button is-danger"
+            type="button"
+            onClick={reverse}
+          >
+            Reverse
+          </button>
+
+          <button
+            className="button is-warning"
+            type="button"
+            onClick={reset}
+          >
+            Reset
+          </button>
+          <button
+            className="button is-info"
+            type="button"
+            onClick={sortByLength}
+          >
+            Length
+          </button>
+
+          <button
+            className="button is-success"
+            type="button"
+            onClick={sortByName}
+          >
+            Name
+          </button>
+        </div>
+      )) || (
+        <div className="main-buttons">
+          <button
+            className="button is-primary is-rounded main-buttons__item"
+            type="button"
+            onClick={showAll}
+          >
+            Start
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default App;
