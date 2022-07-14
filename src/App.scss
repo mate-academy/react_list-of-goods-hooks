@@ -1,0 +1,19 @@
+@import "../node_modules/bulma/bulma.sass";
+
+.button {
+  margin: 40px 10px 20px;
+}
+
+.App {
+  width: max-content;
+}
+
+.Goods {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__item {
+    color: rgb(66, 120, 208);
+  }
+}
