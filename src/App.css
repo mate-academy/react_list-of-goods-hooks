@@ -1,1 +1,32 @@
-/* put styles here */
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.start {
+  margin: 0 auto;
+  margin-top: 300px;
+  width: fit-content;
+  height: fit-content;
+  font-size: 100px;
+  text-align: center;
+  background-color: yellowgreen;
+}
+
+.start__invisible {
+  display: none;
+}
+
+.button {
+  width: 190px;
+  margin: 10px;
+}
+
+.Goods__item {
+  margin-bottom: 3px;
+  text-align: center;
+  font-size: 40px;
+  border: 2px solid saddlebrown;
+  background-color: coral;
+}
