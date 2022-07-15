@@ -4,56 +4,32 @@ import { GoodsList } from './components/GoodsList';
 import { goodsFromServer } from './api/goods';
 
 const App: React.FC<{}> = () => {
-  const [state, setState] = useState({
-    lengthLimit: 0,
-    goods: goodsFromServer,
-    isReverse: false,
-    sortBy: '',
-  });
+  const [lengthLimit, setLengthLimit] = useState(0);
+  const [isReverse, setIsReverse] = useState(false);
+  const [sortBy, setSortBy] = useState('');
+  const goods = [...goodsFromServer];
 
   const showAll = () => {
-    setState((currentState) => ({
-      ...currentState,
-      lengthLimit: -1,
-    }));
+    setLengthLimit(-1);
   };
 
   const reverse = () => {
-    setState((currentState) => ({
-      ...currentState,
-      isReverse: !state.isReverse,
-    }));
+    setIsReverse(!isReverse);
   };
 
   const sortByLength = () => {
-    setState((currentState) => ({
-      ...currentState,
-      sortBy: 'length',
-    }));
+    setSortBy('length');
   };
 
   const sortByName = () => {
-    setState((currentState) => ({
-      ...currentState,
-      sortBy: 'name',
-    }));
+    setSortBy('name');
   };
 
   const reset = () => {
-    setState((currentState) => ({
-      ...currentState,
-      sortBy: '',
-      isReverse: false,
-      lengthLimit: -1,
-    }));
+    setSortBy('');
+    setIsReverse(false);
+    setLengthLimit(-1);
   };
-
-  const {
-    goods,
-    isReverse,
-    sortBy,
-    lengthLimit,
-  } = state;
 
   const visibleGoods = goods.filter(good => {
     if (lengthLimit === -1) {
