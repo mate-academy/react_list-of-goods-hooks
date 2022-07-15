@@ -1,1 +1,83 @@
-/* put styles here */
+.App {
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 20px;
+  height: 95vh;
+  width: 50vw;
+  border: 5px solid black;
+  box-shadow: 1px 1px 0 0, 2px 2px 0 0, 3px 3px 0 0, 4px 4px 0 0, 5px 5px 0 0;
+  text-align: center;
+}
+
+.btn {
+  margin-right: 10px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  letter-spacing: 2px;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #000;
+  cursor: pointer;
+  border: 3px solid;
+  padding: 0.25em 0.5em;
+  box-shadow: 1px 1px 0 0, 2px 2px 0 0, 3px 3px 0 0, 4px 4px 0 0, 5px 5px 0 0;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.btn:active {
+  box-shadow: 0 0 0 0;
+  top: 5px;
+  left: 5px;
+}
+
+.btn:last-child {
+  margin-right: 0;
+}
+
+@media (min-width: 768px) {
+  .btn {
+    padding: 0.25em 0.75em;
+  }
+}
+
+.btn--start {
+  margin-top: 45%;
+}
+
+.list-section {
+  margin: 40px 0;
+  display: flex;
+  gap: 170px;
+}
+
+.Goods {
+  padding: 0;
+  font-family: "Open Sans", sans-serif;
+  font-size: 22px;
+}
+
+.Goods__item {
+  margin-top: 20px;
+  list-style: none;
+  text-align: left;
+}
+
+.Goods__item:first-child {
+  margin-top: 0;
+}
+
+.Goods__item::after {
+  content: "";
+  height: 2px;
+  border-bottom: 2px solid black;
+}
+
+.ad {
+  width: 100%;
+  border: 3px solid black;
+  font-size: 100px;
+  padding-top: 25%;
+}
