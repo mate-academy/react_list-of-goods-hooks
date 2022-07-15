@@ -1,0 +1,12 @@
+.main-buttons {
+  background-color: gray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  &__item {
+    height: 100px;
+    width: 100px;
+  }
+}
