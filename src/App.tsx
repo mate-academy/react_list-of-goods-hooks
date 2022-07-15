@@ -47,7 +47,7 @@ export const App: React.FC = () => {
 
     case SortType.Length:
       goods.sort(
-        (good1, good2) => (Number(good1.length) - Number(good2.length)),
+        (good1, good2) => (good1.length - good2.length),
       );
       break;
 
