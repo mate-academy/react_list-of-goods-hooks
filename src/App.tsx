@@ -100,9 +100,7 @@ export const App: React.FC = () => {
       ) : (
         <button
           type="button"
-          onClick={() => (
-            letStart(true)
-          )}
+          onClick={letStart(true)}
         >
           Start
         </button>
