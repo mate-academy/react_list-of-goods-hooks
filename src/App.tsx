@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
+import classNames from 'classnames';
+import GoodsList from './Components/GoodsList/GoodsList';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const goodsFromServer: string[] = [
   'Dumplings',
   'Carrot',
@@ -15,33 +16,106 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+export const App: React.FC = () => {
+  const [isStarted, start] = useState(false);
+  const [isReversed, reverse] = useState(false);
+  const [isSortedByAlph, sortByAlph] = useState(false);
+  const [isSortedByLength, sortByLength] = useState(false);
+  const [minLength, filterByLength] = useState(1);
+  const goods = goodsFromServer.filter(good => good.length >= minLength);
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+  if (isSortedByAlph) {
+    goods.sort((a, b) => a.localeCompare(b));
+  }
 
-    <button type="button">
-      Sort by length
-    </button>
+  if (isSortedByLength) {
+    goods.sort((a, b) => a.length - b.length);
+  }
 
-    <button type="button">
-      Reverse
-    </button>
+  if (isReversed) {
+    goods.reverse();
+  }
 
-    <button type="button">
-      Reset
-    </button>
+  return (
+    <div className="App">
+      <h1 className="title">Goods</h1>
+      {isStarted ? (
+        <>
+          <GoodsList goods={goods} />
 
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+          <div className="select is-success">
+            <select
+              name="length"
+              value={minLength}
+              onChange={(event) => filterByLength(+event.target.value)}
+            >
+              {[...new Array(10)].map((_, i) => (
+                <option value={i + 1}>{i + 1}</option>
+              ))}
+            </select>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => {
+              sortByLength(false);
+              sortByAlph(!isSortedByAlph);
+            }}
+            className={classNames(
+              'button is-info',
+              { 'is-success': isSortedByAlph },
+            )}
+          >
+            Sort alphabetically
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              sortByAlph(false);
+              sortByLength(!isSortedByLength);
+            }}
+            className={classNames(
+              'button is-info',
+              { 'is-success': isSortedByLength },
+            )}
+          >
+            Sort by length
+          </button>
+
+          <button
+            type="button"
+            onClick={() => reverse(!isReversed)}
+            className={classNames(
+              'button is-info',
+              { 'is-success': isReversed },
+            )}
+          >
+            Reverse
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              sortByLength(false);
+              sortByAlph(false);
+              reverse(false);
+              filterByLength(1);
+            }}
+            className="button is-danger"
+          >
+            Reset
+          </button>
+        </>
+      ) : (
+        <button
+          type="button"
+          onClick={() => start(true)}
+          className="button is-success"
+        >
+          Start
+        </button>
+      )}
+    </div>
+  );
+};
