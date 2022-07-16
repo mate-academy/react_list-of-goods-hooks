@@ -1,1 +1,36 @@
-/* put styles here */
+.card__button {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.button {
+  width: 150px;
+  height: 50px;
+  border: 1px solid;
+  border-radius: 10px;
+}
+
+.button__reset {
+  background-color: red;
+  color: white;
+}
+
+.button__start {
+  display: block;
+  width: 150px;
+  height: 100px;
+  margin: 100px auto;
+  background-color: blue;
+  color: white;
+  border: 1px solid;
+  border-radius: 10px;
+  font-weight: 700;
+  transition: 1s;
+}
+
+.button__start:hover {
+  cursor: pointer;
+  background-color: rgb(120, 135, 238);
+  transform: scale(1.1);
+}

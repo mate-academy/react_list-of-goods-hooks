@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable @typescript-eslint/naming-convention */
+import React, { useState } from 'react';
 import './App.css';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -15,33 +16,108 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+enum sortType {
+  NONE,
+  NAME,
+  LENGTH,
+}
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+export const App: React.FC = () => {
+  const visibleProduct: string[] = [...goodsFromServer];
 
-    <button type="button">
-      Sort by length
-    </button>
+  const [isStarted, setIsStarted] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
+  const [sortBy, setSortBy] = useState<sortType>(sortType.NONE);
 
-    <button type="button">
-      Reverse
-    </button>
+  const reversed = () => {
+    setIsReversed(!isReversed);
+  };
 
-    <button type="button">
-      Reset
-    </button>
+  if (isReversed) {
+    visibleProduct.reverse();
+  }
 
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+  const reset = () => {
+    setIsReversed(false);
+    setSortBy(sortType.NONE);
+  };
+
+  switch (sortBy) {
+    case sortType.NAME:
+      visibleProduct.sort(
+        (prod1, prod2) => prod1.localeCompare(prod2),
+      );
+      break;
+
+    case sortType.LENGTH:
+      visibleProduct.sort(
+        (prod1, prod2) => prod1.length - prod2.length,
+      );
+      break;
+
+    default:
+      break;
+  }
+
+  return (
+    <div className="App">
+      {!isStarted && (
+        <button
+          type="button"
+          className="button__start"
+          onClick={() => setIsStarted(true)}
+        >
+          Start
+        </button>
+      )}
+
+      {isStarted && (
+        <>
+          <div className="card">
+            <h1 className="card__title">List of Product</h1>
+            <ol className="list">
+              {visibleProduct.map(product => (
+                <li className="card__product" key={product}>
+                  <p>{product}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+          <div className="card__button">
+            <button
+              type="button"
+              className="button"
+              onClick={() => setSortBy(sortType.NAME)}
+            >
+              Sort by name
+            </button>
+
+            <button
+              type="button"
+              className="button"
+              onClick={() => setSortBy(sortType.LENGTH)}
+            >
+              Sort by length
+            </button>
+
+            <button
+              type="button"
+              className="button"
+              onClick={reversed}
+            >
+              Reverse
+            </button>
+
+            <button
+              type="button"
+              className="button button__reset"
+              onClick={reset}
+            >
+              Reset
+            </button>
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
