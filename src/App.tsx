@@ -23,17 +23,17 @@ enum SortType {
 export const App: React.FC = () => {
   const goods: string[] = [...goodsFromServer];
 
-  const [isVisible, setVisible] = useState(false);
-  const [isReversed, setReversed] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
   const [sortBy, setSortBy] = useState<SortType>(SortType.Default);
 
   const resetChanges = () => {
-    setReversed(false);
+    setIsReversed(false);
     setSortBy(SortType.Default);
   };
 
   const reverseList = () => {
-    setReversed(!isReversed);
+    setIsReversed(!isReversed);
   };
 
   if (isReversed) {
@@ -66,7 +66,7 @@ export const App: React.FC = () => {
               is-medium
             "
             type="button"
-            onClick={() => setVisible(true)}
+            onClick={() => setIsVisible(true)}
           >
             Start
           </button>
