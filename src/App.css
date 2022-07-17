@@ -1,1 +1,73 @@
-/* put styles here */
+.App {
+  margin: 0;
+}
+
+.App__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.App__title {
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  grid: 20px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.button {
+  width: 100px;
+  height: 40px;
+  font-size: 20px;
+  font-weight: 600;
+  border-radius: 5px;
+  border-color: #adc0ad;
+  cursor: pointer;
+  transition: box-shadow 0.3s;
+}
+
+.button:hover {
+  background-color: #adc0ad;
+  box-shadow: 0 8px 14px rgba(4, 54, 7, 0.74);
+}
+
+.buttons__list {
+  width: 150px;
+  height: 50px;
+  font-size: 18px;
+  font-weight: 500;
+  border-radius: 5px;
+  border-color: #adc0ad;
+  cursor: pointer;
+  transition: box-shadow 0.3s;
+}
+
+.buttons__list:hover {
+  background-color: #adc0ad;
+  box-shadow: 0 8px 14px rgba(4, 54, 7, 0.74);
+}
+
+.Goods {
+  margin: 0;
+  font-size: 20px;
+}
+
+.Goods__item {
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.Goods__item:hover {
+  text-decoration: underline;
+}
