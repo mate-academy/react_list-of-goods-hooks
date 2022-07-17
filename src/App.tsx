@@ -30,7 +30,7 @@ export const App: React.FC = () => {
             onClick={() => showList(true)}
             className="button is-light is-medium"
           >
-            Show
+            Start
           </button>
         )}
     </div>
