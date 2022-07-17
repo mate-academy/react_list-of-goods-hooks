@@ -1,1 +1,14 @@
-/* put styles here */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.buttons-container {
+  gap: 10px;
+}
+
+.title {
+  margin-bottom: 0;
+}
