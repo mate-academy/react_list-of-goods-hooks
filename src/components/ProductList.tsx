@@ -7,19 +7,13 @@ type Props = {
 };
 
 export const ProductList: React.FC<Props> = ({ products }) => {
-  const [visibleButton, setVisibleButton] = useState(true);
-  const [visibleListWithButtons, setVisibleListWithButtons] = useState(false);
+  const [showList, setShowList] = useState(false);
   const [reverseList, setReverseList] = useState(false);
   const [sortBy, setSortBy] = useState('');
-  const [resetList, setResetList] = useState(false);
   const [filterList, setFilterList] = useState(1);
 
   const hideStartButtonAndShowListWithButtons = () => {
-    setVisibleButton(() => {
-      return false;
-    });
-
-    setVisibleListWithButtons(() => {
+    setShowList(() => {
       return true;
     });
   };
@@ -30,25 +24,15 @@ export const ProductList: React.FC<Props> = ({ products }) => {
     setFilterList(() => {
       return length;
     });
-
-    setResetList(() => {
-      return false;
-    });
   };
 
   const reverse = () => {
     setReverseList(current => !current);
-    setResetList(() => {
-      return false;
-    });
   };
 
   const sortByName = () => {
     setSortBy(() => {
       return 'name';
-    });
-    setResetList(() => {
-      return false;
     });
   };
 
@@ -56,16 +40,9 @@ export const ProductList: React.FC<Props> = ({ products }) => {
     setSortBy(() => {
       return 'length';
     });
-    setResetList(() => {
-      return false;
-    });
   };
 
   const reset = () => {
-    setResetList(() => {
-      return true;
-    });
-
     setReverseList(() => {
       return false;
     });
@@ -111,8 +88,8 @@ export const ProductList: React.FC<Props> = ({ products }) => {
         className={classNames(
           'button is-success is-outlined is-rounded',
           {
-            showElement: visibleButton,
-            hideElement: !visibleButton,
+            showElement: !showList,
+            hideElement: showList,
           },
         )}
       >
@@ -123,27 +100,19 @@ export const ProductList: React.FC<Props> = ({ products }) => {
         className={classNames(
           'level-item has-text-centered',
           {
-            showElement: visibleListWithButtons,
-            hideElement: !visibleListWithButtons,
+            showElement: showList,
+            hideElement: !showList,
           },
         )}
       >
         <ul>
-          {resetList
-            ? products.map(product => (
-              <li
-                key={product}
-              >
-                {product}
-              </li>
-            ))
-            : copy.map(product => (
-              <li
-                key={product}
-              >
-                {product}
-              </li>
-            ))}
+          {copy.map(product => (
+            <li
+              key={product}
+            >
+              {product}
+            </li>
+          ))}
         </ul>
 
         <div className="selectAndButtons">
