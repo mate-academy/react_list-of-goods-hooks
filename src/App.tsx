@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
+import './App.scss';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const goodsFromServer: string[] = [
@@ -15,33 +16,112 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+enum SortType {
+  NONE,
+  ALPABET,
+  LENGTH,
+}
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+export const App: React.FC = () => {
+  const [isStarted, setIsStarted] = useState(false);
+  const [sortType, setSortType] = useState(SortType.NONE);
+  const [isReversed, setIsReversed] = useState(false);
 
-    <button type="button">
-      Sort by length
-    </button>
+  function getReorderedGoods(goods: string[]) {
+    const visibleGoods = [...goods];
 
-    <button type="button">
-      Reverse
-    </button>
+    switch (sortType) {
+      case SortType.ALPABET:
+        visibleGoods.sort((goodA, goodB) => goodA.localeCompare(goodB));
+        break;
 
-    <button type="button">
-      Reset
-    </button>
+      case SortType.LENGTH:
+        visibleGoods.sort((goodA, goodB) => goodA.length - goodB.length);
+        break;
 
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+      default:
+        break;
+    }
+
+    return isReversed ? visibleGoods.reverse() : visibleGoods;
+  }
+
+  function reverse() {
+    if (isReversed) {
+      setIsReversed(false);
+    } else {
+      setIsReversed(true);
+    }
+  }
+
+  return (
+    <article className="App panel is-warning">
+      {!isStarted && (
+        <button
+          className="button is-large is-info is-fullwidth"
+          type="button"
+          onClick={() => setIsStarted(true)}
+        >
+          Start
+        </button>
+      )}
+
+      {isStarted && (
+        <>
+          <p className="App__title panel-heading">
+            Shoping-list
+          </p>
+
+          <div className="panel-tabs">
+            <button
+              className="button is-white"
+              type="button"
+              onClick={() => setSortType(SortType.ALPABET)}
+            >
+              Sort alphabetically
+            </button>
+
+            <button
+              className="button is-white"
+              type="button"
+              onClick={() => setSortType(SortType.LENGTH)}
+            >
+              Sort by length
+            </button>
+
+            <button
+              className="button is-white"
+              type="button"
+              onClick={() => reverse()}
+            >
+              Reverse
+            </button>
+
+            <button
+              className="button is-danger is-light"
+              type="button"
+              onClick={() => {
+                setSortType(SortType.NONE);
+                setIsReversed(false);
+              }}
+            >
+              Reset
+            </button>
+          </div>
+
+          <div className="Goods">
+            {getReorderedGoods(goodsFromServer).map(good => (
+              <a
+                href="#test"
+                key={good}
+                className="Goods__item panel-block"
+              >
+                {good}
+              </a>
+            ))}
+          </div>
+        </>
+      )}
+    </article>
+  );
+};
