@@ -1,1 +1,28 @@
-/* put styles here */
+.App__container {
+  max-width: 800px;
+  padding: 10px;
+  margin: 0 auto;
+  text-align: center;
+  background-color: #d8d2d2;
+}
+
+.App__list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  list-style: none;
+  font-size: 25px;
+}
+
+.App__button {
+  font-size: 20px;
+}
+
+.App__start {
+  display: flex;
+  justify-content: center;
+  max-width: 800px;
+  padding: 10px;
+  margin: 0 auto;
+}
