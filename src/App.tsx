@@ -105,61 +105,6 @@ export const App: React.FC = () => {
           </div>
         </div>
       )}
-      {/* <button type="button">
-        Start
-      </button> */}
-
-      {/* <button type="button">
-        Sort alphabetically
-      </button>
-
-      <button type="button">
-        Sort by length
-      </button>
-
-      <button type="button">
-        Reverse
-      </button>
-
-      <button type="button">
-        Reset
-      </button> */}
-
-      {/* <ul className="Goods">
-        <li className="Goods__item">Dumplings</li>
-        <li className="Goods__item">Carrot</li>
-        <li className="Goods__item">Eggs</li>
-        <li className="Goods__item">...</li>
-      </ul> */}
     </div>
   );
-
-  // <div className="App">
-  //   <button type="button">
-  //     Start
-  //   </button>
-
-  //   <button type="button">
-  //     Sort alphabetically
-  //   </button>
-
-  //   <button type="button">
-  //     Sort by length
-  //   </button>
-
-  //   <button type="button">
-  //     Reverse
-  //   </button>
-
-  //   <button type="button">
-  //     Reset
-  //   </button>
-
-  //   <ul className="Goods">
-  //     <li className="Goods__item">Dumplings</li>
-  //     <li className="Goods__item">Carrot</li>
-  //     <li className="Goods__item">Eggs</li>
-  //     <li className="Goods__item">...</li>
-  //   </ul>
-  // </div>
 };
