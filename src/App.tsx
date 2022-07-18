@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import './App.css';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -15,33 +15,105 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+enum SortType {
+  none,
+  name,
+  length,
+}
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+export const App = () => {
+  const [isVisible, setListVisible] = useState(false);
+  const [isSorted, setListSorted] = useState(SortType.none);
+  const [isReversed, setListReversed] = useState(false);
+  const goods = [...goodsFromServer];
 
-    <button type="button">
-      Sort by length
-    </button>
+  switch (isSorted) {
+    case SortType.name:
+      goods.sort((good1, good2) => good1.localeCompare(good2));
+      break;
 
-    <button type="button">
-      Reverse
-    </button>
+    case SortType.length:
+      goods.sort((good1, good2) => good1.length - good2.length);
+      break;
 
-    <button type="button">
-      Reset
-    </button>
+    default:
+      break;
+  }
 
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+  if (isReversed) {
+    goods.reverse();
+  }
+
+  const handleListVisible = () => setListVisible(!isVisible);
+  const handleSortByName = () => setListSorted(SortType.name);
+  const handleSortByLength = () => setListSorted(SortType.length);
+  const handleReset = () => {
+    setListReversed(false);
+    setListSorted(SortType.none);
+  };
+
+  const handleReverse = () => setListReversed(!isReversed);
+
+  return (
+    <div className="App">
+      {!isVisible && (
+        <button
+          type="button"
+          className="button"
+          onClick={handleListVisible}
+        >
+          Start
+        </button>
+      )}
+
+      {isVisible && (
+        <div>
+          <button
+            type="button"
+            className="button"
+            onClick={handleSortByName}
+          >
+            Sort alphabetically
+          </button>
+
+          <button
+            type="button"
+            className="button"
+            onClick={handleSortByLength}
+          >
+            Sort by length
+          </button>
+
+          <button
+            type="button"
+            className="button"
+            onClick={handleReverse}
+          >
+            Reverse
+          </button>
+
+          <button
+            type="button"
+            className="button"
+            onClick={handleReset}
+          >
+            Reset
+          </button>
+
+          <div className="goods">
+            <ul>
+              {goods.map(good => (
+                <li
+                  className="goods__item"
+                  key={good}
+                >
+                  {good}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
