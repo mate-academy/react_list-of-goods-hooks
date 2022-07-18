@@ -14,30 +14,36 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
+enum SortType {
+  NONE,
+  ALPABET,
+  LENGTH,
+}
+
 export const App = () => {
   const [isVisible, setVisible] = useState(false);
   const [isReversed, setIsReversed] = useState(false);
   const [isSorted, setIsSorted] = useState(false);
-  const [sortBy, setSortBy] = useState('');
+  const [sortBy, setSortBy] = useState(SortType.NONE);
 
   const visibleGoodsList = () => setVisible(!isVisible);
 
   const reverse = () => setIsReversed(!isReversed);
 
   const reset = () => {
-    setSortBy('');
+    setSortBy(SortType.NONE);
     setIsReversed(false);
     setIsSorted(false);
   };
 
   const sortByLength = () => {
     setIsSorted(true);
-    setSortBy('length');
+    setSortBy(SortType.LENGTH);
   };
 
   const sortByAlphabetically = () => {
     setIsSorted(true);
-    setSortBy('alphabet');
+    setSortBy(SortType.ALPABET);
   };
 
   const newGoods = [...goodsFromServer];
@@ -45,10 +51,10 @@ export const App = () => {
   if (isSorted) {
     newGoods.sort((good1, good2): number => {
       switch (sortBy) {
-        case 'length':
+        case SortType.LENGTH:
           return good1.length - good2.length;
 
-        case 'alphabet':
+        case SortType.ALPABET:
           return good1.localeCompare(good2);
 
         default: return 0;
