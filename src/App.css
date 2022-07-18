@@ -1,1 +1,23 @@
-/* put styles here */
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button__start {
+  margin-top: 50vh;
+  width: 200px;
+}
+
+.buttons {
+  margin-top: 10px;
+}
+
+.tags {
+  display: flex;
+  flex-direction: column;
+}
+
+.tag {
+  width: 100%;
+}
