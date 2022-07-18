@@ -1,0 +1,17 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: bold;
+  border: 2px solid black;
+  width: 600px;
+  margin: 10px auto;
+  padding: 30px;
+  border-radius: 30px;
+  background-color: antiquewhite;
+
+  &__title {
+    font-weight: bold;
+    font-size: 30px;
+  }
+}
