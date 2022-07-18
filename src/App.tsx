@@ -33,10 +33,6 @@ export const App: React.FC = () => {
     setIsReversed(!isReversed);
   };
 
-  if (isReversed) {
-    visibleProduct.reverse();
-  }
-
   const reset = () => {
     setIsReversed(false);
     setSortBy(sortType.NONE);
@@ -57,6 +53,10 @@ export const App: React.FC = () => {
 
     default:
       break;
+  }
+
+  if (isReversed) {
+    visibleProduct.reverse();
   }
 
   return (

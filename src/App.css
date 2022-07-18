@@ -7,8 +7,13 @@
 .button {
   width: 150px;
   height: 50px;
-  border: 1px solid;
+  border: none;
   border-radius: 10px;
+  transition: 0.5s;
+}
+
+.button:hover {
+  transform: scale(1.1);
 }
 
 .button__reset {

@@ -5,7 +5,7 @@
 Reimplement the [React list of goods](https://github.com/mate-academy/react_list-of-goods#react-list-of-goods)
 using hooks. Keep CSS classes for tests.
 
-> DON'T use class components any more (for this and next tasks).
+> DON'T use class components any more (for this and next tasks)
 
 ## Instructions
 
