@@ -1,1 +1,27 @@
-/* put styles here */
+.button {
+  background-color: #4c99af;
+  color: white;
+  padding: 15px 32px;
+  box-sizing: border-box;
+  border: 2px solid #4c66af6e;
+  border-radius: 40px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.button:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+ul {
+  background: #4c99af;
+  padding: 20px;
+}
+
+ul li {
+  background: #ffe5e5;
+  color: #4c66af;
+  padding: 5px;
+  margin-left: 35px;
+}
