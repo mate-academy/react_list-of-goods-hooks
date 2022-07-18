@@ -16,24 +16,24 @@ const goodsFromServer: string[] = [
 ];
 
 enum SortType {
-  NONE = 'NONE',
-  ALPABET = 'ALPABET',
-  LENGTH = 'LENGTH',
-  REVERSE = 'REVERSE',
+  None = 'none',
+  Alpabet = 'alpabet',
+  Length = 'length'
+  Reverse = 'reverse',
 }
 
 export const App: FC = () => {
   const [isStarted, setIsStarted] = useState(false);
   const [isReversed, setIsReversed] = useState(false);
-  const [sortBy, setSortBy] = useState(SortType.NONE);
+  const [sortBy, setSortBy] = useState(SortType.None);
 
   const visibleGoods = [...goodsFromServer];
 
   visibleGoods.sort((good1, good2) => {
     switch (sortBy) {
-      case SortType.ALPABET:
+      case SortType.Alpabet:
         return good1.localeCompare(good2);
-      case SortType.LENGTH:
+      case SortType.Length:
         return good1.length - good2.length;
       default:
         return 0;
@@ -60,14 +60,14 @@ export const App: FC = () => {
             <div className="buttons">
               <button
                 type="button"
-                onClick={() => setSortBy(SortType.ALPABET)}
+                onClick={() => setSortBy(SortType.Alpabet)}
               >
                 Sort alphabetically
               </button>
 
               <button
                 type="button"
-                onClick={() => setSortBy(SortType.LENGTH)}
+                onClick={() => setSortBy(SortType.Length)}
               >
                 Sort by length
               </button>
@@ -83,7 +83,7 @@ export const App: FC = () => {
                 type="button"
                 onClick={() => {
                   setIsReversed(false);
-                  setSortBy(SortType.NONE);
+                  setSortBy(SortType.None);
                 }}
               >
                 Reset
