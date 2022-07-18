@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -15,33 +15,72 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+enum SortType {
+  NONE,
+  ALPHA,
+  LENGTH,
+}
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+export const App: React.FC = () => {
+  const goods = [...goodsFromServer];
+  const [isStarted, switchStart] = useState(false);
+  const [sortBy, setSortBy] = useState(SortType.NONE);
+  const [isReversed, switchReverse] = useState(false);
+  const reset = () => {
+    switchReverse(false);
+    setSortBy(SortType.NONE);
+  };
 
-    <button type="button">
-      Sort by length
-    </button>
+  goods.sort((g1, g2) => {
+    switch (sortBy) {
+      case SortType.ALPHA:
+        return g1.localeCompare(g2);
 
-    <button type="button">
-      Reverse
-    </button>
+      case SortType.LENGTH:
+        return g1.length - g2.length;
 
-    <button type="button">
-      Reset
-    </button>
+      default:
+        return 0;
+    }
+  });
 
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+  if (isReversed) {
+    goods.reverse();
+  }
+
+  return (
+    <div className="App">
+      {isStarted
+        ? (
+          <>
+            <button type="button" onClick={() => setSortBy(SortType.ALPHA)}>
+              Sort alphabetically
+            </button>
+
+            <button type="button" onClick={() => setSortBy(SortType.LENGTH)}>
+              Sort by length
+            </button>
+
+            <button type="button" onClick={() => switchReverse(!isReversed)}>
+              Reverse
+            </button>
+
+            <button type="button" onClick={reset}>
+              Reset
+            </button>
+
+            <ul className="Goods">
+              {goods.map(good => (
+                <li className="Goods__item" key={good}>{good}</li>
+              ))}
+            </ul>
+          </>
+        )
+        : (
+          <button type="button" onClick={() => switchStart(!isStarted)}>
+            Start
+          </button>
+        )}
+    </div>
+  );
+};
