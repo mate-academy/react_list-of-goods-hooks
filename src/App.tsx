@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { GoodsList } from './GoodsList';
 import './App.css';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -15,33 +16,30 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+export const App: React.FC = () => {
+  const [isGoodsVisible, setIsGoodsVisible] = useState(false);
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+  return (
+    <div className="has-text-centered">
+      <h1 className="title mt-3 is-size-3">
+        List of goods
+      </h1>
 
-    <button type="button">
-      Sort by length
-    </button>
-
-    <button type="button">
-      Reverse
-    </button>
-
-    <button type="button">
-      Reset
-    </button>
-
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+      {
+        !isGoodsVisible ? (
+          <>
+            <button
+              type="button"
+              className="button"
+              onClick={() => setIsGoodsVisible(true)}
+            >
+              Start
+            </button>
+          </>
+        ) : (
+          <GoodsList goods={goodsFromServer} />
+        )
+      }
+    </div>
+  );
+};
