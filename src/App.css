@@ -1,1 +1,43 @@
-/* put styles here */
+.App__container {
+  padding: 10px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.App__list {
+  align-items: center;
+  padding: 0;
+  list-style: none;
+  font-size: 35px;
+}
+
+.App__item {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size: 25px;
+  letter-spacing: 2px;
+  word-spacing: 2px;
+  color: hsl(0, 0%, 0%);
+  font-weight: 700;
+  text-decoration: none solid rgb(68, 68, 68);
+  font-style: italic;
+}
+
+.App__button {
+  margin-left: 10px;
+  box-shadow: 0 10px 14px -7px #732734;
+  background: linear-gradient(to bottom, #003cf0 5%, #cafc00 100%);
+  background-color: #003cf0;
+  border-radius: 8px;
+  display: inline-block;
+  cursor: pointer;
+  color: rgb(255, 255, 255);
+  font-size: 20px;
+  font-weight: bold;
+  padding: 13px 32px;
+}
+
+.App__start {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
