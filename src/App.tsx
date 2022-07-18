@@ -18,7 +18,7 @@ const goodsFromServer: string[] = [
 enum SortType {
   None = 'none',
   Alpabet = 'alpabet',
-  Length = 'length'
+  Length = 'length',
   Reverse = 'reverse',
 }
 
