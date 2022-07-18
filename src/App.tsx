@@ -1,5 +1,5 @@
-import React from 'react';
-import './App.css';
+import React, { useState } from 'react';
+import './App.scss';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const goodsFromServer: string[] = [
@@ -15,33 +15,108 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+enum SortType {
+  NONE,
+  ALPABET,
+  LENGTH,
+}
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+export const App: React.FC = () => {
+  const [isVisible, visibleGoods] = useState(false);
+  const [isReversed, reverseGoods] = useState(false);
+  const [sortType, setSortType] = useState<SortType>(SortType.NONE);
 
-    <button type="button">
-      Sort by length
-    </button>
+  const goodsCopy = [...goodsFromServer];
 
-    <button type="button">
-      Reverse
-    </button>
+  const showGoods = () => {
+    visibleGoods(true);
+  };
 
-    <button type="button">
-      Reset
-    </button>
+  const reverse = () => {
+    reverseGoods(!isReversed);
+  };
 
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+  const reset = () => {
+    visibleGoods(false);
+    setSortType(SortType.NONE);
+    reverseGoods(false);
+  };
+
+  switch (sortType) {
+    case SortType.LENGTH:
+      goodsCopy.sort((good, prevGood) => good.length - prevGood.length);
+      break;
+
+    case SortType.ALPABET:
+      goodsCopy.sort((good, prevGood) => good.localeCompare(prevGood));
+      break;
+
+    default:
+  }
+
+  if (isReversed) {
+    goodsCopy.reverse();
+  }
+
+  return (
+    <div className="App">
+      {!isVisible && (
+        <button
+          className="button buttons__forSort-start"
+          type="button"
+          onClick={showGoods}
+        >
+          Start
+        </button>
+      )}
+
+      {isVisible && (
+        <div className="Goods">
+          <ul className="Goods__list">
+            {(goodsCopy.map((good) => (
+              <li className="Goods__item" key={good}>
+                {good}
+              </li>
+            )))}
+          </ul>
+
+          <div className="buttons__forSort">
+            <button
+              className="button buttons__forSort-reverse"
+              type="button"
+              onClick={reverse}
+            >
+              Reverse
+            </button>
+
+            <button
+              className="button buttons__forSort-reset"
+              type="button"
+              onClick={reset}
+            >
+              Reset
+            </button>
+
+            <button
+              className="button buttons__forSort-length"
+              type="button"
+              onClick={() => setSortType(SortType.LENGTH)}
+            >
+              Sort By Length
+            </button>
+
+            <button
+              className="button buttons__forSort-alphabet"
+              type="button"
+              onClick={() => setSortType(SortType.ALPABET)}
+            >
+              Sort alphabetically
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default App;
