@@ -1,0 +1,97 @@
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body,
+ul,
+li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.App {
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+}
+
+.Goods {
+  &__list {
+    margin: 20px;
+
+    line-height: 30px;
+
+    background-color: #451177;
+  }
+
+  &__item {
+    padding: 0 5px;
+    font-size: 18px;
+    font-weight: 600;
+    background-color: #cac405;
+
+    &:not(:first-child) {
+      margin-top: 5px;
+    }
+  }
+}
+
+.button {
+  width: max-content;
+  height: 40px;
+
+  font-weight: 600;
+  color: #ecf4ee;
+
+  cursor: pointer;
+
+  background-color: #7c20ba;
+  border: 2px solid #7c20ba;
+  border-radius: 10px;
+
+  &:hover {
+    color: #7c20ba;
+    background-color: #ecf4ee;
+  }
+
+  &:not(:first-child) {
+    margin-left: 20px;
+  }
+}
+
+.buttons__forSort {
+  &-start {
+    font-size: 60px;
+    height: 100px;
+    width: 200px;
+
+    background-color: #058422;
+    border: 2px solid #058422;
+
+    &:hover {
+      color: #058422;
+      background-color: #ecf4ee;
+    }
+  }
+
+  &-reverse {
+    background-color: #0b1988;
+    border: 2px solid #0b1988;
+
+    &:hover {
+      color: #0b1988;
+      background-color: #ecf4ee;
+    }
+  }
+
+  &-reset {
+    background-color: #a01313;
+    border: 2px solid #a01313;
+
+    &:hover {
+      color: #a01313;
+      background-color: #ecf4ee;
+    }
+  }
+}
