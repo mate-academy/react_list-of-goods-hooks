@@ -1,0 +1,79 @@
+html {
+  font-family: "Open Sans", sans-serif;
+  font-size: 20px;
+  color: #fff;
+}
+
+body {
+  margin: 0;
+}
+
+.App {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  background: rgb(33, 33, 33);
+  gap: 10px;
+}
+
+.button {
+  text-transform: uppercase;
+  background-color: #3a6df0;
+  border: none;
+  padding: 10px 24px;
+  color: #fff;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+
+  &__start {
+    font-size: 20px;
+    background-color: #3a6df0;
+
+    &:hover {
+      background-color: #2250c5;
+    }
+  }
+
+  &__reset {
+    background-color: #52b63e;
+    &:hover {
+      background-color: #30a519;
+    }
+  }
+
+  &__reverse {
+    background-color: #4b43c2;
+
+    &:hover {
+      background-color: #3d36a8;
+    }
+  }
+
+  &__length {
+    background-color: #31a3d8;
+
+    &:hover {
+      background-color: #348ca2;
+    }
+  }
+
+  &__sort {
+    &:hover {
+      background-color: #2250c5;
+    }
+  }
+}
+
+.Container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.Goods {
+  list-style-type: none;
+}
