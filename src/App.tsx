@@ -16,10 +16,8 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-const emptyGoods: string[] = [];
-
 export const App = () => {
-  const [goods, setGoods] = useState(emptyGoods);
+  const [goods, setGoods] = useState<string[]>([]);
   const lengthGoods = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setGoods([...goods]
       .filter(good => good.length >= +event.currentTarget.value));
