@@ -19,7 +19,7 @@ const goodsFromServer: string[] = [
 export const App = () => {
   const [goods, setGoods] = useState<string[]>([]);
   const lengthGoods = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setGoods([...goods]
+    setGoods([...goodsFromServer]
       .filter(good => good.length >= +event.currentTarget.value));
   };
 
@@ -91,7 +91,7 @@ export const App = () => {
                 <div className="select">
                   <select
                     name="goods"
-                    onChange={(event) => lengthGoods(event)}
+                    onChange={lengthGoods}
                   >
                     <option value="1" id="defaultValue">1</option>
                     <option value="2">2</option>
