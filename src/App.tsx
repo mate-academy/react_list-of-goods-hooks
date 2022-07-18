@@ -17,8 +17,8 @@ const goodsFromServer: string[] = [
 ];
 
 export const App: React.FC = () => {
-  const [reversed, setReverse] = useState(false);
-  const [startButton, setStartButton] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
+  const [isStarted, setIsStarted] = useState(false);
   const [sort, setSort] = useState('');
   const [lengthLimit, setLimit] = useState(0);
   const wordLength = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -38,35 +38,36 @@ export const App: React.FC = () => {
     }
   });
 
-  if (reversed) {
+  if (isReversed) {
     visibleGoods.reverse();
   }
 
   return (
     <div className="App">
-      {!startButton
+      {!isStarted
         ? (
           <button
             type="button"
             className="button is-warning button--size"
-            onClick={() => setStartButton(true)}
+            onClick={() => setIsStarted(true)}
           >
             START
           </button>
         )
         : undefined}
-      {startButton && <GoodList goods={visibleGoods} />}
+      {isStarted && <GoodList goods={visibleGoods} />}
+
       <div className="button__flex">
-        {startButton && (
+        {isStarted && (
           <button
             className="button is-success"
             type="button"
-            onClick={() => setReverse(true)}
+            onClick={() => setIsReversed(true)}
           >
             REVERSE
           </button>
         )}
-        {startButton && (
+        {isStarted && (
           <button
             className="button is-success"
             type="button"
@@ -75,7 +76,7 @@ export const App: React.FC = () => {
             Sort alphabetically
           </button>
         )}
-        {startButton && (
+        {isStarted && (
           <button
             className="button is-success"
             type="button"
@@ -84,14 +85,14 @@ export const App: React.FC = () => {
             Sort by length
           </button>
         )}
-        {startButton && (
+        {isStarted && (
           <button
             className="button is-success"
             type="button"
             onClick={() => {
               return (
                 setSort(''),
-                setReverse(false),
+                setIsReversed(false),
                 setLimit(0)
               );
             }}
@@ -99,8 +100,8 @@ export const App: React.FC = () => {
             Reset
           </button>
         )}
-        {startButton && (
-          <div className="select is-success">
+        {isStarted && (
+          <div className="select is-multiple">
             <select
               value={lengthLimit}
               onChange={(element) => setLimit(+element.target.value)}
