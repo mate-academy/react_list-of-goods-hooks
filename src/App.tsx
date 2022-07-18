@@ -1,7 +1,8 @@
-import React from 'react';
+/* eslint-disable react/no-unused-state */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { useState } from 'react';
 import './App.css';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const goodsFromServer: string[] = [
   'Dumplings',
   'Carrot',
@@ -15,33 +16,107 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+enum SortType {
+  Alphabet,
+  Length,
+  None,
+}
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+export const App: React.FC = () => {
+  const copyGoods = [...goodsFromServer];
 
-    <button type="button">
-      Sort by length
-    </button>
+  const [isVisible, setIsVisible] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
+  const [sortBy, setSortBy] = useState<SortType>(SortType.None);
 
-    <button type="button">
-      Reverse
-    </button>
+  const reset = () => {
+    setIsReversed(false);
+    setSortBy(SortType.None);
+  };
 
-    <button type="button">
-      Reset
-    </button>
+  const reverse = () => {
+    setIsReversed(!isReversed);
+  };
 
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+  if (isReversed) {
+    copyGoods.reverse();
+  }
+
+  switch (sortBy) {
+    case SortType.Length:
+      copyGoods.sort((good1, good2) => (good1.length - good2.length));
+
+      break;
+
+    case SortType.Alphabet:
+      copyGoods.sort((good1, good2) => good1.localeCompare(good2));
+
+      break;
+    default:
+      break;
+  }
+
+  return (
+    <div className="App">
+      <div className="App__start">
+        {!isVisible && (
+          <button
+            type="button"
+            className="App__button"
+            onClick={() => setIsVisible(true)}
+          >
+            Start
+          </button>
+        )}
+      </div>
+
+      {isVisible && (
+        <div className="App__container">
+          <ul className="App__list">
+            {(copyGoods.map((good) => (
+              <li
+                key={good}
+                className="App__item"
+              >
+                {good}
+              </li>
+            )))}
+          </ul>
+
+          <button
+            className="App__button"
+            onClick={reverse}
+            type="button"
+          >
+            Reverse
+          </button>
+
+          <button
+            className="App__button"
+            onClick={reset}
+            type="button"
+          >
+            Reset
+          </button>
+
+          <button
+            className="App__button"
+            onClick={() => setSortBy(SortType.Alphabet)}
+            type="button"
+          >
+            Sort alphabetic
+          </button>
+
+          <button
+            className="App__button"
+            onClick={() => setSortBy(SortType.Length)}
+            type="button"
+          >
+            Sort by length
+          </button>
+
+        </div>
+      )}
+    </div>
+  );
+};
