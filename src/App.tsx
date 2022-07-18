@@ -18,6 +18,7 @@ const goodsFromServer: string[] = [
 
 export const App = () => {
   const [goods, setGoods] = useState<string[]>([]);
+  const [isStart, setStart] = useState(false);
   const lengthGoods = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setGoods([...goodsFromServer]
       .filter(good => good.length >= +event.currentTarget.value));
@@ -39,75 +40,75 @@ export const App = () => {
         GOODS
       </h1>
       <div className="app__show">
-        {
-          !goods.length
-            ? (
+        {!isStart && (
+          <button
+            type="button"
+            className="button"
+            onClick={() => {
+              setGoods(goodsFromServer);
+              setStart(true);
+            }}
+          >
+            Start
+          </button>
+        )}
+        {isStart && (
+          <>
+            <GoodList goods={goods} />
+            <div className="buttons">
               <button
                 type="button"
                 className="button"
-                onClick={() => setGoods(goodsFromServer)}
+                onClick={() => setGoods([...goods]
+                  .sort((a, b) => a.localeCompare(b)))}
               >
-                Start
+                Sort alphabetically
               </button>
-            )
-            : (
-              <>
-                <GoodList goods={goods} />
-                <div className="buttons">
-                  <button
-                    type="button"
-                    className="button"
-                    onClick={() => setGoods([...goods]
-                      .sort((a, b) => a.localeCompare(b)))}
-                  >
-                    Sort alphabetically
-                  </button>
 
-                  <button
-                    type="button"
-                    className="button"
-                    onClick={() => setGoods([...goods]
-                      .sort((a, b) => a.length - b.length))}
-                  >
-                    Sort by length
-                  </button>
+              <button
+                type="button"
+                className="button"
+                onClick={() => setGoods([...goods]
+                  .sort((a, b) => a.length - b.length))}
+              >
+                Sort by length
+              </button>
 
-                  <button
-                    type="button"
-                    className="button"
-                    onClick={() => setGoods([...goods].reverse())}
-                  >
-                    Reverse
-                  </button>
+              <button
+                type="button"
+                className="button"
+                onClick={() => setGoods([...goods].reverse())}
+              >
+                Reverse
+              </button>
 
-                  <button
-                    type="button"
-                    className="button"
-                    onClick={resetGoods}
-                  >
-                    Reset
-                  </button>
-                </div>
-                <div className="select">
-                  <select
-                    name="goods"
-                    onChange={lengthGoods}
-                  >
-                    <option value="1" id="defaultValue">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                  </select>
-                </div>
-              </>
-            )
-        }
+              <button
+                type="button"
+                className="button"
+                onClick={resetGoods}
+              >
+                Reset
+              </button>
+            </div>
+            <div className="select">
+              <select
+                name="goods"
+                onChange={lengthGoods}
+              >
+                <option value="1" id="defaultValue">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
