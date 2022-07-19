@@ -42,6 +42,7 @@ export const App: React.FC = () => {
   function getReorderedGoods(
     goods: string[],
     sortBy: SortType,
+    reversedGoods: boolean,
   ): string[] {
     const showedGoods = [...goods];
 
@@ -66,7 +67,7 @@ export const App: React.FC = () => {
         break;
     }
 
-    if (isReversed) {
+    if (reversedGoods) {
       return showedGoods.reverse();
     }
 
@@ -76,6 +77,7 @@ export const App: React.FC = () => {
   const showedGoods = getReorderedGoods(
     goodsFromServer,
     sortType,
+    isReversed,
   );
 
   return (
