@@ -1,1 +1,4 @@
-/* put styles here */
+.button,
+.select {
+  margin-left: 10px;
+}
