@@ -58,6 +58,11 @@ export const App: React.FC = () => {
     isReversed,
   );
 
+  const reset = () => {
+    setSortType(SortType.NONE);
+    setIsReversed(false);
+  };
+
   return (
     <div className="App">
       {!isStarted && (
@@ -108,10 +113,7 @@ export const App: React.FC = () => {
             <button
               type="button"
               className="button is-primary"
-              onClick={() => {
-                setSortType(SortType.NONE);
-                setIsReversed(false);
-              }}
+              onClick={reset}
             >
               Reset
             </button>
