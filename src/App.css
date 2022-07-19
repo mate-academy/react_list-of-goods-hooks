@@ -1,1 +1,63 @@
-/* put styles here */
+.App {
+  max-width: 1024px;
+  margin: 30px auto;
+
+  font-family: sans-serif;
+}
+
+.button {
+  display: inline-block;
+  margin-left: 10px;
+  padding: 10px 20px;
+
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  text-transform: uppercase;
+
+  background-color: #b700ff;
+  border: 1px solid #000;
+  border-radius: 10px;
+  outline: none;
+  cursor: pointer;
+
+  transition: background-color 0.15s linear;
+}
+
+.button:hover {
+  background-color: #8000b3;
+}
+
+.button:first-child {
+  margin-left: 0;
+}
+
+.button--start {
+  background-color: #00c3ff;
+}
+
+.button--start:hover {
+  background-color: #008799;
+}
+
+.button--reset {
+  background-color: #ff3c00;
+}
+
+.button--reset:hover {
+  background-color: #c90707;
+}
+
+.Goods {
+  padding: 0 15px;
+  list-style: none;
+}
+
+.Goods__item {
+  font-size: 22px;
+  margin-bottom: 5px;
+}
+
+.Goods__item:last-child {
+  margin-bottom: 0;
+}
