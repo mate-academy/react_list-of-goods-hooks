@@ -26,6 +26,14 @@ export const App: React.FC = () => {
   const [isReversed, setReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
+  function handleStart() {
+    setStarted(!isStarted);
+  }
+
+  function handleReverse() {
+    setReversed(!isReversed);
+  }
+
   function handleReset() {
     setReversed(false);
     setSortType(SortType.NONE);
@@ -77,9 +85,7 @@ export const App: React.FC = () => {
         <button
           className="button button--start"
           type="button"
-          onClick={() => {
-            setStarted(!isStarted);
-          }}
+          onClick={handleStart}
         >
           Start
         </button>
@@ -111,9 +117,7 @@ export const App: React.FC = () => {
           <button
             className="button"
             type="button"
-            onClick={() => {
-              setReversed(!isReversed);
-            }}
+            onClick={handleReverse}
           >
             Reverse
           </button>
