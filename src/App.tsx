@@ -47,81 +47,79 @@ export const App: React.FC = () => {
   }
 
   function reverse() {
-    if (isReversed) {
-      setIsReversed(false);
-    } else {
-      setIsReversed(true);
-    }
+    setIsReversed(!isReversed);
+  }
+
+  function reset() {
+    setSortType(SortType.NONE);
+    setIsReversed(false);
   }
 
   return (
     <article className="App panel is-warning">
-      {!isStarted && (
-        <button
-          className="button is-large is-info is-fullwidth"
-          type="button"
-          onClick={() => setIsStarted(true)}
-        >
-          Start
-        </button>
-      )}
+      {!isStarted
+        ? (
+          <button
+            className="button is-large is-info is-fullwidth"
+            type="button"
+            onClick={() => setIsStarted(true)}
+          >
+            Start
+          </button>
+        )
+        : (
+          <>
+            <p className="App__title panel-heading">
+              Shoping-list
+            </p>
 
-      {isStarted && (
-        <>
-          <p className="App__title panel-heading">
-            Shoping-list
-          </p>
-
-          <div className="panel-tabs">
-            <button
-              className="button is-white"
-              type="button"
-              onClick={() => setSortType(SortType.ALPABET)}
-            >
-              Sort alphabetically
-            </button>
-
-            <button
-              className="button is-white"
-              type="button"
-              onClick={() => setSortType(SortType.LENGTH)}
-            >
-              Sort by length
-            </button>
-
-            <button
-              className="button is-white"
-              type="button"
-              onClick={() => reverse()}
-            >
-              Reverse
-            </button>
-
-            <button
-              className="button is-danger is-light"
-              type="button"
-              onClick={() => {
-                setSortType(SortType.NONE);
-                setIsReversed(false);
-              }}
-            >
-              Reset
-            </button>
-          </div>
-
-          <div className="Goods">
-            {getReorderedGoods(goodsFromServer).map(good => (
-              <a
-                href="#test"
-                key={good}
-                className="Goods__item panel-block"
+            <div className="panel-tabs">
+              <button
+                className="button is-white"
+                type="button"
+                onClick={() => setSortType(SortType.ALPABET)}
               >
-                {good}
-              </a>
-            ))}
-          </div>
-        </>
-      )}
+                Sort alphabetically
+              </button>
+
+              <button
+                className="button is-white"
+                type="button"
+                onClick={() => setSortType(SortType.LENGTH)}
+              >
+                Sort by length
+              </button>
+
+              <button
+                className="button is-white"
+                type="button"
+                onClick={() => reverse()}
+              >
+                Reverse
+              </button>
+
+              <button
+                className="button is-danger is-light"
+                type="button"
+                onClick={() => reset()}
+              >
+                Reset
+              </button>
+            </div>
+
+            <div className="Goods">
+              {getReorderedGoods(goodsFromServer).map(good => (
+                <a
+                  href="#test"
+                  key={good}
+                  className="Goods__item panel-block"
+                >
+                  {good}
+                </a>
+              ))}
+            </div>
+          </>
+        )}
     </article>
   );
 };
