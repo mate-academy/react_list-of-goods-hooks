@@ -27,12 +27,12 @@ export const App: React.FC = () => {
 
   const visibleGoods = [...goodsFromServer];
 
-  visibleGoods.sort((g1, g2) => {
+  visibleGoods.sort((good1, good2) => {
     switch (sortType) {
       case SortType.ALPABET:
-        return g1.localeCompare(g2);
+        return good1.localeCompare(good2);
       case SortType.LENGTH:
-        return g1.length - g2.length;
+        return good1.length - good2.length;
       default:
         return 0;
     }
