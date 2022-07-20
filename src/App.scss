@@ -41,7 +41,7 @@
   }
 
   &__goods {
-    display: block;
+    // display: block;
     margin-left: 10%;
     padding: 0;
     list-style: none;
@@ -53,14 +53,13 @@
 }
 
 @keyframes animate-background {
-  0%{
+  0% {
     background-position: 0 50%;
   }
-  50%{
+  50% {
     background-position: 100% 50%;
   }
-  100%{
+  100% {
     background-position: 0 50%;
   }
 }
-

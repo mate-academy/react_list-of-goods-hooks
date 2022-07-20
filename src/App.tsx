@@ -16,7 +16,36 @@ const goodsFromServer: string[] = [
 
 export const App: React.FC = () => {
   const [listIsVisible, setListVisibility] = useState(false);
-  const [goods, setGoods] = useState([...goodsFromServer]);
+  const [sortType, setSortType] = useState('');
+  const [isReversed, setReverse] = useState(false);
+
+  const sortAlphabetically = () => setSortType('alphabet');
+
+  const sortByLength = () => setSortType('length');
+
+  const reset = () => {
+    setSortType('');
+    setReverse(false);
+  };
+
+  const list = [...goodsFromServer];
+
+  switch (sortType) {
+    case 'alphabet':
+      list.sort((good1, good2) => good1.localeCompare(good2));
+      break;
+
+    case 'length':
+      list.sort((good1, good2) => good2.length - good1.length);
+      break;
+
+    default:
+      break;
+  }
+
+  if (isReversed === true) {
+    list.reverse();
+  }
 
   return (
     <div className="App">
@@ -29,16 +58,14 @@ export const App: React.FC = () => {
           >
             Start
           </button>
-        ) : (
+        )
+        : (
           <div className="App__container">
             <div className="App__container-buttons">
               <button
                 className="App__container-button"
                 type="button"
-                onClick={() => setGoods([...goodsFromServer]
-                  .sort((good1, good2) => {
-                    return good1.localeCompare(good2);
-                  }))}
+                onClick={() => sortAlphabetically()}
               >
                 Sort alphabetically
               </button>
@@ -46,10 +73,7 @@ export const App: React.FC = () => {
               <button
                 className="App__container-button"
                 type="button"
-                onClick={() => setGoods([...goodsFromServer]
-                  .sort((good1, good2) => {
-                    return good1.length - good2.length;
-                  }))}
+                onClick={() => sortByLength()}
               >
                 Sort by length
               </button>
@@ -57,7 +81,7 @@ export const App: React.FC = () => {
               <button
                 className="App__container-button"
                 type="button"
-                onClick={() => setGoods([...goodsFromServer].reverse())}
+                onClick={() => setReverse(!isReversed)}
               >
                 Reverse
               </button>
@@ -65,14 +89,14 @@ export const App: React.FC = () => {
               <button
                 className="App__container-button"
                 type="button"
-                onClick={() => setGoods([...goodsFromServer])}
+                onClick={() => reset()}
               >
                 Reset
               </button>
             </div>
 
             <ul className="App__goods">
-              {goods.map(good => (
+              {list.map(good => (
                 <li
                   className="App__good"
                   key={good}
