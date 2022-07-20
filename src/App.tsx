@@ -26,7 +26,7 @@ function getReorderedGoods(
   isReversed: boolean,
   minLength: number,
 ) {
-  const visibleGoods = [...goods].filter(element => (
+  const visibleGoods = goods.filter(element => (
     element.length >= minLength
   ));
 
