@@ -1,33 +1,27 @@
 import React, { useState } from 'react';
 
-enum SortType {
-  Alphabetic = 'alphabetic',
-  Length = 'length',
-  Default = 'default',
-}
-
 type Props = {
   goods: string[],
 };
 export const GoodsList: React.FC<Props> = ({ goods }: Props) => {
-  const goodsList = [...goods];
-  const [isReversed, setReversed] = useState(false);
-  const [sortBy, setSortBy] = useState(SortType.Default);
+  const [goodsList, setGoodsList] = useState([...goods]);
 
-  goodsList.sort((prod1, prod2) => {
-    switch (sortBy) {
-      case SortType.Length:
-        return prod1.length - prod2.length;
-      case SortType.Alphabetic:
-        return prod1.localeCompare(prod2);
-      default:
-        return 0;
-    }
-  });
+  // switch (sortBy) {
+  //   case SortType.Alphabetic:
+  //     goodsList.sort((good1, good2) => good1.localeCompare(good2));
+  //     break;
 
-  if (isReversed) {
-    goodsList.reverse();
-  }
+  //   case SortType.Length:
+  //     goodsList.sort((good1, good2) => good1.length - good2.length);
+  //     break;
+
+  //   default:
+  //     break;
+  // }
+
+  // if (isReversed) {
+  //   goodsList.reverse();
+  // }
 
   return (
     <>
@@ -41,31 +35,32 @@ export const GoodsList: React.FC<Props> = ({ goods }: Props) => {
       <div className="buttons">
         <button
           type="button"
-          onClick={() => setReversed(!isReversed)}
+          onClick={() => setGoodsList([...goodsList].reverse())}
           className="button"
         >
           Reverse
         </button>
         <button
           type="button"
-          onClick={() => setSortBy(SortType.Alphabetic)}
+          onClick={() => setGoodsList(
+            [...goodsList].sort((a, b) => a.localeCompare(b)),
+          )}
           className="button"
         >
           Sort alphabetically
         </button>
         <button
           type="button"
-          onClick={() => setSortBy(SortType.Length)}
+          onClick={() => setGoodsList(
+            [...goodsList].sort((a, b) => a.length - b.length),
+          )}
           className="button"
         >
           Sort by length
         </button>
         <button
           type="button"
-          onClick={() => {
-            setSortBy(SortType.Default);
-            setReversed(false);
-          }}
+          onClick={() => setGoodsList([...goods])}
           className="button is-danger"
         >
           Reset

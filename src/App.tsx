@@ -17,7 +17,7 @@ const goodsFromServer: string[] = [
 ];
 
 export const App: React.FC = () => {
-  const [list, showList] = useState(false);
+  const [list, setShowList] = useState(false);
 
   return (
     <div className="App container box is-centered has-text-centered">
@@ -27,7 +27,7 @@ export const App: React.FC = () => {
         : (
           <button
             type="button"
-            onClick={() => showList(true)}
+            onClick={() => setShowList(true)}
             className="button is-light is-medium"
           >
             Start
