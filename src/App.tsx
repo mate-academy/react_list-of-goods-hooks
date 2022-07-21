@@ -21,11 +21,10 @@ enum SortType {
 }
 
 export const App: React.FC = () => {
-  const [isStarted, setStarted] = useState(false);
-  const [isReversed, setReversed] = useState(false);
+  const [isStarted, setIsStarted] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
-
-  const visibleGoods = [...goodsFromServer];
+  const [visibleGoods, setVisibleGoods] = useState([...goodsFromServer]);
 
   visibleGoods.sort((good1, good2) => {
     switch (sortType) {
@@ -49,7 +48,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             onClick={() => {
-              setStarted(true);
+              setIsStarted(true);
             }}
           >
             Start
@@ -60,7 +59,7 @@ export const App: React.FC = () => {
             <button
               type="button"
               onClick={() => {
-                setReversed(false);
+                setIsReversed(false);
                 setSortType(SortType.ALPABET);
               }}
             >
@@ -70,7 +69,7 @@ export const App: React.FC = () => {
             <button
               type="button"
               onClick={() => {
-                setReversed(false);
+                setIsReversed(false);
                 setSortType(SortType.LENGTH);
               }}
             >
@@ -80,7 +79,7 @@ export const App: React.FC = () => {
             <button
               type="button"
               onClick={() => {
-                setReversed(stateReversed => !stateReversed);
+                setIsReversed(stateReversed => !stateReversed);
               }}
             >
               Reverse
@@ -90,7 +89,8 @@ export const App: React.FC = () => {
               type="button"
               onClick={() => {
                 setSortType(SortType.NONE);
-                setReversed(false);
+                setIsReversed(false);
+                setVisibleGoods([...goodsFromServer]);
               }}
             >
               Reset
