@@ -15,31 +15,31 @@ const goodsFromServer: string[] = [
 ];
 
 export const App: React.FC = () => {
-  const [isOpened, setValue] = useState(false);
-  const [visibleGoods, setValue2] = useState([...goodsFromServer]);
+  const [isOpened, setIsOpened] = useState(false);
+  const [visibleGoods, setVisibleGoods] = useState([...goodsFromServer]);
 
   const startGoods = () => {
-    setValue(true);
+    setIsOpened(true);
   };
 
   const reversedGoods = () => {
-    setValue2([...visibleGoods.reverse()]);
+    setVisibleGoods([...visibleGoods].reverse());
   };
 
   const sortByABCGoods = () => {
-    setValue2([...visibleGoods.sort((good1, good2) => {
+    setVisibleGoods([...visibleGoods].sort((good1, good2) => {
       return good1.localeCompare(good2);
-    })]);
+    }));
   };
 
   const sortByGoodsLength = () => {
-    setValue2([...visibleGoods.sort((good1, good2) => {
+    setVisibleGoods([...visibleGoods].sort((good1, good2) => {
       return (good1.length - good2.length);
-    })]);
+    }));
   };
 
   const resetGoods = () => {
-    setValue2([...goodsFromServer]);
+    setVisibleGoods([...goodsFromServer]);
   };
 
   return (
@@ -47,64 +47,59 @@ export const App: React.FC = () => {
       <h1>Goods</h1>
 
       {!isOpened
-      && (
-        <button
-          type="button"
-          onClick={() => {
-            startGoods();
-          }}
-        >
-          Start
-        </button>
-      )}
+        ? (
+          <button
+            type="button"
+            onClick={() => {
+              startGoods();
+            }}
+          >
+            Start
+          </button>
+        )
+        : null}
 
       {isOpened
-      && (
-        <button
-          type="button"
-          onClick={() => {
-            reversedGoods();
-          }}
-        >
-          Reverse
-        </button>
-      )}
+        ? (
+          <>
+            <button
+              type="button"
+              onClick={() => {
+                reversedGoods();
+              }}
+            >
+              Reverse
+            </button>
 
-      {isOpened
-      && (
-        <button
-          type="button"
-          onClick={() => {
-            sortByABCGoods();
-          }}
-        >
-          Sort alphabetically
-        </button>
-      )}
+            <button
+              type="button"
+              onClick={() => {
+                sortByABCGoods();
+              }}
+            >
+              Sort alphabetically
+            </button>
 
-      {isOpened
-      && (
-        <button
-          type="button"
-          onClick={() => {
-            sortByGoodsLength();
-          }}
-        >
-          Sort by length
-        </button>
-      )}
+            <button
+              type="button"
+              onClick={() => {
+                sortByGoodsLength();
+              }}
+            >
+              Sort by length
+            </button>
 
-      {isOpened
-      && (
-        <button
-          type="button"
-          onClick={() => {
-            resetGoods();
-          }}
-        >
-          Reset
-        </button>
-      )}
+            <button
+              type="button"
+              onClick={() => {
+                resetGoods();
+              }}
+            >
+              Reset
+            </button>
+          </>
+        )
+        : null}
 
       <ul>
         {isOpened && visibleGoods.map((good) => {
