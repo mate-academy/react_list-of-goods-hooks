@@ -6,23 +6,6 @@ type Props = {
 export const GoodsList: React.FC<Props> = ({ goods }: Props) => {
   const [goodsList, setGoodsList] = useState([...goods]);
 
-  // switch (sortBy) {
-  //   case SortType.Alphabetic:
-  //     goodsList.sort((good1, good2) => good1.localeCompare(good2));
-  //     break;
-
-  //   case SortType.Length:
-  //     goodsList.sort((good1, good2) => good1.length - good2.length);
-  //     break;
-
-  //   default:
-  //     break;
-  // }
-
-  // if (isReversed) {
-  //   goodsList.reverse();
-  // }
-
   return (
     <>
       <ul className="goodsList">
