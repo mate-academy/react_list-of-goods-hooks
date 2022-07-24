@@ -1,1 +1,31 @@
-/* put styles here */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.App {
+  width: max-content;
+  margin-top: 50px;
+  padding: 10px 30px;
+  display: flex;
+  gap: 10px;
+  background-color: peachpuff;
+  border: 1px solid darkslateblue;
+  border-radius: 5px;
+}
+
+.buttons {
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+}
+
+.button {
+  background-color: lightsalmon;
+  border: 1px solid darkslateblue;
+  border-radius: 5px;
+  cursor: pointer;
+}
