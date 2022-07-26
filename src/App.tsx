@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import './App.css';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -15,33 +15,107 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+export const App: React.FC = () => {
+  const [start, setStart] = useState(true);
+  const [sortBy, setSortBy] = useState('');
+  const [reverse, setReverse] = useState(false);
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+  const arrayCopy = [...goodsFromServer];
 
-    <button type="button">
-      Sort by length
-    </button>
+  const sortHandler = () => {
+    arrayCopy.sort((a, b) => {
+      switch (sortBy) {
+        case 'alphabet':
+          if (!reverse) {
+            return a.localeCompare(b);
+          }
 
-    <button type="button">
-      Reverse
-    </button>
+          return b.localeCompare(a);
+          break;
+        case 'length':
+          if (!reverse) {
+            return a.length - b.length;
+          }
 
-    <button type="button">
-      Reset
-    </button>
+          return b.length - a.length;
+          break;
+        default:
+          return 0;
+          break;
+      }
+    });
 
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+    if (sortBy === '' && reverse) {
+      arrayCopy.reverse();
+    }
+  };
+
+  sortHandler();
+
+  return (
+    <div className="App">
+      { start ? (
+        <button
+          type="button"
+          onClick={() => {
+            setStart(false);
+          }}
+        >
+          Start
+        </button>
+      ) : (
+        <>
+          <button
+            type="button"
+            onClick={() => {
+              setSortBy('alphabet');
+            }}
+          >
+            Sort alphabetically
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setSortBy('length');
+            }}
+          >
+            Sort by length
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setReverse(prev => !prev);
+            }}
+          >
+            Reverse
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setSortBy('');
+              setReverse(false);
+            }}
+          >
+            Reset
+          </button>
+
+          <ul className="Goods">
+            {
+              arrayCopy.map(element => (
+                <li
+                  className="Goods__item"
+                  key={element}
+                >
+                  {element}
+                </li>
+              ))
+            }
+          </ul>
+        </>
+      )}
+    </div>
+  );
+};
