@@ -22,12 +22,14 @@ function getReorderedGoods(
 ) {
   const visibleGoods = [...goods];
 
-  if (sortType === 'LENGTH') {
-    visibleGoods.sort((a, b) => a.length - b.length);
-  }
-
-  if (sortType === 'ALPABET') {
-    visibleGoods.sort((a, b) => a.localeCompare(b));
+  switch (sortType) {
+    case 'LENGTH':
+      visibleGoods.sort((a, b) => a.length - b.length);
+      break;
+    case 'ALPABET':
+      visibleGoods.sort((a, b) => a.localeCompare(b));
+      break;
+    default:
   }
 
   if (isReversed) {
@@ -55,39 +57,47 @@ export const App: React.FC = () => {
           Start
         </button>
       )}
+      {isStarted && (
+        <>
+          <button type="button" onClick={() => setSort('ALPABET')}>
+            Sort alphabetically
+          </button>
 
-      <button type="button" onClick={() => setSort('ALPABET')}>
-        Sort alphabetically
-      </button>
+          <button type="button" onClick={() => setSort('LENGTH')}>
+            Sort by length
+          </button>
 
-      <button type="button" onClick={() => setSort('LENGTH')}>
-        Sort by length
-      </button>
-
-      <button type="button" onClick={() => setReversed((current => !current))}>
-        Reverse
-      </button>
-
-      <button
-        type="button"
-        onClick={() => {
-          setSort('NONE');
-          setReversed(false);
-        }}
-      >
-        Reset
-      </button>
-
-      <ul className="Goods">
-        {isStarted && goods.map(good => (
-          <li
-            key={good}
-            className="Goods__item"
+          <button
+            type="button"
+            onClick={() => (
+              setReversed((current => !current))
+            )}
           >
-            {good}
-          </li>
-        ))}
-      </ul>
+            Reverse
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setSort('NONE');
+              setReversed(false);
+            }}
+          >
+            Reset
+          </button>
+
+          <ul className="Goods">
+            {goods.map(good => (
+              <li
+                key={good}
+                className="Goods__item"
+              >
+                {good}
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
     </div>
   );
 };
