@@ -1,1 +1,16 @@
-/* put styles here */
+@import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css";
+
+.App {
+  display: block;
+  width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.Goods {
+  display: block;
+}
+
+.button {
+  margin: 3px;
+}
