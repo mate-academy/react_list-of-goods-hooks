@@ -50,7 +50,7 @@ function getReorderedGoods(
 
 export const App: React.FC = () => {
   const [isStarted, setStart] = useState(false);
-  const [sortType, setSortType] = useState(SortType.NONE);
+  const [sortType, setSortType] = useState<SortType>(SortType.NONE);
   const [isReversed, setReversed] = useState(false);
 
   const visibleGoods = getReorderedGoods(
@@ -91,7 +91,7 @@ export const App: React.FC = () => {
             <button
               type="button"
               className="button"
-              onClick={() => setReversed(value => !value)}
+              onClick={() => setReversed(prevState => !prevState)}
             >
               Reverse
             </button>
