@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -15,33 +15,102 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+export const App: React.FC = () => {
+  const [goods, setGoods] = useState([...goodsFromServer]);
+  const [isStarted, setStart] = useState(false);
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+  const start = () => {
+    setStart(true);
+  };
 
-    <button type="button">
-      Sort by length
-    </button>
+  const sortAlph = () => {
+    const copy = [...goods];
 
-    <button type="button">
-      Reverse
-    </button>
+    setGoods(copy.sort((a, b) => a.localeCompare(b)));
+  };
 
-    <button type="button">
-      Reset
-    </button>
+  const sortLen = () => {
+    const copy = [...goods];
 
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+    setGoods(copy.sort((a, b) => a.length - b.length));
+  };
+
+  const reverse = () => {
+    setGoods([...goods].reverse());
+  };
+
+  const reset = () => {
+    setGoods(goodsFromServer);
+  };
+
+  return (
+    <div className="App column">
+      <div className="level">
+        {!isStarted
+          && (
+            <button
+              type="button"
+              onClick={start}
+              className="button is-light is-primary level-item"
+            >
+              Start
+            </button>
+          )}
+
+        {isStarted
+          && (
+            <button
+              type="button"
+              onClick={sortAlph}
+              className="button is-light is-link"
+            >
+              Sort alphabetically
+            </button>
+          )}
+
+        {isStarted
+          && (
+            <button
+              type="button"
+              onClick={sortLen}
+              className="button is-light is-link"
+            >
+              Sort by length
+            </button>
+          )}
+
+        {isStarted
+          && (
+            <button
+              type="button"
+              onClick={reverse}
+              className="button is-light is-link"
+            >
+              Reverse
+            </button>
+          )}
+
+        {isStarted
+          && (
+            <button
+              type="button"
+              onClick={reset}
+              className="button is-light is-danger"
+            >
+              Reset
+            </button>
+          )}
+      </div>
+
+      {isStarted
+          && (
+            <ul className="panel Goods">
+              {isStarted
+                && goods.map(good => (
+                  <li className="Goods__item panel-block" key={good}>{good}</li>
+                ))}
+            </ul>
+          )}
+    </div>
+  );
+};
