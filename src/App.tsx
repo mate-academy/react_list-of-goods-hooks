@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { List } from './component/List/List';
+import { Buttons } from './component/Buttons/Buttons';
 import './App.css';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -65,55 +67,11 @@ export const App: React.FC = () => {
         </button>
       ) : (
         <>
-          <button
-            type="button"
-            onClick={() => {
-              setSortBy('alphabet');
-            }}
-          >
-            Sort alphabetically
-          </button>
-
-          <button
-            type="button"
-            onClick={() => {
-              setSortBy('length');
-            }}
-          >
-            Sort by length
-          </button>
-
-          <button
-            type="button"
-            onClick={() => {
-              setReverse(prev => !prev);
-            }}
-          >
-            Reverse
-          </button>
-
-          <button
-            type="button"
-            onClick={() => {
-              setSortBy('');
-              setReverse(false);
-            }}
-          >
-            Reset
-          </button>
-
-          <ul className="Goods">
-            {
-              arrayCopy.map(element => (
-                <li
-                  className="Goods__item"
-                  key={element}
-                >
-                  {element}
-                </li>
-              ))
-            }
-          </ul>
+          <Buttons
+            setSortBy={setSortBy}
+            setReverse={setReverse}
+          />
+          <List arrayCopy={arrayCopy} />
         </>
       )}
     </div>
