@@ -1,1 +1,12 @@
 /* put styles here */
+.App {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Goods {
+  display: flex;
+  flex-direction: column;
+}

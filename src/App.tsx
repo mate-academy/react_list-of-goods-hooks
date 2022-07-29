@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
+import Button from '@mui/material/Button';
+import { ListItem, ListItemText } from '@mui/material';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const goodsFromServer: string[] = [
@@ -15,33 +17,98 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+export const App: React.FC = () => {
+  const initialGoods = goodsFromServer;
+  const [goods, setGoods] = useState<string[]>(goodsFromServer);
+  const [isStarted, setIsStarted] = useState<boolean>(false);
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+  const sortAlphabetically = () => {
+    const sortedByAlphabet: string[] = [...initialGoods].sort();
 
-    <button type="button">
-      Sort by length
-    </button>
+    setGoods(sortedByAlphabet);
+  };
 
-    <button type="button">
-      Reverse
-    </button>
+  const sortByLength = () => {
+    const sortedByLength: string[]
+      = [...initialGoods].sort((a, b) => a.length - b.length);
 
-    <button type="button">
-      Reset
-    </button>
+    setGoods(sortedByLength);
+  };
 
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+  const reverse = () => {
+    const reversed: string[] = [...goods].reverse();
+
+    setGoods(reversed);
+  };
+
+  const reset = () => {
+    setGoods(initialGoods);
+  };
+
+  const start = () => {
+    setIsStarted(true);
+  };
+
+  return (
+    <div className="App">
+      {!isStarted
+        ? (
+          <Button
+            variant="outlined"
+            size="large"
+            onClick={start}
+            className="button"
+          >
+            Start
+          </Button>
+        )
+        : (
+          <div>
+            <Button
+              variant="outlined"
+              size="large"
+              onClick={sortAlphabetically}
+              className="button"
+            >
+              Sort alphabetically
+            </Button>
+
+            <Button
+              variant="outlined"
+              size="large"
+              onClick={sortByLength}
+              className="button"
+            >
+              Sort by length
+            </Button>
+
+            <Button
+              variant="outlined"
+              size="large"
+              onClick={reverse}
+              className="button"
+            >
+              Reverse
+            </Button>
+
+            <Button
+              variant="outlined"
+              size="large"
+              onClick={reset}
+              className="button"
+            >
+              Reset
+            </Button>
+
+            <ListItem className="Goods">
+              {goods.map(good => (
+                <ListItemText key={good} className="Goods__item">
+                  {good}
+                </ListItemText>
+              ))}
+            </ListItem>
+          </div>
+        )}
+    </div>
+  );
+};
