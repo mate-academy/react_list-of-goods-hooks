@@ -31,15 +31,12 @@ export const App: React.FC = () => {
           return !reverse
             ? (a.localeCompare(b))
             : (b.localeCompare(a));
-          break;
         case 'length':
           return !reverse
             ? (a.length - b.length)
             : (b.length - a.length);
-          break;
         default:
           return 0;
-          break;
       }
     });
 
