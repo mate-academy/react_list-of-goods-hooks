@@ -28,18 +28,14 @@ export const App: React.FC = () => {
     arrayCopy.sort((a, b) => {
       switch (sortBy) {
         case 'alphabet':
-          if (!reverse) {
-            return a.localeCompare(b);
-          }
-
-          return b.localeCompare(a);
+          return !reverse
+            ? (a.localeCompare(b))
+            : (b.localeCompare(a));
           break;
         case 'length':
-          if (!reverse) {
-            return a.length - b.length;
-          }
-
-          return b.length - a.length;
+          return !reverse
+            ? (a.length - b.length)
+            : (b.length - a.length);
           break;
         default:
           return 0;
