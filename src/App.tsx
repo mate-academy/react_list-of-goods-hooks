@@ -1,4 +1,6 @@
-import React from 'react';
+import { useState } from 'react';
+import { List } from './component/List/List';
+import { Buttons } from './component/Buttons/Buttons';
 import './App.css';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -15,33 +17,56 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+export const App: React.FC = () => {
+  const [start, setStart] = useState(true);
+  const [sortBy, setSortBy] = useState('');
+  const [reverse, setReverse] = useState(false);
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+  const arrayCopy = [...goodsFromServer];
 
-    <button type="button">
-      Sort by length
-    </button>
+  const sortHandler = () => {
+    arrayCopy.sort((a, b) => {
+      switch (sortBy) {
+        case 'alphabet':
+          return !reverse
+            ? (a.localeCompare(b))
+            : (b.localeCompare(a));
+        case 'length':
+          return !reverse
+            ? (a.length - b.length)
+            : (b.length - a.length);
+        default:
+          return 0;
+      }
+    });
 
-    <button type="button">
-      Reverse
-    </button>
+    if (sortBy === '' && reverse) {
+      arrayCopy.reverse();
+    }
+  };
 
-    <button type="button">
-      Reset
-    </button>
+  sortHandler();
 
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+  return (
+    <div className="App">
+      { start ? (
+        <button
+          type="button"
+          onClick={() => {
+            setStart(false);
+          }}
+        >
+          Start
+        </button>
+      ) : (
+        <>
+          <Buttons
+            setSortBy={setSortBy}
+            setReverse={setReverse}
+          />
+          <List arrayCopy={arrayCopy} />
+        </>
+      )}
+    </div>
+  );
+};
