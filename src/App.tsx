@@ -20,7 +20,6 @@ export const App = () => {
   const [isReversed, setReverse] = useState(false);
   const [isStarted, setStart] = useState(true);
   const [sortType, setSort] = useState('');
-  const [initialOrder, setOrder] = useState(false);
 
   const visibleGoods = [...goodsFromServer];
 
@@ -66,14 +65,17 @@ export const App = () => {
               Reverse
             </button>
 
-            <button type="button" onClick={() => setOrder(true)}>
+            <button
+              type="button"
+              onClick={() => {
+                setReverse(false);
+                setSort('');
+              }}
+            >
               Reset
             </button>
 
-            {/* Can't sort or reverse the list items after I pressed reset button. Maybe it should be this way if no - let me know please */}
-            {!initialOrder
-              ? <GoodsList goods={visibleGoods} />
-              : <GoodsList goods={goodsFromServer} />}
+            <GoodsList goods={visibleGoods} />
           </>
         )}
       </div>
