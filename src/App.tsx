@@ -59,7 +59,7 @@ export const App: React.FC = () => {
     <div className="App">
       {!start && (
         <button
-          className="button is-success is-rounded"
+          className="button"
           type="button"
           onClick={() => setStart(true)}
         >
@@ -85,10 +85,9 @@ export const App: React.FC = () => {
             >
               Sort by length
             </button>
-          </div>
-          <div className="App__button-group">
+
             <button
-              className="button"
+              className="button button--reverse"
               type="button"
               onClick={() => setReverse(!reverse)}
             >

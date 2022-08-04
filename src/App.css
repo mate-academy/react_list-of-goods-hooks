@@ -12,28 +12,26 @@ body {
   margin: 5px auto;
   padding: 25px 50px;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   width: max-content;
 }
 
 .App__button-group {
   display: flex;
-  justify-content: space-between;
+  margin-right: 150px;
+  flex-direction: column;
 }
 
 .Goods {
-  padding: 10px;
   width: 100%;
 }
 
 .Goods__item {
   display: flex;
-  justify-content: center;
   align-items: center;
   padding: 5px;
   gap: 10px;
-  font-size: 1.5rem;
+  font-size: 1.7rem;
 }
 
 .button {
@@ -42,9 +40,15 @@ body {
   font-size: 1.5rem;
   display: inline-block;
   border-radius: 10px;
+  width: 170px;
+  height: 100px;
   background-color: blue;
 }
 
 .button--reset {
   background-color: red;
+}
+
+.button--reverse {
+  background-color: green;
 }
