@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import './App.css';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const goodsFromServer: string[] = [
   'Dumplings',
   'Carrot',
@@ -70,7 +69,9 @@ export const App: React.FC = () => {
     setReversed(false);
   };
 
-  const goods = sortGoods(goodsFromServer, sortType, isReversed);
+  const goods = useMemo(() => (
+    sortGoods(goodsFromServer, sortType, isReversed)
+  ), [sortType, isReversed]);
 
   return (
     <div className="App is-light">
