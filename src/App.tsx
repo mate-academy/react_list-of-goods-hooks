@@ -51,7 +51,9 @@ const getReorderedGoods = (
     });
   }
 
-  return isReversed ? visibleGoods.reverse() : visibleGoods;
+  return isReversed
+    ? visibleGoods.reverse()
+    : visibleGoods;
 };
 
 export const App: FC = () => {
