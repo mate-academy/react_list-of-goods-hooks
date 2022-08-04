@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -15,33 +15,108 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+export const App: React.FC = () => {
+  const [start, setStart] = useState(false);
+  const [reverse, setReverse] = useState(false);
+  const [reset, setReset] = useState(false);
+  const [sortByAlphabet, setSortByAlphabet] = useState(false);
+  const [sortByLength, setSortByLength] = useState(false);
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+  useEffect(() => {
+    if (sortByLength) {
+      setSortByAlphabet(false);
+    }
+  }, [sortByLength]);
 
-    <button type="button">
-      Sort by length
-    </button>
+  useEffect(() => {
+    if (sortByAlphabet) {
+      setSortByLength(false);
+    }
+  }, [sortByAlphabet]);
 
-    <button type="button">
-      Reverse
-    </button>
+  useEffect(() => {
+    setSortByAlphabet(false);
+    setSortByLength(false);
+    setReverse(false);
+  }, [reset]);
 
-    <button type="button">
-      Reset
-    </button>
+  const goods = [...goodsFromServer];
 
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+  if (sortByAlphabet) {
+    goods.sort((good1, good2) => good1.localeCompare(good2));
+  }
+
+  if (sortByLength) {
+    goods.sort((good1, good2) => good1.length - good2.length);
+  }
+
+  if (reverse) {
+    goods.reverse();
+  }
+
+  return (
+
+    <div className="App">
+      {!start && (
+        <button
+          className="button is-success is-rounded"
+          type="button"
+          onClick={() => setStart(true)}
+        >
+          Start
+        </button>
+      )}
+
+      {start && (
+        <>
+          <div className="App__button-group">
+            <button
+              className="button"
+              type="button"
+              onClick={() => setSortByAlphabet(true)}
+            >
+              Sort alphabetically
+            </button>
+
+            <button
+              className="button"
+              type="button"
+              onClick={() => setSortByLength(true)}
+            >
+              Sort by length
+            </button>
+          </div>
+          <div className="App__button-group">
+            <button
+              className="button"
+              type="button"
+              onClick={() => setReverse(!reverse)}
+            >
+              Reverse
+            </button>
+
+            <button
+              className="button button--reset"
+              type="button"
+              onClick={() => setReset(!reset)}
+            >
+              Reset
+            </button>
+          </div>
+
+          <ul className="Goods">
+            {goods.map(good => (
+              <li
+                key={good}
+                className="Goods__item"
+              >
+                {good}
+
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+    </div>
+  );
+};
