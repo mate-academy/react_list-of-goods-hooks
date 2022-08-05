@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { GoodsList } from './components/GoodsList';
+
 const goodsFromServer: string[] = [
   'Dumplings',
   'Carrot',
@@ -15,33 +16,23 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+export const App: React.FC = () => {
+  const [started, setStarted] = useState(false);
 
-    <button type="button">
-      Sort alphabetically
-    </button>
-
-    <button type="button">
-      Sort by length
-    </button>
-
-    <button type="button">
-      Reverse
-    </button>
-
-    <button type="button">
-      Reset
-    </button>
-
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+  return (
+    <div className="App">
+      {started
+        ? <GoodsList goods={goodsFromServer} />
+        : (
+          <button
+            type="button"
+            onClick={() => {
+              setStarted(true);
+            }}
+          >
+            Start
+          </button>
+        )}
+    </div>
+  );
+};
