@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import './App.css';
 
 const goodsFromServer: string[] = [
@@ -25,28 +25,32 @@ export const App: React.FC = () => {
   const [isReversed, setReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
-  const sortGoods = (
-    goods: string[],
-    typeOfSort: SortType,
-    isReverse: boolean,
-  ) => {
-    const visibleGoods = [...goods];
+  const callbackToSort = useCallback(() => (
+    (
+      goods: string[],
+      typeOfSort: SortType,
+      isReverse: boolean,
+    ) => {
+      const visibleGoods = [...goods];
 
-    visibleGoods.sort((a, b) => {
-      switch (typeOfSort) {
-        case SortType.ALPHABET:
-          return a.localeCompare(b);
-        case SortType.LENGTH:
-          return a.length - b.length;
-        default:
-          return 0;
-      }
-    });
+      visibleGoods.sort((a, b) => {
+        switch (typeOfSort) {
+          case SortType.ALPHABET:
+            return a.localeCompare(b);
+          case SortType.LENGTH:
+            return a.length - b.length;
+          default:
+            return 0;
+        }
+      });
 
-    return isReverse
-      ? visibleGoods.reverse()
-      : visibleGoods;
-  };
+      return isReverse
+        ? visibleGoods.reverse()
+        : visibleGoods;
+    }
+  ), [sortType, isReversed]);
+
+  const sortGoods = callbackToSort();
 
   const start = () => (
     setStarted(true)
