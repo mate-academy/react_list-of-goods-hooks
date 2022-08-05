@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useMemo, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import './App.css';
 
@@ -26,36 +26,6 @@ enum SortType {
   LENGTH,
 }
 
-type Good = {
-  name: string;
-  id: string;
-};
-
-const getReorderedGoods = (
-  goods: Good[],
-  sortType: SortType,
-  isReversed: boolean,
-) => {
-  const visibleGoods = [...goods];
-
-  if (sortType !== SortType.NONE) {
-    visibleGoods.sort((a, b) => {
-      switch (sortType) {
-        case SortType.ALPHABET:
-          return a.name.localeCompare(b.name);
-        case SortType.LENGTH:
-          return a.name.length - b.name.length;
-        default:
-          return 0;
-      }
-    });
-  }
-
-  return isReversed
-    ? visibleGoods.reverse()
-    : visibleGoods;
-};
-
 export const App: FC = () => {
   const [isStarted, setStarted] = useState(false);
   const [isReversed, setReversed] = useState(false);
@@ -70,7 +40,28 @@ export const App: FC = () => {
     setReversed(false);
   };
 
-  const goods = getReorderedGoods(preparedGoods, sortType, isReversed);
+  const getReorderedGoods = () => {
+    const visibleGoods = [...preparedGoods];
+
+    if (sortType !== SortType.NONE) {
+      visibleGoods.sort((a, b) => {
+        switch (sortType) {
+          case SortType.ALPHABET:
+            return a.name.localeCompare(b.name);
+          case SortType.LENGTH:
+            return a.name.length - b.name.length;
+          default:
+            return 0;
+        }
+      });
+    }
+
+    return isReversed
+      ? visibleGoods.reverse()
+      : visibleGoods;
+  };
+
+  const visibleGoods = useMemo(getReorderedGoods, [isReversed, sortType]);
 
   return (
     <div className="App level is-flex-direction-column">
@@ -121,7 +112,7 @@ export const App: FC = () => {
           </div>
 
           <ul className="Goods">
-            {goods.map(({ name, id }) => (
+            {visibleGoods.map(({ name, id }) => (
               <li className="Goods__item" key={id}>{name}</li>
             ))}
           </ul>
