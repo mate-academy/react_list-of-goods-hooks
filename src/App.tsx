@@ -26,6 +26,36 @@ enum SortType {
   LENGTH,
 }
 
+type Good = {
+  name: string;
+  id: string;
+};
+
+const getReorderedGoods = (
+  goods: Good[],
+  sortType: SortType,
+  isReversed: boolean,
+) => {
+  const visibleGoods = [...goods];
+
+  if (sortType !== SortType.NONE) {
+    visibleGoods.sort((a, b) => {
+      switch (sortType) {
+        case SortType.ALPHABET:
+          return a.name.localeCompare(b.name);
+        case SortType.LENGTH:
+          return a.name.length - b.name.length;
+        default:
+          return 0;
+      }
+    });
+  }
+
+  return isReversed
+    ? visibleGoods.reverse()
+    : visibleGoods;
+};
+
 export const App: FC = () => {
   const [isStarted, setStarted] = useState(false);
   const [isReversed, setReversed] = useState(false);
@@ -40,28 +70,9 @@ export const App: FC = () => {
     setReversed(false);
   };
 
-  const getReorderedGoods = () => {
-    const visibleGoods = [...preparedGoods];
-
-    if (sortType !== SortType.NONE) {
-      visibleGoods.sort((a, b) => {
-        switch (sortType) {
-          case SortType.ALPHABET:
-            return a.name.localeCompare(b.name);
-          case SortType.LENGTH:
-            return a.name.length - b.name.length;
-          default:
-            return 0;
-        }
-      });
-    }
-
-    return isReversed
-      ? visibleGoods.reverse()
-      : visibleGoods;
-  };
-
-  const visibleGoods = useMemo(getReorderedGoods, [isReversed, sortType]);
+  const visibleGoods = useMemo(() => (
+    getReorderedGoods(preparedGoods, sortType, isReversed)
+  ), [isReversed, sortType]);
 
   return (
     <div className="App level is-flex-direction-column">
