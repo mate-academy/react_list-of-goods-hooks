@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -17,42 +17,28 @@ const goodsFromServer: string[] = [
 
 export const App: React.FC = () => {
   const [start, setStart] = useState(false);
-  const [reverse, setReverse] = useState(false);
-  const [reset, setReset] = useState(false);
-  const [sortByAlphabet, setSortByAlphabet] = useState(false);
-  const [sortByLength, setSortByLength] = useState(false);
+  const [goods, setGoods] = useState([...goodsFromServer]);
 
-  useEffect(() => {
-    if (sortByLength) {
-      setSortByAlphabet(false);
-    }
-  }, [sortByLength]);
+  function sortGoods(sortBy: string) {
+    const sortedGoods = [...goodsFromServer].sort((good1, good2) => {
+      switch (sortBy) {
+        case 'byAlphabet':
+          return good1.localeCompare(good2);
 
-  useEffect(() => {
-    if (sortByAlphabet) {
-      setSortByLength(false);
-    }
-  }, [sortByAlphabet]);
+        case 'byLength':
+          return good1.length - good2.length;
 
-  useEffect(() => {
-    setSortByAlphabet(false);
-    setSortByLength(false);
-    setReverse(false);
-  }, [reset]);
+        default:
+          return 0;
+      }
+    });
 
-  const goods = [...goodsFromServer];
-
-  if (sortByAlphabet) {
-    goods.sort((good1, good2) => good1.localeCompare(good2));
+    return setGoods(sortedGoods);
   }
 
-  if (sortByLength) {
-    goods.sort((good1, good2) => good1.length - good2.length);
-  }
+  const reverse = () => setGoods([...goods].reverse());
 
-  if (reverse) {
-    goods.reverse();
-  }
+  const reset = () => setGoods([...goodsFromServer]);
 
   return (
 
@@ -73,7 +59,7 @@ export const App: React.FC = () => {
             <button
               className="button"
               type="button"
-              onClick={() => setSortByAlphabet(true)}
+              onClick={() => sortGoods('byAlphabet')}
             >
               Sort alphabetically
             </button>
@@ -81,7 +67,7 @@ export const App: React.FC = () => {
             <button
               className="button"
               type="button"
-              onClick={() => setSortByLength(true)}
+              onClick={() => sortGoods('byLength')}
             >
               Sort by length
             </button>
@@ -89,7 +75,7 @@ export const App: React.FC = () => {
             <button
               className="button button--reverse"
               type="button"
-              onClick={() => setReverse(!reverse)}
+              onClick={reverse}
             >
               Reverse
             </button>
@@ -97,7 +83,7 @@ export const App: React.FC = () => {
             <button
               className="button button--reset"
               type="button"
-              onClick={() => setReset(!reset)}
+              onClick={reset}
             >
               Reset
             </button>
