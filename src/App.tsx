@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -15,33 +15,112 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+export const App: React.FC = () => {
+  const [isOpened, setIsOpened] = useState(false);
+  const [visibleGoods, setVisibleGoods] = useState([...goodsFromServer]);
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+  const startGoods = () => {
+    setIsOpened(true);
+  };
 
-    <button type="button">
-      Sort by length
-    </button>
+  const reversedGoods = () => {
+    setVisibleGoods([...visibleGoods.reverse()]);
+  };
 
-    <button type="button">
-      Reverse
-    </button>
+  const sortByABCGoods = () => {
+    setVisibleGoods([...visibleGoods.sort((good1, good2) => {
+      return good1.localeCompare(good2);
+    })]);
+  };
 
-    <button type="button">
-      Reset
-    </button>
+  const sortByGoodsLength = () => {
+    setVisibleGoods([...visibleGoods.sort((good1, good2) => {
+      return (good1.length - good2.length);
+    })]);
+  };
 
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+  const resetGoods = () => {
+    setVisibleGoods([...goodsFromServer]);
+  };
+
+  return (
+    <div className="App">
+      <h1>Goods</h1>
+
+      {!isOpened
+      && (
+        <button
+          type="button"
+          onClick={() => {
+            startGoods();
+          }}
+        >
+          Start
+        </button>
+      )}
+
+      {isOpened
+        ? (
+          <>
+            <button
+              type="button"
+              onClick={() => {
+                reversedGoods();
+              }}
+            >
+              Reverse
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                sortByABCGoods();
+              }}
+            >
+              Sort alphabetically
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                sortByGoodsLength();
+              }}
+            >
+              Sort by length
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                resetGoods();
+              }}
+            >
+              Reset
+            </button>
+          </>
+        )
+        : (
+          <button
+            type="button"
+            onClick={() => {
+              startGoods();
+            }}
+          >
+            Start
+          </button>
+        )}
+
+      <ul>
+        {isOpened && visibleGoods.map((good) => {
+          return (
+            <li key={good}>
+              {good}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+};
+
+export default App;
