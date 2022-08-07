@@ -1,0 +1,13 @@
+.App {
+  width: max-content;
+  margin: 50px auto;
+
+  &__label {
+    background-color: hsl(0, 0%, 93%);
+  }
+
+  &__select {
+    margin-left: 20px;
+    width: 50px;
+  }
+}
