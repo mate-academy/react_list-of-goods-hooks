@@ -1,5 +1,5 @@
-import React from 'react';
-import './App.css';
+import React, { useState } from 'react';
+import './App.scss';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const goodsFromServer: string[] = [
@@ -15,33 +15,120 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+enum SortType {
+  NONE,
+  ALPABET,
+  LENGTH,
+}
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+function getReorderedGoods(
+  goods: string[],
+  sortType: SortType,
+  isReversed: boolean,
+  minLength: number,
+) {
+  // Not to mutate the original array
+  const visibleGoods = goods.filter(good => good.length >= minLength);
 
-    <button type="button">
-      Sort by length
-    </button>
+  visibleGoods.sort((g1, g2) => {
+    switch (sortType) {
+      case SortType.ALPABET:
+        return g1.localeCompare(g2);
 
-    <button type="button">
-      Reverse
-    </button>
+      case SortType.LENGTH:
+        return g1.length - g2.length;
 
-    <button type="button">
-      Reset
-    </button>
+      default:
+        return 0;
+    }
+  });
 
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+  if (isReversed) {
+    visibleGoods.reverse();
+  }
+
+  return visibleGoods;
+}
+
+export const App: React.FC = () => {
+  const [isStarted, setIsStarted] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
+  const [sortType, setSortType] = useState(SortType.NONE);
+  const [minLength, setMinLength] = useState(1);
+
+  const reset = () => {
+    setIsReversed(false);
+    setSortType(SortType.NONE);
+    setMinLength(1);
+  };
+
+  const visibleGoods
+    = getReorderedGoods(goodsFromServer, sortType, isReversed, minLength);
+
+  return (
+    <div className="App panel is-success">
+      {!isStarted ? (
+        <button
+          className="button"
+          type="button"
+          onClick={() => setIsStarted(true)}
+        >
+          Start
+        </button>
+      ) : (
+        <>
+          <div className="panel-heading">
+            <button
+              className="button"
+              type="button"
+              onClick={() => setSortType(SortType.ALPABET)}
+            >
+              Sort alphabetically
+            </button>
+
+            <button
+              className="button"
+              type="button"
+              onClick={() => setSortType(SortType.LENGTH)}
+            >
+              Sort by length
+            </button>
+
+            <button
+              className="button"
+              type="button"
+              onClick={() => setIsReversed(!isReversed)}
+            >
+              Reverse
+            </button>
+
+            <button className="button" type="button" onClick={reset}>
+              Reset
+            </button>
+          </div>
+
+          <label className="App__label panel-block">
+            Min-length:
+            <select
+              className="App__select select"
+              name="minLength"
+              id="minLength"
+              value={minLength}
+              onChange={e => setMinLength(+e.currentTarget.value)}
+            >
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(item => (
+                  <option value={item}>{item}</option>
+                ))}
+            </select>
+          </label>
+
+          <ul className="Goods">
+            {visibleGoods.map(good => (
+              <li key={good} className="Goods__item panel-block">{good}</li>
+            ))}
+          </ul>
+        </>
+      )}
+    </div>
+  );
+};
