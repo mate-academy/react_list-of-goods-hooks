@@ -65,6 +65,7 @@ export const App: React.FC = () => {
   const resetSort = () => {
     setSortType(0);
     setReverse(false);
+    setLength(1);
   };
 
   return (
@@ -83,6 +84,7 @@ export const App: React.FC = () => {
           <label>
             Choose a length
             <select
+              value={minLength}
               onChange={(event) => setLength(+event.target.value)}
             >
               {(new Array(10)).fill(0).map((_, index) => (
