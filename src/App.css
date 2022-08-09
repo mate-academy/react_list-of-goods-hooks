@@ -1,1 +1,40 @@
-/* put styles here */
+iframe {
+  display: none;
+}
+
+.App {
+  width: 550px;
+  margin: 24px auto 0;
+  padding: 16px;
+  background-color: #4c8caf;
+  border-radius: 8px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.button {
+  width: 125px;
+  height: 35px;
+  background-color: #4f9a35;
+  border: none;
+  border-radius: 8px;
+  color: #f3f3f3;
+  transition: background-color 0.5s;
+}
+
+.button:hover {
+  background-color: #58a83b;
+}
+
+.active {
+  background-color: #c25555;
+  transition: background-color 0.5s;
+}
+
+.active:hover {
+  background-color: #cc5d5d;
+}
