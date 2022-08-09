@@ -1,1 +1,4 @@
 /* put styles here */
+iframe {
+  display: none;
+}
