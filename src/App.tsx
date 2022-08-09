@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import './App.css';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const goodsFromServer: string[] = [
   'Dumplings',
   'Carrot',
@@ -16,16 +15,20 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
+const randomValues = new Array(goodsFromServer.length)
+  .fill(1).map(x => x + Math.random());
+
 export const App: React.FC = () => {
   const [start, setStart] = useState(false);
   const [sortType, setSortType] = useState(0);
   const [reverse, setReverse] = useState(false);
+  const [minLength, setLength] = useState(1);
 
   function getReorderedGoods() {
-    const visibleGoods = goodsFromServer;
+    const visibleGoods = [...goodsFromServer].filter(good => (
+      good.length > minLength
+    ));
 
-    // eslint-disable-next-line no-console
-    console.log('fdjf');
     visibleGoods.sort((item1, item2) => {
       switch (sortType) {
         case 1:
@@ -59,7 +62,7 @@ export const App: React.FC = () => {
     setReverse(!reverse);
   };
 
-  const reset = () => {
+  const resetSort = () => {
     setSortType(0);
     setReverse(false);
   };
@@ -77,6 +80,22 @@ export const App: React.FC = () => {
 
       {start && (
         <>
+          <label>
+            Choose a length
+            <select
+              onChange={(event) => setLength(+event.target.value)}
+            >
+              {(new Array(10)).fill(0).map((_, index) => (
+                <option
+                  value={index + 1}
+                  key={randomValues[index]}
+                >
+                  {index + 1}
+                </option>
+              ))}
+            </select>
+          </label>
+          <br />
           <button
             type="button"
             onClick={alpabetSort}
@@ -100,7 +119,7 @@ export const App: React.FC = () => {
 
           <button
             type="button"
-            onClick={reset}
+            onClick={resetSort}
           >
             Reset
           </button>
