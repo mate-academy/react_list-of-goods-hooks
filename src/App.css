@@ -1,1 +1,5 @@
 /* put styles here */
+.App {
+  width: 560px;
+  margin: 0 auto;
+}
