@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
+
+import { v4 as uuidv4 } from 'uuid';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const goodsFromServer: string[] = [
@@ -15,33 +17,122 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+enum SortType {
+  NONE,
+  ALPHABET,
+  LENGTH,
+}
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+function getReorderedGoods(
+  goods: string[],
+  sortType: SortType,
+  isReversed: boolean,
+  wordsLength: number,
+) {
+  const visibleGoods = [...goods]
+    .filter(goodItem => goodItem.length >= wordsLength);
 
-    <button type="button">
-      Sort by length
-    </button>
+  visibleGoods.sort((prev, curr) => {
+    switch (sortType) {
+      case SortType.ALPHABET:
+        return prev.localeCompare(curr);
+      case SortType.LENGTH:
+        return prev.length - curr.length;
+      default:
+        return 0;
+    }
+  });
 
-    <button type="button">
-      Reverse
-    </button>
+  if (isReversed) {
+    visibleGoods.reverse();
+  }
 
-    <button type="button">
-      Reset
-    </button>
+  return visibleGoods;
+}
 
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+export const App: React.FC = () => {
+  const [isStarted, setStart] = useState(false);
+  const [isReversed, setReverse] = useState(false);
+  const [sortType, setSortType] = useState(SortType.NONE);
+  const [wordsLength, setLength] = useState(1);
+
+  const changedArray
+    = getReorderedGoods(goodsFromServer, sortType, isReversed, wordsLength);
+
+  return (
+    <div className="App notification is-warning">
+      {!isStarted && (
+        <button
+          type="button"
+          className="button is-link"
+          onClick={() => setStart(true)}
+        >
+          Start
+        </button>
+      )}
+
+      {isStarted && (
+        <>
+          <ul className="Goods">
+            {changedArray.map(goodItem => (
+              <li className="Goods__item" key={uuidv4()}>
+                {goodItem}
+              </li>
+            ))}
+          </ul>
+
+          <div className="options">
+            <button
+              type="button"
+              className="button is-primary"
+              onClick={() => setSortType(SortType.ALPHABET)}
+            >
+              Sort alphabetically
+            </button>
+
+            <button
+              type="button"
+              className="button is-primary"
+              onClick={() => setSortType(SortType.LENGTH)}
+            >
+              Sort by length
+            </button>
+
+            <button
+              type="button"
+              className="button is-info"
+              onClick={() => setReverse(current => !current)}
+            >
+              Reverse
+            </button>
+
+            <button
+              type="button"
+              className="button is-danger"
+              onClick={() => {
+                setSortType(SortType.NONE);
+                setReverse(false);
+                setLength(1);
+              }}
+            >
+              Reset
+            </button>
+          </div>
+
+          <div className="select is-success">
+            <select
+              onChange={event => setLength(+event.target.value)}
+              value={wordsLength}
+            >
+              {[...Array(10)].map((_, index) => (
+                <option value={index + 1} key={uuidv4()}>
+                  {index + 1}
+                </option>
+              ))}
+            </select>
+          </div>
+        </>
+      )}
+    </div>
+  );
+};

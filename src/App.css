@@ -1,1 +1,39 @@
-/* put styles here */
+ul,
+li {
+  padding: 0;
+  margin: 0;
+}
+
+.App {
+  width: 350px;
+  margin: 0 auto;
+  padding: 10px;
+  text-align: center;
+}
+
+.Goods {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  min-height: 300px;
+
+  border: 2px solid black;
+}
+
+.Goods__item {
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.Goods__item:last-child {
+  margin-bottom: 0;
+}
+
+.options {
+  display: grid;
+  grid-template-columns: 150px 150px;
+  justify-content: space-between;
+
+  gap: 20px;
+  margin-bottom: 10px;
+}
