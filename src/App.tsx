@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react';
+import classnames from 'classnames';
 import './App.css';
 
 const goodsFromServer: string[] = [
@@ -73,6 +74,7 @@ export const App: React.FC = () => {
       {!start && (
         <button
           type="button"
+          className="button"
           onClick={startSort}
         >
           Start
@@ -85,6 +87,7 @@ export const App: React.FC = () => {
             Choose a length
             <select
               value={minLength}
+              className="select"
               onChange={(event) => setLength(+event.target.value)}
             >
               {(new Array(10)).fill(0).map((_, index) => (
@@ -98,33 +101,39 @@ export const App: React.FC = () => {
             </select>
           </label>
           <br />
-          <button
-            type="button"
-            onClick={alpabetSort}
-          >
-            Sort alphabetically
-          </button>
+          <div>
+            <button
+              type="button"
+              className={classnames('button', sortType === 1 && 'active')}
+              onClick={alpabetSort}
+            >
+              Sort alphabetically
+            </button>
 
-          <button
-            type="button"
-            onClick={lengthSort}
-          >
-            Sort by length
-          </button>
+            <button
+              type="button"
+              className={classnames('button', sortType === 2 && 'active')}
+              onClick={lengthSort}
+            >
+              Sort by length
+            </button>
 
-          <button
-            type="button"
-            onClick={reverseSort}
-          >
-            Reverse
-          </button>
+            <button
+              type="button"
+              className={classnames('button', reverse !== false && 'active')}
+              onClick={reverseSort}
+            >
+              Reverse
+            </button>
 
-          <button
-            type="button"
-            onClick={resetSort}
-          >
-            Reset
-          </button>
+            <button
+              type="button"
+              className="button"
+              onClick={resetSort}
+            >
+              Reset
+            </button>
+          </div>
 
           <ul className="Goods">
             {getReorderedGoods().map(good => (
