@@ -42,14 +42,28 @@ function getReorderedGoods(goods: string[], sortType: SortType, isReversed: bool
   return visibleGoods;
 }
 
+let activeButtons: string[] = [];
+
 export const App: React.FC = () => {
   const [showGoods, setShowGoods] = useState(false);
   const [sortType, setSortType] = useState(0);
   const [reverse, setReverse] = useState(false);
-  const [activeButton, setActiveButton] = useState('');
-
   const preparedGoods
     = getReorderedGoods(goodsFromServer, sortType, reverse);
+
+  const setActiveButton = (addElement: string, removeElements = false) => {
+    if (removeElements) {
+      activeButtons = [];
+    }
+
+    if (!activeButtons.includes(addElement)) {
+      activeButtons.push(addElement);
+    } else if (addElement === 'reverse' && activeButtons.includes(addElement)) {
+      const index = activeButtons.indexOf(addElement);
+
+      activeButtons.splice(index, 1);
+    }
+  };
 
   return (
     <div className="App">
@@ -70,10 +84,10 @@ export const App: React.FC = () => {
             <button
               type="button"
               className={classNames('button',
-                { active: activeButton === 'alpha' })}
+                { active: activeButtons.includes('alpha') })}
               onClick={() => {
                 setSortType(1);
-                setActiveButton('alpha');
+                setActiveButton('alpha', true);
               }}
             >
               Sort alphabetically
@@ -81,10 +95,10 @@ export const App: React.FC = () => {
             <button
               type="button"
               className={classNames('button',
-                { active: activeButton === 'length' })}
+                { active: activeButtons.includes('length') })}
               onClick={() => {
                 setSortType(2);
-                setActiveButton('length');
+                setActiveButton('length', true);
               }}
             >
               Sort by length
@@ -92,7 +106,7 @@ export const App: React.FC = () => {
             <button
               type="button"
               className={classNames('button',
-                { active: activeButton === 'reverse' })}
+                { active: activeButtons.includes('reverse') })}
               onClick={() => {
                 setReverse(!reverse);
                 setActiveButton('reverse');
@@ -102,12 +116,11 @@ export const App: React.FC = () => {
             </button>
             <button
               type="button"
-              className={classNames('button',
-                { active: activeButton === 'reset' })}
+              className="button"
               onClick={() => {
                 setSortType(0);
                 setReverse(false);
-                setActiveButton('reset');
+                setActiveButton('', true);
               }}
             >
               Reset
