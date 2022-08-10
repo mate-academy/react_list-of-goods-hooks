@@ -16,3 +16,8 @@
   margin: 0 auto;
   text-align: center;
 }
+
+.active {
+  transform: scale(1.2);
+  transition: transform 0.3s;
+}

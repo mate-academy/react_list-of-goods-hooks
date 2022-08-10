@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { useState } from 'react';
 import './App.css';
 
@@ -96,7 +97,12 @@ export const App = () => {
             <button
               type="button"
               onClick={sortAlphabetically}
-              className="button is-primary is-light"
+              className={classNames(
+                'button is-primary',
+                {
+                  active: sortType === SortType.ALPABET,
+                },
+              )}
             >
               Sort alphabetically
             </button>
@@ -104,7 +110,12 @@ export const App = () => {
             <button
               type="button"
               onClick={sortByLength}
-              className="button is-primary is-light"
+              className={classNames(
+                'button is-primary',
+                {
+                  active: sortType === SortType.LENGTH,
+                },
+              )}
             >
               Sort by length
             </button>
@@ -112,7 +123,12 @@ export const App = () => {
             <button
               type="button"
               onClick={reverse}
-              className="button is-primary is-light"
+              className={classNames(
+                'button is-primary',
+                {
+                  active: isReversed === true,
+                },
+              )}
             >
               Reverse
             </button>
