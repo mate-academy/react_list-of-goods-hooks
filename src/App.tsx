@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import classNames from 'classnames';
+import { v4 as uuidv4 } from 'uuid';
 import './App.css';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -15,33 +17,131 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+const preparedGoods = goodsFromServer.map(title => ({ title, id: uuidv4() }));
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+enum SortType {
+  NONE,
+  ALPABET,
+  LENGTH,
+}
 
-    <button type="button">
-      Sort by length
-    </button>
+type Good = {
+  title: string;
+  id: string;
+};
 
-    <button type="button">
-      Reverse
-    </button>
+function getReorderedGoods(
+  goods: Good[],
+  sortType: SortType,
+) {
+  const visibleGoods = [...goods];
 
-    <button type="button">
-      Reset
-    </button>
+  switch (sortType) {
+    case SortType.ALPABET:
+      return visibleGoods.sort((a, b) => {
+        return a.title.localeCompare(b.title);
+      });
 
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+    case SortType.LENGTH:
+      return visibleGoods.sort((a, b) => {
+        return a.title.length - b.title.length;
+      });
+
+    default:
+      return visibleGoods;
+  }
+}
+
+export const App: React.FC = () => {
+  const [sortType, setSortType] = useState(SortType.NONE);
+  const [isStarted, setIsStarted] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
+
+  const goods = isReversed
+    ? getReorderedGoods(preparedGoods, sortType).reverse()
+    : getReorderedGoods(preparedGoods, sortType);
+
+  const handleStartBtnClick = () => {
+    setIsStarted(true);
+  };
+
+  const handleSortBtnClick = (type: SortType) => {
+    setSortType(type);
+  };
+
+  const handleReverseBtnClick = () => {
+    setIsReversed(reversed => !reversed);
+  };
+
+  const handleResetBtnClick = () => {
+    setSortType(SortType.NONE);
+    setIsReversed(false);
+  };
+
+  return (
+    <div className="App box has-background-light">
+      {!isStarted
+        ? (
+          <button
+            type="button"
+            className="button is-danger is-large is-size-1"
+            onClick={handleStartBtnClick}
+          >
+            Start
+          </button>
+        )
+        : (
+          <>
+            <button
+              type="button"
+              className={classNames(
+                'button is-primary',
+                { active: sortType === SortType.ALPABET },
+              )}
+              onClick={() => handleSortBtnClick(SortType.ALPABET)}
+            >
+              Sort alphabetically
+            </button>
+
+            <button
+              type="button"
+              className={classNames(
+                'button is-primary',
+                { active: sortType === SortType.LENGTH },
+              )}
+              onClick={() => handleSortBtnClick(SortType.LENGTH)}
+            >
+              Sort by length
+            </button>
+
+            <button
+              type="button"
+              className={classNames(
+                'button is-warning',
+                { active: isReversed },
+              )}
+              onClick={handleReverseBtnClick}
+            >
+              Reverse
+            </button>
+
+            <button
+              type="button"
+              className="button is-danger"
+              onClick={handleResetBtnClick}
+            >
+              Reset
+            </button>
+
+            <ul className="Goods">
+              {
+                goods.map(good => (
+                  <li key={good.id} className="Goods__item">{good.title}</li>
+                ))
+              }
+            </ul>
+          </>
+        )}
+    </div>
+  );
+};
