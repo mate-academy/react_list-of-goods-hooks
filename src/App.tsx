@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
-import classNames from 'classnames';
+import cn from 'classnames';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const goodsFromServer: string[] = [
   'Dumplings',
   'Carrot',
@@ -35,81 +34,58 @@ function getReorderedGoods(goods: string[], sortType: SortType, isReversed: bool
     }
   });
 
-  if (isReversed) {
-    return visibleGoods.reverse();
-  }
-
-  return visibleGoods;
+  return isReversed ? visibleGoods.reverse() : visibleGoods;
 }
 
-let activeButtons: string[] = [];
-
 export const App: React.FC = () => {
-  const [showGoods, setShowGoods] = useState(false);
-  const [sortType, setSortType] = useState(0);
+  const [isGoodsVisible, setIsGoodsVisible] = useState(false);
+  const [sortType, setSortType] = useState(SortType.NONE);
   const [reverse, setReverse] = useState(false);
   const preparedGoods
     = getReorderedGoods(goodsFromServer, sortType, reverse);
 
-  const setActiveButton = (addElement: string, removeElements = false) => {
-    if (removeElements) {
-      activeButtons = [];
-    }
-
-    if (!activeButtons.includes(addElement)) {
-      activeButtons.push(addElement);
-    } else if (addElement === 'reverse' && activeButtons.includes(addElement)) {
-      const index = activeButtons.indexOf(addElement);
-
-      activeButtons.splice(index, 1);
-    }
-  };
-
   return (
     <div className="App">
-      {(!showGoods
-        && (
-          <button
-            type="button"
-            className="button"
-            onClick={() => (
-              setShowGoods(true)
-            )}
-          >
-            Start
-          </button>
-        )) || (
+      {(!isGoodsVisible && (
+        <button
+          type="button"
+          className="button"
+          onClick={() => (
+            setIsGoodsVisible(true)
+          )}
+        >
+          Start
+        </button>
+      ))}
+
+      {(isGoodsVisible && (
         <>
           <div className="buttons">
             <button
               type="button"
-              className={classNames('button',
-                { active: activeButtons.includes('alpha') })}
+              className={cn('button',
+                { active: sortType === SortType.ALPHABET })}
               onClick={() => {
-                setSortType(1);
-                setActiveButton('alpha', true);
+                setSortType(SortType.ALPHABET);
               }}
             >
               Sort alphabetically
             </button>
             <button
               type="button"
-              className={classNames('button',
-                { active: activeButtons.includes('length') })}
+              className={cn('button',
+                { active: sortType === SortType.LENGTH })}
               onClick={() => {
-                setSortType(2);
-                setActiveButton('length', true);
+                setSortType(SortType.LENGTH);
               }}
             >
               Sort by length
             </button>
             <button
               type="button"
-              className={classNames('button',
-                { active: activeButtons.includes('reverse') })}
+              className={cn('button', { active: reverse })}
               onClick={() => {
                 setReverse(!reverse);
-                setActiveButton('reverse');
               }}
             >
               Reverse
@@ -118,9 +94,8 @@ export const App: React.FC = () => {
               type="button"
               className="button"
               onClick={() => {
-                setSortType(0);
+                setSortType(SortType.NONE);
                 setReverse(false);
-                setActiveButton('', true);
               }}
             >
               Reset
@@ -132,7 +107,7 @@ export const App: React.FC = () => {
             ))}
           </ul>
         </>
-      )}
+      ))}
     </div>
   );
 };

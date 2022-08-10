@@ -19,7 +19,7 @@ iframe {
 .button {
   width: 125px;
   height: 35px;
-  background-color: #4f9a35;
+  background-color: #4e8d37;
   border: none;
   border-radius: 8px;
   color: #f3f3f3;
@@ -27,7 +27,7 @@ iframe {
 }
 
 .button:hover {
-  background-color: #58a83b;
+  background-color: #58a13d;
 }
 
 .active {
