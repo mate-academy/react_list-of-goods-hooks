@@ -1,5 +1,6 @@
 import { useState, FC } from 'react';
 import './App.css';
+import classNames from 'classnames';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const goodsFromServer: string[] = [
@@ -82,7 +83,10 @@ export const App: FC = () => {
             <button
               type="button"
               onClick={sortByAlphabet}
-              className="button is-primary mr-3"
+              className={classNames(
+                'button is-primary mr-3',
+                { isActive: sortType === SortType.ALPABET },
+              )}
             >
               Sort alphabetically
             </button>
@@ -90,7 +94,10 @@ export const App: FC = () => {
             <button
               type="button"
               onClick={sortByLength}
-              className="button is-primary mr-3"
+              className={classNames(
+                'button is-primary mr-3',
+                { isActive: sortType === SortType.LENGTH },
+              )}
             >
               Sort by length
             </button>
@@ -98,7 +105,10 @@ export const App: FC = () => {
             <button
               type="button"
               onClick={reverseList}
-              className="button is-primary mr-3"
+              className={classNames(
+                'button is-primary mr-3',
+                { isActive: isReversed === true },
+              )}
             >
               Reverse
             </button>
