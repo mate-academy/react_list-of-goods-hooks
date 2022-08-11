@@ -1,1 +1,33 @@
 /* put styles here */
+iframe {
+  display: none;
+}
+
+.Goods {
+  min-width: 450px;
+  margin: 0, auto;
+  padding: 20px;
+  background-color: rgb(200, 240, 240);
+
+}
+
+.button-wrapper {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.Goods__item {
+  min-width: 250px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid rgb(102, 200, 200);
+  background-color: rgb(176 241 241);
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 30px;
+}
