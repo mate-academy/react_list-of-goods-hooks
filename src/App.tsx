@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import './App.css';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const goodsFromServer: string[] = [
+const goodsFromServer = [
   'Dumplings',
   'Carrot',
   'Eggs',
@@ -15,33 +14,125 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+enum SortType {
+  NONE,
+  ALPHABET,
+  LENGTH,
+}
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+export const App: React.FC = () => {
+  const [isStarted, setStarted] = useState(false);
+  const [isReversed, setReversed] = useState(false);
+  const [sortType, setSortType] = useState(SortType.NONE);
 
-    <button type="button">
-      Sort by length
-    </button>
+  const callbackToSort = useCallback(() => (
+    (
+      goods: string[],
+      typeOfSort: SortType,
+      isReverse: boolean,
+    ) => {
+      const visibleGoods = [...goods];
 
-    <button type="button">
-      Reverse
-    </button>
+      visibleGoods.sort((a, b) => {
+        switch (typeOfSort) {
+          case SortType.ALPHABET:
+            return a.localeCompare(b);
+          case SortType.LENGTH:
+            return a.length - b.length;
+          default:
+            return 0;
+        }
+      });
 
-    <button type="button">
-      Reset
-    </button>
+      return isReverse
+        ? visibleGoods.reverse()
+        : visibleGoods;
+    }
+  ), [sortType, isReversed]);
 
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+  const sortGoods = callbackToSort();
+
+  const start = () => (
+    setStarted(true)
+  );
+
+  const sortAlphabetically = () => (
+    setSortType(SortType.ALPHABET)
+  );
+
+  const sortByLength = () => {
+    setSortType(SortType.LENGTH);
+  };
+
+  const reverse = () => (
+    setReversed(!isReversed)
+  );
+
+  const reset = () => {
+    setSortType(SortType.NONE);
+    setReversed(false);
+  };
+
+  const goods = useMemo(() => (
+    sortGoods(goodsFromServer, sortType, isReversed)
+  ), [sortType, isReversed]);
+
+  return (
+    <div className="App">
+      {!isStarted && (
+        <button
+          type="button"
+          className="button is-success button-start"
+          onClick={start}
+        >
+          Start
+        </button>
+      )}
+
+      {isStarted && (
+        <>
+          <div className="buttons">
+            <button
+              type="button"
+              className="button is-info"
+              onClick={sortAlphabetically}
+            >
+              Sort alphabetically
+            </button>
+
+            <button
+              type="button"
+              className="button is-info"
+              onClick={sortByLength}
+            >
+              Sort by length
+            </button>
+
+            <button
+              type="button"
+              className="button is-info"
+              onClick={reverse}
+            >
+              Reverse
+            </button>
+
+            <button
+              type="button"
+              className="button is-warning button-reset"
+              onClick={reset}
+            >
+              Reset
+            </button>
+          </div>
+          <ul className="Goods">
+            {goods.map(good => (
+              <li className="Goods__item" key={good}>
+                {good}
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+    </div>
+  );
+};
