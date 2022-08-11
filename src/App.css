@@ -1,1 +1,12 @@
-/* put styles here */
+html {
+  padding: 20px;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.list-group {
+  padding-top: 50px;
+}
