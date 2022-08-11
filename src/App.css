@@ -1,1 +1,55 @@
 /* put styles here */
+iframe {
+  display: none;
+}
+
+.App {
+  padding: 20px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-around;
+}
+
+.button {
+  border-radius: 10px;
+  font-size: 20px;
+  cursor: pointer;
+
+  transition: all 0.2s linear;
+}
+
+.button:hover {
+  transform: scale(1.02);
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 255, 0.2);
+}
+
+.start-button {
+  display: flex;
+
+  margin: 0 auto;
+  padding: 10px;
+  font-size: 50px;
+  border-radius: 50px;
+}
+
+.reset-button {
+  background-color: #ff5433;
+  border-color: red;
+}
+
+.Goods {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding: 50px 0;
+  margin: 0;
+  gap: 10px;
+}
+
+.Goods__item {
+  display: flex;
+  justify-content: center;
+  font-size: 25px;
+}
