@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import classNames from 'classnames';
 import './App.css';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -15,33 +16,160 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+enum SortType {
+  NONE,
+  ALPABET,
+  LENGTH,
+}
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+function getReorderedGoods(
+  goods: string[],
+  sortType: SortType,
+  isReversed: boolean,
+  minLength: number,
+) {
+  // Not to mutate the original array
+  const visibleGoods = [...goods].filter(good => good.length > minLength);
 
-    <button type="button">
-      Sort by length
-    </button>
+  visibleGoods.sort((good1, good2) => {
+    switch (sortType) {
+      case SortType.NONE:
+        return 0;
 
-    <button type="button">
-      Reverse
-    </button>
+      case SortType.ALPABET:
+        return good1.localeCompare(good2);
 
-    <button type="button">
-      Reset
-    </button>
+      case SortType.LENGTH:
+        return good1.length - good2.length;
 
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+      default:
+        throw new Error('invalid sorting type');
+    }
+  });
+
+  if (isReversed) {
+    visibleGoods.reverse();
+  }
+
+  return visibleGoods;
+}
+
+export const App: React.FC = () => {
+  const [isStarted, setIsStarted] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
+  const [sortType, setSortType] = useState(SortType.NONE);
+  const [minLength, setMinLength] = useState(0);
+
+  const startList = () => {
+    setIsStarted(true);
+  };
+
+  const sortAlphabetically = () => {
+    setSortType(SortType.ALPABET);
+  };
+
+  const sortByLength = () => {
+    setSortType(SortType.LENGTH);
+  };
+
+  const reverseSorting = () => {
+    setIsReversed(current => !current);
+  };
+
+  const resetSorting = () => {
+    setSortType(SortType.NONE);
+    setIsReversed(false);
+    setMinLength(0);
+  };
+
+  const changeMinLength = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setMinLength(+event.target.value);
+  };
+
+  return (
+    <div className="App">
+
+      {isStarted
+        ? (
+          <>
+            <div className="buttons">
+              <button
+                type="button"
+                className={classNames('button',
+                  { 'is-active': sortType === SortType.ALPABET })}
+                onClick={sortAlphabetically}
+              >
+                Sort alphabetically
+              </button>
+              <button
+                type="button"
+                className={classNames('button',
+                  { 'is-active': sortType === SortType.LENGTH })}
+                onClick={sortByLength}
+              >
+                Sort by length
+              </button>
+              <button
+                type="button"
+                className={classNames('button', { 'is-active': isReversed })}
+                onClick={reverseSorting}
+              >
+                Reverse
+              </button>
+              <button
+                type="button"
+                className="button"
+                onClick={resetSorting}
+              >
+                Reset
+              </button>
+            </div>
+
+            <div>
+              <select
+                name="select"
+                className="select"
+                value={minLength}
+                onChange={value => changeMinLength(value)}
+              >
+                <option value="0" hidden selected>select</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>
+            </div>
+
+            <ul className="Goods">
+              {getReorderedGoods(
+                goodsFromServer,
+                sortType,
+                isReversed,
+                minLength,
+              ).map(good => {
+                return (
+                  <li className="Goods__item">{good}</li>
+                );
+              })}
+            </ul>
+          </>
+        ) : (
+          <div className="buttons">
+            <button
+              type="button"
+              className="button"
+              onClick={startList}
+            >
+              Start
+            </button>
+          </div>
+        )}
+    </div>
+  );
+};
