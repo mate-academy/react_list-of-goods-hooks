@@ -102,17 +102,9 @@ export const App: React.FC = () => {
               Sort by length
             </button>
 
-            <button
-              type="button"
-              onClick={() => setIsReversed(!isReversed)}
-              className="button is-warning btn"
-            >
-              Reverse
-            </button>
-
-            <div className="select is-link">
+            <div className="select is-link salaction">
               <select
-                className="has-background-warning is-warning"
+                className="has-background-link-light is-warning"
                 onClick={(e) => setCharsLimit(+e.currentTarget.value)}
               >
                 <option value="1">1</option>
@@ -127,6 +119,14 @@ export const App: React.FC = () => {
                 <option value="10">10</option>
               </select>
             </div>
+
+            <button
+              type="button"
+              onClick={() => setIsReversed(!isReversed)}
+              className="button is-warning btn"
+            >
+              Reverse
+            </button>
 
             <button
               type="button"

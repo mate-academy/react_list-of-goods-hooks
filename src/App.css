@@ -27,8 +27,8 @@ iframe {
   top: 50%;
   transform: translate(-50%, -50%);
 
-  width: 40%;
-  min-height: 472px;
+  width: 30%;
+  min-height: 500px;
 }
 
 .buttons {
@@ -42,7 +42,12 @@ iframe {
 
 .btn {
   margin-right: 7px;
-  margin-top: 5px;
+  margin-top: 15px;
+}
+
+.salaction {
+  margin-right: 7px;
+  margin-top: 8px;
 }
 
 .btn:last-child {
