@@ -109,7 +109,7 @@ export const App: React.FC = () => {
               Reverse
             </button>
 
-            <div className="select is-link" id="selection">
+            <div className="select is-link">
               <select
                 className="has-background-warning is-warning"
                 onClick={(e) => setCharsLimit(+e.currentTarget.value)}
