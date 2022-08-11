@@ -31,18 +31,17 @@ const getReorderedGoods = (
 
   visibleGoods = visibleGoods.filter(good => good.length >= charsLimit);
 
-  visibleGoods.sort((f1, f2) => {
-    switch (sortType) {
-      case SortType.ALPHABET:
-        return f1.localeCompare(f2);
-
-      case SortType.LENGTH:
-        return f1.length - f2.length;
-
-      default:
-        return 0;
-    }
-  });
+  switch (sortType) {
+    case SortType.ALPHABET:
+      visibleGoods.sort((good1, good2) => good1.localeCompare(good2));
+      break;
+    case SortType.LENGTH:
+      visibleGoods.sort((good1, good2) => good1.length - good2.length);
+      break;
+    case SortType.NONE:
+    default:
+      break;
+  }
 
   if (isReversed) {
     visibleGoods.reverse();
