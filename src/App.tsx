@@ -1,8 +1,11 @@
-import React from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
+import React, { useState } from 'react';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 import './App.css';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const goodsFromServer: string[] = [
+const goodsFromServer = [
   'Dumplings',
   'Carrot',
   'Eggs',
@@ -15,33 +18,124 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+enum SortType {
+  NONE,
+  ALPABET,
+  LENGTH,
+}
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+function getReorderedGoods(
+  goods: string[],
+  sortType: SortType,
+  isReversed: boolean,
+) {
+  const visibleGoods = [...goods];
 
-    <button type="button">
-      Sort by length
-    </button>
+  if (sortType !== SortType.NONE) {
+    visibleGoods.sort((good1, good2) => {
+      switch (sortType) {
+        case SortType.ALPABET:
+          return good1.localeCompare(good2);
+        case SortType.LENGTH:
+          return good1.length - good2.length;
 
-    <button type="button">
-      Reverse
-    </button>
+        default:
+          return 0;
+      }
+    });
+  }
 
-    <button type="button">
-      Reset
-    </button>
+  if (isReversed) {
+    visibleGoods.reverse();
+  }
 
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+  return visibleGoods;
+}
+
+export const App: React.FC = () => {
+  // eslint-disable-next-line
+  let [isStarted, start] = useState(false);
+  const [isReversed, makeReverse] = useState(false);
+  const [sortType, sortByType] = useState(SortType.NONE);
+
+  const reverse = () => {
+    makeReverse(!isReversed);
+  };
+
+  const sortByAlpabet = () => {
+    sortByType(SortType.ALPABET);
+  };
+
+  const sortByLength = () => {
+    sortByType(SortType.LENGTH);
+  };
+
+  const reset = () => {
+    sortByType(SortType.NONE);
+    makeReverse(false);
+  };
+
+  const renderList = getReorderedGoods(goodsFromServer, sortType, isReversed);
+
+  return (
+    <Stack direction="row" spacing={2}>
+      <div className="App">
+        {!isStarted && (
+          <Button
+            variant="outlined"
+            type="button"
+            onClick={() => {
+              start(isStarted = true);
+            }}
+          >
+            Start
+          </Button>
+        )}
+
+        {isStarted && (
+          <>
+            <Button
+              className="button"
+              type="button"
+              variant="contained"
+              onClick={sortByAlpabet}
+            >
+              Sort alphabetically
+            </Button>
+            <Button
+              className="button"
+              type="button"
+              variant="contained"
+              onClick={sortByLength}
+            >
+              Sort by length
+            </Button>
+            <Button
+              className="button"
+              variant="contained"
+              type="button"
+              onClick={reverse}
+            >
+              Reverse
+            </Button>
+            <Button
+              variant="outlined"
+              color="error"
+              type="button"
+              onClick={reset}
+            >
+              Reset
+            </Button>
+            <ul className="Goods">
+              {renderList.map(good => (
+                <li key={good} className="goods">
+                  {good}
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+      </div>
+    </Stack>
+  );
+};
