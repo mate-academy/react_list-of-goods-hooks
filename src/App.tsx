@@ -38,6 +38,7 @@ function getReorderedGoods(
         return prev.localeCompare(curr);
       case SortType.LENGTH:
         return prev.length - curr.length;
+      case SortType.NONE:
       default:
         return 0;
     }
@@ -58,6 +59,12 @@ export const App: React.FC = () => {
 
   const changedArray
     = getReorderedGoods(goodsFromServer, sortType, isReversed, wordsLength);
+
+  const reset = () => {
+    setSortType(SortType.NONE);
+    setReverse(false);
+    setLength(1);
+  };
 
   return (
     <div className="App notification is-warning">
@@ -109,11 +116,7 @@ export const App: React.FC = () => {
             <button
               type="button"
               className="button is-danger"
-              onClick={() => {
-                setSortType(SortType.NONE);
-                setReverse(false);
-                setLength(1);
-              }}
+              onClick={reset}
             >
               Reset
             </button>
