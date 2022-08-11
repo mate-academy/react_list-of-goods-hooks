@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import './App.css';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
+import './App.css';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const goodsFromServer: string[] = [
@@ -64,16 +64,14 @@ export const App: React.FC = () => {
   return (
     <div className="App">
       {isStarted && (
-        <>
-          <Button
-            variant="contained"
-            size="small"
-            type="button"
-            onClick={() => setStarted(false)}
-          >
-            Start
-          </Button>
-        </>
+        <Button
+          variant="contained"
+          size="small"
+          type="button"
+          onClick={() => setStarted(false)}
+        >
+          Start
+        </Button>
       )}
 
       {!isStarted && (
