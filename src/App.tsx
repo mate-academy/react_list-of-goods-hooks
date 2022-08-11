@@ -63,7 +63,6 @@ export const App: React.FC = () => {
   const handleReverse = () => (setIsReversed(value => !value));
 
   const handleReset = () => {
-    setIsStarted(false);
     setIsReversed(false);
     setSortType(SortType.NONE);
   };
