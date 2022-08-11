@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -15,33 +15,136 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+enum SortType {
+  NONE,
+  ALPHABET,
+  LENGTH,
+}
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+const getReorderedGoods = (
+  goods: string[],
+  sortType: SortType,
+  isReversed: boolean,
+  charsLimit: number,
+) => {
+  let visibleGoods = [...goods];
 
-    <button type="button">
-      Sort by length
-    </button>
+  visibleGoods = visibleGoods.filter(good => good.length >= charsLimit);
 
-    <button type="button">
-      Reverse
-    </button>
+  visibleGoods.sort((f1, f2) => {
+    switch (sortType) {
+      case SortType.ALPHABET:
+        return f1.localeCompare(f2);
 
-    <button type="button">
-      Reset
-    </button>
+      case SortType.LENGTH:
+        return f1.length - f2.length;
 
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+      default:
+        return 0;
+    }
+  });
+
+  if (isReversed) {
+    visibleGoods.reverse();
+  }
+
+  return visibleGoods;
+};
+
+export const App: React.FC = () => {
+  const [sortType, setSortType] = useState(SortType.NONE);
+  const [startWork, setStartWork] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
+  const [charsLimit, setCharsLimit] = useState(1);
+
+  const goods = getReorderedGoods(
+    goodsFromServer,
+    sortType,
+    isReversed,
+    charsLimit,
+  );
+
+  const reset = () => {
+    setIsReversed(false);
+    setSortType(SortType.NONE);
+    setCharsLimit(1);
+  };
+
+  return (
+    <div className="App">
+      {!startWork && (
+        <button
+          type="button"
+          className="button is-link is-outlined is-large start"
+          onClick={() => setStartWork(true)}
+        >
+          Start
+        </button>
+      )}
+
+      {startWork && (
+        <div className="box has-background-link-light contant">
+          <div className="buttons">
+            <button
+              type="button"
+              className="button is-link btn"
+              onClick={() => setSortType(SortType.ALPHABET)}
+            >
+              Sort alphabetically
+            </button>
+
+            <button
+              type="button"
+              className="button is-link btn"
+              onClick={() => setSortType(SortType.LENGTH)}
+            >
+              Sort by length
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setIsReversed(!isReversed)}
+              className="button is-warning btn"
+            >
+              Reverse
+            </button>
+
+            <div className="select is-link" id="selection">
+              <select
+                className="has-background-warning is-warning"
+                onClick={(e) => setCharsLimit(+e.currentTarget.value)}
+              >
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>
+            </div>
+
+            <button
+              type="button"
+              onClick={reset}
+              className="button is-danger btn"
+            >
+              Reset
+            </button>
+          </div>
+
+          <ul className="Goods">
+            {goods.map(good => (
+              <li key={good} className="Goods__item">
+                {good}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+};
