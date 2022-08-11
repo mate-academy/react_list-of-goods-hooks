@@ -35,9 +35,11 @@ const getReorderedGoods = (
     case SortType.ALPHABET:
       visibleGoods.sort((good1, good2) => good1.localeCompare(good2));
       break;
+
     case SortType.LENGTH:
       visibleGoods.sort((good1, good2) => good1.length - good2.length);
       break;
+
     case SortType.NONE:
     default:
       break;
