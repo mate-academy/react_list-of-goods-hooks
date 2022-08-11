@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
+import { nanoid } from 'nanoid';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const goodsFromServer: string[] = [
@@ -15,33 +16,106 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+enum SortType {
+  NONE,
+  ALPABET,
+  LENGTH,
+}
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+function getReorderedGoods(
+  goods: string[],
+  sortType: SortType,
+  isReversed: boolean,
+) {
+  const visibleGoods = [...goods];
 
-    <button type="button">
-      Sort by length
-    </button>
+  switch (sortType) {
+    case SortType.ALPABET:
+      visibleGoods.sort((a, b) => a.localeCompare(b));
+      break;
+    case SortType.LENGTH:
+      visibleGoods.sort((a, b) => a.length - b.length);
+      break;
+    default:
+      break;
+  }
 
-    <button type="button">
-      Reverse
-    </button>
+  return isReversed ? visibleGoods.reverse() : visibleGoods;
+}
 
-    <button type="button">
-      Reset
-    </button>
+export const App: React.FC = () => {
+  const [sortType, setType] = useState(SortType.NONE);
+  const [isReversed, setReverse] = useState(false);
+  const [isStarted, setStarted] = useState(false);
+  const newGoods = getReorderedGoods(
+    goodsFromServer,
+    sortType,
+    isReversed,
+  );
 
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+  return (
+    <div className="App panel">
+      {!isStarted && (
+        <button
+          type="button"
+          className="button is-success"
+          onClick={() => {
+            setStarted(true);
+          }}
+        >
+          Start
+        </button>
+      )}
+      {isStarted && (
+        <>
+          <button
+            type="button"
+            className="button is-success"
+            onClick={() => {
+              setType(SortType.ALPABET);
+            }}
+          >
+            Sort alphabetically
+          </button>
+
+          <button
+            type="button"
+            className="button is-success"
+            onClick={() => {
+              setType(SortType.LENGTH);
+            }}
+          >
+            Sort by length
+          </button>
+
+          <button
+            type="button"
+            className="button is-warning"
+            onClick={() => {
+              setReverse(curr => !curr);
+            }}
+          >
+            Reverse
+          </button>
+
+          <button
+            type="button"
+            className="button is-danger"
+            onClick={() => {
+              setType(SortType.NONE);
+              setReverse(false);
+            }}
+          >
+            Reset
+          </button>
+
+          <ul className="Goods">
+            {newGoods.map(good => (
+              <li className="Goods__item" key={nanoid()}>{good}</li>
+            ))}
+          </ul>
+        </>
+      )}
+    </div>
+  );
+};

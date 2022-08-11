@@ -1,1 +1,28 @@
-/* put styles here */
+html {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%);
+}
+
+.Goods {
+  list-style: inside;
+}
+
+.Goods__item {
+  transition: transform 0.3s;
+}
+
+.Goods__item:hover {
+  transform: scale(1.1);
+}
+
+.panel {
+  padding: 30px;
+  background-color: #fff;
+}
+
+.button {
+  margin: 10px;
+}
