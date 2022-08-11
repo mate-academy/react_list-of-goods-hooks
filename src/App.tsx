@@ -1,6 +1,7 @@
 import React, { useState, ChangeEvent } from 'react';
 import './App.css';
 import 'bulma/css/bulma.min.css';
+import cn from 'classnames';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const goodsFromServer: string[] = [
@@ -25,41 +26,19 @@ enum SortType {
 type State = {
   isStarted: boolean,
   isReversed: boolean,
+  isSortAlphabet: boolean,
+  isSortLength: boolean,
   sortType: SortType,
-  value: number,
+  valueMinLensthGood: number,
 };
 
 export const App: React.FC<State> = () => {
   const [isStarted, setIsStarted] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setIsReversed] = useState(false);
-  const [value, setValue] = useState(1);
-
-  const start = () => {
-    setIsStarted(true);
-  };
-
-  const sortByAlpabet = () => {
-    setSortType(SortType.ALPABET);
-  };
-
-  const sortByLength = () => {
-    setSortType(SortType.LENGTH);
-  };
-
-  const reverse = () => {
-    setIsReversed(!isReversed);
-  };
-
-  const reset = () => {
-    setSortType(SortType.NONE);
-    setIsReversed(false);
-    setValue(1);
-  };
-
-  const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setValue(Number(event.target.value));
-  };
+  const [valueMinLensthGood, setValue] = useState(1);
+  const [isSortAlphabet, setIsSortAlphabet] = useState(false);
+  const [isSortLength, setIsSortLength] = useState(false);
 
   const getReorderedGoods = (
     goods: string[],
@@ -85,6 +64,46 @@ export const App: React.FC<State> = () => {
     return visibleGoods;
   };
 
+  const start = () => {
+    setIsStarted(true);
+  };
+
+  const sortByAlpabet = () => {
+    setSortType(SortType.ALPABET);
+    setIsSortLength(false);
+    setIsSortAlphabet(!(isSortAlphabet));
+  };
+
+  const sortByLength = () => {
+    setSortType(SortType.LENGTH);
+    setIsSortAlphabet(false);
+    setIsSortLength(!isSortLength);
+  };
+
+  const reverse = () => {
+    setIsReversed(!isReversed);
+  };
+
+  const reset = () => {
+    setSortType(SortType.NONE);
+    setIsReversed(false);
+    setIsSortAlphabet(false);
+    setIsSortLength(false);
+    setValue(1);
+  };
+
+  const handleChangeValueLength = (event: ChangeEvent<HTMLSelectElement>) => {
+    setValue(Number(event.target.value));
+  };
+
+  const positionsSelect = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+  const resultGoods = getReorderedGoods(
+    goodsFromServer,
+    sortType,
+    isReversed,
+    valueMinLensthGood,
+  );
+
   return (
     <div className="App">
       {!isStarted && (
@@ -103,7 +122,11 @@ export const App: React.FC<State> = () => {
           <div className="button-wrapper">
             <button
               type="button"
-              className="button is-success"
+              className={cn(
+                'button',
+                'is-success',
+                { 'is-light': isSortAlphabet },
+              )}
               onClick={() => sortByAlpabet()}
             >
               Sort alphabetically
@@ -111,7 +134,11 @@ export const App: React.FC<State> = () => {
 
             <button
               type="button"
-              className="button is-success"
+              className={cn(
+                'button',
+                'is-success',
+                { 'is-light': isSortLength },
+              )}
               onClick={() => sortByLength()}
             >
               Sort by length
@@ -119,7 +146,11 @@ export const App: React.FC<State> = () => {
 
             <button
               type="button"
-              className="button is-success"
+              className={cn(
+                'button',
+                'is-success',
+                { 'is-light': isReversed },
+              )}
               onClick={() => reverse()}
             >
               Reverse
@@ -135,31 +166,18 @@ export const App: React.FC<State> = () => {
           </div>
 
           <ul className="Goods">
-            { getReorderedGoods(
-              goodsFromServer,
-              sortType,
-              isReversed,
-              value,
-            ).map(good => (
+            { resultGoods.map(good => (
               <li className="Goods__item" key={good}>{good}</li>
             ))}
           </ul>
           <span className="titleSelect">Filterd by name length:</span>
           <select
             name="select"
-            value={value}
-            onChange={handleChange}
+            value={valueMinLensthGood}
+            onChange={handleChangeValueLength}
           >
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
+            { positionsSelect.map(position => (
+              <option key={position} value={position}>{position}</option>))}
           </select>
         </>
       )}

@@ -12,7 +12,9 @@ ReactDOM.render(
     isStarted={false}
     isReversed={false}
     sortType={SortType.NONE}
-    value={0}
+    valueMinLensthGood={0}
+    isSortAlphabet={false}
+    isSortLength={false}
   />,
   document.getElementById('root'),
 );
