@@ -32,17 +32,17 @@ function getReorderedGoods(
   const visibleGoods = [...goods]
     .filter(goodItem => goodItem.length >= wordsLength);
 
-  visibleGoods.sort((prev, curr) => {
-    switch (sortType) {
-      case SortType.ALPHABET:
-        return prev.localeCompare(curr);
-      case SortType.LENGTH:
-        return prev.length - curr.length;
-      case SortType.NONE:
-      default:
-        return 0;
-    }
-  });
+  switch (sortType) {
+    case SortType.ALPHABET:
+      visibleGoods.sort((a, b) => a.localeCompare(b));
+      break;
+    case SortType.LENGTH:
+      visibleGoods.sort((a, b) => a.length - b.length);
+      break;
+    case SortType.NONE:
+    default:
+      break;
+  }
 
   if (isReversed) {
     visibleGoods.reverse();
@@ -68,74 +68,74 @@ export const App: React.FC = () => {
 
   return (
     <div className="App notification is-warning">
-      {!isStarted && (
-        <button
-          type="button"
-          className="button is-link"
-          onClick={() => setStart(true)}
-        >
-          Start
-        </button>
-      )}
-
-      {isStarted && (
-        <>
-          <ul className="Goods">
-            {changedArray.map(goodItem => (
-              <li className="Goods__item" key={uuidv4()}>
-                {goodItem}
-              </li>
-            ))}
-          </ul>
-
-          <div className="options">
-            <button
-              type="button"
-              className="button is-primary"
-              onClick={() => setSortType(SortType.ALPHABET)}
-            >
-              Sort alphabetically
-            </button>
-
-            <button
-              type="button"
-              className="button is-primary"
-              onClick={() => setSortType(SortType.LENGTH)}
-            >
-              Sort by length
-            </button>
-
-            <button
-              type="button"
-              className="button is-info"
-              onClick={() => setReverse(current => !current)}
-            >
-              Reverse
-            </button>
-
-            <button
-              type="button"
-              className="button is-danger"
-              onClick={reset}
-            >
-              Reset
-            </button>
-          </div>
-
-          <div className="select is-success">
-            <select
-              onChange={event => setLength(+event.target.value)}
-              value={wordsLength}
-            >
-              {[...Array(10)].map((_, index) => (
-                <option value={index + 1} key={uuidv4()}>
-                  {index + 1}
-                </option>
+      {!isStarted
+        ? (
+          <button
+            type="button"
+            className="button is-link"
+            onClick={() => setStart(true)}
+          >
+            Start
+          </button>
+        )
+        : (
+          <>
+            <ul className="Goods">
+              {changedArray.map(goodItem => (
+                <li className="Goods__item" key={uuidv4()}>
+                  {goodItem}
+                </li>
               ))}
-            </select>
-          </div>
-        </>
-      )}
+            </ul>
+
+            <div className="options">
+              <button
+                type="button"
+                className="button is-primary"
+                onClick={() => setSortType(SortType.ALPHABET)}
+              >
+                Sort alphabetically
+              </button>
+
+              <button
+                type="button"
+                className="button is-primary"
+                onClick={() => setSortType(SortType.LENGTH)}
+              >
+                Sort by length
+              </button>
+
+              <button
+                type="button"
+                className="button is-info"
+                onClick={() => setReverse(current => !current)}
+              >
+                Reverse
+              </button>
+
+              <button
+                type="button"
+                className="button is-danger"
+                onClick={reset}
+              >
+                Reset
+              </button>
+            </div>
+
+            <div className="select is-success">
+              <select
+                onChange={event => setLength(+event.target.value)}
+                value={wordsLength}
+              >
+                {[...Array(10)].map((_, index) => (
+                  <option value={index + 1} key={uuidv4()}>
+                    {index + 1}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </>
+        )}
     </div>
   );
 };
