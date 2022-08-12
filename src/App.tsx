@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import './App.css';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -22,26 +23,18 @@ enum SortType {
 }
 
 export const App: React.FC = () => {
-  const [isStarted, setStarted] = useState(false);
-  const [isReversed, setReversed] = useState(false);
+  const [isStarted, setIsStarted] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
-  const [isReset, setReset] = useState(false);
 
   function getReorderedGoods(
     goods: string[],
   ) {
     // Not to mutate the original array
     const visibleGoods = [...goods];
-    let x = isReversed;
-    let y = sortType;
-
-    if (isReset) {
-      x = false;
-      y = SortType.NONE;
-    }
 
     visibleGoods.sort((a, b) => {
-      switch (y) {
+      switch (sortType) {
         case SortType.ALPABET:
           return a.localeCompare(b);
         case SortType.LENGTH:
@@ -51,7 +44,7 @@ export const App: React.FC = () => {
       }
     });
 
-    if (x) {
+    if (isReversed) {
       visibleGoods.reverse();
     }
     // Sort and reverse goods if needed
@@ -59,6 +52,11 @@ export const App: React.FC = () => {
 
     return visibleGoods;
   }
+
+  const setReset = () => {
+    setIsReversed(false);
+    setSortType(SortType.NONE);
+  };
 
   const reorderList = getReorderedGoods(
     goodsFromServer,
@@ -69,7 +67,7 @@ export const App: React.FC = () => {
       {!isStarted && (
         <button
           type="button"
-          onClick={() => setStarted(!isStarted)}
+          onClick={() => setIsStarted(!isStarted)}
         >
           Start
         </button>
@@ -78,30 +76,39 @@ export const App: React.FC = () => {
       {isStarted && (
         <>
           <button
-            className="button"
+            className={
+              classNames('button',
+                { 'button--active': sortType === SortType.ALPABET })
+            }
             type="button"
             onClick={() => setSortType(SortType.ALPABET)}
           >
             Sort alphabetically
           </button>
           <button
-            className="button"
+            className={
+              classNames('button',
+                { 'button--active': sortType === SortType.LENGTH })
+            }
             type="button"
             onClick={() => setSortType(SortType.LENGTH)}
           >
             Sort by length
           </button>
           <button
-            className="button"
+            className={
+              classNames('button',
+                { 'button--active': isReversed })
+            }
             type="button"
-            onClick={() => setReversed(!isReversed)}
+            onClick={() => setIsReversed(!isReversed)}
           >
             Reverse
           </button>
           <button
             className="button"
             type="button"
-            onClick={() => setReset(!isReset)}
+            onClick={() => setReset}
           >
             Reset
           </button>
