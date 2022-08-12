@@ -1,1 +1,88 @@
-/* put styles here */
+iframe {
+  display: none;
+}
+
+body {
+  margin: 0;
+}
+
+.App {
+  width: 320px;
+  background-color: #ffe;
+}
+
+button {
+  margin-right: 5px;
+  margin-bottom: 5px;
+  color: black;
+  text-transform: uppercase;
+  background: #00fffb;
+  padding: 5px;
+  border: 1px solid transparent ;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: border-color 0.3s, transform 0.3s;
+}
+
+button:active {
+  border-color: black;
+  transform: scale(0.9);
+}
+
+.button:focus {
+  background-color: #1edba8;
+  animation: buttonScale 2s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes buttonScale {
+  0% {
+    transform: scale(1);
+  }
+
+  20% {
+    transform: scale(1.05);
+  }
+
+  60% {
+    transform: scale(1);
+  }
+
+  80% {
+    transform: scale(0.95);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+button:hover {
+  border-color: black;
+  transform: scale(1.05);
+}
+
+.reset {
+  background-color: #ac1829;
+  margin-left: 160px;
+}
+
+.start {
+  background-color: #2fbf22;
+  width: 80px;
+  margin: 50px;
+}
+
+.Goods {
+  list-style: decimal;
+  background-color: #ffe;
+}
+
+.Goods__item {
+  border: 1px solid black;
+  margin-bottom: 5px;
+  border-radius: 10px;
+  padding-left: 10px;
+  font-weight: bold;
+}
