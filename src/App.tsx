@@ -55,13 +55,36 @@ export const App: React.FC = () => {
 
   const goods = getReorderedGoods(goodsFromServer, sortType, isReversed);
 
+  const start = () => (
+    setStarted(true)
+  );
+
+  const sortByAlphabet = () => {
+    setSortType(sortType === SortType.ALPHABET
+      ? (SortType.NONE)
+      : (SortType.ALPHABET));
+  };
+
+  const sortByLength = () => {
+    setSortType(sortType === SortType.LENGTH
+      ? (SortType.NONE)
+      : (SortType.LENGTH));
+  };
+
+  const reverse = () => setReverse(!isReversed);
+
+  const reset = () => {
+    setSortType(SortType.NONE);
+    setReverse(false);
+  };
+
   return (
     <div className="App">
       {!isStarted
         ? (
           <Button
             variant="contained"
-            onClick={() => setStarted(true)}
+            onClick={start}
           >
             Start
           </Button>
@@ -72,9 +95,7 @@ export const App: React.FC = () => {
               variant={
                 sortType === SortType.ALPHABET ? ('contained') : ('outlined')
               }
-              onClick={() => setSortType(sortType === SortType.ALPHABET
-                ? (SortType.NONE)
-                : (SortType.ALPHABET))}
+              onClick={sortByAlphabet}
             >
               Sort alphabetically
             </Button>
@@ -83,9 +104,7 @@ export const App: React.FC = () => {
               variant={
                 sortType === SortType.LENGTH ? ('contained') : ('outlined')
               }
-              onClick={() => setSortType(sortType === SortType.LENGTH
-                ? (SortType.NONE)
-                : (SortType.LENGTH))}
+              onClick={sortByLength}
             >
               Sort by length
             </Button>
@@ -94,17 +113,14 @@ export const App: React.FC = () => {
               variant={
                 isReversed ? ('contained') : ('outlined')
               }
-              onClick={() => setReverse(!isReversed)}
+              onClick={reverse}
             >
               Reverse
             </Button>
 
             <Button
               variant="outlined"
-              onClick={() => {
-                setSortType(SortType.NONE);
-                setReverse(false);
-              }}
+              onClick={reset}
             >
               Reset
             </Button>
