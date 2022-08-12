@@ -60,6 +60,22 @@ export const App: FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
   const [minLengthFilter, setMinLengthFilter] = useState(1);
 
+  const reset = () => {
+    setSortType(SortType.NONE);
+    setMinLengthFilter(1);
+    setIsReversed(false);
+  };
+
+  const revers = () => setIsReversed(prevIsReverse => !prevIsReverse);
+
+  const sortBy = (_sortType: SortType) => {
+    setIsReversed(prevIsReverse => (sortType === _sortType
+      ? !prevIsReverse
+      : false
+    ));
+    setSortType(_sortType);
+  };
+
   const goods = getReorderedGoods(
     goodsFromServer,
     minLengthFilter,
@@ -88,13 +104,7 @@ export const App: FC = () => {
                   { 'is-light': sortType === SortType.ALPABET },
                 )}
                 type="button"
-                onClick={() => {
-                  setIsReversed(prevIsReverse => (sortType === SortType.ALPABET
-                    ? !prevIsReverse
-                    : false
-                  ));
-                  setSortType(SortType.ALPABET);
-                }}
+                onClick={() => sortBy(SortType.ALPABET)}
               >
                 Sort alphabetically
               </button>
@@ -105,13 +115,7 @@ export const App: FC = () => {
                   { 'is-light': sortType === SortType.LENGTH },
                 )}
                 type="button"
-                onClick={() => {
-                  setIsReversed(prevIsReverse => (sortType === SortType.LENGTH
-                    ? !prevIsReverse
-                    : false
-                  ));
-                  setSortType(SortType.LENGTH);
-                }}
+                onClick={() => sortBy(SortType.LENGTH)}
               >
                 Sort by length
               </button>
@@ -122,7 +126,7 @@ export const App: FC = () => {
                   { 'is-light': isReversed },
                 )}
                 type="button"
-                onClick={() => setIsReversed(prevIsReverse => !prevIsReverse)}
+                onClick={revers}
               >
                 Reverse
               </button>
@@ -130,11 +134,7 @@ export const App: FC = () => {
               <button
                 className="button is-danger is-large is-reset"
                 type="button"
-                onClick={() => {
-                  setSortType(SortType.NONE);
-                  setMinLengthFilter(1);
-                  setIsReversed(false);
-                }}
+                onClick={reset}
               >
                 Reset
               </button>
