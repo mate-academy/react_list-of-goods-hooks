@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import './App.css';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -62,7 +63,10 @@ export const App: React.FC = () => {
             <button
               type="button"
               onClick={() => setSortType(SortType.ALPABET)}
-              className="button is-link is-outlined mr-3"
+              className={classNames(
+                'button is-link is-outlined mr-3',
+                { 'is-focused': sortType === SortType.ALPABET },
+              )}
             >
               Sort alphabetically
             </button>
@@ -70,7 +74,10 @@ export const App: React.FC = () => {
             <button
               type="button"
               onClick={() => setSortType(SortType.LENGTH)}
-              className="button is-link is-outlined mr-3"
+              className={classNames(
+                'button is-link is-outlined mr-3',
+                { 'is-focused': sortType === SortType.LENGTH },
+              )}
             >
               Sort by length
             </button>
@@ -78,14 +85,20 @@ export const App: React.FC = () => {
             <button
               type="button"
               onClick={() => setReversed(prevState => !prevState)}
-              className="button is-link is-outlined mr-3"
+              className={classNames(
+                'button is-link is-outlined mr-3',
+                { 'is-focused': isReversed === true },
+              )}
             >
               Reverse
             </button>
 
             <button
               type="button"
-              onClick={() => setSortType(SortType.NONE)}
+              onClick={() => {
+                setSortType(SortType.NONE);
+                setReversed(false);
+              }}
               className="button is-info is-outlined"
             >
               Reset

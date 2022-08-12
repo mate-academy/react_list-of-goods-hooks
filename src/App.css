@@ -1,4 +1,8 @@
 .App {
-  width: 559px;
+  width: 650px;
   margin: 0 auto;
+}
+
+* {
+  box-sizing: border-box;
 }
