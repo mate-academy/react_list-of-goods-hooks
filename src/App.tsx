@@ -79,6 +79,7 @@ export const App: React.FC = () => {
         <Button
           type="button"
           onClick={handleStart}
+          variant="contained"
         >
           Start
         </Button>
