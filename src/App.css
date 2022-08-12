@@ -1,1 +1,45 @@
-/* put styles here */
+@import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css";
+
+html {
+  background-color: black;
+}
+
+.App {
+  position: absolute;
+  left: 32%;
+  top: 12%;
+  width: 580px;
+  border-radius: 10px;
+  background-color: yellowgreen;
+}
+
+.Container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.Start {
+  width: 200px;
+  margin: 30px 170px;
+  font-size: 20px;
+}
+
+.Goods {
+  font-size: 26px;
+  margin-left: 100px;
+  padding-bottom: 40px;
+}
+
+.btn {
+  font-size: 18px;
+}
+
+.btn:focus {
+  background-color: rgb(243, 132, 132);
+
+}
+
+.btn:hover {
+  background-color: rgb(243, 132, 132);
+}
