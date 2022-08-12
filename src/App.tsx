@@ -75,14 +75,23 @@ export const App: React.FC = () => {
         ? (
           <button
             type="button"
-            className="button is-link is-outlined is-large start"
+            className="
+            button
+            is-link
+            is-outlined
+            is-large
+            start"
             onClick={startWork}
           >
             Start
           </button>
         )
         : (
-          <div className="box has-background-link-light contant">
+          <div className="
+          box
+          has-background-link-light
+          contant"
+          >
             <div className="buttons">
               <button
                 type="button"
