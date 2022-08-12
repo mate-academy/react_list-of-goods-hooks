@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import classNames from 'classnames';
+import cn from 'classnames';
 import './App.css';
 
 const goodsFromServer: string[] = [
@@ -58,11 +58,11 @@ export const App: FC = () => {
   const [isStarted, setIsStarted] = useState(false);
   const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
-  const [selected, setSelected] = useState(1);
+  const [minLengthFilter, setMinLengthFilter] = useState(1);
 
   const goods = getReorderedGoods(
     goodsFromServer,
-    selected,
+    minLengthFilter,
     sortType,
     isReversed,
   );
@@ -83,7 +83,7 @@ export const App: FC = () => {
           <div className="App__content">
             <div className="App__buttons">
               <button
-                className={classNames(
+                className={cn(
                   'button is-primary',
                   { 'is-light': sortType === SortType.ALPABET },
                 )}
@@ -100,7 +100,7 @@ export const App: FC = () => {
               </button>
 
               <button
-                className={classNames(
+                className={cn(
                   'button is-primary',
                   { 'is-light': sortType === SortType.LENGTH },
                 )}
@@ -117,7 +117,7 @@ export const App: FC = () => {
               </button>
 
               <button
-                className={classNames(
+                className={cn(
                   'button is-primary',
                   { 'is-light': isReversed },
                 )}
@@ -132,7 +132,7 @@ export const App: FC = () => {
                 type="button"
                 onClick={() => {
                   setSortType(SortType.NONE);
-                  setSelected(1);
+                  setMinLengthFilter(1);
                   setIsReversed(false);
                 }}
               >
@@ -142,8 +142,8 @@ export const App: FC = () => {
               <select
                 className="select is-primary is-medium"
                 name="minLength"
-                value={selected}
-                onChange={(event) => setSelected(+event.target.value)}
+                value={minLengthFilter}
+                onChange={(event) => setMinLengthFilter(+event.target.value)}
               >
                 {minLengths.map(({ id, option }) => (
                   <option value={option} key={id}>
