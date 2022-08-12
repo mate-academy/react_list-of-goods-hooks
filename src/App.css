@@ -29,6 +29,35 @@ button:active {
   transform: scale(0.9);
 }
 
+.button:focus {
+  background-color: #1edba8;
+  animation: buttonScale 2s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes buttonScale {
+  0% {
+    transform: scale(1);
+  }
+
+  20% {
+    transform: scale(1.05);
+  }
+
+  60% {
+    transform: scale(1);
+  }
+
+  80% {
+    transform: scale(0.95);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
 button:hover {
   border-color: black;
   transform: scale(1.05);

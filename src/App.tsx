@@ -77,15 +77,15 @@ export const App: FC = () => {
         )
         : (
           <div className="App__list">
-            <button type="button" onClick={sortByName}>
+            <button className="button" type="button" onClick={sortByName}>
               Sort alphabetically
             </button>
 
-            <button type="button" onClick={sortByLength}>
+            <button className="button" type="button" onClick={sortByLength}>
               Sort by length
             </button>
 
-            <button type="button" onClick={reversed}>
+            <button className="button" type="button" onClick={reversed}>
               Reverse
             </button>
 
