@@ -22,10 +22,13 @@ enum SortType {
   LENGTH,
 }
 
+const selectOption = new Array(10).fill(0).map((_, i) => i + 1);
+
 export const App: React.FC = () => {
   const [isStarted, setIsStarted] = useState(false);
   const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
+  const [filterLength, setFilterLength] = useState(0);
 
   function getReorderedGoods(
     goods: string[],
@@ -47,6 +50,7 @@ export const App: React.FC = () => {
     if (isReversed) {
       visibleGoods.reverse();
     }
+
     // Sort and reverse goods if needed
     // ...
 
@@ -60,7 +64,7 @@ export const App: React.FC = () => {
 
   const reorderList = getReorderedGoods(
     goodsFromServer,
-  );
+  ).filter(el => el.length >= filterLength);
 
   return (
     <div className="App">
@@ -112,9 +116,28 @@ export const App: React.FC = () => {
           >
             Reset
           </button>
+
+          <select
+            title="selector"
+            name="select"
+            id="select"
+            value={filterLength}
+            onChange={(ev) => setFilterLength(+ev.target.value)}
+          >
+            <option value={0}>
+              --
+            </option>
+            {
+              selectOption.map(el => (
+                <option value={el} key={el}>
+                  {el}
+                </option>
+              ))
+            }
+          </select>
           <ul className="Goods">
             {reorderList.map(el => (
-              <li className="Goods__item">
+              <li className="Goods__item" key={el}>
                 {el}
               </li>
             ))}

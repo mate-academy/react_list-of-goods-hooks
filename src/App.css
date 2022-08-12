@@ -1,14 +1,18 @@
 /* put styles here */
 
 .App {
-
   width: max-content;
   margin: 25vh auto;
+}
+
+.button {
+  margin-right: 20px;
 }
 
 .button:focus {
   background-color: green;
   color: #fff;
+  margin-right: 20px;
 }
 
 .button--active {
