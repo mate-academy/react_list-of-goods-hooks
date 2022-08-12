@@ -35,7 +35,7 @@ html {
   font-size: 18px;
 }
 
-.btn:focus {
+.btn-focus:focus {
   background-color: rgb(243, 132, 132);
 
 }

@@ -101,7 +101,7 @@ export const App: React.FC = () => {
           <div className="Container">
             <button
               type="button"
-              className="btn button is-primary"
+              className="btn btn-focus button is-primary"
               onClick={sortByAlphabetBtn}
             >
               Sort alphabetically
@@ -109,7 +109,7 @@ export const App: React.FC = () => {
 
             <button
               type="button"
-              className="btn button is-primary"
+              className="btn btn-focus button is-primary"
               onClick={sortByLengthBtn}
             >
               Sort by length
@@ -117,7 +117,7 @@ export const App: React.FC = () => {
 
             <button
               type="button"
-              className="btn button is-primary"
+              className="btn btn-focus button is-primary"
               onClick={reverseBtn}
             >
               Reverse
