@@ -33,23 +33,32 @@ type Good = {
 function getReorderedGoods(
   goods: Good[],
   sortType: SortType,
+  isReversed: boolean,
 ) {
   const visibleGoods = [...goods];
 
   switch (sortType) {
     case SortType.ALPABET:
-      return visibleGoods.sort((a, b) => {
+      visibleGoods.sort((a, b) => {
         return a.title.localeCompare(b.title);
       });
 
+      break;
+
     case SortType.LENGTH:
-      return visibleGoods.sort((a, b) => {
+      visibleGoods.sort((a, b) => {
         return a.title.length - b.title.length;
       });
 
+      break;
+
     default:
-      return visibleGoods;
+      break;
   }
+
+  return isReversed
+    ? visibleGoods.reverse()
+    : visibleGoods;
 }
 
 export const App: React.FC = () => {
@@ -57,9 +66,7 @@ export const App: React.FC = () => {
   const [isStarted, setIsStarted] = useState(false);
   const [isReversed, setIsReversed] = useState(false);
 
-  const goods = isReversed
-    ? getReorderedGoods(preparedGoods, sortType).reverse()
-    : getReorderedGoods(preparedGoods, sortType);
+  const goods = getReorderedGoods(preparedGoods, sortType, isReversed);
 
   const handleStartBtnClick = () => {
     setIsStarted(true);
@@ -134,11 +141,9 @@ export const App: React.FC = () => {
             </button>
 
             <ul className="Goods">
-              {
-                goods.map(good => (
-                  <li key={good.id} className="Goods__item">{good.title}</li>
-                ))
-              }
+              {goods.map(good => (
+                <li key={good.id} className="Goods__item">{good.title}</li>
+              ))}
             </ul>
           </>
         )}
