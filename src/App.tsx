@@ -94,7 +94,9 @@ export const App: React.FC = () => {
           <div className="buttons">
             <button
               type="button"
-              className="button is-info"
+              className={sortType === SortType.ALPHABET
+                ? 'button is-info'
+                : 'button is-info is-outlined'}
               onClick={sortAlphabetically}
             >
               Sort alphabetically
@@ -102,16 +104,20 @@ export const App: React.FC = () => {
 
             <button
               type="button"
-              className="button is-info"
               onClick={sortByLength}
+              className={sortType === SortType.LENGTH
+                ? 'button is-info'
+                : 'button is-info is-outlined'}
             >
               Sort by length
             </button>
 
             <button
               type="button"
-              className="button is-info"
               onClick={reverse}
+              className={!isReversed
+                ? 'button is-info is-outlined'
+                : 'button is-info'}
             >
               Reverse
             </button>
