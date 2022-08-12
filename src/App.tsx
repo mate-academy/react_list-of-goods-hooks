@@ -26,10 +26,32 @@ enum SortType {
 type State = {
   isStarted: boolean,
   isReversed: boolean,
-  isSortAlphabet: boolean,
-  isSortLength: boolean,
   sortType: SortType,
   valueMinLensthGood: number,
+};
+
+const getReorderedGoods = (
+  goods: string[],
+  sortBy: SortType,
+  isRevers: boolean,
+  valueSelect: number,
+): string[] => {
+  const visibleGoods = goods
+    .filter(good => good.length >= valueSelect);
+
+  if (sortBy === SortType.ALPABET) {
+    visibleGoods.sort((a, b) => b.localeCompare(a));
+  }
+
+  if (sortBy === SortType.LENGTH) {
+    visibleGoods.sort((a, b) => b.length - a.length);
+  }
+
+  if (!isRevers) {
+    visibleGoods.reverse();
+  }
+
+  return visibleGoods;
 };
 
 export const App: React.FC<State> = () => {
@@ -37,32 +59,6 @@ export const App: React.FC<State> = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setIsReversed] = useState(false);
   const [valueMinLensthGood, setValue] = useState(1);
-  const [isSortAlphabet, setIsSortAlphabet] = useState(false);
-  const [isSortLength, setIsSortLength] = useState(false);
-
-  const getReorderedGoods = (
-    goods: string[],
-    sortBy: SortType,
-    isRevers: boolean,
-    valueSelect: number,
-  ): string[] => {
-    const visibleGoods = goods
-      .filter(good => good.length >= valueSelect);
-
-    if (sortBy === SortType.ALPABET) {
-      visibleGoods.sort((a, b) => b.localeCompare(a));
-    }
-
-    if (sortBy === SortType.LENGTH) {
-      visibleGoods.sort((a, b) => b.length - a.length);
-    }
-
-    if (!isRevers) {
-      visibleGoods.reverse();
-    }
-
-    return visibleGoods;
-  };
 
   const start = () => {
     setIsStarted(true);
@@ -70,14 +66,10 @@ export const App: React.FC<State> = () => {
 
   const sortByAlpabet = () => {
     setSortType(SortType.ALPABET);
-    setIsSortLength(false);
-    setIsSortAlphabet(!(isSortAlphabet));
   };
 
   const sortByLength = () => {
     setSortType(SortType.LENGTH);
-    setIsSortAlphabet(false);
-    setIsSortLength(!isSortLength);
   };
 
   const reverse = () => {
@@ -87,8 +79,6 @@ export const App: React.FC<State> = () => {
   const reset = () => {
     setSortType(SortType.NONE);
     setIsReversed(false);
-    setIsSortAlphabet(false);
-    setIsSortLength(false);
     setValue(1);
   };
 
@@ -125,7 +115,7 @@ export const App: React.FC<State> = () => {
               className={cn(
                 'button',
                 'is-success',
-                { 'is-light': isSortAlphabet },
+                { 'is-light': sortType === SortType.ALPABET },
               )}
               onClick={() => sortByAlpabet()}
             >
@@ -137,7 +127,7 @@ export const App: React.FC<State> = () => {
               className={cn(
                 'button',
                 'is-success',
-                { 'is-light': isSortLength },
+                { 'is-light': sortType === SortType.LENGTH },
               )}
               onClick={() => sortByLength()}
             >
