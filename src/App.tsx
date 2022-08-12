@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import './App.css';
+import cn from 'classnames';
+import { v4 as uuidv4 } from 'uuid';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const goodsFromServer: string[] = [
   'Dumplings',
-  'Carrot',
+  'CsectedValuesot',
   'Eggs',
   'Ice cream',
   'Apple',
@@ -21,23 +22,34 @@ enum SortType {
   LENGTH,
 }
 
+interface Good {
+  name: string,
+  id: string,
+}
+
+const preparedGoods = [...goodsFromServer].map(good => ({
+  name: good,
+  id: uuidv4(),
+}));
+
 const getReorderedGoods = (
-  goods: string[],
+  goods: Good[],
   sortType: SortType,
   isReversed: boolean,
   charsLimit: number,
 ) => {
-  let visibleGoods = [...goods];
-
-  visibleGoods = visibleGoods.filter(good => good.length >= charsLimit);
+  const visibleGoods = [...goods]
+    .filter(good => good.name.length >= charsLimit);
 
   switch (sortType) {
     case SortType.ALPHABET:
-      visibleGoods.sort((good1, good2) => good1.localeCompare(good2));
+      visibleGoods.sort((good1, good2) => good1.name.localeCompare(good2.name));
       break;
 
     case SortType.LENGTH:
-      visibleGoods.sort((good1, good2) => good1.length - good2.length);
+      visibleGoods.sort(
+        (good1, good2) => good1.name.length - good2.name.length,
+      );
       break;
 
     case SortType.NONE:
@@ -52,6 +64,16 @@ const getReorderedGoods = (
   return visibleGoods;
 };
 
+let sectedValues = new Array(10);
+
+sectedValues = [...sectedValues].map((num, i) => {
+  let n = num;
+
+  n = i + 1;
+
+  return n;
+});
+
 export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
   const [startWork, setStartWork] = useState(false);
@@ -59,7 +81,7 @@ export const App: React.FC = () => {
   const [charsLimit, setCharsLimit] = useState(1);
 
   const goods = getReorderedGoods(
-    goodsFromServer,
+    preparedGoods,
     sortType,
     isReversed,
     charsLimit,
@@ -88,7 +110,11 @@ export const App: React.FC = () => {
           <div className="buttons">
             <button
               type="button"
-              className="button is-link btn"
+              className={cn(
+                'button is-link btn', {
+                  'is-inverted': sortType === SortType.ALPHABET,
+                },
+              )}
               onClick={() => setSortType(SortType.ALPHABET)}
             >
               Sort alphabetically
@@ -96,37 +122,38 @@ export const App: React.FC = () => {
 
             <button
               type="button"
-              className="button is-link btn"
+              className={cn(
+                'button is-link btn', {
+                  'is-inverted': sortType === SortType.LENGTH,
+                },
+              )}
               onClick={() => setSortType(SortType.LENGTH)}
             >
               Sort by length
             </button>
 
-            <div className="select is-link salaction">
-              <select
-                className="has-background-link-light is-warning"
-                onClick={(e) => setCharsLimit(+e.currentTarget.value)}
-              >
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-              </select>
-            </div>
-
             <button
               type="button"
               onClick={() => setIsReversed(!isReversed)}
-              className="button is-warning btn"
+              className={cn('button is-link  btn', {
+                'is-inverted': isReversed === true,
+              })}
             >
               Reverse
             </button>
+
+            <div className="select is-link salaction">
+              <select
+                className="has-background-link-light is-warning"
+                value={charsLimit}
+                onChange={(e) => setCharsLimit(+e.currentTarget.value)}
+              >
+                {sectedValues.map(num => (
+                  <option value={num} key={num}>{num}</option>
+
+                ))}
+              </select>
+            </div>
 
             <button
               type="button"
@@ -135,12 +162,13 @@ export const App: React.FC = () => {
             >
               Reset
             </button>
+
           </div>
 
           <ul className="Goods">
             {goods.map(good => (
-              <li key={good} className="Goods__item">
-                {good}
+              <li key={good.id} className="Goods__item">
+                {good.name}
               </li>
             ))}
           </ul>
