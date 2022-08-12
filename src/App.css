@@ -6,6 +6,11 @@
   margin: 25vh auto;
 }
 
+.button:focus {
+  background-color: green;
+  color: #fff;
+}
+
 .button--active {
   background-color: green;
   color: #fff;

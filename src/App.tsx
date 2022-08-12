@@ -106,10 +106,7 @@ export const App: React.FC = () => {
             Reverse
           </button>
           <button
-            className={
-              classNames('button',
-                { 'button--active': !isReversed && sortType === SortType.NONE })
-            }
+            className="button"
             type="button"
             onClick={() => setReset()}
           >
