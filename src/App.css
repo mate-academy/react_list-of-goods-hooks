@@ -1,1 +1,18 @@
 /* put styles here */
+.App {
+  width: 85%;
+  margin: 10vh ;
+}
+
+.btn-active {
+  background: transparent !important;
+  border: 2px solid rgb(251, 226, 61) !important;
+}
+
+.columns {
+  gap: 10px;
+}
+
+.Goods__item {
+  text-align: center;
+}
