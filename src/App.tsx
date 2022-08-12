@@ -20,30 +20,57 @@ enum SortType {
   LENGTH,
 }
 
+function getSortedGoods(
+  arr: string[],
+  sortType: SortType,
+  isReverse: boolean,
+  minLength: number,
+) {
+  const copy = [...arr];
+
+  switch (sortType) {
+    case SortType.ALPABET:
+      copy.sort((a, b) => a.localeCompare(b));
+      break;
+    case SortType.LENGTH:
+      copy.sort((a, b) => a.length - b.length);
+      break;
+    case SortType.NONE:
+    default:
+      break;
+  }
+
+  if (isReverse) {
+    copy.reverse();
+  }
+
+  return copy.filter(good => good.length >= minLength);
+}
+
 export const App: React.FC = () => {
-  const [isStarted, setStarted] = useState(false);
+  const [isStarted, setIsStarted] = useState(false);
   const showGoods = () => {
-    setStarted(true);
+    setIsStarted(true);
   };
 
-  const [sortMethod, setSortMethod] = useState(0);
+  const [sortType, setSortType] = useState(0);
 
   const alphabetSort = () => {
-    setSortMethod(SortType.ALPABET);
+    setSortType(SortType.ALPABET);
   };
 
   const lengthSort = () => {
-    setSortMethod(SortType.LENGTH);
+    setSortType(SortType.LENGTH);
   };
 
-  const [isReverse, setReverseMethod] = useState(false);
+  const [isReverse, setIsReverse] = useState(false);
   const reverseSort = () => {
-    setReverseMethod(current => !current);
+    setIsReverse(current => !current);
   };
 
   const defaultSort = () => {
-    setSortMethod(SortType.NONE);
-    setReverseMethod(false);
+    setSortType(SortType.NONE);
+    setIsReverse(false);
   };
 
   const [minLength, setMinLength] = useState(1);
@@ -51,30 +78,7 @@ export const App: React.FC = () => {
     setMinLength(n);
   };
 
-  function neededGoods(arr: string[]) {
-    const copy = [...arr];
-
-    copy.sort((a, b) => {
-      switch (sortMethod) {
-        case 1:
-          return a.localeCompare(b);
-
-        case 2:
-          return a.length - b.length;
-
-        default:
-          return 0;
-      }
-    });
-
-    if (isReverse) {
-      copy.reverse();
-    }
-
-    return copy.filter(good => good.length >= minLength);
-  }
-
-  const goods = neededGoods(goodsFromServer);
+  const goods = getSortedGoods(goodsFromServer, sortType, isReverse, minLength);
 
   return (
     <div className="App">
@@ -92,7 +96,7 @@ export const App: React.FC = () => {
         <>
           <button
             type="button"
-            className={`button is-rounded ${sortMethod === SortType.ALPABET ? 'is-success' : ''}`}
+            className={`button is-rounded ${sortType === SortType.ALPABET ? 'is-success' : ''}`}
             onClick={alphabetSort}
           >
             Sort alphabetically
@@ -100,7 +104,7 @@ export const App: React.FC = () => {
 
           <button
             type="button"
-            className={`button is-rounded ${sortMethod === SortType.LENGTH ? 'is-success' : ''}`}
+            className={`button is-rounded ${sortType === SortType.LENGTH ? 'is-success' : ''}`}
             onClick={lengthSort}
           >
             Sort by length
@@ -123,11 +127,21 @@ export const App: React.FC = () => {
           </button>
 
           <ul className="Goods">
-            {goods.map(good => (
-              <li className="Goods__item" key={good}>
-                {good}
-              </li>
-            ))}
+            {goods.length === 0
+              ? (
+                <strong>
+                  No goods to show with length of word of
+                  {' '}
+                  {minLength}
+                  {' '}
+                  letters
+                </strong>
+              )
+              : goods.map(good => (
+                <li className="Goods__item" key={good}>
+                  {good}
+                </li>
+              ))}
           </ul>
 
           <div className="length">
