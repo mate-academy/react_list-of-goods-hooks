@@ -1,1 +1,11 @@
 /* put styles here */
+.App {
+
+  width: max-content;
+  margin: 25vh auto;
+}
+
+.button:focus {
+  background-color: green;
+  color: #fff;
+}
