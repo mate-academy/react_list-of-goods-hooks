@@ -108,7 +108,7 @@ export const App: React.FC = () => {
           <button
             className="button"
             type="button"
-            onClick={() => setReset}
+            onClick={() => setReset()}
           >
             Reset
           </button>
