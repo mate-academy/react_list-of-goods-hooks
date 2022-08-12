@@ -1,1 +1,43 @@
-/* put styles here */
+.App {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+button {
+  text-decoration: none;
+  display: inline-block;
+  padding: 20px;
+  margin: 10px;
+  position: relative;
+  color: rgb(216, 28, 28);
+  border: 1px solid rgba(255, 255, 255);
+  background: rgb(84, 186, 106);
+  font-weight: 700;
+  font-family: "Montserrat", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+button:focus {
+  border: 4px solid rgba(19, 56, 150);
+}
+
+ul {
+  counter-reset: li;
+  list-style: none;
+  font: 14px "Trebuchet MS", "Lucida Sans", sans-serif;
+  padding: 0;
+}
+
+li {
+  position: relative;
+  display: block;
+  padding: 5px;
+  margin: em 0;
+  background: #dad2ca;
+  color: #444;
+  text-decoration: none;
+  transition: 1s ease-out;
+}
