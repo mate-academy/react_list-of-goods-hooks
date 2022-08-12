@@ -32,21 +32,18 @@ function getReorderedGoods(
   // Not to mutate the original array
   const visibleGoods = [...goods];
 
-  visibleGoods.sort((a, b) => {
-    switch (sortType) {
-      case SortType.ALPHABET:
-        return a.localeCompare(b);
-
-      case SortType.LENGTH:
-        return a.length - b.length;
-
-      default:
-        return 0;
-    }
-  });
-
   if (isReversed) {
     return visibleGoods.reverse();
+  }
+
+  switch (sortType) {
+    case SortType.ALPHABET:
+      return visibleGoods.sort((a, b) => a.localeCompare(b));
+    case SortType.LENGTH:
+      return visibleGoods.sort((a, b) => a.length - b.length);
+    case SortType.NONE:
+    default:
+      break;
   }
 
   return visibleGoods;
