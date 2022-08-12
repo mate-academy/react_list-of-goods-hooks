@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import Button from '@mui/material/Button';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const goodsFromServer: string[] = [
@@ -28,18 +29,17 @@ function getReorderedGoods(
 ) {
   const visibleGoods = [...goods];
 
-  visibleGoods.sort((firstGood, secondGood) => {
-    switch (sortType) {
-      case SortType.ALPHABET:
-        return firstGood.localeCompare(secondGood);
-
-      case SortType.LENGTH:
-        return firstGood.length - secondGood.length;
-
-      default:
-        return 0;
-    }
-  });
+  switch (sortType) {
+    case SortType.ALPHABET:
+      visibleGoods.sort((a, b) => a.localeCompare(b));
+      break;
+    case SortType.LENGTH:
+      visibleGoods.sort((a, b) => a.length - b.length);
+      break;
+    case SortType.NONE:
+    default:
+      break;
+  }
 
   if (isReversed) {
     visibleGoods.reverse();
@@ -59,45 +59,55 @@ export const App: React.FC = () => {
     <div className="App">
       {!isStarted
         ? (
-          <button
-            type="button"
+          <Button
+            variant="contained"
             onClick={() => setStarted(true)}
           >
             Start
-          </button>
+          </Button>
         )
         : (
           <>
-            <button
-              type="button"
-              onClick={() => setSortType(SortType.ALPHABET)}
+            <Button
+              variant={
+                sortType === SortType.ALPHABET ? ('contained') : ('outlined')
+              }
+              onClick={() => setSortType(sortType === SortType.ALPHABET
+                ? (SortType.NONE)
+                : (SortType.ALPHABET))}
             >
               Sort alphabetically
-            </button>
+            </Button>
 
-            <button
-              type="button"
-              onClick={() => setSortType(SortType.LENGTH)}
+            <Button
+              variant={
+                sortType === SortType.LENGTH ? ('contained') : ('outlined')
+              }
+              onClick={() => setSortType(sortType === SortType.LENGTH
+                ? (SortType.NONE)
+                : (SortType.LENGTH))}
             >
               Sort by length
-            </button>
+            </Button>
 
-            <button
-              type="button"
+            <Button
+              variant={
+                isReversed ? ('contained') : ('outlined')
+              }
               onClick={() => setReverse(!isReversed)}
             >
               Reverse
-            </button>
+            </Button>
 
-            <button
-              type="button"
+            <Button
+              variant="outlined"
               onClick={() => {
                 setSortType(SortType.NONE);
                 setReverse(false);
               }}
             >
               Reset
-            </button>
+            </Button>
 
             <ul className="Goods">
               {goods.map((good) => (
