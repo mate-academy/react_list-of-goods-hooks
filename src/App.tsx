@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, { useState } from 'react';
 import './App.css';
 
@@ -63,6 +64,7 @@ export const App: React.FC = () => {
       <div className="App">
         <button
           type="button"
+          className="button"
           onClick={() => getStarted(true)}
         >
           Start
@@ -73,37 +75,57 @@ export const App: React.FC = () => {
 
   return (
     <div className="App">
+      <div className="sortButtons">
+        <button
+          type="button"
+          className={classNames(
+            'button',
+            sortType === SortType.ALPABET
+              ? 'button-used'
+              : '',
+          )}
+          onClick={() => setSortType(SortType.ALPABET)}
+        >
+          Sort alphabetically
+        </button>
 
-      <button
-        type="button"
-        onClick={() => setSortType(SortType.ALPABET)}
-      >
-        Sort alphabetically
-      </button>
+        <button
+          type="button"
+          className={classNames(
+            'button',
+            sortType === SortType.LENGTH
+              ? 'button-used'
+              : '',
+          )}
+          onClick={() => setSortType(SortType.LENGTH)}
+        >
+          Sort by length
+        </button>
 
-      <button
-        type="button"
-        onClick={() => setSortType(SortType.LENGTH)}
-      >
-        Sort by length
-      </button>
+        <button
+          type="button"
+          className={classNames(
+            'button',
+            isReversed
+              ? 'button-used'
+              : '',
+          )}
+          onClick={() => makeReversed(!(isReversed))}
+        >
+          Reverse
+        </button>
 
-      <button
-        type="button"
-        onClick={() => makeReversed(!(isReversed))}
-      >
-        Reverse
-      </button>
-
-      <button
-        type="button"
-        onClick={() => {
-          makeReversed(false);
-          setSortType(SortType.NONE);
-        }}
-      >
-        Reset
-      </button>
+        <button
+          type="button"
+          className="button"
+          onClick={() => {
+            makeReversed(false);
+            setSortType(SortType.NONE);
+          }}
+        >
+          Reset
+        </button>
+      </div>
 
       <ul className="Goods">
         {reordered.map(good => {

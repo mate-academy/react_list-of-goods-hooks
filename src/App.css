@@ -1,1 +1,66 @@
-/* put styles here */
+html {
+  font-family: "Roboto", sans-serif;
+}
+
+body {
+  margin: 0;
+  background-color: mediumslateblue;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+iframe {
+  display: none;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  width: max-content;
+  height: 50%;
+  margin: 0 auto;
+  margin-top: 50vh;
+  transform: translateY(-50%);
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px rgb(75, 60, 157);
+  background-color: antiquewhite;
+}
+
+.sortButtons {
+  display: flex;
+  gap: 5px;
+}
+
+.button {
+  height: 40px;
+  width: 80px;
+  font-weight: bold;
+  color: rgb(69, 53, 160);
+  min-width: max-content;
+  text-transform: uppercase;
+  background-color: whitesmoke;
+  border: 2px solid rgb(69, 53, 160);
+  border-radius: 10px;
+
+  transition: background-color 0.5s, color 0.5s, border-color 0.5s;
+}
+
+.button-used {
+  background-color: rgb(89, 70, 199);
+  color: whitesmoke;
+}
+
+.button:hover {
+  background-color: rgb(69, 53, 160);
+  color: whitesmoke;
+}
+
+.button:active {
+  background-color: rgb(47, 35, 114);
+  border-color: rgb(47, 35, 114);
+}
