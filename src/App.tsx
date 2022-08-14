@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react';
 import './App.css';
+import cn from 'classnames';
 
 const goodsFromServer = [
   'Dumplings',
@@ -28,18 +29,16 @@ function getReorderedGoods(
 ) {
   const visibleGoods = [...goods];
 
-  if (sortType !== SortType.NONE) {
-    if (sortType === SortType.ALPABET) {
-      visibleGoods.sort((g1, g2) => {
-        return g1.localeCompare(g2);
-      });
-    }
+  if (sortType === SortType.ALPABET) {
+    visibleGoods.sort((g1, g2) => {
+      return g1.localeCompare(g2);
+    });
+  }
 
-    if (sortType === SortType.LENGTH) {
-      visibleGoods.sort((g1, g2) => {
-        return g1.length - g2.length;
-      });
-    }
+  if (sortType === SortType.LENGTH) {
+    visibleGoods.sort((g1, g2) => {
+      return g1.length - g2.length;
+    });
   }
 
   if (isReversed) {
@@ -66,37 +65,67 @@ export const App: React.FC = () => {
   const goods = getReorderedGoods(goodsFromServer, sortType, isReversed);
 
   return (
-    <div className="App">
+    <div className="
+      App
+      level
+      is-flex-direction-column
+      "
+    >
       {!isStarted
         ? (
           <button
             type="button"
             onClick={start}
+            className="
+              button
+              is-outlined
+              level-item
+            "
           >
             Start
           </button>
         )
 
         : (
-          <>
-            <button
-              type="button"
-              onClick={alphabet}
-            >
-              Sort alphabetically
-            </button>
+          <div className="level-item is-flex-direction-column">
+            <div className="buttons">
+              <button
+                type="button"
+                onClick={alphabet}
+                className={cn(
+                  'button',
+                  { 'is-success': sortType === SortType.ALPABET },
+                )}
+              >
+                Sort alphabetically
+              </button>
 
-            <button type="button" onClick={length}>
-              Sort by length
-            </button>
+              <button
+                type="button"
+                onClick={length}
+                className={cn('button',
+                  { 'is-success': sortType === SortType.LENGTH })}
+              >
+                Sort by length
+              </button>
 
-            <button type="button" onClick={reverse}>
-              Reverse
-            </button>
+              <button
+                type="button"
+                onClick={reverse}
+                className={cn('button',
+                  { 'is-success': isReversed })}
+              >
+                Reverse
+              </button>
 
-            <button type="button" onClick={reset}>
-              Reset
-            </button>
+              <button
+                type="button"
+                onClick={reset}
+                className="button"
+              >
+                Reset
+              </button>
+            </div>
 
             <ul className="Goods">
               {goods.map(good => {
@@ -110,7 +139,7 @@ export const App: React.FC = () => {
                 );
               })}
             </ul>
-          </>
+          </div>
         )}
     </div>
   );
