@@ -1,1 +1,68 @@
-/* put styles here */
+ul,
+li,
+p {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+button {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.App {
+  margin: 0 auto;
+  width: 600px;
+}
+
+.App__title {
+  text-align: center;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+
+  margin-bottom: 20px;
+}
+
+.button {
+  height: 50px;
+  width: 100px;
+
+  cursor: pointer;
+
+  background-color: darkorange;
+  border-radius: 10px;
+}
+
+.button--sort-name {
+  width: 150px;
+}
+
+.Goods {
+  padding: 20px;
+  list-style: none;
+
+  border: 1px solid #000;
+  border-radius: 10px;
+}
+
+.Goods__item {
+  margin: 0 auto;
+  margin-bottom: 15px;
+  width: max-content;
+
+  text-align: center;
+  border-bottom: 2px solid transparent;
+}
+
+.Goods__item:last-child {
+  margin-bottom: 0;
+}
+
+.Goods__item:hover {
+  border-bottom: 2px solid darkorange;
+}
