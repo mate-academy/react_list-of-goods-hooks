@@ -49,13 +49,11 @@ const goodsFromServer: string[] = [
 ];
 
 export const App: React.FC = () => {
-  const [isStarted, show] = useState(false);
-  const [isReversed, setReverse] = useState(false);
+  const [isStarted, setIsStarter] = useState(false);
+  const [isReversed, setIsReverse] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
-  const start = () => {
-    show(true);
-  };
+  const start = () => setIsStarter(true);
 
   const sortByAlphabet = () => {
     setSortType(SortType.ALPABET);
@@ -67,11 +65,11 @@ export const App: React.FC = () => {
 
   const reset = () => {
     setSortType(SortType.NONE);
-    setReverse(false);
+    setIsReverse(false);
   };
 
   const reverse = () => {
-    setReverse(!isReversed);
+    setIsReverse(!isReversed);
   };
 
   const goods = getReorderedGoods(goodsFromServer, sortType, isReversed);
