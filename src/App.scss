@@ -1,0 +1,67 @@
+$font: "helvetica", sans-serif;
+$color-body: #fdfd3e;
+$color-button: #7ee4e0;
+$color-font: #5b8886;
+
+ul,
+li,
+h1,
+div,
+span {
+  margin: 0;
+}
+
+body {
+  font-family: $font;
+  background-color: $color-body;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+
+  &__title {
+    margin: 10px auto;
+    color: $color-font;
+  }
+
+  &__list {
+    display: block;
+    text-align: start;
+    padding: 0;
+    margin-bottom: 10px;
+  }
+
+  &__item {
+    list-style: none;
+    margin-bottom: 5px;
+    color: $color-font;
+    font-size: 16px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__button {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+}
+
+.button {
+  width: 120px;
+  height: 35px;
+  border: none;
+  border-radius: 5px;
+  background-color: $color-button;
+  color: $color-font;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #fdfd3e;
+  }
+}
