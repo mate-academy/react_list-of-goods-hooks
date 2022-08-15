@@ -1,1 +1,36 @@
-/* put styles here */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  margin: 0 auto;
+  padding: 0;
+  width: 600px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.buttons {
+  margin: 0;
+
+  display: flex;
+  justify-content: center;
+}
+
+.select {
+  margin-bottom: 10px;
+
+  font-size: medium;
+}
+
+.Goods__item {
+  margin-bottom: 5px;
+
+  text-align: center;
+  font-size: large;
+
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.37);
+}
