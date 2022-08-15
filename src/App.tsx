@@ -58,7 +58,6 @@ export const App: React.FC = () => {
   const sortLength = () => (setSortType(SortType.LENGTH));
   const reverse = () => (setIsReversed(value => !value));
   const reset = () => {
-    setIsStarted(false);
     setIsReversed(false);
     setSortType(SortType.NONE);
   };
@@ -76,11 +75,11 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="
-            button
-            is-link
-            is-outlined
-            is-large
-            start"
+              button
+              is-link
+              is-outlined
+              is-large
+              start"
             onClick={startWork}
           >
             Start
@@ -88,9 +87,9 @@ export const App: React.FC = () => {
         )
         : (
           <div className="
-          box
-          has-background-link-light
-          contant"
+            box
+            has-background-link-light
+            contant"
           >
             <div className="buttons">
               <button
