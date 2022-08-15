@@ -53,11 +53,11 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
-  const start = () => setIsStarted(true);
-  const reverse = () => setIsReversed(!isReversed);
-  const alphabet = () => setSortType(SortType.ALPABET);
-  const length = () => setSortType(SortType.LENGTH);
-  const reset = () => {
+  const startApp = () => setIsStarted(true);
+  const reverseList = () => setIsReversed(!isReversed);
+  const sortByAlphabet = () => setSortType(SortType.ALPABET);
+  const sortByLength = () => setSortType(SortType.LENGTH);
+  const resetSortFilters = () => {
     setIsReversed(false);
     setSortType(SortType.NONE);
   };
@@ -75,7 +75,7 @@ export const App: React.FC = () => {
         ? (
           <button
             type="button"
-            onClick={start}
+            onClick={startApp}
             className="
               button
               is-outlined
@@ -91,7 +91,7 @@ export const App: React.FC = () => {
             <div className="buttons">
               <button
                 type="button"
-                onClick={alphabet}
+                onClick={sortByAlphabet}
                 className={cn(
                   'button',
                   { 'is-success': sortType === SortType.ALPABET },
@@ -102,7 +102,7 @@ export const App: React.FC = () => {
 
               <button
                 type="button"
-                onClick={length}
+                onClick={sortByLength}
                 className={cn('button',
                   { 'is-success': sortType === SortType.LENGTH })}
               >
@@ -111,7 +111,7 @@ export const App: React.FC = () => {
 
               <button
                 type="button"
-                onClick={reverse}
+                onClick={reverseList}
                 className={cn('button',
                   { 'is-success': isReversed })}
               >
@@ -120,7 +120,7 @@ export const App: React.FC = () => {
 
               <button
                 type="button"
-                onClick={reset}
+                onClick={resetSortFilters}
                 className="button"
               >
                 Reset
