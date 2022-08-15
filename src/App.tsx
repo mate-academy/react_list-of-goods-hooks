@@ -29,7 +29,7 @@ function getReorderedGoods(
   minLength: number,
 ) {
   // Not to mutate the original array
-  const visibleGoods = [...goods].filter(good => good.length > minLength);
+  const visibleGoods = goods.filter(good => good.length > minLength);
 
   visibleGoods.sort((good1, good2) => {
     switch (sortType) {
@@ -157,7 +157,7 @@ export const App: React.FC = () => {
             <ul className="Goods">
               {preparedGoods.map(good => {
                 return (
-                  <li className="Goods__item">{good}</li>
+                  <li className="Goods__item" key={good}>{good}</li>
                 );
               })}
             </ul>
