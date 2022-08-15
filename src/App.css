@@ -1,1 +1,10 @@
 /* put styles here */
+.App {
+  width: 570px;
+  margin: 0 auto;
+}
+
+.isActive {
+  transform: scale(1.1);
+  transition: 0.2s;
+}
