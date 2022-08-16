@@ -1,1 +1,59 @@
-/* put styles here */
+@import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css";
+
+html {
+  font-size: 18px;
+}
+
+iframe {
+  display: none;
+}
+
+.App {
+  margin: 0 100px;
+}
+
+.start {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  height: 100px;
+  padding: 50px 312px;
+}
+
+.contant {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 30%;
+  min-height: 500px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-around;
+}
+
+.buttons:not(:last-child) {
+  margin-bottom: 0;
+}
+
+.btn {
+  margin-right: 7px;
+  margin-top: 15px;
+}
+
+.salaction {
+  margin-right: 7px;
+  margin-top: 8px;
+}
+
+.btn:last-child {
+  margin-right: -2px;
+}
+
+.Goods {
+  padding: 20px;
+}

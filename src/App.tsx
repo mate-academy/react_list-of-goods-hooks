@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
+import cn from 'classnames';
+import { v4 as uuidv4 } from 'uuid';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const goodsFromServer: string[] = [
   'Dumplings',
-  'Carrot',
+  'CsectedValuesot',
   'Eggs',
   'Ice cream',
   'Apple',
@@ -15,33 +16,164 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+enum SortType {
+  NONE,
+  ALPHABET,
+  LENGTH,
+}
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+interface Good {
+  name: string,
+  id: string,
+}
 
-    <button type="button">
-      Sort by length
-    </button>
+const preparedGoods = [...goodsFromServer].map(good => ({
+  name: good,
+  id: uuidv4(),
+}));
 
-    <button type="button">
-      Reverse
-    </button>
+const getReorderedGoods = (
+  goods: Good[],
+  sortType: SortType,
+  isReversed: boolean,
+  charsLimit: number,
+) => {
+  const visibleGoods = [...goods]
+    .filter(good => good.name.length >= charsLimit);
 
-    <button type="button">
-      Reset
-    </button>
+  switch (sortType) {
+    case SortType.ALPHABET:
+      visibleGoods.sort((good1, good2) => good1.name.localeCompare(good2.name));
+      break;
 
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+    case SortType.LENGTH:
+      visibleGoods.sort(
+        (good1, good2) => good1.name.length - good2.name.length,
+      );
+      break;
+
+    case SortType.NONE:
+    default:
+      break;
+  }
+
+  if (isReversed) {
+    visibleGoods.reverse();
+  }
+
+  return visibleGoods;
+};
+
+let sectedValues = new Array(10);
+
+sectedValues = [...sectedValues].map((num, i) => {
+  let n = num;
+
+  n = i + 1;
+
+  return n;
+});
+
+export const App: React.FC = () => {
+  const [sortType, setSortType] = useState(SortType.NONE);
+  const [startWork, setStartWork] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
+  const [charsLimit, setCharsLimit] = useState(1);
+
+  const goods = getReorderedGoods(
+    preparedGoods,
+    sortType,
+    isReversed,
+    charsLimit,
+  );
+
+  const reset = () => {
+    setIsReversed(false);
+    setSortType(SortType.NONE);
+    setCharsLimit(1);
+  };
+
+  return (
+    <div className="App">
+      {!startWork && (
+        <button
+          type="button"
+          className="button is-link is-outlined is-large start"
+          onClick={() => setStartWork(true)}
+        >
+          Start
+        </button>
+      )}
+
+      {startWork && (
+        <div className="box has-background-link-light contant">
+          <div className="buttons">
+            <button
+              type="button"
+              className={cn(
+                'button is-link btn', {
+                  'is-inverted': sortType === SortType.ALPHABET,
+                },
+              )}
+              onClick={() => setSortType(SortType.ALPHABET)}
+            >
+              Sort alphabetically
+            </button>
+
+            <button
+              type="button"
+              className={cn(
+                'button is-link btn', {
+                  'is-inverted': sortType === SortType.LENGTH,
+                },
+              )}
+              onClick={() => setSortType(SortType.LENGTH)}
+            >
+              Sort by length
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setIsReversed(!isReversed)}
+              className={cn('button is-link  btn', {
+                'is-inverted': isReversed === true,
+              })}
+            >
+              Reverse
+            </button>
+
+            <div className="select is-link salaction">
+              <select
+                className="has-background-link-light is-warning"
+                value={charsLimit}
+                onChange={(e) => setCharsLimit(+e.currentTarget.value)}
+              >
+                {sectedValues.map(num => (
+                  <option value={num} key={num}>{num}</option>
+
+                ))}
+              </select>
+            </div>
+
+            <button
+              type="button"
+              onClick={reset}
+              className="button is-danger btn"
+            >
+              Reset
+            </button>
+
+          </div>
+
+          <ul className="Goods">
+            {goods.map(good => (
+              <li key={good.id} className="Goods__item">
+                {good.name}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+};
