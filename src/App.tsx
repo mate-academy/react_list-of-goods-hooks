@@ -1,7 +1,8 @@
-import React from 'react';
+import { FC, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import cn from 'classnames';
 import './App.css';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const goodsFromServer: string[] = [
   'Dumplings',
   'Carrot',
@@ -15,33 +16,152 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+const ids = new Array<string>(goodsFromServer.length)
+  .fill('')
+  .map(el => el + uuidv4());
+const minLengths = new Array(goodsFromServer.length)
+  .fill('')
+  .map((el, i) => ({ id: el + uuidv4(), option: i + 1 }));
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+enum SortType {
+  NONE,
+  ALPABET,
+  LENGTH,
+}
 
-    <button type="button">
-      Sort by length
-    </button>
+function getReorderedGoods(
+  goods: string[],
+  minLen: number,
+  sortType: SortType,
+  isReversed: boolean,
+) {
+  const visibleGoods = [...goods].filter(good => good.length >= minLen);
 
-    <button type="button">
-      Reverse
-    </button>
+  if (sortType !== SortType.NONE) {
+    visibleGoods.sort((a, b) => {
+      if (sortType === SortType.ALPABET) {
+        return a.localeCompare(b);
+      }
 
-    <button type="button">
-      Reset
-    </button>
+      return a.length - b.length;
+    });
+  }
 
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+  if (isReversed) {
+    visibleGoods.reverse();
+  }
+
+  return visibleGoods;
+}
+
+export const App: FC = () => {
+  const [isStarted, setIsStarted] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
+  const [sortType, setSortType] = useState(SortType.NONE);
+  const [minLengthFilter, setMinLengthFilter] = useState(1);
+
+  const reset = () => {
+    setSortType(SortType.NONE);
+    setMinLengthFilter(1);
+    setIsReversed(false);
+  };
+
+  const revers = () => setIsReversed(prevIsReverse => !prevIsReverse);
+
+  const sortBy = (_sortType: SortType) => {
+    setIsReversed(prevIsReverse => (sortType === _sortType
+      ? !prevIsReverse
+      : false
+    ));
+    setSortType(_sortType);
+  };
+
+  const goods = getReorderedGoods(
+    goodsFromServer,
+    minLengthFilter,
+    sortType,
+    isReversed,
+  );
+
+  return (
+    <div className="App box">
+      {!isStarted
+        ? (
+          <button
+            className="button is-primary is-large"
+            type="button"
+            onClick={() => setIsStarted(true)}
+          >
+            Start
+          </button>
+        )
+        : (
+          <div className="App__content">
+            <div className="App__buttons">
+              <button
+                className={cn(
+                  'button is-primary',
+                  { 'is-light': sortType === SortType.ALPABET },
+                )}
+                type="button"
+                onClick={() => sortBy(SortType.ALPABET)}
+              >
+                Sort alphabetically
+              </button>
+
+              <button
+                className={cn(
+                  'button is-primary',
+                  { 'is-light': sortType === SortType.LENGTH },
+                )}
+                type="button"
+                onClick={() => sortBy(SortType.LENGTH)}
+              >
+                Sort by length
+              </button>
+
+              <button
+                className={cn(
+                  'button is-primary',
+                  { 'is-light': isReversed },
+                )}
+                type="button"
+                onClick={revers}
+              >
+                Reverse
+              </button>
+
+              <button
+                className="button is-danger is-large is-reset"
+                type="button"
+                onClick={reset}
+              >
+                Reset
+              </button>
+
+              <select
+                className="select is-primary is-medium"
+                name="minLength"
+                value={minLengthFilter}
+                onChange={(event) => setMinLengthFilter(+event.target.value)}
+              >
+                {minLengths.map(({ id, option }) => (
+                  <option value={option} key={id}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <ul className="Goods content is-medium">
+              {goods.map((good, index) => (
+                <li className="Goods__item" key={ids[index]}>
+                  {good}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+    </div>
+  );
+};

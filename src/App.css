@@ -1,1 +1,37 @@
-/* put styles here */
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.App {
+  position: relative;
+  width: 800px;
+  height: 525px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.App__content {
+  height: 100%;
+  width: 100%;
+}
+
+.App__buttons {
+  display: flex;
+  justify-content: space-around;
+}
+
+.Goods {
+  width: 100%;
+  text-align: center;
+}
+
+.is-reset {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
