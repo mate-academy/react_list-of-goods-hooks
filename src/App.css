@@ -1,1 +1,9 @@
-/* put styles here */
+button {
+  cursor: pointer;
+  height: 40px;
+  margin: 4px;
+}
+
+button:hover {
+  background-color: darkgoldenrod;
+}
