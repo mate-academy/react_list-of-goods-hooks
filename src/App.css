@@ -1,1 +1,22 @@
-/* put styles here */
+html {
+  font-size: 20px;
+}
+
+.Goods {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.button-start {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+}
