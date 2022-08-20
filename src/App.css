@@ -1,1 +1,27 @@
-/* put styles here */
+.App {
+  height: 100vh;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.Buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+
+  margin-bottom: 20px;
+}
+
+.Goods {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 5px;
+  margin: 0, 20px;
+  min-width: 450px;
+
+  color: #1976d2;
+}

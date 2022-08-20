@@ -1,4 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
 import './App.css';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -15,33 +20,127 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+enum SortType {
+  NONE,
+  ALPABET,
+  LENGTH,
+}
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+function getReorderedGoods(
+  goods: string[],
+  sortType: SortType,
+  isReversed: boolean,
+) {
+  const visibleGoods = [...goods];
 
-    <button type="button">
-      Sort by length
-    </button>
+  switch (sortType) {
+    case SortType.ALPABET:
+      visibleGoods.sort((good1, good2) => good1.localeCompare(good2));
+      break;
+    case SortType.LENGTH:
+      visibleGoods.sort((good1, good2) => good1.length - good2.length);
+      break;
+    case SortType.NONE:
+    default:
+      break;
+  }
 
-    <button type="button">
-      Reverse
-    </button>
+  if (isReversed) {
+    visibleGoods.reverse();
+  }
 
-    <button type="button">
-      Reset
-    </button>
+  return visibleGoods;
+}
 
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+export const App: React.FC = () => {
+  const [isStarted, setStarted] = useState(true);
+  const [isReversed, setReversed] = useState(false);
+  const [sortType, setSortType] = useState(SortType.NONE);
+
+  const visibleGoods = getReorderedGoods(
+    goodsFromServer, sortType, isReversed,
+  );
+
+  return (
+    <div className="App">
+      {isStarted && (
+        <Button
+          variant="contained"
+          size="small"
+          type="button"
+          onClick={() => setStarted(false)}
+        >
+          Start
+        </Button>
+      )}
+
+      {!isStarted && (
+        <>
+          <div className="Buttons">
+            <Button
+              variant={sortType === 1
+                ? 'contained'
+                : 'outlined'}
+              type="button"
+              size="small"
+              onClick={() => setSortType(SortType.ALPABET)}
+            >
+              Sort alphabetically
+            </Button>
+
+            <Button
+              variant={sortType === 2
+                ? 'contained'
+                : 'outlined'}
+              type="button"
+              onClick={() => setSortType(SortType.LENGTH)}
+            >
+              Sort by length
+            </Button>
+
+            <Button
+              variant={isReversed
+                ? 'contained'
+                : 'outlined'}
+              type="button"
+              size="small"
+              onClick={() => setReversed(!isReversed)}
+            >
+              Reverse
+            </Button>
+
+            <Button
+              variant="outlined"
+              color="warning"
+              type="button"
+              size="small"
+              onClick={() => {
+                setSortType(SortType.NONE);
+                setReversed(false);
+              }}
+            >
+              Reset
+            </Button>
+          </div>
+
+          <List className="Goods">
+            {visibleGoods.map(good => (
+              <>
+                <ListItem
+                  disablePadding
+                  key={good}
+                  className="Goods__item"
+                >
+                  <ListItemText
+                    primary={good}
+                  />
+                </ListItem>
+                <Divider />
+              </>
+            ))}
+          </List>
+        </>
+      )}
+    </div>
+  );
+};
