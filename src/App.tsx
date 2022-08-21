@@ -1,8 +1,7 @@
-import React from 'react';
-import './App.css';
+import React, { useState } from 'react';
+import './App.scss';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const goodsFromServer: string[] = [
+const goods = [
   'Dumplings',
   'Carrot',
   'Eggs',
@@ -15,33 +14,92 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+export const App: React.FC = () => {
+  const goodsClone = [...goods];
+  const [isStarted, setStarted] = useState(false);
+  const [isReversed, setReverse] = useState(false);
+  const [sortType, setType] = useState('none');
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+  goodsClone.sort((good1, good2) => {
+    switch (sortType) {
+      case 'alpabet':
+        return good1.localeCompare(good2);
+      case 'length':
+        return good1[sortType] - good2[sortType];
+      default:
+        return 0;
+    }
+  });
 
-    <button type="button">
-      Sort by length
-    </button>
+  if (isReversed) {
+    goodsClone.reverse();
+  }
 
-    <button type="button">
-      Reverse
-    </button>
-
-    <button type="button">
-      Reset
-    </button>
-
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+  return (
+    <div className="App">
+      {!isStarted ? (
+        <button
+          className="App__button"
+          type="button"
+          onClick={() => setStarted(!isStarted)}
+        >
+          Start
+        </button>
+      ) : (
+        <>
+          <div className="App__button-wrapper">
+            <button
+              className="App__button"
+              type="button"
+              onClick={() => {
+                setReverse(false);
+                setType('alpabet');
+              }}
+            >
+              Sort alphabetically
+            </button>
+            <button
+              className="App__button"
+              type="button"
+              onClick={() => {
+                setReverse(false);
+                setType('length');
+              }}
+            >
+              Sort by length
+            </button>
+            <button
+              className="App__button"
+              type="button"
+              onClick={() => setReverse(!isReversed)}
+            >
+              Reverse
+            </button>
+            <button
+              className="App__button"
+              type="button"
+              onClick={() => {
+                setReverse(false);
+                setType('none');
+              }}
+            >
+              Reset
+            </button>
+          </div>
+          <ul className="App__goods-list">
+            {
+              goodsClone.map(good => (
+                <li
+                  className="App__good"
+                  key={good}
+                >
+                  {good}
+                </li>
+              ))
+            }
+          </ul>
+        </>
+      )}
+    </div>
+  );
+};
