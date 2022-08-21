@@ -1,0 +1,50 @@
+/* put styles here */
+.App {
+  display: flex;
+  flex-direction: column;
+  font-family: "Lucida Sans",
+    "Lucida Sans Regular",
+    "Lucida Grande",
+    "Lucida Sans Unicode",
+    Geneva,
+    Verdana,
+    sans-serif;
+
+  &__button-wrapper {
+    display: flex;
+    gap: 10px;
+  }
+
+  &__button {
+    width: 240px;
+    box-sizing: border-box;
+    background-color: #7fffd4;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 24px;
+    transition: 0.5s;
+
+    &:hover {
+      transform: scale(105%);
+    }
+  }
+
+  &__goods-list {
+    margin: 0;
+    padding: 20px;
+    font-size: 24px;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  &__good {
+    box-sizing: border-box;
+    padding: 5px;
+    border: 1px solid #000;
+    width: 160px;
+    text-align: center;
+    background-color: #e0d8d8;
+  }
+}
