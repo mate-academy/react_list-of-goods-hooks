@@ -17,7 +17,7 @@ const goodsFromServer: string[] = [
 ];
 
 export const App: React.FC = () => {
-  const [isStarted, setStart] = useState(false);
+  const [isStarted, setIsStarted] = useState(false);
 
   return (
     <div className="App has-text-centered">
@@ -27,7 +27,7 @@ export const App: React.FC = () => {
           type="button"
           className="button is-success "
           onClick={() => {
-            setStart(true);
+            setIsStarted(true);
           }}
         >
           Start

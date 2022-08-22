@@ -37,8 +37,8 @@ function getReorderedGoods(
 }
 
 export const ListOfGoods: React.FC<Props> = ({ goods }: Props) => {
-  const [sortType, setType] = useState(SortType.NONE);
-  const [isReversed, setReverse] = useState(false);
+  const [sortType, setSortType] = useState(SortType.NONE);
+  const [isReversed, setIsReversed] = useState(false);
 
   const goodsList = getReorderedGoods(goods, sortType, isReversed);
 
@@ -49,7 +49,7 @@ export const ListOfGoods: React.FC<Props> = ({ goods }: Props) => {
           type="button"
           className="button is-link"
           onClick={() => {
-            setType(SortType.ALPABET);
+            setSortType(SortType.ALPABET);
           }}
         >
           Sort alphabetically
@@ -59,7 +59,7 @@ export const ListOfGoods: React.FC<Props> = ({ goods }: Props) => {
           type="button"
           className="button is-success"
           onClick={() => {
-            setType(SortType.LENGTH);
+            setSortType(SortType.LENGTH);
           }}
         >
           Sort by length
@@ -69,7 +69,7 @@ export const ListOfGoods: React.FC<Props> = ({ goods }: Props) => {
           type="button"
           className="button is-warning"
           onClick={() => {
-            setReverse(rev => !rev);
+            setIsReversed(rev => !rev);
           }}
         >
           Reverse
@@ -79,8 +79,8 @@ export const ListOfGoods: React.FC<Props> = ({ goods }: Props) => {
           type="button"
           className="button is-danger"
           onClick={() => {
-            setType(SortType.NONE);
-            setReverse(false);
+            setSortType(SortType.NONE);
+            setIsReversed(false);
           }}
         >
           Reset
