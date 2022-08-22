@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
+import { ListOfGoods } from './Component.tsx/ListOfGoods';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const goodsFromServer: string[] = [
@@ -15,33 +16,27 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+export const App: React.FC = () => {
+  const [isStarted, setIsStarted] = useState(false);
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+  return (
+    <div className="App has-text-centered">
 
-    <button type="button">
-      Sort by length
-    </button>
+      {!isStarted && (
+        <button
+          type="button"
+          className="button is-success "
+          onClick={() => {
+            setIsStarted(true);
+          }}
+        >
+          Start
+        </button>
+      )}
 
-    <button type="button">
-      Reverse
-    </button>
-
-    <button type="button">
-      Reset
-    </button>
-
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+      {isStarted && (
+        <ListOfGoods goods={goodsFromServer} />
+      )}
+    </div>
+  );
+};
