@@ -1,1 +1,27 @@
-/* put styles here */
+body {
+  margin: 0;
+}
+
+.App {
+  margin: 0 auto;
+  width: 400px;
+  padding: 15px;
+
+  border: 3px solid cyan;
+  border-radius: 10px;
+}
+
+.start-button__container {
+  display: flex;
+  justify-content: center;
+}
+
+.button {
+  font-size: 16px;
+}
+
+.menu__controls {
+  display: flex;
+  justify-content: space-evenly;
+  padding-bottom: 10px;
+}
