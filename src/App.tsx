@@ -47,7 +47,6 @@ function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  // const visibleGoods = [...goodsFromServer];
   const [started, setStarted] = useState(false);
   const [reversed, setReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
