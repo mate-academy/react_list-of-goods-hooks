@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import { GoodList } from './components/GoodList';
 
 const goodsFromServer: string[] = [
   'Dumplings',
@@ -97,16 +98,7 @@ export const App: React.FC = () => {
             Reset
           </button>
 
-          <ul className="Goods">
-            {goods.map(good => (
-              <li
-                key={good}
-                className="Goods__item"
-              >
-                {good}
-              </li>
-            ))}
-          </ul>
+          <GoodList goods={goods} />
         </>
       )}
     </div>
