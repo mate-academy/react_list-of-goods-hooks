@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import { Goods } from './components/Goods';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const goodsFromServer: string[] = [
@@ -125,14 +126,7 @@ export const App: React.FC = () => {
               Reset
             </button>
           </div>
-
-          <ul className="Goods">
-            {
-              goods.map(good => (
-                <li key={good} className="Goods__item">{good}</li>
-              ))
-            }
-          </ul>
+          <Goods goods={goods} />
         </>
       )}
     </div>
