@@ -1,1 +1,33 @@
 /* put styles here */
+.App {
+  margin: 30px auto;
+  width: max-content;
+  padding: 30px;
+  background-color: rgba(224, 255, 255, 0.5);
+  border-radius: 10px;
+}
+
+.button {
+  display: flex;
+  width: 150px;
+}
+
+.button:hover {
+  transform: scale(1.05);
+}
+
+span {
+  display: flex;
+  width: 120px;
+  justify-content: center;
+}
+
+.Goods {
+  padding-bottom: 20px;
+}
+
+.Goods__item {
+  color: rgb(59, 147, 96);
+  font-weight: bold;
+  font-size: larger;
+}

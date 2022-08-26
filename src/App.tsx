@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -15,33 +15,130 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+enum SortType {
+  NONE,
+  ALPHABET,
+  LENGTH,
+}
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+function getReorderedGoods(
+  goods: string[],
+  sortType: SortType,
+  isReversed: boolean,
+  minLength: number,
+) {
+  const visibleGoods = [...goods]
+    .filter(good => good.length >= minLength);
 
-    <button type="button">
-      Sort by length
-    </button>
+  visibleGoods.sort((good1, good2) => {
+    switch (sortType) {
+      case SortType.ALPHABET:
+        return good1.localeCompare(good2);
 
-    <button type="button">
-      Reverse
-    </button>
+      case SortType.LENGTH:
+        return good1.length - good2.length;
 
-    <button type="button">
-      Reset
-    </button>
+      default:
+        return 0;
+    }
+  });
 
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+  if (isReversed) {
+    visibleGoods.reverse();
+  }
+
+  return visibleGoods;
+}
+
+export const App: React.FC = () => {
+  const [isStarted, setStart] = useState(false);
+  const [isReversed, setRevers] = useState(false);
+  const [sortType, setSortType] = useState<SortType>(SortType.NONE);
+  const [minLength, setMinLength] = useState(1);
+
+  const visibleGoods = getReorderedGoods(
+    goodsFromServer,
+    sortType,
+    isReversed,
+    minLength,
+  );
+
+  return (
+    <div className="App">
+      {!isStarted
+        ? (
+          <button
+            type="button"
+            onClick={() => setStart(true)}
+            className="button is-success"
+          >
+            Start
+          </button>
+        ) : (
+          <>
+            <div className="buttons">
+              <button
+                type="button"
+                onClick={() => setSortType(SortType.ALPHABET)}
+                className="button is-primary"
+              >
+                Sort alphabetically
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setSortType(SortType.LENGTH)}
+                className="button is-success"
+              >
+                Sort by length
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setRevers(prevState => !prevState)}
+                className="button is-info"
+              >
+                Reverse
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setSortType(SortType.NONE);
+                  setRevers(false);
+                  setMinLength(1);
+                }}
+                className="button is-danger"
+              >
+                Reset
+              </button>
+              <span> Select length </span>
+              <select
+                title="Select"
+                name="minLength"
+                id="minLength"
+                value={minLength}
+                onChange={(event) => setMinLength(+event.target.value)}
+              >
+                {
+                  [...new Array(10)].map((item, index) => (
+                    <option key={item} value={index + 1}>
+                      {index + 1}
+                    </option>
+                  ))
+                }
+              </select>
+            </div>
+
+            <ul className="Goods">
+              {visibleGoods.map(good => (
+                <li className="Goods__item level-item" key={good}>
+                  {good}
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+    </div>
+  );
+};
