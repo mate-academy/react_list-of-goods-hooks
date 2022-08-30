@@ -1,1 +1,46 @@
 /* put styles here */
+.App {
+  height: 100vh;
+  background-color: antiquewhite;
+}
+
+.App__container {
+  min-width: 500px;
+  display: flex;
+  justify-content: center;
+}
+
+.button {
+  margin: 20px;
+}
+
+.button:hover {
+  box-shadow: 0 0 10px 0 #3498db inset, 0 0 10px 4px #3498db;
+}
+
+.button__start {
+  margin-top: 20px;
+}
+
+.button__reset:hover {
+  box-shadow: 0 0 10px 0 #48c78e inset, 0 0 10px 4px #48c78e;
+}
+
+.list {
+  display: flex;
+}
+
+.Goods {
+  margin: 0 auto;
+}
+
+.Goods__item {
+  margin: 10px;
+  padding: 5px;
+  text-align: center;
+  border: 1px solid ;
+}
+
+.Goods__item:hover {
+  box-shadow: 20px 0 20px -20px #000 inset, -20px 0 20px -20px #000 inset;
+}

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
+import 'bulma/css/bulma.min.css';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const goodsFromServer: string[] = [
@@ -15,33 +16,100 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+export const App: React.FC = () => {
+  const [valueStart, setValueStart] = useState(true);
+  const [nameButton, setNameButton] = useState('none');
+  const [valueReverse, setValueReverse] = useState(false);
+  const goods = [...goodsFromServer];
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+  goods.sort((good1, good2) => {
+    switch (nameButton) {
+      case 'alphabet':
+        return good1.localeCompare(good2);
+      case 'length':
+        return good1.length - good2.length;
 
-    <button type="button">
-      Sort by length
-    </button>
+      default:
+        return 0;
+    }
+  });
 
-    <button type="button">
-      Reverse
-    </button>
+  if (valueReverse) {
+    goods.reverse();
+  }
 
-    <button type="button">
-      Reset
-    </button>
+  if (nameButton === 'none') {
+    goodsFromServer.map(good => good);
+  }
 
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+  return (
+    <div className="App">
+      <div className="App__container">
+        {valueStart && (
+          <button
+            type="button"
+            className="button is-info button__start"
+            onClick={() => setValueStart(false)}
+          >
+            Start
+          </button>
+        )}
+      </div>
+
+      {!valueStart && (
+        <>
+          <div className="App__container">
+            <button
+              type="button"
+              className="button is-rounded"
+              onClick={() => setNameButton('alphabet')}
+            >
+              Sort alphabetically
+            </button>
+
+            <button
+              type="button"
+              className="button is-rounded"
+              onClick={() => setNameButton('length')}
+            >
+              Sort by length
+            </button>
+
+            <button
+              type="button"
+              className="button is-rounded"
+              onClick={() => setValueReverse(!valueReverse)}
+            >
+              Reverse
+            </button>
+
+            <button
+              type="button"
+              className="button is-success button__reset"
+              onClick={() => {
+                setNameButton('none');
+                setValueReverse(false);
+              }}
+            >
+              Reset
+            </button>
+          </div>
+
+          <div className="list">
+            <ul className="Goods">
+              {goods.map(good => (
+                <li
+                  key={good}
+                  className="Goods__item"
+                >
+                  {good}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+        </>
+      )}
+    </div>
+  );
+};
