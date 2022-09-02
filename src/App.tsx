@@ -1,8 +1,8 @@
 import React from 'react';
-import './App.css';
+import 'bulma/css/bulma.css';
+import './App.scss';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const goodsFromServer: string[] = [
+export const goodsFromServer = [
   'Dumplings',
   'Carrot',
   'Eggs',
@@ -15,33 +15,49 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => (
-  <div className="App">
-    <button type="button">
-      Start
-    </button>
+export const App: React.FC = () => {
+  return (
+    <div className="section content">
+      <div className="buttons">
+        <button
+          type="button"
+          className="button is-info is-light"
+        >
+          Sort alphabetically
+        </button>
 
-    <button type="button">
-      Sort alphabetically
-    </button>
+        <button
+          type="button"
+          className="button is-success is-light"
+        >
+          Sort by length
+        </button>
 
-    <button type="button">
-      Sort by length
-    </button>
+        <button
+          type="button"
+          className="button is-warning is-light"
+        >
+          Reverse
+        </button>
 
-    <button type="button">
-      Reverse
-    </button>
+        <button
+          type="button"
+          className="button is-danger is-light"
+        >
+          Reset
+        </button>
+      </div>
 
-    <button type="button">
-      Reset
-    </button>
-
-    <ul className="Goods">
-      <li className="Goods__item">Dumplings</li>
-      <li className="Goods__item">Carrot</li>
-      <li className="Goods__item">Eggs</li>
-      <li className="Goods__item">...</li>
-    </ul>
-  </div>
-);
+      <ul>
+        <ul>
+          <li data-cy="Good">Dumplings</li>
+          <li data-cy="Good">Carrot</li>
+          <li data-cy="Good">Eggs</li>
+          <li data-cy="Good">Ice cream</li>
+          <li data-cy="Good">Apple</li>
+          <li data-cy="Good">...</li>
+        </ul>
+      </ul>
+    </div>
+  );
+};
