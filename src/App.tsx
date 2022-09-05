@@ -16,17 +16,24 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-export const App: React.FC = () => {
-  const [valueStart, setValueStart] = useState(true);
-  const [nameButton, setNameButton] = useState('none');
-  const [valueReverse, setValueReverse] = useState(false);
-  const goods = [...goodsFromServer];
+enum SortType {
+  none,
+  alphabet,
+  length,
+}
+
+function newList(
+  sortBy: SortType,
+  oldGoods: string[],
+  valueReverse: boolean,
+) {
+  const goods = [...oldGoods];
 
   goods.sort((good1, good2) => {
-    switch (nameButton) {
-      case 'alphabet':
+    switch (sortBy) {
+      case SortType.alphabet:
         return good1.localeCompare(good2);
-      case 'length':
+      case SortType.length:
         return good1.length - good2.length;
 
       default:
@@ -38,9 +45,19 @@ export const App: React.FC = () => {
     goods.reverse();
   }
 
-  if (nameButton === 'none') {
+  if (sortBy === SortType.none) {
     goodsFromServer.map(good => good);
   }
+
+  return goods;
+}
+
+export const App: React.FC = () => {
+  const [valueStart, setValueStart] = useState(true);
+  const [sortBy, setSortBy] = useState(SortType.none);
+  const [valueReverse, setValueReverse] = useState(false);
+
+  const visibleGoods = newList(sortBy, goodsFromServer, valueReverse);
 
   return (
     <div className="App">
@@ -62,7 +79,7 @@ export const App: React.FC = () => {
             <button
               type="button"
               className="button is-rounded"
-              onClick={() => setNameButton('alphabet')}
+              onClick={() => setSortBy(SortType.alphabet)}
             >
               Sort alphabetically
             </button>
@@ -70,7 +87,7 @@ export const App: React.FC = () => {
             <button
               type="button"
               className="button is-rounded"
-              onClick={() => setNameButton('length')}
+              onClick={() => setSortBy(SortType.length)}
             >
               Sort by length
             </button>
@@ -87,7 +104,7 @@ export const App: React.FC = () => {
               type="button"
               className="button is-success button__reset"
               onClick={() => {
-                setNameButton('none');
+                setSortBy(SortType.none);
                 setValueReverse(false);
               }}
             >
@@ -97,7 +114,7 @@ export const App: React.FC = () => {
 
           <div className="list">
             <ul className="Goods">
-              {goods.map(good => (
+              {visibleGoods.map(good => (
                 <li
                   key={good}
                   className="Goods__item"
