@@ -60,12 +60,12 @@ export const App: React.FC = () => {
     setIsReversed(!isReversed);
   };
 
-  const sortByLength = () => {
-    setSortType(SortType.LENGTH);
-  };
-
   const sortByAlpabet = () => {
     setSortType(SortType.ALPABET);
+  };
+
+  const sortByLength = () => {
+    setSortType(SortType.LENGTH);
   };
 
   const reset = () => {
