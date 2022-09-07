@@ -62,7 +62,10 @@ export const App: React.FC = () => {
 
   const getReverse = () => setReversed(!isReversed);
 
-  const getReset = () => setSortType(SortType.NONE);
+  const getReset = () => {
+    setSortType(SortType.NONE);
+    setReversed(false);
+  };
 
   return (
     <div className="section content">
