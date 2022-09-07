@@ -34,8 +34,6 @@ export function getReorderedGoods(
 
   visibleGoods.sort((good1, good2) => {
     switch (sortType) {
-      case SortType.NONE:
-        return 0;
       case SortType.ALPABET:
         return good1.localeCompare(good2);
       case SortType.LENGTH:
