@@ -57,12 +57,12 @@ type Props = {
 };
 
 export const App: React.FC<Props> = () => {
-  const [sortType, sorter] = useState(SortType.NONE);
-  const [isReversed, reverse] = useState(false);
+  const [sortType, handleSortType] = useState(SortType.NONE);
+  const [isReversed, handleReverse] = useState(false);
 
   const reset = () => {
-    sorter(SortType.NONE);
-    reverse(false);
+    handleSortType(SortType.NONE);
+    handleReverse(false);
   };
 
   return (
@@ -75,7 +75,7 @@ export const App: React.FC<Props> = () => {
               ? 'button is-info is-light'
               : 'button is-info'
           }
-          onClick={() => sorter(SortType.ALPABET)}
+          onClick={() => handleSortType(SortType.ALPABET)}
         >
           Sort alphabetically
         </button>
@@ -87,7 +87,7 @@ export const App: React.FC<Props> = () => {
               ? 'button is-success is-light'
               : 'button is-success'
           }
-          onClick={() => sorter(SortType.LENGTH)}
+          onClick={() => handleSortType(SortType.LENGTH)}
         >
           Sort by length
         </button>
@@ -99,7 +99,7 @@ export const App: React.FC<Props> = () => {
               ? 'button is-warning is-light'
               : 'button is-warning'
           }
-          onClick={() => reverse(isReversed !== true)}
+          onClick={() => handleReverse(isReversed !== true)}
         >
           Reverse
         </button>
