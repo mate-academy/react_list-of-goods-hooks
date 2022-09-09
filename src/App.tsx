@@ -29,13 +29,13 @@ function getReorderedGoods(
   let visibleGoods = [...goods];
 
   switch (sortType) {
-    case 'name':
+    case SortType.NAME:
       visibleGoods = visibleGoods.sort(
         (f1, f2) => f1.localeCompare(f2),
       );
       break;
 
-    case 'length':
+    case SortType.LENGTH:
       visibleGoods = visibleGoods.sort(
         (f1, f2) => f1.length - f2.length,
       );
@@ -55,8 +55,6 @@ function getReorderedGoods(
 export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
-
-  const ifReset = sortType !== 'none' || isReversed;
 
   const reorderedGoods = getReorderedGoods(
     goodsFromServer,
@@ -97,7 +95,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {ifReset && (
+        {(sortType !== 'none' || isReversed === true) && (
           <button
             type="button"
             className="button is-danger is-light"
