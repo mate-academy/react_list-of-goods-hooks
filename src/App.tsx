@@ -15,9 +15,15 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+enum SortType {
+  LENGTH = 'length',
+  NAME = 'name',
+  NONE = 'none',
+}
+
 function getReorderedGoods(
   goods: string[],
-  sortType: string,
+  sortType: SortType,
   isReversed: boolean,
 ) {
   let visibleGoods = [...goods];
@@ -39,7 +45,7 @@ function getReorderedGoods(
       break;
   }
 
-  if (isReversed === true) {
+  if (isReversed) {
     visibleGoods.reverse();
   }
 
@@ -48,9 +54,11 @@ function getReorderedGoods(
 
 export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
-  const [sortType, setSortType] = useState('none');
+  const [sortType, setSortType] = useState(SortType.NONE);
 
-  const newGoodsFromServer = getReorderedGoods(
+  const ifReset = sortType !== 'none' || isReversed;
+
+  const reorderedGoods = getReorderedGoods(
     goodsFromServer,
     sortType,
     isReversed,
@@ -63,7 +71,7 @@ export const App: React.FC = () => {
           type="button"
           className="button is-info is-light"
           onClick={() => {
-            setSortType('name');
+            setSortType(SortType.NAME);
           }}
         >
           Sort alphabetically
@@ -73,7 +81,7 @@ export const App: React.FC = () => {
           type="button"
           className="button is-success is-light"
           onClick={() => {
-            setSortType('length');
+            setSortType(SortType.LENGTH);
           }}
         >
           Sort by length
@@ -89,13 +97,13 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortType !== 'none' || isReversed === true) && (
+        {ifReset && (
           <button
             type="button"
             className="button is-danger is-light"
             onClick={() => {
               setIsReversed(false);
-              setSortType('none');
+              setSortType(SortType.NONE);
             }}
           >
             Reset
@@ -104,7 +112,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul className="Goods">
-        {newGoodsFromServer.map(good => (
+        {reorderedGoods.map(good => (
           <li
             key={good}
             className="Goods__item"
