@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import classNames from 'classnames';
+import { GoodsList } from './GoodsList';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -15,48 +17,110 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+enum SortType {
+  NONE,
+  ALPHABET,
+  LENGTH,
+}
+
+function changeSorting(
+  goods: string[],
+  sortType: SortType,
+  isReversed: boolean,
+) {
+  const newGoods = [...goods];
+
+  if (sortType !== SortType.NONE) {
+    newGoods.sort((good1, good2) => {
+      switch (sortType) {
+        case SortType.ALPHABET:
+          return good1.localeCompare(good2);
+
+        case SortType.LENGTH:
+          return good1.length - good2.length;
+
+        default:
+          return 0;
+      }
+    });
+  }
+
+  if (isReversed) {
+    newGoods.reverse();
+  }
+
+  return newGoods;
+}
+
 export const App: React.FC = () => {
+  const [isReversed, setReversity] = useState(false);
+  const [sortType, setSortType] = useState(SortType.NONE);
+
+  const visibleGoods = changeSorting(goodsFromServer, sortType, isReversed);
+
+  const reset = () => {
+    setSortType(SortType.NONE);
+    setReversity(false);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className="button is-info is-light"
+          className={classNames(
+            'button',
+            'is-info',
+            {
+              'is-light': sortType !== SortType.ALPHABET,
+            },
+          )}
+          onClick={() => setSortType(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className="button is-success is-light"
+          className={classNames(
+            'button',
+            'is-success',
+            {
+              'is-light': sortType !== SortType.LENGTH,
+            },
+          )}
+          onClick={() => setSortType(SortType.LENGTH)}
         >
           Sort by length
         </button>
 
         <button
           type="button"
-          className="button is-warning is-light"
+          className={classNames(
+            'button',
+            'is-warning',
+            {
+              'is-light': isReversed === false,
+            },
+          )}
+          onClick={() => setReversity(value => !value)}
         >
           Reverse
         </button>
 
-        <button
-          type="button"
-          className="button is-danger is-light"
-        >
-          Reset
-        </button>
+        {(sortType !== SortType.NONE || isReversed === true) && (
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={() => reset()}
+          >
+            Reset
+          </button>
+        )}
       </div>
 
       <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
+        <GoodsList goods={visibleGoods} />
       </ul>
     </div>
   );
