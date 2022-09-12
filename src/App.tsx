@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import 'bulma/css/bulma.css';
 import classNames from 'classnames';
+import 'bulma/css/bulma.css';
 import './App.scss';
+import { VisibleGoods } from './components/Visiblegoods';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -54,15 +55,20 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [isReversed, setReversed] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSort] = useState(SortType.NONE);
+
+  const handleSort = () => {
+    setSort(SortType.NONE);
+    setIsReversed(false);
+  };
 
   const visibleGoods = getReorderedGoods(
     goodsFromServer,
     { sortType, isReversed },
   );
 
-  const reset = sortType !== SortType.NONE || isReversed;
+  const isResetButtonVisible = sortType !== SortType.NONE || isReversed;
 
   return (
     <div className="section content">
@@ -73,10 +79,8 @@ export const App: React.FC = () => {
             'button is-info',
             { 'is-light': sortType !== SortType.ALPABET },
           )}
-          onClick={() => {
-            setReversed(false);
-            setSort(SortType.ALPABET);
-          }}
+          onClick={() => setSort(SortType.ALPABET)}
+
         >
           Sort alphabetically
         </button>
@@ -87,10 +91,7 @@ export const App: React.FC = () => {
             'button is-success',
             { 'is-light': sortType !== SortType.LENGTH },
           )}
-          onClick={() => {
-            setReversed(false);
-            setSort(SortType.LENGTH);
-          }}
+          onClick={() => setSort(SortType.LENGTH)}
         >
           Sort by length
         </button>
@@ -101,19 +102,16 @@ export const App: React.FC = () => {
             'button is-warning',
             { 'is-light': !isReversed },
           )}
-          onClick={() => setReversed(!isReversed)}
+          onClick={() => setIsReversed(!isReversed)}
         >
           Reverse
         </button>
 
-        { reset && (
+        { isResetButtonVisible && (
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setReversed(false);
-              setSort(SortType.NONE);
-            }}
+            onClick={() => handleSort()}
           >
             Reset
           </button>
@@ -122,13 +120,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        <ul>
-          {visibleGoods.map(goods => (
-            <li key={goods} data-cy="Good">
-              {goods}
-            </li>
-          ))}
-        </ul>
+        <VisibleGoods goods={visibleGoods} />
       </ul>
     </div>
   );
