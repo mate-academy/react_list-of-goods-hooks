@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { GoodsList } from './components/googsList';
 import 'bulma/css/bulma.css';
 import './App.scss';
+// eslint-disable-next-line import/order
 import classNames from 'classnames';
 
 export const goodsFromServer = [
