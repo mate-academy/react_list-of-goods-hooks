@@ -107,8 +107,7 @@ export const App: React.FC = () => {
             'button',
             'is-warning',
             {
-              'is-light':
-                !isReversed,
+              'is-light': !isReversed,
             },
           )}
           onClick={getReverse}
