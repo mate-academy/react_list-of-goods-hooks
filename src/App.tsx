@@ -72,7 +72,7 @@ export const App: React.FC = () => {
     SetisOpenReverse(true);
   };
 
-  copyGoods.sort ((a, b) => {
+  copyGoods.sort((a, b) => {
     switch (sortBy) {
       case 'alphabet':
         return a.localeCompare(b);
