@@ -24,15 +24,11 @@ enum SortType {
   LENGTH,
 }
 
-type ReorderOptions = {
-  sortType: SortType,
-  isReversed: boolean,
-};
-
 // Use this function in the render to prepare goods
 export function getReorderedGoods(
   goods: string[],
-  { sortType, isReversed }: ReorderOptions,
+  sortType: SortType,
+  isReversed: boolean,
 ) {
   // To avoid the original array mutation
   const visibleGoods = [...goods];
@@ -48,9 +44,6 @@ export function getReorderedGoods(
   if (isReversed) {
     visibleGoods.reverse();
   }
-
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
 
   return visibleGoods;
 }
@@ -81,7 +74,10 @@ export const App: React.FC = () => {
   };
 
   const visibleGoods = getReorderedGoods(goodsFromServer,
-    { sortType, isReversed });
+    sortType,
+    isReversed);
+
+  const isAnyChange = isChanged || isReversed;
 
   return (
     <div className="section content">
@@ -112,7 +108,7 @@ export const App: React.FC = () => {
           type="button"
           className={classNames(
             'button is-warning',
-            { 'is-light': isReversed !== true },
+            { 'is-light': !isReversed },
           )}
           onClick={reverseList}
         >
@@ -121,11 +117,12 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className="button is-danger is-light"
+          className={classNames('button is-danger is-light',
+            {
+              'is-visible': isAnyChange,
+              'is-hidden': !isAnyChange,
+            })}
           onClick={resetOptions}
-          style={(isChanged || isReversed)
-            ? { visibility: 'visible' }
-            : { visibility: 'hidden' }}
         >
           Reset
         </button>
