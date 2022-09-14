@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import { GoodsList } from './components/googsList';
 import 'bulma/css/bulma.css';
 import './App.scss';
-// eslint-disable-next-line import/order
-import classNames from 'classnames';
 
 export const goodsFromServer = [
   'Dumplings',
