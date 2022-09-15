@@ -128,7 +128,11 @@ export const App: React.FC = () => {
         <ul>
           {
             goods.map(product => (
-              <li data-cy="Good">
+              <li
+                data-cy="Good"
+                key={product}
+              >
+
                 {product}
               </li>
             ))
