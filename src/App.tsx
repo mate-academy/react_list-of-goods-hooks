@@ -34,22 +34,17 @@ export function getReorderedGoods(
   const visibleGoods = [...goods];
 
   // Sort and reverse goods if needed
-  switch (sortType) {
-    case SortType.ALPABET:
-      visibleGoods.sort((goodA, goodB) => goodA.localeCompare(goodB));
-      break;
-    case SortType.LENGTH:
-      visibleGoods.sort((goodA, goodB) => goodA.length - goodB.length);
-      break;
-    default:
-  }
+  visibleGoods.sort((goodA, goodB) => {
+    switch (sortType) {
+      case SortType.ALPABET: return goodA.localeCompare(goodB);
+      case SortType.LENGTH: return goodA.length - goodB.length;
+      default: return 0;
+    }
+  });
 
   if (isReversed) {
     visibleGoods.reverse();
   }
-
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
 
   return visibleGoods;
 }
