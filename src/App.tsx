@@ -63,11 +63,9 @@ export const App: React.FC = () => {
   };
 
   const handleReverse = () => {
-    if (!isReversed) {
-      setIsReversed(true);
-    } else {
-      setIsReversed(false);
-    }
+    setIsReversed(value => (
+      !value
+    ));
   };
 
   const handleSortByLength = () => {
