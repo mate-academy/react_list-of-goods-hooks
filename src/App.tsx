@@ -42,7 +42,8 @@ export function getReorderedGoods(
       case SortType.LENGTH:
         return goodA.length - goodB.length;
 
-      default: return 0;
+      default:
+        return 0;
     }
   });
 
@@ -65,8 +66,8 @@ export const App: React.FC = () => {
 
   const handleSortByAlpabet = () => setSortType(SortType.ALPABET);
   const handleSortByLength = () => setSortType(SortType.LENGTH);
-  const handleReverse = () => (setIsReversed(value => (
-    !value
+  const handleReverse = () => (setIsReversed(prevIsReversed => (
+    !prevIsReversed
   )));
   const handleReset = () => {
     setSortType(SortType.NONE);
