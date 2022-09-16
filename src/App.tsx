@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import { GoodList } from './components/GoodsList';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -55,17 +56,10 @@ export function getReorderedGoods(
   return visibleGoods;
 }
 
-type State = {
-  isReversed: boolean,
-  sortType: SortType,
-};
-
 export const App: React.FC = () => {
-  const [isReversed, setIsReversed]
-    = useState<State['isReversed']>(false);
+  const [isReversed, setIsReversed] = useState(false);
 
-  const [sortType, setSortType]
-    = useState<State['sortType']>(SortType.NONE);
+  const [sortType, setSortType] = useState(SortType.NONE);
 
   const handleSortByAlphabet = () => {
     setSortType(SortType.ALPABET);
@@ -97,9 +91,7 @@ export const App: React.FC = () => {
           className={classNames(
             'button',
             'is-info',
-            {
-              'is-light': sortType !== SortType.ALPABET,
-            },
+            { 'is-light': sortType !== SortType.ALPABET },
           )}
           onClick={handleSortByAlphabet}
         >
@@ -111,9 +103,7 @@ export const App: React.FC = () => {
           className={classNames(
             'button',
             'is-success',
-            {
-              'is-light': sortType !== SortType.LENGTH,
-            },
+            { 'is-light': sortType !== SortType.LENGTH },
           )}
           onClick={handleSortByLength}
         >
@@ -125,9 +115,7 @@ export const App: React.FC = () => {
           className={classNames(
             'button',
             'is-warning',
-            {
-              'is-light': !isReversed,
-            },
+            { 'is-light': !isReversed },
           )}
           onClick={handleReverse}
         >
@@ -145,13 +133,7 @@ export const App: React.FC = () => {
         )}
       </div>
 
-      <ul>
-        <ul>
-          {goods.map(good => (
-            <li data-cy="Good" key={good}>{good}</li>
-          ))}
-        </ul>
-      </ul>
+      <GoodList goods={goods} />
     </div>
   );
 };
