@@ -36,8 +36,12 @@ export function getReorderedGoods(
   // Sort and reverse goods if needed
   visibleGoods.sort((goodA, goodB) => {
     switch (sortType) {
-      case SortType.ALPABET: return goodA.localeCompare(goodB);
-      case SortType.LENGTH: return goodA.length - goodB.length;
+      case SortType.ALPABET:
+        return goodA.localeCompare(goodB);
+
+      case SortType.LENGTH:
+        return goodA.length - goodB.length;
+
       default: return 0;
     }
   });
@@ -53,6 +57,11 @@ export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setIsReversed] = useState(false);
   const onReorder = (sortType !== SortType.NONE || isReversed);
+  const reorderedGoods = getReorderedGoods(
+    goodsFromServer,
+    sortType,
+    isReversed,
+  );
 
   const handleSortByAlpabet = () => setSortType(SortType.ALPABET);
   const handleSortByLength = () => setSortType(SortType.LENGTH);
@@ -112,7 +121,7 @@ export const App: React.FC = () => {
       </div>
 
       <ListOfGoods
-        goods={getReorderedGoods(goodsFromServer, sortType, isReversed)}
+        goods={reorderedGoods}
       />
     </div>
   );
