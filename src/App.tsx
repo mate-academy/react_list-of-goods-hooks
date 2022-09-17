@@ -20,39 +20,31 @@ export const goodsFromServer = [
 export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const [sortBy, setSortBy] = useState('id');
-  const [isOpenAlp, SetIsOpenAlp] = useState(true);
-  const [isOpenLength, SetIsOpenLength] = useState(true);
-  const [isOpenReverse, SetisOpenReverse] = useState(true);
+  const [isClickedAlp, setIsClickedAlp] = useState(true);
+  const [isClickedLength, setIsClickedLength] = useState(true);
+  const [isClickedReverse, setIsClickedReverse] = useState(true);
 
   const copyGoods = [...goodsFromServer];
 
   const sortingAlphabet = () => {
     setSortBy('alphabet');
-    SetIsOpenAlp(!isOpenAlp);
-    SetIsOpenLength(true);
-
-    if (!isOpenAlp) {
-      SetIsOpenAlp(isOpenAlp);
-    }
+    setIsClickedAlp(false);
+    setIsClickedLength(true);
   };
 
   const sortingLength = () => {
     setSortBy('length');
-    SetIsOpenLength(!isOpenLength);
-    SetIsOpenAlp(true);
-
-    if (!isOpenLength) {
-      SetIsOpenLength(isOpenLength);
-    }
+    setIsClickedLength(false);
+    setIsClickedAlp(true);
   };
 
   const reverse = () => {
     setIsReversed(prevState => !prevState);
-    SetisOpenReverse(!isOpenReverse);
+    setIsClickedReverse(!isClickedReverse);
 
-    if (isReversed) {
-      SetisOpenReverse(!isOpenReverse);
-    }
+    // if (isReversed) {
+    //   setIsClickedReverse(!isClickedReverse);
+    // }
   };
 
   if (isReversed) {
@@ -62,9 +54,9 @@ export const App: React.FC = () => {
   const resetButton = () => {
     setSortBy('id');
     setIsReversed(false);
-    SetIsOpenAlp(true);
-    SetIsOpenLength(true);
-    SetisOpenReverse(true);
+    setIsClickedAlp(true);
+    setIsClickedLength(true);
+    setIsClickedReverse(true);
   };
 
   copyGoods.sort((a, b) => {
@@ -84,7 +76,7 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={classNames('button is-info', { 'is-light': isOpenAlp })}
+          className={classNames('button is-info', { 'is-light': isClickedAlp })}
           onClick={sortingAlphabet}
         >
           Sort alphabetically
@@ -93,7 +85,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={classNames('button is-success',
-            { 'is-light': isOpenLength })}
+            { 'is-light': isClickedLength })}
           onClick={sortingLength}
         >
           Sort by length
@@ -102,13 +94,13 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={classNames('button is-warning',
-            { 'is-light': isOpenReverse })}
+            { 'is-light': isClickedReverse })}
           onClick={reverse}
         >
           Reverse
         </button>
 
-        {(!isOpenReverse || sortBy !== 'id')
+        {(!isClickedReverse || sortBy !== 'id')
           && (
             <button
               type="button"
