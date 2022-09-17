@@ -20,31 +20,19 @@ export const goodsFromServer = [
 export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const [sortBy, setSortBy] = useState('id');
-  const [isClickedAlp, setIsClickedAlp] = useState(true);
-  const [isClickedLength, setIsClickedLength] = useState(true);
-  const [isClickedReverse, setIsClickedReverse] = useState(true);
 
   const copyGoods = [...goodsFromServer];
 
   const sortingAlphabet = () => {
     setSortBy('alphabet');
-    setIsClickedAlp(false);
-    setIsClickedLength(true);
   };
 
   const sortingLength = () => {
     setSortBy('length');
-    setIsClickedLength(false);
-    setIsClickedAlp(true);
   };
 
   const reverse = () => {
     setIsReversed(prevState => !prevState);
-    setIsClickedReverse(!isClickedReverse);
-
-    // if (isReversed) {
-    //   setIsClickedReverse(!isClickedReverse);
-    // }
   };
 
   if (isReversed) {
@@ -54,9 +42,6 @@ export const App: React.FC = () => {
   const resetButtonHandler = () => {
     setSortBy('id');
     setIsReversed(false);
-    setIsClickedAlp(true);
-    setIsClickedLength(true);
-    setIsClickedReverse(true);
   };
 
   copyGoods.sort((a, b) => {
@@ -76,7 +61,8 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={classNames('button is-info', { 'is-light': isClickedAlp })}
+          className={classNames('button is-info',
+            { 'is-light': sortBy !== 'alphabet' })}
           onClick={sortingAlphabet}
         >
           Sort alphabetically
@@ -85,7 +71,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={classNames('button is-success',
-            { 'is-light': isClickedLength })}
+            { 'is-light': sortBy !== 'length' })}
           onClick={sortingLength}
         >
           Sort by length
@@ -94,13 +80,13 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={classNames('button is-warning',
-            { 'is-light': isClickedReverse })}
+            { 'is-light': isReversed === false })}
           onClick={reverse}
         >
           Reverse
         </button>
 
-        {(!isClickedReverse || sortBy !== 'id')
+        {(isReversed || sortBy !== 'id')
           && (
             <button
               type="button"
