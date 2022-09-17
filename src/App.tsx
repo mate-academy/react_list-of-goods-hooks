@@ -18,8 +18,7 @@ export const goodsFromServer = [
 ];
 
 export const App: React.FC = () => {
-  const [isReversed, setisReversed] = useState(false);
-  const [resetBtn, setresetBtn] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
   const [sortBy, setSortBy] = useState('id');
   const [isOpenAlp, SetIsOpenAlp] = useState(true);
   const [isOpenLength, SetIsOpenLength] = useState(true);
@@ -29,7 +28,6 @@ export const App: React.FC = () => {
 
   const sortingAlphabet = () => {
     setSortBy('alphabet');
-    setresetBtn(true);
     SetIsOpenAlp(!isOpenAlp);
     SetIsOpenLength(true);
 
@@ -40,7 +38,6 @@ export const App: React.FC = () => {
 
   const sortingLength = () => {
     setSortBy('length');
-    setresetBtn(true);
     SetIsOpenLength(!isOpenLength);
     SetIsOpenAlp(true);
 
@@ -50,8 +47,7 @@ export const App: React.FC = () => {
   };
 
   const reverse = () => {
-    setisReversed(prevState => !prevState);
-    setresetBtn(true);
+    setIsReversed(prevState => !prevState);
     SetisOpenReverse(!isOpenReverse);
 
     if (isReversed) {
@@ -64,9 +60,8 @@ export const App: React.FC = () => {
   }
 
   const resetButton = () => {
-    setresetBtn(false);
     setSortBy('id');
-    setisReversed(false);
+    setIsReversed(false);
     SetIsOpenAlp(true);
     SetIsOpenLength(true);
     SetisOpenReverse(true);
@@ -113,7 +108,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {resetBtn
+        {(!isOpenReverse || sortBy !== 'id')
           && (
             <button
               type="button"
