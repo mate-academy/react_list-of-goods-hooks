@@ -16,46 +16,58 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-type Goods = string[];
+enum SortType {
+  NONE,
+  ALPABET,
+  LENGTH,
+}
+
+type ReorderOptions = {
+  sortType: SortType,
+  isReversed: boolean,
+};
+
+export function getReorderedGoods(
+  goods: string[],
+  { sortType, isReversed }: ReorderOptions,
+) {
+  const visibleGoods = [...goods];
+
+  visibleGoods.sort((good1, good2) => {
+    switch (sortType) {
+      case SortType.LENGTH:
+        return good1.length - good2.length;
+
+      case SortType.ALPABET:
+        return good1.localeCompare(good2);
+
+      default:
+        return 0;
+    }
+  });
+
+  if (isReversed) {
+    visibleGoods.reverse();
+  }
+
+  return visibleGoods;
+}
 
 export const App: React.FC = () => {
-  const goods = [...goodsFromServer];
+  const [sortType, setSortType] = useState(SortType.NONE);
+  const [isReversed, setIsReversed] = useState(false);
 
-  const [value, setValue] = useState(goods);
-  const [typeOfSort, setTypeOfSort] = useState('NONE');
-  const [isReversed, setRevers] = useState(false);
-  const [isReseted, setReset] = useState(true);
-
-  const lengthSort = (arr: Goods) => {
-    setTypeOfSort('LENGTH');
-    setRevers(false);
-    setReset(false);
-
-    return ([...arr].sort((g1,
-      g2) => g1.length - g2.length));
+  const reverse = () => {
+    setIsReversed(!isReversed);
   };
 
-  const alphSort = (arr: Goods) => {
-    setTypeOfSort('ALPH');
-    setRevers(false);
-    setReset(false);
-
-    return ([...arr].sort((g1,
-      g2) => g1.localeCompare(g2)));
+  const sortBy = (sortByType: SortType) => {
+    setSortType(sortByType);
   };
 
-  const resetGoods = () => {
-    setTypeOfSort('NONE');
-    setValue(goods);
-    setReset(true);
-    setRevers(false);
-  };
-
-  const reverseGoods = (arr: Goods) => {
-    setRevers(current => !current);
-    setReset(false);
-
-    return [...arr].reverse();
+  const reset = () => {
+    setSortType(SortType.NONE);
+    setIsReversed(false);
   };
 
   return (
@@ -66,9 +78,9 @@ export const App: React.FC = () => {
           className={classNames(
             'button',
             'is-info',
-            { 'is-light': typeOfSort !== 'ALPH' },
+            { 'is-light': sortType !== SortType.ALPABET },
           )}
-          onClick={() => setValue(alphSort(value))}
+          onClick={() => sortBy(SortType.ALPABET)}
         >
           Sort alphabetically
         </button>
@@ -78,9 +90,9 @@ export const App: React.FC = () => {
           className={classNames(
             'button',
             'is-success',
-            { 'is-light': typeOfSort !== 'LENGTH' },
+            { 'is-light': sortType !== SortType.LENGTH },
           )}
-          onClick={() => setValue(lengthSort(value))}
+          onClick={() => sortBy(SortType.LENGTH)}
         >
           Sort by length
         </button>
@@ -92,28 +104,28 @@ export const App: React.FC = () => {
             'is-warning',
             { 'is-light': !isReversed },
           )}
-          onClick={() => setValue(reverseGoods(value))}
+          onClick={reverse}
         >
           Reverse
         </button>
-
-        {!isReseted
-          && (
-            <button
-              type="button"
-              className="button is-danger is-light"
-              onClick={() => resetGoods()}
-            >
-              Reset
-            </button>
-          )}
-
+        {(isReversed || sortType !== SortType.NONE) && (
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={reset}
+          >
+            Reset
+          </button>
+        )}
       </div>
 
       <ul>
         <ul>
-          {value.map(good => (
-            <li key={good} data-cy="Good">{good}</li>
+          {getReorderedGoods(
+            goodsFromServer,
+            { sortType, isReversed },
+          ).map(good => (
+            <li data-cy="Good" key={good}>{good}</li>
           ))}
         </ul>
       </ul>
