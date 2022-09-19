@@ -57,25 +57,11 @@ export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setIsReversed] = useState(false);
 
-  const handleSortByAlpabet = () => {
-    if (sortType !== SortType.ALPABET) {
-      setSortType(SortType.ALPABET);
-    } else {
-      setSortType(SortType.NONE);
-    }
-  };
+  const handleSortByAlpabet = () => setSortType(SortType.ALPABET);
 
-  const handleSortByLength = () => {
-    if (sortType !== SortType.LENGTH) {
-      setSortType(SortType.LENGTH);
-    } else {
-      setSortType(SortType.NONE);
-    }
-  };
+  const handleSortByLength = () => setSortType(SortType.LENGTH);
 
-  const handleReverse = () => {
-    setIsReversed(current => !current);
-  };
+  const handleReverse = () => setIsReversed(current => !current);
 
   const handleReset = () => {
     setSortType(SortType.NONE);
