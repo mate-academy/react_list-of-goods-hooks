@@ -18,7 +18,7 @@ export const goodsFromServer = [
 
 enum SortType {
   NONE,
-  ALPABET,
+  ALPHABET,
   LENGTH,
 }
 
@@ -33,13 +33,13 @@ export function getReorderedGoods(
 ) {
   const visibleGoods = [...goods];
 
-  visibleGoods.sort((g1, g2) => {
+  visibleGoods.sort((firstGood, secondGood) => {
     switch (sortType) {
-      case SortType.ALPABET:
-        return g1.localeCompare(g2);
+      case SortType.ALPHABET:
+        return firstGood.localeCompare(secondGood);
 
       case SortType.LENGTH:
-        return g1.length - g2.length;
+        return firstGood.length - secondGood.length;
 
       default:
         return 0;
@@ -70,10 +70,10 @@ export const App: React.FC = () => {
           className={classNames(
             'button is-info',
             {
-              'is-light': sortType !== SortType.ALPABET,
+              'is-light': sortType !== SortType.ALPHABET,
             },
           )}
-          onClick={() => sortByType(SortType.ALPABET)}
+          onClick={() => sortByType(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
