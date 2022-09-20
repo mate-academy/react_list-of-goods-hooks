@@ -57,7 +57,7 @@ export const App: React.FC = () => {
   const [isReversed, setReverse] = useState(false);
   const [sortType, setSortBy] = useState(SortType.NONE);
 
-  const reset = () => {
+  const handleReset = () => {
     setReverse(false);
     setSortBy(SortType.NONE);
   };
@@ -107,7 +107,7 @@ export const App: React.FC = () => {
             <button
               type="button"
               className="button is-danger is-light"
-              onClick={reset}
+              onClick={handleReset}
             >
               Reset
             </button>
