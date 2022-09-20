@@ -42,10 +42,6 @@ export function getReorderedGoods(
       case SortType.LENGTH:
 
         return good1.length - good2.length;
-      case SortType.NONE:
-
-        return 0;
-
       default:
         return 0;
     }
@@ -83,7 +79,7 @@ export const App: React.FC = () => {
   };
 
   const curentGoods
-   = getReorderedGoods(goodsFromServer, { sortType, isReversed });
+  = getReorderedGoods(goodsFromServer, { sortType, isReversed });
 
   return (
     <div className="section content">
@@ -120,7 +116,7 @@ export const App: React.FC = () => {
         >
           Reverse
         </button>
-        {(sortType !== SortType.NONE || isReversed !== false)
+        {(sortType !== SortType.NONE || isReversed)
         && (
           <button
             type="button"
