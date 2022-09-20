@@ -4,14 +4,12 @@ import React from 'react';
     goods: string[];
   };
 
-export const GoodsList: React.FC<Props> = ({ goods }) => {
-  return (
-    <ul>
-      {goods.map((good) => (
-        <li key={good}>
-          {good}
-        </li>
-      ))}
-    </ul>
-  );
-};
+export const GoodsList: React.FC<Props> = ({ goods }) => (
+  <ul>
+    {goods.map((good) => (
+      <li key={good}>
+        {good}
+      </li>
+    ))}
+  </ul>
+);
