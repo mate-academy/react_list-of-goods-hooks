@@ -75,7 +75,6 @@ export const App: React.FC = () => {
     setSort(SortType.ALPHABET);
   }
 
-
   return (
     <div className="section content">
       <div className="buttons">
