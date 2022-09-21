@@ -28,10 +28,10 @@ type ReorderOptions = {
   isReversed: boolean,
 };
 
-const getReorderedGoods = function (
+const getReorderedGoods = (
   goods: string[],
   { sortType, isReversed }: ReorderOptions,
-) {
+) => {
   // To avoid the original array mutation
   const visibleGoods = [...goods];
 
@@ -69,14 +69,14 @@ export const App: React.FC = () => {
     setSortType(SortType.LENGTH);
   };
 
-  const NONE = () => {
+  const resetSortType = () => {
     setSortType(SortType.NONE);
   };
 
   const preparedGoods
   = getReorderedGoods(goodsFromServer, { sortType, isReversed });
 
-  const condition = (sortType !== SortType.NONE || isReversed);
+  const shouldRenderResetButton = (sortType !== SortType.NONE || isReversed);
 
   return (
     <div className="section content">
@@ -117,7 +117,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {condition
+        {shouldRenderResetButton
         && (
           <button
             type="button"
@@ -126,7 +126,7 @@ export const App: React.FC = () => {
                 'is-light': !isReversed,
               },
             )}
-            onClick={NONE}
+            onClick={resetSortType}
           >
             Reset
           </button>
