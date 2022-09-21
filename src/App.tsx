@@ -33,24 +33,35 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
-  const goods = getReorderedGoods(goodsFromServer);
-
   const reset = () => {
     setIsReversed(false);
     setSortType(SortType.NONE);
   };
 
-  if (sortType === SortType.ALPABET) {
-    goods.sort((first, second) => first.localeCompare(second));
-  }
+  const sorting = () => {
+    const goods = getReorderedGoods(goodsFromServer);
 
-  if (sortType === SortType.LENGTH) {
-    goods.sort((first, second) => first.length - second.length);
-  }
+    switch (sortType) {
+      case SortType.ALPABET:
+        goods.sort((first, second) => first.localeCompare(second));
+        break;
 
-  if (isReversed) {
-    goods.reverse();
-  }
+      case SortType.LENGTH:
+        goods.sort((first, second) => first.length - second.length);
+        break;
+
+      default:
+        break;
+    }
+
+    if (isReversed) {
+      goods.reverse();
+    }
+
+    return goods;
+  };
+
+  const goods = sorting();
 
   return (
     <div className="section content">
