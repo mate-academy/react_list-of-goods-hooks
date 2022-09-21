@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import classNames from 'classnames';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -15,47 +16,134 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-export const App: React.FC = () => {
+enum SortType {
+  NONE,
+  ALPABET,
+  LENGTH,
+}
+
+type ReorderOptions = {
+  sortType: SortType,
+  isReversed: boolean,
+};
+
+export function getReorderedGoods(
+  goods: string[],
+  { sortType, isReversed }: ReorderOptions,
+) {
+  const visibleGoods = [...goods];
+
+  visibleGoods.sort((first, second) => {
+    switch (sortType) {
+      case SortType.ALPABET:
+        return first.localeCompare(second);
+      case SortType.LENGTH:
+        return first.length - second.length;
+      default:
+        return 0;
+    }
+  });
+
+  if (isReversed) {
+    visibleGoods.reverse();
+  }
+
+  return visibleGoods;
+}
+
+type Props = {
+  goods: string[],
+};
+
+export const App: React.FC<Props> = (props) => {
+  const [sortType, setSortType] = useState(SortType.NONE);
+  const [isReversed, setReverse] = useState(false);
+
+  const handleSortByAlphabet = () => {
+    setSortType(SortType.ALPABET);
+  };
+
+  const handleSortByLength = () => {
+    setSortType(SortType.LENGTH);
+  };
+
+  const handleReverse = () => {
+    setReverse(!isReversed);
+  };
+
+  const reset = () => {
+    setSortType(SortType.NONE); setReverse(false);
+  };
+
+  const { goods } = props;
+
+  const visibleGoods
+     = getReorderedGoods(goods, { sortType, isReversed });
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className="button is-info is-light"
+          className={classNames(
+            'button is-info',
+            {
+              'is-light': sortType !== SortType.ALPABET,
+            },
+          )}
+          onClick={handleSortByAlphabet}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className="button is-success is-light"
+          className={classNames(
+            'button is-success',
+            {
+              'is-light': sortType !== SortType.LENGTH,
+            },
+          )}
+          onClick={handleSortByLength}
         >
           Sort by length
         </button>
 
         <button
           type="button"
-          className="button is-warning is-light"
+          className={classNames(
+            'button is-warning',
+            {
+              'is-light': isReversed === false,
+            },
+          )}
+          onClick={handleReverse}
         >
           Reverse
         </button>
 
-        <button
-          type="button"
-          className="button is-danger is-light"
-        >
-          Reset
-        </button>
+        { (isReversed || sortType !== SortType.NONE)
+       && (
+         <button
+           type="button"
+           className="button is-danger is-light"
+           onClick={reset}
+         >
+           Reset
+         </button>
+       )}
       </div>
 
       <ul>
         <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
+          {visibleGoods.map(good => (
+            <li
+              data-cy="Good"
+              key={good}
+            >
+              {good}
+            </li>
+          ))}
         </ul>
       </ul>
     </div>
