@@ -60,7 +60,7 @@ export const App: React.FC = () => {
     goodsFromServer, { sortType, isReversed },
   );
 
-  const hiddeResetButton = sortType !== SortType.NONE || isReversed;
+  const renderResetButton = sortType !== SortType.NONE || isReversed;
 
   return (
     <div className="section content">
@@ -98,13 +98,13 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(hiddeResetButton) && (
+        {(renderResetButton) && (
           <button
             type="button"
             className="button is-danger is-light"
             onClick={() => {
               setSortType(SortType.NONE);
-              setIsReversed(!isReversed);
+              setIsReversed(false);
             }}
           >
             Reset
