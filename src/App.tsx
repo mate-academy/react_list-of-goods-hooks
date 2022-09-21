@@ -30,13 +30,13 @@ export function getReorderedGoods(
   // To avoid the original array mutation
   const visibleGoods = [...goods];
 
-  visibleGoods.sort((a, b): number => {
+  visibleGoods.sort((good1, good2): number => {
     switch (sortType) {
       case SortType.ALPABET:
-        return a[sortType].localeCompare(b[sortType]);
+        return good1[sortType].localeCompare(good2[sortType]);
 
       case SortType.LENGTH:
-        return a.length - b.length;
+        return good1.length - good2.length;
 
       default:
         return 0;
