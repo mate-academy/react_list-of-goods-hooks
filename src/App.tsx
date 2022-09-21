@@ -1,4 +1,4 @@
-import {useState } from 'react';
+import { useState } from 'react';
 import classNames from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
@@ -49,9 +49,6 @@ export function getReorderedGoods(
   if (isReversed) {
     visibleGoods.reverse();
   }
-
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
 
   return visibleGoods;
 }
