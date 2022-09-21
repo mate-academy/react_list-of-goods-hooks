@@ -58,6 +58,19 @@ type Props = {
 export const App: React.FC<Props> = (props) => {
   const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setReverse] = useState(false);
+
+  const handleSortByAlphabet = () => {
+    setSortType(SortType.ALPABET);
+  };
+
+  const handleSortByLength = () => {
+    setSortType(SortType.LENGTH);
+  };
+
+  const handleReverse = () => {
+    setReverse(!isReversed);
+  };
+
   const reset = () => {
     setSortType(SortType.NONE); setReverse(false);
   };
@@ -73,9 +86,12 @@ export const App: React.FC<Props> = (props) => {
         <button
           type="button"
           className={classNames(
-            'button is-info', { 'is-light': sortType !== SortType.ALPABET },
+            'button is-info',
+            {
+              'is-light': sortType !== SortType.ALPABET,
+            },
           )}
-          onClick={() => setSortType(SortType.ALPABET)}
+          onClick={handleSortByAlphabet}
         >
           Sort alphabetically
         </button>
@@ -83,9 +99,12 @@ export const App: React.FC<Props> = (props) => {
         <button
           type="button"
           className={classNames(
-            'button is-success', { 'is-light': sortType !== SortType.LENGTH },
+            'button is-success',
+            {
+              'is-light': sortType !== SortType.LENGTH,
+            },
           )}
-          onClick={() => setSortType(SortType.LENGTH)}
+          onClick={handleSortByLength}
         >
           Sort by length
         </button>
@@ -93,9 +112,12 @@ export const App: React.FC<Props> = (props) => {
         <button
           type="button"
           className={classNames(
-            'button is-warning', { 'is-light': isReversed === false },
+            'button is-warning',
+            {
+              'is-light': isReversed === false,
+            },
           )}
-          onClick={() => setReverse(!isReversed)}
+          onClick={handleReverse}
         >
           Reverse
         </button>
@@ -114,8 +136,14 @@ export const App: React.FC<Props> = (props) => {
 
       <ul>
         <ul>
-          {visibleGoods
-            .map(good => <li data-cy="Good" key={good}>{good}</li>)}
+          {visibleGoods.map(good => (
+            <li
+              data-cy="Good"
+              key={good}
+            >
+              {good}
+            </li>
+          ))}
         </ul>
       </ul>
     </div>
