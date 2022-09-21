@@ -39,25 +39,19 @@ export const ListOfGoods: FC<Props> = ({ goodsFromServer }) => {
     return visibleGoods;
   };
 
-  const handleSortAlphabetically = () => {
-    setSortType(SortType.ALPABET);
-  };
-
-  const handleSortLength = () => {
-    setSortType(SortType.LENGTH);
-  };
-
   const handleReset = () => {
     setSortType(SortType.NONE);
     setReverse(false);
+  };
+
+  const handleSortType = (type: SortType) => {
+    setSortType(type);
   };
 
   const handleReverse = () => {
     setReverse(current => (
       !current));
   };
-
-  const reorderedGoods = getReorderedGoods(goodsFromServer);
 
   return (
     <>
@@ -69,7 +63,7 @@ export const ListOfGoods: FC<Props> = ({ goodsFromServer }) => {
             'is-info',
             { 'is-light': sortType !== SortType.ALPABET },
           )}
-          onClick={handleSortAlphabetically}
+          onClick={() => handleSortType(SortType.ALPABET)}
         >
           Sort alphabetically
         </button>
@@ -81,7 +75,7 @@ export const ListOfGoods: FC<Props> = ({ goodsFromServer }) => {
             'is-success',
             { 'is-light': sortType !== SortType.LENGTH },
           )}
-          onClick={handleSortLength}
+          onClick={() => handleSortType(SortType.LENGTH)}
         >
           Sort by length
         </button>
@@ -111,7 +105,7 @@ export const ListOfGoods: FC<Props> = ({ goodsFromServer }) => {
       </div>
 
       <ul>
-        {reorderedGoods.map(good => (
+        {getReorderedGoods(goodsFromServer).map(good => (
           <li data-cy="Good" key={good}>{good}</li>
         ))}
       </ul>
