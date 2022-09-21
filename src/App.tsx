@@ -18,7 +18,7 @@ export const goodsFromServer = [
 
 enum SortType {
   NONE,
-  ALPABET,
+  ALPHABET,
   LENGTH,
 }
 
@@ -35,7 +35,7 @@ export function getReorderedGoods(
 
   visibleGoods.sort((goodA, goodB): number => {
     switch (sortType) {
-      case SortType.ALPABET:
+      case SortType.ALPHABET:
         return goodA.localeCompare(goodB);
 
       case SortType.LENGTH:
@@ -57,7 +57,15 @@ export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setIsReversed] = useState(false);
 
-  const handleSortByAlpabet = () => setSortType(SortType.ALPABET);
+  const visibleGoods = getReorderedGoods(
+    goodsFromServer,
+    {
+      sortType,
+      isReversed,
+    },
+  );
+
+  const handleSortByAlpabet = () => setSortType(SortType.ALPHABET);
 
   const handleSortByLength = () => setSortType(SortType.LENGTH);
 
@@ -75,7 +83,7 @@ export const App: React.FC = () => {
           type="button"
           className={classNames(
             'button is-info',
-            sortType !== SortType.ALPABET && 'is-light',
+            sortType !== SortType.ALPHABET && 'is-light',
           )}
           onClick={handleSortByAlpabet}
         >
@@ -120,7 +128,7 @@ export const App: React.FC = () => {
 
       <ul>
         <ul>
-          {getReorderedGoods(goodsFromServer, { sortType, isReversed })
+          {visibleGoods
             .map((good) => (<li data-cy="Good" key={good}>{good}</li>))}
         </ul>
       </ul>
