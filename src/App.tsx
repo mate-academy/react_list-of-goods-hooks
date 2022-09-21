@@ -45,8 +45,6 @@ export function getReorderedGoods(
         return 0;
     }
   });
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
 
   if (isReversed) {
     visibleGoods.reverse();
@@ -60,7 +58,7 @@ export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
 
   const reverse = () => {
-    setIsReversed(!isReversed);
+    setIsReversed(prevState => !prevState);
   };
 
   const sortByLength = () => {
