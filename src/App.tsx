@@ -1,5 +1,3 @@
-/* eslint-disable default-case */
-// eslint-disable-next-line import/no-duplicates
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import 'bulma/css/bulma.css';
@@ -50,6 +48,9 @@ export function getReorderedGoods(
 
     case SortType.NONE:
       visibleGoods = [...goodsFromServer];
+      break;
+
+    default:
   }
 
   if (isReversed) {
@@ -60,11 +61,15 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [isReversed, switchReverse] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
-  const reorderedArr
-  = getReorderedGoods(goodsFromServer, { sortType, isReversed });
+  const reorderedArr = getReorderedGoods(
+    goodsFromServer, { sortType, isReversed },
+  );
+
+  const isOrderSame = JSON.stringify(reorderedArr)
+  !== JSON.stringify(goodsFromServer);
 
   return (
     <div className="section content">
@@ -72,7 +77,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           onClick={() => setSortType(SortType.ALPABET)}
-          className={classNames('button', 'is-info',
+          className={classNames(
+            'button',
+            'is-info',
             { 'is-light': sortType !== SortType.ALPABET })}
         >
           Sort alphabetically
@@ -81,7 +88,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           onClick={() => setSortType(SortType.LENGTH)}
-          className={classNames('button', 'is-success',
+          className={classNames(
+            'button',
+            'is-success',
             { 'is-light': sortType !== SortType.LENGTH })}
         >
           Sort by length
@@ -89,19 +98,21 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          onClick={() => switchReverse(current => !current)}
-          className={classNames('button', 'is-warning',
+          onClick={() => setIsReversed(current => !current)}
+          className={classNames(
+            'button',
+            'is-warning',
             { 'is-light': isReversed === false })}
         >
           Reverse
         </button>
 
-        {JSON.stringify(reorderedArr) !== JSON.stringify(goodsFromServer) && (
+        {isOrderSame && (
           <button
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              switchReverse(false);
+              setIsReversed(false);
               setSortType(SortType.NONE);
             }}
           >
