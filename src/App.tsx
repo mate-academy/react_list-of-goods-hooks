@@ -31,14 +31,6 @@ export const App: React.FC = () => {
     setSortBy('length');
   };
 
-  const reverse = () => {
-    setIsReversed(prevState => !prevState);
-  };
-
-  if (isReversed) {
-    copyGoods.reverse();
-  }
-
   const resetButtonHandler = () => {
     setSortBy('id');
     setIsReversed(false);
@@ -55,6 +47,14 @@ export const App: React.FC = () => {
       default: return 0;
     }
   });
+
+  if (isReversed) {
+    copyGoods.reverse();
+  }
+
+  const reverse = () => {
+    setIsReversed(prevState => !prevState);
+  };
 
   return (
     <div className="section content">
