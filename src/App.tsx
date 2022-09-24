@@ -56,12 +56,17 @@ export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setIsReversed] = useState(false);
 
-  const handlerOnClick = (nameOfSort: string) => {
-    switch (nameOfSort) {
-      case 'Sort alphabetically':
+  const sortedGoods = getReorderedGoods(
+    goodsFromServer,
+    { sortType, isReversed },
+  );
+
+  const handlerOnClick = (typeOfSort: number | string) => {
+    switch (typeOfSort) {
+      case SortType.ALPABET:
         return setSortType(SortType.ALPABET);
 
-      case 'Sort by length':
+      case SortType.LENGTH:
         return setSortType(SortType.LENGTH);
 
       case 'Reverse':
@@ -81,8 +86,8 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          onClick={event => {
-            handlerOnClick(event.currentTarget.innerHTML);
+          onClick={() => {
+            handlerOnClick(SortType.ALPABET);
           }}
           className={classNames(
             'button',
@@ -95,8 +100,8 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          onClick={event => {
-            handlerOnClick(event.currentTarget.innerHTML);
+          onClick={() => {
+            handlerOnClick(SortType.LENGTH);
           }}
           className={classNames(
             'button',
@@ -121,27 +126,22 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        <button
-          type="button"
-          style={{
-            display: (isReversed || sortType !== SortType.NONE)
-              ? 'block'
-              : 'none',
-          }}
-          onClick={event => {
-            handlerOnClick(event.currentTarget.innerHTML);
-          }}
-          className="button is-danger is-light"
-        >
-          Reset
-        </button>
+        {(isReversed || sortType !== SortType.NONE)
+          && (
+            <button
+              type="button"
+              onClick={event => {
+                handlerOnClick(event.currentTarget.innerHTML);
+              }}
+              className="button is-danger is-light"
+            >
+              Reset
+            </button>
+          )}
       </div>
 
       <ul>
-        {getReorderedGoods(
-          goodsFromServer,
-          { sortType, isReversed },
-        ).map(good => (
+        {sortedGoods.map(good => (
           <li data-cy="Good" key={good}>{good}</li>
         ))}
       </ul>
