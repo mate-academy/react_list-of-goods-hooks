@@ -47,9 +47,6 @@ export function getReorderedGoods(
     visibleGoods.reverse();
   }
 
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
-
   return visibleGoods;
 }
 
@@ -91,7 +88,7 @@ export const App: React.FC = () => {
           className={classNames(
             'button',
             'is-info',
-            { 'is-light': sortType !== SortType.LENGTH },
+            { 'is-light is-success': sortType !== SortType.LENGTH },
           )}
           onClick={handlersortLength}
         >
@@ -103,7 +100,7 @@ export const App: React.FC = () => {
           className={classNames(
             'button',
             'is-info',
-            { 'is-light': isReversed === false },
+            { 'is-light is-warning': isReversed === false },
           )}
           onClick={handlerReversed}
         >
