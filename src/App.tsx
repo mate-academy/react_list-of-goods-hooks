@@ -68,8 +68,7 @@ export const App: React.FC = () => {
     goodsFromServer, { sortType, isReversed },
   );
 
-  const isOrderSame = JSON.stringify(reorderedArr)
-  !== JSON.stringify(goodsFromServer);
+  const isOrderSame = sortType === SortType.NONE && !isReversed;
 
   return (
     <div className="section content">
@@ -104,7 +103,7 @@ export const App: React.FC = () => {
           className={classNames(
             'button',
             'is-warning',
-            { 'is-light': isReversed === false },
+            { 'is-light': !isReversed },
           )}
         >
           Reverse
