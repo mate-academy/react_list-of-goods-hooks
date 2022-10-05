@@ -38,9 +38,9 @@ export const App: React.FC = () => {
 
     visibleGoods.sort((a, b) => {
       switch (sortType) {
-        case 'alphabet':
+        case SortType.ALPABET:
           return a.localeCompare(b);
-        case 'length':
+        case SortType.LENGTH:
           return a.length - b.length;
         default:
           return 0;
@@ -61,6 +61,11 @@ export const App: React.FC = () => {
       isReversed: reverse,
     },
   );
+
+  const clearState = () => {
+    setSortType(SortType.NONE);
+    setReversed(false);
+  };
 
   return (
     <div className="section content">
@@ -101,8 +106,7 @@ export const App: React.FC = () => {
               type="button"
               className="button is-danger is-light"
               onClick={() => {
-                setSortType(SortType.NONE);
-                setReversed(false);
+                clearState();
               }}
             >
               Reset
