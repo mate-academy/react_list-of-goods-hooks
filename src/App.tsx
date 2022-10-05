@@ -15,49 +15,105 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+enum SortType {
+  NONE,
+  ALPHABET,
+  LENGTH,
+}
+
+export function getReorderedGoods(
+  goods: string[],
+  sortType: SortType,
+  isReversed: boolean,
+) {
+  const visibleGoods = [...goods];
+
+  visibleGoods.sort((g1, g2) => {
+    switch (sortType) {
+      case SortType.ALPHABET:
+        return g1.localeCompare(g2);
+      case SortType.LENGTH:
+        return g1.length - g2.length;
+      default:
+        return 0;
+    }
+  });
+
+  return isReversed ? visibleGoods.reverse() : visibleGoods;
+}
+
 export const App: React.FC = () => {
+  const [isReversed, setIsReversed] = React.useState(false);
+  const [sortType, setSortType] = React.useState(SortType.NONE);
+
+  const sortByName = () => setSortType(SortType.ALPHABET);
+
+  const sortByLength = () => setSortType(SortType.LENGTH);
+
+  const reverse = () => setIsReversed(!isReversed);
+
+  const reset = () => {
+    setSortType(SortType.NONE);
+    setIsReversed(false);
+  };
+
   return (
     <div className="section content">
-      <div className="buttons">
+      <div className="buttons is-flex is-centered">
         <button
+          onClick={sortByName}
           type="button"
-          className="button is-info is-light"
+          className={`button is-outlined is-success is-rounded ${sortType !== SortType.ALPHABET && 'is-light'}`}
         >
           Sort alphabetically
         </button>
 
         <button
+          onClick={sortByLength}
           type="button"
-          className="button is-success is-light"
+          className={`button is-rounded is-danger is-outlined ${sortType !== SortType.LENGTH && 'is-light'}`}
         >
           Sort by length
         </button>
 
         <button
+          onClick={reverse}
           type="button"
-          className="button is-warning is-light"
+          className={`button is-rounded is-black is-outlined ${!isReversed && 'is-light'}`}
         >
           Reverse
         </button>
 
-        <button
-          type="button"
-          className="button is-danger is-light"
-        >
-          Reset
-        </button>
+        {(sortType || isReversed)
+          ? (
+            <button
+              type="button"
+              className="button is-rounded is-ghost is-outlined"
+              onClick={reset}
+            >
+              Reset
+            </button>
+          )
+          : ''}
       </div>
-
-      <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
-      </ul>
+      <div className="is-flex is-justify-content-center">
+        <div className="has-text-centered">
+          {(getReorderedGoods(goodsFromServer, sortType, isReversed))
+            .map(good => {
+              return (
+                <div>
+                  <div
+                    data-cy="Good"
+                    key={good}
+                    className="box column is-info is-rounded mb-3"
+                  >
+                    {good}
+                  </div>
+                </div>
+              );
+            })}
+        </div>
+      </div>
     </div>
   );
 };
