@@ -51,6 +51,7 @@ export function getReorderedGoods(
       break;
 
     default:
+      throw new Error('Type is not supported');
   }
 
   if (isReversed) {
@@ -68,7 +69,7 @@ export const App: React.FC = () => {
     goodsFromServer, { sortType, isReversed },
   );
 
-  const isOrderSame = sortType === SortType.NONE && !isReversed;
+  const isOrderSame = !(sortType === SortType.NONE && !isReversed);
 
   return (
     <div className="section content">
