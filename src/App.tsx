@@ -1,6 +1,7 @@
+import './App.scss';
 import React from 'react';
 import 'bulma/css/bulma.css';
-import './App.scss';
+import classNames from 'classnames';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -21,7 +22,7 @@ enum SortType {
   LENGTH,
 }
 
-export function getReorderedGoods(
+function getReorderedGoods(
   goods: string[],
   sortType: SortType,
   isReversed: boolean,
@@ -39,7 +40,9 @@ export function getReorderedGoods(
     }
   });
 
-  return isReversed ? visibleGoods.reverse() : visibleGoods;
+  return isReversed
+    ? visibleGoods.reverse()
+    : visibleGoods;
 }
 
 export const App: React.FC = () => {
@@ -63,7 +66,12 @@ export const App: React.FC = () => {
         <button
           onClick={sortByName}
           type="button"
-          className={`button is-outlined is-success is-rounded ${sortType !== SortType.ALPHABET && 'is-light'}`}
+          className={classNames({
+            'button is-outlined is-success is-rounded':
+              sortType === SortType.ALPHABET,
+            'button is-outlined is-success is-rounded is-light':
+              sortType !== SortType.ALPHABET,
+          })}
         >
           Sort alphabetically
         </button>
@@ -71,7 +79,12 @@ export const App: React.FC = () => {
         <button
           onClick={sortByLength}
           type="button"
-          className={`button is-rounded is-danger is-outlined ${sortType !== SortType.LENGTH && 'is-light'}`}
+          className={classNames({
+            'button is-outlined is-danger is-rounded':
+              sortType === SortType.LENGTH,
+            'button is-outlined is-danger is-rounded is-light':
+              sortType !== SortType.LENGTH,
+          })}
         >
           Sort by length
         </button>
@@ -79,13 +92,16 @@ export const App: React.FC = () => {
         <button
           onClick={reverse}
           type="button"
-          className={`button is-rounded is-black is-outlined ${!isReversed && 'is-light'}`}
+          className={classNames({
+            'button is-outlined is-black is-rounded': isReversed,
+            'button is-outlined is-black is-rounded is-light': !isReversed,
+          })}
         >
           Reverse
         </button>
 
         {(sortType || isReversed)
-          ? (
+          && (
             <button
               type="button"
               className="button is-rounded is-ghost is-outlined"
@@ -93,8 +109,7 @@ export const App: React.FC = () => {
             >
               Reset
             </button>
-          )
-          : ''}
+          )}
       </div>
       <div className="is-flex is-justify-content-center">
         <div className="has-text-centered">
