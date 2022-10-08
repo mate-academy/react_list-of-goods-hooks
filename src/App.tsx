@@ -106,16 +106,14 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        <ul>
-          {getReorderedGoods(goodsFromServer, {
-            sortType: sortBy,
-            isReversed,
-          }).map((good: string) => (
-            <li key={good} data-cy="Good">
-              {good}
-            </li>
-          ))}
-        </ul>
+        {getReorderedGoods(goodsFromServer, {
+          sortType: sortBy,
+          isReversed,
+        }).map((good: string) => (
+          <li key={good} data-cy="Good">
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
