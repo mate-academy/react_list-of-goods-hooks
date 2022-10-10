@@ -37,8 +37,6 @@ export function getReorderedGoods(
     case SortType.ALPABET:
       visibleGoods.sort((curr, next) => curr.localeCompare(next));
       break;
-    case SortType.NONE:
-      break;
     default:
       break;
   }
@@ -53,6 +51,7 @@ export function getReorderedGoods(
 export const App: React.FC = () => {
   const [sortTypes, setSortTypes] = useState<SortType>(SortType.NONE);
   const [isReverse, setIsReverse] = useState<boolean>(false);
+
   const resetState = () => {
     setSortTypes(SortType.NONE);
     setIsReverse(false);
@@ -101,13 +100,13 @@ export const App: React.FC = () => {
 
       <ul>
         <ul>
-          {getReorderedGoods(goodsFromServer,
+          {getReorderedGoods(
+            goodsFromServer,
             sortTypes,
-            isReverse).map((good) => {
-            return (
-              <li key={good} data-cy="Good">{good}</li>
-            );
-          })}
+            isReverse,
+          ).map((good) => (
+            <li key={good} data-cy="Good">{good}</li>
+          ))}
         </ul>
       </ul>
     </div>
