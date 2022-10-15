@@ -52,6 +52,20 @@ export const App: React.FC = () => {
   const [sortBy, setSortBy] = useState(0);
   const [isReversed, setIsReversed] = useState(false);
 
+  const reverseToggle = () => {
+    setIsReversed(prev => (!prev));
+  };
+
+  const reset = () => {
+    setIsReversed(false);
+    setSortBy(SortType.NONE);
+  };
+
+  const reorderedGoods = getReorderedGoods(goodsFromServer, {
+    sortType: sortBy,
+    isReversed,
+  });
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -84,9 +98,7 @@ export const App: React.FC = () => {
           className={classNames('button is-warning', {
             'is-light': !isReversed,
           })}
-          onClick={() => {
-            setIsReversed(prev => (!prev));
-          }}
+          onClick={reverseToggle}
         >
           Reverse
         </button>
@@ -95,10 +107,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setIsReversed(false);
-              setSortBy(SortType.NONE);
-            }}
+            onClick={reset}
           >
             Reset
           </button>
@@ -106,10 +115,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {getReorderedGoods(goodsFromServer, {
-          sortType: sortBy,
-          isReversed,
-        }).map((good: string) => (
+        {reorderedGoods.map((good: string) => (
           <li key={good} data-cy="Good">
             {good}
           </li>
