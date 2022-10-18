@@ -31,9 +31,6 @@ function getReorderedGoods(
       case 'length':
         return g1.length - g2.length;
 
-      case 'none':
-        return 1;
-
       default:
         return 0;
     }
@@ -47,11 +44,11 @@ function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortType, setSortType] = useState('none');
+  const [sortType, setSortType] = useState('');
   const [isReversed, setIsReversed] = useState(false);
 
   const resetList = () => {
-    setSortType('none');
+    setSortType('');
     setIsReversed(false);
   };
 
@@ -91,7 +88,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortType !== 'none' || isReversed)
+        {(sortType !== '' || isReversed)
           && (
             <button
               type="button"
