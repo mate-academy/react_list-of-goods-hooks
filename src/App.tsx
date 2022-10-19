@@ -16,20 +16,30 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+enum SortType {
+  NONE,
+  ALPHABET,
+  LENGTH,
+}
+
+type ReorderOptions = {
+  sortType: SortType,
+  isReversed: boolean,
+};
+
 function getReorderedGoods(
   goods: string[],
-  sortType: string,
-  isReversed: boolean,
+  { sortType, isReversed }: ReorderOptions,
 ) {
   const visibleGoods = [...goods];
 
-  visibleGoods.sort((g1, g2) => {
+  visibleGoods.sort((good1, good2) => {
     switch (sortType) {
-      case 'abc':
-        return g1.localeCompare(g2);
+      case SortType.ALPHABET:
+        return good1.localeCompare(good2);
 
-      case 'length':
-        return g1.length - g2.length;
+      case SortType.LENGTH:
+        return good1.length - good2.length;
 
       default:
         return 0;
@@ -44,11 +54,11 @@ function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortType, setSortType] = useState('');
+  const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setIsReversed] = useState(false);
 
   const resetList = () => {
-    setSortType('');
+    setSortType(SortType.NONE);
     setIsReversed(false);
   };
 
@@ -57,10 +67,10 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          onClick={() => setSortType('abc')}
+          onClick={() => setSortType(SortType.ALPHABET)}
           className={cn(
             'button is-info',
-            { 'is-light': sortType !== 'abc' },
+            { 'is-light': sortType !== SortType.ALPHABET },
           )}
         >
           Sort alphabetically
@@ -68,10 +78,10 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          onClick={() => setSortType('length')}
+          onClick={() => setSortType(SortType.LENGTH)}
           className={cn(
             'button is-success',
-            { 'is-light': sortType !== 'length' },
+            { 'is-light': sortType !== SortType.LENGTH },
           )}
         >
           Sort by length
@@ -88,7 +98,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortType !== '' || isReversed)
+        {(sortType !== SortType.NONE || isReversed)
           && (
             <button
               type="button"
@@ -101,7 +111,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {getReorderedGoods(goodsFromServer, sortType, isReversed)
+        {getReorderedGoods(goodsFromServer, { sortType, isReversed })
           .map((good) => (
             <li
               data-cy="good"
