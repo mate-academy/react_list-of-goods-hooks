@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import cn from 'classnames';
+import { v4 as uuidv4 } from 'uuid';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -17,9 +18,9 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  NONE = 'NONE',
-  ALPHABET = 'ALPHABET',
-  LENGTH = 'LENGTH',
+  NONE,
+  ALPHABET,
+  LENGTH,
 }
 
 type ReorderOptions = {
@@ -35,26 +36,23 @@ export function getReorderedGoods(
 
   visibleGoods.sort((goodA, goodB) => {
     switch (sortType) {
-      case 'ALPHABET':
+      case SortType.ALPHABET:
         return goodA.localeCompare(goodB);
 
-      case 'LENGTH':
+      case SortType.LENGTH:
         return goodA.length - goodB.length;
 
-      case 'NONE':
+      case SortType.NONE:
         return 0;
 
       default:
-        return 0;
+        throw new Error('Wrong type!');
     }
   });
 
   if (isReversed) {
     visibleGoods.reverse();
   }
-
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
 
   return visibleGoods;
 }
@@ -84,6 +82,7 @@ export const App: React.FC = () => {
     goodsFromServer,
     { sortType, isReversed },
   );
+  const isOriginal = !isReversed && sortType === SortType.NONE;
 
   return (
     <div className="section content">
@@ -93,7 +92,7 @@ export const App: React.FC = () => {
           className={cn(
             'button',
             'is-info',
-            { 'is-light': sortType !== 'ALPHABET' },
+            { 'is-light': sortType !== SortType.ALPHABET },
           )}
           onClick={sortByAlphabet}
         >
@@ -105,7 +104,7 @@ export const App: React.FC = () => {
           className={cn(
             'button',
             'is-success',
-            { 'is-light': sortType !== 'LENGTH' },
+            { 'is-light': sortType !== SortType.LENGTH },
           )}
           onClick={sortByLength}
         >
@@ -124,7 +123,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortType !== 'NONE' || isReversed) && (
+        {!isOriginal && (
           <button
             type="button"
             className="button is-danger"
@@ -138,7 +137,9 @@ export const App: React.FC = () => {
       <ul>
         <ul>
           {visibleGoods.map(good => (
-            <li data-cy="Good" key={good}>{good}</li>
+            <li data-cy="Good" key={uuidv4()}>
+              {good}
+            </li>
           ))}
         </ul>
       </ul>
