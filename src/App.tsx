@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import classNames from 'classnames';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -42,7 +43,7 @@ export function getReorderedGoods(
       break;
 
     default:
-      //
+      return isReversed ? visibleGoods.reverse() : visibleGoods;
   }
 
   if (isReversed) {
@@ -60,19 +61,27 @@ export const App: React.FC = () => {
 
   const handelSortAlphbet = () => {
     setAppState(prevState => {
-      return {
-        ...prevState,
-        sortType: SortType.ALPABET,
-      };
+      if (prevState.sortType !== SortType.ALPABET) {
+        return {
+          ...prevState,
+          sortType: SortType.ALPABET,
+        };
+      }
+
+      return prevState;
     });
   };
 
   const handelSortLength = () => {
     setAppState(prevState => {
-      return {
-        ...prevState,
-        sortType: SortType.LENGTH,
-      };
+      if (prevState.sortType !== SortType.LENGTH) {
+        return {
+          ...prevState,
+          sortType: SortType.LENGTH,
+        };
+      }
+
+      return prevState;
     });
   };
 
@@ -92,14 +101,29 @@ export const App: React.FC = () => {
     });
   };
 
+  const isReset = appState.isReversed || appState.sortType !== SortType.NONE;
+
+  const reorderGoods = useMemo(
+    () => {
+      return getReorderedGoods(
+        goodsFromServer,
+        appState,
+      );
+    },
+    [goodsFromServer, appState],
+  );
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={appState.sortType === SortType.ALPABET
-            ? 'button is-info'
-            : 'button is-info is-light'}
+          className={classNames(
+            'button is-info',
+            {
+              'is-light': appState.sortType !== SortType.ALPABET,
+            },
+          )}
           onClick={handelSortAlphbet}
         >
           Sort alphabetically
@@ -107,9 +131,12 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={appState.sortType === SortType.LENGTH
-            ? 'button is-success'
-            : 'button is-success is-light'}
+          className={classNames(
+            'button is-success',
+            {
+              'is-light': appState.sortType !== SortType.LENGTH,
+            },
+          )}
           onClick={handelSortLength}
         >
           Sort by length
@@ -117,15 +144,18 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={appState.isReversed
-            ? 'button is-warning'
-            : 'button is-warning is-light'}
+          className={classNames(
+            'button is-warning',
+            {
+              'is-light': !appState.isReversed,
+            },
+          )}
           onClick={handelReverse}
         >
           Reverse
         </button>
 
-        {(appState.isReversed || appState.sortType !== SortType.NONE) && (
+        {isReset && (
           <button
             type="button"
             className="button is-danger is-light"
@@ -138,10 +168,7 @@ export const App: React.FC = () => {
 
       <ul>
         <ul>
-          {getReorderedGoods(
-            goodsFromServer,
-            appState,
-          ).map(good => (
+          {reorderGoods.map(good => (
             <li
               key={good}
               data-cy="Good"
