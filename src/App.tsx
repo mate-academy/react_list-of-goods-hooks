@@ -60,6 +60,18 @@ export const App: React.FC = () => {
   const visibleGoods = getReorderedGoods(goodsFromServer, sortType, isReversed);
   const isOriginal = sortType === SortType.NONE && isReversed === false;
 
+  const sortByName = () => {
+    setSortType(SortType.ALPHABET);
+  };
+
+  const sortByNameLength = () => {
+    setSortType(SortType.LENGTH);
+  };
+
+  const reverseList = () => {
+    setReverse(!isReversed);
+  };
+
   const resetState = () => {
     setSortType(SortType.NONE);
     setReverse(false);
@@ -77,9 +89,7 @@ export const App: React.FC = () => {
               'is-light': sortType !== SortType.ALPHABET,
             },
           )}
-          onClick={() => {
-            setSortType(SortType.ALPHABET);
-          }}
+          onClick={sortByName}
         >
           Sort alphabetically
         </button>
@@ -93,9 +103,7 @@ export const App: React.FC = () => {
               'is-light': sortType !== SortType.LENGTH,
             },
           )}
-          onClick={() => {
-            setSortType(SortType.LENGTH);
-          }}
+          onClick={sortByNameLength}
         >
           Sort by length
         </button>
@@ -109,9 +117,7 @@ export const App: React.FC = () => {
               'is-light': !isReversed,
             },
           )}
-          onClick={() => {
-            setReverse(!isReversed);
-          }}
+          onClick={reverseList}
         >
           Reverse
         </button>
