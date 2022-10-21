@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { FC, useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import classNames from 'classnames';
@@ -38,7 +38,6 @@ export function getReorderedGoods(
     const {
       ALPHABET,
       LENGTH,
-      NONE,
     } = SortType;
 
     switch (sortType) {
@@ -46,9 +45,8 @@ export function getReorderedGoods(
         return prevGood.localeCompare(currentGood);
       case LENGTH:
         return prevGood.length - currentGood.length;
-      case NONE:
+      default:
         return 0;
-      default: return 0;
     }
   });
 
@@ -57,7 +55,7 @@ export function getReorderedGoods(
     : visibleGoods;
 }
 
-export const App: React.FC = () => {
+export const App: FC = () => {
   const {
     LENGTH,
     ALPHABET,
@@ -65,7 +63,11 @@ export const App: React.FC = () => {
   } = SortType;
   const [sortType, setSortType] = useState(NONE);
   const [isReversed, setReversed] = useState(false);
-  const visibleReset = isReversed || (sortType !== NONE);
+  const isSorted = isReversed || (sortType !== NONE);
+  const setDefaultState = () => {
+    setSortType(NONE);
+    setReversed(false);
+  };
 
   return (
     <div className="section content">
@@ -95,23 +97,16 @@ export const App: React.FC = () => {
           className={classNames('button is-warning', {
             'is-light': !isReversed,
           })}
-          onClick={() => (
-            isReversed
-              ? setReversed(false)
-              : setReversed(true)
-          )}
+          onClick={() => (setReversed(!isReversed))}
         >
           Reverse
         </button>
 
-        {visibleReset && (
+        {isSorted && (
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortType(NONE);
-              setReversed(false);
-            }}
+            onClick={setDefaultState}
           >
             Reset
           </button>
@@ -127,7 +122,7 @@ export const App: React.FC = () => {
               isReversed,
             },
           ).map((good, index) => (
-            <li key={good + index.toString()} data-cy="Good">{good}</li>
+            <li key={String(good + index)} data-cy="Good">{good}</li>
           ))}
         </ul>
       </ul>
