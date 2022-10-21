@@ -1,1 +1,4 @@
-/// <reference types="react-scripts" />
+export interface Good {
+  name: string;
+  id: number;
+}
