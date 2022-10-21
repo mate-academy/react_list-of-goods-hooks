@@ -28,8 +28,13 @@ type ReorderOptions = {
   isReversed: boolean,
 };
 
+interface Good {
+  name:string;
+  id: string;
+}
+
 export function getReorderedGoods(
-  goods: string[],
+  goods: Good[],
   { sortType, isReversed }: ReorderOptions,
 ) {
   const visibleGoods = [...goods];
@@ -38,10 +43,10 @@ export function getReorderedGoods(
     visibleGoods.sort((g1, g2) => {
       switch (sortType) {
         case SortType.ALPABET:
-          return g1.localeCompare(g2);
+          return g1.name.localeCompare(g2.name);
 
         case SortType.LENGTH:
-          return g1.length - g2.length;
+          return g1.name.length - g2.name.length;
 
         default:
           return 0;
@@ -54,6 +59,10 @@ export function getReorderedGoods(
   }
 
   return visibleGoods;
+}
+
+export function addId(goods: string[]): Good[] {
+  return goods.map(good => ({ name: good, id: uuidv4() }));
 }
 
 export const App: React.FC = () => {
@@ -78,7 +87,7 @@ export const App: React.FC = () => {
   };
 
   const visibleGoods = getReorderedGoods(
-    goodsFromServer,
+    addId(goodsFromServer),
     { sortType, isReversed },
   );
 
@@ -133,7 +142,7 @@ export const App: React.FC = () => {
       <ul>
         <ul>
           {visibleGoods.map(good => (
-            <li data-cy="Good" key={uuidv4()}>{good}</li>
+            <li data-cy="Good" key={good.id}>{good.name}</li>
           ))}
         </ul>
       </ul>
