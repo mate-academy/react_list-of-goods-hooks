@@ -64,7 +64,7 @@ export const App: FC = () => {
   const [sortType, setSortType] = useState(NONE);
   const [isReversed, setReversed] = useState(false);
   const isSorted = isReversed || (sortType !== NONE);
-  const sortedGoodsList = getReorderedGoods(
+  const reorderedGoodsList = getReorderedGoods(
     goodsFromServer,
     {
       sortType,
@@ -104,7 +104,11 @@ export const App: FC = () => {
           className={classNames('button is-warning', {
             'is-light': !isReversed,
           })}
-          onClick={() => (setReversed(!isReversed))}
+          onClick={() => (
+            setReversed((isReversedState) => (
+              !isReversedState
+            ))
+          )}
         >
           Reverse
         </button>
@@ -122,7 +126,7 @@ export const App: FC = () => {
 
       <ul>
         <ul>
-          {sortedGoodsList.map((good, index) => (
+          {reorderedGoodsList.map((good, index) => (
             <li key={String(good + index)} data-cy="Good">{good}</li>
           ))}
         </ul>
