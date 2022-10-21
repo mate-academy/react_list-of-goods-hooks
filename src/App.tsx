@@ -64,6 +64,13 @@ export const App: FC = () => {
   const [sortType, setSortType] = useState(NONE);
   const [isReversed, setReversed] = useState(false);
   const isSorted = isReversed || (sortType !== NONE);
+  const sortedGoodsList = getReorderedGoods(
+    goodsFromServer,
+    {
+      sortType,
+      isReversed,
+    },
+  );
   const setDefaultState = () => {
     setSortType(NONE);
     setReversed(false);
@@ -115,13 +122,7 @@ export const App: FC = () => {
 
       <ul>
         <ul>
-          {getReorderedGoods(
-            goodsFromServer,
-            {
-              sortType,
-              isReversed,
-            },
-          ).map((good, index) => (
+          {sortedGoodsList.map((good, index) => (
             <li key={String(good + index)} data-cy="Good">{good}</li>
           ))}
         </ul>
