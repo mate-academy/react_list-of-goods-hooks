@@ -77,6 +77,11 @@ export const App: FC = () => {
   });
   const isResetButtonVisible = sortType !== SortType.NONE || isReversed;
 
+  const handleReset = () => {
+    setSortType(SortType.NONE);
+    setIsReversed(false);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -120,10 +125,7 @@ export const App: FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortType(SortType.NONE);
-              setIsReversed(false);
-            }}
+            onClick={handleReset}
           >
             Reset
           </button>
