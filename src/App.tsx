@@ -79,7 +79,7 @@ export const App: React.FC = () => {
           className={classNames('button is-info', {
             'is-light': sortBy !== SortType.Alphabet,
           })}
-          onClick={() => (setSortBy(SortType.Alphabet))}
+          onClick={() => setSortBy(SortType.Alphabet)}
         >
           Sort alphabetically
         </button>
@@ -89,7 +89,7 @@ export const App: React.FC = () => {
           className={classNames('button is-success', {
             'is-light': sortBy !== SortType.Length,
           })}
-          onClick={() => (setSortBy(SortType.Length))}
+          onClick={() => setSortBy(SortType.Length)}
         >
           Sort by length
         </button>
