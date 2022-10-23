@@ -25,11 +25,11 @@ enum SortType {
 }
 
 export const App: React.FC = () => {
-  const [isReversed, Reverse] = useState(false);
+  const [isReversed, setReverse] = useState(false);
   const [sortBy, chooseSort] = useState(SortType.NONE);
 
   const reset = () => {
-    Reverse(false);
+    setReverse(false);
     chooseSort(SortType.NONE);
   };
 
@@ -94,7 +94,7 @@ export const App: React.FC = () => {
               'is-light': !isReversed,
             },
           )}
-          onClick={() => Reverse(current => !current)}
+          onClick={() => setReverse(current => !current)}
         >
           Reverse
         </button>
