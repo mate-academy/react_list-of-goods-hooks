@@ -40,29 +40,34 @@ export function getReorderedGoods(
   // eslint-disable-next-line no-console
   console.log(sortType, isReversed);
 
+  if (sortType !== SortType.NONE) {
+    visibleGoods.sort((firstItem, nextItem) => {
+      switch (sortType) {
+        case SortType.ALPABET:
+          return firstItem.localeCompare(nextItem);
+        case SortType.LENGTH:
+          return firstItem.length - nextItem.length;
+        default:
+          return 0;
+      }
+    });
+  }
+
+  if (isReversed) {
+    visibleGoods.reverse();
+  }
+
   return visibleGoods;
 }
 
 export const App: React.FC = () => {
   const [isReversed, setIsReverse] = useState(false);
-  const [sortType, setSortType] = useState(0);
+  const [sortType, setSortType] = useState(SortType.NONE);
 
-  const visibleGoods = [...goodsFromServer];
-
-  visibleGoods.sort((firstItem, nextItem) => {
-    switch (sortType) {
-      case SortType.ALPABET:
-        return firstItem.localeCompare(nextItem);
-      case SortType.LENGTH:
-        return firstItem.length - nextItem.length;
-      default:
-        return 0;
-    }
+  const goods = getReorderedGoods(goodsFromServer, {
+    sortType,
+    isReversed,
   });
-
-  if (isReversed) {
-    visibleGoods.reverse();
-  }
 
   return (
     <div className="section content">
@@ -98,12 +103,12 @@ export const App: React.FC = () => {
           Reverse
         </Button>
 
-        {(isReversed || sortType !== 0) && (
+        {(isReversed || sortType !== SortType.NONE) && (
           <Button
             className="button is-danger is-light"
             onClick={() => {
               setIsReverse(false);
-              setSortType(0);
+              setSortType(SortType.NONE);
             }}
           >
             Reset
@@ -112,7 +117,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {visibleGoods.map(item => (
+        {goods.map(item => (
           <li data-cy="Good" key={item}>
             {item}
           </li>
