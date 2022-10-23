@@ -17,9 +17,9 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  NONE = 'default',
-  ALPABET = 'alphabet',
-  LENGTH = 'length',
+  NONE,
+  ALPABET,
+  LENGTH,
 }
 
 type ReorderOptions = {
@@ -38,11 +38,11 @@ export const App: React.FC = () => {
     const visibleGoods = [...goods];
 
     switch (sortBy) {
-      case 'alphabet':
+      case SortType.ALPABET:
         visibleGoods.sort((g1, g2) => g1.localeCompare(g2));
         break;
 
-      case 'length':
+      case SortType.LENGTH:
         visibleGoods.sort((g1, g2) => g1.length - g2.length);
         break;
 
@@ -57,7 +57,7 @@ export const App: React.FC = () => {
     return visibleGoods;
   };
 
-  const defaultData = () => {
+  const resetData = () => {
     setSortType(SortType.NONE);
     setReversed(false);
   };
@@ -113,7 +113,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={defaultData}
+            onClick={resetData}
           >
             Reset
           </button>
