@@ -23,7 +23,7 @@ enum SortType {
   LENGTH,
 }
 
-export function getReorderedGoods(
+export function getVisibleGoods(
   goods: string[],
   isReversed: boolean,
   sortType: SortType,
@@ -52,7 +52,24 @@ export const App: React.FC = () => {
   const [isReversed, toggleReverse] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
-  const reorderedGoods = getReorderedGoods(
+  const sortAlphabetically = () => {
+    setSortType(SortType.ALPABET);
+  };
+
+  const sortByLength = () => {
+    setSortType(SortType.LENGTH);
+  };
+
+  const reverse = () => {
+    toggleReverse(!isReversed);
+  };
+
+  const reset = () => {
+    setSortType(SortType.NONE);
+    toggleReverse(false);
+  };
+
+  const visibleGoods = getVisibleGoods(
     goodsFromServer,
     isReversed,
     sortType,
@@ -68,7 +85,7 @@ export const App: React.FC = () => {
             'is-info',
             { 'is-light': sortType !== SortType.ALPABET },
           )}
-          onClick={() => setSortType(SortType.ALPABET)}
+          onClick={sortAlphabetically}
         >
           Sort alphabetically
         </button>
@@ -80,7 +97,7 @@ export const App: React.FC = () => {
             'is-success',
             { 'is-light': sortType !== SortType.LENGTH },
           )}
-          onClick={() => setSortType(SortType.LENGTH)}
+          onClick={sortByLength}
         >
           Sort by length
         </button>
@@ -92,7 +109,7 @@ export const App: React.FC = () => {
             'is-warning',
             { 'is-light': !isReversed },
           )}
-          onClick={() => toggleReverse(!isReversed)}
+          onClick={reverse}
         >
           Reverse
         </button>
@@ -101,10 +118,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortType(SortType.NONE);
-              toggleReverse(false);
-            }}
+            onClick={reset}
           >
             Reset
           </button>
@@ -113,7 +127,7 @@ export const App: React.FC = () => {
 
       <ul>
         <ul>
-          {reorderedGoods.map(good => (
+          {visibleGoods.map(good => (
             <li key={uuid()} data-cy="Good">{good}</li>
           ))}
         </ul>
