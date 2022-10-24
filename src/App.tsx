@@ -69,7 +69,7 @@ export const App: React.FC<{}> = () => {
 
   const resetList = () => {
     setSortType(SortType.NONE);
-    setReverse(isReversed);
+    setReverse(false);
   };
 
   return (
