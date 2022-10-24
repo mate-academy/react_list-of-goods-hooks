@@ -55,7 +55,12 @@ export function getReorderedGoods(
 
 export const App:React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
-  const [sortType, setSortType] = useState(0);
+  const [sortType, setSortType] = useState(SortType.NONE);
+
+  const setAllDown = () => {
+    setIsReversed(false);
+    setSortType(SortType.NONE);
+  };
 
   return (
     <div className="section content">
@@ -100,10 +105,7 @@ export const App:React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setIsReversed(false);
-              setSortType(SortType.NONE);
-            }}
+            onClick={setAllDown}
           >
             Reset
           </button>
@@ -115,9 +117,9 @@ export const App:React.FC = () => {
           {getReorderedGoods(goodsFromServer, {
             sortType,
             isReversed,
-          }).map((good, index) => {
+          }).map((good) => {
             return (
-              <li key={String(good + index)} data-cy="Good">{good}</li>
+              <li key={String(good)} data-cy="Good">{good}</li>
             );
           })}
         </ul>
