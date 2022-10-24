@@ -36,10 +36,6 @@ export function getReorderedGoods(
   // To avoid the original array mutation
   const visibleGoods = [...goods];
 
-  // Sort and reverse goods if needed
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
-
   if (sortType !== SortType.NONE) {
     visibleGoods.sort((firstItem, nextItem) => {
       switch (sortType) {
@@ -62,12 +58,20 @@ export function getReorderedGoods(
 
 export const App: React.FC = () => {
   const [isReversed, setIsReverse] = useState(false);
-  const [sortType, setSortType] = useState(SortType.NONE);
+  const [sortType, setSortType] = useState<SortType>(SortType.NONE);
 
   const goods = getReorderedGoods(goodsFromServer, {
     sortType,
     isReversed,
   });
+
+  const updateSort = (type: SortType) => {
+    setSortType(type);
+  };
+
+  const updateIsReverse = (reversed: boolean) => {
+    setIsReverse(reversed);
+  };
 
   return (
     <div className="section content">
@@ -77,7 +81,7 @@ export const App: React.FC = () => {
             'is-light': sortType !== SortType.ALPABET,
           })}
           onClick={() => {
-            setSortType(SortType.ALPABET);
+            updateSort(SortType.ALPABET);
           }}
         >
           Sort alphabetically
@@ -88,7 +92,7 @@ export const App: React.FC = () => {
             'is-light': sortType !== SortType.LENGTH,
           })}
           onClick={() => {
-            setSortType(SortType.LENGTH);
+            updateSort(SortType.LENGTH);
           }}
         >
           Sort by length
@@ -98,7 +102,7 @@ export const App: React.FC = () => {
           className={classNames('button', 'is-warning', {
             'is-light': !isReversed,
           })}
-          onClick={() => setIsReverse(!isReversed)}
+          onClick={() => updateIsReverse(!isReversed)}
         >
           Reverse
         </Button>
@@ -107,8 +111,8 @@ export const App: React.FC = () => {
           <Button
             className="button is-danger is-light"
             onClick={() => {
-              setIsReverse(false);
-              setSortType(SortType.NONE);
+              updateIsReverse(false);
+              updateSort(SortType.NONE);
             }}
           >
             Reset
