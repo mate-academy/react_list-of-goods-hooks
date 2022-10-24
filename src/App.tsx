@@ -3,6 +3,8 @@ import 'bulma/css/bulma.css';
 import './App.scss';
 import classNames from 'classnames';
 
+import { GoodsList } from './component/GoodsList';
+
 type Goods = string[];
 
 export const goodsFromServer: Goods = [
@@ -26,7 +28,7 @@ enum SortType {
 
 export const App: React.FC = () => {
   const [isReversed, setReverse] = useState(false);
-  const [sortBy, chooseSort] = useState(SortType.NONE);
+  const [sortBy, chooseSort] = useState<SortType>(SortType.NONE);
 
   const reset = () => {
     setReverse(false);
@@ -111,12 +113,9 @@ export const App: React.FC = () => {
           )}
       </div>
 
-      <ul>
-        {getReorderedGoods(goodsFromServer, sortBy)
-          .map(good => (
-            <li data-cy="Good" key={good}>{good}</li>
-          ))}
-      </ul>
+      <GoodsList
+        goodsList={getReorderedGoods(goodsFromServer, sortBy)}
+      />
     </div>
   );
 };
