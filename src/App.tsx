@@ -23,12 +23,16 @@ enum SortType {
   ALPABET,
   LENGTH,
 }
+type State = {
+  isReversed: boolean,
+  sortType: SortType,
+};
 
 export function getSortedGoods(
   goods: string[],
-  sortType: SortType,
-  isReversed: boolean,
+  state: State,
 ) {
+  const { sortType, isReversed } = state;
   const visibleGoods = [...goods].sort((goodA, goodB) => {
     switch (sortType) {
       case SortType.ALPABET:
@@ -57,9 +61,9 @@ export const App: React.FC = () => {
   };
 
   const visibleGoods = getSortedGoods(goodsFromServer,
-    sortType, isReversed);
+    { sortType, isReversed });
 
-  const isReset = isReversed || sortType !== SortType.NONE;
+  const shouldRenderReset = isReversed || sortType !== SortType.NONE;
 
   return (
     <div className="section content">
@@ -97,7 +101,7 @@ export const App: React.FC = () => {
           Reverse
         </Button>
 
-        {isReset && (
+        {shouldRenderReset && (
           <Button
             className="button is-danger is-light"
             onClick={resetOrder}
