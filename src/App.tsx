@@ -24,7 +24,7 @@ enum SortType {
   LENGTH,
 }
 
-export function implementButtonsActions(
+export function getSortedGoods(
   goods: string[],
   sortType: SortType,
   isReversed: boolean,
@@ -48,25 +48,18 @@ export function implementButtonsActions(
 }
 
 export const App: React.FC = () => {
-  const [isReversed, setOrderReverse] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
-  const setOrder = () => {
-    setOrderReverse(currentValue => {
-      return !currentValue;
-    });
-  };
-
   const resetOrder = () => {
-    setOrderReverse(false);
-
+    setIsReversed(false);
     setSortType(SortType.NONE);
   };
 
-  const visibleGoods = implementButtonsActions(goodsFromServer,
+  const visibleGoods = getSortedGoods(goodsFromServer,
     sortType, isReversed);
 
-  const checkOnChanges = isReversed || sortType !== SortType.NONE;
+  const isReset = isReversed || sortType !== SortType.NONE;
 
   return (
     <div className="section content">
@@ -99,12 +92,12 @@ export const App: React.FC = () => {
             'is-warning',
             { 'is-light': !isReversed },
           )}
-          onClick={setOrder}
+          onClick={() => setIsReversed(!isReversed)}
         >
           Reverse
         </Button>
 
-        {checkOnChanges && (
+        {isReset && (
           <Button
             className="button is-danger is-light"
             onClick={resetOrder}
@@ -116,16 +109,14 @@ export const App: React.FC = () => {
 
       <ul>
         <ul>
-          {visibleGoods.map(good => {
-            return (
-              <li
-                data-cy="Good"
-                key={uuidv4()}
-              >
-                {good}
-              </li>
-            );
-          })}
+          {visibleGoods.map(good => (
+            <li
+              data-cy="Good"
+              key={uuidv4()}
+            >
+              {good}
+            </li>
+          ))}
         </ul>
       </ul>
     </div>
