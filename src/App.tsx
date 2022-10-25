@@ -54,6 +54,11 @@ export const App: React.FC<{}> = () => {
   const [isReversed, setReverse] = useState(false);
   const [sortType, setSortType] = useState<SortType>(SortType.NONE);
   const visibilityResetButton = sortType !== SortType.NONE || isReversed;
+  const visibleItems = getReorderedGoods(
+    goodsFromServer,
+    sortType,
+    isReversed,
+  );
 
   const sortByAlphabet = () => {
     setSortType(SortType.ALPHABET);
@@ -107,7 +112,9 @@ export const App: React.FC<{}> = () => {
           className={classNames(
             'button',
             'is-warning',
-            { 'is-light': !isReversed },
+            {
+              'is-light': !isReversed,
+            },
           )}
         >
           Reverse
@@ -126,12 +133,13 @@ export const App: React.FC<{}> = () => {
 
       <ul>
         <ul>
-          {getReorderedGoods(
-            goodsFromServer,
-            sortType,
-            isReversed,
-          ).map(good => (
-            <li key={uuidv4()} data-cy="Good">{good}</li>
+          {visibleItems.map(good => (
+            <li
+              key={uuidv4()}
+              data-cy="Good"
+            >
+              {good}
+            </li>
           ))}
         </ul>
       </ul>
