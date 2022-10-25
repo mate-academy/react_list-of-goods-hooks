@@ -23,18 +23,32 @@ enum SortType {
   LENGTH,
 }
 
-export function getReorderedGoods(
-  goods: string[],
+type ReorderOptions = {
   sortType: SortType,
   isReversed: boolean,
+};
+
+export function getReorderedGoods(
+  goods: string[],
+  { sortType, isReversed }: ReorderOptions,
 ) {
   const visibleGoods = [...goods];
 
-  if (sortType === SortType.LENGTH) {
-    visibleGoods.sort((a, b) => a.length - b.length);
-  } else if (sortType === SortType.ALPABET) {
-    visibleGoods.sort((a, b) => a.localeCompare(b));
-  }
+  visibleGoods.sort((goodA, goodB) => {
+    switch (sortType) {
+      case SortType.ALPABET:
+        return goodA.localeCompare(goodB);
+
+      case SortType.LENGTH:
+        return goodA.length - goodB.length;
+
+      case SortType.NONE:
+        return 0;
+
+      default:
+        throw new Error('Wrong type!');
+    }
+  });
 
   if (isReversed) {
     visibleGoods.reverse();
@@ -46,7 +60,11 @@ export function getReorderedGoods(
 export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setReverse] = useState(false);
-  const isDefault = sortType !== SortType.NONE || isReversed;
+  const visibleGoods = getReorderedGoods(
+    goodsFromServer,
+    { sortType, isReversed },
+  );
+  const isResetButtonVisible = sortType !== SortType.NONE || isReversed;
 
   const sortByName = () => {
     setSortType(SortType.ALPABET);
@@ -97,7 +115,7 @@ export const App: React.FC = () => {
         >
           Reverse
         </button>
-        { isDefault && (
+        { isResetButtonVisible && (
           <button
             type="button"
             className="button is-danger is-light"
@@ -109,7 +127,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {getReorderedGoods(goodsFromServer, sortType, isReversed).map(good => (
+        {visibleGoods.map(good => (
           <li key={uuidv4()} data-cy="Good">{good}</li>
         ))}
       </ul>
