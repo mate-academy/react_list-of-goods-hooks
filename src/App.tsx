@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import classNames from 'classnames';
+import { GoodsList } from './components/GoodsList';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -50,8 +51,8 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [isReversed, setReverse] = useState(false);
-  const [sortType, setSortType] = useState(SortType.NONE);
+  const [isReversed, setReverse] = useState<boolean>(false);
+  const [sortType, setSortType] = useState<SortType>(SortType.NONE);
 
   const resetState = () => {
     setSortType(SortType.NONE);
@@ -113,13 +114,7 @@ export const App: React.FC = () => {
         }
       </div>
 
-      <ul>
-        {reorderedGoods.map(good => (
-          <li data-cy="Good" key={good}>
-            {good}
-          </li>
-        ))}
-      </ul>
+      <GoodsList reorderedGoods={reorderedGoods} />
     </div>
   );
 };
