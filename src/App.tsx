@@ -5,16 +5,16 @@ import 'bulma/css/bulma.css';
 import './App.scss';
 
 export const goodsFromServer = [
-  'Dumplings',
-  'Carrot',
-  'Eggs',
-  'Ice cream',
-  'Apple',
-  'Bread',
-  'Fish',
-  'Honey',
-  'Jam',
-  'Garlic',
+  { name: 'Dumplings', id: uuid() },
+  { name: 'Carrot', id: uuid() },
+  { name: 'Eggs', id: uuid() },
+  { name: 'Ice cream', id: uuid() },
+  { name: 'Apple', id: uuid() },
+  { name: 'Bread', id: uuid() },
+  { name: 'Fish', id: uuid() },
+  { name: 'Honey', id: uuid() },
+  { name: 'Jam', id: uuid() },
+  { name: 'Garlic', id: uuid() },
 ];
 
 enum SortType {
@@ -23,33 +23,35 @@ enum SortType {
   LENGTH,
 }
 
+type Good = {
+  id: string;
+  name: string;
+};
+
 export function getVisibleGoods(
-  goods: string[],
-  isReversed: boolean,
+  goods: Good[],
   sortType: SortType,
 ) {
   const visibleGoods = [...goods];
 
-  visibleGoods.sort((goodA, goodB) => {
+  visibleGoods.sort(({ name: nameA }, { name: nameB }) => {
     switch (sortType) {
       case SortType.ALPABET:
-        return goodA.localeCompare(goodB);
+        return nameA.localeCompare(nameB);
 
       case SortType.LENGTH:
-        return goodA.length - goodB.length;
+        return nameA.length - nameB.length;
 
       default:
         return 0;
     }
   });
 
-  return isReversed
-    ? visibleGoods.reverse()
-    : visibleGoods;
+  return visibleGoods;
 }
 
 export const App: React.FC = () => {
-  const [isReversed, toggleReverse] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
   const sortAlphabetically = () => {
@@ -60,20 +62,25 @@ export const App: React.FC = () => {
     setSortType(SortType.LENGTH);
   };
 
-  const reverse = () => {
-    toggleReverse(!isReversed);
+  const toggleReverse = () => {
+    setIsReversed(!isReversed);
   };
 
   const reset = () => {
     setSortType(SortType.NONE);
-    toggleReverse(false);
+    setIsReversed(false);
   };
 
   const visibleGoods = getVisibleGoods(
     goodsFromServer,
-    isReversed,
     sortType,
   );
+
+  if (isReversed) {
+    visibleGoods.reverse();
+  }
+
+  const shouldReset = sortType !== SortType.NONE || isReversed;
 
   return (
     <div className="section content">
@@ -109,12 +116,12 @@ export const App: React.FC = () => {
             'is-warning',
             { 'is-light': !isReversed },
           )}
-          onClick={reverse}
+          onClick={toggleReverse}
         >
           Reverse
         </button>
 
-        {(sortType !== SortType.NONE || isReversed) && (
+        {shouldReset && (
           <button
             type="button"
             className="button is-danger is-light"
@@ -128,7 +135,7 @@ export const App: React.FC = () => {
       <ul>
         <ul>
           {visibleGoods.map(good => (
-            <li key={uuid()} data-cy="Good">{good}</li>
+            <li key={good.id} data-cy="Good">{good.name}</li>
           ))}
         </ul>
       </ul>
