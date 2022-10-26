@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import cl from 'classnames';
-import { v4 as uuidv4 } from 'uuid';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -62,7 +61,7 @@ export const App: React.FC = () => {
     goodsFromServer, { isReversed, sortType },
   );
 
-  const isOriginal = isReversed || sortType !== SortType.NONE;
+  const isOriginal = sortType === SortType.NONE && isReversed === false;
 
   const sortByAlphabet = () => {
     setSortType(SortType.ALPHABET);
@@ -126,7 +125,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {isOriginal && (
+        {!isOriginal && (
           <button
             type="button"
             className="button is-danger is-light"
@@ -142,7 +141,7 @@ export const App: React.FC = () => {
           {visibleGoods.map(good => (
             <li
               data-cy="Good"
-              key={uuidv4()}
+              key={good}
             >
               {good}
             </li>
