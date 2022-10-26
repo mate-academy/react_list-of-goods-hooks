@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import classNames from 'classnames';
-import { v4 as uuidv4 } from 'uuid';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -51,9 +50,10 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC<{}> = () => {
-  const [isReversed, setReverse] = useState(false);
+  const [isReversed, setIsReverse] = useState(false);
   const [sortType, setSortType] = useState<SortType>(SortType.NONE);
-  const visibilityResetButton = sortType !== SortType.NONE || isReversed;
+  const isResetButtonVisible = sortType !== SortType.NONE || isReversed;
+
   const visibleItems = getReorderedGoods(
     goodsFromServer,
     sortType,
@@ -69,12 +69,12 @@ export const App: React.FC<{}> = () => {
   };
 
   const reverseList = () => {
-    setReverse(!isReversed);
+    setIsReverse(!isReversed);
   };
 
   const resetList = () => {
     setSortType(SortType.NONE);
-    setReverse(false);
+    setIsReverse(false);
   };
 
   return (
@@ -120,7 +120,7 @@ export const App: React.FC<{}> = () => {
           Reverse
         </button>
 
-        {visibilityResetButton && (
+        {isResetButtonVisible && (
           <button
             type="button"
             onClick={resetList}
@@ -135,7 +135,7 @@ export const App: React.FC<{}> = () => {
         <ul>
           {visibleItems.map(good => (
             <li
-              key={uuidv4()}
+              key={good}
               data-cy="Good"
             >
               {good}
