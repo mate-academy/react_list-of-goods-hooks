@@ -3,7 +3,7 @@ import 'bulma/css/bulma.css';
 import './App.scss';
 import classNames from 'classnames';
 
-export const goodsFromServer: Goods = [
+export const goodsFromServer = [
   'Dumplings',
   'Carrot',
   'Eggs',
