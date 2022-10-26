@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import classNames from 'classnames';
-import { v4 as uuidv4 } from 'uuid';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -23,14 +22,9 @@ enum SortType {
   LENGTH,
 }
 
-type ReorderOptions = {
-  sortType: SortType,
-  isReversed: boolean,
-};
-
 export function getReorderedGoods(
   goods: string[],
-  { sortType, isReversed }: ReorderOptions,
+  sortType: SortType,
 ) {
   const visibleGoods = [...goods];
 
@@ -50,20 +44,20 @@ export function getReorderedGoods(
     }
   });
 
-  if (isReversed) {
-    visibleGoods.reverse();
-  }
-
   return visibleGoods;
 }
 
 export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
-  const [isReversed, setReverse] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
   const visibleGoods = getReorderedGoods(
     goodsFromServer,
-    { sortType, isReversed },
+    sortType,
   );
+
+  if (isReversed) {
+    visibleGoods.reverse();
+  }
   const isResetButtonVisible = sortType !== SortType.NONE || isReversed;
 
   const sortByName = () => {
@@ -75,12 +69,12 @@ export const App: React.FC = () => {
   };
 
   const reverseGoods = () => {
-    setReverse(!isReversed);
+    setIsReversed(!isReversed);
   };
 
   const reset = () => {
     setSortType(SortType.NONE);
-    setReverse(false);
+    setIsReversed(false);
   };
 
   return (
@@ -128,7 +122,7 @@ export const App: React.FC = () => {
 
       <ul>
         {visibleGoods.map(good => (
-          <li key={uuidv4()} data-cy="Good">{good}</li>
+          <li key={good} data-cy="Good">{good}</li>
         ))}
       </ul>
     </div>
