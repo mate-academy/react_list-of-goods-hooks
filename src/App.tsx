@@ -18,7 +18,7 @@ export const goodsFromServer = [
 
 type SortType = 'NONE' | 'ALPABET' | 'LENGTH';
 
-function GetReorderedGoods(
+function getReorderedGoods(
   goods: string[],
   sortType: SortType,
   isReversed: boolean,
@@ -112,7 +112,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {GetReorderedGoods(goodsFromServer, sortType, isReversed)
+        {getReorderedGoods(goodsFromServer, sortType, isReversed)
           .map((product: string) => (
             <li data-cy="Good" key={product}>{product}</li>
           ))}
