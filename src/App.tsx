@@ -33,19 +33,20 @@ export function getReorderedGoods(
   // To avoid the original array mutation
   const visibleGoods = [...goods];
 
-  // Sort and reverse goods if needed
-  if (sortType === SortType.ALPABET) {
-    visibleGoods.sort((word1, word2) => word1.localeCompare(word2));
-  } else if (sortType === SortType.LENGTH) {
-    visibleGoods.sort((word1, word2) => word1.length - word2.length);
-  }
+  visibleGoods.sort((word1, word2) => {
+    switch (sortType) {
+      case SortType.ALPABET:
+        return word1.localeCompare(word2);
+      case SortType.LENGTH:
+        return word1.length - word2.length;
+      default:
+        return 0;
+    }
+  });
 
   if (isReversed) {
     visibleGoods.reverse();
   }
-
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
 
   return visibleGoods;
 }
@@ -112,11 +113,9 @@ export const App: React.FC = () => {
           getReorderedGoods(goodsFromServer, {
             sortType,
             isReversed,
-          }).map((good: string) => {
-            return (
-              <li key={good} data-cy="Good">{good}</li>
-            );
-          })
+          }).map((good: string) => (
+            <li key={good} data-cy="Good">{good}</li>
+          ))
         }
       </ul>
     </div>
