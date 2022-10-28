@@ -1,4 +1,6 @@
-import React from 'react';
+import { FC, useState } from 'react';
+import cn from 'classnames';
+
 import 'bulma/css/bulma.css';
 import './App.scss';
 
@@ -15,17 +17,23 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-const getGoods = (sortBy:string, isReversed:boolean) => {
-  const copyGoods = [...goodsFromServer];
+enum SortBy {
+  Default = '',
+  Length = 'length',
+  Alphabet = 'alphabet',
+}
+
+const getSortedGoods = (sortBy: SortBy, isReversed: boolean): string[] => {
+  const goodsCopy = [...goodsFromServer];
 
   switch (sortBy) {
-    case 'length':
-      copyGoods.sort((good1, good2) => (
+    case SortBy.Length:
+      goodsCopy.sort((good1, good2) => (
         good1.length - good2.length
       ));
       break;
-    case 'alphabet':
-      copyGoods.sort((good1, good2) => (
+    case SortBy.Alphabet:
+      goodsCopy.sort((good1, good2) => (
         good1.localeCompare(good2)
       ));
       break;
@@ -35,30 +43,30 @@ const getGoods = (sortBy:string, isReversed:boolean) => {
   }
 
   return isReversed
-    ? copyGoods.reverse()
-    : copyGoods;
+    ? goodsCopy.reverse()
+    : goodsCopy;
 };
 
-export const App: React.FC = () => {
-  const [isReversed, setIsReversed] = React.useState(false);
-  const [sortBy, setSortBy] = React.useState('');
-  const visibleGoods = getGoods(sortBy, isReversed);
+export const App: FC = () => {
+  const [isReversed, setIsReversed] = useState(false);
+  const [sortBy, setSortBy] = useState(SortBy.Default);
+  const visibleGoods = getSortedGoods(sortBy, isReversed);
 
-  const sortAlphabetically = () => {
-    setSortBy('alphabet');
+  const handleSortByAlphabet = () => {
+    setSortBy(SortBy.Alphabet);
   };
 
-  const sortByLength = () => {
-    setSortBy('length');
+  const handleSortByLength = () => {
+    setSortBy(SortBy.Length);
   };
 
-  const changeReverse = () => {
+  const switchReverse = () => {
     setIsReversed(isReverted => !isReverted);
   };
 
-  const resetState = () => {
+  const handleReset = () => {
     setIsReversed(false);
-    setSortBy('');
+    setSortBy(SortBy.Default);
   };
 
   return (
@@ -66,30 +74,36 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${
-            sortBy !== 'alphabet' && 'is-light'
-          }`}
-          onClick={sortAlphabetically}
+          className={cn(
+            'button',
+            'is-info',
+            { 'is-light': SortBy.Alphabet !== sortBy },
+          )}
+          onClick={handleSortByAlphabet}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={`button is-success ${
-            sortBy !== 'length' && 'is-light'
-          }`}
-          onClick={sortByLength}
+          className={cn(
+            'button',
+            'is-success',
+            { 'is-light': sortBy !== SortBy.Length },
+          )}
+          onClick={handleSortByLength}
         >
           Sort by length
         </button>
 
         <button
           type="button"
-          className={`button is-warning ${
-            isReversed === false && 'is-light'
-          }`}
-          onClick={changeReverse}
+          className={cn(
+            'button',
+            'is-warning',
+            { 'is-light': isReversed === false },
+          )}
+          onClick={switchReverse}
         >
           Reverse
         </button>
@@ -100,7 +114,7 @@ export const App: React.FC = () => {
             <button
               type="button"
               className="button is-danger is-light"
-              onClick={resetState}
+              onClick={handleReset}
             >
               Reset
             </button>
