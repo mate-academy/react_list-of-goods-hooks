@@ -62,6 +62,23 @@ export const App: React.FC = () => {
     { sortType, isReversed },
   );
 
+  const handleAlphabetSort = () => {
+    setSortType(SortType.ALPABET);
+  };
+
+  const handleLengthSort = () => {
+    setSortType(SortType.NONE);
+  };
+
+  const handleIsReversed = () => {
+    setIsReversed(!isReversed);
+  };
+
+  const handleReset = () => {
+    setSortType(SortType.NONE);
+    setIsReversed(false);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -71,7 +88,7 @@ export const App: React.FC = () => {
             'button is-info',
             { 'is-light': sortType !== SortType.ALPABET },
           )}
-          onClick={() => setSortType(SortType.ALPABET)}
+          onClick={handleAlphabetSort}
         >
           Sort alphabetically
         </button>
@@ -82,7 +99,7 @@ export const App: React.FC = () => {
             'button is-success',
             { 'is-light': sortType !== SortType.LENGTH },
           )}
-          onClick={() => setSortType(SortType.LENGTH)}
+          onClick={handleLengthSort}
         >
           Sort by length
         </button>
@@ -93,24 +110,21 @@ export const App: React.FC = () => {
             'button is-warning',
             { 'is-light': !isReversed },
           )}
-          onClick={() => setIsReversed(!isReversed)}
+          onClick={handleIsReversed}
         >
           Reverse
         </button>
-      </div>
 
-      {(sortType !== SortType.NONE || isReversed) && (
-        <button
-          type="button"
-          className="button is-danger is-light"
-          onClick={() => {
-            setSortType(SortType.NONE);
-            setIsReversed(false);
-          }}
-        >
-          Reset
-        </button>
-      )}
+        {(sortType !== SortType.NONE || isReversed) && (
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={handleReset}
+          >
+            Reset
+          </button>
+        )}
+      </div>
 
       <ul>
         {preparedGoods.map(good => (
