@@ -62,6 +62,10 @@ export const App: React.FC = () => {
     setSortType(SortType.ALPABET);
   };
 
+  const sortByLength = () => {
+    setSortType(SortType.LENGTH);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -79,7 +83,7 @@ export const App: React.FC = () => {
           type="button"
           className={classNames('button', 'is-success',
             { 'is-light': sortType !== SortType.LENGTH })}
-          onClick={() => setSortType(SortType.LENGTH)}
+          onClick={sortByLength}
         >
           Sort by length
         </button>
