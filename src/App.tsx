@@ -33,8 +33,10 @@ export function getReorederedGoods(
     switch (sortType) {
       case SortType.ALPHABET:
         return good1.localeCompare(good2);
+
       case SortType.LENGTH:
         return good1.length - good2.length;
+
       default:
         return 0;
     }
@@ -51,21 +53,19 @@ export const App: React.FC = () => {
   const [isReversed, setReverse] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
-  const clickAlphabet = () => {
+  const onClickAlphabet = () => {
     setSortType(SortType.ALPHABET);
   };
 
-  const clickReversed = () => {
-    setReverse(value => (
-      !value
-    ));
+  const onClickReversed = () => {
+    setReverse(!isReversed);
   };
 
-  const clickLength = () => {
+  const onClickLength = () => {
     setSortType(SortType.LENGTH);
   };
 
-  const clickReset = () => {
+  const onClickReset = () => {
     setSortType(SortType.NONE);
     setReverse(false);
   };
@@ -87,7 +87,7 @@ export const App: React.FC = () => {
               { 'is-light': sortType !== SortType.ALPHABET },
             )
           }
-          onClick={clickAlphabet}
+          onClick={onClickAlphabet}
         >
           Sort alphabetically
         </button>
@@ -98,7 +98,7 @@ export const App: React.FC = () => {
             'button is-success',
             { 'is-light': sortType !== SortType.LENGTH },
           )}
-          onClick={clickLength}
+          onClick={onClickLength}
         >
           Sort by length
         </button>
@@ -111,7 +111,7 @@ export const App: React.FC = () => {
               { 'is-light': isReversed === false },
             )
           }
-          onClick={clickReversed}
+          onClick={onClickReversed}
         >
           Reverse
         </button>
@@ -124,7 +124,7 @@ export const App: React.FC = () => {
                 { 'is-light': sortType !== SortType.NONE },
               )
             }
-            onClick={clickReset}
+            onClick={onClickReset}
           >
             Reset
           </button>
