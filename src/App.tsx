@@ -53,6 +53,15 @@ export const App: React.FC = () => {
 
   const sortedGoods = getReorderedGoods(goodsFromServer, sortType, isReversed);
 
+  const resetState = () => {
+    setSortType(SortType.NONE);
+    setIsReverse(false);
+  };
+
+  const sortByName = () => {
+    setSortType(SortType.ALPABET);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -61,7 +70,7 @@ export const App: React.FC = () => {
           className={classNames('button is-info', {
             'is-light': sortType !== SortType.ALPABET,
           })}
-          onClick={() => setSortType(SortType.ALPABET)}
+          onClick={sortByName}
         >
           Sort alphabetically
         </button>
@@ -88,10 +97,7 @@ export const App: React.FC = () => {
             <button
               type="button"
               className="button is-danger is-light"
-              onClick={() => {
-                setIsReverse(false);
-                setSortType(SortType.NONE);
-              }}
+              onClick={resetState}
             >
               Reset
             </button>
