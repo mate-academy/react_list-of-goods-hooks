@@ -67,7 +67,7 @@ export const App: React.FC = () => {
   };
 
   const handleLengthSort = () => {
-    setSortType(SortType.NONE);
+    setSortType(SortType.LENGTH);
   };
 
   const handleIsReversed = () => {
