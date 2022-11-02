@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
-import { v4 as uuidv4 } from 'uuid';
 import { Button } from './Components/Button';
 
 export const goodsFromServer = [
@@ -23,23 +22,24 @@ enum SortType {
   ALPABET,
   LENGTH,
 }
-type State = {
+type ReorderOptions = {
   isReversed: boolean,
   sortType: SortType,
 };
 
 export function getSortedGoods(
   goods: string[],
-  state: State,
+  { sortType, isReversed }: ReorderOptions,
 ) {
-  const { sortType, isReversed } = state;
-  const visibleGoods = [...goods].sort((goodA, goodB) => {
-    switch (sortType) {
-      case SortType.ALPABET:
-        return goodA.localeCompare(goodB);
+  const visibleGoods = [...goods];
 
+  visibleGoods.sort((good1, good2) => {
+    switch (sortType) {
       case SortType.LENGTH:
-        return goodA.length - goodB.length;
+        return good1.length - good2.length;
+
+      case SortType.ALPABET:
+        return good1.localeCompare(good2);
 
       default:
         return 0;
@@ -112,16 +112,11 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        <ul>
-          {visibleGoods.map(good => (
-            <li
-              data-cy="Good"
-              key={uuidv4()}
-            >
-              {good}
-            </li>
-          ))}
-        </ul>
+        {visibleGoods.map(product => (
+          <li data-cy="Good" key={product}>
+            {product}
+          </li>
+        ))}
       </ul>
     </div>
   );
