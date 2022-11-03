@@ -63,24 +63,13 @@ export const App: React.FC = () => {
     goodsFromServer, { isReversed, sortType },
   );
 
-  // reverse = () => {
-  //   this.setState(state => ({
-  //     isReversed: !state.isReversed,
-  //   }));
-  // };
-
-  // sortAlphabetically = () => {
-  //   this.setState({ sortType: SortType.ALPABET });
-  // };
-
-  // sortByLength = () => {
-  //   this.setState({ sortType: SortType.LENGTH });
-  // };
-
-  // sortByDefault = () => {
-  //   this.setState({ sortType: SortType.NONE });
-  //   this.setState({ isReversed: false });
-  // };
+  const sortByAlphabet = () => setSort(SortType.ALPABET);
+  const sortByLength = () => setSort(SortType.LENGTH);
+  const reverse = () => setReverse(!isReversed);
+  const resetToDefault = () => {
+    setReverse(false);
+    setSort(SortType.NONE);
+  };
 
   const isOriginal: boolean = isReversed || sortType !== SortType.NONE;
 
@@ -94,7 +83,7 @@ export const App: React.FC = () => {
               'is-info',
               { 'is-light': sortType !== SortType.ALPABET })
           }
-          onClick={() => setSort(SortType.ALPABET)}
+          onClick={sortByAlphabet}
         >
           Sort alphabetically
         </button>
@@ -106,7 +95,7 @@ export const App: React.FC = () => {
               'is-success',
               { 'is-light': sortType !== SortType.LENGTH })
           }
-          onClick={() => setSort(SortType.LENGTH)}
+          onClick={sortByLength}
         >
           Sort by length
         </button>
@@ -118,7 +107,7 @@ export const App: React.FC = () => {
               'is-warning',
               { 'is-light': !isReversed })
           }
-          onClick={() => setReverse(!isReversed)}
+          onClick={reverse}
         >
           Reverse
         </button>
@@ -127,10 +116,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setReverse(false);
-              setSort(SortType.NONE);
-            }}
+            onClick={resetToDefault}
           >
             Reset
           </button>
