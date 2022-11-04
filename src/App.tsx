@@ -59,9 +59,13 @@ export const App: React.FC = () => {
     }).map(good => (<li data-cy="Good" key={good}>{good}</li>));
   };
 
-  const handleOnClick = () => {
+  const handleOnClickReset = () => {
     setisReversed(false);
     setsortType(SortType.NONE);
+  };
+
+  const handleOnClickReverse = () => {
+    setisReversed(!isReversed);
   };
 
   return (
@@ -89,13 +93,7 @@ export const App: React.FC = () => {
           type="button"
           className={classNames('button is-warning',
             { 'is-light': !isReversed })}
-          onClick={() => {
-            if (isReversed) {
-              setisReversed(false);
-            } else {
-              setisReversed(true);
-            }
-          }}
+          onClick={handleOnClickReverse}
         >
           Reverse
         </button>
@@ -104,7 +102,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={handleOnClick}
+            onClick={handleOnClickReset}
           >
             Reset
           </button>
