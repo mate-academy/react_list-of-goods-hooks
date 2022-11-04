@@ -65,8 +65,10 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={classNames('button is-info',
-            { 'is-light': sortType !== SortType.ALPHABET })}
+          className={classNames(
+            'button is-info',
+            { 'is-light': sortType !== SortType.ALPHABET },
+          )}
           onClick={() => setSortType(SortType.ALPHABET)}
         >
           Sort alphabetically
@@ -83,10 +85,12 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={classNames('button is-warning',
-            { 'is-light': !isReversed })}
+          className={classNames(
+            'button is-warning',
+            { 'is-light': !isReversed },
+          )}
           onClick={() => {
-            setReverse(!isReversed);
+            setReverse(prevState => !prevState);
           }}
         >
           Reverse
