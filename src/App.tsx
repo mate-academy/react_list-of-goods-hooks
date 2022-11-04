@@ -32,14 +32,15 @@ export const App: React.FC = () => {
     setReversed(!isReversed);
   };
 
-  const sortByLength = () => {
-    setGoods([...goods].sort((g1, g2) => g1.length - g2.length));
-    setSortBy('length');
-  };
+  const handleSort = (goodsList: string[], sortOption: string) => {
+    setSortBy(sortOption);
+    setGoods([...goodsList].sort((g1, g2) => {
+      if (sortOption === 'alphabet') {
+        return g1.localeCompare(g2);
+      }
 
-  const sortByAlphabet = () => {
-    setGoods([...goods].sort((g1, g2) => g1.localeCompare(g2)));
-    setSortBy('alphabet');
+      return g1.length - g2.length;
+    }));
   };
 
   return (
@@ -51,14 +52,18 @@ export const App: React.FC = () => {
             'is-info is-light': sortBy !== 'alphabet',
             'is-info': sortBy === 'alphabet',
           })}
-          onClick={sortByAlphabet}
+          onClick={() => {
+            handleSort(goods, 'alphabet');
+          }}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          onClick={sortByLength}
+          onClick={() => {
+            handleSort(goods, 'length');
+          }}
           className={classNames('button', {
             'is-success is-light': sortBy !== 'length',
             'is-success': sortBy === 'length',
