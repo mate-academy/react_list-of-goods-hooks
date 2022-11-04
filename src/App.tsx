@@ -45,14 +45,19 @@ export function getReorderedGoods(
     visibleGoods = visibleGoods.reverse();
   }
 
-  // eslint-disable-next-line no-console
-
   return visibleGoods;
 }
 
 export const App: React.FC = () => {
   const [isReversed, setisReversed] = useState(false);
   const [sortType, setsortType] = useState(SortType.NONE);
+
+  const renderList = () => {
+    return getReorderedGoods(goodsFromServer, {
+      sortType,
+      isReversed,
+    }).map(good => (<li data-cy="Good" key={good}>{good}</li>));
+  };
 
   return (
     <div className="section content">
@@ -106,10 +111,7 @@ export const App: React.FC = () => {
 
       <ul>
         <ul>
-          {getReorderedGoods(goodsFromServer, {
-            sortType,
-            isReversed,
-          }).map(good => (<li data-cy="Good" key={good}>{good}</li>))}
+          {renderList()}
         </ul>
       </ul>
     </div>
