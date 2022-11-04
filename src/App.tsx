@@ -30,7 +30,6 @@ export function getReorderedGoods(
   goods: string[],
   { sortType, isReversed }: ReorderOptions,
 ) {
-  // To avoid the original array mutation
   const visibleGoods = [...goods];
 
   visibleGoods.sort((word1, word2) => {
@@ -54,6 +53,16 @@ export function getReorderedGoods(
 export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setIsReversed] = useState(false);
+
+  const handlerReset = () => {
+    setSortType(SortType.NONE);
+    setIsReversed(false);
+  };
+
+  const sortParam = {
+    sortType,
+    isReversed,
+  };
 
   return (
     <div className="section content">
@@ -98,10 +107,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortType(SortType.NONE);
-              setIsReversed(false);
-            }}
+            onClick={handlerReset}
           >
             Reset
           </button>
@@ -110,12 +116,10 @@ export const App: React.FC = () => {
 
       <ul>
         {
-          getReorderedGoods(goodsFromServer, {
-            sortType,
-            isReversed,
-          }).map((good: string) => (
-            <li key={good} data-cy="Good">{good}</li>
-          ))
+          getReorderedGoods(goodsFromServer, sortParam)
+            .map((good: string) => (
+              <li key={good} data-cy="Good">{good}</li>
+            ))
         }
       </ul>
     </div>
