@@ -27,22 +27,22 @@ type ReorderOptions = {
   isReversed: boolean,
 };
 
-// Use this function in the render to prepare goods
 export function getReorderedGoods(
   goods: string[],
   { sortType, isReversed }: ReorderOptions,
 ) {
-  // To avoid the original array mutation
-  let visibleGoods = [...goods];
+  const visibleGoods = [...goods];
 
   if (sortType === SortType.LENGTH) {
     visibleGoods.sort((a, b) => (a.length - b.length));
-  } else if (sortType === SortType.ALPABET) {
+  }
+
+  if (sortType === SortType.ALPABET) {
     visibleGoods.sort((a, b) => (a.localeCompare(b)));
   }
 
   if (isReversed) {
-    visibleGoods = visibleGoods.reverse();
+    visibleGoods.reverse();
   }
 
   return visibleGoods;
@@ -57,6 +57,11 @@ export const App: React.FC = () => {
       sortType,
       isReversed,
     }).map(good => (<li data-cy="Good" key={good}>{good}</li>));
+  };
+
+  const handleOnClick = () => {
+    setisReversed(false);
+    setsortType(SortType.NONE);
   };
 
   return (
@@ -99,10 +104,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setisReversed(false);
-              setsortType(SortType.NONE);
-            }}
+            onClick={handleOnClick}
           >
             Reset
           </button>
