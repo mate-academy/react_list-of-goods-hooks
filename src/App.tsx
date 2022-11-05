@@ -29,7 +29,7 @@ export const App: React.FC = () => {
 
   const reverse = () => {
     setGoods([...goods].reverse());
-    setReversed(!isReversed);
+    setReversed(prevState => !prevState);
   };
 
   const handleSort = (goodsList: string[], sortOption: string) => {
@@ -43,6 +43,14 @@ export const App: React.FC = () => {
     }));
   };
 
+  const handleAlphabetSort = () => {
+    handleSort(goods, 'alphabet');
+  };
+
+  const handleLengthSort = () => {
+    handleSort(goods, 'length');
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -52,18 +60,14 @@ export const App: React.FC = () => {
             'is-info is-light': sortBy !== 'alphabet',
             'is-info': sortBy === 'alphabet',
           })}
-          onClick={() => {
-            handleSort(goods, 'alphabet');
-          }}
+          onClick={handleAlphabetSort}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          onClick={() => {
-            handleSort(goods, 'length');
-          }}
+          onClick={handleLengthSort}
           className={classNames('button', {
             'is-success is-light': sortBy !== 'length',
             'is-success': sortBy === 'length',
@@ -97,9 +101,7 @@ export const App: React.FC = () => {
 
       <ul>
         <ul>
-          {goods.map(good => (
-            <li key={good}>{good}</li>
-          ))}
+          {goods.map(good => <li key={good}>{good}</li>)}
         </ul>
       </ul>
     </div>
