@@ -16,16 +16,21 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+enum SortBy {
+  ALPABET = 'alphabet',
+  LENGTH = 'length',
+}
+
 export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const [sortBy, setSortBy] = useState('');
 
   const sortAlphabet = () => {
-    setSortBy('alphabet');
+    setSortBy(SortBy.ALPABET);
   };
 
   const sortLength = () => {
-    setSortBy('length');
+    setSortBy(SortBy.LENGTH);
   };
 
   const reverse = () => {
@@ -41,9 +46,9 @@ export const App: React.FC = () => {
 
   visibleGoods.sort((a, b) => {
     switch (sortBy) {
-      case 'alphabet':
+      case SortBy.ALPABET:
         return a.localeCompare(b);
-      case 'length':
+      case SortBy.LENGTH:
         return a[sortBy] - b[sortBy];
       default:
         return 0;
@@ -60,8 +65,8 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={classNames('button', {
-            'is-info is-light': sortBy !== 'alphabet',
-            'is-info': sortBy === 'alphabet',
+            'is-info is-light': sortBy !== SortBy.ALPABET,
+            'is-info': sortBy === SortBy.ALPABET,
           })}
           onClick={sortAlphabet}
         >
@@ -71,8 +76,8 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={classNames('button', {
-            'is-success is-light': sortBy !== 'length',
-            'is-success': sortBy === 'length',
+            'is-success is-light': sortBy !== SortBy.LENGTH,
+            'is-success': sortBy === SortBy.LENGTH,
           })}
           onClick={sortLength}
         >
