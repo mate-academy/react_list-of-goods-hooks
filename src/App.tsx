@@ -50,11 +50,8 @@ function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [isReversed, setIsReversed]
- = useState(false);
-
-  const [sortType, setSortType]
- = useState(SortType.NONE);
+  const [isReversed, setIsReversed] = useState(false);
+  const [sortType, setSortType] = useState(SortType.NONE);
 
   const sortAlph = () => setSortType(SortType.ALPABET);
   const sortByLength = () => setSortType(SortType.LENGTH);
@@ -72,9 +69,7 @@ export const App: React.FC = () => {
             'button is-info',
             { 'is-light': sortType !== SortType.ALPABET },
           )}
-          onClick={() => {
-            sortAlph();
-          }}
+          onClick={sortAlph}
         >
           Sort alphabetically
         </button>
@@ -85,9 +80,7 @@ export const App: React.FC = () => {
             'button is-success',
             { 'is-light': sortType !== SortType.LENGTH },
           )}
-          onClick={() => {
-            sortByLength();
-          }}
+          onClick={sortByLength}
         >
           Sort by length
         </button>
@@ -99,7 +92,7 @@ export const App: React.FC = () => {
             { 'is-light': !isReversed },
           )}
           onClick={() => {
-            setIsReversed(!isReversed);
+            setIsReversed(prevState => !prevState);
           }}
         >
           Reverse
@@ -110,9 +103,7 @@ export const App: React.FC = () => {
             <button
               type="button"
               className="button is-danger is-light"
-              onClick={() => {
-                resetter();
-              }}
+              onClick={resetter}
             >
               Reset
             </button>
