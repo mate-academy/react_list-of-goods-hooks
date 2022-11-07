@@ -1,26 +1,26 @@
 import React from 'react';
-import classNames from 'classnames';
+import cn from 'classnames';
 
 interface Props {
   children: string;
-  styleClass: string;
+  classNames: string;
   onClick: React.MouseEventHandler;
-  isLightCondition?: boolean;
+  shouldHighlight?: boolean;
 }
 
 export const Button: React.FC<Props> = ({
   children,
-  styleClass,
+  classNames,
   onClick,
-  isLightCondition,
+  shouldHighlight,
 }) => {
   return (
     <button
       type="button"
-      className={classNames(
+      className={cn(
         'button',
-        styleClass,
-        { 'is-light': isLightCondition },
+        classNames,
+        { 'is-light': shouldHighlight },
       )}
       onClick={onClick}
     >
@@ -30,5 +30,5 @@ export const Button: React.FC<Props> = ({
 };
 
 Button.defaultProps = {
-  isLightCondition: true,
+  shouldHighlight: true,
 };
