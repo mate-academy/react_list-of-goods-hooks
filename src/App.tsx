@@ -18,7 +18,7 @@ export const goodsFromServer = [
 
 enum SortType {
   NONE,
-  ALPABET,
+  ALPHABET,
   LENGTH,
 }
 
@@ -35,7 +35,7 @@ export function getReorderedGoods(
 
   visibleGoods.sort((previous, current) => {
     switch (sortType) {
-      case SortType.ALPABET:
+      case SortType.ALPHABET:
         return previous.localeCompare(current);
 
       case SortType.LENGTH:
@@ -55,16 +55,16 @@ export function getReorderedGoods(
 
 export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
-  const [sortType, setSortType] = useState(SortType.NONE);
+  const [sortType, setSortType] = useState<SortType>(SortType.NONE);
 
   const goods = getReorderedGoods(
     goodsFromServer,
     { sortType, isReversed },
   );
 
-  const sortByAlphabet = () => setSortType(SortType.ALPABET);
+  const sortByAlphabet = () => setSortType(SortType.ALPHABET);
   const sortByLength = () => setSortType(SortType.LENGTH);
-  const toggleReverse = () => setIsReversed(!isReversed);
+  const toggleReverse = () => setIsReversed(reversed => !reversed);
 
   const resetReverse = () => {
     setSortType(SortType.NONE);
@@ -79,7 +79,7 @@ export const App: React.FC = () => {
           onClick={sortByAlphabet}
           className={classNames(
             'button is-info',
-            { 'is-light': sortType !== SortType.ALPABET },
+            { 'is-light': sortType !== SortType.ALPHABET },
           )}
         >
           Sort alphabetically
