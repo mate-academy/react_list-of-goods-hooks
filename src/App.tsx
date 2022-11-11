@@ -114,19 +114,17 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        <ul>
-          {newGoods.map(good => {
-            return (
-              <li
-                data-cy="Good"
-                key={good}
-                className="box column is-info is-rounded mb-3"
-              >
-                {good}
-              </li>
-            );
-          })}
-        </ul>
+        {newGoods.map(good => {
+          return (
+            <li
+              data-cy="Good"
+              key={good}
+              className="box column is-info is-rounded mb-3"
+            >
+              {good}
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
