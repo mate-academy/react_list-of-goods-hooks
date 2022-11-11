@@ -49,24 +49,24 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortType, sortTypeSetter] = useState(SortType.NONE);
-  const [isReversed, isReversedSetter] = useState(false);
+  const [sortType, setSortType] = useState(SortType.NONE);
+  const [isReversed, setIsReversed] = useState(false);
 
   const reverseHandler = () => {
-    isReversedSetter(prevState => !prevState);
+    setIsReversed(prevState => !prevState);
   };
 
   const alphabeticSorter = () => {
-    sortTypeSetter(SortType.ALPABET);
+    setSortType(SortType.ALPABET);
   };
 
   const lengthSorter = () => {
-    sortTypeSetter(SortType.LENGTH);
+    setSortType(SortType.LENGTH);
   };
 
   const resetHandler = () => {
-    sortTypeSetter(SortType.NONE);
-    isReversedSetter(false);
+    setSortType(SortType.NONE);
+    setIsReversed(false);
   };
 
   const newGoods = getReorderedGoods(goodsFromServer,
@@ -117,15 +117,13 @@ export const App: React.FC = () => {
         <ul>
           {newGoods.map(good => {
             return (
-              <div>
-                <div
-                  data-cy="Good"
-                  key={good}
-                  className="box column is-info is-rounded mb-3"
-                >
-                  {good}
-                </div>
-              </div>
+              <li
+                data-cy="Good"
+                key={good}
+                className="box column is-info is-rounded mb-3"
+              >
+                {good}
+              </li>
             );
           })}
         </ul>
