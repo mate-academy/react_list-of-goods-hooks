@@ -23,12 +23,12 @@ enum SortType {
 }
 
 export const App: React.FC = () => {
-  const [isReversed, setReverse] = useState(false);
-  const [sortType, chooseSort] = useState(SortType.NONE);
+  const [isReversed, setIsReverse] = useState(false);
+  const [sortType, setSortType] = useState<SortType>(SortType.NONE);
 
   const reset = () => {
-    setReverse(false);
-    chooseSort(SortType.NONE);
+    setIsReverse(false);
+    setSortType(SortType.NONE);
   };
 
   const getReorderedGoods = (goods: string[], sortBy: SortType) => {
@@ -66,7 +66,7 @@ export const App: React.FC = () => {
               'is-light': sortType !== SortType.ALPABET,
             },
           )}
-          onClick={() => chooseSort(SortType.ALPABET)}
+          onClick={() => setSortType(SortType.ALPABET)}
         >
           Sort alphabetically
         </button>
@@ -79,7 +79,7 @@ export const App: React.FC = () => {
               'is-light': sortType !== SortType.LENGTH,
             },
           )}
-          onClick={() => chooseSort(SortType.LENGTH)}
+          onClick={() => setSortType(SortType.LENGTH)}
         >
           Sort by length
         </button>
@@ -92,7 +92,7 @@ export const App: React.FC = () => {
               'is-light': !isReversed,
             },
           )}
-          onClick={() => setReverse(!isReversed)}
+          onClick={() => setIsReverse(!isReversed)}
         >
           Reverse
         </button>
