@@ -33,19 +33,7 @@ export function getReorderedGoods(
 ) {
   const visibleGoods = [...goods];
 
-  // eslint-disable-next-line no-console
-  console.log(sortType, reverse);
-
-  return visibleGoods;
-}
-
-export const App: React.FC = () => {
-  const [reverse, setReverse] = useState(false);
-  const [sortType, setSortType] = useState(SortType.NONE);
-
-  const goods = getReorderedGoods(goodsFromServer, { sortType, reverse });
-
-  goods.sort((good1, good2) => {
+  visibleGoods.sort((good1, good2) => {
     switch (sortType) {
       case SortType.ALPABET:
         return good1.localeCompare(good2);
@@ -59,8 +47,17 @@ export const App: React.FC = () => {
   });
 
   if (reverse) {
-    goods.reverse();
+    visibleGoods.reverse();
   }
+
+  return visibleGoods;
+}
+
+export const App: React.FC = () => {
+  const [reverse, setReverse] = useState(false);
+  const [sortType, setSortType] = useState(SortType.NONE);
+
+  const goods = getReorderedGoods(goodsFromServer, { sortType, reverse });
 
   return (
     <div className="section content">
