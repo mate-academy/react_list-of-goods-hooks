@@ -31,7 +31,7 @@ export function getReorderedGoods(
   goods: string[],
   { sortType, isReversed }: ReorderOptions,
 ) {
-  let visibleGoods = [...goods];
+  const visibleGoods = [...goods];
 
   switch (sortType) {
     case SortType.ALPABET:
@@ -43,9 +43,6 @@ export function getReorderedGoods(
       break;
 
     case SortType.NONE:
-      visibleGoods = [...goods];
-      break;
-
     default:
       break;
   }
@@ -54,23 +51,28 @@ export function getReorderedGoods(
     visibleGoods.reverse();
   }
 
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
-
   return visibleGoods;
 }
 
 export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setIsReversed] = useState(false);
+  const orderedGoods = getReorderedGoods(
+    goodsFromServer,
+    { sortType, isReversed },
+  );
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          // eslint-disable-next-line max-len
-          className={classNames('button is-info', { 'is-light': sortType !== SortType.ALPABET })}
+          className={classNames(
+            'button is-info',
+            {
+              'is-light': sortType !== SortType.ALPABET,
+            },
+          )}
           onClick={() => {
             setSortType(SortType.ALPABET);
           }}
@@ -80,8 +82,12 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          // eslint-disable-next-line max-len
-          className={classNames('button is-success', { 'is-light': sortType !== SortType.LENGTH })}
+          className={classNames(
+            'button is-success',
+            {
+              'is-light': sortType !== SortType.LENGTH,
+            },
+          )}
           onClick={() => {
             setSortType(SortType.LENGTH);
           }}
@@ -100,8 +106,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {
-          (sortType !== SortType.NONE || isReversed)
+        {(sortType !== SortType.NONE || isReversed)
             && (
               <button
                 type="button"
@@ -113,14 +118,12 @@ export const App: React.FC = () => {
               >
                 Reset
               </button>
-            )
-        }
+            )}
       </div>
 
       <ul>
         {
-          // eslint-disable-next-line max-len
-          getReorderedGoods(goodsFromServer, { sortType, isReversed }).map((good) => (
+          orderedGoods.map((good) => (
             <li key={good} data-cy="Good">{good}</li>
           ))
         }
