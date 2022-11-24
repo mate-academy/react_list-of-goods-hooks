@@ -72,9 +72,7 @@ export const App: React.FC = () => {
           className={sortType === SortType.ALPABET
             ? 'button is-info'
             : 'button is-info is-light'}
-          onClick={() => {
-            setCount(SortType.ALPABET);
-          }}
+          onClick={() => setCount(SortType.ALPABET)}
         >
           Sort alphabetically
         </button>
