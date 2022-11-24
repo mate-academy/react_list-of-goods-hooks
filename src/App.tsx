@@ -18,9 +18,9 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  NONE = 'NONE',
-  ALPABET = 'ALPHABET',
-  LENGTH = 'LENGTH',
+  NONE,
+  ALPABET,
+  LENGTH,
 }
 
 type ReorderOptions = {
@@ -65,10 +65,12 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={classNames('button is-info',
+          className={classNames(
+            'button is-info',
             {
               'is-light': sortType !== SortType.ALPABET,
-            })}
+            },
+          )}
           onClick={() => setSortType(SortType.ALPABET)}
         >
           Sort alphabetically
@@ -76,10 +78,12 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={classNames('button is-success',
+          className={classNames(
+            'button is-success',
             {
               'is-light': sortType !== SortType.LENGTH,
-            })}
+            },
+          )}
           onClick={() => setSortType(SortType.LENGTH)}
         >
           Sort by length
@@ -87,10 +91,12 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={classNames('button is-warning',
+          className={classNames(
+            'button is-warning',
             {
               'is-light': !isReversed,
-            })}
+            },
+          )}
           onClick={() => setIsReversed(!isReversed)}
         >
           Reverse
