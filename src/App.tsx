@@ -52,15 +52,13 @@ export function getReorderedGoods(
     visibleGoods.reverse();
   }
 
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
-
   return visibleGoods;
 }
 
 export const App: React.FC = () => {
   const [isReversed, setValue] = useState(false);
   const [sortType, setCount] = useState(SortType.NONE);
+
   const orderedGoods = getReorderedGoods(
     goodsFromServer,
     { sortType, isReversed },
@@ -74,7 +72,9 @@ export const App: React.FC = () => {
           className={sortType === SortType.ALPABET
             ? 'button is-info'
             : 'button is-info is-light'}
-          onClick={() => setCount(SortType.ALPABET)}
+          onClick={() => {
+            setCount(SortType.ALPABET);
+          }}
         >
           Sort alphabetically
         </button>
