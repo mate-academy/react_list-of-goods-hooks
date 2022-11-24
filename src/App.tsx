@@ -63,10 +63,6 @@ export const App: React.FC = () => {
   );
   const isOrderChanged = isReversed || sortType !== SortType.NONE;
 
-  useEffect(() => {
-
-  });
-
   return (
     <div className="section content">
       <div className="buttons">
