@@ -53,6 +53,22 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
+  const sortByAlphabet = () => {
+    setSortType(
+      sortType === SortType.ALPHABET
+        ? SortType.NONE
+        : SortType.ALPHABET,
+    );
+  };
+
+  const sortByLength = () => setSortType(
+    sortType === SortType.LENGTH
+      ? SortType.NONE
+      : SortType.LENGTH,
+  );
+
+  const reversed = () => setIsReversed(!isReversed);
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -64,11 +80,7 @@ export const App: React.FC = () => {
               'is-light': sortType !== SortType.ALPHABET,
             },
           )}
-          onClick={() => setSortType(
-            sortType === SortType.ALPHABET
-              ? SortType.NONE
-              : SortType.ALPHABET,
-          )}
+          onClick={sortByAlphabet}
         >
           Sort alphabetically
         </button>
@@ -81,11 +93,7 @@ export const App: React.FC = () => {
               'is-light': sortType !== SortType.LENGTH,
             },
           )}
-          onClick={() => setSortType(
-            sortType === SortType.LENGTH
-              ? SortType.NONE
-              : SortType.LENGTH,
-          )}
+          onClick={sortByLength}
         >
           Sort by length
         </button>
@@ -98,7 +106,7 @@ export const App: React.FC = () => {
               'is-light': !isReversed,
             },
           )}
-          onClick={() => setIsReversed(!isReversed)}
+          onClick={reversed}
         >
           Reverse
         </button>
