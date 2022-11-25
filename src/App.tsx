@@ -85,7 +85,7 @@ export const App: React.FC = () => {
             classNames('button is-info',
               { 'is-light': sortType !== SortType.ALPABET })
           }
-          onClick={() => sortAlphabetically()}
+          onClick={sortAlphabetically}
         >
           Sort alphabetically
         </button>
@@ -96,7 +96,7 @@ export const App: React.FC = () => {
             classNames('button is-success',
               { 'is-light': sortType !== SortType.LENGTH })
           }
-          onClick={() => sortByLength()}
+          onClick={sortByLength}
         >
           Sort by length
         </button>
@@ -107,21 +107,19 @@ export const App: React.FC = () => {
             classNames('button is-warning',
               { 'is-light': !isReversed })
           }
-          onClick={() => reverseGoods()}
+          onClick={reverseGoods}
         >
           Reverse
         </button>
-        {
-          (toggleReset) && (
-            <button
-              type="button"
-              className="button is-danger is-light"
-              onClick={() => reset()}
-            >
-              Reset
-            </button>
-          )
-        }
+        {toggleReset && (
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={() => reset()}
+          >
+            Reset
+          </button>
+        )}
       </div>
 
       <ul>
@@ -134,49 +132,4 @@ export const App: React.FC = () => {
       </ul>
     </div>
   );
-
-  // return (
-  //   <div className="section content">
-  //     <div className="buttons">
-  //       <button
-  //         type="button"
-  //         className="button is-info is-light"
-  //       >
-  //         Sort alphabetically
-  //       </button>
-
-  //       <button
-  //         type="button"
-  //         className="button is-success is-light"
-  //       >
-  //         Sort by length
-  //       </button>
-
-  //       <button
-  //         type="button"
-  //         className="button is-warning is-light"
-  //       >
-  //         Reverse
-  //       </button>
-
-  //       <button
-  //         type="button"
-  //         className="button is-danger is-light"
-  //       >
-  //         Reset
-  //       </button>
-  //     </div>
-
-  //     <ul>
-  //       <ul>
-  //         <li data-cy="Good">Dumplings</li>
-  //         <li data-cy="Good">Carrot</li>
-  //         <li data-cy="Good">Eggs</li>
-  //         <li data-cy="Good">Ice cream</li>
-  //         <li data-cy="Good">Apple</li>
-  //         <li data-cy="Good">...</li>
-  //       </ul>
-  //     </ul>
-  //   </div>
-  // );
 };
