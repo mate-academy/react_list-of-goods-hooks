@@ -21,6 +21,7 @@ enum SortType {
   ALPABET,
   LENGTH,
 }
+
 type ReorderOptions = {
   sortType: SortType,
   isReversed: boolean,
@@ -43,6 +44,7 @@ export function getReorderedGoods(
       break;
     }
 
+    case (SortType.NONE):
     default:
       break;
   }
@@ -65,7 +67,6 @@ export const App: React.FC = () => {
   const preparedGoods = getReorderedGoods(
     goodsFromServer,
     { sortType, isReversed },
-
   );
 
   const produceSortByLength = () => {
@@ -92,7 +93,9 @@ export const App: React.FC = () => {
           type="button"
           className={classNames(
             'button is-info',
-            { 'button is-info is-light': alphabetButtonRules },
+            {
+              'button is-info is-light': alphabetButtonRules,
+            },
           )}
           onClick={produceSortByAlph}
         >
@@ -103,7 +106,9 @@ export const App: React.FC = () => {
           type="button"
           className={classNames(
             'button is-success',
-            { 'button is-success is-light': lengthButtonRules },
+            {
+              'button is-success is-light': lengthButtonRules,
+            },
           )}
           onClick={produceSortByLength}
         >
@@ -114,7 +119,9 @@ export const App: React.FC = () => {
           type="button"
           className={classNames(
             'button is-warning',
-            { 'button is-warning is-light': !isReversed },
+            {
+              'button is-warning is-light': !isReversed,
+            },
           )}
           onClick={produceSortReversed}
         >
@@ -134,10 +141,7 @@ export const App: React.FC = () => {
 
       <ul>
         {preparedGoods.map(good => (
-          <li
-            key={good}
-            data-cy="Good"
-          >
+          <li key={good} data-cy="Good">
             {good}
           </li>
         ))}
