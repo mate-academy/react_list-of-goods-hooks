@@ -31,9 +31,7 @@ export function getReorderedGoods(
   goods: string[],
   { sortType, isReversed }: ReorderOptions,
 ) {
-  const goodsList = [...goods];
-
-  goodsList.sort((goodA, goodB) => {
+  const goodsList = [...goods].sort((goodA, goodB) => {
     switch (sortType) {
       case SortType.LENGTH:
         return goodA.length - goodB.length;
@@ -61,6 +59,11 @@ export const App: React.FC = () => {
   const orderedGoods = getReorderedGoods(goodsFromServer,
     { sortType, isReversed });
   const isOrderChanged = isReversed || sortType !== SortType.NONE;
+
+  const resetClickHandler = () => {
+    setSortType(SortType.NONE);
+    setIsReversed(false);
+  };
 
   return (
     <div className="section content">
@@ -109,8 +112,7 @@ export const App: React.FC = () => {
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              setSortType(SortType.NONE);
-              setIsReversed(false);
+              resetClickHandler();
             }}
           >
             Reset
