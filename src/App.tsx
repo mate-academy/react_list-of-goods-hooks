@@ -43,6 +43,7 @@ export function getReorderedGoods(
         return good1.length - good2.length;
       }
 
+      case (SortType.NONE):
       default:
         return 0;
     }
