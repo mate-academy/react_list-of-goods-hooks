@@ -63,14 +63,19 @@ export const App: React.FC = () => {
     { sortType, isReversed },
   );
 
+  const isOrderChanged = (isReversed || sortType !== SortType.NONE);
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
           className={classNames(
-            'button is-info',
-            { 'is-light': sortType !== SortType.ALPHABET },
+            'button',
+            'is-info',
+            {
+              'is-light': sortType !== SortType.ALPHABET,
+            },
           )}
           onClick={() => setSortType(SortType.ALPHABET)}
         >
@@ -80,8 +85,11 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={classNames(
-            'button is-info',
-            { 'is-light': sortType !== SortType.LENGTH },
+            'button',
+            'is-success',
+            {
+              'is-light': sortType !== SortType.LENGTH,
+            },
           )}
           onClick={() => setSortType(SortType.LENGTH)}
         >
@@ -91,25 +99,36 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={classNames(
-            'button is-warning',
-            { 'is-light': !isReversed },
+            'button',
+            'is-warning',
+            {
+              'is-light': !isReversed,
+            },
           )}
           onClick={() => setIsReversed(!isReversed)}
         >
           Reverse
         </button>
 
-        <button
-          type="button"
-          className="button is-danger is-light"
-        >
-          Reset
-        </button>
+        {isOrderChanged && (
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={() => {
+              setSortType(SortType.NONE);
+              setIsReversed(false);
+            }}
+          >
+            Reset
+          </button>
+        )}
       </div>
 
       <ul>
         {preparedGoods.map(good => (
-          <li data-cy="Good" key={good}>{good}</li>
+          <li data-cy="Good" key={good}>
+            {good}
+          </li>
         ))}
       </ul>
     </div>
