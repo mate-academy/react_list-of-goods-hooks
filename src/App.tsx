@@ -69,22 +69,22 @@ export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setIsReversed] = useState(false);
 
-  const sortByAlphabet = () => {
-    setSortType(SortType.ALPABET);
-  };
+  // const sortByAlphabet = () => {
+  //   setSortType(SortType.ALPABET);
+  // };
 
-  const sortByLength = () => {
-    setSortType(SortType.LENGTH);
-  };
+  // const sortByLength = () => {
+  //   setSortType(SortType.LENGTH);
+  // };
 
-  const reset = () => {
-    setSortType(SortType.NONE);
-    setIsReversed(false);
-  };
+  // const reset = () => {
+  //   setSortType(SortType.NONE);
+  //   setIsReversed(false);
+  // };
 
-  const reverse = () => {
-    setIsReversed(current => !current);
-  };
+  // const reverse = () => {
+  //   setIsReversed(current => !current);
+  // };
 
   const goods = getReorderedGoods(
     goodsFromServer,
@@ -102,7 +102,7 @@ export const App: React.FC = () => {
             'button is-info',
             { 'is-light': sortType !== SortType.ALPABET },
           )}
-          onClick={sortByAlphabet}
+          onClick={() => setSortType(SortType.ALPABET)}
         >
           Sort alphabetically
         </button>
@@ -113,7 +113,7 @@ export const App: React.FC = () => {
             'button is-success',
             { 'is-light': sortType !== SortType.LENGTH },
           )}
-          onClick={sortByLength}
+          onClick={() => setSortType(SortType.LENGTH)}
         >
           Sort by length
         </button>
@@ -124,7 +124,7 @@ export const App: React.FC = () => {
             'button is-warning',
             { 'is-light': !isReversed },
           )}
-          onClick={reverse}
+          onClick={() => setIsReversed(current => !current)}
         >
           Reverse
         </button>
@@ -133,7 +133,10 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={reset}
+            onClick={() => {
+              setSortType(SortType.NONE);
+              setIsReversed(false);
+            }}
           >
             Reset
           </button>
