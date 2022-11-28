@@ -33,9 +33,6 @@ export function getReorderedGoods(
 ) {
   const visibleGoods = [...goods];
 
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
-
   visibleGoods.sort((good1, good2) => {
     switch (sortType) {
       case SortType.ALPABET:
@@ -44,6 +41,7 @@ export function getReorderedGoods(
       case SortType.LENGTH:
         return good1.length - good2.length;
 
+      case SortType.NONE:
       default:
         return 0;
     }
@@ -69,22 +67,6 @@ export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setIsReversed] = useState(false);
 
-  // const sortByAlphabet = () => {
-  //   setSortType(SortType.ALPABET);
-  // };
-
-  // const sortByLength = () => {
-  //   setSortType(SortType.LENGTH);
-  // };
-
-  // const reset = () => {
-  //   setSortType(SortType.NONE);
-  //   setIsReversed(false);
-  // };
-
-  // const reverse = () => {
-  //   setIsReversed(current => !current);
-  // };
 
   const goods = getReorderedGoods(
     goodsFromServer,
