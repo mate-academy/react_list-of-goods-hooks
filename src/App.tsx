@@ -17,9 +17,9 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  NONE,
-  ALPABET,
-  LENGTH,
+  NONE = 'NONE',
+  ALPABET = 'ALPABET',
+  LENGTH = 'LENGTH',
 }
 
 type ReorderOptions = {
@@ -27,12 +27,10 @@ type ReorderOptions = {
   isReversed: boolean,
 };
 
-// Use this function in the render to prepare goods
 export function getReorderedGoods(
   goods: string[],
   { sortType, isReversed }: ReorderOptions,
 ) {
-  // To avoid the original array mutation
   const visibleGoods = [...goods];
 
   visibleGoods.sort((curr, next) => {
@@ -64,6 +62,11 @@ export const App: React.FC = () => {
     goodsFromServer, { sortType, isReversed },
   );
   const showResetButton = isReversed || sortType !== SortType.NONE;
+
+  const reset = () => {
+    setSortType(SortType.NONE);
+    setIsReversed(false);
+  };
 
   return (
     <div className="section content">
@@ -102,10 +105,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortType(SortType.NONE);
-              setIsReversed(false);
-            }}
+            onClick={() => reset()}
           >
             Reset
           </button>
