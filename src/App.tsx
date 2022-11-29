@@ -22,36 +22,29 @@ enum SortType {
   NONE,
 }
 
-// Use this function in the render to prepare goods
 export function getReorderedGoods(
   goods: string[],
   sortType: SortType,
   isReversed: boolean,
 ) {
-  // To avoid the original array mutation
-  const visibleGoods = [...goods];
+  const visibleGoods = [...goods]
+    .sort((good1, good2) => {
+      switch (sortType) {
+        case SortType.ALPHABET:
+          return good1.localeCompare(good2);
 
-  // Sort and reverse goods if needed
-  visibleGoods.sort((good1, good2) => {
-    switch (sortType) {
-      case SortType.ALPHABET:
-        return good1.localeCompare(good2);
+        case SortType.LENGTH:
+          return good1.length - good2.length;
 
-      case SortType.LENGTH:
-        return good1.length - good2.length;
-
-      case SortType.NONE:
-      default:
-        return 0;
-    }
-  });
+        case SortType.NONE:
+        default:
+          return 0;
+      }
+    });
 
   if (isReversed) {
     visibleGoods.reverse();
   }
-
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
 
   return visibleGoods;
 }
