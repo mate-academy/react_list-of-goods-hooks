@@ -31,9 +31,7 @@ export function getReorderedGoods(
   goods: string[],
   { sortType, isReversed }: ReorderOptions,
 ) {
-  const visibleGoods = [...goods];
-
-  visibleGoods.sort((good1, good2) => {
+  const visibleGoods = goods.sort((good1, good2) => {
     switch (sortType) {
       case SortType.ALPHABET:
         return good1.localeCompare(good2);
@@ -65,6 +63,13 @@ export const App: React.FC = () => {
       isReversed,
     },
   );
+
+  const isNotInitialList = isReversed || sortType !== SortType.NONE;
+
+  const initialList = () => {
+    setSortType(SortType.NONE);
+    setIsReversed(false);
+  };
 
   return (
     <div className="section content">
@@ -108,14 +113,11 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(isReversed || sortType !== SortType.NONE) && (
+        {(isNotInitialList) && (
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortType(SortType.NONE);
-              setIsReversed(false);
-            }}
+            onClick={initialList}
           >
             Reset
           </button>
