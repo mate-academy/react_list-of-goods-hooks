@@ -27,7 +27,6 @@ type ReorderOptions = {
   isReversed: boolean,
 };
 
-// Use this function in the render to prepare goods
 export function getReorderedGoods(
   goods: string[],
   { sortType, isReversed }: ReorderOptions,
@@ -42,6 +41,7 @@ export function getReorderedGoods(
       case SortType.LENGTH:
         return a.length - b.length;
 
+      case SortType.NONE:
       default:
         return 0;
     }
@@ -63,6 +63,10 @@ export const App: React.FC = () => {
   );
 
   const isSorted = sortType !== SortType.NONE || isReversed;
+  const reset = () => {
+    changeType(SortType.NONE);
+    changeReverse(false);
+  };
 
   return (
     <div className="section content">
@@ -107,10 +111,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              changeType(SortType.NONE);
-              changeReverse(false);
-            }}
+            onClick={reset}
           >
             Reset
           </button>
