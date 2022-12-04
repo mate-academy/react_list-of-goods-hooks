@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import classNames from 'classnames';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -62,7 +63,6 @@ export function getReorderedGoods(
 export const App: React.FC = () => {
   const [sortType, sortBy] = useState(SortType.NONE);
   const [isReversed, reverseArray] = useState(false);
-  const [isReset, resetVisible] = useState(false);
 
   const visibleGoods
     = getReorderedGoods(goodsFromServer, { sortType, isReversed });
@@ -73,11 +73,14 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={
-            `button is-info ${(sortType === SortType.ALPHABET) ? '' : 'is-light'}`
+            classNames(
+              'button',
+              'is-info',
+              { 'is-light': sortType !== SortType.ALPHABET },
+            )
           }
           onClick={() => {
             sortBy(SortType.ALPHABET);
-            resetVisible(true);
           }}
         >
           Sort alphabetically
@@ -86,11 +89,14 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={
-            `button is-success ${(sortType === SortType.LENGTH) ? '' : 'is-light'}`
+            classNames(
+              'button',
+              'is-success',
+              { 'is-light': sortType !== SortType.LENGTH },
+            )
           }
           onClick={() => {
             sortBy(SortType.LENGTH);
-            resetVisible(true);
           }}
         >
           Sort by length
@@ -99,23 +105,25 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={
-            `button is-warning ${(isReversed) ? '' : 'is-light'}`
+            classNames(
+              'button',
+              'is-warning',
+              { 'is-light': !isReversed },
+            )
           }
           onClick={() => {
             reverseArray(!isReversed);
-            resetVisible(!isReversed || sortType !== SortType.NONE);
           }}
         >
           Reverse
         </button>
 
-        {isReset && (
+        {(isReversed || sortType !== SortType.NONE) && (
           <button
             type="button"
             className="button is-danger is-light"
             onClick={() => {
               reverseArray(false);
-              resetVisible(false);
               sortBy(SortType.NONE);
             }}
           >
