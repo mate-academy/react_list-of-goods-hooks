@@ -27,24 +27,28 @@ type ReorderOptions = {
   isReversed: boolean,
 };
 
+const sortByType = (sortType: SortType, good1: string, good2: string) => {
+  switch (sortType) {
+    case SortType.ALPABET:
+      return good1.localeCompare(good2);
+
+    case SortType.LENGTH:
+      return good1.length - good2.length;
+
+    default:
+      return 0;
+  }
+};
+
 export function getReorderedGoods(
   goods: string[],
   { sortType, isReversed }: ReorderOptions,
 ) {
   const visibleGoods = [...goods];
 
-  switch (sortType) {
-    case SortType.ALPABET:
-      visibleGoods.sort((good1, good2) => good1.localeCompare(good2));
-      break;
-
-    case SortType.LENGTH:
-      visibleGoods.sort((good1, good2) => good1.length - good2.length);
-      break;
-
-    default:
-      break;
-  }
+  visibleGoods.sort((good1, good2) => (
+    sortByType(sortType, good1, good2)
+  ));
 
   return isReversed ? visibleGoods.reverse() : visibleGoods;
 }
