@@ -13,3 +13,4 @@ using hooks. Take all you need from youy solution for the previous task.
 - Use the [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript).
 - Open one more terminal and run tests with `npm test` to ensure your solution is correct.
 - Replace `<your_account>` with your Github username in the [DEMO LINK](https://Anastasiia-Smirnova.github.io/react_list-of-goods-hooks/) and add it to the PR description.
+
