@@ -98,7 +98,7 @@ export const App: React.FC = () => {
               'is-light': !isReversed,
             },
           )}
-          onClick={() => setIsReversed(true)}
+          onClick={() => setIsReversed(!isReversed)}
         >
           Reverse
         </button>
@@ -108,8 +108,8 @@ export const App: React.FC = () => {
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              setIsReversed(true);
-              setSortType(SortType.LENGTH);
+              setIsReversed(false);
+              setSortType(SortType.NONE);
             }}
           >
             Reset
