@@ -47,19 +47,6 @@ export function getReorderedGoods(
     }
   });
 
-  switch (sortType) {
-    case SortType.ALPHABET:
-      visibleGoods.sort((a, b) => a.localeCompare(b));
-      break;
-
-    case SortType.LENGTH:
-      visibleGoods.sort((good1, good2) => good1.length - good2.length);
-      break;
-
-    default:
-      break;
-  }
-
   return isReversed ? visibleGoods.reverse() : visibleGoods;
 }
 
