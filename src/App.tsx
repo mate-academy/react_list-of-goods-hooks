@@ -52,16 +52,11 @@ export const App: React.FC = () => {
         <button
           onClick={() => setSortBy(SortType.ALPHABET)}
           type="button"
-          className={classNames(
+          className={classNames('button', 'is-info',
             {
-              'button is-info is-light':
+              'is-light':
                 sortBy !== SortType.ALPHABET,
-            },
-            {
-              'button is-info':
-                sortBy === SortType.ALPHABET,
-            },
-          )}
+            })}
         >
           Sort alphabetically
         </button>
@@ -69,16 +64,11 @@ export const App: React.FC = () => {
         <button
           onClick={() => setSortBy(SortType.LENGTH)}
           type="button"
-          className={classNames(
+          className={classNames('button', 'is-success',
             {
-              'button is-success is-light':
+              'is-light':
                 sortBy !== SortType.LENGTH,
-            },
-            {
-              'button is-success':
-                sortBy === SortType.LENGTH,
-            },
-          )}
+            })}
         >
           Sort by length
         </button>
@@ -86,29 +76,26 @@ export const App: React.FC = () => {
         <button
           onClick={() => setIsReversed(!isReversed)}
           type="button"
-          className={classNames(
+          className={classNames('button', 'is-warning',
             {
-              'button is-warning is-light': isReversed === false,
-            },
-            {
-              'button is-warning': isReversed === true,
-            },
-          )}
+              'is-light':
+                isReversed === false,
+            })}
         >
           Reverse
         </button>
 
         {
           (sortBy !== SortType.NONE || isReversed === true)
-            && (
-              <button
-                onClick={reset}
-                type="button"
-                className="button is-danger is-light"
-              >
-                Reset
-              </button>
-            )
+          && (
+            <button
+              onClick={reset}
+              type="button"
+              className="button is-danger is-light"
+            >
+              Reset
+            </button>
+          )
         }
       </div>
 
