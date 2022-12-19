@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import classnames from 'classnames';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -43,42 +44,59 @@ export const App: React.FC = () => {
     visibleGoods.reverse();
   }
 
+  const sortAlpha = () => {
+    setSortType(SortType.ALPHABET);
+  };
+
+  const sortLength = () => {
+    setSortType(SortType.LENGTH);
+  };
+
+  const reverseIt = () => {
+    setIsReversed(!isReversed);
+  };
+
+  const resetIt = () => {
+    setSortType(SortType.NONE);
+    setIsReversed(false);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortType !== SortType.ALPHABET ? 'is-light' : ''}`}
-          onClick={() => setSortType(SortType.ALPHABET)}
+          className={classnames('button', 'is-info',
+            sortType !== SortType.ALPHABET && 'is-light')}
+          onClick={sortAlpha}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={`button is-success ${sortType !== SortType.LENGTH ? 'is-light' : ''}`}
-          onClick={() => setSortType(SortType.LENGTH)}
+          className={classnames('button', 'is-success',
+            sortType !== SortType.LENGTH && 'is-light')}
+          onClick={sortLength}
         >
           Sort by length
         </button>
 
         <button
           type="button"
-          className={`button is-warning ${isReversed === false ? 'is-light' : ''}`}
-          onClick={() => setIsReversed(!isReversed)}
+          className={classnames('button', 'is-warning',
+            !isReversed && 'is-light')}
+          onClick={reverseIt}
         >
           Reverse
         </button>
 
         {
-          (visibleGoods[0] !== goodsFromServer[0]) && (
+          (sortType !== SortType.NONE || isReversed) && (
             <button
               type="button"
               className="button is-danger is-light"
-              onClick={() => {
-                setSortType(SortType.NONE);
-                setIsReversed(false);
-              }}
+              onClick={resetIt}
             >
               Reset
             </button>
@@ -87,15 +105,13 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        <ul>
-          {
-            visibleGoods.map((good) => (
-              <li data-cy="Good" key={good}>
-                {good}
-              </li>
-            ))
-          }
-        </ul>
+        {
+          visibleGoods.map((good) => (
+            <li data-cy="Good" key={good}>
+              {good}
+            </li>
+          ))
+        }
       </ul>
     </div>
   );
