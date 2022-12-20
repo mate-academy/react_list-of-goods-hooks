@@ -18,7 +18,7 @@ export const goodsFromServer = [
 enum SortType {
   NONE,
   ALPHABET,
-  LENGTh,
+  LENGTH,
 }
 
 type ReorderOptions = {
@@ -34,9 +34,9 @@ export function getReorderedGoods(
   // To avoid the original array mutation
   const visibleGoods = [...goods];
 
-  if (sortType === 1) {
+  if (sortType === SortType.ALPHABET) {
     visibleGoods.sort((a, b) => a.localeCompare(b));
-  } else if (sortType === 2) {
+  } else if (sortType === SortType.LENGTH) {
     visibleGoods.sort((a, b) => a.length - b.length);
   }
 
@@ -59,7 +59,7 @@ export const App: React.FC = () => {
 
   const reset = () => {
     setIsReversed(false);
-    setSortType(0);
+    setSortType(SortType.NONE);
   };
 
   return (
@@ -67,16 +67,16 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info${sortType !== 1 ? ' is-light' : ''}`}
-          onClick={() => setSortType(1)}
+          className={`button is-info${sortType !== SortType.ALPHABET ? ' is-light' : ''}`}
+          onClick={() => setSortType(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={`button is-success${sortType !== 2 ? ' is-light' : ''}`}
-          onClick={() => setSortType(2)}
+          className={`button is-success${sortType !== SortType.LENGTH ? ' is-light' : ''}`}
+          onClick={() => setSortType(SortType.LENGTH)}
         >
           Sort by length
         </button>
@@ -89,8 +89,8 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {sortType !== 0 || isReversed
-          ? (
+        {(sortType !== SortType.NONE || isReversed)
+          && (
             <button
               type="button"
               className="button is-danger is-light"
@@ -98,8 +98,7 @@ export const App: React.FC = () => {
             >
               Reset
             </button>
-          )
-          : <></>}
+          )}
       </div>
 
       <ul>
