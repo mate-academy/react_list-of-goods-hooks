@@ -23,30 +23,26 @@ enum SortType {
 }
 
 export const App: React.FC = () => {
-  const copyGoods = [...goodsFromServer];
+  let copyGoods = [...goodsFromServer];
   const [sortType, setsortType] = useState(SortType.NONE);
   const [isReversed, setReversed] = useState(false);
 
-  const getReorderedGoods = (goods: string[]) => {
-    goods.sort((g1, g2) => {
-      switch (sortType) {
-        case SortType.ALPHABET:
-          return g1.localeCompare(g2);
+  copyGoods.sort((g1, g2) => {
+    switch (sortType) {
+      case SortType.ALPHABET:
+        return g1.localeCompare(g2);
 
-        case SortType.LENGTH:
-          return g1.length - g2.length;
+      case SortType.LENGTH:
+        return g1.length - g2.length;
 
-        default:
-          return 0;
-      }
-    });
-
-    if (isReversed) {
-      goods.reverse();
+      default:
+        return 0;
     }
+  });
 
-    return goods;
-  };
+  if (isReversed) {
+    copyGoods.reverse();
+  }
 
   const sortAlphabetically = () => {
     setsortType(SortType.ALPHABET);
@@ -56,8 +52,6 @@ export const App: React.FC = () => {
     setsortType(SortType.LENGTH);
   };
 
-  let visibleGoods = getReorderedGoods(copyGoods);
-
   const reverce = () => {
     setReversed(!isReversed);
   };
@@ -65,7 +59,7 @@ export const App: React.FC = () => {
   const reset = () => {
     setsortType(SortType.NONE);
     setReversed(false);
-    visibleGoods = goodsFromServer;
+    copyGoods = goodsFromServer;
   };
 
   return (
@@ -121,13 +115,11 @@ export const App: React.FC = () => {
 
       <ul>
         <ul>
-          {visibleGoods.map(
-            good => (
-              <li data-cy="Good" key={good}>
-                {good}
-              </li>
-            ),
-          )}
+          {copyGoods.map(good => (
+            <li data-cy="Good" key={good}>
+              {good}
+            </li>
+          ))}
         </ul>
       </ul>
     </div>
