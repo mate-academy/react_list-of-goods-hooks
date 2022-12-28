@@ -24,8 +24,20 @@ enum SortType {
 
 export const App: React.FC = () => {
   let copyGoods = [...goodsFromServer];
-  const [sortType, setsortType] = useState(SortType.NONE);
-  const [isReversed, setReversed] = useState(false);
+  const [sortType, setSortType] = useState(SortType.NONE);
+  const [isReversed, setIsReversed] = useState(false);
+
+  const sortAlphabetically = () => {
+    setSortType(SortType.ALPHABET);
+  };
+
+  const sortByLength = () => {
+    setSortType(SortType.LENGTH);
+  };
+
+  const getReversed = () => {
+    setIsReversed(!isReversed);
+  };
 
   copyGoods.sort((g1, g2) => {
     switch (sortType) {
@@ -44,22 +56,10 @@ export const App: React.FC = () => {
     copyGoods.reverse();
   }
 
-  const sortAlphabetically = () => {
-    setsortType(SortType.ALPHABET);
-  };
-
-  const sortByLength = () => {
-    setsortType(SortType.LENGTH);
-  };
-
-  const reverce = () => {
-    setReversed(!isReversed);
-  };
-
   const reset = () => {
-    setsortType(SortType.NONE);
-    setReversed(false);
-    copyGoods = goodsFromServer;
+    setSortType(SortType.NONE);
+    setIsReversed(false);
+    copyGoods = [...goodsFromServer];
   };
 
   return (
@@ -96,7 +96,7 @@ export const App: React.FC = () => {
           className={
             classNames('button is-warning', { 'is-light': !isReversed })
           }
-          onClick={reverce}
+          onClick={getReversed}
         >
           Reverse
         </button>
