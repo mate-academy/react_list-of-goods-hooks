@@ -4,7 +4,7 @@ import 'bulma/css/bulma.css';
 import './App.scss';
 
 export const goodsFromServer = [
-  'Dumplings',
+  'Dumplings', 
   'Carrot',
   'Eggs',
   'Ice cream',
