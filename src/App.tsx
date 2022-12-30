@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import cn from 'classnames';
 import SortType from './types/SortType';
 import { getReorderedGoods } from './functions/getReorderedGoods';
 
@@ -45,7 +46,10 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortType === SortType.ALPHABET ? '' : 'is-light'}`}
+          className={cn({
+            'button is-info': true,
+            'is-light': sortType !== SortType.ALPHABET,
+          })}
           onClick={handleClickSortAlphabetically}
         >
           Sort alphabetically
@@ -53,7 +57,10 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-success ${sortType === SortType.LENGTH ? '' : 'is-light'}`}
+          className={cn({
+            'button is-success': true,
+            'is-light': sortType !== SortType.LENGTH,
+          })}
           onClick={handleClickSortByLength}
         >
           Sort by length
@@ -61,15 +68,17 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-warning ${isReversed ? '' : 'is-light'}`}
+          className={cn({
+            'button is-warning': true,
+            'is-light': !isReversed,
+          })}
           onClick={handleClickReverse}
         >
           Reverse
         </button>
 
         {
-          (isResetRendered)
-          && (
+          (isResetRendered) && (
             <button
               type="button"
               className="button is-danger is-light"
