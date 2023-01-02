@@ -22,23 +22,19 @@ enum SortType {
   LENGTH,
 }
 
-type ReorderOptions = {
-  sortType: SortType,
-  isReversed: boolean,
-};
-
 export function getReorderedGoods(
   goods: string[],
-  { sortType, isReversed }: ReorderOptions,
+  sortType: SortType,
+  isReversed: boolean,
 ) {
   const visibleGoods = [...goods];
 
   visibleGoods.sort((a, b) => {
     switch (sortType) {
-      case 1:
+      case SortType.ALPHABET:
         return a.localeCompare(b);
 
-      case 2:
+      case SortType.LENGTH:
         return a.length - b.length;
 
       default:
@@ -55,11 +51,11 @@ export function getReorderedGoods(
 
 export const App: React.FC = () => {
   const [isReversed, setReversed] = useState(false);
-  const [sortType, setSort] = useState(0);
+  const [sortType, setSort] = useState(SortType.NONE);
 
   const resetAll = () => {
     setReversed(false);
-    setSort(0);
+    setSort(SortType.NONE);
   };
 
   return (
@@ -69,9 +65,9 @@ export const App: React.FC = () => {
           type="button"
           className={classNames(
             'button is-info',
-            { 'is-light': sortType !== 1 },
+            { 'is-light': sortType !== SortType.ALPHABET },
           )}
-          onClick={() => (setSort(1))}
+          onClick={() => (setSort(SortType.ALPHABET))}
         >
           Sort alphabetically
         </button>
@@ -80,9 +76,9 @@ export const App: React.FC = () => {
           type="button"
           className={classNames(
             'button is-success',
-            { 'is-light': sortType !== 2 },
+            { 'is-light': sortType !== SortType.LENGTH },
           )}
-          onClick={() => (setSort(2))}
+          onClick={() => (setSort(SortType.LENGTH))}
         >
           Sort by length
         </button>
@@ -98,7 +94,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortType !== 0 || isReversed) && (
+        {(sortType !== SortType.NONE || isReversed) && (
           <button
             type="button"
             className="button is-danger is-light"
@@ -111,7 +107,7 @@ export const App: React.FC = () => {
 
       <ul>
         <ul>
-          {getReorderedGoods(goodsFromServer, { sortType, isReversed }).map(
+          {getReorderedGoods(goodsFromServer, sortType, isReversed).map(
             good => (
               <li key={good} data-cy="Good">{good}</li>
             ),
