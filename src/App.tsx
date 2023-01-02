@@ -89,7 +89,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             onClick={() => {
-              setIsReversed(false),
+              setIsReversed(false);
               setSortType(SortType.NONE);
             }}
             className="button is-danger is-light"
