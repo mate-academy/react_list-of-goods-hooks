@@ -16,6 +16,11 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+enum SortType {
+  ALPHABET = 'ALPHABET',
+  LENGTH = 'LENGTH',
+}
+
 export const App: React.FC = () => {
   const [sorting, setSorting] = useState('');
   const [reverse, setReverse] = useState(false);
@@ -25,10 +30,10 @@ export const App: React.FC = () => {
 
     visibleGoods.sort((good1, good2) => {
       switch (sorting) {
-        case 'alphabet':
+        case SortType.ALPHABET:
           return (good1.localeCompare(good2));
 
-        case 'length':
+        case SortType.LENGTH:
           return (good1.length - good2.length);
 
         default:
@@ -51,11 +56,11 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={
-            sorting === 'alphabet'
+            sorting === SortType.ALPHABET
               ? 'button is-info'
               : 'button is-info is-light'
           }
-          onClick={() => setSorting('alphabet')}
+          onClick={() => setSorting(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
@@ -63,11 +68,11 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={
-            sorting === 'length'
+            sorting === SortType.LENGTH
               ? 'button is-success'
               : 'button is-success is-light'
           }
-          onClick={() => setSorting('length')}
+          onClick={() => setSorting(SortType.LENGTH)}
         >
           Sort by length
         </button>
