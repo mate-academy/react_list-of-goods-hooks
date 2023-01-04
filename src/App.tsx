@@ -22,31 +22,19 @@ enum SortType {
 }
 
 export const App: React.FC = () => {
-  const [isReverse, setIsReverseAction] = useState(false);
-  const [sortType, setSortTypeAction] = useState(SortType.NONE);
-
-  const alphabet = () => {
-    setSortTypeAction(SortType.ALPHABET);
-  };
-
-  const length = () => {
-    setSortTypeAction(SortType.LENGTH);
-  };
-
-  const reverse = () => {
-    setIsReverseAction(!isReverse);
-  };
+  const [onReverse, handleReverse] = useState(false);
+  const [onSortType, handleSortByType] = useState(SortType.NONE);
 
   const reset = () => {
-    setIsReverseAction(false);
-    setSortTypeAction(SortType.NONE);
+    handleReverse(false);
+    handleSortByType(SortType.NONE);
   };
 
   const setSortedGoods = () => {
     const sortedGoods = [...goodsFromServer];
 
     sortedGoods.sort((a, b) => {
-      switch (sortType) {
+      switch (onSortType) {
         case SortType.ALPHABET:
           return a.localeCompare(b);
         case SortType.LENGTH:
@@ -56,7 +44,7 @@ export const App: React.FC = () => {
       }
     });
 
-    if (isReverse) {
+    if (onReverse) {
       sortedGoods.reverse();
     }
 
@@ -64,44 +52,51 @@ export const App: React.FC = () => {
   };
 
   const visibleGoods = setSortedGoods();
+  const checkArray = JSON.stringify(visibleGoods)
+    !== JSON.stringify(goodsFromServer);
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${SortType.ALPHABET ? 'is-light' : ''}`}
-          onClick={alphabet}
+          className={`button is-info ${onSortType !== SortType.ALPHABET ? 'is-light' : ''}`}
+          onClick={() => {
+            handleSortByType(SortType.ALPHABET);
+          }}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={`button is-success ${SortType.LENGTH ? 'is-light' : ''}`}
-          onClick={length}
+          className={`button is-success ${onSortType !== SortType.LENGTH ? 'is-light' : ''}`}
+          onClick={() => {
+            handleSortByType(SortType.LENGTH);
+          }}
         >
           Sort by length
         </button>
 
         <button
           type="button"
-          className={`button is-warning ${!isReverse ? 'is-light' : ''}`}
-          onClick={reverse}
+          className={`button is-warning ${!onReverse ? 'is-light' : ''}`}
+          onClick={() => {
+            handleReverse(!onReverse);
+          }}
         >
           Reverse
         </button>
         {
-          JSON.stringify(visibleGoods) !== JSON.stringify(goodsFromServer)
-            ? (
-              <button
-                type="button"
-                className="button is-danger is-light"
-                onClick={reset}
-              >
-                Reset
-              </button>
-            ) : <div />
+          checkArray ? (
+            <button
+              type="button"
+              className="button is-danger is-light"
+              onClick={reset}
+            >
+              Reset
+            </button>
+          ) : <div />
         }
       </div>
 
