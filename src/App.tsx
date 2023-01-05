@@ -22,19 +22,19 @@ enum SortType {
 }
 
 export const App: React.FC = () => {
-  const [onReverse, handleReverse] = useState(false);
-  const [onSortType, handleSortByType] = useState(SortType.NONE);
+  const [isReverse, setIsReverse] = useState(false);
+  const [sortType, setSortByType] = useState(SortType.NONE);
 
   const reset = () => {
-    handleReverse(false);
-    handleSortByType(SortType.NONE);
+    setIsReverse(false);
+    setSortByType(SortType.NONE);
   };
 
   const setSortedGoods = () => {
     const sortedGoods = [...goodsFromServer];
 
     sortedGoods.sort((a, b) => {
-      switch (onSortType) {
+      switch (sortType) {
         case SortType.ALPHABET:
           return a.localeCompare(b);
         case SortType.LENGTH:
@@ -44,7 +44,7 @@ export const App: React.FC = () => {
       }
     });
 
-    if (onReverse) {
+    if (isReverse) {
       sortedGoods.reverse();
     }
 
@@ -60,9 +60,9 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${onSortType !== SortType.ALPHABET ? 'is-light' : ''}`}
+          className={`button is-info ${sortType !== SortType.ALPHABET ? 'is-light' : ''}`}
           onClick={() => {
-            handleSortByType(SortType.ALPHABET);
+            setSortByType(SortType.ALPHABET);
           }}
         >
           Sort alphabetically
@@ -70,9 +70,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-success ${onSortType !== SortType.LENGTH ? 'is-light' : ''}`}
+          className={`button is-success ${sortType !== SortType.LENGTH ? 'is-light' : ''}`}
           onClick={() => {
-            handleSortByType(SortType.LENGTH);
+            setSortByType(SortType.LENGTH);
           }}
         >
           Sort by length
@@ -80,9 +80,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-warning ${!onReverse ? 'is-light' : ''}`}
+          className={`button is-warning ${!isReverse ? 'is-light' : ''}`}
           onClick={() => {
-            handleReverse(!onReverse);
+            setIsReverse(!isReverse);
           }}
         >
           Reverse
