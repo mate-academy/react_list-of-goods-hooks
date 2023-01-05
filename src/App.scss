@@ -1,3 +1,14 @@
 iframe {
   display: none;
 }
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.goods {
+  font-size: 30px;
+}
