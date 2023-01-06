@@ -1,3 +1,19 @@
 iframe {
   display: none;
 }
+
+html {
+  background-image: url(./fresh-colourful-ingredients.webp);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.good {
+  width: max-content;
+}
+
+.good:hover {
+  cursor: pointer;
+  color: goldenrod;
+}
