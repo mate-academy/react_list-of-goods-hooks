@@ -27,6 +27,7 @@ export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
 
   const visibleGoods = [...goodsFromServer];
+  const isSorted = (sortType !== SortType.NONE || isReversed);
 
   visibleGoods.sort((good1, good2) => {
     switch (sortType) {
@@ -44,6 +45,11 @@ export const App: React.FC = () => {
   if (isReversed) {
     visibleGoods.reverse();
   }
+
+  const handleClickReset = () => {
+    setIsReversed(false);
+    setSortType(SortType.NONE);
+  };
 
   return (
     <div className="section content">
@@ -84,14 +90,11 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortType !== SortType.NONE || isReversed)
+        {(isSorted)
         && (
           <button
             type="button"
-            onClick={() => {
-              setIsReversed(false);
-              setSortType(SortType.NONE);
-            }}
+            onClick={handleClickReset}
             className="button is-danger is-light"
           >
             Reset
