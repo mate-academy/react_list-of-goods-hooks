@@ -65,7 +65,7 @@ export const App: React.FC = () => {
   };
 
   const handleReversing = () => {
-    setIsReversed(true);
+    setIsReversed(!isReversed);
   };
 
   const handleResetting = () => {
