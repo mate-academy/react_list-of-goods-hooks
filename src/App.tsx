@@ -57,7 +57,7 @@ export function getReorderedGoods(
 
 export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
-  const [sortType] = useState<SortType>(SortType.NONE);
+  const [sortType, setSortType] = useState<SortType>(SortType.NONE);
 
   const isSorted = isReversed || sortType !== SortType.NONE;
   const renderedGoods = getReorderedGoods(
