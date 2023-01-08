@@ -22,11 +22,6 @@ enum SortType {
   LENGTH,
 }
 
-// type ReorderOptions = {
-//   sortType: SortType,
-//   isReversed: boolean,
-// };
-
 export function getReorderedGoods(
   goods: string[],
   sortType: SortType,
