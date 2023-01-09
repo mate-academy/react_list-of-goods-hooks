@@ -55,15 +55,12 @@ export function getReorderedGoods(
     visibleGoods.reverse();
   }
 
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
-
   return visibleGoods;
 }
 
 export const App: React.FC = () => {
   const [sortType, setType] = useState(SortType.NONE);
-  const [isReversed, setReverse] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
   const visibleGoods = getReorderedGoods(
     goodsFromServer,
     { sortType, isReversed },
@@ -79,12 +76,12 @@ export const App: React.FC = () => {
   };
 
   const reverseClicker = () => {
-    setReverse(current => !current);
+    setIsReversed(current => !current);
   };
 
   const resetStateClicker = () => {
     setType(SortType.NONE);
-    setReverse(false);
+    setIsReversed(false);
   };
 
   return (
