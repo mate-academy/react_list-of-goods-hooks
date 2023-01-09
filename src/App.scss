@@ -1,3 +1,20 @@
 iframe {
   display: none;
 }
+
+.goods-list {
+  &__item {
+    list-style: georgian;
+
+    &::after {
+      content: "";
+      display: block;
+      width: 100px;
+      height: 1px;
+      background: linear-gradient(90deg,
+      rgba(33,0,36,1) 0%,
+      rgba(121,9,102,1) 48%,
+      rgba(255,241,0,1) 100%);
+    }
+  }
+}
