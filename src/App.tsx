@@ -44,6 +44,7 @@ export function getReorderedGoods(
         firstGood.length - secondGood.length));
       break;
 
+    case SortType.NONE:
     default:
       break;
   }
