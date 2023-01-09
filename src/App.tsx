@@ -60,7 +60,7 @@ export function getReorderedGoods(
 export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
-  const isButtonVisible = isReversed || sortType !== SortType.NONE;
+  const isButtonResetVisible = isReversed || sortType !== SortType.NONE;
 
   const handleSortByAlphabet = () => {
     setSortType(SortType.ALPHABET);
@@ -120,7 +120,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {isButtonVisible && (
+        {isButtonResetVisible && (
           <button
             type="button"
             className="button is-danger is-light is-rounded"
