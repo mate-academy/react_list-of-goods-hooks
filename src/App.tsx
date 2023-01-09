@@ -61,7 +61,7 @@ export function getReorderedGoods(
 export const App: React.FC = () => {
   const [sortType, setSort] = useState(SortType.NONE);
   const [isReversed, setReverse] = useState(false);
-  const visibleGoods = getReorderedGoods(
+  const visibleGood = getReorderedGoods(
     goodsFromServer,
     { sortType, isReversed },
   );
@@ -126,7 +126,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {visibleGoods.map(name => (
+        {visibleGood.map(name => (
           <li key={name} data-cy="Good">{name}</li>
         ))}
       </ul>
