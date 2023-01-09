@@ -37,9 +37,12 @@ export function getReorderedGoods(
     case SortType.ALPHABET:
       visibleGoods.sort((goods1, goods2) => goods1.localeCompare(goods2));
       break;
+
     case SortType.LENGTH:
       visibleGoods.sort((goods1, goods2) => goods1.length - goods2.length);
       break;
+
+    case SortType.NONE:
     default:
       break;
   }
@@ -48,14 +51,11 @@ export function getReorderedGoods(
     visibleGoods.reverse();
   }
 
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
-
   return visibleGoods;
 }
 
 export const App: React.FC = () => {
-  const [sortType, setSortValue] = useState(SortType.NONE);
+  const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setIsReversed] = useState(false);
 
   const handleReverse = () => {
@@ -64,7 +64,7 @@ export const App: React.FC = () => {
 
   const handleReset = () => {
     setIsReversed(false);
-    setSortValue(SortType.NONE);
+    setSortType(SortType.NONE);
   };
 
   const visibleGoods = getReorderedGoods(
@@ -86,7 +86,7 @@ export const App: React.FC = () => {
               'is-light': sortType !== SortType.ALPHABET,
             },
           )}
-          onClick={() => setSortValue(SortType.ALPHABET)}
+          onClick={() => setSortType(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
@@ -99,7 +99,7 @@ export const App: React.FC = () => {
               'is-light': sortType !== SortType.LENGTH,
             },
           )}
-          onClick={() => setSortValue(SortType.LENGTH)}
+          onClick={() => setSortType(SortType.LENGTH)}
         >
           Sort by length
         </button>
