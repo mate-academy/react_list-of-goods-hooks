@@ -42,7 +42,7 @@ export function getReorderedGoods(
 
     case SortType.LENGTH:
       visibleGoods.sort((firstGood, secondGood) => (
-        secondGood.length - firstGood.length
+        firstGood.length - secondGood.length
       ));
       break;
 
@@ -113,7 +113,7 @@ export const App: React.FC = () => {
           type="button"
           className={cn(
             'button is-warning is-rounded',
-            { 'is-light': isReversed },
+            { 'is-light': !isReversed },
           )}
           onClick={handleReverse}
         >
