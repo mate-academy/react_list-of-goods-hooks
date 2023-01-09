@@ -115,7 +115,7 @@ export const App: React.FC = () => {
         )}
       </div>
 
-      <ul>
+      <ul className="list">
         {getReorderedGoods(goodsFromServer, { sortType, isReversed })
           .map(good => <li key={good} data-cy="Good">{ good }</li>)}
       </ul>
