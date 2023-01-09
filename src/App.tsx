@@ -55,24 +55,24 @@ function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [isReversed, setReverseState] = useState(false);
-  const [sortType, setSortTypeState] = useState(SortType.NONE);
+  const [isReversed, setReversed] = useState(false);
+  const [sortType, setSortType] = useState(SortType.NONE);
 
   const handleReverse = () => {
-    setReverseState(current => !current);
+    setReversed(current => !current);
   };
 
   const handleReset = () => {
-    setReverseState(false);
-    setSortTypeState(SortType.NONE);
+    setReversed(false);
+    setSortType(SortType.NONE);
   };
 
   const handleSortByAlphabet = () => {
-    setSortTypeState(SortType.ALPHABET);
+    setSortType(SortType.ALPHABET);
   };
 
   const handleSortByLength = () => {
-    setSortTypeState(SortType.LENGTH);
+    setSortType(SortType.LENGTH);
   };
 
   const reorderedGoods = getReorderedGoods(
@@ -80,7 +80,7 @@ export const App: React.FC = () => {
     sortType,
     isReversed,
   );
-  const isAvailableButton = isReversed || sortType !== SortType.NONE;
+  const shouldAvailableButton = isReversed || sortType !== SortType.NONE;
 
   return (
     <div className="section content">
@@ -118,7 +118,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {isAvailableButton && (
+        {shouldAvailableButton && (
           <button
             type="button"
             className="button is-danger is-light"
