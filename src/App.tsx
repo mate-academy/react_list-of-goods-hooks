@@ -27,7 +27,7 @@ type ReorderOptions = {
   isReversed: boolean,
 };
 
-export function getReorderedGoods(
+function getReorderedGoods(
   goods: string[],
   { sortType, isReversed }: ReorderOptions,
 ) {
@@ -66,8 +66,10 @@ export const App: React.FC = () => {
     { sortType, isReversed },
   );
 
+  const shouldResetButton = sortType || isReversed;
+
   const handleClickReverse = () => {
-    setReverse(!isReversed);
+    setReverse(previous => !previous);
   };
 
   const handleClickSortByName = () => {
@@ -119,7 +121,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
         {
-          (sortType || isReversed)
+          (shouldResetButton)
                 && (
                   <button
                     type="button"
