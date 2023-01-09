@@ -42,6 +42,7 @@ export function getReorderedGoods(
       visibleGoods.sort((good1, good2) => good1.length - good2.length);
       break;
 
+    case SortType.NONE:
     default:
       break;
   }
@@ -54,7 +55,7 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortType, setSortType] = useState(SortType.NONE);
+  const [sortType, setSortType] = useState<SortType>(SortType.NONE);
   const [isReversed, setIsReversed] = useState(false);
 
   const handleClickSortAlphabetically = () => {
