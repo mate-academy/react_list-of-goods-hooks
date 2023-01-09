@@ -50,7 +50,7 @@ export function getReorderedGoods(
     default:
       break;
   }
-  
+
   if (isReversed) {
     visibleGoods.reverse();
   }
@@ -59,8 +59,17 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortType, sortBy] = useState(SortType.NONE);
-  const [isReversed, reverse] = useState(false);
+  const [sortType, setSort] = useState(SortType.NONE);
+  const [isReversed, setReverse] = useState(false);
+  const visibleGoods = getReorderedGoods(
+    goodsFromServer,
+    { sortType, isReversed },
+  );
+  const shouldRenderResetButton = sortType !== SortType.NONE || isReversed;
+  const resetButton = () => {
+    setSort(SortType.NONE);
+    setReverse(false);
+  };
 
   return (
     <div className="section content">
@@ -73,7 +82,7 @@ export const App: React.FC = () => {
             { 'is-light': sortType !== SortType.ALPHABET },
           )}
           onClick={() => {
-            sortBy(SortType.ALPHABET);
+            setSort(SortType.ALPHABET);
           }}
         >
           Sort alphabetically
@@ -87,7 +96,7 @@ export const App: React.FC = () => {
             { 'is-light': sortType !== SortType.LENGTH },
           )}
           onClick={() => {
-            sortBy(SortType.LENGTH);
+            setSort(SortType.LENGTH);
           }}
         >
           Sort by length
@@ -100,43 +109,26 @@ export const App: React.FC = () => {
             'is-warning',
             { 'is-light': !isReversed },
           )}
-          onClick={() => {
-            reverse(() => {
-              return !isReversed;
-            });
-          }}
+          onClick={() => setReverse(prev => !prev)}
         >
           Reverse
         </button>
 
-        {
-          (sortType !== SortType.NONE || isReversed)
-          && (
-            <button
-              type="button"
-              className="button is-danger"
-              onClick={() => {
-                sortBy(SortType.NONE);
-                reverse(false);
-              }}
-            >
-              Reset
-            </button>
-          )
-        }
+        {shouldRenderResetButton && (
+          <button
+            type="button"
+            className="button is-danger"
+            onClick={resetButton}
+          >
+            Reset
+          </button>
+        )}
       </div>
 
       <ul>
-        {
-          getReorderedGoods(goodsFromServer, { sortType, isReversed })
-            .map((good) => {
-              return (
-                <li key={good} data-cy="Good">
-                  {good}
-                </li>
-              );
-            })
-        }
+        {visibleGoods.map(name => (
+          <li key={name} data-cy="Good">{name}</li>
+        ))}
       </ul>
     </div>
   );
