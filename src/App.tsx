@@ -52,9 +52,6 @@ export function getReorderedGoods(
     visibleGoods.reverse();
   }
 
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
-
   return visibleGoods;
 }
 
@@ -134,7 +131,7 @@ export const App: React.FC = () => {
 
       <ul>
         <ul>
-          { visibleGoods.map(
+          {visibleGoods.map(
             item => <li key={item} data-cy="Good">{ item }</li>,
           )}
         </ul>
