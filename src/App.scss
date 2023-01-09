@@ -1,3 +1,22 @@
 iframe {
   display: none;
 }
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  background-color: #f6f6f6;
+  color: #fff;
+  font-weight: bold;
+}
+
+.section {
+  box-shadow: 10px 10px 35px rgb(167, 167, 167);
+  border-radius: 15px;
+  padding: 40px;
+
+  background-color: #03a9f4;
+}
