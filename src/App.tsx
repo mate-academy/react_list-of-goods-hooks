@@ -29,7 +29,6 @@ export function getReorderedGoods(
 ) {
   const visibleGoods = [...goods];
 
-
   visibleGoods.sort((good1: string, good2: string) => {
     switch (sortType) {
       case SortType.ALPHABET:
@@ -95,16 +94,14 @@ export const App: React.FC = () => {
         </button>
 
         {(isReverse || sortType !== SortType.NONE)
-          ? (
-            <button
-              type="button"
-              className="button is-danger is-light"
-              onClick={resetSortFilters}
-            >
-              Reset
-            </button>
-          )
-          : null}
+          && (<button
+            type="button"
+            className="button is-danger is-light"
+            onClick={resetSortFilters}
+          >
+            Reset
+          </button>)}
+
       </div>
 
       <div>
