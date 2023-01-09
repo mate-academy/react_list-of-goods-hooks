@@ -31,7 +31,6 @@ export function getReorderedGoods(
   goods: string[],
   { sortType, isReversed }: ReorderOptions,
 ) {
-  // To avoid the original array mutation
   const visibleGoods: string[] = [...goods];
 
   switch (sortType) {
@@ -48,13 +47,8 @@ export function getReorderedGoods(
 
       break;
 
-    case SortType.NONE:
     default: break;
   }
-
-  // Sort and reverse goods if needed
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
 
   return isReversed ? visibleGoods.reverse() : visibleGoods;
 }
@@ -72,7 +66,7 @@ export const App: React.FC = () => {
   };
 
   const reverse = () => {
-    setIsReversed(!isReversed);
+    setIsReversed(current => !current);
   };
 
   const reset = () => {
@@ -135,13 +129,11 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {visibleGoods.map(
-          item => (
-            <li data-cy="Good" key={item}>
-              {item}
-            </li>
-          ),
-        )}
+        {visibleGoods.map(item => (
+          <li data-cy="Good" key={item}>
+            {item}
+          </li>
+        ))}
       </ul>
     </div>
   );
