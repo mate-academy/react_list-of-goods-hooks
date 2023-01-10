@@ -74,7 +74,7 @@ export const App: React.FC = () => {
   };
 
   const handleClickReverse = () => {
-    setIsReversed(!isReversed);
+    setIsReversed(prev => !prev);
   };
 
   const handleClickReset = () => {
