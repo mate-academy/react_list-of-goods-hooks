@@ -86,6 +86,10 @@ export const App: React.FC = () => {
 
   const resetBtnCondition = sortType !== SortType.NONE || isReversed;
 
+  const reorderedGoods = getReorderedGoods(
+    goodsFromServer, { sortType, isReversed },
+  );
+
   return (
     <div className="section content">
       <h1 className="title is-1">React List of Goods Hooks</h1>
@@ -125,7 +129,7 @@ export const App: React.FC = () => {
           )}
         </div>
         <ul>
-          {getReorderedGoods(goodsFromServer, { sortType, isReversed })
+          {reorderedGoods
             .map(good => (
               <li
                 data-cy="Good"
