@@ -66,7 +66,7 @@ export const App: React.FC = () => {
     goodsFromServer,
     { isReversed, sortType },
   );
-  const resetVisibility = (sortType !== SortType.NONE) || isReversed;
+  const isResetButtonVisible = (sortType !== SortType.NONE) || isReversed;
 
   const handleSortAlphabet = () => {
     setSortType(SortType.ALPHABET);
@@ -121,7 +121,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {resetVisibility && (
+        {isResetButtonVisible && (
           <button
             type="button"
             className="button is-danger is-light"
