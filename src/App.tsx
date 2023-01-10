@@ -41,6 +41,9 @@ export function getReorderedGoods(
       case SortType.LENGTH:
         return goodA.length - goodB.length;
 
+      case SortType.NONE:
+        return 0;
+
       default:
         return 0;
     }
@@ -49,9 +52,6 @@ export function getReorderedGoods(
   if (isReversed) {
     visibleGoods.reverse();
   }
-
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
 
   return visibleGoods;
 }
@@ -77,15 +77,17 @@ export const App: React.FC = () => {
     setIsReversed(false);
   };
 
+  const isButtonVisible = sortType !== SortType.NONE || isReversed;
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={cn('button is-info',
-            sortType !== SortType.ALPHABET
-              ? 'is-light'
-              : '')}
+          className={cn(
+            'button is-info',
+            { 'is-light': sortType !== SortType.ALPHABET },
+          )}
           onClick={handleSortByAlphabet}
         >
           Sort alphabetically
@@ -93,10 +95,10 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={cn('button is-success',
-            sortType !== SortType.LENGTH
-              ? 'is-light'
-              : '')}
+          className={cn(
+            'button is-success',
+            { 'is-light': sortType !== SortType.LENGTH },
+          )}
           onClick={handleSortByLength}
         >
           Sort by length
@@ -104,16 +106,16 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={cn('button is-warning',
-            !isReversed
-              ? 'is-light'
-              : '')}
+          className={cn(
+            'button is-warning',
+            { 'is-light': !isReversed },
+          )}
           onClick={handleReverse}
         >
           Reverse
         </button>
 
-        {(sortType !== SortType.NONE || isReversed) && (
+        {(isButtonVisible) && (
           <button
             type="button"
             className={cn('button is-danger is-light')}
@@ -129,7 +131,7 @@ export const App: React.FC = () => {
           .map(good => (
             <li key={good} data-cy="Good">
               { good }
-              </li>
+            </li>
           ))}
       </ul>
     </div>
