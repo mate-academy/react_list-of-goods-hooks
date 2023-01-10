@@ -43,7 +43,7 @@ export function getReorderedGoods(
   });
 
   if (isReversed) {
-    return visibleGoods.reverse();
+    visibleGoods.reverse();
   }
 
   return visibleGoods;
@@ -53,7 +53,7 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
-  const isSorted = isReversed || sortType !== SortType.NONE;
+  const shouldRenderResetButton = isReversed || sortType !== SortType.NONE;
   const renderedGoods = getReorderedGoods(
     goodsFromServer,
     sortType,
@@ -69,7 +69,7 @@ export const App: React.FC = () => {
   };
 
   const handleClickReverse = () => {
-    setIsReversed(!isReversed);
+    setIsReversed(prev => !prev);
   };
 
   const handleClickReset = () => {
@@ -113,7 +113,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {isSorted && (
+        {shouldRenderResetButton && (
           <button
             type="button"
             className="button is-danger is-light"
