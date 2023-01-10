@@ -84,6 +84,8 @@ export const App: React.FC = () => {
 
   const reverseCN = cn('button is-warning', { 'is-light': !isReversed });
 
+  const resetBtnCondition = sortType !== SortType.NONE || isReversed;
+
   return (
     <div className="section content">
       <h1 className="title is-1">React List of Goods Hooks</h1>
@@ -112,7 +114,7 @@ export const App: React.FC = () => {
           >
             Reverse
           </button>
-          {(sortType !== SortType.NONE || isReversed) && (
+          {resetBtnCondition && (
             <button
               type="button"
               className="button is-danger is-light"
