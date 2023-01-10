@@ -4,6 +4,7 @@ import './App.scss';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
+import classNames from 'classnames';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -61,7 +62,7 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortType, setsortType] = useState(SortType.NONE);
+  const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setIsReverse] = useState(false);
 
   const goodsReverse = () => {
@@ -69,16 +70,16 @@ export const App: React.FC = () => {
   };
 
   const sortByAlphabet = () => {
-    setsortType(SortType.ALPHABET);
+    setSortType(SortType.ALPHABET);
   };
 
   const sortByLength = () => {
-    setsortType(SortType.LENGTH);
+    setSortType(SortType.LENGTH);
   };
 
   const resetButton = () => {
     setIsReverse(false);
-    setsortType(SortType.NONE);
+    setSortType(SortType.NONE);
   };
 
   const preparedGoods = (
@@ -116,9 +117,15 @@ export const App: React.FC = () => {
                 <Button
                   variant="contained"
                   type="button"
-                  className={sortType === SortType.ALPHABET
-                    ? 'button is-info'
-                    : 'button is-info is-light'}
+                  className={classNames(
+                    {
+                      'button is-info': true,
+                    },
+                    {
+                      'button is-info is-light':
+                        sortType !== SortType.ALPHABET,
+                    },
+                  )}
                   onClick={sortByAlphabet}
                 >
                   Sort alphabetically
@@ -127,9 +134,15 @@ export const App: React.FC = () => {
                 <Button
                   variant="contained"
                   type="button"
-                  className={sortType === SortType.LENGTH
-                    ? 'button is-success'
-                    : 'button is-success is-light'}
+                  className={classNames(
+                    {
+                      'button is-success': true,
+                    },
+                    {
+                      'button is-success is-light':
+                        sortType !== SortType.LENGTH,
+                    },
+                  )}
                   onClick={sortByLength}
                 >
                   Sort by length
@@ -138,9 +151,14 @@ export const App: React.FC = () => {
                 <Button
                   variant="contained"
                   type="button"
-                  className={isReversed
-                    ? 'button is-warning'
-                    : 'button is-warning is-light'}
+                  className={classNames(
+                    {
+                      'button is-warning': true,
+                    },
+                    {
+                      'button is-warning is-light': !isReversed,
+                    },
+                  )}
                   onClick={goodsReverse}
                 >
                   Reverse
