@@ -29,7 +29,7 @@ type ReorderOptions = {
 
 export function getReorderOptions(
   goods: string[],
-  { sortType, isReversed }: ReorderOptions
+  { sortType, isReversed }: ReorderOptions,
 ) {
   const visibleGoods = [...goods];
 
