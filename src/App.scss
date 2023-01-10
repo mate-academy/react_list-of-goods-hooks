@@ -1,3 +1,48 @@
 iframe {
   display: none;
 }
+
+$block-list-separator: 0.25rem !default;
+$block-list-highlight-width: 5px !default;
+$gap: 20px;
+$color: green;
+
+.content {
+  ul.block-list {
+    list-style: none;
+    margin-left: 0;
+  }
+}
+
+.block-list {
+  list-style: none;
+  max-width: 500px;
+
+  li {
+    padding: ($gap / 2);
+    background: #d9d7d2;
+    margin-bottom: $block-list-separator;
+  }
+
+  li.is-centered,
+  &.is-centered > li {
+    text-align: center;
+  }
+
+  li.is-small,
+  &.is-small > li {
+    padding: ($gap / 3);
+  }
+
+  @mixin outlined($color) {
+    background: transparent;
+    color: $color;
+    border: 1px solid $color;
+  }
+
+  li.is-outlined,
+  &.is-outlined > li {
+    @include outlined($color);
+    color: $color;
+  }
+}
