@@ -25,14 +25,14 @@ enum SortType {
   LENGTH,
 }
 
-type Props = {
+type State = {
   sortType: SortType,
   isReversed: boolean,
 };
 
 export function getReorderedGoods(
   goods: string[],
-  { sortType, isReversed }: Props,
+  { sortType, isReversed }: State,
 ) {
   const visibleGoods = [...goods];
 
