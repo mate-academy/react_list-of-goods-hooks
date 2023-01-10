@@ -1,7 +1,7 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import cn from 'classnames';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -46,6 +46,9 @@ function getReorderedGoods(
       ));
       break;
 
+    case SortType.NONE:
+      break;
+
     default: break;
   }
 
@@ -82,9 +85,10 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={sortType === SortType.ALPHABET
-            ? 'button is-info pulse'
-            : 'button is-info is-light'}
+          className={cn('button is-info', {
+            'is-light': sortType !== SortType.ALPHABET,
+            pulse: sortType === SortType.ALPHABET,
+          })}
           onClick={handleClickDoSortAlphabetically}
         >
           Sort alphabetically
@@ -92,9 +96,10 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={sortType === SortType.LENGTH
-            ? 'button is-success pulse'
-            : 'button is-success is-light'}
+          className={cn('button is-success', {
+            'is-light': sortType !== SortType.LENGTH,
+            pulse: sortType === SortType.LENGTH,
+          })}
           onClick={handleClickDoSortByLength}
         >
           Sort by length
@@ -102,9 +107,10 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={isReversed
-            ? 'button is-warning pulse'
-            : 'button is-warning is-light'}
+          className={cn('button is-warning', {
+            'is-light': !isReversed,
+            pulse: isReversed,
+          })}
           onClick={handleClickDoReverse}
         >
           Reverse
@@ -114,7 +120,7 @@ export const App: React.FC = () => {
           ? (
             <button
               type="button"
-              className="button pulse is-danger"
+              className="button is-danger"
               onClick={handleClickDoReset}
             >
               Reset
