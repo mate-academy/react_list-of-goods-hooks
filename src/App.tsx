@@ -84,7 +84,7 @@ export const App: React.FC = () => {
 
   const reverseCN = cn('button is-warning', { 'is-light': !isReversed });
 
-  const resetBtnCondition = sortType !== SortType.NONE || isReversed;
+  const shouldResetButtonRender = sortType !== SortType.NONE || isReversed;
 
   const reorderedGoods = getReorderedGoods(
     goodsFromServer, { sortType, isReversed },
@@ -118,7 +118,7 @@ export const App: React.FC = () => {
           >
             Reverse
           </button>
-          {resetBtnCondition && (
+          {shouldResetButtonRender && (
             <button
               type="button"
               className="button is-danger is-light"
