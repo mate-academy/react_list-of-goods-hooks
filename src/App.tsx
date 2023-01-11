@@ -35,12 +35,19 @@ export function getReorderedGoods(
   // eslint-disable-next-line no-console
   console.log(sortType, isReversed);
 
-  if (sortType === SortType.ALPHABET) {
-    visibleGoods.sort((g1, g2) => g1.localeCompare(g2));
-  }
+  if (sortType) {
+    visibleGoods.sort((g1, g2) => {
+      switch (sortType) {
+        case SortType.ALPHABET:
+          return g1.localeCompare(g2);
 
-  if (sortType === SortType.LENGTH) {
-    visibleGoods.sort((g1, g2) => g1.length - g2.length);
+        case SortType.LENGTH:
+          return g1.length - g2.length;
+
+        default:
+          return 0;
+      }
+    });
   }
 
   if (isReversed) {
@@ -72,6 +79,7 @@ export const App: React.FC = () => {
   };
 
   const visibleGoods = getReorderedGoods(goodsFromServer, sortType, isReversed);
+  const resetCheck = isReversed || sortType !== SortType.NONE;
 
   return (
     <div className="section content">
@@ -79,8 +87,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn(
-            'button is-info ',
-            {
+            'button is-info ', {
               'is-light': sortType !== SortType.ALPHABET,
             },
           )}
@@ -92,8 +99,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn(
-            'button is-success',
-            {
+            'button is-success', {
               'is-light': sortType !== SortType.LENGTH,
             },
           )}
@@ -105,8 +111,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn(
-            'button is-warning',
-            {
+            'button is-warning', {
               'is-light': !isReversed,
             },
           )}
@@ -115,7 +120,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(isReversed || sortType !== SortType.NONE) && (
+        {resetCheck && (
           <button
             type="button"
             className="button is-danger is-light"
