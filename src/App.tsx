@@ -63,7 +63,7 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
-  const isVisible = isReversed || sortType !== SortType.NONE;
+  const resetButtonIsVisible = isReversed || sortType !== SortType.NONE;
   const visibleGoods = getReorderedGoods(
     goodsFromServer,
     { sortType, isReversed },
@@ -93,8 +93,7 @@ export const App: React.FC = () => {
           type="button"
           onClick={handleSortAlphabetical}
           className={cn(
-            'button is-info',
-            {
+            'button is-info', {
               'is-light': sortType !== SortType.ALPHABET,
             },
           )}
@@ -106,8 +105,7 @@ export const App: React.FC = () => {
           type="button"
           onClick={handleSortByLength}
           className={cn(
-            'button is-success',
-            {
+            'button is-success', {
               'is-light': sortType !== SortType.LENGTH,
             },
           )}
@@ -119,8 +117,7 @@ export const App: React.FC = () => {
           type="button"
           onClick={handleReverse}
           className={cn(
-            'button is-warning',
-            {
+            'button is-warning', {
               'is-light': !isReversed,
             },
           )}
@@ -128,7 +125,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {isVisible && (
+        {resetButtonIsVisible && (
           <button
             type="button"
             onClick={handleReset}
