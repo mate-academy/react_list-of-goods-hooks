@@ -1,3 +1,14 @@
 iframe {
   display: none;
 }
+
+$gradient: linear-gradient(
+  87.4deg,
+  rgb(255, 241, 165) 1%,
+  rgb(200, 125, 76) 49.7%,
+  rgb(83, 54, 54) 100.5%
+);
+
+body {
+  background: $gradient;
+}
