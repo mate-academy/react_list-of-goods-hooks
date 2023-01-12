@@ -108,7 +108,7 @@ export const App: React.FC<Props> = () => {
               'is-light': !isReversed,
             },
           )}
-          onClick={() => setIsReversed(true)}
+          onClick={() => setIsReversed(current => !current)}
         >
           Reverse
         </button>
