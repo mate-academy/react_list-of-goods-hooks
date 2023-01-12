@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
-import classNames from 'classnames';
+import cn from 'classnames';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -33,12 +33,17 @@ export function getReorderedGoods(
 ) {
   const visibleGoods = [...goods];
 
-  if (sortType === SortType.ALPHABET) {
-    visibleGoods.sort((g1, g2) => g1.localeCompare(g2));
-  }
+  switch (sortType) {
+    case SortType.ALPHABET:
+      visibleGoods.sort((good1, good2) => good1.localeCompare(good2));
+      break;
 
-  if (sortType === SortType.LENGTH) {
-    visibleGoods.sort((g1, g2) => g1.length - g2.length);
+    case SortType.LENGTH:
+      visibleGoods.sort((good1, good2) => good1.length - good2.length);
+      break;
+
+    default:
+      break;
   }
 
   if (isReversed) {
@@ -49,13 +54,13 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [isReversed, setIsReverced] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
-  const myPrepareProducts = getReorderedGoods(
+  const myPreparedProducts = getReorderedGoods(
     goodsFromServer,
     { sortType, isReversed },
   );
-  const visibleReset = isReversed === true || (sortType !== SortType.NONE);
+  const isResetVisible = isReversed === true || (sortType !== SortType.NONE);
 
   const handleClickSortAlphabet = () => {
     setSortType(SortType.ALPHABET);
@@ -66,12 +71,12 @@ export const App: React.FC = () => {
   };
 
   const handleClickReverce = () => {
-    setIsReverced(!isReversed);
+    setIsReversed(!isReversed);
   };
 
   const handleClickReset = () => {
     setSortType(SortType.NONE);
-    setIsReverced(false);
+    setIsReversed(false);
   };
 
   return (
@@ -80,7 +85,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={
-            classNames(
+            cn(
               'button is-info',
               { 'is-light': sortType !== SortType.ALPHABET },
             )
@@ -93,7 +98,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={
-            classNames(
+            cn(
               'button is-success',
               { 'is-light': sortType !== SortType.LENGTH },
             )
@@ -106,7 +111,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={
-            classNames(
+            cn(
               'button is-warning',
               { 'is-light': isReversed !== true },
             )
@@ -116,7 +121,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {visibleReset
+        {isResetVisible
           && (
             <button
               type="button"
@@ -129,7 +134,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {myPrepareProducts.map(product => (
+        {myPreparedProducts.map(product => (
           <li
             key={product}
             data-cy="Good"
