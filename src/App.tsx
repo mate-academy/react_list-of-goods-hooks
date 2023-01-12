@@ -73,7 +73,7 @@ export const App: FC = () => {
     setIsReversed(false);
   };
 
-  const isSortedOrReversed = isReversed || (sortType !== SortType.NONE);
+  const isSortedOrReversed = isReversed || sortType !== SortType.NONE;
 
   return (
     <div className="section content">
@@ -103,14 +103,15 @@ export const App: FC = () => {
         <button
           type="button"
           onClick={handleReverse}
-          className={`button is-warning ${
-            !isReversed && 'is-light'
-          }`}
+          className={cn(
+            'button is-warning',
+            { 'is-light': !isReversed },
+          )}
         >
           Reverse
         </button>
 
-        { isSortedOrReversed && (
+        {isSortedOrReversed && (
           <button
             type="button"
             onClick={handleReset}
