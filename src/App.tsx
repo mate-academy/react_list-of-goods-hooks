@@ -81,6 +81,7 @@ export const App: React.FC = React.memo(() => {
   };
 
   const visibleGoods = getReorderedGoods(goodsFromServer, sortType, isReversed);
+  const reArrange = isReversed || sortType !== SortType.NONE;
 
   return (
     <div className="section content">
@@ -120,7 +121,7 @@ export const App: React.FC = React.memo(() => {
         >
           Reverse
         </Button>
-        {(isReversed || sortType !== SortType.NONE) && (
+        {reArrange && (
           <Button
             className="button is-danger is-light"
             onClick={reset}
