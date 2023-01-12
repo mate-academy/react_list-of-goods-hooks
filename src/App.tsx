@@ -67,6 +67,13 @@ export const App: React.FC = () => {
     setIsReversed(false);
   };
 
+  const isResetVisible = isReversed || sortType !== SortType.NONE;
+  const goodsToRender = getReorderedGoods(
+    goodsFromServer,
+    sortType,
+    isReversed,
+  );
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -110,7 +117,7 @@ export const App: React.FC = () => {
         </button>
 
         {
-          ((isReversed || sortType !== SortType.NONE) && (
+          (isResetVisible && (
             <button
               type="button"
               className="button is-warning is-light"
@@ -124,11 +131,7 @@ export const App: React.FC = () => {
 
       <ul>
         <ul>
-          {getReorderedGoods(
-            goodsFromServer,
-            sortType,
-            isReversed,
-          ).map(good => (
+          {goodsToRender.map(good => (
             <li
               data-cy="Good"
               key={good}
