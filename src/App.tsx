@@ -27,10 +27,8 @@ export function getReorderedGoods(
   sortType: SortType,
   isReversed: boolean,
 ) {
-  // To avoid the original array mutation
   const visibleGoods = [...goods];
 
-  // Sort and reverse goods if needed
   if (sortType) {
     visibleGoods.sort((g1, g2) => {
       switch (sortType) {
@@ -49,9 +47,6 @@ export function getReorderedGoods(
   if (isReversed) {
     visibleGoods.reverse();
   }
-
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
 
   return visibleGoods;
 }
