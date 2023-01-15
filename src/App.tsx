@@ -2,71 +2,7 @@ import React, { useState } from 'react';
 import cn from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
-import IconButton from '@mui/material/IconButton';
-import Box from '@mui/material/Box';
-import { useTheme, ThemeProvider, createTheme } from '@mui/material/styles';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
-
-const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
-
-function MyApp() {
-  const theme = useTheme();
-  const colorMode = React.useContext(ColorModeContext);
-
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        width: '100%',
-        alignItems: 'center',
-        justifyContent: 'center',
-        bgcolor: 'background.default',
-        color: 'text.primary',
-        borderRadius: 1,
-        p: 3,
-      }}
-    >
-      {theme.palette.mode}
-      mode
-      <IconButton
-        sx={{ ml: 1 }}
-        onClick={colorMode.toggleColorMode}
-        color="inherit"
-      >
-        {theme.palette.mode === 'dark'
-          ? <Brightness7Icon /> : <Brightness4Icon />}
-      </IconButton>
-    </Box>
-  );
-}
-
-export default function ToggleColorMode() {
-  const [mode, setMode] = React.useState<'light' | 'dark'>('light');
-  const colorMode = React.useMemo(
-    () => ({
-      toggleColorMode: () => {
-        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
-      },
-    }),
-    [],
-  );
-
-  const theme = React.useMemo(() => createTheme({
-    palette: {
-      mode,
-    },
-  }),
-  [mode]);
-
-  return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <MyApp />
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-  );
-}
+import ToggleColorMode from './theme';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -94,28 +30,31 @@ function orderedGoods(
 ) {
   const goodsOnPage = [...goods];
 
-  goodsOnPage.sort((first, second) => {
-    switch (sortType) {
-      case SortType.ALPHABET:
-        return first.localeCompare(second);
-
-      case SortType.LENGTH:
-        return first.length - second.length;
-
-      default:
-        return 0;
-    }
-  });
-
   if (isReversed) {
     goodsOnPage.reverse();
   }
 
-  return goodsOnPage;
+  switch (sortType) {
+    case SortType.ALPHABET:
+      return goodsOnPage.sort((first, second) => {
+        return first.localeCompare(second);
+      });
+
+    case SortType.LENGTH:
+      return goodsOnPage.sort((first, second) => {
+        return first.length - second.length;
+      });
+
+    case SortType.NONE:
+      return goodsOnPage;
+
+    default:
+      return goodsOnPage;
+  }
 }
 
 export const App: React.FC = () => {
-  const [isReversed, setIsREversed] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
   const handleSortedAlphabet = () => {
@@ -127,11 +66,11 @@ export const App: React.FC = () => {
   };
 
   const handleReverse = () => {
-    setIsREversed(element => !element);
+    setIsReversed(element => !element);
   };
 
   const handleReset = () => {
-    setIsREversed(false);
+    setIsReversed(false);
     setSortType(SortType.NONE);
   };
 
