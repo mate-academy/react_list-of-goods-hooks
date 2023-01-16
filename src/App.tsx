@@ -23,34 +23,38 @@ enum SortType {
   LENGTH,
 }
 
-function orderedGoods(
+export function orderedGoods(
   goods: string[],
   isReversed: boolean,
   sortType: SortType,
 ) {
   const goodsOnPage = [...goods];
 
-  if (isReversed) {
-    goodsOnPage.reverse();
-  }
-
   switch (sortType) {
     case SortType.ALPHABET:
-      return goodsOnPage.sort((first, second) => {
+      goodsOnPage.sort((first, second) => {
         return first.localeCompare(second);
       });
+      break;
 
     case SortType.LENGTH:
-      return goodsOnPage.sort((first, second) => {
+      goodsOnPage.sort((first, second) => {
         return first.length - second.length;
       });
+      break;
 
     case SortType.NONE:
-      return goodsOnPage;
+      break;
 
     default:
-      return goodsOnPage;
+      break;
   }
+
+  if (isReversed) {
+    return goodsOnPage.reverse();
+  }
+
+  return goodsOnPage;
 }
 
 export const App: React.FC = () => {
@@ -66,7 +70,7 @@ export const App: React.FC = () => {
   };
 
   const handleReverse = () => {
-    setIsReversed(element => !element);
+    setIsReversed(!isReversed);
   };
 
   const handleReset = () => {
