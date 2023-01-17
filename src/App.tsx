@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
-import classNames from 'classnames';
+import cn from 'classnames';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -35,7 +35,7 @@ export function getReorderedGoods(
 
   switch (sortType) {
     case SortType.ALPHABET:
-      visibleGoods.sort();
+      visibleGoods.sort((a, b) => a.localeCompare(b));
       break;
 
     case SortType.LENGTH:
@@ -79,12 +79,14 @@ export const App: React.FC = () => {
     isReversed,
   });
 
+  const showResetButton = sortType !== SortType.NONE || isReversed;
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={classNames(
+          className={cn(
             'button',
             'is-info',
             { 'is-light': sortType !== SortType.ALPHABET },
@@ -96,7 +98,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={classNames(
+          className={cn(
             'button',
             'is-success',
             { 'is-light': sortType !== SortType.LENGTH },
@@ -108,7 +110,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={classNames(
+          className={cn(
             'button',
             'is-warning',
             { 'is-light': !isReversed },
@@ -118,8 +120,8 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortType !== SortType.NONE || isReversed)
-          ? (
+        {(showResetButton)
+          && (
             <button
               type="button"
               className="button is-danger is-light"
@@ -127,8 +129,7 @@ export const App: React.FC = () => {
             >
               Reset
             </button>
-          )
-          : null}
+          )}
       </div>
 
       <ul>
