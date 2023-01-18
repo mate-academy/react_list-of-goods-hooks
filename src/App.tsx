@@ -23,28 +23,33 @@ enum SortType {
   LENGTH,
 }
 
-type ReorderOptions = {
+function getReorderedGoods(
+  goods: string[],
   sortType: SortType,
   isReversed: boolean,
-};
-
-// Use this function in the render to prepare goods
-export function getReorderedGoods(
-  goods: string[],
-  { sortType, isReversed }: ReorderOptions,
 ) {
-  // To avoid the original array mutation
   const visibleGoods = [...goods];
 
-  if (sortType === SortType.ALPHABET) {
-    visibleGoods.sort((a, b) => a.localeCompare(b));
-  } else if (sortType === SortType.LENGTH) {
-    visibleGoods.sort((a, b) => a.length - b.length);
+  if (sortType) {
+    visibleGoods.sort((good1, good2) => {
+      switch (sortType) {
+        case SortType.ALPHABET:
+          return good1.localeCompare(good2);
+
+        case SortType.LENGTH:
+          return good1.length - good2.length;
+
+        default:
+          return 0;
+      }
+    });
   }
 
-  return isReversed
-    ? visibleGoods.reverse()
-    : visibleGoods;
+  if (isReversed) {
+    visibleGoods.reverse();
+  }
+
+  return visibleGoods;
 }
 
 export const App: React.FC = () => {
@@ -53,10 +58,8 @@ export const App: React.FC = () => {
 
   const goods = getReorderedGoods(
     goodsFromServer,
-    {
-      sortType,
-      isReversed,
-    },
+    sortType,
+    isReversed,
   );
 
   const reset = () => {
