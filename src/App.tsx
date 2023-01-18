@@ -33,7 +33,6 @@ export function getReorderedGoods(
 ) {
   const visibleGoods = [...goods];
 
-  // Sort goods if needed
   switch (sortType) {
     case SortType.ALPHABET:
       visibleGoods.sort(
@@ -48,19 +47,13 @@ export function getReorderedGoods(
       break;
 
     case SortType.NONE:
-      break;
-
     default:
       break;
   }
 
-  // Reverse goods if needed
   if (isReversed) {
     visibleGoods.reverse();
   }
-
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
 
   return visibleGoods;
 }
@@ -69,7 +62,7 @@ export const App: React.FC = () => {
   const [isReversed, setReversing] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
-  const isChangesMade = isReversed || sortType !== SortType.NONE;
+  const isResetVisible = isReversed || sortType !== SortType.NONE;
 
   return (
     <div className="section content">
@@ -114,7 +107,7 @@ export const App: React.FC = () => {
         </button>
 
         {
-          isChangesMade && (
+          isResetVisible && (
             <button
               type="button"
               className="button is-danger is-light"
