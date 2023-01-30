@@ -23,6 +23,7 @@ export const goodsFromServer = [
 export const App: FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setIsReversed] = useState(false);
+  const isResetButtonVisible = sortType !== SortType.NONE || isReversed;
 
   const reset = () => {
     setSortType(SortType.NONE);
@@ -68,7 +69,7 @@ export const App: FC = () => {
           Reverse
         </button>
 
-        {(sortType !== SortType.NONE || isReversed)
+        {isResetButtonVisible
         && (
           <button
             type="button"
