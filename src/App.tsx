@@ -6,23 +6,14 @@ import './App.scss';
 
 import { GoodsList } from './components/GoodsList';
 import { SortType } from './types/SortType';
-
-export const goodsFromServer = [
-  'Dumplings',
-  'Carrot',
-  'Eggs',
-  'Ice cream',
-  'Apple',
-  'Bread',
-  'Fish',
-  'Honey',
-  'Jam',
-  'Garlic',
-];
+import { getReorderedGoods } from './utils/getReorderedGoods';
+import { goods } from './api/goods';
 
 export const App: FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setIsReversed] = useState(false);
+
+  const renderedGoods = getReorderedGoods(goods, sortType, isReversed);
   const isResetButtonVisible = sortType !== SortType.NONE || isReversed;
 
   const reset = () => {
@@ -81,11 +72,7 @@ export const App: FC = () => {
         )}
       </div>
 
-      <GoodsList
-        goods={goodsFromServer}
-        sortType={sortType}
-        isReversed={isReversed}
-      />
+      <GoodsList goods={renderedGoods} />
     </div>
   );
 };
