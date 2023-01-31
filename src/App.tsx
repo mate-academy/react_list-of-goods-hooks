@@ -9,7 +9,7 @@ enum SortType {
   LENGTH,
 }
 
-export function getReorderedGoods(
+export function reorderGoods(
   goods: string[], sortType: number, isReversed: boolean,
 ) {
   // To avoid the original array mutation
@@ -19,7 +19,6 @@ export function getReorderedGoods(
     switch (sortType) {
       case SortType.ALPHABET:
         return good1.localeCompare(good2);
-        break;
       case SortType.LENGTH:
         return good1.length - good2.length;
       default:
@@ -63,7 +62,8 @@ export const App: React.FC = () => {
             { 'is-light': sortType !== SortType.ALPHABET },
           )}
           onClick={() => {
-            setSortType(SortType.ALPHABET); setChanged(true);
+            setSortType(SortType.ALPHABET);
+            setChanged(true);
           }}
         >
           Sort alphabetically
@@ -77,7 +77,8 @@ export const App: React.FC = () => {
             { 'is-light': sortType !== SortType.LENGTH },
           )}
           onClick={() => {
-            setSortType(SortType.LENGTH); setChanged(true);
+            setSortType(SortType.LENGTH);
+            setChanged(true);
           }}
         >
           Sort by length
@@ -92,7 +93,6 @@ export const App: React.FC = () => {
           )}
           onClick={() => {
             setReversed(current => !current);
-            setChanged(current => !current);
           }}
         >
           Reverse
@@ -115,7 +115,7 @@ export const App: React.FC = () => {
 
       <ul>
         <ul>
-          {getReorderedGoods(
+          {reorderGoods(
             goodsFromServer,
             sortType,
             reversed,
