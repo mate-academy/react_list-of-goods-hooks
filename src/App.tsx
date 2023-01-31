@@ -74,6 +74,8 @@ export const App: React.FC = () => {
     sortType,
   );
 
+  const isVisibleBtn = (isReversed || sortType !== SortType.NONE);
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -110,7 +112,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(isReversed || sortType !== SortType.NONE) && (
+        {isVisibleBtn && (
           <button
             type="button"
             className="button is-danger is-light"
