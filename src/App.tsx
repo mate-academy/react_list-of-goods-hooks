@@ -58,6 +58,8 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
+  const isVisible = isReversed || sortType !== SortType.NONE;
+
   const reverseGoods = () => {
     setIsReversed(current => !current);
   };
@@ -75,8 +77,10 @@ export const App: React.FC = () => {
     setSortType(SortType.NONE);
   };
 
-  const visibleGoods
-  = getReorderedGoods(goodsFromServer, { sortType, isReversed });
+  const visibleGoods = getReorderedGoods(
+    goodsFromServer,
+    { sortType, isReversed },
+  );
 
   return (
     <div className="section content">
@@ -110,7 +114,7 @@ export const App: React.FC = () => {
         >
           Reverse
         </button>
-        {(isReversed || sortType !== SortType.NONE)
+        { isVisible
         && (
           <button
             type="button"
