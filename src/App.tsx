@@ -84,7 +84,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          onClick={() => setIsReversed((currentOrder) => !currentOrder)}
+          onClick={() => setIsReversed(!isReversed)}
           className={classNames('button is-warning', {
             'is-light': !isReversed,
           })}
@@ -95,7 +95,7 @@ export const App: React.FC = () => {
         {(sortType || isReversed) && (
           <button
             type="button"
-            onClick={() => reset()}
+            onClick={reset}
             className="button is-danger is-light"
           >
             Reset
