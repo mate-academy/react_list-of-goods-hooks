@@ -25,6 +25,7 @@ enum SortType {
 export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setIsReversed] = useState(false);
+  const isReset = sortType !== SortType.NONE || isReversed;
 
   const visibleGoods = [...goodsFromServer]
     .sort((good1: string, good2: string): number => {
@@ -83,7 +84,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortType !== SortType.NONE || isReversed)
+        {isReset
           && (
             <button
               type="button"
