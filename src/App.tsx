@@ -106,7 +106,10 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => setSortType(SortType.NONE)}
+            onClick={() => {
+              setSortType(SortType.NONE);
+              setReversed(false);
+            }}
           >
             Reset
           </button>
