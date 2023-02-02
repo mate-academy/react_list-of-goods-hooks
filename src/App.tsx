@@ -37,8 +37,11 @@ function getReorderedGoods(
       case SortType.LENGTH:
         return a.length - b.length;
 
-      default:
+      case SortType.NONE:
         return 0;
+
+      default:
+        throw new Error('Incorrect sorting parameters');
     }
   });
 
@@ -58,6 +61,8 @@ export const App: React.FC = () => {
     setIsReversed(false);
     setSortType(SortType.NONE);
   };
+
+  const isListSorted = sortType !== SortType.NONE || isReversed;
 
   return (
     <div className="section content">
@@ -92,7 +97,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortType || isReversed) && (
+        {isListSorted && (
           <button
             type="button"
             onClick={reset}
