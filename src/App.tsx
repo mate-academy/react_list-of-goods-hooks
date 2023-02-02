@@ -41,6 +41,9 @@ export function getReorderedGoods(
       case SortType.LENGTH:
         return g1.length - g2.length;
 
+      case SortType.NONE:
+        return 0;
+
       default:
         throw new Error('Please, enter valid sort type.');
     }
