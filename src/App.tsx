@@ -16,6 +16,12 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+enum SortType {
+  NONE,
+  ALPHABET,
+  LENGTH,
+}
+
 export function getReorderedGoods(
   goods: string[],
   sortType: SortType,
@@ -23,34 +29,22 @@ export function getReorderedGoods(
 ) {
   const visibleGoods = [...goods];
 
-  switch (sortType) {
-    case ('Alphabet'):
-      visibleGoods.sort((good1, good2) => (
-        good1.localeCompare(good2)));
-      break;
-    case ('Length'):
-      visibleGoods.sort((good1, good2) => (
-        good1.length - good2.length));
-      break;
+  visibleGoods.sort((good1, good2) => {
+    switch (sortType) {
+      case SortType.ALPHABET:
+        return good1.localeCompare(good2);
+      case SortType.LENGTH:
+        return good1.length - good2.length;
+      case SortType.NONE:
+        return 0;
+      default:
+        throw new Error('Unexpected sort value');
+    }
+  });
 
-    default:
-      break;
-  }
-
-  if (isReversed) {
-    visibleGoods.reverse();
-  }
-
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
-
-  return visibleGoods;
-}
-
-enum SortType {
-  NONE = 'None',
-  ALPHABET = 'Alphabet',
-  LENGTH = 'Length',
+  return (isReversed)
+    ? visibleGoods.reverse()
+    : visibleGoods;
 }
 
 export const App: React.FC = () => {
@@ -61,7 +55,7 @@ export const App: React.FC = () => {
     sortType,
     isReversed,
   );
-  const isNotDefault = isReversed || (sortType !== 'None');
+  const isNotDefault = isReversed || (sortType !== SortType.NONE);
 
   const reverse = () => {
     changeReverse(!isReversed);
@@ -87,7 +81,7 @@ export const App: React.FC = () => {
           type="button"
           className={classNames(
             'button is-info',
-            { 'is-light': sortType !== 'Alphabet' },
+            { 'is-light': sortType !== SortType.ALPHABET },
           )}
           onClick={setAlphabetSort}
         >
@@ -98,7 +92,7 @@ export const App: React.FC = () => {
           type="button"
           className={classNames(
             'button is-success',
-            { 'is-light': sortType !== 'Length' },
+            { 'is-light': sortType !== SortType.LENGTH },
           )}
           onClick={setLengthSort}
         >
