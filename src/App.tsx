@@ -12,19 +12,23 @@ enum SortType {
 export function reorderGoods(
   goods: string[], sortType: number, isReversed: boolean,
 ) {
-  // To avoid the original array mutation
   const visibleGoods = [...goods];
 
-  visibleGoods.sort((good1, good2): number => {
-    switch (sortType) {
-      case SortType.ALPHABET:
-        return good1.localeCompare(good2);
-      case SortType.LENGTH:
-        return good1.length - good2.length;
-      default:
-        return 0;
-    }
-  });
+  try {
+    visibleGoods.sort((good1, good2): number => {
+      switch (sortType) {
+        case SortType.ALPHABET:
+          return good1.localeCompare(good2);
+        case SortType.LENGTH:
+          return good1.length - good2.length;
+        default:
+          throw new Error('No filter was choosen');
+      }
+    });
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(error);
+  }
 
   if (isReversed) {
     return visibleGoods.reverse();
