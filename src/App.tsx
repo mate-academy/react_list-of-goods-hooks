@@ -42,7 +42,7 @@ export function getReorderedGoods(
         return g1.length - g2.length;
 
       default:
-        return 0;
+        throw new Error('Please, enter valid sort type.');
     }
   });
 
@@ -64,7 +64,7 @@ export const App: React.FC = () => {
     goodsFromServer,
     { sortType, isReversed },
   );
-  const resetCondition = isReversed || sortType !== 0;
+  const resetCondition = isReversed || sortType !== SortType.NONE;
 
   return (
     <div className="section content">
@@ -74,7 +74,7 @@ export const App: React.FC = () => {
           className={classNames(
             'button',
             'is-info',
-            { 'is-light': sortType !== 1 },
+            { 'is-light': sortType !== SortType.ALPHABET },
           )}
           onClick={() => setSortType(SortType.ALPHABET)}
         >
@@ -86,7 +86,7 @@ export const App: React.FC = () => {
           className={classNames(
             'button',
             'is-success',
-            { 'is-light': sortType !== 2 },
+            { 'is-light': sortType !== SortType.LENGTH },
           )}
           onClick={() => setSortType(SortType.LENGTH)}
         >
