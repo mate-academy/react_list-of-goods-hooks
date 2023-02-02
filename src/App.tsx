@@ -35,8 +35,10 @@ function getReorderedGoods(
         return good1.localeCompare(good2);
       case SortType.LENGTH:
         return good1.length - good2.length;
-      default:
+      case SortType.NONE:
         return 0;
+      default:
+        throw new Error('Unexpected SortType value');
     }
   });
 
@@ -55,11 +57,11 @@ export const App: React.FC = () => {
     setReversed(!isReversed);
   };
 
-  const handleAlphabetSort = () => {
+  const handleSortByAlphabet = () => {
     setSortType(SortType.ALPHABET);
   };
 
-  const handleLengthSort = () => {
+  const handleSortByLength = () => {
     setSortType(SortType.LENGTH);
   };
 
@@ -74,7 +76,7 @@ export const App: React.FC = () => {
     sortType,
   );
 
-  const isVisibleBtn = (isReversed || sortType !== SortType.NONE);
+  const isVisible = (isReversed || sortType !== SortType.NONE);
 
   return (
     <div className="section content">
@@ -85,7 +87,7 @@ export const App: React.FC = () => {
             'button is-info',
             { 'is-light': sortType !== SortType.ALPHABET },
           )}
-          onClick={handleAlphabetSort}
+          onClick={handleSortByAlphabet}
         >
           Sort alphabetically
         </button>
@@ -96,7 +98,7 @@ export const App: React.FC = () => {
             'button is-success',
             { 'is-light': sortType !== SortType.LENGTH },
           )}
-          onClick={handleLengthSort}
+          onClick={handleSortByLength}
         >
           Sort by length
         </button>
@@ -112,7 +114,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {isVisibleBtn && (
+        {isVisible && (
           <button
             type="button"
             className="button is-danger is-light"
