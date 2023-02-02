@@ -41,8 +41,11 @@ export function getReorderedGoods(
       case SortType.LENGTH:
         return a.length - b.length;
 
-      default:
+      case SortType.NONE:
         return 0;
+
+      default:
+        throw new Error('Expected sort by value');
     }
   });
 
@@ -56,10 +59,11 @@ export function getReorderedGoods(
 export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setIsReversed] = useState(false);
-  const currentGoods = getReorderedGoods(
+  const reorderedGoods = getReorderedGoods(
     goodsFromServer,
     { sortType, isReversed },
   );
+  const isResetButtonVisible = (isReversed || sortType !== SortType.NONE);
 
   return (
     <div className="section content">
@@ -97,7 +101,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortType !== SortType.NONE || isReversed) && (
+        {isResetButtonVisible && (
           <button
             type="button"
             className="button is-danger is-light"
@@ -112,7 +116,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {currentGoods.map(good => (
+        {reorderedGoods.map(good => (
           <li
             key={good}
             data-cy="Good"
