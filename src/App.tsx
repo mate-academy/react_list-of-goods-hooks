@@ -41,8 +41,11 @@ export function getReorderedGoods(
       case SortType.LENGTH:
         return good1.length - good2.length;
 
-      default:
+      case SortType.NONE:
         return 0;
+
+      default:
+        throw new Error('Unable to sort');
     }
   });
 
@@ -55,7 +58,7 @@ export function getReorderedGoods(
 
 export const App: React.FC = () => {
   const [isReversed, setReverse] = useState(false);
-  const [sortType, setSortType] = useState(0);
+  const [sortType, setSortType] = useState(SortType.NONE);
 
   const handleReset = () => {
     setReverse(false);
