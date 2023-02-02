@@ -12,7 +12,7 @@ export const GoodsListWrapper: React.FC<Props> = (props: Props) => {
   const { goods } = props;
 
   const [sortType, setSortType] = useState(SortType.NONE);
-  const [isReversed, setReverseValue] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
   const isGoodsChanged: boolean = sortType !== SortType.NONE
       || isReversed !== false;
 
@@ -21,12 +21,12 @@ export const GoodsListWrapper: React.FC<Props> = (props: Props) => {
   };
 
   const handleReverseButtonClick = () => {
-    setReverseValue((currentState) => !currentState);
+    setIsReversed((currentState) => !currentState);
   };
 
   const handleResetButtonClick = () => {
     setSortType(SortType.NONE);
-    setReverseValue(false);
+    setIsReversed(false);
   };
 
   return (
