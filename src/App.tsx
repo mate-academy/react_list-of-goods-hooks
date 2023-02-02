@@ -67,8 +67,8 @@ export const App: React.FC = () => {
     setIsReversed(!isReversed);
   };
 
-  const sortBy = (fild: SortType) => {
-    setSortType(fild);
+  const sortBy = (field: SortType) => {
+    setSortType(field);
   };
 
   const reset = () => {
