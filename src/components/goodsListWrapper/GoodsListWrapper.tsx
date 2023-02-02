@@ -16,12 +16,8 @@ export const GoodsListWrapper: React.FC<Props> = (props: Props) => {
   const isGoodsChanged: boolean = sortType !== SortType.NONE
       || isReversed !== false;
 
-  const handleSortByLengthButtonClick = () => {
-    setSortType(SortType.LENGTH);
-  };
-
-  const handleSortByAlphabetButtonClick = () => {
-    setSortType(SortType.ALPHABET);
+  const handleSortButtonClick = (sortingParam : SortType) => {
+    setSortType(sortingParam);
   };
 
   const handleReverseButtonClick = () => {
@@ -45,7 +41,9 @@ export const GoodsListWrapper: React.FC<Props> = (props: Props) => {
               'is-light': sortType !== SortType.ALPHABET,
             },
           )}
-          onClick={handleSortByAlphabetButtonClick}
+          onClick={() => {
+            handleSortButtonClick(SortType.ALPHABET);
+          }}
         >
           Sort alphabetically
         </button>
@@ -59,7 +57,9 @@ export const GoodsListWrapper: React.FC<Props> = (props: Props) => {
               'is-light': sortType !== SortType.LENGTH,
             },
           )}
-          onClick={handleSortByLengthButtonClick}
+          onClick={() => {
+            handleSortButtonClick(SortType.LENGTH);
+          }}
         >
           Sort by length
         </button>
