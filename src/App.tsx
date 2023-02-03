@@ -59,12 +59,8 @@ export function getReorderedGoods(
 }
 
 // DON'T save goods to the state
- type Prop = {
-   isReversed: boolean,
-   sortType: SortType,
- };
 
-export const App: React.FC<Prop> = () => {
+export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
