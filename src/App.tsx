@@ -51,15 +51,17 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [isReversed, reverse] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
-  const isResetButton = sortType !== SortType.NONE || isReversed;
+  const isResetButtonVisible = sortType !== SortType.NONE || isReversed;
+  const isLightAlphabetButton = sortType !== SortType.ALPHABET;
+  const isLightLengthButton = sortType !== SortType.LENGTH;
   const visibleGoods = getReorderedGoods(
     goodsFromServer,
     { isReversed, sortType },
   );
   const reset = () => {
-    reverse(false);
+    setIsReversed(false);
     setSortType(SortType.NONE);
   };
 
@@ -70,7 +72,7 @@ export const App: React.FC = () => {
           type="button"
           className={classNames(
             'button is-info',
-            { 'is-light': sortType !== SortType.ALPHABET },
+            { 'is-light': isLightAlphabetButton },
           )}
           onClick={() => (
             setSortType(SortType.ALPHABET)
@@ -83,7 +85,7 @@ export const App: React.FC = () => {
           type="button"
           className={classNames(
             'button is-success',
-            { 'is-light': sortType !== SortType.LENGTH },
+            { 'is-light': isLightLengthButton },
           )}
           onClick={() => (
             setSortType(SortType.LENGTH)
@@ -98,22 +100,20 @@ export const App: React.FC = () => {
             'button is-warning',
             { 'is-light': !isReversed },
           )}
-          onClick={() => reverse(!isReversed)}
+          onClick={() => setIsReversed(!isReversed)}
         >
           Reverse
         </button>
 
-        {
-          isResetButton && (
-            <button
-              type="button"
-              className="button is-danger is-light"
-              onClick={reset}
-            >
-              Reset
-            </button>
-          )
-        }
+        {isResetButtonVisible && (
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={reset}
+          >
+            Reset
+          </button>
+        )}
       </div>
 
       <ul>
