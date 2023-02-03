@@ -15,7 +15,7 @@ export const GoodsList: React.FC<Props> = ({ isReversed, sortType }) => {
     <ul>
       <ul>
         {goodsList.map(goodsItem => (
-          <li data-cy="Good">{goodsItem}</li>
+          <li data-cy="Good" key={goodsItem}>{goodsItem}</li>
         ))}
       </ul>
     </ul>
