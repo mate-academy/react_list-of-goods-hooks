@@ -42,7 +42,6 @@ export function getReorderedGoods(
 
       default:
         throw new Error('Wrong sort type');
-        break;
     }
   });
 
@@ -54,28 +53,22 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [reversed, setReversed] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
-  const sortAlphabetically = () => {
-    setSortType(SortType.ALPHABET);
-  };
-
-  const sortByLength = () => {
-    setSortType(SortType.LENGTH);
-  };
-
   const reverseList = () => {
-    setReversed(current => !current);
+    setIsReversed(current => !current);
   };
 
   const resetList = () => {
     setSortType(SortType.NONE);
-    setReversed(false);
+    setIsReversed(false);
   };
 
-  const isResetBtnClicked = Boolean(sortType !== SortType.NONE || reversed);
-  const reorderedGoods = getReorderedGoods(goodsFromServer, sortType, reversed);
+  const shouldShowResetButton = Boolean(sortType !== SortType.NONE
+    || isReversed);
+  const reorderedGoods
+  = getReorderedGoods(goodsFromServer, sortType, isReversed);
 
   return (
     <div className="section content">
@@ -86,7 +79,7 @@ export const App: React.FC = () => {
             'button is-info',
             { 'is-light': sortType !== SortType.ALPHABET },
           )}
-          onClick={sortAlphabetically}
+          onClick={() => setSortType(SortType.ALPHABET)}
 
         >
           Sort alphabetically
@@ -98,7 +91,7 @@ export const App: React.FC = () => {
             'button is-success',
             { 'is-light': sortType !== SortType.LENGTH },
           )}
-          onClick={sortByLength}
+          onClick={() => setSortType(SortType.LENGTH)}
         >
           Sort by length
         </button>
@@ -107,14 +100,14 @@ export const App: React.FC = () => {
           type="button"
           className={classnames(
             'button is-warning',
-            { 'is-light': !reversed },
+            { 'is-light': !isReversed },
           )}
           onClick={reverseList}
         >
           Reverse
         </button>
 
-        { isResetBtnClicked && (
+        { shouldShowResetButton && (
           <button
             type="button"
             className="button is-danger is-light"
