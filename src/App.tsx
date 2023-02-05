@@ -69,7 +69,7 @@ export const App: React.FC = () => {
     setSortType(SortType.NONE);
   };
 
-  const goodToRender
+  const goodsToRender
       = getReorderedGoods(goodsFromServer, sortType, isReversed);
 
   const wasItSorted = sortType === SortType.NONE && isReversed === false;
@@ -118,7 +118,7 @@ export const App: React.FC = () => {
         )}
       </div>
 
-      <GoodsList goods={goodToRender} />
+      <GoodsList goods={goodsToRender} />
     </div>
   );
 };
