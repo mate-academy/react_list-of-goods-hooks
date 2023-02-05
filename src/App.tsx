@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import classNames from 'classnames';
@@ -71,8 +71,6 @@ export const App: React.FC = () => {
   const isReset = isReversed || sortType !== SortType.NONE;
 
   const finishGoods = getReorderedGoods(goodsFromServer, sortType, isReversed);
-
-  useEffect(() => { }, [isReversed, sortType]);
 
   return (
     <div className="section content">
