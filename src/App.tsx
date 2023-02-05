@@ -62,7 +62,7 @@ export const App: React.FC = () => {
     isReversed,
   );
 
-  const checkForReset = isReversed || sortType !== SortType.NONE;
+  const shouldShowResetButton = isReversed || sortType !== SortType.NONE;
 
   const handleSortType = (type: SortType) => {
     setSortType(type);
@@ -111,7 +111,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {checkForReset && (
+        {shouldShowResetButton && (
           <button
             type="button"
             className="button is-danger is-light"
