@@ -53,7 +53,7 @@ export const App: React.FC = () => {
   const [isReversed, setReversed] = useState(false);
 
   const reverse = () => {
-    setReversed(!isReversed);
+    setReversed((prevState) => !prevState);
   };
 
   const sortByName = () => {
@@ -72,7 +72,7 @@ export const App: React.FC = () => {
   const goodsToRender
       = getReorderedGoods(goodsFromServer, sortType, isReversed);
 
-  const wasItSorted = sortType === SortType.NONE && isReversed === false;
+  const wasItSorted = sortType === SortType.NONE && !isReversed;
 
   return (
     <div className="section content">
