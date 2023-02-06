@@ -32,14 +32,16 @@ export const GoodsList: React.FC<Props> = ({ goods, sortType, isReversed }) => {
 
   return (
     <ul>
-      {visibleGoods.map((good) => (
-        <li
-          data-cy="Good"
-          key={good}
-        >
-          {good}
-        </li>
-      ))}
+      <>
+        {visibleGoods.map((good) => (
+          <li
+            data-cy="Good"
+            key={good}
+          >
+            {good}
+          </li>
+        ))}
+      </>
     </ul>
   );
 };
