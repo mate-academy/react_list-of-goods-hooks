@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import classNames from 'classnames';
+import { SortType } from './types/SortType';
+import { GoodsList } from './components/GoodsList';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -16,60 +18,13 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-enum SortType {
-  NONE,
-  ALPHABET,
-  LENGTH,
-}
-
-type ReorderOptions = {
-  sortType: SortType,
-  isReversed: boolean,
-};
-
-export function getReorderedGoods(
-  goods: string[],
-  { sortType, isReversed }: ReorderOptions,
-) {
-  const visibleGoods = [...goods];
-
-  visibleGoods.sort((a, b) => {
-    switch (sortType) {
-      case SortType.ALPHABET:
-        return a.localeCompare(b);
-
-      case SortType.LENGTH:
-        return a.length - b.length;
-
-      case SortType.NONE:
-        return 0;
-
-      default:
-        throw new Error('Invalid sort type');
-    }
-  });
-
-  if (isReversed) {
-    visibleGoods.reverse();
-  }
-
-  return visibleGoods;
-}
-
 export const App: React.FC = () => {
   const [sortType, setSortType] = useState<SortType>(SortType.NONE);
-  const [isReversed, setReversed] = useState<boolean>(false);
+  const [isReversed, setReversed] = useState(false);
   const isModified = sortType !== SortType.NONE || isReversed;
 
-  const sortedGoods = getReorderedGoods(
-    goodsFromServer,
-    { sortType, isReversed },
-  );
-
   const reverseList = () => {
-    setReversed((currentReversed) => (
-      !currentReversed
-    ));
+    setReversed((currentReversed) => !currentReversed);
   };
 
   const resetList = () => {
@@ -113,7 +68,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={classNames(
-            'button is-warning ',
+            'button is-warning',
             {
               'is-light': !isReversed,
             },
@@ -134,18 +89,11 @@ export const App: React.FC = () => {
         )}
       </div>
 
-      <ul>
-        <ul>
-          {sortedGoods.map((good) => (
-            <li
-              data-cy="Good"
-              key={good}
-            >
-              {good}
-            </li>
-          ))}
-        </ul>
-      </ul>
+      <GoodsList
+        goods={goodsFromServer}
+        sortType={sortType}
+        isReversed={isReversed}
+      />
     </div>
   );
 };
