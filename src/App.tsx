@@ -25,7 +25,7 @@ enum SortType {
 
 export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
-  const [sortType, setSortType] = useState(SortType.NONE);
+  const [sortType, setSortType] = useState<number>(SortType.NONE);
 
   const reset = () => {
     setIsReversed(false);
@@ -49,9 +49,6 @@ export const App: React.FC = () => {
     if (isReversed) {
       visibleGoods.reverse();
     }
-
-    // eslint-disable-next-line no-console
-    console.log(sortType, isReversed);
 
     return visibleGoods;
   };
@@ -84,7 +81,7 @@ export const App: React.FC = () => {
           className={cn('button is-warning', {
             'is-light': isReversed !== true,
           })}
-          onClick={() => setIsReversed(state => !state)}
+          onClick={() => setIsReversed(currState => !currState)}
         >
           Reverse
         </button>
@@ -103,9 +100,9 @@ export const App: React.FC = () => {
 
       <ul>
         <ul>
-          {getReorderedGoods(goodsFromServer).map(good => {
-            return <li data-cy="Good" key={good}>{good}</li>;
-          })}
+          {getReorderedGoods(goodsFromServer).map(good => (
+            <li data-cy="Good" key={good}>{good}</li>
+          ))}
         </ul>
       </ul>
     </div>
