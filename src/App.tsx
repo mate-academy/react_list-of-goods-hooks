@@ -59,9 +59,11 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${
-            classNames({ 'is-light': sortType !== SortType.Alphabet })
-          }`}
+          className={classNames(
+            'button',
+            'is-info',
+            { 'is-light': sortType !== SortType.Alphabet },
+          )}
           onClick={() => setSortType(() => SortType.Alphabet)}
         >
           Sort alphabetically
@@ -69,9 +71,11 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-success ${
-            classNames({ 'is-light': sortType !== SortType.Length })
-          }`}
+          className={classNames(
+            'button',
+            'is-success',
+            { 'is-light': sortType !== SortType.Length },
+          )}
           onClick={() => setSortType(() => SortType.Length)}
         >
           Sort by length
@@ -79,29 +83,28 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-warning ${
-            classNames({ 'is-light': isReversed === false })
-          }`}
+          className={classNames(
+            'button',
+            'is-warning',
+            { 'is-light': isReversed === false },
+          )}
           onClick={() => setReversed((reversed) => !reversed)}
         >
           Reverse
         </button>
 
-        {isReversed !== false
-        || sortType !== SortType.None
-          ? (
-            <button
-              type="button"
-              className="button is-danger is-light"
-              onClick={() => {
-                setSortType(() => SortType.None);
-                setReversed(() => false);
-              }}
-            >
-              Reset
-            </button>
-          )
-          : ''}
+        {(isReversed || sortType !== SortType.None) && (
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={() => {
+              setSortType(() => SortType.None);
+              setReversed(() => false);
+            }}
+          >
+            Reset
+          </button>
+        )}
 
       </div>
 
