@@ -1,8 +1,10 @@
-import React from 'react';
-import 'bulma/css/bulma.css';
-import './App.scss';
+import classNames from 'classnames';
+import React, { useState } from 'react';
 
-export const goodsFromServer = [
+import { GoodsList } from './components/GoodsList';
+import { ListControl } from './components/ListControl';
+
+const goodsFromServer: string[] = [
   'Dumplings',
   'Carrot',
   'Eggs',
@@ -15,49 +17,64 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-export const App: React.FC = () => {
+const App: React.FC = () => {
+  const [isListVisible, setisListVisible] = useState(false);
+  const [isReversed, setisReversed] = useState(false);
+  const [sortBy, setSortBy] = useState('');
+
+  const reset = () => {
+    setisReversed(false);
+    setSortBy('');
+  };
+
+  const visibleGoods = [...goodsFromServer];
+
+  if (sortBy) {
+    visibleGoods.sort((a, b) => {
+      switch (sortBy) {
+        case 'alpha':
+          return a.localeCompare(b);
+        case 'length':
+          return a.length - b.length;
+        default:
+          return 0;
+      }
+    });
+  }
+
+  if (isReversed) {
+    visibleGoods.reverse();
+  }
+
   return (
-    <div className="section content">
-      <div className="buttons">
-        <button
-          type="button"
-          className="button is-info is-light"
-        >
-          Sort alphabetically
-        </button>
-
-        <button
-          type="button"
-          className="button is-success is-light"
-        >
-          Sort by length
-        </button>
-
-        <button
-          type="button"
-          className="button is-warning is-light"
-        >
-          Reverse
-        </button>
-
-        <button
-          type="button"
-          className="button is-danger is-light"
-        >
-          Reset
-        </button>
-      </div>
-
-      <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
-      </ul>
+    <div className={classNames('App', {
+      'App--before': !isListVisible,
+      'App--after': isListVisible,
+    })}
+    >
+      {!isListVisible
+        ? (
+          <button
+            type="button"
+            onClick={() => setisListVisible(true)}
+            className="button button--start"
+          >
+            Start
+          </button>
+        )
+        : (
+          <>
+            <GoodsList goods={visibleGoods} />
+            <ListControl
+              isReversed={isReversed}
+              setIsReversed={setisReversed}
+              setSortBy={setSortBy}
+              reset={reset}
+            />
+          </>
+        )}
     </div>
   );
 };
+
+export default App;
