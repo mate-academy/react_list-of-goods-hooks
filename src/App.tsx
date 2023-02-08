@@ -22,6 +22,34 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+function getReorderedGoods(
+  goods: string[], sortType: SortType, isReversed: boolean,
+) {
+  const visibleGoods = [...goods];
+
+  visibleGoods.sort((g1: string, g2: string): number => {
+    switch (sortType) {
+      case SortType.ALPHABET:
+        return g1.localeCompare(g2);
+
+      case SortType.LENGTH:
+        return g1.length - g2.length;
+
+      case SortType.NONE:
+        return 0;
+
+      default:
+        throw new Error('No such sort type');
+    }
+  });
+
+  if (isReversed) {
+    visibleGoods.reverse();
+  }
+
+  return visibleGoods;
+}
+
 export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
@@ -42,25 +70,6 @@ export const App: React.FC = () => {
     setSortType(SortType.NONE);
     setIsReversed(false);
   };
-
-  const visibleGoods = [...goodsFromServer];
-
-  switch (sortType) {
-    case SortType.ALPHABET:
-      visibleGoods.sort((g1, g2) => g1.localeCompare(g2));
-      break;
-
-    case SortType.LENGTH:
-      visibleGoods.sort((g1, g2) => g1.length - g2.length);
-      break;
-
-    default:
-      break;
-  }
-
-  if (isReversed) {
-    visibleGoods.reverse();
-  }
 
   return (
     <div className="section content">
@@ -112,9 +121,10 @@ export const App: React.FC = () => {
 
       <ul>
         <ul>
-          {visibleGoods.map(good => (
-            <li data-cy="Good" key={good}>{good}</li>
-          ))}
+          {getReorderedGoods(goodsFromServer, sortType, isReversed)
+            .map(good => (
+              <li data-cy="Good" key={good}>{good}</li>
+            ))}
         </ul>
       </ul>
     </div>
