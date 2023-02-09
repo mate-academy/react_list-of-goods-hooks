@@ -23,7 +23,9 @@ export const goodsFromServer = [
 ];
 
 function getReorderedGoods(
-  goods: string[], sortType: SortType, isReversed: boolean,
+  goods: string[],
+  sortType: SortType,
+  isReversed: boolean,
 ) {
   const visibleGoods = [...goods];
 
@@ -53,6 +55,7 @@ function getReorderedGoods(
 export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
+  const resetButtonIsActive = sortType !== SortType.NONE || isReversed;
 
   const sortByAlphabet = () => {
     setSortType(SortType.ALPHABET);
@@ -107,7 +110,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {sortType !== SortType.NONE || isReversed
+        {resetButtonIsActive
           ? (
             <button
               type="button"
