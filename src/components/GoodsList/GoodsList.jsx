@@ -6,7 +6,7 @@ export const GoodsList = ({ goods, sortType, reverse }) => {
     console.log(`Load sortType --- [${sortType}]`);
 
     return () => {
-  // eslint-disable-next-line no-console
+      // eslint-disable-next-line no-console
       console.log(`Deleted sortType --- [${sortType}]`);
     };
   }, [sortType]);
