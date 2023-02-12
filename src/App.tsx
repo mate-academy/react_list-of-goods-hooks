@@ -48,8 +48,8 @@ const App: React.FC = () => {
 
   return (
     <div className={classNames('App', {
-      'App--before': !isListVisible,
       'App--after': isListVisible,
+      'App--before': !isListVisible,
     })}
     >
       {!isListVisible

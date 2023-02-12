@@ -1,3 +1,7 @@
+type Props = {
+  goods: string[]
+};
+
 export const GoodsList: React.FC<Props> = ({ goods }) => {
   return (
     <ul className="goods-list">
@@ -12,8 +16,4 @@ export const GoodsList: React.FC<Props> = ({ goods }) => {
       ))}
     </ul>
   );
-};
-
-type Props = {
-  goods: string[]
 };
