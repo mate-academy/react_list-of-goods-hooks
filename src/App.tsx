@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
@@ -60,9 +60,16 @@ export const App: React.FC = () => {
 
   const reoderedGoods = getReorderedGoods(goodsFromServer, reorderOptions);
 
+  const sortAlphabeticallyRef = useRef<any>(null);
+  const sortByLengthRef = useRef<any>(null);
+  const reverseRef = useRef<any>(null);
+
   const sortAlphabetically = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.currentTarget.classList.remove('is-light');
-    document.querySelector('.buttons')?.children[1].classList.add('is-light');
+
+    if (sortByLengthRef.current) {
+      sortByLengthRef.current.classList.add('is-light');
+    }
 
     setReorderOptions((state) => ({
       ...state,
@@ -72,7 +79,10 @@ export const App: React.FC = () => {
 
   const sortByLength = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.currentTarget.classList.remove('is-light');
-    document.querySelector('.buttons')?.children[0].classList.add('is-light');
+
+    if (sortAlphabeticallyRef.current) {
+      sortAlphabeticallyRef.current.classList.add('is-light');
+    }
 
     setReorderOptions((state) => ({
       ...state,
@@ -90,9 +100,17 @@ export const App: React.FC = () => {
   };
 
   const reset = () => {
-    document.querySelector('.buttons')?.children[0].classList.add('is-light');
-    document.querySelector('.buttons')?.children[1].classList.add('is-light');
-    document.querySelector('.buttons')?.children[2].classList.add('is-light');
+    if (sortByLengthRef.current) {
+      sortByLengthRef.current.classList.add('is-light');
+    }
+
+    if (sortAlphabeticallyRef.current) {
+      sortAlphabeticallyRef.current.classList.add('is-light');
+    }
+
+    if (reverseRef.current) {
+      reverseRef.current.classList.add('is-light');
+    }
 
     setReorderOptions({
       sortType: SortType.NONE,
@@ -113,6 +131,7 @@ export const App: React.FC = () => {
           onClick={(e) => {
             sortAlphabetically(e);
           }}
+          ref={sortAlphabeticallyRef}
         >
           Sort alphabetically
         </button>
@@ -127,6 +146,7 @@ export const App: React.FC = () => {
           onClick={(e) => {
             sortByLength(e);
           }}
+          ref={sortByLengthRef}
         >
           Sort by length
         </button>
@@ -141,6 +161,7 @@ export const App: React.FC = () => {
           onClick={(e) => {
             reverse(e);
           }}
+          ref={reverseRef}
         >
           Reverse
         </button>
