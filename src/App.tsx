@@ -1,5 +1,6 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import 'bulma/css/bulma.css';
+import cn from 'classnames';
 import './App.scss';
 
 export const goodsFromServer = [
@@ -60,39 +61,21 @@ export const App: React.FC = () => {
 
   const reoderedGoods = getReorderedGoods(goodsFromServer, reorderOptions);
 
-  const sortAlphabeticallyRef = useRef<any>(null);
-  const sortByLengthRef = useRef<any>(null);
-  const reverseRef = useRef<any>(null);
-
-  const sortAlphabetically = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.currentTarget.classList.remove('is-light');
-
-    if (sortByLengthRef.current) {
-      sortByLengthRef.current.classList.add('is-light');
-    }
-
+  const sortAlphabetically = () => {
     setReorderOptions((state) => ({
       ...state,
       sortType: SortType.ALPHABET,
     }));
   };
 
-  const sortByLength = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.currentTarget.classList.remove('is-light');
-
-    if (sortAlphabeticallyRef.current) {
-      sortAlphabeticallyRef.current.classList.add('is-light');
-    }
-
+  const sortByLength = () => {
     setReorderOptions((state) => ({
       ...state,
       sortType: SortType.LENGTH,
     }));
   };
 
-  const reverse = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.currentTarget.classList.toggle('is-light');
-
+  const reverse = () => {
     setReorderOptions((state) => ({
       ...state,
       isReversed: !state.isReversed,
@@ -100,18 +83,6 @@ export const App: React.FC = () => {
   };
 
   const reset = () => {
-    if (sortByLengthRef.current) {
-      sortByLengthRef.current.classList.add('is-light');
-    }
-
-    if (sortAlphabeticallyRef.current) {
-      sortAlphabeticallyRef.current.classList.add('is-light');
-    }
-
-    if (reverseRef.current) {
-      reverseRef.current.classList.add('is-light');
-    }
-
     setReorderOptions({
       sortType: SortType.NONE,
       isReversed: false,
@@ -123,45 +94,30 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className="
-            button
-            is-info
-            is-light
-          "
-          onClick={(e) => {
-            sortAlphabetically(e);
-          }}
-          ref={sortAlphabeticallyRef}
+          className={cn('button is-info', {
+            'is-light': reorderOptions.sortType !== SortType.ALPHABET,
+          })}
+          onClick={sortAlphabetically}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className="
-            button
-            is-success
-            is-light
-          "
-          onClick={(e) => {
-            sortByLength(e);
-          }}
-          ref={sortByLengthRef}
+          className={cn('button is-success', {
+            'is-light': reorderOptions.sortType !== SortType.LENGTH,
+          })}
+          onClick={sortByLength}
         >
           Sort by length
         </button>
 
         <button
           type="button"
-          className="
-            button
-            is-warning
-            is-light
-          "
-          onClick={(e) => {
-            reverse(e);
-          }}
-          ref={reverseRef}
+          className={cn('button is-warning', {
+            'is-light': !reorderOptions.isReversed,
+          })}
+          onClick={reverse}
         >
           Reverse
         </button>
