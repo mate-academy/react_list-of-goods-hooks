@@ -54,10 +54,12 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [reorderOptions, setReorderOptions] = useState({
+  const defaultReoderOptions = {
     sortType: SortType.NONE,
     isReversed: false,
-  });
+  };
+
+  const [reorderOptions, setReorderOptions] = useState(defaultReoderOptions);
 
   const reoderedGoods = getReorderedGoods(goodsFromServer, reorderOptions);
 
@@ -83,10 +85,7 @@ export const App: React.FC = () => {
   };
 
   const reset = () => {
-    setReorderOptions({
-      sortType: SortType.NONE,
-      isReversed: false,
-    });
+    setReorderOptions(defaultReoderOptions);
   };
 
   return (
@@ -122,14 +121,15 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {reoderedGoods.toString() !== goodsFromServer.toString() && (
+        {(reorderOptions.sortType !== SortType.NONE
+        || reorderOptions.isReversed) && (
           <button
             type="button"
             className="
-            button
-            is-danger
-            is-light
-          "
+              button
+              is-danger
+              is-light
+            "
             onClick={reset}
           >
             Reset
