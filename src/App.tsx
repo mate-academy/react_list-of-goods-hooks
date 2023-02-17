@@ -58,11 +58,16 @@ export function getReorderedGoods(
 
 export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
-  const [sortType, setSortType] = useState(SortType.NONE);
+  const [sortType, setSortType] = useState<SortType>(SortType.NONE);
   const isResetVisible = (sortType !== SortType.NONE || isReversed);
   const preparedGoods = getReorderedGoods(
     goodsFromServer, { isReversed, sortType },
   );
+
+  const hendlerOnReset = () => {
+    setSortType(SortType.NONE);
+    setIsReversed(false);
+  };
 
   return (
     <div className="section content">
@@ -85,6 +90,7 @@ export const App: React.FC = () => {
             { 'is-light': sortType !== SortType.LENGTH },
           )}
           onClick={() => setSortType(SortType.LENGTH)}
+          // onClick={setOnClick}
         >
           Sort by length
         </button>
@@ -104,10 +110,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortType(SortType.NONE);
-              setIsReversed(false);
-            }}
+            onClick={hendlerOnReset}
           >
             Reset
           </button>
