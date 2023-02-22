@@ -29,12 +29,12 @@ export function getReorderedGoods(
 ) {
   const visibleGoods = [...goods];
 
-  visibleGoods.sort((item1, item2) => {
+  visibleGoods.sort((prev, next) => {
     switch (sortType) {
       case SortType.LENGTH:
-        return item1.length - item2.length;
+        return prev.length - next.length;
       case SortType.ALPHABET:
-        return item1.localeCompare(item2);
+        return prev.localeCompare(next);
 
       default:
         return 0;
@@ -49,19 +49,25 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [isReversed, reverseList] = useState(false);
-  const [sortType, sortMethod] = useState(SortType.NONE);
+  const [isReversed, setIsReversed] = useState(false);
+  const [sortType, setSortType] = useState(SortType.NONE);
 
-  const goodsRender = getReorderedGoods(
+  const goodsForRender = getReorderedGoods(
     goodsFromServer,
     sortType,
     isReversed,
   );
 
   const reset = () => {
-    reverseList(false);
-    sortMethod(SortType.NONE);
+    setIsReversed(false);
+    setSortType(SortType.NONE);
   };
+
+  const reverse = () => setIsReversed(!isReversed);
+
+  const sortByAlphabet = () => setSortType(SortType.ALPHABET);
+
+  const sortByLength = () => setSortType(SortType.LENGTH);
 
   return (
     <div className="section content">
@@ -72,7 +78,7 @@ export const App: React.FC = () => {
             'button', 'is-info',
             { 'is-light': sortType !== SortType.ALPHABET },
           )}
-          onClick={() => (sortMethod(SortType.ALPHABET))}
+          onClick={sortByAlphabet}
         >
           Sort alphabetically
         </button>
@@ -83,7 +89,7 @@ export const App: React.FC = () => {
             'button', 'is-success',
             { 'is-light': sortType !== SortType.LENGTH },
           )}
-          onClick={() => (sortMethod(SortType.LENGTH))}
+          onClick={sortByLength}
         >
           Sort by length
         </button>
@@ -94,7 +100,7 @@ export const App: React.FC = () => {
             'button', 'is-warning',
             { 'is-light': !isReversed },
           )}
-          onClick={() => (reverseList(!isReversed))}
+          onClick={reverse}
         >
           Reverse
         </button>
@@ -104,7 +110,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => reset()}
+            onClick={reset}
           >
             Reset
           </button>
@@ -112,7 +118,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {goodsRender.map(good => {
+        {goodsForRender.map(good => {
           return (
             <li data-cy="Good" key={good}>
               {good}
