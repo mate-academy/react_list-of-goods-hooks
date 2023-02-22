@@ -34,15 +34,15 @@ export function getReorderedGoods(
   const visibleGoods = [...goods];
 
   if (sortType === SortType.ALPHABET) {
-    goods.sort();
+    visibleGoods.sort((a, b) => a.localeCompare(b));
   }
 
   if (sortType === SortType.LENGTH) {
-    goods.sort((a, b) => a.length - b.length);
+    visibleGoods.sort((a, b) => a.length - b.length);
   }
 
   if (isReversed) {
-    goods.reverse();
+    visibleGoods.reverse();
   }
 
   return visibleGoods;
@@ -51,7 +51,6 @@ export function getReorderedGoods(
 export const App: React.FC = () => {
   const [isReversed, setReversed] = useState(false);
   const [sortType, setSortBy] = useState(SortType.NONE);
-  const goods = [...goodsFromServer];
 
   const setSortNone = () => {
     setSortBy(SortType.NONE);
@@ -70,7 +69,10 @@ export const App: React.FC = () => {
     setSortBy(SortType.LENGTH);
   };
 
-  getReorderedGoods(goods, { isReversed, sortType });
+  const reorderedGoods = getReorderedGoods(
+    goodsFromServer,
+    { isReversed, sortType },
+  );
 
   return (
     <div className="section content">
@@ -81,7 +83,7 @@ export const App: React.FC = () => {
             'button is-info',
             { 'is-light': sortType !== SortType.ALPHABET },
           )}
-          onClick={() => setSortByAlphabet()}
+          onClick={setSortByAlphabet}
         >
           Sort alphabetically
         </button>
@@ -91,7 +93,7 @@ export const App: React.FC = () => {
             'button is-success',
             { 'is-light': sortType !== SortType.LENGTH },
           )}
-          onClick={() => setSortByLength()}
+          onClick={setSortByLength}
         >
           Sort by length
         </button>
@@ -101,28 +103,23 @@ export const App: React.FC = () => {
             'button is-warning',
             { 'is-light': !isReversed },
           )}
-          onClick={() => setReverse()}
+          onClick={setReverse}
         >
           Reverse
         </button>
-        {
-          sortType || isReversed
-            ? (
+        {(sortType || isReversed)
+            && (
               <button
                 type="button"
                 className="button is-danger is-light"
-                onClick={() => {
-                  setSortNone();
-                }}
+                onClick={setSortNone}
               >
                 Reset
               </button>
-            )
-            : ''
-        }
+            )}
       </div>
       <ul>
-        {goods.map(list => (
+        {reorderedGoods.map(list => (
           <li data-cy="Good" key={list}>
             {list}
           </li>
