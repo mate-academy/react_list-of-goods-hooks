@@ -48,12 +48,7 @@ export function getReorderedGoods(
   return visibleGoods;
 }
 
-type Props = {
-  isReversed: boolean,
-  sortType: SortType,
-};
-
-export const App: React.FC<Props> = () => {
+export const App: React.FC = () => {
   const [isReversed, setReversed] = useState(false);
   const [sortType, setSortBy] = useState(SortType.NONE);
   const goods = [...goodsFromServer];
