@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
@@ -27,36 +27,48 @@ type ReorderOptions = {
   isReversed: boolean,
 };
 
-export function getReorderedGoods(
-  goods: string[],
-  { sortType, isReversed }: ReorderOptions,
-) {
-  const visibleGoods = [...goods];
-
-  visibleGoods.sort((item1, item2) => {
-    switch (sortType) {
-      case SortType.ALPHABET:
-        return item1.localeCompare(item2);
-
-      case SortType.LENGTH:
-        return item1.length - item2.length;
-
-      default:
-        return 0;
-    }
-  });
-
-  if (isReversed) {
-    visibleGoods.reverse();
-  }
-
-  return visibleGoods;
-}
-
 export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setIsReversed] = useState(false);
-  const goods = getReorderedGoods(goodsFromServer, { sortType, isReversed });
+
+  const getReorderedGoods = useCallback(
+    (
+      goods: string[],
+      {
+        sortType: reorderSortType,
+        isReversed: reorderIsReversed,
+      }: ReorderOptions,
+    ) => {
+      let visibleGoods = [...goods];
+
+      switch (reorderSortType) {
+        case SortType.ALPHABET:
+          visibleGoods = visibleGoods
+            .sort((item1, item2) => item1.localeCompare(item2));
+          break;
+
+        case SortType.LENGTH:
+          visibleGoods = visibleGoods
+            .sort((item1, item2) => item1.length - item2.length);
+          break;
+
+        default:
+          break;
+      }
+
+      if (reorderIsReversed) {
+        visibleGoods = visibleGoods.reverse();
+      }
+
+      return visibleGoods;
+    },
+    [sortType, isReversed],
+  );
+
+  const goods = useMemo(
+    () => getReorderedGoods(goodsFromServer, { sortType, isReversed }),
+    [sortType, isReversed],
+  );
 
   const handleAlphabetSort = () => {
     setSortType(SortType.ALPHABET);
@@ -69,7 +81,7 @@ export const App: React.FC = () => {
   };
 
   const handleReverse = () => {
-    setIsReversed(!isReversed);
+    setIsReversed(prevIsReversed => !prevIsReversed);
   };
 
   const handleReset = () => {
