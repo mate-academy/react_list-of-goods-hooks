@@ -53,10 +53,15 @@ export const App: React.FC = () => {
   } = SortType;
 
   const [sortType, setSortType] = useState(NONE);
-  const [isSetReversed, setReverse] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
 
-  const goods = getReorderedGoods(goodsFromServer, sortType, isSetReversed);
-  const visibilityReset = isSetReversed || sortType !== NONE;
+  const goods = getReorderedGoods(goodsFromServer, sortType, isReversed);
+  const setResetting = (type: SortType, reverse: boolean) => {
+    setSortType(type);
+    setIsReversed(reverse);
+  };
+
+  const isVisibleResetButton = isReversed || sortType !== NONE;
 
   return (
     <div className="section content">
@@ -92,22 +97,19 @@ export const App: React.FC = () => {
           className={classNames(
             'button is-warning',
             {
-              'is-light': !isSetReversed,
+              'is-light': !isReversed,
             },
           )}
-          onClick={() => setReverse(!isSetReversed)}
+          onClick={() => setIsReversed(!isReversed)}
         >
           Reverse
         </button>
 
-        {visibilityReset && (
+        {isVisibleResetButton && (
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortType(NONE);
-              setReverse(false);
-            }}
+            onClick={() => setResetting(NONE, false)}
           >
             Reset
           </button>
