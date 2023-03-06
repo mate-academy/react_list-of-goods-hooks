@@ -25,7 +25,7 @@ enum SortType {
 export function getReorderedGoods(
   goods: string[],
   sortType: SortType,
-  isSetReversed: boolean,
+  isReversed: boolean,
 ) {
   const visibleGoods = [...goods];
 
@@ -42,7 +42,7 @@ export function getReorderedGoods(
     }
   });
 
-  return (!isSetReversed) ? visibleGoods : visibleGoods.reverse();
+  return (!isReversed) ? visibleGoods : visibleGoods.reverse();
 }
 
 export const App: React.FC = () => {
@@ -56,9 +56,9 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
 
   const goods = getReorderedGoods(goodsFromServer, sortType, isReversed);
-  const setResetting = (type: SortType, reverse: boolean) => {
-    setSortType(type);
-    setIsReversed(reverse);
+  const reset = () => {
+    setSortType(NONE);
+    setIsReversed(false);
   };
 
   const isVisibleResetButton = isReversed || sortType !== NONE;
@@ -109,7 +109,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => setResetting(NONE, false)}
+            onClick={() => reset()}
           >
             Reset
           </button>
