@@ -38,17 +38,20 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortType, setType] = useState('none');
+  const none = 'none';
+  const alphabet = 'alphabet';
+  const lenght = 'lenght';
+  const [sortType, setType] = useState(none);
   const [isReversed, setReverse] = useState(false);
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => setType('alphabet')}
+          onClick={() => setType(alphabet)}
           className={
             classNames('button is-info', {
-              'is-light': sortType !== 'alphabet',
+              'is-light': sortType !== alphabet,
             })
           }
           type="button"
@@ -57,10 +60,10 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={() => setType('lenght')}
+          onClick={() => setType(lenght)}
           className={
             classNames('button is-info', {
-              'is-light': sortType !== 'lenght',
+              'is-light': sortType !== lenght,
             })
           }
           type="button"
@@ -80,13 +83,12 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {sortType !== 'none' || isReversed ? (
+        {sortType !== none || isReversed ? (
           <button
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              // eslint-disable-next-line no-sequences
-              return setType('none'), setReverse(false);
+              return [setType(none), setReverse(false)];
             }}
           >
             Reset
