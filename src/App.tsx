@@ -34,9 +34,9 @@ export function getReorderedGoods(
 
   visibleGoods.sort((a, b) => {
     switch (sortType) {
-      case 1:
+      case SortType.ALPHABET:
         return a.localeCompare(b);
-      case 2:
+      case SortType.LENGTH:
         return a.length - b.length;
       default:
         return 0;
@@ -53,17 +53,21 @@ export function getReorderedGoods(
 export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(0);
+  const goods = getReorderedGoods(
+    goodsFromServer, { isReversed, sortType },
+  );
+
+  function reset() {
+    setIsReversed(false);
+    setSortType(0);
+  }
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={
-            sortType === 1
-              ? 'button is-info'
-              : 'button is-info is-light'
-          }
+          className={`button is-info ${sortType === SortType.ALPHABET ? '' : 'is-light'}`}
           onClick={() => setSortType(1)}
         >
           Sort alphabetically
@@ -71,9 +75,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={sortType === 2
-            ? 'button is-success'
-            : 'button is-success is-light'}
+          className={`button is-success ${sortType === SortType.LENGTH ? '' : 'is-light'}`}
           onClick={() => setSortType(2)}
         >
           Sort by length
@@ -93,14 +95,11 @@ export const App: React.FC = () => {
           <button
             type="button"
             className={
-              sortType === 0 && !isReversed
+              sortType === SortType.NONE && !isReversed
                 ? 'button is-info'
                 : 'button is-info is-light'
             }
-            onClick={() => {
-              setIsReversed(false);
-              setSortType(0);
-            }}
+            onClick={() => reset()}
           >
             Reset
           </button>
@@ -109,9 +108,7 @@ export const App: React.FC = () => {
 
       <ul>
         <ul>
-          {getReorderedGoods(
-            goodsFromServer, { isReversed, sortType },
-          ).map(item => (
+          {goods.map(item => (
             <li key={item}>
               {item}
             </li>
