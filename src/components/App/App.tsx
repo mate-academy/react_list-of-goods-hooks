@@ -2,61 +2,14 @@ import { FC, useState } from 'react';
 import 'bulma/css/bulma.css';
 import cn from 'classnames';
 import './App.scss';
-import { GoodsList } from './components/GoodsList/GoodsList';
-
-export const goodsFromServer = [
-  'Dumplings',
-  'Carrot',
-  'Eggs',
-  'Ice cream',
-  'Apple',
-  'Bread',
-  'Fish',
-  'Honey',
-  'Jam',
-  'Garlic',
-];
-
-enum SortType {
-  NONE,
-  ALPHABET,
-  LENGTH,
-}
-
-interface ReorderOptions {
-  sortType: SortType,
-  isReversed: boolean,
-}
-
-export function getReorderedGoods(
-  goods: string[],
-  { sortType, isReversed }: ReorderOptions,
-) {
-  const visibleGoods = [...goods];
-
-  visibleGoods.sort((current, next) => {
-    switch (sortType) {
-      case SortType.LENGTH:
-        return current.length - next.length;
-
-      case SortType.ALPHABET:
-        return current.localeCompare(next);
-
-      default:
-        return 0;
-    }
-  });
-
-  if (isReversed) {
-    visibleGoods.reverse();
-  }
-
-  return visibleGoods;
-}
+import { SortType } from './typedefs';
+import { getReorderedGoods } from '../helpers/helpers';
+import { goodsFromServer } from '../api/goodsFromServer';
+import { GoodsList } from '../GoodsList/GoodsList';
 
 export const App: FC = () => {
-  const [isReversed, reverseList] = useState(false);
-  const [sortType, sortList] = useState(SortType.NONE);
+  const [isReversed, setIsReversed] = useState(false);
+  const [sortType, setSortType] = useState(SortType.NONE);
 
   const checkOrder = sortType !== SortType.NONE || isReversed;
 
@@ -65,12 +18,13 @@ export const App: FC = () => {
     { sortType, isReversed },
   );
 
-  const reverseGoods = () => reverseList(!isReversed);
-  const sortByAlphabet = () => sortList(SortType.ALPHABET);
-  const sortByLength = () => sortList(SortType.LENGTH);
+  const reverseList = () => {
+    setIsReversed((currentState) => !currentState);
+  };
+
   const resetOrder = () => {
-    sortList(SortType.NONE);
-    reverseList(false);
+    setSortType(SortType.NONE);
+    setIsReversed(false);
   };
 
   return (
@@ -82,7 +36,7 @@ export const App: FC = () => {
             'button is-info',
             { 'is-light': sortType !== SortType.ALPHABET },
           )}
-          onClick={sortByAlphabet}
+          onClick={() => setSortType(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
@@ -93,7 +47,7 @@ export const App: FC = () => {
             'button is-success',
             { 'is-light': sortType !== SortType.LENGTH },
           )}
-          onClick={sortByLength}
+          onClick={() => setSortType(SortType.LENGTH)}
         >
           Sort by length
         </button>
@@ -104,7 +58,7 @@ export const App: FC = () => {
             'button is-warning',
             { 'is-light': !isReversed },
           )}
-          onClick={reverseGoods}
+          onClick={reverseList}
         >
           Reverse
         </button>
