@@ -58,6 +58,11 @@ export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setIsReversed] = useState(false);
 
+  const intervalSetting = () => {
+    setIsReversed(false);
+    setSortType(SortType.NONE);
+  }
+
   const goods = getReorderedGoods(
     goodsFromServer,
     { sortType, isReversed },
@@ -93,14 +98,11 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(isReversed !== false || sortType !== SortType.NONE) && (
+        {(isReversed || sortType !== SortType.NONE) && (
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setIsReversed(false);
-              setSortType(SortType.NONE);
-            }}
+            onClick={intervalSetting}
           >
             Reset
           </button>
