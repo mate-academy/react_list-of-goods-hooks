@@ -60,7 +60,7 @@ export const App: React.FC = () => {
     setIsReversed((state) => !state);
   };
 
-  const sortByAlph = () => {
+  const sortByAlphabet = () => {
     setSortType(SortType.ALPHABET);
   };
 
@@ -83,7 +83,7 @@ export const App: React.FC = () => {
               ? 'button is-info'
               : 'button is-info is-light'
           }
-          onClick={sortByAlph}
+          onClick={sortByAlphabet}
         >
           Sort alphabetically
         </button>
