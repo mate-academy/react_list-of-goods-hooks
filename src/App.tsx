@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import classNames from 'classnames';
+import { GoodsList } from './components/goodsList';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -82,9 +83,10 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={classNames('button', 'is-info', {
-            'is-light': sortType !== SortType.ALPHABET,
-          })}
+          className={classNames('button is-info',
+            {
+              'is-light': sortType !== SortType.ALPHABET,
+            })}
           onClick={sortByAlphabet}
         >
           Sort alphabetically
@@ -92,9 +94,10 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={classNames('button', 'is-success', {
-            'is-light': sortType !== SortType.LENGTH,
-          })}
+          className={classNames('button is-success',
+            {
+              'is-light': sortType !== SortType.LENGTH,
+            })}
           onClick={sortByLength}
         >
           Sort by length
@@ -102,9 +105,10 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={classNames('button', 'is-warning', {
-            'is-light': !isReversed,
-          })}
+          className={classNames('button is-warning',
+            {
+              'is-light': !isReversed,
+            })}
           onClick={reverse}
         >
           Reverse
@@ -121,13 +125,7 @@ export const App: React.FC = () => {
         )}
       </div>
 
-      <ul>
-        {visibleGoods.map((good) => (
-          <li data-cy="Good" key={good}>
-            {good}
-          </li>
-        ))}
-      </ul>
+      <GoodsList goods={visibleGoods} />
     </div>
   );
 };
