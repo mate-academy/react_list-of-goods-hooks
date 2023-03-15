@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import classNames from 'classnames';
+import { GoodsList } from './GoodsList';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -113,9 +114,7 @@ export const App: React.FC = () => {
               'is-light': !isReversed,
             },
           )}
-          onClick={() => {
-            reverse();
-          }}
+          onClick={reverse}
         >
           Reverse
         </button>
@@ -124,9 +123,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              reset();
-            }}
+            onClick={reset}
           >
             Reset
           </button>
@@ -134,15 +131,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        <ul>
-          {
-            reorderedGoods.map(good => (
-              <li data-cy="Good" key={good}>
-                {good}
-              </li>
-            ))
-          }
-        </ul>
+        <GoodsList goods={reorderedGoods} />
       </ul>
     </div>
   );
