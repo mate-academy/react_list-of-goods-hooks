@@ -55,20 +55,20 @@ function getReorderedGoods(
 
 export const App = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
-  const [isReversed, setReverse] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
 
   const sortedGoods = getReorderedGoods(
     goodsFromServer,
     { sortType, isReversed },
   );
 
-  const changeReverse = () => (setReverse(prevState => !prevState));
+  const changeReverse = () => (setIsReversed(prevState => !prevState));
   const resetReordering = () => {
-    setReverse(false);
+    setIsReversed(false);
     setSortType(SortType.NONE);
   };
 
-  const visibleButton = sortType !== SortType.NONE || isReversed;
+  const isResetButtonVisible = sortType !== SortType.NONE || isReversed;
 
   return (
     <div className="section content">
@@ -109,7 +109,7 @@ export const App = () => {
           Reverse
         </button>
 
-        {visibleButton && (
+        {isResetButtonVisible && (
           <button
             type="button"
             className="button is-danger is-light"
