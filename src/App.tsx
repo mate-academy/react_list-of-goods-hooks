@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
-import classNames from 'classnames';
+import cn from 'classnames';
 import './App.scss';
 
 export const goodsFromServer = [
@@ -61,7 +61,7 @@ export const App: React.FC = () => {
     isReversed,
   });
 
-  const changeReverseStatus = () => {
+  const handleChangeReverseStatus = () => {
     if (isReversed) {
       setIsReversed(false);
     } else {
@@ -69,7 +69,7 @@ export const App: React.FC = () => {
     }
   };
 
-  const resetSorterParameters = () => {
+  const handleResetSorterParams = () => {
     setSortType(SortType.NONE);
     setIsReversed(false);
   };
@@ -79,7 +79,7 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={classNames('button is-info', {
+          className={cn('button is-info', {
             'is-light': sortType !== SortType.ALPHABET,
           })}
           onClick={() => {
@@ -91,7 +91,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={classNames('button is-success', {
+          className={cn('button is-success', {
             'is-light': sortType !== SortType.LENGTH,
           })}
           onClick={() => {
@@ -103,12 +103,10 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={classNames('button is-warning', {
+          className={cn('button is-warning', {
             'is-light': !isReversed,
           })}
-          onClick={() => {
-            changeReverseStatus();
-          }}
+          onClick={handleChangeReverseStatus}
         >
           Reverse
         </button>
@@ -117,9 +115,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              resetSorterParameters();
-            }}
+            onClick={handleResetSorterParams}
           >
             Reset
           </button>
