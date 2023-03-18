@@ -54,12 +54,12 @@ export const App: React.FC = () => {
   const [sortType, setSortType] = useState(0);
   const [isReversed, setIsReversed] = useState(false);
 
-  const sortByAlphabet = () => setSortType(() => 1);
-  const sortByLength = () => setSortType(() => 2);
+  const sortByAlphabet = () => setSortType(1);
+  const sortByLength = () => setSortType(2);
   const reverse = () => setIsReversed(current => !current);
   const reset = () => {
-    setSortType(() => 0);
-    setIsReversed(() => false);
+    setSortType(0);
+    setIsReversed(false);
   };
 
   const reorderedGoods = getReorderedGoods(
