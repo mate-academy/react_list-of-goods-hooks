@@ -1,8 +1,8 @@
 import { FC, useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
-import classNames from 'classnames';
 import { Goods } from './components/Goods';
+import { Button } from './components/Button/Button';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -86,56 +86,36 @@ export const App: FC = () => {
   return (
     <div className="section content">
       <div className="buttons">
-        <button
-          type="button"
-          className={classNames(
-            'button is-info',
-            {
-              'is-light': sortType !== SortType.ALPHABET,
-            },
-          )}
+        <Button
+          title="Sort alphabetically"
+          buttonColor="is-info"
+          isLight={sortType !== SortType.ALPHABET}
           onClick={() => handleSort(SortType.ALPHABET)}
-        >
-          Sort alphabetically
-        </button>
+        />
 
-        <button
-          type="button"
-          className={classNames(
-            'button is-success',
-            {
-              'is-light': sortType !== SortType.LENGTH,
-            },
-          )}
+        <Button
+          title="Sort by length"
+          buttonColor="is-success"
+          isLight={sortType !== SortType.LENGTH}
           onClick={() => handleSort(SortType.LENGTH)}
-        >
-          Sort by length
-        </button>
+        />
 
-        <button
-          type="button"
-          className={classNames(
-            'button is-warning',
-            {
-              'is-light': !isReversed,
-            },
-          )}
+        <Button
+          title="Reverse"
+          buttonColor="is-warning"
+          isLight={!isReversed}
           onClick={handleReverse}
-        >
-          Reverse
-        </button>
+        />
 
         {switchToVisible && (
-          <button
-            type="button"
-            className="button is-danger is-light"
+          <Button
+            title="Reset"
+            buttonColor="is-danger"
+            isLight
             onClick={handleReset}
-          >
-            Reset
-          </button>
+          />
         )}
       </div>
-
       <Goods goods={reorderedGoods} />
     </div>
   );
