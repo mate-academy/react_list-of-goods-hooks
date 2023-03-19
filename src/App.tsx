@@ -47,9 +47,6 @@ export function getReorderedGoods(
     }
   });
 
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
-
   return isReversed
     ? visibleGoods.reverse()
     : visibleGoods;
