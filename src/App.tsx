@@ -44,8 +44,11 @@ function getReorderedGoods(
 export const App: React.FC = () => {
   const [isReversed, setIsReserved] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
-  const visibleGoods = getReorderedGoods(goodsFromServer, { sortType, isReversed });
-  
+  const visibleGoods = getReorderedGoods(
+    goodsFromServer,
+    { sortType, isReversed },
+  );
+
   visibleGoods.sort((good1, good2) => {
     switch (sortType) {
       case SortType.LENGTH:
