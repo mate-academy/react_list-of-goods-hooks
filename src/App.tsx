@@ -2,7 +2,7 @@ import { FC, useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import { Goods } from './components/Goods';
-import { Button } from './components/Button/Button';
+import { Button } from './components/Button';
 
 export const goodsFromServer = [
   'Dumplings',
