@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+import { ListOfGoods } from './components/ListOfGoods/ListOfGoods';
 import 'bulma/css/bulma.css';
 import './App.scss';
-import { ListOfGoods } from './components/ListOfGoods/ListOfGoods';
 
 export const goodsFromServer = [
   'Dumplings',
