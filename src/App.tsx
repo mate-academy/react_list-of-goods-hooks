@@ -38,8 +38,10 @@ export function getReorderedGoods(
       switch (sortType) {
         case SortType.ALPHABET:
           return firstGood.localeCompare(secondGood);
+
         case SortType.LENGTH:
           return firstGood.length - secondGood.length;
+
         default:
           return 0;
       }
@@ -94,7 +96,7 @@ export const App: React.FC = () => {
           type="button"
           className={classNames(
             'button',
-            'is-info',
+            'is-success',
             {
               'is-light': sortType !== SortType.LENGTH,
             },
@@ -110,7 +112,7 @@ export const App: React.FC = () => {
           type="button"
           className={classNames(
             'button',
-            'is-info',
+            'is-warning',
             {
               'is-light': !isReversed,
             },
@@ -125,7 +127,7 @@ export const App: React.FC = () => {
             type="button"
             className={classNames(
               'button',
-              'is-info',
+              'is-danger',
               'is-light',
             )}
             onClick={resetState}
@@ -136,16 +138,14 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        <ul>
-          {goods.map(good => (
-            <li
-              key={good}
-              data-cy="Good"
-            >
-              {good}
-            </li>
-          ))}
-        </ul>
+        {goods.map(good => (
+          <li
+            key={good}
+            data-cy="Good"
+          >
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
