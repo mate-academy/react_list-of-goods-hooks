@@ -13,7 +13,10 @@ interface ButtonProps extends Attributes {
 }
 
 export const Button: FC<ButtonProps> = ({
-  title, isLight, buttonColor, ...props
+  title,
+  isLight,
+  buttonColor,
+  ...props
 }) => {
   return (
     <button

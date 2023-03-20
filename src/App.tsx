@@ -116,6 +116,7 @@ export const App: FC = () => {
           />
         )}
       </div>
+
       <Goods goods={reorderedGoods} />
     </div>
   );
