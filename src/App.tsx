@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
+import { GoodList } from './components/GoodList/GoodList';
+
 import 'bulma/css/bulma.css';
 import './App.scss';
 
@@ -65,7 +67,7 @@ export const App: React.FC = () => {
   };
 
   const reverse = () => {
-    setIsReversed(current => !current);
+    setIsReversed(!isReversed);
   };
 
   const reset = () => {
@@ -130,13 +132,7 @@ export const App: React.FC = () => {
         )}
       </div>
 
-      <ul>
-        {reorderedGoods.map(good => (
-          <li key={good} data-cy="Good">
-            {good}
-          </li>
-        ))}
-      </ul>
+      <GoodList goods={reorderedGoods} />
     </div>
   );
 };
