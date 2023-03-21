@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-import { Good } from './components/Good';
+import { GoodsList } from './components/GoodsList';
 import goodsFromServer from './api/goods';
 
 enum SortType {
@@ -111,11 +111,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        <ul>
-          {goods.map(good => (
-            <Good good={good} key={good} />
-          ))}
-        </ul>
+        <GoodsList goods={goods} />
       </ul>
     </div>
   );
