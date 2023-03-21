@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import classNames from 'classnames';
 
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-import { Good } from './Good';
+import { Good } from './components/Good';
 import goodsFromServer from './api/goods';
 
 enum SortType {
@@ -46,11 +45,16 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortType, setType] = useState(SortType.NONE);
-  const [isReversed, setReverse] = useState(false);
+  const [sortType, setSortType] = useState(SortType.NONE);
+  const [isReversed, setSortReverse] = useState(false);
 
   const goods = getReorderedGoods(goodsFromServer, { sortType, isReversed });
   const showResetButton = (sortType !== SortType.NONE || isReversed);
+
+  const HeandlerReset = () => {
+    setSortType(SortType.NONE);
+    setSortReverse(false);
+  };
 
   return (
     <div className="section content">
@@ -63,7 +67,7 @@ export const App: React.FC = () => {
               'is-light': sortType !== SortType.ALPHABET,
             },
           )}
-          onClick={() => setType(SortType.ALPHABET)}
+          onClick={() => setSortType(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
@@ -76,7 +80,7 @@ export const App: React.FC = () => {
               'is-light': sortType !== SortType.LENGTH,
             },
           )}
-          onClick={() => setType(SortType.LENGTH)}
+          onClick={() => setSortType(SortType.LENGTH)}
         >
           Sort by length
         </button>
@@ -89,7 +93,7 @@ export const App: React.FC = () => {
               'is-light': !isReversed,
             },
           )}
-          onClick={() => setReverse(!isReversed)}
+          onClick={() => setSortReverse(!isReversed)}
         >
           Reverse
         </button>
@@ -98,10 +102,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setType(SortType.NONE);
-              setReverse(false);
-            }}
+            onClick={HeandlerReset}
           >
             Reset
           </button>
@@ -112,7 +113,8 @@ export const App: React.FC = () => {
       <ul>
         <ul>
           {goods.map(good => (
-            <Good good={good} key={uuidv4()} />))}
+            <Good good={good} key={good} />
+          ))}
         </ul>
       </ul>
     </div>
