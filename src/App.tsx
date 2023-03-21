@@ -31,23 +31,7 @@ function getReorderedGoods(
   goods: string[],
   { sortType, isReversed }: ReorderOptions,
 ) {
-  // To avoid the original array mutation
   const visibleGoods = [...goods];
-
-  // Sort and reverse goods if needed
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
-
-  return visibleGoods;
-}
-
-export const App: React.FC = () => {
-  const [isReversed, setIsReserved] = useState(false);
-  const [sortType, setSortType] = useState(SortType.NONE);
-  const visibleGoods = getReorderedGoods(
-    goodsFromServer,
-    { sortType, isReversed },
-  );
 
   visibleGoods.sort((good1, good2) => {
     switch (sortType) {
@@ -65,6 +49,24 @@ export const App: React.FC = () => {
   if (isReversed) {
     visibleGoods.reverse();
   }
+
+  return visibleGoods;
+}
+
+export const App: React.FC = () => {
+  const [isReversed, setIsReserved] = useState(false);
+  const [sortType, setSortType] = useState(SortType.NONE);
+  const visibleGoods = getReorderedGoods(
+    goodsFromServer,
+    { sortType, isReversed },
+  );
+
+  const isChangedList = isReversed || sortType !== SortType.NONE;
+
+  const handleReset = () => {
+    setIsReserved(false);
+    setSortType(SortType.NONE);
+  };
 
   return (
     <div className="section content">
@@ -117,14 +119,11 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(isReversed || sortType !== SortType.NONE) && (
+        {isChangedList && (
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setIsReserved(false);
-              setSortType(SortType.NONE);
-            }}
+            onClick={handleReset}
           >
             Reset
           </button>
