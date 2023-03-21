@@ -15,8 +15,14 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+enum SortType {
+  NONE,
+  ALPHABET,
+  LENGTH,
+}
+
 export const App: React.FC = () => {
-  const [sortType, setValue] = useState(0);
+  const [sortType, setValue] = useState(SortType.NONE);
   const [isReversed, setReversed] = useState(false);
 
   const reverse = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -28,9 +34,9 @@ export const App: React.FC = () => {
 
   visibleGoods.sort((good1, good2) => {
     switch (sortType) {
-      case 1:
+      case SortType.ALPHABET:
         return good1.localeCompare(good2);
-      case 2:
+      case SortType.LENGTH:
         return good1.length - good2.length;
       default:
         return 1;
@@ -48,8 +54,9 @@ export const App: React.FC = () => {
     <button
       type="button"
       className="button is-danger is-light"
-      // eslint-disable-next-line no-sequences
-      onClick={() => (setValue(0), setReversed(false))}
+      onClick={() => {
+        return (setValue(0), setReversed(false));
+      }}
     >
       Reset
     </button>
