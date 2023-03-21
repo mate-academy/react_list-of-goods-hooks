@@ -8,9 +8,7 @@ export const GoodsList: React.FC<Props> = ({ goods }) => {
   return (
     <ul>
       {goods.map((good) => {
-        return (
-          <li>{good}</li>
-        );
+        return <li data-cy="Good">{good}</li>;
       })}
     </ul>
   );
