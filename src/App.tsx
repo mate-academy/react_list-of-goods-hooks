@@ -3,6 +3,7 @@ import 'bulma/css/bulma.css';
 import './App.scss';
 import classNames from 'classnames';
 import { goodsFromServer } from './Goods';
+import { GoodsList } from './GoodsList';
 
 enum SortType {
   NONE = 'none',
@@ -89,11 +90,7 @@ export const App: React.FC = () => {
         )}
       </div>
 
-      <ul>
-        {reorderedGoods.map((good) => {
-          return <li data-cy="Good">{good}</li>;
-        })}
-      </ul>
+      <GoodsList goods={reorderedGoods} />
     </div>
   );
 };
