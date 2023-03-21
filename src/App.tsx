@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
@@ -22,12 +23,12 @@ enum SortType {
 }
 
 export const App: React.FC = () => {
-  const [sortType, setValue] = useState(SortType.NONE);
-  const [isReversed, setReversed] = useState(false);
+  const [sortType, setSortType] = useState(SortType.NONE);
+  const [isReversed, setIsReversed] = useState(false);
 
   const reverse = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.currentTarget.classList.toggle('is-light');
-    setReversed(!isReversed);
+    setIsReversed(!isReversed);
   };
 
   const visibleGoods = [...goodsFromServer];
@@ -47,49 +48,59 @@ export const App: React.FC = () => {
     visibleGoods.reverse();
   }
 
-  const isStartArray
-    = goodsFromServer.toString() === visibleGoods.toString();
-
-  const buttonReset = (
-    <button
-      type="button"
-      className="button is-danger is-light"
-      onClick={() => {
-        return (setValue(0), setReversed(false));
-      }}
-    >
-      Reset
-    </button>
-  );
-
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortType === 1 ? '' : 'is-light'}`}
-          onClick={() => (setValue(1))}
+          className={
+            classNames('button is-info',
+              {
+                'is-light': sortType !== SortType.ALPHABET,
+              })
+          }
+          onClick={() => (setSortType(1))}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={`button is-success ${sortType === 2 ? '' : 'is-light'}`}
-          onClick={() => (setValue(2))}
+          className={
+            classNames('button is-success',
+              {
+                'is-light': sortType !== SortType.LENGTH,
+              })
+          }
+          onClick={() => (setSortType(2))}
         >
           Sort by length
         </button>
 
         <button
           type="button"
-          className={`button is-warning ${isReversed ? '' : 'is-light'}`}
+          className={
+            classNames('button is-warning',
+              {
+                'is-light': !isReversed,
+              })
+          }
           onClick={reverse}
         >
           Reverse
         </button>
 
-        { isStartArray ? '' : buttonReset}
+        { ((sortType !== SortType.NONE || isReversed)) && (
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={() => {
+              return (setSortType(0), setIsReversed(false));
+            }}
+          >
+            Reset
+          </button>
+        )}
 
       </div>
 
