@@ -20,9 +20,9 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  NONE,
-  ALPHABET,
-  LENGTH,
+  NONE = 'none',
+  ALPHABET = 'alphabet',
+  LENGTH = 'length',
 }
 
 type ReorderOptions = {
@@ -33,7 +33,7 @@ type ReorderOptions = {
 export function getReorderedGoods(
   goods: string[],
   { sortType, isReversed }: ReorderOptions,
-) {
+): string[] {
   const visibleGoods = [...goods];
 
   visibleGoods.sort((curGood, nextGood) => {
@@ -60,20 +60,20 @@ export const App: React.FC = () => {
   const [isReversed, changeIsReversed] = useState(false);
   const [sortType, changeSortType] = useState(SortType.NONE);
 
-  const handleSort = (typeOfSort: SortType) => {
+  const sortByType = (typeOfSort: SortType) => {
     changeSortType(typeOfSort);
   };
 
-  const reverseGoods = () => {
+  const reverseOrder = () => {
     changeIsReversed(curState => !curState);
   };
 
-  const resetGoods = () => {
+  const resetSorting = () => {
     changeIsReversed(false);
     changeSortType(SortType.NONE);
   };
 
-  const checkReset = sortType !== SortType.NONE || isReversed;
+  const isReordered = sortType !== SortType.NONE || isReversed;
   const reorderedGoods = getReorderedGoods(
     goodsFromServer,
     { isReversed, sortType },
@@ -89,7 +89,7 @@ export const App: React.FC = () => {
             { 'is-light': sortType !== SortType.ALPHABET },
           )}
           onClick={() => {
-            handleSort(SortType.ALPHABET);
+            sortByType(SortType.ALPHABET);
           }}
         />
 
@@ -100,7 +100,7 @@ export const App: React.FC = () => {
             { 'is-light': sortType !== SortType.LENGTH },
           )}
           onClick={() => {
-            handleSort(SortType.LENGTH);
+            sortByType(SortType.LENGTH);
           }}
         />
 
@@ -110,14 +110,14 @@ export const App: React.FC = () => {
             'button is-warning',
             { 'is-light': !isReversed },
           )}
-          onClick={reverseGoods}
+          onClick={reverseOrder}
         />
 
-        {checkReset && (
+        {isReordered && (
           <Button
             name="Reset"
             className="button is-danger is-light"
-            onClick={resetGoods}
+            onClick={resetSorting}
           />
         )}
       </div>

@@ -10,15 +10,13 @@ export class Button extends React.PureComponent<Props, {}> {
   render(): React.ReactNode {
     const {
       name,
-      className,
-      onClick,
+      ...rest
     } = this.props;
 
     return (
       <button
         type="button"
-        className={className}
-        onClick={onClick}
+        {...rest}
       >
         {name}
       </button>
