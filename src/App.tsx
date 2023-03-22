@@ -43,14 +43,20 @@ export const App: React.FC = () => {
   const reorderedGoods
     = getReorderedGoods(goodsFromServer, sortType, isReversed);
 
+  const resetHandler = () => {
+    setSortType(SortType.NONE);
+    setIsReserved(false);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={classNames('button is-info', {
-            'is-light': sortType !== SortType.ALPHABET,
-          })}
+          className={classNames(
+            'button is-info',
+            { 'is-light': sortType !== SortType.ALPHABET },
+          )}
           onClick={() => setSortType(SortType.ALPHABET)}
         >
           Sort alphabetically
@@ -80,10 +86,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortType(SortType.NONE);
-              setIsReserved(false);
-            }}
+            onClick={resetHandler}
           >
             Reset
           </button>
