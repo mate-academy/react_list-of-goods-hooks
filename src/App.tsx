@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import { GoodsList } from './GoodsList';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -17,9 +18,9 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  NONE,
-  ALPHABET,
-  LENGTH,
+  NONE = 'none',
+  ALPHABET = 'alphabet',
+  LENGTH = 'length',
 }
 
 type ReorderOptions = {
@@ -55,6 +56,11 @@ export const App: React.FC = () => {
   const [isReversed, setReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
   const isListChanged = sortType !== SortType.NONE || isReversed;
+  const visibleGoods = getReorderedGoods(goodsFromServer,
+    {
+      isReversed,
+      sortType,
+    });
 
   const reverse = () => {
     setReversed(!isReversed);
@@ -74,8 +80,10 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={classNames('button is-info',
-            { 'is-light': sortType !== SortType.ALPHABET })}
+          className={classNames(
+            'button is-info',
+            { 'is-light': sortType !== SortType.ALPHABET },
+          )}
           onClick={() => {
             sortBy(SortType.ALPHABET);
           }}
@@ -85,8 +93,10 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={classNames('button is-success',
-            { 'is-light': sortType !== SortType.LENGTH })}
+          className={classNames(
+            'button is-success',
+            { 'is-light': sortType !== SortType.LENGTH },
+          )}
           onClick={() => {
             sortBy(SortType.LENGTH);
           }}
@@ -96,8 +106,10 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={classNames('button is-warning',
-            { 'is-light': !isReversed })}
+          className={classNames(
+            'button is-warning',
+            { 'is-light': !isReversed },
+          )}
           onClick={reverse}
         >
           Reverse
@@ -115,16 +127,7 @@ export const App: React.FC = () => {
 
       </div>
 
-      <ul>
-        <ul>
-          {getReorderedGoods(goodsFromServer, { isReversed, sortType })
-            .map(good => (
-              <li data-cy="Good" key={good}>
-                {good}
-              </li>
-            ))}
-        </ul>
-      </ul>
+      <GoodsList goods={visibleGoods} />
     </div>
   );
 };
