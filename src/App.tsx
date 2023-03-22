@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import classNames from 'classnames';
+import { GoodsList } from './components/GoodsList';
 
 export const goodsFromServer: string[] = [
   'Dumplings',
@@ -22,14 +23,10 @@ enum SortType {
   LENGTH,
 }
 
-type ReorderOptions = {
-  sortType: SortType,
-  isReversed: boolean,
-};
-
 export function getReorderedGoods(
   goods: string[],
-  { sortType, isReversed }: ReorderOptions,
+  sortType: SortType,
+  isReversed: boolean,
 ) {
   const visibleGoods = [...goods]
     .sort((prevGood, currGood) => {
@@ -40,11 +37,8 @@ export function getReorderedGoods(
         case SortType.LENGTH:
           return prevGood.length - currGood.length;
 
-        case SortType.NONE:
-          return 0;
-
         default:
-          throw new Error(`Unknown type of sort - ${sortType}`);
+          return 0;
       }
     });
 
@@ -56,6 +50,15 @@ export function getReorderedGoods(
 export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
+
+  const shouldShowReset = sortType !== SortType.NONE || isReversed;
+  const reorderedGoods
+    = getReorderedGoods(goodsFromServer, sortType, isReversed);
+
+  const handleReset = () => {
+    setSortType(SortType.NONE);
+    setIsReversed(false);
+  };
 
   return (
     <div className="section content">
@@ -100,15 +103,12 @@ export const App: React.FC = () => {
         </button>
 
         {
-          (sortType !== SortType.NONE || isReversed)
+          shouldShowReset
             && (
               <button
                 type="button"
                 className="button is-danger is-light"
-                onClick={() => {
-                  setSortType(SortType.NONE);
-                  setIsReversed(false);
-                }}
+                onClick={() => handleReset()}
               >
                 Reset
               </button>
@@ -116,14 +116,7 @@ export const App: React.FC = () => {
         }
       </div>
 
-      <ul>
-        {
-          getReorderedGoods(goodsFromServer, { sortType, isReversed })
-            .map(good => (
-              <li data-cy="Good" key={good}>{good}</li>
-            ))
-        }
-      </ul>
+      <GoodsList goods={reorderedGoods} />
     </div>
   );
 };
