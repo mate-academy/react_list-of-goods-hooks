@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { FC, useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import classNames from 'classnames';
@@ -54,7 +54,7 @@ export function getReorderedGoods(
   return visibleGoods;
 }
 
-export const App: React.FC = () => {
+export const App: FC = () => {
   const [isReversed, setReverse] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
@@ -69,12 +69,8 @@ export const App: React.FC = () => {
     setReverse(!isReversed);
   };
 
-  const sortByAlphabet = () => {
-    setSortType(SortType.ALPHABET);
-  };
-
-  const sortByLength = () => {
-    setSortType(SortType.LENGTH);
+  const handleSort = (type: SortType) => {
+    setSortType(type);
   };
 
   const handleReset = () => {
@@ -91,7 +87,7 @@ export const App: React.FC = () => {
             {
               'is-light': sortType !== SortType.ALPHABET,
             })}
-          onClick={sortByAlphabet}
+          onClick={() => handleSort(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
@@ -102,7 +98,7 @@ export const App: React.FC = () => {
             {
               'is-light': sortType !== SortType.LENGTH,
             })}
-          onClick={sortByLength}
+          onClick={() => handleSort(SortType.LENGTH)}
         >
           Sort by length
         </button>
