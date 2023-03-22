@@ -56,7 +56,7 @@ export const App: React.FC = () => {
   const [isReversed, setReverse] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
-  const reverse = () => {
+  const handleReverseClick = () => {
     setReverse(current => !current);
   };
 
@@ -64,7 +64,7 @@ export const App: React.FC = () => {
     setSortType(type);
   };
 
-  const reset = () => {
+  const handleResetClick = () => {
     setSortType(SortType.NONE);
     setReverse(false);
   };
@@ -115,7 +115,7 @@ export const App: React.FC = () => {
               'is-light': !isReversed,
             },
           )}
-          onClick={reverse}
+          onClick={handleReverseClick}
         >
           Reverse
         </button>
@@ -124,7 +124,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={reset}
+            onClick={handleResetClick}
           >
             Reset
           </button>
