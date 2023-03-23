@@ -1,15 +1,16 @@
-import { GoodsItem } from '../GoodItem/GoodItem';
-
 type Props = {
   goods: string[];
 };
 
-export const GoodsList: React.FC<Props> = ({ goods }) => {
-  return (
-    <ul>
-      {goods.map(good => (
-        <GoodsItem good={good} />
-      ))}
-    </ul>
-  );
-};
+export const GoodsList: React.FC<Props> = ({ goods }) => (
+  <ul>
+    {goods.map(good => (
+      <li
+        key={good}
+        data-cy="Good"
+      >
+        {good}
+      </li>
+    ))}
+  </ul>
+);
