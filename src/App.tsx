@@ -74,6 +74,7 @@ export const App: React.FC = () => {
 
   const handleReset = () => {
     setSortType(SortType.NONE);
+    setIsReversed((prevState) => (!prevState));
   };
 
   return (
@@ -115,10 +116,10 @@ export const App: React.FC = () => {
           )}
           onClick={() => handleReverse()}
         >
-          {isReversed ? 'Reverse' : 'Reverse'}
+          Reverse
         </button>
 
-        {sortType !== SortType.NONE
+        {(sortType !== SortType.NONE || isReversed)
           && (
             <button
               type="button"
