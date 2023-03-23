@@ -36,7 +36,7 @@ export function getReorderedGoods(
         return current.localeCompare(next);
 
       case SortType.LENGTH:
-        return current[sortType] - next[sortType];
+        return current.length - next.length;
 
       default:
         return 0;
