@@ -18,9 +18,9 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  NONE,
-  ALPHABET,
-  LENGTH,
+  NONE = 'none',
+  ALPHABET = 'alphabet',
+  LENGTH = 'length',
 }
 
 type ReorderOptions = {
@@ -31,7 +31,7 @@ type ReorderOptions = {
 export function getReorderedGoods(
   goods: string[],
   { sortType, isReversed }: ReorderOptions,
-) {
+): string[] {
   const visibleGoods = [...goods];
 
   visibleGoods.sort((prevGood: string, nextGood: string) => {
@@ -55,7 +55,7 @@ export function getReorderedGoods(
 }
 
 export const App: FC = () => {
-  const [isReversed, setReverse] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
   const visibleGoods = getReorderedGoods(goodsFromServer, {
@@ -63,10 +63,10 @@ export const App: FC = () => {
     sortType,
   });
 
-  const isFiltered = isReversed || sortType !== SortType.NONE;
+  const isSorted = isReversed || sortType !== SortType.NONE;
 
   const handleReverse = () => {
-    setReverse(!isReversed);
+    setIsReversed(!isReversed);
   };
 
   const handleSort = (type: SortType) => {
@@ -74,7 +74,7 @@ export const App: FC = () => {
   };
 
   const handleReset = () => {
-    setReverse(false);
+    setIsReversed(false);
     setSortType(SortType.NONE);
   };
 
@@ -114,7 +114,7 @@ export const App: FC = () => {
           Reverse
         </button>
 
-        {isFiltered && (
+        {isSorted && (
           <button
             type="button"
             className="button is-danger is-light"
