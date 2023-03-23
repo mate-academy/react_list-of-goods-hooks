@@ -18,16 +18,16 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  NONE,
-  ALPHABET,
-  LENGTH,
+  NONE = 'none',
+  ALPHABET = 'alphabet',
+  LENGTH = 'length',
 }
 
 export function getReorderedGoods(
   goods: string[],
   sortType: SortType,
   isReversed: boolean,
-) {
+): string[] {
   const visibleGoods = [...goods];
 
   visibleGoods.sort((current, next) => {
@@ -36,7 +36,7 @@ export function getReorderedGoods(
         return current.localeCompare(next);
 
       case SortType.LENGTH:
-        return current.length - next.length;
+        return current[sortType] - next[sortType];
 
       default:
         return 0;
@@ -46,8 +46,6 @@ export function getReorderedGoods(
   if (isReversed) {
     visibleGoods.reverse();
   }
-
-  window.console.log(sortType, isReversed);
 
   return visibleGoods;
 }
