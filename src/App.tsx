@@ -106,7 +106,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={classNames(
-            'button is-warning',
+            'button is-warning', {
+              'is-light': !isReversed,
+            },
           )}
           onClick={reverseList}
         >
