@@ -18,16 +18,16 @@ export const goodsFromServer: string[] = [
 ];
 
 enum SortType {
-  NONE,
-  ALPHABET,
-  LENGTH,
+  NONE = 'NONE',
+  ALPHABET = 'ALPHABET',
+  LENGTH = 'LENGTH',
 }
 
 export function getReorderedGoods(
   goods: string[],
   sortType: SortType,
   isReversed: boolean,
-) {
+): string[] {
   const visibleGoods = [...goods]
     .sort((prevGood, currGood) => {
       switch (sortType) {
@@ -102,18 +102,15 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {
-          shouldShowReset
-            && (
-              <button
-                type="button"
-                className="button is-danger is-light"
-                onClick={() => handleReset()}
-              >
-                Reset
-              </button>
-            )
-        }
+        {shouldShowReset && (
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={handleReset}
+          >
+            Reset
+          </button>
+        )}
       </div>
 
       <GoodsList goods={reorderedGoods} />
