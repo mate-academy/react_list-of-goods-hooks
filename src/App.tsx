@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import classNames from 'classnames';
+import { GoodsList } from './components/GoodsList/Index';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -17,9 +18,9 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  NONE,
-  ALPHABET,
-  LENGTH,
+  NONE = 'none',
+  ALPHABET = 'alphabet',
+  LENGTH = 'length',
 }
 
 type ReorderOptions = {
@@ -30,7 +31,7 @@ type ReorderOptions = {
 export function getReorderedGoods(
   goods: string[],
   { sortType, isReversed }: ReorderOptions,
-) {
+):string[] {
   const visibleGoods = [...goods];
 
   visibleGoods.sort((prevGood, currGood) => {
@@ -54,20 +55,20 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortType, setSort] = useState(SortType.NONE);
-  const [isReversed, setReverse] = useState(false);
+  const [sortType, setSortType] = useState(SortType.NONE);
+  const [isReversed, setIsReversed] = useState(false);
 
   const reverse = () => {
-    setReverse(current => !current);
+    setIsReversed(current => !current);
   };
 
-  const setSortType = (type: SortType) => {
-    setSort(type);
+  const setSortTypeType = (type: SortType) => {
+    setSortType(type);
   };
 
   const reset = () => {
-    setReverse(false);
-    setSort(SortType.NONE);
+    setIsReversed(false);
+    setSortType(SortType.NONE);
   };
 
   const goodsToShow
@@ -85,7 +86,7 @@ export const App: React.FC = () => {
               'is-light': sortType !== SortType.ALPHABET,
             },
           )}
-          onClick={() => setSortType(SortType.ALPHABET)}
+          onClick={() => setSortTypeType(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
@@ -98,7 +99,7 @@ export const App: React.FC = () => {
               'is-light': sortType !== SortType.LENGTH,
             },
           )}
-          onClick={() => setSortType(SortType.LENGTH)}
+          onClick={() => setSortTypeType(SortType.LENGTH)}
         >
           Sort by length
         </button>
@@ -127,11 +128,7 @@ export const App: React.FC = () => {
         )}
       </div>
 
-      <ul>
-        {goodsToShow.map(good => (
-          <li data-cy="Good" key={good}>{good}</li>
-        ))}
-      </ul>
+      <GoodsList goods={goodsToShow} />
     </div>
   );
 };
