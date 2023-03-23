@@ -61,7 +61,7 @@ export function getReorderedGoods(
 export const App = () => {
   const [isRev, setIsRev] = useState(false);
   const [sortBy, setSortBy] = useState<SortType>(SortType.NONE);
-  const [goodsList, setGoodsList] = useState<string[]>(goodsFromServer);
+  const [goodsList, setGoodsList] = useState<string[]>();
 
   const options = {
     sortType: sortBy,
@@ -127,7 +127,7 @@ export const App = () => {
 
       <ul>
         <GoodsList goods={getReorderedGoods(
-          goodsList,
+          goodsFromServer,
           options,
         )}
         />
