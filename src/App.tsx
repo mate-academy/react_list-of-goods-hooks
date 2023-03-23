@@ -64,7 +64,7 @@ export const App: React.FC = () => {
   };
 
   const reverseSorting = () => {
-    setReverse(currGood => !currGood);
+    setReverse(!isReversed);
   };
 
   const sortingByType = (type: SortType) => {
