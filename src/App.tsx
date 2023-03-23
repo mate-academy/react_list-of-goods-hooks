@@ -37,11 +37,11 @@ export function getReorderedGoods(
 
   switch (sortType) {
     case SortType.ALPHABET:
-      visibleGoods.sort((a, b) => a.localeCompare(b));
+      visibleGoods.sort((currentGood, nextGood) => currentGood.localeCompare(nextGood));
       break;
 
     case SortType.LENGTH:
-      visibleGoods.sort((a, b) => a.length - b.length);
+      visibleGoods.sort((currentGood, nextGood) => currentGood.length - nextGood.length);
       break;
 
     default:
