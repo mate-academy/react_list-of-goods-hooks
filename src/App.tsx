@@ -18,9 +18,9 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  NONE,
-  ALPHABET,
-  LENGTH,
+  NONE = 'none',
+  ALPHABET = 'alphabet',
+  LENGTH = 'length',
 }
 
 export function getReorderedGoods(
@@ -49,7 +49,7 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [isReversed, setReverse] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
   const visibleGoods = getReorderedGoods(goodsFromServer, isReversed, sortType);
   const isReordered = isReversed || sortType !== SortType.NONE;
@@ -85,22 +85,20 @@ export const App: React.FC = () => {
             'button is-warning',
             { 'is-light': !isReversed },
           )}
-          onClick={() => setReverse(!isReversed)}
+          onClick={() => setIsReversed(!isReversed)}
         >
           Reverse
         </button>
 
-        {
-          (isReordered) && (
-            <button
-              type="button"
-              className="button is-danger is-light"
-              onClick={() => [setReverse(false), setSortType(SortType.NONE)]}
-            >
-              Reset
-            </button>
-          )
-        }
+        {isReordered && (
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={() => [setIsReversed(false), setSortType(SortType.NONE)]}
+          >
+            Reset
+          </button>
+        )}
       </div>
 
       <ListOfGoods visibleGoods={visibleGoods} />
