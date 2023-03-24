@@ -62,19 +62,19 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
-  const SortByAlphabet = () => {
+  const sortByAlphabet = () => {
     setSortType(SortType.ALPHABET);
   };
 
-  const SortByLength = () => {
+  const sortByLength = () => {
     setSortType(SortType.LENGTH);
   };
 
-  const ReverseList = () => {
+  const reverseList = () => {
     setIsReversed(!isReversed);
   };
 
-  const SortReset = () => {
+  const resetList = () => {
     setIsReversed(false);
     setSortType(SortType.NONE);
   };
@@ -94,7 +94,7 @@ export const App: React.FC = () => {
             'button is-info',
             { 'is-light': sortType !== SortType.ALPHABET },
           )}
-          onClick={SortByAlphabet}
+          onClick={sortByAlphabet}
         >
           Sort alphabetically
         </button>
@@ -105,7 +105,7 @@ export const App: React.FC = () => {
             'button is-success',
             { 'is-light': sortType !== SortType.LENGTH },
           )}
-          onClick={SortByLength}
+          onClick={sortByLength}
         >
           Sort by length
         </button>
@@ -116,7 +116,7 @@ export const App: React.FC = () => {
             'button is-warning',
             { 'is-light': !isReversed },
           )}
-          onClick={ReverseList}
+          onClick={reverseList}
         >
           Reverse
         </button>
@@ -125,7 +125,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={SortReset}
+            onClick={resetList}
           >
             Reset
           </button>
