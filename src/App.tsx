@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import classNames from 'classnames';
+import { GoodsList } from './components/goodsList';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -17,62 +18,72 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  NONE,
-  ALPHABET,
-  LENGTH,
+  NONE = 'none',
+  ALPHABET = 'alphabet',
+  LENGTH = 'length',
+}
+
+type ReorderOptions = {
+  sortType: SortType,
+  isReversed: boolean,
+};
+
+export function getReorderedGoods(
+  goods: string[],
+  { sortType, isReversed }: ReorderOptions,
+): string[] {
+  const visibleGoods = [...goods];
+
+  switch (sortType) {
+    case SortType.ALPHABET:
+      visibleGoods.sort((firstGood, secondGood) => (
+        firstGood.localeCompare(secondGood)
+      ));
+      break;
+
+    case SortType.LENGTH:
+      visibleGoods.sort((firstGood, secondGood) => (
+        firstGood.length - secondGood.length
+      ));
+      break;
+
+    default:
+      break;
+  }
+
+  if (isReversed) {
+    visibleGoods.reverse();
+  }
+
+  return visibleGoods;
 }
 
 export const App: React.FC = () => {
-  const [reversed, setReversed] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
-  function getReorderedGoods(goods: string[]) {
-    const visibleGoods = [...goods];
-
-    switch (sortType) {
-      case SortType.ALPHABET:
-        visibleGoods.sort((firstGood, secondGood) => (
-          firstGood.localeCompare(secondGood)
-        ));
-        break;
-
-      case SortType.LENGTH:
-        visibleGoods.sort((firstGood, secondGood) => (
-          firstGood.length - secondGood.length
-        ));
-        break;
-
-      case SortType.NONE:
-      default:
-        break;
-    }
-
-    if (reversed) {
-      visibleGoods.reverse();
-    }
-
-    return visibleGoods;
-  }
-
-  const handleAlphabet = () => {
+  const SortByAlphabet = () => {
     setSortType(SortType.ALPHABET);
   };
 
-  const handleLength = () => {
+  const SortByLength = () => {
     setSortType(SortType.LENGTH);
   };
 
-  const handleReverse = () => {
-    setReversed(!reversed);
+  const ReverseList = () => {
+    setIsReversed(!isReversed);
   };
 
-  const handleReset = () => {
-    setReversed(false);
+  const SortReset = () => {
+    setIsReversed(false);
     setSortType(SortType.NONE);
   };
 
-  const sortedGoods = getReorderedGoods(goodsFromServer);
-  const isSorted = reversed || sortType !== SortType.NONE;
+  const sortedGoods = getReorderedGoods(
+    goodsFromServer,
+    { sortType, isReversed },
+  );
+  const isSorted = isReversed || sortType !== SortType.NONE;
 
   return (
     <div className="section content">
@@ -83,7 +94,7 @@ export const App: React.FC = () => {
             'button is-info',
             { 'is-light': sortType !== SortType.ALPHABET },
           )}
-          onClick={() => handleAlphabet()}
+          onClick={SortByAlphabet}
         >
           Sort alphabetically
         </button>
@@ -94,7 +105,7 @@ export const App: React.FC = () => {
             'button is-success',
             { 'is-light': sortType !== SortType.LENGTH },
           )}
-          onClick={() => handleLength()}
+          onClick={SortByLength}
         >
           Sort by length
         </button>
@@ -103,9 +114,9 @@ export const App: React.FC = () => {
           type="button"
           className={classNames(
             'button is-warning',
-            { 'is-light': !reversed },
+            { 'is-light': !isReversed },
           )}
-          onClick={() => handleReverse()}
+          onClick={ReverseList}
         >
           Reverse
         </button>
@@ -114,20 +125,14 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => handleReset()}
+            onClick={SortReset}
           >
             Reset
           </button>
         )}
       </div>
 
-      <ul>
-        {sortedGoods.map(good => (
-          <li key={good} data-cy="Good" className="good">
-            {good}
-          </li>
-        ))}
-      </ul>
+      <GoodsList goods={sortedGoods} />
     </div>
   );
 };
