@@ -20,9 +20,9 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  NONE = 0,
-  ALPHABET = 1,
-  LENGTH = 2,
+  NONE = 'none',
+  ALPHABET = 'alphabet',
+  LENGTH = 'length',
 }
 
 type ReorderOptions = {
