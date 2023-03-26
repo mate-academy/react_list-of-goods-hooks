@@ -29,29 +29,24 @@ type ReorderOptions = {
   isReversed: boolean,
 };
 
-// Use this function in the render method to prepare goods
 export function getReorderedGoods(
   goods: string[],
   { sortType, isReversed }: ReorderOptions,
 ) {
-  // To avoid the original array mutation
   const visibleGoods = [...goods];
 
-  // Sort and reverse goods if needed
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
-
-  if (sortType !== 0) { // Check if sortType is not default 0 (NONE value)
-    if (sortType === 1) { // sortType[1] === ALPHABET
-      visibleGoods.sort(
-        (goodOne, goodAnother) => goodOne.localeCompare(goodAnother),
-      );
-    } else { // sortType[2] === LENGTH
-      visibleGoods.sort(
-        (goodOne, goodAnother) => goodOne.length - goodAnother.length,
-      );
-    }
-  }
+  visibleGoods.sort(
+    (prevGood, nextGood) => {
+      switch (sortType) {
+        case SortType.LENGTH:
+          return prevGood.length - nextGood.length;
+        case SortType.ALPHABET:
+          return prevGood.localeCompare(nextGood);
+        default:
+          return 0;
+      }
+    },
+  );
 
   return !isReversed
     ? visibleGoods
@@ -77,15 +72,31 @@ export const App = () => {
     setGoodsList(reorderedGoods);
   }, [goodsList]);
 
+  const handleSort = (sortByProp: SortType) => () => setSortBy(sortByProp);
+
+  const handleSortAlphabeticaly = handleSort(SortType.ALPHABET);
+
+  const handleSortByLength = handleSort(SortType.LENGTH);
+
+  const handleReverse = () => setIsRev((prevIsRev) => !prevIsRev);
+
+  const handleReset = () => {
+    setSortBy(SortType.NONE);
+    setIsRev(false);
+  };
+
+  const reordered = isRev || sortBy !== 0;
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
           className={
-            classNames('button', 'is-info', { 'is-light': sortBy !== 1 })
+            classNames('button', 'is-info',
+              { 'is-light': sortBy !== SortType.ALPHABET })
           }
-          onClick={() => setSortBy(SortType.ALPHABET)}
+          onClick={() => handleSortAlphabeticaly()}
         >
           Sort alphabetically
         </button>
@@ -93,9 +104,10 @@ export const App = () => {
         <button
           type="button"
           className={
-            classNames('button', 'is-success', { 'is-light': sortBy !== 2 })
+            classNames('button', 'is-success',
+              { 'is-light': sortBy !== SortType.LENGTH })
           }
-          onClick={() => setSortBy(SortType.LENGTH)}
+          onClick={() => handleSortByLength()}
         >
           Sort by length
         </button>
@@ -103,26 +115,23 @@ export const App = () => {
         <button
           type="button"
           className={
-            classNames('button', 'is-warning', { 'is-light': !isRev })
+            classNames('button', 'is-warning',
+              { 'is-light': !isRev })
           }
-          onClick={() => setIsRev((prevIsRev) => !prevIsRev)}
+          onClick={() => handleReverse()}
         >
           Reverse
         </button>
 
-        {(isRev || sortBy !== 0)
-          && (
-            <button
-              type="button"
-              className="button is-danger is-light"
-              onClick={() => {
-                setSortBy(SortType.NONE);
-                setIsRev(false);
-              }}
-            >
-              Reset
-            </button>
-          )}
+        {reordered && (
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={() => handleReset()}
+          >
+            Reset
+          </button>
+        )}
       </div>
 
       <ul>
