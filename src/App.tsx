@@ -2,7 +2,7 @@ import { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import classNames from 'classnames';
-import { Good } from './components/Good/Good';
+import { GoodsList } from './components/GoodsList/GoodsList';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -18,9 +18,32 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  NONE,
-  ALPHABET,
-  LENGTH,
+  NONE = 'NONE',
+  ALPHABET = 'ALPHABET',
+  LENGTH = 'LENGTH',
+}
+
+function getReorderedGoods(
+  goods: string[],
+  sortType: SortType,
+  isReversed: boolean,
+) {
+  const visibleGoods = [...goods];
+
+  visibleGoods.sort((good1, good2) => {
+    switch (sortType) {
+      case SortType.ALPHABET:
+        return good1.localeCompare(good2);
+
+      case SortType.LENGTH:
+        return good1.length - good2.length;
+
+      default:
+        return 0;
+    }
+  });
+
+  return isReversed ? visibleGoods.reverse() : visibleGoods;
 }
 
 export const App = () => {
@@ -38,27 +61,10 @@ export const App = () => {
     setIsReversed(false);
   };
 
-  function getReorderedGoods(goods: string[]) {
-    const visibleGoods = [...goods];
-
-    visibleGoods.sort((good1, good2) => {
-      switch (sortType) {
-        case SortType.ALPHABET:
-          return good1.localeCompare(good2);
-
-        case SortType.LENGTH:
-          return good1.length - good2.length;
-
-        default:
-          return 0;
-      }
-    });
-
-    return isReversed ? visibleGoods.reverse() : visibleGoods;
-  }
-
   const visibleGoods = getReorderedGoods(
     goodsFromServer,
+    sortType,
+    isReversed,
   );
 
   const canReset = sortType !== SortType.NONE || isReversed;
@@ -102,24 +108,18 @@ export const App = () => {
           Reverse
         </button>
 
-        {
-          canReset && (
-            <button
-              type="button"
-              className="button is-danger is-light"
-              onClick={handleReset}
-            >
-              Reset
-            </button>
-          )
-        }
+        {canReset && (
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={handleReset}
+          >
+            Reset
+          </button>
+        )}
       </div>
 
-      <ul>
-        {visibleGoods.map(good => (
-          <Good good={good} key={good} />
-        ))}
-      </ul>
+      <GoodsList visibleGoods={visibleGoods} />
     </div>
   );
 };
