@@ -22,9 +22,36 @@ enum SortType {
   LENGTH,
 }
 
+type ReorderOptions = {
+  sortType: SortType,
+  isReversed: boolean,
+};
+
+export function getReorderedGoods(
+  goods: string[],
+  { sortType, isReversed }: ReorderOptions,
+) {
+  const visibleGoods = [...goods];
+
+  visibleGoods.sort((good1, good2) => {
+    switch (sortType) {
+      case SortType.ALPHABET:
+        return good1.localeCompare(good2);
+      case SortType.LENGTH:
+        return good1.length - good2.length;
+      default:
+        return 0;
+    }
+  });
+
+  if (isReversed) {
+    visibleGoods.reverse();
+  }
+
+  return visibleGoods;
+}
+
 export const App: React.FC = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [goodsArray] = useState(goodsFromServer);
   const [isReversed, setReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
@@ -49,28 +76,12 @@ export const App: React.FC = () => {
     });
   };
 
-  const getReorderedGoods = (goods: string[]) => {
-    const visibleGoods = [...goods];
-
-    visibleGoods.sort((prevGood, nextGood) => {
-      switch (sortType) {
-        case SortType.ALPHABET:
-          return prevGood.localeCompare(nextGood);
-        case SortType.LENGTH:
-          return prevGood.length - nextGood.length;
-        default:
-          return 0;
-      }
-    });
-
-    if (isReversed) {
-      visibleGoods.reverse();
-    }
-
-    return visibleGoods;
-  };
-
   const isListChanged = sortType !== SortType.NONE || isReversed;
+  const visibleGoods = getReorderedGoods(goodsFromServer,
+    {
+      isReversed,
+      sortType,
+    });
 
   return (
     <div className="section content">
@@ -119,7 +130,7 @@ export const App: React.FC = () => {
 
       <ul>
         <ul>
-          {getReorderedGoods(goodsArray).map((index) => (
+          {visibleGoods.map((index) => (
             <li data-cy="Good" key={index}>{index}</li>
           ))}
         </ul>
