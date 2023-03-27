@@ -47,7 +47,7 @@ export const App: React.FC = () => {
       case SortType.LENGTH:
         return good1.length - good2.length;
       default:
-        return 1;
+        return 0;
     }
   });
 
