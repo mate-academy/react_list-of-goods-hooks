@@ -82,7 +82,7 @@ export const App: React.FC = () => {
           className={classNames('button', 'is-info', {
             'is-light': sortType !== SortType.ALPHABET,
           })}
-          onClick={() => sortByAlphabet()}
+          onClick={sortByAlphabet}
         >
           Sort alphabetically
         </button>
@@ -92,7 +92,7 @@ export const App: React.FC = () => {
           className={classNames('button', 'is-success', {
             'is-light': sortType !== SortType.LENGTH,
           })}
-          onClick={() => sortByLength()}
+          onClick={sortByLength}
         >
           Sort by length
         </button>
@@ -102,7 +102,7 @@ export const App: React.FC = () => {
           className={classNames('button', 'is-warning', {
             'is-light': !isReversed,
           })}
-          onClick={() => reverse()}
+          onClick={reverse}
         >
           Reverse
         </button>
@@ -111,7 +111,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => reset()}
+            onClick={reset}
           >
             Reset
           </button>
