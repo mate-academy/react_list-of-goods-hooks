@@ -25,7 +25,7 @@ export function getReorderedGoods(
         return firstGoods.localeCompare(secondGoods);
 
       case SortType.LENGTH:
-        return firstGoods.length - secondGoods.length;
+        return (firstGoods.length - secondGoods.length);
 
       default:
         return 0;
@@ -53,7 +53,7 @@ export const App: React.FC = () => {
   };
 
   const reverse = () => {
-    setReverse(!isReversed);
+    setReverse(currentReverse => !currentReverse);
   };
 
   const reset = () => {
@@ -111,7 +111,6 @@ export const App: React.FC = () => {
       </div>
 
       <GoodsList goods={visibleGoods} />
-
     </div>
   );
 };
