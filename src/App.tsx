@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import classNames from 'classnames';
+import { GoodsList } from './components/GoodsList';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -17,9 +18,9 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  NONE,
-  ALPHABET,
-  LENGTH,
+  NONE = 'NONE',
+  ALPHABET = 'ALPHABET',
+  LENGTH = 'LENGTH',
 }
 
 type ReorderOptions = {
@@ -30,17 +31,16 @@ type ReorderOptions = {
 export function getReorderedGoods(
   goods: string[],
   { sortType, isReversed }: ReorderOptions,
-) {
+): string[] {
   const visibleGoods = [...goods];
 
   visibleGoods.sort((g1, g2) => {
     switch (sortType) {
-      case SortType.NONE:
-        return 0;
       case SortType.ALPHABET:
         return g1.localeCompare(g2);
       case SortType.LENGTH:
         return g1.length - g2.length;
+      case SortType.NONE:
       default:
         return 0;
     }
@@ -54,11 +54,11 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [isReversed, setReversed] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
   const reverse = () => {
-    setReversed(current => !current);
+    setIsReversed(current => !current);
   };
 
   const sortByType = (sortingType: SortType) => {
@@ -66,11 +66,11 @@ export const App: React.FC = () => {
   };
 
   const reset = () => {
-    setReversed(false);
+    setIsReversed(false);
     setSortType(SortType.NONE);
   };
 
-  const rstBttn = sortType !== SortType.NONE || isReversed;
+  const isResetButton = sortType !== SortType.NONE || isReversed;
   const orderingGoods = getReorderedGoods(
     goodsFromServer, { isReversed, sortType },
   );
@@ -117,7 +117,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {rstBttn && (
+        {isResetButton && (
           <button
             type="button"
             className="button is-danger is-light"
@@ -128,12 +128,7 @@ export const App: React.FC = () => {
         )}
       </div>
 
-      <ul>
-        {orderingGoods
-          .map(
-            word => <li data-cy="Good" key={word}>{word}</li>,
-          )}
-      </ul>
+      <GoodsList orderingGoods={orderingGoods} />
     </div>
   );
 };
