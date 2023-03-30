@@ -23,19 +23,19 @@ enum SortType {
   LENGTH,
 }
 
-type ReorderOptions = {
-  sortType: SortType,
+interface ReorderOptions {
+  sortByType: SortType,
   isReversed: boolean,
-};
+}
 
 export function getReorderedGoods(
   goods: string[],
-  { sortType, isReversed }: ReorderOptions,
+  { sortByType, isReversed }: ReorderOptions,
 ) {
   const visibleGoods = [...goods];
 
   visibleGoods.sort((previousGood, currentGood) => {
-    switch (sortType) {
+    switch (sortByType) {
       case SortType.ALPHABET:
         return previousGood.localeCompare(currentGood);
 
@@ -53,16 +53,16 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [isReversed, setReversed] = useState(false);
-  const [sortType, setSortByType] = useState(SortType.NONE);
-  const isVisibleReset = isReversed || sortType !== SortType.NONE;
+  const [isReversed, setIsReversed] = useState(false);
+  const [sortByType, setSortByType] = useState(SortType.NONE);
+  const isResetButtonVisible = isReversed || sortByType !== SortType.NONE;
   const goods = getReorderedGoods(goodsFromServer, {
     isReversed,
-    sortType,
+    sortByType,
   });
 
   const reverseList = () => {
-    setReversed(!isReversed);
+    setIsReversed((state) => !state);
   };
 
   const sortBy = (sortTypeValue: SortType) => {
@@ -70,7 +70,7 @@ export const App: React.FC = () => {
   };
 
   const resetChanges = () => {
-    setReversed(false);
+    setIsReversed(false);
     setSortByType(SortType.NONE);
   };
 
@@ -82,7 +82,7 @@ export const App: React.FC = () => {
           className={classNames(
             'button is-info',
             {
-              'is-light': sortType !== SortType.ALPHABET,
+              'is-light': sortByType !== SortType.ALPHABET,
             },
           )}
           onClick={() => sortBy(SortType.ALPHABET)}
@@ -95,7 +95,7 @@ export const App: React.FC = () => {
           className={classNames(
             'button is-success',
             {
-              'is-light': sortType !== SortType.LENGTH,
+              'is-light': sortByType !== SortType.LENGTH,
             },
           )}
           onClick={() => sortBy(SortType.LENGTH)}
@@ -115,7 +115,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {isVisibleReset && (
+        {isResetButtonVisible && (
           <button
             type="button"
             className={classNames(
