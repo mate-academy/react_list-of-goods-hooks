@@ -12,10 +12,14 @@ enum SortType {
   LENGTH,
 }
 
+export interface GoodsSortingOptions {
+  isReversed: boolean;
+  sortType: SortType;
+}
+
 export function getReorderedGoods(
   goods: string[],
-  isReversed: boolean,
-  sortType: SortType,
+  { isReversed, sortType }: GoodsSortingOptions,
 ) {
   const visibleGoods = [...goods];
 
@@ -40,9 +44,11 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [isReversed, setReverse] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
-  const visibleGoods = getReorderedGoods(goodsFromServer, isReversed, sortType);
+  const visibleGoods = getReorderedGoods(
+    goodsFromServer, { isReversed, sortType },
+  );
 
   const sortByAlphabet = () => {
     setSortType(SortType.ALPHABET);
@@ -53,13 +59,15 @@ export const App: React.FC = () => {
   };
 
   const reverse = () => {
-    setReverse(currentReverse => !currentReverse);
+    setIsReversed(currentReverse => !currentReverse);
   };
 
   const reset = () => {
     setSortType(SortType.NONE);
-    setReverse(false);
+    setIsReversed(false);
   };
+
+  const showReset = isReversed || sortType !== SortType.NONE;
 
   return (
     <div className="section content">
@@ -98,7 +106,7 @@ export const App: React.FC = () => {
         </button>
 
         {
-          (isReversed || sortType !== SortType.NONE) && (
+          (showReset) && (
             <button
               type="button"
               className="button is-danger is-light"
