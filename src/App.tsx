@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import classNames from 'classnames';
@@ -18,28 +18,28 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  NONE,
-  ALPHABET,
-  LENGTH,
+  NONE = 'NONE',
+  ALPHABET = 'ALPHABET',
+  LENGTH = 'LENGTH',
 }
 
-type ReorderOptions = {
+type SortOptions = {
   sortType: SortType,
   isReversed: boolean,
 };
 
 export function getReorderedGoods(
   goods: string[],
-  { sortType, isReversed }: ReorderOptions,
+  { sortType, isReversed }: SortOptions,
 ) {
   const visibleGoods = [...goods];
 
-  visibleGoods.sort((prevGood, currentGood) => {
+  visibleGoods.sort((prevItem, currentItem) => {
     switch (sortType) {
       case SortType.ALPHABET:
-        return prevGood.localeCompare(currentGood);
+        return prevItem.localeCompare(currentItem);
       case SortType.LENGTH:
-        return prevGood.length - currentGood.length;
+        return prevItem.length - currentItem.length;
       default:
         return 0;
     }
@@ -75,7 +75,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={classNames(
-            'button is-inf',
+            'button is-info',
             { 'is-light': sortType !== SortType.ALPHABET },
           )}
           onClick={() => setSortType(SortType.ALPHABET)}
@@ -105,7 +105,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        { isResetButtonVisible && (
+        {isResetButtonVisible && (
           <button
             type="button"
             className="button is-danger is-light"
