@@ -53,8 +53,8 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [isReversed, isReversedHook] = useState(false);
-  const [sortType, sortTypeHook] = useState(SortType.NONE);
+  const [isReversed, setIsReversed] = useState(false);
+  const [sortType, setThisType] = useState(SortType.NONE);
 
   const listGoods = getReorderedGoods(
     goodsFromServer, { sortType, isReversed },
@@ -72,7 +72,7 @@ export const App: React.FC = () => {
               'is-light': sortType !== SortType.ALPHABET,
             },
           )}
-          onClick={() => sortTypeHook(SortType.ALPHABET)}
+          onClick={() => setThisType(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
@@ -87,7 +87,7 @@ export const App: React.FC = () => {
               'is-light': sortType !== SortType.LENGTH,
             },
           )}
-          onClick={() => sortTypeHook(SortType.LENGTH)}
+          onClick={() => setThisType(SortType.LENGTH)}
         >
           Sort by length
         </button>
@@ -102,7 +102,7 @@ export const App: React.FC = () => {
               'is-light': !isReversed,
             },
           )}
-          onClick={() => isReversedHook(value => !value)}
+          onClick={() => setIsReversed(value => !value)}
         >
           Reverse
         </button>
@@ -113,8 +113,8 @@ export const App: React.FC = () => {
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              isReversedHook(false);
-              sortTypeHook(SortType.NONE);
+              setIsReversed(false);
+              setThisType(SortType.NONE);
             }}
           >
             Reset
