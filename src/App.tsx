@@ -25,10 +25,10 @@ enum SortType {
   LENGTH = 'length',
 }
 
-type ReorderOptions = {
+interface ReorderOptions {
   sortType: SortType,
   isReversed: boolean,
-};
+}
 
 export function getReorderedGoods(
   goods: string[],
@@ -57,20 +57,16 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [isReversed, changeIsReversed] = useState(false);
-  const [sortType, changeSortType] = useState(SortType.NONE);
-
-  const sortByType = (typeOfSort: SortType) => {
-    changeSortType(typeOfSort);
-  };
+  const [isReversed, setIsReversed] = useState(false);
+  const [sortType, setSortType] = useState(SortType.NONE);
 
   const reverseOrder = () => {
-    changeIsReversed(curState => !curState);
+    setIsReversed(curState => !curState);
   };
 
   const resetSorting = () => {
-    changeIsReversed(false);
-    changeSortType(SortType.NONE);
+    setIsReversed(false);
+    setSortType(SortType.NONE);
   };
 
   const isReordered = sortType !== SortType.NONE || isReversed;
@@ -89,7 +85,7 @@ export const App: React.FC = () => {
             { 'is-light': sortType !== SortType.ALPHABET },
           )}
           onClick={() => {
-            sortByType(SortType.ALPHABET);
+            setSortType(SortType.ALPHABET);
           }}
         />
 
@@ -100,7 +96,7 @@ export const App: React.FC = () => {
             { 'is-light': sortType !== SortType.LENGTH },
           )}
           onClick={() => {
-            sortByType(SortType.LENGTH);
+            setSortType(SortType.LENGTH);
           }}
         />
 

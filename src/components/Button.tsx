@@ -1,25 +1,20 @@
-import React from 'react';
+import { FC, MouseEvent } from 'react';
 
 interface Props {
   name: string,
-  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void,
+  onClick: (event: MouseEvent<HTMLButtonElement>) => void,
   className: string,
 }
 
-export class Button extends React.PureComponent<Props, {}> {
-  render(): React.ReactNode {
-    const {
-      name,
-      ...rest
-    } = this.props;
-
-    return (
-      <button
-        type="button"
-        {...rest}
-      >
-        {name}
-      </button>
-    );
-  }
-}
+export const Button: FC<Props> = ({
+  name, onClick, className, ...rest
+}) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className={className}
+    {...rest}
+  >
+    {name}
+  </button>
+);
