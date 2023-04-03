@@ -36,22 +36,31 @@ export function getReorderedGoods(
 ) {
   const visibleGoods = [...goods];
 
-  switch (sortType) {
-    case SortType.ALPHABET:
-      visibleGoods.sort(
-        (good1, good2) => good1.localeCompare(good2),
-      );
-      break;
+  // switch (sortType) {
+  //   case SortType.ALPHABET:
+  //     visibleGoods.sort(
+  //       (good1, good2) => good1.localeCompare(good2),
+  //     );
+  //     break;
 
-    case SortType.LENGTH:
-      visibleGoods.sort(
-        (good1, good2) => good1.length - good2.length,
-      );
-      break;
+  //   case SortType.LENGTH:
+  //     visibleGoods.sort(
+  //       (good1, good2) => good1.length - good2.length,
+  //     );
+  //     break;
 
-    default:
-      break;
-  }
+  //   default:
+  //     break;
+  // }
+  visibleGoods.sort(
+    (good1, good2) => {
+      return (
+        sortType === SortType.ALPHABET
+          ? good1.localeCompare(good2)
+          : good1.length - good2.length
+      );
+    },
+  );
 
   return isReversed
     ? visibleGoods.reverse()
@@ -59,20 +68,20 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [isReversed, changeIsReversed] = useState(false);
-  const [sortType, changeSortType] = useState(SortType.NONE);
+  const [isReversed, setIsReversed] = useState(false);
+  const [sortType, setSortType] = useState(SortType.NONE);
 
   const handleReverse = () => {
-    changeIsReversed((prevReverse) => (!prevReverse));
+    setIsReversed((prevReverse) => (!prevReverse));
   };
 
   const handleReset = () => {
-    changeSortType(SortType.NONE);
-    changeIsReversed(false);
+    setSortType(SortType.NONE);
+    setIsReversed(false);
   };
 
   const handleSort = (sort: SortType) => {
-    changeSortType(sort);
+    setSortType(sort);
   };
 
   const reorderedGoods = getReorderedGoods(
