@@ -67,7 +67,7 @@ export const App: React.FC = () => {
     setIsReversed(false);
   };
 
-  const showReset = isReversed || sortType !== SortType.NONE;
+  const shouldShowReset = isReversed || sortType !== SortType.NONE;
 
   return (
     <div className="section content">
@@ -106,7 +106,7 @@ export const App: React.FC = () => {
         </button>
 
         {
-          (showReset) && (
+          shouldShowReset && (
             <button
               type="button"
               className="button is-danger is-light"
