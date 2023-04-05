@@ -7,9 +7,9 @@ import { GoodsList } from './components/GoodsList';
 import goodsFromServer from './data/goods.json';
 
 enum SortType {
-  NONE,
-  ALPHABET,
-  LENGTH,
+  NONE = 'none',
+  ALPHABET = 'alphabet',
+  LENGTH = 'length',
 }
 
 export interface GoodsSortingOptions {
