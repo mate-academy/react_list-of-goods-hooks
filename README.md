@@ -14,4 +14,3 @@ using hooks. Take all you need from youy solution for the previous task.
 - Open one more terminal and run tests with `npm test` to ensure your solution is correct.
 - Replace `<your_account>` with your Github username in the [DEMO LINK](https://ArthurKrepko.github.io/react_list-of-goods-hooks/) and add it to the PR description.
 
-

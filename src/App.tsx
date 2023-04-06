@@ -23,12 +23,17 @@ enum SortType {
   LENGTH,
 }
 
+interface GoodsSortingOptions {
+  isReversed: boolean;
+  sortType: SortType;
+}
+
 export function getReorderedGoods(
   goods: string[],
-  sortType: SortType,
-  isReversed: boolean,
+  options: GoodsSortingOptions,
 ) {
   const visibleGoods = [...goods];
+  const { sortType, isReversed } = options;
 
   visibleGoods.sort((prev, curr) => {
     switch (sortType) {
@@ -49,83 +54,85 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortType, sortByType] = useState(SortType.NONE);
+  const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setReverse] = useState(false);
 
   const sortByAlphabet = () => {
-    sortByType(SortType.ALPHABET);
+    setSortType(SortType.ALPHABET);
   };
 
   const sortByLength = () => {
-    sortByType(SortType.LENGTH);
+    setSortType(SortType.LENGTH);
   };
 
   const reverse = () => {
-    setReverse(!isReversed);
+    setReverse(prevReverse => !prevReverse);
   };
 
   const reset = () => {
-    sortByType(SortType.NONE);
+    setSortType(SortType.NONE);
     setReverse(false);
   };
 
   const reorderedGoods = getReorderedGoods(
     goodsFromServer,
-    sortType,
-    isReversed,
+    {
+      sortType,
+      isReversed,
+    },
   );
 
+  const noneSorted = sortType !== SortType.NONE;
+
   return (
-    <>
-      <div className="section content">
-        <div className="buttons">
-          <button
-            type="button"
-            className={classNames(
-              'button is-info',
-              { 'is-light': sortType !== SortType.ALPHABET },
-            )}
-            onClick={sortByAlphabet}
-          >
-            Sort alphabetically
-          </button>
+    <div className="section content">
+      <div className="buttons">
+        <button
+          type="button"
+          className={classNames(
+            'button is-info',
+            { 'is-light': sortType !== SortType.ALPHABET },
+          )}
+          onClick={sortByAlphabet}
+        >
+          Sort alphabetically
+        </button>
 
-          <button
-            type="button"
-            className={classNames(
-              'button is-success',
-              { 'is-light': sortType !== SortType.LENGTH },
-            )}
-            onClick={sortByLength}
-          >
-            Sort by length
-          </button>
+        <button
+          type="button"
+          className={classNames(
+            'button is-success',
+            { 'is-light': sortType !== SortType.LENGTH },
+          )}
+          onClick={sortByLength}
+        >
+          Sort by length
+        </button>
 
-          <button
-            type="button"
-            className={classNames(
-              'button is-warning',
-              { 'is-light': isReversed === false },
-            )}
-            onClick={reverse}
-          >
-            Reverse
-          </button>
+        <button
+          type="button"
+          className={classNames(
+            'button is-warning',
+            { 'is-light': isReversed === false },
+          )}
+          onClick={reverse}
+        >
+          Reverse
+        </button>
 
-          {(sortType !== SortType.NONE || isReversed)
-            && (
-              <button
-                type="button"
-                className="button is-danger is-light"
-                onClick={reset}
-              >
-                Reset
-              </button>
-            )}
-        </div>
-
-        <ListOfGoods goods={reorderedGoods} />
+        {(noneSorted || isReversed)
+          && (
+            <button
+              type="button"
+              className="button is-danger is-light"
+              onClick={reset}
+            >
+              Reset
+            </button>
+          )}
       </div>
-    </>
+
+      <ListOfGoods goods={reorderedGoods} />
+    </div>
   );
 };
