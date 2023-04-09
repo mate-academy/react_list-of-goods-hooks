@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import { GoodsList } from './components/GoodsList/GoodsList';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -22,10 +23,10 @@ enum SortType {
   LENGTH,
 }
 
-type ReorderOptions = {
+interface ReorderOptions {
   sortType: SortType,
   isReversed: boolean,
-};
+}
 
 export function getReorderedGoods(
   goods: string[],
@@ -54,7 +55,7 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [isReversed, reverseList] = useState(false);
+  const [isReversed, setReverse] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
   const displayReset = sortType !== SortType.NONE || isReversed;
@@ -65,7 +66,7 @@ export const App: React.FC = () => {
   });
 
   const reverse = () => {
-    reverseList(!isReversed);
+    setReverse(prevState => !prevState);
   };
 
   const sortByAlphabet = () => {
@@ -77,7 +78,7 @@ export const App: React.FC = () => {
   };
 
   const reset = () => {
-    reverseList(false);
+    setReverse(false);
     setSortType(SortType.NONE);
   };
 
@@ -136,15 +137,7 @@ export const App: React.FC = () => {
         )}
       </div>
 
-      <ul>
-        <ul>
-          {visibleGoods.map(good => (
-            <li data-cy="Good" key={good}>
-              {good}
-            </li>
-          ))}
-        </ul>
-      </ul>
+      <GoodsList visibleGoods={visibleGoods} />
     </div>
   );
 };
