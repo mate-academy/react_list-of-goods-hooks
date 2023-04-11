@@ -33,9 +33,6 @@ export function getReorderedGoods(
 ) {
   const visibleGoods = [...goods];
 
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
-
   if (sortType) {
     visibleGoods.sort((g1, g2) => {
       switch (sortType) {
@@ -66,6 +63,11 @@ export const App: React.FC = () => {
     goodsFromServer,
     { sortType, isReversed },
   );
+
+  const handleReset = () => {
+    setIsReversed(false);
+    setSortType(SortType.NONE);
+  };
 
   return (
     <div className="section content">
@@ -117,10 +119,7 @@ export const App: React.FC = () => {
                   button
                   is-danger
                   is-light"
-              onClick={() => {
-                setIsReversed(false);
-                setSortType(SortType.NONE);
-              }}
+              onClick={handleReset}
             >
               Reset
             </button>
