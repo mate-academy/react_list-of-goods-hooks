@@ -23,7 +23,7 @@ enum SortType {
 
 function getReorderedGoods(
   goods: string[],
-  trueOrFalse: boolean,
+  isReversed: boolean,
   sortType: SortType,
 ):string[] {
   const visible = [...goods];
@@ -41,7 +41,7 @@ function getReorderedGoods(
     }
   });
 
-  if (trueOrFalse === true) {
+  if (isReversed) {
     visible.reverse();
   }
 
@@ -50,16 +50,16 @@ function getReorderedGoods(
 
 export const App: React.FC = () => {
   const copiedData = [...goodsFromServer];
-  const [trueOrFalseReverse, reversing] = useState(false);
-  const [sortType, sorting] = useState(SortType.NONE);
+  const [isReversed, setIsReversed] = useState(false);
+  const [sortType, setSortType] = useState(SortType.NONE);
 
   const reverse = () => {
-    reversing(current => !current);
+    setIsReversed(prevState => !prevState);
   };
 
   const changedArr: string[]
-  = useMemo(() => getReorderedGoods(copiedData, trueOrFalseReverse, sortType),
-    [copiedData, trueOrFalseReverse, sortType]);
+  = useMemo(() => getReorderedGoods(copiedData, isReversed, sortType),
+    [copiedData, isReversed, sortType]);
 
   return (
     <div className="section content">
@@ -67,7 +67,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={`button is-info ${sortType === SortType.ALPHABET ? '' : 'is-light'}`}
-          onClick={() => sorting(SortType.ALPHABET)}
+          onClick={() => setSortType(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
@@ -75,27 +75,27 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={`button is-success ${sortType === SortType.LENGTH ? '' : 'is-light'}`}
-          onClick={() => sorting(SortType.LENGTH)}
+          onClick={() => setSortType(SortType.LENGTH)}
         >
           Sort by length
         </button>
 
         <button
           type="button"
-          className={`button is-warning ${trueOrFalseReverse ? '' : 'is-light'}`}
-          onClick={() => reverse()}
+          className={`button is-warning ${isReversed ? '' : 'is-light'}`}
+          onClick={reverse}
         >
           Reverse
         </button>
 
-        {trueOrFalseReverse || sortType !== SortType.NONE
+        {isReversed || sortType !== SortType.NONE
           ? (
             <button
               type="button"
               className="button is-danger is-light"
               onClick={() => {
-                reversing(false);
-                sorting(SortType.NONE);
+                setIsReversed(false);
+                setSortType(SortType.NONE);
               }}
             >
               Reset
@@ -106,9 +106,9 @@ export const App: React.FC = () => {
 
       <ul>
         <ul>
-          {changedArr.map((good) => {
-            return <li data-cy="Good" key={good}>{good}</li>;
-          })}
+          {changedArr.map((good) => (
+            <li data-cy="Good" key={good}>{good}</li>
+          ))}
         </ul>
       </ul>
     </div>
