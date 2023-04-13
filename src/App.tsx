@@ -14,10 +14,10 @@ enum SortType {
   LENGTH,
 }
 
-type ReorderOptions = {
-  sortType: SortType,
-  isReversed: boolean,
-};
+interface ReorderOptions {
+  isReversed: boolean;
+  sortType: SortType;
+}
 
 export function getReorderedGoods(
   goods: string[],
@@ -48,7 +48,7 @@ export function getReorderedGoods(
 export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
-  const isResetBtn = sortType !== SortType.NONE || isReversed;
+  const isResetButton = sortType !== SortType.NONE || isReversed;
   const reorderedGoods = getReorderedGoods(
     goodsFromServer,
     {
@@ -116,7 +116,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {isResetBtn && (
+        {isResetButton && (
           <button
             type="button"
             className="button is-danger is-light"
