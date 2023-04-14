@@ -26,26 +26,23 @@ function getReorderedGoods(
   isReversed: boolean,
   sortType: SortType,
 ):string[] {
-  const visible = [...goods];
+  const visibleGoods = [...goods];
 
-  visible.sort((goodFirst, goodSecond) => {
+  visibleGoods.sort((goodFirst, goodSecond) => {
     switch (sortType) {
       case SortType.ALPHABET:
         return goodFirst.localeCompare(goodSecond);
       case SortType.LENGTH:
         return goodFirst.length - goodSecond.length;
       case SortType.NONE:
-        return 0;
       default:
         return 0;
     }
   });
 
-  if (isReversed) {
-    visible.reverse();
-  }
+  return isReversed ? visibleGoods.reverse() : visibleGoods;
 
-  return visible;
+  return visibleGoods;
 }
 
 export const App: React.FC = () => {
@@ -57,9 +54,16 @@ export const App: React.FC = () => {
     setIsReversed(prevState => !prevState);
   };
 
-  const changedArr: string[]
-  = useMemo(() => getReorderedGoods(copiedData, isReversed, sortType),
-    [copiedData, isReversed, sortType]);
+  const onReset = () => {
+    setIsReversed(false);
+
+    setSortType(SortType.NONE);
+  };
+
+  const changedArr: string[] = useMemo(
+    () => getReorderedGoods(copiedData, isReversed, sortType),
+    [copiedData, isReversed, sortType],
+  );
 
   return (
     <div className="section content">
@@ -88,20 +92,15 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {isReversed || sortType !== SortType.NONE
-          ? (
-            <button
-              type="button"
-              className="button is-danger is-light"
-              onClick={() => {
-                setIsReversed(false);
-                setSortType(SortType.NONE);
-              }}
-            >
-              Reset
-            </button>
-          )
-          : null}
+        {(isReversed || sortType !== SortType.NONE) && (
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={onReset}
+          >
+            Reset
+          </button>
+        )}
       </div>
 
       <ul>
