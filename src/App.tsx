@@ -17,9 +17,9 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  NONE,
-  ALPHABET,
-  LENGTH,
+  None,
+  Alphabet,
+  Length,
 }
 
 type ReorderOptions = {
@@ -34,14 +34,14 @@ function getReorderedGoods(
   const visibleGoods = [...goods];
 
   switch (sortType) {
-    case SortType.ALPHABET:
+    case SortType.Alphabet:
       visibleGoods.sort((g1, g2) => {
         return g1.localeCompare(g2);
       });
 
       break;
 
-    case SortType.LENGTH:
+    case SortType.Length:
       visibleGoods.sort((g1, g2) => {
         return g1.length - g2.length;
       });
@@ -60,15 +60,15 @@ function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortType, setSortType] = useState(SortType.NONE);
+  const [sortType, setSortType] = useState(SortType.None);
   const [isReversed, setIsReversed] = useState(false);
 
   const sortAlphabetically = () => {
-    setSortType(SortType.ALPHABET);
+    setSortType(SortType.Alphabet);
   };
 
   const sortByLength = () => {
-    setSortType(SortType.LENGTH);
+    setSortType(SortType.Length);
   };
 
   const sortInReverse = () => {
@@ -76,7 +76,7 @@ export const App: React.FC = () => {
   };
 
   const resetSorting = () => {
-    setSortType(SortType.NONE);
+    setSortType(SortType.None);
     setIsReversed(false);
   };
 
@@ -94,7 +94,7 @@ export const App: React.FC = () => {
           className={classNames(
             'button',
             'is-info',
-            { 'is-light': sortType !== SortType.ALPHABET },
+            { 'is-light': sortType !== SortType.Alphabet },
           )}
         >
           Sort alphabetically
@@ -106,7 +106,7 @@ export const App: React.FC = () => {
           className={classNames(
             'button',
             'is-success',
-            { 'is-light': sortType !== SortType.LENGTH },
+            { 'is-light': sortType !== SortType.Length },
           )}
         >
           Sort by length
@@ -124,7 +124,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortType !== SortType.NONE || isReversed) && (
+        {(sortType !== SortType.None || isReversed) && (
           <button
             onClick={resetSorting}
             type="button"
