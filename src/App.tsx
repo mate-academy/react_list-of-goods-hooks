@@ -15,6 +15,12 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+enum SortType {
+  NONE,
+  ALPHABET,
+  LENGTH,
+}
+
 type ReorderOptions = {
   reverse: boolean,
   type: number,
@@ -44,11 +50,11 @@ function ReorderGoods(goods: string[], { reverse, type }: ReorderOptions) {
 }
 
 export const App: React.FC = () => {
-  const [type, useType] = useState(0);
+  const [sortType, useType] = useState(SortType.NONE);
   const [reverse, useReverse] = useState(false);
 
-  function ChangeType(typeNum: number) {
-    useType(typeNum);
+  function ChangeType(type: SortType) {
+    useType(type);
   }
 
   function ChangeReverse(reverseType: boolean) {
@@ -60,16 +66,16 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${type !== 1 ? 'is-light' : ''}`}
-          onClick={() => ChangeType(1)}
+          className={`button is-info ${sortType !== SortType.ALPHABET ? 'is-light' : ''}`}
+          onClick={() => ChangeType(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={`button is-success ${type !== 2 ? 'is-light' : ''}`}
-          onClick={() => ChangeType(2)}
+          className={`button is-success ${sortType !== SortType.LENGTH ? 'is-light' : ''}`}
+          onClick={() => ChangeType(SortType.LENGTH)}
         >
           Sort by length
         </button>
@@ -82,7 +88,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(reverse || type !== 0) && (
+        {(reverse || sortType !== SortType.NONE) && (
           <button
             type="button"
             className="button is-danger is-light"
@@ -97,7 +103,10 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {ReorderGoods(goodsFromServer, { reverse, type }).map(good => (
+        {ReorderGoods(
+          goodsFromServer,
+          { reverse, type: sortType },
+        ).map(good => (
           <li key={good} data-cy="Good">
             {good}
           </li>
