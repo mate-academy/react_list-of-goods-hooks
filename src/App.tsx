@@ -31,7 +31,10 @@ export function getReorderedGoods(
   goods: string[],
   { sortType, isReversed }: ReorderOptions,
 ) {
-  // To avoid the original array mutation
+  if (sortType === SortType.None && !isReversed) {
+    return goodsFromServer;
+  }
+
   const visibleGoods = [...goods];
 
   switch (sortType) {
@@ -41,7 +44,7 @@ export function getReorderedGoods(
     case SortType.LENGTH:
       visibleGoods.sort((a, b) => a.length - b.length);
       break;
-    default: return goodsFromServer;
+    default:
   }
 
   // eslint-disable-next-line no-console
@@ -101,7 +104,7 @@ export const App: React.FC = () => {
             <button
               type="button"
               className="button is-danger is-light"
-              onClick={reset}
+              onClick={() => reset()}
             >
               Reset
             </button>
