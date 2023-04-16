@@ -16,7 +16,7 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  NONE,
+  None,
   ALPHABET,
   LENGTH,
 }
