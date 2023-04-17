@@ -26,7 +26,6 @@ type ReorderOptions = {
   isReversed: boolean,
 };
 
-// Use this function in the render method to prepare goods
 export function getReorderedGoods(
   goods: string[],
   { sortType, isReversed }: ReorderOptions,
@@ -46,8 +45,6 @@ export function getReorderedGoods(
       break;
     default:
   }
-
-  // eslint-disable-next-line no-console
 
   return isReversed ? visibleGoods.reverse() : visibleGoods;
 }
