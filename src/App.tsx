@@ -22,7 +22,9 @@ enum SortType {
 }
 
 export function getReorderedGoods(
-  goods: string[], sortType: SortType, isReversed: boolean,
+  goods: string[],
+  sortType: SortType,
+  isReversed: boolean,
 ) {
   const visibleGoods = [...goods];
 
