@@ -22,7 +22,7 @@ enum SortType {
 }
 
 export function getReorderedGoods(
-  goods: string[], sortType : SortType, isReversed : boolean,
+  goods: string[], sortType: SortType, isReversed: boolean,
 ) {
   const visibleGoods = [...goods];
 
@@ -45,9 +45,26 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortType, sortBy] = useState(SortType.NONE);
-  const [isReversed, reverseGoods] = useState(false);
+  const [sortType, setSortType] = useState(SortType.NONE);
+  const [isReversed, setIsReversed] = useState(false);
   const visibleGoods = getReorderedGoods(goodsFromServer, sortType, isReversed);
+
+  const sortAlphabetically = () => {
+    setSortType(SortType.ALPHABET);
+  };
+
+  const sortByLength = () => {
+    setSortType(SortType.LENGTH);
+  };
+
+  const Reversing = () => {
+    setIsReversed(!isReversed);
+  };
+
+  const Reserting = () => {
+    setIsReversed(false);
+    setSortType(SortType.NONE);
+  };
 
   return (
     <div className="section content">
@@ -56,7 +73,7 @@ export const App: React.FC = () => {
           type="button"
           className={sortType === SortType.ALPHABET
             ? 'button is-info' : 'button is-info is-light'}
-          onClick={() => sortBy(SortType.ALPHABET)}
+          onClick={sortAlphabetically}
         >
           Sort alphabetically
         </button>
@@ -65,7 +82,7 @@ export const App: React.FC = () => {
           type="button"
           className={sortType === SortType.LENGTH
             ? 'button is-success' : 'button is-success is-light'}
-          onClick={() => sortBy(SortType.LENGTH)}
+          onClick={sortByLength}
         >
           Sort by length
         </button>
@@ -74,7 +91,7 @@ export const App: React.FC = () => {
           type="button"
           className={isReversed
             ? 'button is-warning' : 'button is-warning is-light'}
-          onClick={() => reverseGoods(!isReversed)}
+          onClick={Reversing}
         >
           Reverse
         </button>
@@ -83,10 +100,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              reverseGoods(false);
-              sortBy(SortType.NONE);
-            }}
+            onClick={Reserting}
           >
             Reset
           </button>
