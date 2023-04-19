@@ -48,16 +48,17 @@ export function getReorderedGoods(
     visibleGoods.reverse();
   }
 
-  // Sort and reverse goods if needed
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
-
   return visibleGoods;
 }
 
 export const App: React.FC = () => {
   const [sortType, setSortType] = useState<SortType>(SortType.NONE);
-  const [isReversed, setReversMode] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
+
+  const resetHandler = () => {
+    setSortType(SortType.NONE);
+    setIsReversed(false);
+  };
 
   return (
     <div className="section content">
@@ -72,7 +73,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-warning ${!isReversed && 'is-light'}`}
+          className={`button is-success ${sortType !== SortType.LENGTH && 'is-light'}`}
           onClick={() => setSortType(SortType.LENGTH)}
 
         >
@@ -81,8 +82,8 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className="button is-warning is-light"
-          onClick={() => setReversMode(!isReversed)}
+          className={`button is-warning ${!isReversed && 'is-light'}`}
+          onClick={() => setIsReversed(!isReversed)}
         >
           Reverse
         </button>
@@ -91,12 +92,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              return (
-                setSortType(SortType.NONE),
-                setReversMode(false)
-              );
-            }}
+            onClick={() => resetHandler()}
           >
             Reset
           </button>
