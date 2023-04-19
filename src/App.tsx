@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
-import cn from 'classnames';
+import classNames from 'classnames';
 import './App.scss';
 
 export const goodsFromServer = [
@@ -88,7 +88,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           onClick={handleListSortByAlphabet}
-          className={cn(
+          className={classNames(
             'button is-info',
             {
               'is-light': sortType !== SortType.ALPHABET,
@@ -101,7 +101,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           onClick={handleListSortByLength}
-          className={cn(
+          className={classNames(
             'button is-success',
             {
               'is-light': sortType !== SortType.LENGTH,
@@ -114,7 +114,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           onClick={handleListReverse}
-          className={cn(
+          className={classNames(
             'button is-warning',
             {
               'is-light': (!isReversed),
