@@ -27,7 +27,7 @@ type ReorderOptions = {
   isReversed: boolean,
 };
 
-const getGoodsFromServer = (
+const getReorderedGoods = (
   goods: string[],
   { sortType, isReversed }: ReorderOptions,
 ) => {
@@ -49,14 +49,14 @@ const getGoodsFromServer = (
 };
 
 export const App: React.FC = () => {
-  const [isReversed, setReversed] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
   const isAlphabetSort = sortType === SortType.ALPHABET;
   const isLengthSort = sortType === SortType.LENGTH;
   const isResetButtonActive = sortType !== SortType.NONE || isReversed;
 
-  const products = getGoodsFromServer(
+  const products = getReorderedGoods(
     goodsFromServer,
     { sortType, isReversed },
   );
@@ -70,11 +70,11 @@ export const App: React.FC = () => {
   };
 
   const reverse = () => {
-    setReversed(current => !current);
+    setIsReversed(current => !current);
   };
 
   const reset = () => {
-    setReversed(false);
+    setIsReversed(false);
     setSortType(SortType.NONE);
   };
 
@@ -126,7 +126,9 @@ export const App: React.FC = () => {
       <ul>
         <ul>
           {products.map(product => (
-            <li data-cy="Good" key={product}>{product}</li>
+            <li data-cy="Good" key={product}>
+              {product}
+            </li>
           ))}
         </ul>
       </ul>
