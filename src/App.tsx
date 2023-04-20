@@ -15,33 +15,39 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+enum SortType {
+  NONE = "none",
+  ALPHABET = 'alphabet',
+  LENGTH = 'length',
+}
+
 export const App: React.FC = () => {
-  const [sortType, setSortType] = useState('none');
+  const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setDirection] = useState(false);
 
-  const reset = () => {
-    setSortType('none');
+  const onReset = () => {
+    setSortType(SortType.NONE);
     setDirection(false);
   };
 
-  const reverse = () => {
+  const onToggleDirection = () => {
     setDirection(!isReversed);
   };
 
-  const sortByAlphabet = () => {
-    setSortType('alphabet');
+  const onSortAlphabetically  = () => {
+    setSortType(SortType.ALPHABET);
   };
 
-  const sortByLength = () => {
-    setSortType('length');
+  const onSortByStringLength = () => {
+    setSortType(SortType.LENGTH);
   };
 
   const sortedGoods = [...goodsFromServer].sort((good1, good2) => {
     switch (sortType) {
-      case 'alphabet':
+      case SortType.ALPHABET:
         return good1.localeCompare(good2);
 
-      case 'length':
+      case SortType.LENGTH:
         return good1.length - good2.length;
 
       default:
@@ -58,16 +64,16 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortType !== 'alphabet' && 'is-light'}`}
-          onClick={sortByAlphabet}
+          className={`button is-info ${sortType !== SortType.ALPHABET && 'is-light'}`}
+          onClick={onSortAlphabetically }
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={`button is-success ${sortType !== 'length' && 'is-light'}`}
-          onClick={sortByLength}
+          className={`button is-success ${sortType !== SortType.LENGTH && 'is-light'}`}
+          onClick={onSortByStringLength}
         >
           Sort by length
         </button>
@@ -75,18 +81,18 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={`button is-warning ${!isReversed && 'is-light'} `}
-          onClick={reverse}
+          onClick={onToggleDirection}
         >
           Reverse
         </button>
 
-        {(sortType !== 'none'
+        {(sortType !== SortType.NONE
           || isReversed)
           && (
             <button
               type="button"
               className="button is-danger is-light"
-              onClick={reset}
+              onClick={onReset}
             >
               Reset
             </button>
