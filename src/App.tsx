@@ -58,7 +58,8 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = React.useState(false);
   const [sortType, setSortType] = React.useState(SortType.NONE);
   const goodsList = getReorderedGoods(goodsFromServer, {
-    sortType, isReversed,
+    sortType,
+    isReversed,
   });
   const isResetVisible = sortType !== SortType.NONE || isReversed;
 
@@ -70,11 +71,11 @@ export const App: React.FC = () => {
     setSortType(SortType.LENGTH);
   };
 
-  const reverse = () => {
+  const handleReverse = () => {
     setIsReversed(currentState => !currentState);
   };
 
-  const reset = () => {
+  const handleReset = () => {
     setIsReversed(false);
     setSortType(SortType.NONE);
   };
@@ -107,30 +108,26 @@ export const App: React.FC = () => {
           className={classNames('button', 'is-warning', {
             'is-light': !isReversed,
           })}
-          onClick={reverse}
+          onClick={handleReverse}
         >
           Reverse
         </button>
 
-        {(isResetVisible)
-          && (
-            <button
-              type="button"
-              className="button is-danger is-light"
-              onClick={reset}
-            >
-              Reset
-            </button>
-          )}
+        {(isResetVisible) && (
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={handleReset}
+          >
+            Reset
+          </button>
+        )}
       </div>
 
       <ul>
         <ul>
           {goodsList.map(good => (
-            <li
-              data-cy="Good"
-              key={good}
-            >
+            <li data-cy="Good" key={good}>
               {good}
             </li>
           ))}
