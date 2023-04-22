@@ -54,6 +54,8 @@ export function getReorderedGoods(
 export const App: FC = () => {
   const [sortType, setSort] = useState(SortType.NONE);
   const [isReversed, setReverse] = useState(false);
+  const isAlphabet = sortType === SortType.ALPHABET;
+  const isLength = sortType === SortType.LENGTH;
 
   const handleSortByAlphabet = () => setSort(SortType.ALPHABET);
 
@@ -75,7 +77,7 @@ export const App: FC = () => {
         <button
           type="button"
           className={classNames('button is-info', {
-            'is-light': sortType !== SortType.ALPHABET,
+            'is-light': !isAlphabet,
           })}
           onClick={handleSortByAlphabet}
         >
@@ -86,7 +88,7 @@ export const App: FC = () => {
           type="button"
           className={classNames(
             'button is-success',
-            { 'is-light': sortType !== SortType.LENGTH },
+            { 'is-light': !isLength },
           )}
           onClick={handleSortByLenght}
         >
