@@ -55,11 +55,6 @@ export function getReorderedGoods(
   return visibleGoods;
 }
 
-// interface State {
-//   isReversed: boolean;
-//   sortType: SortType;
-// }
-
 export const App: React.FC = () => {
   const [isReversed, setIsReversed] = React.useState(false);
   const [sortType, setSortType] = React.useState(SortType.NONE);
