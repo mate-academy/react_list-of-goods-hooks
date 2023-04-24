@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { FC, useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import classNames from 'classnames';
@@ -53,15 +53,15 @@ export function getReorderedGoods(
   return visibleGoods;
 }
 
-export const App: React.FC = () => {
+export const App: FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
-  const [isReversed, reverse] = useState(false);
+  const [isReversed, setReverse] = useState(false);
 
   const goods = getReorderedGoods(goodsFromServer, { sortType, isReversed });
 
   const reset = () => {
     setSortType(SortType.NONE);
-    reverse(false);
+    setReverse(false);
   };
 
   return (
@@ -92,7 +92,7 @@ export const App: React.FC = () => {
           className={classNames('button is-warning', {
             'is-light': !isReversed,
           })}
-          onClick={() => reverse(!isReversed)}
+          onClick={() => setReverse(!isReversed)}
         >
           Reverse
         </button>
