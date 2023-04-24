@@ -61,11 +61,11 @@ export const App: React.FC = () => {
     setSortType(SortType.LENGTH);
   };
 
-  const reverse = () => {
+  const handleReverse = () => {
     setReversed(!isReversed);
   };
 
-  const reset = () => {
+  const handleReset = () => {
     setSortType(SortType.NONE);
     setReversed(false);
   };
@@ -83,10 +83,9 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={classNames(
-            'button is-info',
-            { 'is-light': sortType !== SortType.ALPHABET },
-          )}
+          className={classNames('button is-info', {
+            'is-light': sortType !== SortType.ALPHABET,
+          })}
           onClick={sortByName}
         >
           Sort alphabetically
@@ -94,10 +93,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={classNames(
-            'button is-success',
-            { 'is-light': sortType !== SortType.LENGTH },
-          )}
+          className={classNames('button is-success', {
+            'is-light': sortType !== SortType.LENGTH,
+          })}
           onClick={sortByLength}
         >
           Sort by length
@@ -105,11 +103,10 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={classNames(
-            'button is-warning',
-            { 'is-light': !isReversed },
-          )}
-          onClick={reverse}
+          className={classNames('button is-warning', {
+            'is-light': !isReversed,
+          })}
+          onClick={handleReverse}
         >
           Reverse
         </button>
@@ -118,7 +115,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={reset}
+            onClick={handleReset}
           >
             Reset
           </button>
@@ -128,10 +125,8 @@ export const App: React.FC = () => {
       <ul>
         <ul>
           {reorderedGoods.map(good => (
-            <li
-              key={good}
-              data-cy="Good"
-            >
+            <li key={good} data-cy="Good">
+
               {good}
             </li>
           ))}
