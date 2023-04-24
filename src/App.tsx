@@ -53,37 +53,16 @@ export function getReorderedGoods(
   return visibleGoods;
 }
 
-interface Props {
-  isReversed: boolean,
-  sortType: SortType,
-}
-
-export const App: React.FC<Props> = () => {
-// const [count, setCount] = useState();
-
-  handleSortByAlphabet = () => {
-    this.setState({ sortType: SortType.ALPHABET });
-  };
-
-  handleSortByLenght = () => {
-    this.setState({ sortType: SortType.LENGTH });
-  };
-
-  handleReverse = () => {
-    this.setState(state => ({ isReversed: !state.isReversed }));
-  };
-
-  handleReset = () => {
-    this.setState({
-      sortType: SortType.NONE,
-      isReversed: false,
-    });
-  };
-
+export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, reverse] = useState(false);
 
   const goods = getReorderedGoods(goodsFromServer, { sortType, isReversed });
+
+  const reset = () => {
+    setSortType(SortType.NONE);
+    reverse(false);
+  };
 
   return (
     <div className="section content">
@@ -93,7 +72,7 @@ export const App: React.FC<Props> = () => {
           className={classNames('button is-info', {
             'is-light': sortType !== SortType.ALPHABET,
           })}
-          onClick={this.handleSortByAlphabet}
+          onClick={() => setSortType(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
@@ -103,7 +82,7 @@ export const App: React.FC<Props> = () => {
           className={classNames('button is-success', {
             'is-light': sortType !== SortType.LENGTH,
           })}
-          onClick={this.handleSortByLenght}
+          onClick={() => setSortType(SortType.LENGTH)}
         >
           Sort by length
         </button>
@@ -113,7 +92,7 @@ export const App: React.FC<Props> = () => {
           className={classNames('button is-warning', {
             'is-light': !isReversed,
           })}
-          onClick={this.handleReverse}
+          onClick={() => reverse(!isReversed)}
         >
           Reverse
         </button>
@@ -121,7 +100,7 @@ export const App: React.FC<Props> = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={this.handleReset}
+            onClick={reset}
           >
             Reset
           </button>
