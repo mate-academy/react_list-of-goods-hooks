@@ -76,7 +76,6 @@ export const App: React.FC = () => {
               'is-light': sortType !== SortType.ALPHABET,
             },
           )}
-          // onClick={this.sortByAlphabet}
           onClick={sortByAlphabet(SortType.ALPHABET)}
         >
           Sort alphabetically
