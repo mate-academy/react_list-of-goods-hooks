@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import classNames from 'classnames';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -22,7 +23,9 @@ enum SortType {
 }
 
 export function getReorderedGoods(
-  goods: string[], sortType : SortType, isReversed : boolean,
+  goods: string[],
+  sortType : SortType,
+  isReversed : boolean,
 ) {
   const visibleGoods = [...goods];
 
@@ -32,6 +35,7 @@ export function getReorderedGoods(
         return firstGood.localeCompare(secondGood);
       case SortType.LENGTH:
         return firstGood.length - secondGood.length;
+      case SortType.NONE:
       default:
         return 0;
     }
@@ -54,8 +58,10 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={sortType === SortType.ALPHABET
-            ? 'button is-info' : 'button is-info is-light'}
+          className={classNames({
+            'button is-info is-light': sortType !== SortType.ALPHABET,
+            'button is-info': sortType === SortType.ALPHABET,
+          })}
           onClick={() => sortBy(SortType.ALPHABET)}
         >
           Sort alphabetically
@@ -63,8 +69,10 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={sortType === SortType.LENGTH
-            ? 'button is-success' : 'button is-success is-light'}
+          className={classNames({
+            'button is-success is-light': sortType !== SortType.LENGTH,
+            'button is-success': sortType === SortType.LENGTH,
+          })}
           onClick={() => sortBy(SortType.LENGTH)}
         >
           Sort by length
@@ -72,8 +80,10 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={isReversed
-            ? 'button is-warning' : 'button is-warning is-light'}
+          className={classNames({
+            'button is-warning is-light': !isReversed,
+            'button is-warning': isReversed,
+          })}
           onClick={() => reverseGoods(!isReversed)}
         >
           Reverse
