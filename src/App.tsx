@@ -82,16 +82,16 @@ export const App: React.FC = () => {
     },
   );
 
+  const isStateNotDefault = isReversed || sortType !== SortType.NONE;
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={classNames(
-            'button',
-            'is-info',
-            { 'is-light': sortType !== SortType.ALPHABET },
-          )}
+          className={classNames('button is-info', {
+            'is-light': sortType !== SortType.ALPHABET,
+          })}
           onClick={handleSortAlphabetically}
         >
           Sort alphabetically
@@ -99,11 +99,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={classNames(
-            'button',
-            'is-success',
-            { 'is-light': sortType !== SortType.LENGTH },
-          )}
+          className={classNames('button is-success', {
+            'is-light': sortType !== SortType.LENGTH,
+          })}
           onClick={handleSortByLength}
         >
           Sort by length
@@ -111,18 +109,15 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={classNames(
-            'button',
-            'is-warning',
-            { 'is-light': !isReversed },
-          )}
+          className={classNames('button is-warning', {
+            'is-light': !isReversed,
+          })}
           onClick={handleReverse}
         >
           Reverse
         </button>
 
-        {(isReversed || sortType !== SortType.NONE)
-        && (
+        {isStateNotDefault && (
           <button
             type="button"
             className="button is-danger is-light"
