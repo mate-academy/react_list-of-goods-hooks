@@ -78,7 +78,7 @@ export const App: React.FC = () => {
     setIsReversed(false);
   };
 
-  const ifReset = sortType !== SortType.NONE || isReversed;
+  const isReset = sortType !== SortType.NONE || isReversed;
 
   return (
     <div className="section content">
@@ -113,7 +113,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {ifReset
+        {isReset
           && (
             <button
               type="button"
