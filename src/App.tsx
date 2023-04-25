@@ -36,12 +36,17 @@ export function getReorderedGoods(
   const isAlphabeticSort = sortType === SortType.ALPHABET;
   const isLengthSort = sortType === SortType.LENGTH;
 
-  if (isAlphabeticSort) {
-    visibleGoods.sort((g1, g2) => g1.localeCompare(g2));
-  }
+  switch (true) {
+    case isAlphabeticSort:
+      visibleGoods.sort((g1, g2) => g1.localeCompare(g2));
+      break;
 
-  if (isLengthSort) {
-    visibleGoods.sort((g1, g2) => g1.length - g2.length);
+    case isLengthSort:
+      visibleGoods.sort((g1, g2) => g1.length - g2.length);
+      break;
+
+    default:
+      break;
   }
 
   if (isReversed) {
@@ -64,16 +69,16 @@ export const App: React.FC = () => {
     isReversed,
   });
 
-  const resetHandler = () => {
+  const handleReset = () => {
     setIsReversed(false);
     setSortType(SortType.NONE);
   };
 
-  const reverseHandler = () => {
+  const handleReverse = () => {
     setIsReversed((currentReversed) => !currentReversed);
   };
 
-  const sortHandler = (type: SortType) => {
+  const handleSort = (type: SortType) => {
     setSortType(type);
   };
 
@@ -85,7 +90,7 @@ export const App: React.FC = () => {
           className={classNames('button', 'is-info', {
             'is-light': !isAlphabeticSort,
           })}
-          onClick={() => sortHandler(SortType.ALPHABET)}
+          onClick={() => handleSort(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
@@ -95,7 +100,7 @@ export const App: React.FC = () => {
           className={classNames('button', 'is-success', {
             'is-light': !isLengthSort,
           })}
-          onClick={() => sortHandler(SortType.LENGTH)}
+          onClick={() => handleSort(SortType.LENGTH)}
         >
           Sort by length
         </button>
@@ -105,7 +110,7 @@ export const App: React.FC = () => {
           className={classNames('button', 'is-warning', {
             'is-light': !isReversed,
           })}
-          onClick={reverseHandler}
+          onClick={handleReverse}
         >
           Reverse
         </button>
@@ -114,7 +119,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={resetHandler}
+            onClick={handleReset}
           >
             Reset
           </button>
