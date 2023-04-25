@@ -57,12 +57,17 @@ export const App: FC = () => {
   const [sortType, setType] = useState(SortType.NONE);
 
   const handleAlphabetSort = () => setType(SortType.ALPHABET);
+
   const handleLengthSort = () => setType(SortType.LENGTH);
+
   const handleReverse = () => setReverse(!isReversed);
+
   const handleReset = () => {
     setType(SortType.NONE);
     setReverse(false);
   };
+
+  const checkReset = isReversed || sortType !== SortType.NONE;
 
   const reorderedGoods = getReorderedGoods(
     goodsFromServer,
@@ -101,7 +106,7 @@ export const App: FC = () => {
         >
           Reverse
         </button>
-        {(isReversed || sortType !== SortType.NONE)
+        {checkReset
         && (
           <button
             type="button"
