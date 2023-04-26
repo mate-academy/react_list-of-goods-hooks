@@ -22,21 +22,7 @@ enum SortType {
   LENGTH,
 }
 
-export const App: React.FC = () => {
-  const [isReverse, setReverse] = useState(false);
-  const [sortType, setSort] = useState(SortType.NONE);
-
-  const handleReverse = () => setReverse(!isReverse);
-  const handleReset = () => {
-    setReverse(false);
-    setSort(SortType.NONE);
-  };
-
-  const handleSortAlph = () => setSort(SortType.ALPHABET);
-  const handleSortLength = () => setSort(SortType.LENGTH);
-
-  const goods = [...goodsFromServer];
-
+function sortGoods(goods: string[], sortType: SortType) {
   goods.sort((goodA, goodB) => {
     switch (sortType) {
       case SortType.ALPHABET:
@@ -49,6 +35,25 @@ export const App: React.FC = () => {
         return 0;
     }
   });
+}
+
+export const App: React.FC = () => {
+  const [isReverse, setReverse] = useState(false);
+  const [sortType, setSort] = useState(SortType.NONE);
+
+  const handleReverse = () => setReverse(!isReverse);
+  const handleReset = () => {
+    setReverse(false);
+    setSort(SortType.NONE);
+  };
+
+  const handleSortAlph = () => setSort(SortType.ALPHABET);
+  const handleSortLength = () => setSort(SortType.LENGTH);
+  const isReversedOrSorted = isReverse || sortType !== SortType.NONE;
+
+  const goods = [...goodsFromServer];
+
+  sortGoods(goods, sortType);
 
   if (isReverse) {
     goods.reverse();
@@ -59,10 +64,9 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={classNames('button', 'is-info',
-            {
-              'is-light': sortType !== SortType.ALPHABET,
-            })}
+          className={classNames('button', 'is-info', {
+            'is-light': sortType !== SortType.ALPHABET,
+          })}
           onClick={handleSortAlph}
         >
           Sort alphabetically
@@ -89,8 +93,7 @@ export const App: React.FC = () => {
         >
           Reverse
         </button>
-        {(isReverse || sortType !== SortType.NONE)
-        && (
+        {isReversedOrSorted && (
           <button
             type="button"
             onClick={handleReset}
