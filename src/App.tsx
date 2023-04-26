@@ -53,6 +53,7 @@ export function getReorderedGoods(
 export const App: React.FC = () => {
   const [isReversed, setReverse] = useState(false);
   const [sortType, setType] = useState(SortType.NONE);
+
   const reorderedGoods = getReorderedGoods(
     goodsFromServer,
     sortType,
@@ -62,6 +63,7 @@ export const App: React.FC = () => {
   const handleAlphabetSort = () => setType(SortType.ALPHABET);
   const handleLengthSort = () => setType(SortType.LENGTH);
   const handleReverse = () => setReverse(!isReversed);
+
   const handleClear = () => {
     setType(SortType.NONE);
     setReverse(false);
@@ -72,11 +74,9 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={classNames(
-            'button',
-            'is-info',
-            { 'is-light': sortType !== SortType.ALPHABET },
-          )}
+          className={classNames('button', 'is-info', {
+            'is-light': sortType !== SortType.ALPHABET,
+          })}
           onClick={handleAlphabetSort}
         >
           Sort alphabetically
@@ -84,11 +84,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={classNames(
-            'button',
-            'is-success',
-            { 'is-light': sortType !== SortType.LENGTH },
-          )}
+          className={classNames('button', 'is-success', {
+            'is-light': sortType !== SortType.LENGTH,
+          })}
           onClick={handleLengthSort}
         >
           Sort by length
@@ -106,8 +104,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(isReversed || sortType !== SortType.NONE)
-        && (
+        {(isReversed || sortType !== SortType.NONE) && (
           <button
             type="button"
             className="button is-danger is-light"
@@ -119,9 +116,11 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {reorderedGoods.map(good => {
-          return <li data-cy="Good" key={good}>{good}</li>;
-        })}
+        {reorderedGoods.map(good => (
+          <li data-cy="Good" key={good}>
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
