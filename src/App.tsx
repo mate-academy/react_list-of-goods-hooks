@@ -35,10 +35,10 @@ export function getReorderedGoods(
 
   switch (sortType) {
     case SortType.ALPHABET:
-      visibleGoods.sort((a, b) => a.localeCompare(b));
+      visibleGoods.sort((goodA, goodB) => goodA.localeCompare(goodB));
       break;
     case SortType.LENGTH:
-      visibleGoods.sort((a, b) => a.length - b.length);
+      visibleGoods.sort((goodA, goodB) => goodA.length - goodB.length);
       break;
     default: visibleGoods; //eslint-disable-line
   }
@@ -76,6 +76,8 @@ export const App: React.FC = () => {
     { sortType, isReversed },
   );
 
+  const resetButtonCondition = sortType !== SortType.NONE || isReversed;
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -105,7 +107,7 @@ export const App: React.FC = () => {
         >
           Reverse
         </button>
-        {(sortType !== SortType.NONE || isReversed) && (
+        {resetButtonCondition && (
           <button
             type="button"
             className="button is-danger is-light"
