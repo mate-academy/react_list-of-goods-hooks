@@ -54,10 +54,11 @@ export function getReorderedGoods(
 export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setReverseSate] = useState(false);
+  const isReset = isReversed || sortType !== SortType.NONE;
 
   const goods = getReorderedGoods(goodsFromServer, { sortType, isReversed });
 
-  const reset = () => {
+  const handleReset = () => {
     setSortType(SortType.NONE);
     setReverseSate(false);
   };
@@ -89,25 +90,28 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={classNames(
-            'button is-warning',
-            { 'is-light': !isReversed },
-          )}
+          className={classNames('button is-warning', {
+            'is-light': !isReversed,
+          })}
           onClick={() => setReverseSate(!isReversed)}
         >
           Reverse
         </button>
 
-        <button
-          type="button"
-          className={classNames(
-            'button is-danger',
-            { 'is-light': sortType === SortType.NONE && !isReversed },
-          )}
-          onClick={reset}
-        >
-          Reset
-        </button>
+        {isReset
+        && (
+          <button
+            type="button"
+            className={classNames(
+              'button is-danger',
+              { 'is-light': sortType === SortType.NONE && !isReversed },
+            )}
+            onClick={handleReset}
+          >
+            Reset
+          </button>
+        )}
+
       </div>
 
       <ul>
