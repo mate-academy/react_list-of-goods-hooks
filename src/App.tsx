@@ -57,7 +57,7 @@ export function getReorderedGoods(
 
 export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
-  const [isReversed, reverse] = useState(false);
+  const [isReversed, setItReversed] = useState(false);
 
   const goods = getReorderedGoods(goodsFromServer, {
     sortType,
@@ -66,18 +66,19 @@ export const App: React.FC = () => {
 
   const handleReset = () => {
     setSortType(SortType.NONE);
-    reverse(false);
+    setItReversed(false);
   };
+
+  const isDefaultOrder = sortType !== SortType.NONE || isReversed;
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={cn(
-            'button is-info',
-            { 'is-light': sortType !== SortType.ALPHABET },
-          )}
+          className={cn('button is-info', {
+            'is-light': sortType !== SortType.ALPHABET,
+          })}
           onClick={() => setSortType(SortType.ALPHABET)}
         >
           Sort alphabetically
@@ -85,10 +86,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={cn(
-            'button is-success',
-            { 'is-light': sortType !== SortType.LENGTH },
-          )}
+          className={cn('button is-success', {
+            'is-light': sortType !== SortType.LENGTH,
+          })}
           onClick={() => setSortType(SortType.LENGTH)}
         >
           Sort by length
@@ -96,16 +96,15 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={cn(
-            'button is-warning',
-            { 'is-light': !isReversed },
-          )}
-          onClick={() => reverse(!isReversed)}
+          className={cn('button is-warning', {
+            'is-light': !isReversed,
+          })}
+          onClick={() => setItReversed((current) => !current)}
         >
           Reverse
         </button>
 
-        {(sortType !== SortType.NONE || isReversed) && (
+        {isDefaultOrder && (
           <button
             type="button"
             className="button is-danger is-light"
@@ -117,7 +116,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        { goods.map(good => (
+        {goods.map(good => (
           <li data-cy="Good" key={good}>
             {good}
           </li>
