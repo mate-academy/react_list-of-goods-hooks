@@ -35,10 +35,10 @@ export function getReorderedGoods(
 
   visibleGoods.sort((a, b) => {
     switch (sortType) {
-      case 1:
+      case SortType.ALPHABET:
         return a.localeCompare(b);
 
-      case 2:
+      case SortType.LENGTH:
         return a.length - b.length;
 
       default:
@@ -50,23 +50,20 @@ export function getReorderedGoods(
     visibleGoods.reverse();
   }
 
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
-
   return visibleGoods;
 }
 
 export const App: React.FC = () => {
   const [isReversed, handleReverse] = useState(false);
-  const [sortType, changeSortType] = useState(0);
+  const [sortType, changeSortType] = useState(SortType.NONE);
 
   const handleReset = () => {
-    changeSortType(0);
+    changeSortType(SortType.NONE);
     handleReverse(false);
   };
 
   const goods = getReorderedGoods(goodsFromServer, { isReversed, sortType });
-  const resetButtonVisible = isReversed || sortType !== 0;
+  const resetButtonVisible = isReversed || sortType !== SortType.NONE;
 
   return (
     <div className="section content">
@@ -75,10 +72,10 @@ export const App: React.FC = () => {
           type="button"
           className={
             classNames('button is-info', {
-              'is-light': sortType !== 1,
+              'is-light': sortType !== SortType.ALPHABET,
             })
           }
-          onClick={() => changeSortType(1)}
+          onClick={() => changeSortType(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
@@ -87,10 +84,10 @@ export const App: React.FC = () => {
           type="button"
           className={
             classNames('button is-success', {
-              'is-light': sortType !== 2,
+              'is-light': sortType !== SortType.LENGTH,
             })
           }
-          onClick={() => changeSortType(2)}
+          onClick={() => changeSortType(SortType.LENGTH)}
         >
           Sort by length
         </button>
