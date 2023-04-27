@@ -55,9 +55,6 @@ export function getReorderedGoods(
     visibleGoods.reverse();
   }
 
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
-
   return visibleGoods;
 }
 
@@ -79,20 +76,20 @@ export const App = () => {
     setIsReversed(!isReversed);
   };
 
-  const resetGoods = () => {
+  const handleResetGoods = () => {
     setIsReversed(false);
     setSortType(SortType.NONE);
   };
+
+  const resetSort = sortType !== SortType.NONE;
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={cn(
-            'button is-info',
-            { 'is-light': sortType !== SortType.ALPHABET },
-          )}
+          className={cn('button is-info',
+            { 'is-light': sortType !== SortType.ALPHABET })}
           onClick={sortByAlphabet}
         >
           Sort alphabetically
@@ -100,10 +97,8 @@ export const App = () => {
 
         <button
           type="button"
-          className={cn(
-            'button is-success',
-            { 'is-light': sortType !== SortType.LENGTH },
-          )}
+          className={cn('button is-success',
+            { 'is-light': sortType !== SortType.LENGTH })}
           onClick={sortByLength}
         >
           Sort by length
@@ -111,24 +106,20 @@ export const App = () => {
 
         <button
           type="button"
-          className={cn(
-            'button is-warning',
-            { 'is-light': !isReversed },
-          )}
+          className={cn('button is-warning',
+            { 'is-light': !isReversed })}
           onClick={reverseGoods}
         >
           Reverse
         </button>
 
-        {(sortType !== SortType.NONE || isReversed)
+        {(resetSort || isReversed)
         && (
           <button
             type="button"
-            className={cn(
-              'button is-danger',
-              { 'is-light': sortType !== SortType.NONE },
-            )}
-            onClick={resetGoods}
+            className={cn('button is-danger',
+              { 'is-light': sortType !== SortType.NONE })}
+            onClick={handleResetGoods}
           >
             Reset
           </button>
