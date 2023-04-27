@@ -33,21 +33,18 @@ export function getReorderedGoods(
 ) {
   const visibleGoods = [...goods];
 
-  const isAlphabeticSort = sortType === SortType.ALPHABET;
-  const isLengthSort = sortType === SortType.LENGTH;
+  visibleGoods.sort((firstGood, secondGood) => {
+    switch (sortType) {
+      case SortType.ALPHABET:
+        return firstGood.localeCompare(secondGood);
 
-  switch (true) {
-    case isAlphabeticSort:
-      visibleGoods.sort((g1, g2) => g1.localeCompare(g2));
-      break;
+      case SortType.LENGTH:
+        return firstGood.length - secondGood.length;
 
-    case isLengthSort:
-      visibleGoods.sort((g1, g2) => g1.length - g2.length);
-      break;
-
-    default:
-      break;
-  }
+      default:
+        return 0;
+    }
+  });
 
   if (isReversed) {
     visibleGoods.reverse();
@@ -75,7 +72,7 @@ export const App: React.FC = () => {
   };
 
   const handleReverse = () => {
-    setIsReversed((currentReversed) => !currentReversed);
+    setIsReversed(!isReversed);
   };
 
   const handleSort = (type: SortType) => {
