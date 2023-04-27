@@ -33,8 +33,23 @@ export function getReorderedGoods(
 ) {
   const visibleGoods = [...goods];
 
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
+  visibleGoods.sort((firstGood, secondGood) => {
+    switch (sortType) {
+      case SortType.ALPHABET:
+        return firstGood.localeCompare(secondGood);
+
+      case SortType.LENGTH:
+        return firstGood.length - secondGood.length;
+
+      case SortType.NONE:
+      default:
+        return 0;
+    }
+  });
+
+  if (isReversed) {
+    visibleGoods.reverse();
+  }
 
   return visibleGoods;
 }
@@ -60,33 +75,14 @@ export const App: React.FC = () => {
     setSortType(SortType.NONE);
   };
 
-  const goods = getReorderedGoods(goodsFromServer, { sortType, isReversed });
-
-  const shouldResetBeShown = sortType === SortType.ALPHABET
-    || sortType === SortType.LENGTH
-    || isReversed;
-  const isAlphabeticallySorted = sortType === SortType.ALPHABET;
-  const isSortedByLength = sortType === SortType.LENGTH;
-
-  goods.sort((firstGood, secondGood) => {
-    switch (sortType) {
-      case SortType.NONE:
-        return 0;
-
-      case SortType.ALPHABET:
-        return firstGood.localeCompare(secondGood);
-
-      case SortType.LENGTH:
-        return firstGood.length - secondGood.length;
-
-      default:
-        return 0;
-    }
+  const goods = getReorderedGoods(goodsFromServer, {
+    sortType,
+    isReversed,
   });
 
-  if (isReversed) {
-    goods.reverse();
-  }
+  const shouldResetBeShown = sortType !== SortType.NONE || isReversed;
+  const isAlphabeticallySorted = sortType === SortType.ALPHABET;
+  const isSortedByLength = sortType === SortType.LENGTH;
 
   return (
     <div className="section content">
