@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import classNames from 'classnames';
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
@@ -67,11 +68,11 @@ export const App: React.FC = () => {
     setSortBy(SortType.LENGTH);
   };
 
-  const reverse = () => {
+  const handleReverse = () => {
     setIsReverse(!isReverse);
   };
 
-  const reset = () => {
+  const handleReset = () => {
     setSortBy(SortType.NONE);
     setIsReverse(false);
   };
@@ -97,7 +98,11 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className="button is-info is-light"
+          className={
+            classNames('button is-info', {
+              'is-light': sortBy !== SortType.ALPHABET,
+            })
+          }
           onClick={sortByAlphabet}
         >
           Sort alphabetically
@@ -105,7 +110,11 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className="button is-success is-light"
+          className={
+            classNames('button is-success', {
+              'is-light': sortBy !== SortType.LENGTH,
+            })
+          }
           onClick={sortByLength}
         >
           Sort by length
@@ -113,8 +122,12 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className="button is-warning is-light"
-          onClick={reverse}
+          className={
+            classNames('button is-warning', {
+              'is-light': isReverse === false,
+            })
+          }
+          onClick={handleReverse}
         >
           Reverse
         </button>
@@ -123,7 +136,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={reset}
+            onClick={handleReset}
           >
             Reset
           </button>
