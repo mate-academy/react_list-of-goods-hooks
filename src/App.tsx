@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import cn from 'classnames';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -19,6 +20,8 @@ enum SortType {
   NONE,
   ALPHABET,
   LENGTH,
+  REVERSE,
+  RESET,
 }
 
 type ReorderOptions = {
@@ -39,6 +42,7 @@ export function getReorderedGoods(
 
       case SortType.LENGTH:
         return firstGood.length - secondGood.length;
+
       default:
         return 0;
     }
@@ -55,21 +59,21 @@ export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setisReversed] = useState(false);
 
-  const getCorrectMethod = (name: string) => {
-    switch (name) {
-      case 'reverse':
+  const getCorrectMethod = (type: SortType) => {
+    switch (type) {
+      case SortType.REVERSE:
         setisReversed(!isReversed);
         break;
 
-      case 'sortByLength':
+      case SortType.LENGTH:
         setSortType(SortType.LENGTH);
         break;
 
-      case 'sortByAlp':
+      case SortType.ALPHABET:
         setSortType(SortType.ALPHABET);
         break;
 
-      case 'reset':
+      case SortType.RESET:
         setSortType(SortType.NONE);
         setisReversed(false);
         break;
@@ -80,37 +84,40 @@ export const App: React.FC = () => {
   };
 
   const visibleGoods = getReorderedGoods(goodsFromServer,
-    { isReversed, sortType });
+    {
+      isReversed,
+      sortType,
+    });
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={sortType === SortType.ALPHABET
-            ? 'button is-info'
-            : 'button is-info is-light'}
-          onClick={() => getCorrectMethod('sortByAlp')}
+          className={cn('button is-info', {
+            'is-light': sortType !== SortType.ALPHABET,
+          })}
+          onClick={() => getCorrectMethod(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={sortType === SortType.LENGTH
-            ? 'button is-success'
-            : 'button is-success is-light'}
-          onClick={() => getCorrectMethod('sortByLength')}
+          className={cn('button is-success', {
+            'is-light': sortType !== SortType.LENGTH,
+          })}
+          onClick={() => getCorrectMethod(SortType.LENGTH)}
         >
           Sort by length
         </button>
 
         <button
           type="button"
-          className={isReversed
-            ? 'button is-warning'
-            : 'button is-warning is-light'}
-          onClick={() => getCorrectMethod('reverse')}
+          className={cn('button is-warning', {
+            'is-light': !isReversed,
+          })}
+          onClick={() => getCorrectMethod(SortType.REVERSE)}
         >
           Reverse
         </button>
@@ -120,7 +127,7 @@ export const App: React.FC = () => {
             <button
               type="button"
               className="button is-danger is-light"
-              onClick={() => getCorrectMethod('reset')}
+              onClick={() => getCorrectMethod(SortType.RESET)}
             >
               Reset
             </button>
@@ -129,13 +136,11 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {visibleGoods.map(good => {
-          return (
-            <li key={good} data-cy="Good">
-              {good}
-            </li>
-          );
-        })}
+        {visibleGoods.map(good => (
+          <li key={good} data-cy="Good">
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
