@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
-import classNames from 'classnames';
+import cn from 'classnames';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -43,8 +43,9 @@ export function getReorderedGoods(
       case SortType.ALPHABET:
         return good1.localeCompare(good2);
 
+      case SortType.NONE:
       default:
-        return SortType.NONE;
+        return 0;
     }
   });
 
@@ -54,12 +55,6 @@ export function getReorderedGoods(
 
   return visibleGoods;
 }
-
-// DON'T save goods to the state
-// type State = {
-//   isReversed: boolean,
-//   sortType: SortType,
-// };
 
 export const App = () => {
   const [sortType, setType] = useState(SortType.NONE);
@@ -82,22 +77,21 @@ export const App = () => {
     setReverse(true);
   };
 
-  const visibleGoods = getReorderedGoods(
-    goodsFromServer,
-    { sortType, isReversed },
-  );
+  const visibleGoods = getReorderedGoods(goodsFromServer, {
+    sortType,
+    isReversed,
+  });
+
+  const shouldRenderSortOptions = (sortType !== SortType.NONE || isReversed);
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={classNames(
-            'button is-info',
-            {
-              'is-light': sortType !== SortType.ALPHABET,
-            },
-          )}
+          className={cn('button is-info', {
+            'is-light': sortType !== SortType.ALPHABET,
+          })}
           onClick={alphabeticSort}
         >
           Sort alphabetically
@@ -105,12 +99,9 @@ export const App = () => {
 
         <button
           type="button"
-          className={classNames(
-            'button is-success',
-            {
-              'is-light': sortType !== SortType.LENGTH,
-            },
-          )}
+          className={cn('button is-success', {
+            'is-light': sortType !== SortType.LENGTH,
+          })}
           onClick={lengthSort}
         >
           Sort by length
@@ -118,18 +109,15 @@ export const App = () => {
 
         <button
           type="button"
-          className={classNames(
-            'button is-warning',
-            {
-              'is-light': isReversed !== true,
-            },
-          )}
+          className={cn('button is-warning', {
+            'is-light': !isReversed,
+          })}
           onClick={reversed}
         >
           Reverse
         </button>
 
-        {(sortType !== SortType.NONE || isReversed) && (
+        {shouldRenderSortOptions && (
           <button
             type="button"
             className="button is-danger is-light"
