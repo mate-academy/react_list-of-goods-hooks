@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import classNames from 'classnames';
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
@@ -51,8 +50,6 @@ export function getReorderedGoods(
     visibleGoods.reverse();
   }
 
-  console.log(sortBy, isReverse);
-
   return visibleGoods;
 }
 
@@ -85,13 +82,15 @@ export const App: React.FC = () => {
     },
   );
 
-  const IsActiveResetButton = () => {
-    if (isReverse === false && sortBy === SortType.NONE) {
-      return false;
-    }
+  const IsActiveResetButton = isReverse === false && sortBy === SortType.NONE;
 
-    return true;
-  };
+  // const IsActiveResetButton = () => {
+  //   if (isReverse === false && sortBy === SortType.NONE) {
+  //     return false;
+  //   }
+
+  //   return true;
+  // };
 
   return (
     <div className="section content">
@@ -132,7 +131,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {IsActiveResetButton() && (
+        {IsActiveResetButton && (
           <button
             type="button"
             className="button is-danger is-light"
