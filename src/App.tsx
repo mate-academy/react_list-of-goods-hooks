@@ -15,21 +15,27 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+enum SortType {
+  LENGTH = 'length',
+  ALPHABET = 'alphabet',
+  RESET = 'reset',
+}
 export const App: React.FC = () => {
   const [type, setType] = useState('');
   const [isReversed, setIsReversed] = useState(false);
+  const { LENGTH, ALPHABET, RESET } = SortType;
 
   const setList = (goods : string[]) => {
     const visibleGoods = [...goods];
 
     switch (type) {
-      case 'alphabet':
+      case ALPHABET:
         visibleGoods.sort((a, b) => a.localeCompare(b));
         break;
-      case 'length':
+      case LENGTH:
         visibleGoods.sort((a, b) => a.length - b.length);
         break;
-      case 'reset':
+      case RESET:
         return [...goods];
       default:
         break;
@@ -42,21 +48,28 @@ export const App: React.FC = () => {
     return visibleGoods;
   };
 
+  const resetHendler = () => {
+    setIsReversed(false);
+    setType('');
+  };
+
+  const goods = setList(goodsFromServer);
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${type === 'alphabet' ? '' : 'is-light'}`}
-          onClick={() => setType('alphabet')}
+          className={`button is-info ${type === ALPHABET ? '' : 'is-light'}`}
+          onClick={() => setType(ALPHABET)}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={`button is-success ${type === 'length' ? '' : 'is-light'}`}
-          onClick={() => setType('length')}
+          className={`button is-success ${type === LENGTH ? '' : 'is-light'}`}
+          onClick={() => setType(LENGTH)}
         >
           Sort by length
         </button>
@@ -73,10 +86,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setIsReversed(false);
-              setType('');
-            }}
+            onClick={resetHendler}
           >
             Reset
           </button>
@@ -85,7 +95,9 @@ export const App: React.FC = () => {
 
       <ul>
         <ul>
-          {setList(goodsFromServer).map(good => <li data-cy="Good">{good}</li>)}
+          {goods.map(good => (
+            <li data-cy="Good" key={good}>{good}</li>
+          ))}
         </ul>
       </ul>
     </div>
