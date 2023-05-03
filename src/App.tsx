@@ -49,7 +49,7 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortType, setType] = useState(0);
+  const [sortType, setType] = useState(SortType.NONE);
   const [isReversed, setReverse] = useState(false);
   const visibleGoods = getReorderedGoods(
     goodsFromServer, { sortType, isReversed },
@@ -61,9 +61,11 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={classNames(
-            'button', 'is-info', sortType === 1 ? '' : 'is-light',
+            'button', 'is-info', sortType === SortType.ALPHABET
+              ? ''
+              : 'is-light',
           )}
-          onClick={() => setType(1)}
+          onClick={() => setType(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
@@ -71,9 +73,11 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={classNames(
-            'button', 'is-success', sortType === 2 ? '' : 'is-light',
+            'button', 'is-success', sortType === SortType.LENGTH
+              ? ''
+              : 'is-light',
           )}
-          onClick={() => setType(2)}
+          onClick={() => setType(SortType.LENGTH)}
         >
           Sort by length
         </button>
@@ -90,12 +94,12 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(isReversed || sortType !== 0) && (
+        {(isReversed || sortType !== SortType.NONE) && (
           <button
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              setType(0);
+              setType(SortType.NONE);
               setReverse(false);
             }}
           >
