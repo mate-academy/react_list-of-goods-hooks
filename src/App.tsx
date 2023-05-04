@@ -53,11 +53,11 @@ const defaultSort: ReorderOptions = {
 export const App: React.FC = () => {
   const [sortState, setSortState] = useState<ReorderOptions>(defaultSort);
 
-  const onSortClick = (newSortType: SortType) => setSortState(
+  const handleSortClick = (newSortType: SortType) => setSortState(
     prev => ({ ...prev, sortType: newSortType }),
   );
 
-  const onReversClick = () => setSortState((prev) => (
+  const handleReversClick = () => setSortState((prev) => (
     { ...prev, isReversed: !prev.isReversed }));
 
   return (
@@ -66,7 +66,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className="button is-info is-light"
-          onClick={() => onSortClick(SortType.ALPHABET)}
+          onClick={() => handleSortClick(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
@@ -74,7 +74,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className="button is-success is-light"
-          onClick={() => onSortClick(SortType.LENGTH)}
+          onClick={() => handleSortClick(SortType.LENGTH)}
         >
           Sort by length
         </button>
@@ -82,7 +82,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className="button is-warning is-light"
-          onClick={onReversClick}
+          onClick={handleReversClick}
         >
           Reverse
         </button>
