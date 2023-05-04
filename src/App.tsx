@@ -99,11 +99,9 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        <ul>
-          {getReorderedGoods(goodsFromServer, sortState).map(good => (
-            <li key={good} data-cy="Good">{good}</li>
-          ))}
-        </ul>
+        {getReorderedGoods(goodsFromServer, sortState).map(good => (
+          <li key={good} data-cy="Good">{good}</li>
+        ))}
       </ul>
     </div>
   );
