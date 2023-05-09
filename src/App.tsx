@@ -87,15 +87,17 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        <button
-          type="button"
-          className="button is-danger is-light"
-          onClick={
-            () => setSortState(defaultSort)
-          }
-        >
-          Reset
-        </button>
+        {JSON.stringify(sortState) !== JSON.stringify(defaultSort) && (
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={
+              () => setSortState(defaultSort)
+            }
+          >
+            Reset
+          </button>
+        ) }
       </div>
 
       <ul>
