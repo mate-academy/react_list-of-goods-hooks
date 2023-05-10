@@ -16,40 +16,44 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-export const App: React.FC = () => {
-  // eslint-disable-next-line
-  let [ value, setValue ] = useState('');
-  // eslint-disable-next-line
-  let [reverse, setReverse] = useState(false);
+enum SortType {
+  NONE,
+  ALPHABET,
+  LENGTH,
+}
 
-  function getGoods(
-    goods:string[],
-    sortValue:string,
-    reverseValue:boolean,
-  ) {
-    const newGoods = [...goods];
+function getGoods(
+  goods:string[],
+  sortValue:SortType,
+  reverseValue:boolean,
+) {
+  const newGoods = [...goods];
 
-    newGoods.sort((a, b) => {
-      switch (sortValue) {
-        case ('alphabetically'):
-          return a.localeCompare(b);
+  newGoods.sort((a, b) => {
+    switch (sortValue) {
+      case (SortType.ALPHABET):
+        return a.localeCompare(b);
 
-        case ('length'):
-          return a.length - b.length;
+      case (SortType.LENGTH):
+        return a.length - b.length;
 
-        default:
-          return 0;
-      }
-    });
-
-    if (reverseValue) {
-      newGoods.reverse();
+      default:
+        return 0;
     }
+  });
 
-    return newGoods;
+  if (reverseValue) {
+    newGoods.reverse();
   }
 
-  const goods = getGoods(goodsFromServer, value, reverse);
+  return newGoods;
+}
+
+export const App: React.FC = () => {
+  const [sortType, setSortType] = useState(SortType.NONE);
+  const [isReversed, setIsReversed] = useState(false);
+
+  const goods = getGoods(goodsFromServer, sortType, isReversed);
 
   return (
     <div className="section content">
@@ -59,10 +63,10 @@ export const App: React.FC = () => {
           className={classNames(
             'button',
             'is-info',
-            { 'is-light': value !== 'alphabetically' },
+            { 'is-light': sortType !== SortType.ALPHABET },
           )}
           onClick={() => {
-            setValue(value = 'alphabetically');
+            setSortType(SortType.ALPHABET);
           }}
         >
           Sort alphabetically
@@ -73,10 +77,10 @@ export const App: React.FC = () => {
           className={classNames(
             'button',
             'is-success',
-            { 'is-light': value !== 'length' },
+            { 'is-light': sortType !== SortType.LENGTH },
           )}
           onClick={() => {
-            setValue(value = 'length');
+            setSortType(SortType.LENGTH);
           }}
         >
           Sort by length
@@ -87,22 +91,22 @@ export const App: React.FC = () => {
           className={classNames(
             'button',
             'is-warning',
-            { 'is-light': reverse !== true },
+            { 'is-light': isReversed !== true },
           )}
           onClick={() => {
-            setReverse(reverse = !reverse);
+            setIsReversed(!isReversed);
           }}
         >
           Reverse
         </button>
 
-        {value || reverse ? (
+        {sortType || isReversed ? (
           <button
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              setValue(value = '');
-              setReverse(reverse = false);
+              setSortType(SortType.NONE);
+              setIsReversed(false);
             }}
           >
             Reset
@@ -115,7 +119,7 @@ export const App: React.FC = () => {
       <ul>
         <ul>
           {goods.map(good => (
-            <li data-cy="Good">{good}</li>
+            <li data-cy="Good" key={good}>{good}</li>
           ))}
         </ul>
       </ul>
