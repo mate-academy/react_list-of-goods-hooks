@@ -42,8 +42,12 @@ export function getReorderedGoods(
         return a.length - b.length;
       }
 
-      default: {
+      case SortType.NONE: {
         return 0;
+      }
+
+      default: {
+        throw new Error('wrong sorting');
       }
     }
   });
@@ -58,6 +62,7 @@ export function getReorderedGoods(
 export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
+
   const isSorted = sortType !== SortType.NONE;
   const renderedGoods = getReorderedGoods(
     goodsFromServer,
