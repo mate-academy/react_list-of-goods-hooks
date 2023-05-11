@@ -39,9 +39,12 @@ export function getReorderedGoods(
     case SortType.LENGTH:
       visibleGoods.sort((a, b) => a.length - b.length);
       break;
-    default:
+    case SortType.NONE:
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       visibleGoods;
+      break;
+    default:
+      throw new Error('Error');
   }
 
   if (isReversed) {
@@ -64,11 +67,7 @@ export const App: React.FC = () => {
   };
 
   const hadleClickReverse = () => {
-    if (isReversed) {
-      setIsReversed(false);
-    } else {
-      setIsReversed(true);
-    }
+    setIsReversed(prevState => !prevState);
   };
 
   const hadleReset = () => {
