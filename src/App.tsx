@@ -36,22 +36,24 @@ export function getReorderedGoods(
 
   // Sort and reverse goods if needed
   // eslint-disable-next-line no-console
-  if (sortType !== SortType.NONE) {
-    visibleGoods.sort((firstGood, secondGood) => {
-      switch (sortType) {
-        case SortType.ALPHABET: {
-          return firstGood.localeCompare(secondGood);
-        }
+  switch (sortType) {
+    case SortType.ALPHABET: {
+      visibleGoods.sort((firstGood, secondGood) => (
+        firstGood.localeCompare(secondGood)
+      ));
+      break;
+    }
 
-        case SortType.LENGTH: {
-          return firstGood.length - secondGood.length;
-        }
+    case SortType.LENGTH: {
+      visibleGoods.sort((firstGood, secondGood) => (
+        firstGood.length - secondGood.length
+      ));
+      break;
+    }
 
-        default: {
-          return 0; // this is to make linter shut the hell up
-        }
-      }
-    });
+    default: { // necessary for linter
+      break;
+    }
   }
 
   if (isReversed) {
@@ -69,7 +71,7 @@ export const App: React.FC = () => {
     { sortType, isReversed },
   );
 
-  function reset() {
+  function handleReset() {
     setSortType(SortType.NONE);
     setReverse(false);
   }
@@ -115,11 +117,11 @@ export const App: React.FC = () => {
 
         {(sortType !== SortType.NONE || isReversed) && (
           <button
-            onClick={() => (reset())}
+            onClick={() => (handleReset())}
             type="button"
             className="button is-danger is-light"
           >
-            Reset
+            handleReset
           </button>
         )}
       </div>
