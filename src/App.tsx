@@ -42,7 +42,7 @@ export function getReorderedGoods(
     case SortType.NONE:
       break;
     default:
-      throw new Error('Error');
+      throw new Error('Error, no such type!');
   }
 
   if (isReversed) {
