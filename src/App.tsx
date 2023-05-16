@@ -34,15 +34,15 @@ export function getReorderedGoods(
 
   switch (sortType) {
     case SortType.ALPHABET: {
-      visibleGoods.sort((first, second) => {
-        return first.localeCompare(second);
+      visibleGoods.sort((firstGood, secondGood) => {
+        return firstGood.localeCompare(secondGood);
       });
       break;
     }
 
     case SortType.LENGTH: {
-      visibleGoods.sort((first, second) => {
-        return first.length - second.length;
+      visibleGoods.sort((firstGood, secondGood) => {
+        return firstGood.length - secondGood.length;
       });
       break;
     }
