@@ -66,11 +66,11 @@ export const App: React.FC = () => {
     setSortType(SortType.LENGTH);
   };
 
-  const reverse = () => {
+  const handleReverse = () => {
     setIsReversed(reversed => !reversed);
   };
 
-  const reset = () => {
+  const handleReset = () => {
     setIsReversed(false);
     setSortType(SortType.NONE);
   };
@@ -100,7 +100,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={`button is-warning ${!isReversed && 'is-light'}`}
-          onClick={reverse}
+          onClick={handleReverse}
         >
           Reverse
         </button>
@@ -109,7 +109,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={reset}
+            onClick={handleReset}
           >
             Reset
           </button>
