@@ -19,13 +19,13 @@ export function getReorderedGoods(
 ) {
   const visibleGoods = [...goods];
 
-  visibleGoods.sort((goods1, goods2) => {
+  visibleGoods.sort((firstGood, secondGood) => {
     switch (sortType) {
       case SortType.ALPHABET:
-        return goods1.localeCompare(goods2);
+        return firstGood.localeCompare(secondGood);
 
       case SortType.LENGTH:
-        return goods1.length - goods2.length;
+        return firstGood.length - secondGood.length;
 
       default:
         return 0;
@@ -55,8 +55,8 @@ export const goodsFromServer = [
 export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setReverse] = useState(false);
-
-  const goods = getReorderedGoods(goodsFromServer, { sortType, isReversed });
+  // eslint-disable-next-line
+  const visibleGoods = getReorderedGoods(goodsFromServer, { sortType, isReversed });
 
   return (
     <div className="section content">
@@ -110,7 +110,7 @@ export const App: React.FC = () => {
 
       <ul>
         <ul>
-          {goods.map(good => (
+          {visibleGoods.map(good => (
             <li
               key={good}
               data-cy="Good"
