@@ -27,50 +27,53 @@ export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
 
   const getReorderedGoods = (param: string) => {
-    if (param === 'alphabetical') {
-      setCopyArrayList([...copyArrayList].sort((a, b) => a.localeCompare(b)));
-      setSortType(SortType.ALPHABET);
+    let sortedArray;
+
+    switch (param) {
+      case 'alphabetical':
+        sortedArray = copyArrayList
+          .sort((a, b) => (isReversed
+            ? b.localeCompare(a)
+            : a.localeCompare(b)));
+        setSortType(SortType.ALPHABET);
+        break;
+      case 'length':
+        sortedArray = copyArrayList
+          .sort((a, b) => (isReversed
+            ? b.length - a.length
+            : a.length - b.length));
+        setSortType(SortType.LENGTH);
+        break;
+      case 'reverse':
+        sortedArray = copyArrayList.reverse();
+        setIsReversed(!isReversed);
+        break;
+      case 'reset':
+        sortedArray = [...goodsFromServer];
+        setIsReversed(false);
+        setSortType(SortType.NONE);
+        break;
+      default:
+        sortedArray = copyArrayList;
     }
 
-    if (param === 'length') {
-      setCopyArrayList([...copyArrayList].sort((a, b) => a.length - b.length));
-      setSortType(SortType.LENGTH);
-    }
-
-    if (param === 'reverse') {
-      setCopyArrayList([...copyArrayList].reverse());
-      setIsReversed(true);
-    }
-
-    if (param === 'reset') {
-      setCopyArrayList([...goodsFromServer]);
-      setIsReversed(false);
-      setSortType(SortType.NONE);
-    }
+    setCopyArrayList([...sortedArray]);
   };
 
-  const AlpabetClassName
-    = (sortType === SortType.ALPHABET && !isReversed)
-    || (sortType === SortType.ALPHABET && isReversed)
-      ? 'button is-info'
-      : 'button is-info is-light';
+  const getButtonClassName = (buttonType: number) => {
+    const isActive
+      = (sortType === buttonType && !isReversed)
+      || (sortType === buttonType && isReversed);
 
-  const lengthClassName
-    = (sortType === SortType.LENGTH && !isReversed)
-    || (sortType === SortType.LENGTH && isReversed)
-      ? 'button is-success'
-      : 'button is-success is-light';
-
-  const reverseClassName = isReversed
-    ? 'button is-warning'
-    : 'button is-warning is-light';
+    return isActive ? 'button is-info' : 'button is-info is-light';
+  };
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={AlpabetClassName}
+          className={getButtonClassName(SortType.ALPHABET)}
           onClick={() => getReorderedGoods('alphabetical')}
         >
           Sort alphabetically
@@ -78,7 +81,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={lengthClassName}
+          className={getButtonClassName(SortType.LENGTH)}
           onClick={() => getReorderedGoods('length')}
         >
           Sort by length
@@ -86,13 +89,15 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={reverseClassName}
+          className={isReversed
+            ? 'button is-warning'
+            : 'button is-warning is-light'}
           onClick={() => getReorderedGoods('reverse')}
         >
           Reverse
         </button>
 
-        {isReversed && (
+        {(isReversed || sortType !== SortType.NONE) && (
           <button
             type="button"
             className="button is-danger is-light"
@@ -104,9 +109,9 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {copyArrayList.map((ListElem) => (
-          <li data-cy="Good" key={ListElem}>
-            {ListElem}
+        {copyArrayList.map((listElem) => (
+          <li data-cy="Good" key={listElem}>
+            {listElem}
           </li>
         ))}
       </ul>
