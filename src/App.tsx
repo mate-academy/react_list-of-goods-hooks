@@ -38,15 +38,19 @@ export function getReorderedGoods(
   // eslint-disable-next-line no-console
   if (sortType !== SortType.NONE) {
     visibleGoods.sort((firstGood, secondGood) => {
-      if (sortType === SortType.ALPHABET) {
-        return firstGood.localeCompare(secondGood);
-      }
+      switch (sortType) {
+        case SortType.ALPHABET: {
+          return firstGood.localeCompare(secondGood);
+        }
 
-      if (sortType === SortType.LENGTH) {
-        return firstGood.length - secondGood.length;
-      }
+        case SortType.LENGTH: {
+          return firstGood.length - secondGood.length;
+        }
 
-      return 0; // this is to make linter shut the hell up
+        default: {
+          return 0; // this is to make linter shut the hell up
+        }
+      }
     });
   }
 
@@ -60,35 +64,33 @@ export function getReorderedGoods(
 export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setReverse] = useState(false);
-  const sortedGoods = getReorderedGoods(
+  const visibleGoods = getReorderedGoods(
     goodsFromServer,
     { sortType, isReversed },
   );
 
-  function changeSortParameters(actionType: string) {
-    if (actionType === 'reverse') {
-      setReverse(!isReversed);
-    }
+  function reset() {
+    setSortType(SortType.NONE);
+    setReverse(false);
+  }
 
-    if (actionType === 'reset') {
-      setSortType(SortType.NONE);
-      setReverse(false);
-    }
+  function reverseOrder() {
+    setReverse(!isReversed);
+  }
 
-    if (actionType === 'sortAlphabet') {
-      setSortType(SortType.ALPHABET);
-    }
+  function sortAlphabetically() {
+    setSortType(SortType.ALPHABET);
+  }
 
-    if (actionType === 'sortLength') {
-      setSortType(SortType.LENGTH);
-    }
+  function sortByLength() {
+    setSortType(SortType.LENGTH);
   }
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => (changeSortParameters('sortAlphabet'))}
+          onClick={() => (sortAlphabetically())}
           type="button"
           className={`button is-info ${sortType !== SortType.ALPHABET ? 'is-light' : ''}`}
         >
@@ -96,7 +98,7 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={() => (changeSortParameters('sortLength'))}
+          onClick={() => (sortByLength())}
           type="button"
           className={`button is-success ${sortType !== SortType.LENGTH ? 'is-light' : ''}`}
         >
@@ -104,7 +106,7 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={() => (changeSortParameters('reverse'))}
+          onClick={() => (reverseOrder())}
           type="button"
           className={`button is-warning ${!isReversed ? 'is-light' : ''}`}
         >
@@ -113,7 +115,7 @@ export const App: React.FC = () => {
 
         {(sortType !== SortType.NONE || isReversed) && (
           <button
-            onClick={() => (changeSortParameters('reset'))}
+            onClick={() => (reset())}
             type="button"
             className="button is-danger is-light"
           >
@@ -123,8 +125,8 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {sortedGoods.map((good) => (
-          <li data-cy="Good">{good}</li>
+        {visibleGoods.map((good) => (
+          <li key={good} data-cy="Good">{good}</li>
         ))}
       </ul>
     </div>
