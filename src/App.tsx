@@ -35,10 +35,12 @@ export function getReorderedGoods(
 
   switch (sortType) {
     case SortType.ALPHABET:
-      visibleGoods.sort((first, second) => first.localeCompare(second));
+      visibleGoods.sort((firstGood, secondGood) => firstGood
+        .localeCompare(secondGood));
       break;
     case SortType.LENGTH:
-      visibleGoods.sort((first, second) => first.length - second.length);
+      visibleGoods.sort((firstGood, secondGood) => firstGood.length
+      - secondGood.length);
       break;
     case SortType.NONE:
       break;
@@ -70,7 +72,7 @@ export const App: React.FC = () => {
     setSortType(SortType.NONE);
   };
 
-  const isChanged = isReversed || sortType !== SortType.NONE;
+  const isOrderChanged = isReversed || sortType !== SortType.NONE;
 
   return (
     <div className="section content">
@@ -100,7 +102,7 @@ export const App: React.FC = () => {
         </button>
 
         {
-          isChanged
+          isOrderChanged
             && (
               <button
                 type="button"
