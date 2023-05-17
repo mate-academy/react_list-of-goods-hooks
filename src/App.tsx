@@ -46,9 +46,6 @@ function getReorderedGoods(
     visibleGoods.reverse();
   }
 
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
-
   return visibleGoods;
 }
 
@@ -58,20 +55,20 @@ export const App: React.FC = () => {
 
   const isResetButtonVisible = isReversed || sortType !== SortType.NONE;
 
-  const getSortAlphabet = () => {
+  const sortByAlphabet = () => {
     setSortType(SortType.ALPHABET);
   };
 
-  const getSortLength = () => {
+  const sortByLength = () => {
     setSortType(SortType.LENGTH);
   };
 
-  const getSortNone = () => {
+  const handleReset = () => {
     setSortType(SortType.NONE);
     setReverse(false);
   };
 
-  const getRevers = () => {
+  const sortByRevers = () => {
     setReverse((prevReverse) => !prevReverse);
   };
 
@@ -87,7 +84,7 @@ export const App: React.FC = () => {
           className={classNames('button is-info', {
             'is-light': sortType !== SortType.ALPHABET,
           })}
-          onClick={getSortAlphabet}
+          onClick={sortByAlphabet}
         >
           Sort alphabetically
         </button>
@@ -97,7 +94,7 @@ export const App: React.FC = () => {
           className={classNames('button is-info', {
             'is-light': sortType !== SortType.LENGTH,
           })}
-          onClick={getSortLength}
+          onClick={sortByLength}
         >
           Sort by length
         </button>
@@ -107,13 +104,13 @@ export const App: React.FC = () => {
           className={classNames('button is-info', {
             'is-light': !isReversed,
           })}
-          onClick={getRevers}
+          onClick={sortByRevers}
         >
           Reverse
         </button>
         {isResetButtonVisible && (
           <button
-            onClick={getSortNone}
+            onClick={handleReset}
             type="button"
             className="button is-info is-light"
           >
