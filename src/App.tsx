@@ -27,35 +27,31 @@ type ReorderOptions = {
 };
 
 // Use this function in the render method to prepare goods
-export function getReorderedGoods(
+export const getReorderedGoods = (
   goods: string[],
   { sortType, isReversed }: ReorderOptions,
-) {
+) => {
   // To avoid the original array mutation
-  let visibleGoods = [...goods];
+  const visibleGoods = [...goods];
 
   // Sort and reverse goods if needed
-  switch (sortType) {
-    case SortType.ALPHABET:
-      visibleGoods
-      = visibleGoods.sort((good1, good2) => good1.localeCompare(good2));
-      break;
-    case SortType.LENGTH:
-      visibleGoods
-      = visibleGoods.sort((good1, good2) => good1.length - good2.length);
-      break;
-    default: // NONE
-  }
+  visibleGoods.sort((firstGood, secondGood) => {
+    switch (sortType) {
+      case SortType.ALPHABET:
+        return firstGood.localeCompare(secondGood);
+      case SortType.LENGTH:
+        return firstGood.length - secondGood.length;
+      default:
+        return 0;
+    }
+  });
 
   if (isReversed) {
     visibleGoods.reverse();
   }
 
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
-
   return visibleGoods;
-}
+};
 
 export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
