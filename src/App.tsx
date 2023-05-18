@@ -35,7 +35,6 @@ export function getReorderedGoods(
   const visibleGoods = [...goods];
 
   // Sort and reverse goods if needed
-  // eslint-disable-next-line no-console
   visibleGoods.sort((a, b) => {
     switch (sortType) {
       case SortType.ALPHABET:
@@ -73,11 +72,11 @@ export const App: React.FC = () => {
     setSortType(SortType.LENGTH);
   };
 
-  const reverse = () => {
+  const handleReverse = () => {
     setIsReversed(!isReversed);
   };
 
-  const reset = () => {
+  const handleReset = () => {
     setSortType(SortType.NONE);
     setIsReversed(false);
   };
@@ -108,7 +107,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={`button is-warning ${!isReversed && 'is-light'}`}
-          onClick={reverse}
+          onClick={handleReverse}
         >
           Reverse
         </button>
@@ -117,7 +116,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={reset}
+            onClick={handleReset}
           >
             Reset
           </button>
