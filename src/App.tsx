@@ -35,23 +35,24 @@ export function getReorderedGoods(
 
   switch (sortType) {
     case SortType.ALPHABET:
-      visibleGoods.sort((a, b) => a.localeCompare(b));
+      visibleGoods.sort(
+        (firstGood, secondGood) => firstGood.localeCompare(secondGood),
+      );
       break;
     case SortType.LENGTH:
-      visibleGoods.sort((a, b) => a.length - b.length);
+      visibleGoods.sort(
+        (firstGood, secondGood) => firstGood.length - secondGood.length,
+      );
       break;
     case SortType.NONE:
       break;
     default:
-      throw new Error('Error');
+      throw new Error('Invalid sort type');
   }
 
   if (isReversed) {
     visibleGoods.reverse();
   }
-
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
 
   return visibleGoods;
 }
@@ -77,7 +78,7 @@ export const App: React.FC = () => {
     setSortType(SortType.NONE);
   };
 
-  const preparedGoods = getReorderedGoods(
+  const visibleGoods = getReorderedGoods(
     goodsFromServer, { sortType, isReversed },
   );
 
@@ -120,7 +121,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {preparedGoods.map(good => <li data-cy="Good" key={good}>{good}</li>)}
+        {visibleGoods.map(good => <li data-cy="Good" key={good}>{good}</li>)}
       </ul>
     </div>
   );
