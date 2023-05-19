@@ -89,12 +89,12 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortType !== SortType.NONE || isReversed === true)
+        {(sortType !== SortType.NONE || isReversed)
           && (
             <button
               type="button"
               className="button is-danger is-light"
-              onClick={() => setReset()}
+              onClick={setReset}
             >
               Reset
             </button>
