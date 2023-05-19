@@ -33,14 +33,18 @@ export function getReorderedGoods(
 ) {
   const visibleGoods = [...goods];
 
-  if (sortType === SortType.ALPHABET) {
-    visibleGoods.sort(
-      (goodA, goodB) => goodA.localeCompare(goodB),
-    );
-  } else if (sortType === SortType.LENGTH) {
-    visibleGoods.sort(
-      (goodA, goodB) => goodA.length - goodB.length,
-    );
+  switch (sortType) {
+    case SortType.ALPHABET:
+      visibleGoods
+        .sort((firstGood, secondGood) => firstGood.localeCompare(secondGood));
+      break;
+    case SortType.LENGTH:
+      visibleGoods.sort(
+        (firstGood, secondGood) => firstGood.length - secondGood.length,
+      );
+      break;
+    default:
+      break;
   }
 
   if (isReversed) {
@@ -61,14 +65,14 @@ export const App: React.FC = () => {
     sortType: SortType.NONE,
   });
 
-  const sortAlphabet = () => {
+  const sortByAlphabet = () => {
     setState({
       ...state,
       sortType: SortType.ALPHABET,
     });
   };
 
-  const sortLength = () => {
+  const sortByLength = () => {
     setState({
       ...state,
       sortType: SortType.LENGTH,
@@ -101,7 +105,7 @@ export const App: React.FC = () => {
             'is-info',
             { 'is-light': state.sortType !== SortType.ALPHABET },
           )}
-          onClick={sortAlphabet}
+          onClick={sortByAlphabet}
         >
           Sort alphabetically
         </button>
@@ -113,7 +117,7 @@ export const App: React.FC = () => {
             'is-success',
             { 'is-light': state.sortType !== SortType.LENGTH },
           )}
-          onClick={sortLength}
+          onClick={sortByLength}
         >
           Sort by length
         </button>
