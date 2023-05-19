@@ -31,28 +31,26 @@ export function getReorderedGoods(
 ) {
   const visibleGoods = [...goods];
 
-  let sortedGoods;
-
   switch (sortBy) {
-    case 1:
-      sortedGoods = [...visibleGoods].sort((a, b) => a.localeCompare(b));
+    case SortType.ALPHABET:
+      visibleGoods.sort((a, b) => a.localeCompare(b));
       break;
-    case 2:
-      sortedGoods = [...visibleGoods].sort((a, b) => a.length - b.length);
+    case SortType.LENGTH:
+      visibleGoods.sort((a, b) => a.length - b.length);
+      break;
+    case SortType.NONE:
       break;
     default:
-      sortedGoods = [...visibleGoods];
-      break;
   }
 
   if (isReversed) {
-    sortedGoods.reverse();
+    visibleGoods.reverse();
   }
 
   // eslint-disable-next-line no-console
   console.debug(sortBy, isReversed);
 
-  return sortedGoods;
+  return visibleGoods;
 }
 
 export const App: React.FC = () => {
@@ -62,11 +60,11 @@ export const App: React.FC = () => {
   const goods = getReorderedGoods(goodsFromServer, isReversed, sortBy);
 
   const sortAlphabetically = () => {
-    setSortBy(1);
+    setSortBy(SortType.ALPHABET);
   };
 
   const sortByLength = () => {
-    setSortBy(2);
+    setSortBy(SortType.LENGTH);
   };
 
   const reverseSort = () => {
@@ -75,7 +73,7 @@ export const App: React.FC = () => {
 
   const resetSort = () => {
     setIsReversed(false);
-    setSortBy(0);
+    setSortBy(SortType.NONE);
   };
 
   return (
@@ -84,7 +82,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={
-            sortBy === 1
+            sortBy === SortType.ALPHABET
               ? 'button is-success'
               : 'button is-success is-light'
           }
@@ -96,7 +94,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={
-            sortBy === 2
+            sortBy === SortType.LENGTH
               ? 'button is-success'
               : 'button is-success is-light'
           }
@@ -117,7 +115,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {isReversed === false && sortBy === 0
+        {isReversed === false && sortBy === SortType.NONE
           ? null
           : (
             <button
