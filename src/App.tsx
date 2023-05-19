@@ -80,7 +80,7 @@ export const App: React.FC = () => {
     setSortType(SortType.NONE);
   };
 
-  const isMutated = isReversed || sortType !== SortType.NONE;
+  const wasListMutated = isReversed || sortType !== SortType.NONE;
 
   return (
     <div className="section content">
@@ -110,7 +110,7 @@ export const App: React.FC = () => {
         </button>
 
         {
-          isMutated
+          wasListMutated
             && (
               <button
                 type="button"
