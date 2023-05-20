@@ -26,13 +26,11 @@ enum SortType {
 export const App: React.FC = () => {
   const [sortType, setSortBy] = useState(SortType.NONE);
   const [isReversed, setIsReversed] = useState(false);
-  let isResetButton = false;
 
   let visibleGoods = [...goodsFromServer];
 
   switch (sortType) {
     case SortType.NONE:
-      isResetButton = false;
       break;
 
     case SortType.ALPHABET:
@@ -40,29 +38,24 @@ export const App: React.FC = () => {
         (a, b) => (a.localeCompare(b.toString())
         ),
       );
-      isResetButton = true;
       break;
 
     case SortType.LENGTH:
       visibleGoods = visibleGoods.sort(
         (a, b) => (a.length - b.length),
       );
-      isResetButton = true;
       break;
-
-    case SortType.RESET:
-      visibleGoods = [...goodsFromServer];
-      isResetButton = false;
-      break;
-
     default:
       break;
   }
 
   if (isReversed) {
     visibleGoods.reverse();
-    isResetButton = true;
   }
+
+  const isResetButton = isReversed
+  || sortType === SortType.ALPHABET
+  || sortType === SortType.LENGTH;
 
   return (
     <div className="section content">
