@@ -61,7 +61,7 @@ function getReorderedGoods(
   return visibleGoods;
 }
 
-export const App: React.FC<ReorderOptions> = () => {
+export const App: React.FC = () => {
   const [isReversed, setReverse] = useState(false);
 
   const [sortType, setSortType] = useState(SortType.NONE);
