@@ -26,36 +26,27 @@ type ReorderOptions = {
   isReversed: boolean,
 };
 
-// Use this function in the render method to prepare goods
 export function getReorderedGoods(
   goods: string[],
   { sortType, isReversed }: ReorderOptions,
 ) {
-  // To avoid the original array mutation
   const visibleGoods = [...goods];
 
-  // Sort and reverse goods if needed
-  visibleGoods.sort((a, b) => {
+  visibleGoods.sort((firstGood, secondGood) => {
     switch (sortType) {
       case SortType.ALPHABET: {
-        return a.localeCompare(b);
+        return firstGood.localeCompare(secondGood);
       }
 
       case SortType.LENGTH: {
-        return a.length - b.length;
-      }
-
-      case SortType.NONE: {
-        return 0;
+        return firstGood.length - secondGood.length;
       }
 
       default: {
-        throw new Error('Wrong sorting type!');
+        return SortType.NONE;
       }
     }
   });
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
 
   if (isReversed) {
     visibleGoods.reverse();
@@ -76,18 +67,16 @@ export const App: React.FC = () => {
     setSortType(SortType.LENGTH);
   };
 
-  const reverse = () => {
+  const handleReverse = () => {
     setIsReversed(!isReversed);
   };
 
-  const reset = () => {
+  const handleReset = () => {
     setIsReversed(false);
     setSortType(SortType.NONE);
   };
 
-  const wasChanged = isReversed
-    || sortType === SortType.ALPHABET
-    || sortType === SortType.LENGTH;
+  const wasOrderChanged = sortType !== SortType.NONE || isReversed;
 
   return (
     <div className="section content">
@@ -111,16 +100,16 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={`button is-warning ${!isReversed && 'is-light'}`}
-          onClick={reverse}
+          onClick={handleReverse}
         >
           Reverse
         </button>
 
-        {wasChanged && (
+        {wasOrderChanged && (
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={reset}
+            onClick={handleReset}
           >
             Reset
           </button>
