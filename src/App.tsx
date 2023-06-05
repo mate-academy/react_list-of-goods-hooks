@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
@@ -22,13 +21,7 @@ enum SortType {
   LENGTH,
 }
 
-type ReorderOptions = {
-  sortType: SortType,
-  isReversed: boolean,
-};
-
-
-export const App: React.FC = () => {
+export const App: FC = () => {
   const [isReversed, setReverse] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
@@ -39,14 +32,14 @@ export const App: React.FC = () => {
 
   const getReorderedGoods = (
     goods: string[],
-    sortType: SortType,
-    isReversed: boolean,
+    sortBy: SortType,
+    reversed: boolean,
   ) => {
     // To avoid the original array mutation
     const visibleGoods = [...goods];
 
     visibleGoods.sort((a, b) => {
-      switch (sortType) {
+      switch (sortBy) {
         case SortType.ALPHABET:
           return a.localeCompare(b);
 
@@ -57,7 +50,7 @@ export const App: React.FC = () => {
           return 0;
       }
     });
-    if (isReversed) {
+    if (reversed) {
       visibleGoods.reverse();
     }
 
@@ -98,25 +91,29 @@ export const App: React.FC = () => {
         </button>
 
         {(sortType !== SortType.NONE || isReversed) && (
-            <button
-              type="button"
-              className="button is-danger is-light"
-              onClick={reset}
-            >
-              Reset
-            </button>
-          )}
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={reset}
+          >
+            Reset
+          </button>
+        )}
       </div>
 
       <ul>
-          <ul>
-            {getReorderedGoods(goodsFromServer, sortType, isReversed).map(good => (
-              <li key={good} data-cy="good">
-                {good}
-              </li>
-            ))}
-          </ul>
+        <ul>
+          {getReorderedGoods(
+            goodsFromServer,
+            sortType,
+            isReversed,
+          ).map(good => (
+            <li key={good} data-cy="good">
+              {good}
+            </li>
+          ))}
         </ul>
+      </ul>
     </div>
   );
 };
