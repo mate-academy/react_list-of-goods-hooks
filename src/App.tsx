@@ -1,6 +1,7 @@
 import { FC, useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import cn from 'classnames';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -55,19 +56,19 @@ export const App: FC = () => {
 
   const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setReverse] = useState(false);
-  const isHideReset = isReversed || sortType !== SortType.NONE;
+  const shouldShowReset = isReversed || sortType !== SortType.NONE;
 
   const sortBy = (sortTypeKey: SortType) => {
-    setSortType(() => sortTypeKey);
+    setSortType(sortTypeKey);
   };
 
   const reverse = () => {
-    setReverse(() => !isReversed);
+    setReverse((currentReverse) => !currentReverse);
   };
 
   const reset = () => {
-    setReverse(() => false);
-    setSortType(() => SortType.NONE);
+    setReverse(false);
+    setSortType(SortType.NONE);
   };
 
   return (
@@ -75,7 +76,9 @@ export const App: FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${!(sortType === SortType.ALPHABET) ? 'is-light' : ''}`}
+          className={cn('button is-info', {
+            'is-light': sortType !== SortType.ALPHABET,
+          })}
           onClick={() => sortBy(SortType.ALPHABET)}
         >
           Sort alphabetically
@@ -83,7 +86,9 @@ export const App: FC = () => {
 
         <button
           type="button"
-          className={`button is-success ${!(sortType === SortType.LENGTH) ? 'is-light' : ''}`}
+          className={cn('button is-success', {
+            'is-light': sortType !== SortType.LENGTH,
+          })}
           onClick={() => sortBy(SortType.LENGTH)}
         >
           Sort by length
@@ -91,13 +96,15 @@ export const App: FC = () => {
 
         <button
           type="button"
-          className={`button is-warning ${!(isReversed) ? 'is-light' : ''}`}
+          className={cn('button is-warning', {
+            'is-light': !isReversed,
+          })}
           onClick={reverse}
         >
           Reverse
         </button>
 
-        {isHideReset && (
+        {shouldShowReset && (
           <button
             type="button"
             className="button is-danger is-light"
