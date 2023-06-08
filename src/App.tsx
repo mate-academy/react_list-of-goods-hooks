@@ -57,12 +57,8 @@ export const App: FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
-  const handleClickSortByAlphabet = () => {
-    setSortType(SortType.ALPHABET);
-  };
-
-  const handleClickSortByLength = () => {
-    setSortType(SortType.LENGTH);
+  const sortListOnClick = (type: SortType) => {
+    setSortType(type);
   };
 
   const handleClickReverse = () => {
@@ -79,6 +75,8 @@ export const App: FC = () => {
     { isReversed, sortType },
   );
 
+  const isResetVisible = sortType !== SortType.NONE || isReversed;
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -91,7 +89,7 @@ export const App: FC = () => {
               'is-light': sortType !== SortType.ALPHABET,
             },
           )}
-          onClick={handleClickSortByAlphabet}
+          onClick={() => sortListOnClick(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
@@ -105,7 +103,7 @@ export const App: FC = () => {
               'is-light': sortType !== SortType.LENGTH,
             },
           )}
-          onClick={handleClickSortByLength}
+          onClick={() => sortListOnClick(SortType.LENGTH)}
         >
           Sort by length
         </button>
@@ -124,7 +122,7 @@ export const App: FC = () => {
           Reverse
         </button>
 
-        {(sortType !== SortType.NONE || isReversed) && (
+        {isResetVisible && (
           <button
             type="button"
             className="button is-danger is-light"
