@@ -25,19 +25,8 @@ enum Sort {
 export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const [sortedBy, setSortedBy] = useState(Sort.NONE);
-  const [isVisible, setIsVisible] = useState(false);
 
-  const sentDataFromButtons = (
-    sortBy = Sort.NONE,
-    visible = false,
-    reversed = false,
-  ) => {
-    setSortedBy(sortBy);
-    setIsVisible(visible);
-    setIsReversed(reversed);
-  };
-
-  const changeArray = (array: string[]) => {
+  const getVisibleGoods = (array: string[]) => {
     const visibleGoods = [...array];
 
     switch (sortedBy) {
@@ -65,7 +54,7 @@ export const App: React.FC = () => {
     return visibleGoods;
   };
 
-  const newGoods = changeArray(goodsFromServer);
+  const newGoods = getVisibleGoods(goodsFromServer);
 
   return (
     <div className="section content">
@@ -75,7 +64,9 @@ export const App: React.FC = () => {
           className={classNames('button', 'is-info', {
             'is-light': sortedBy !== Sort.ALPHABET,
           })}
-          onClick={() => sentDataFromButtons(Sort.ALPHABET, true)}
+          onClick={() => {
+            setSortedBy(Sort.ALPHABET);
+          }}
         >
           Sort alphabetically
         </button>
@@ -85,7 +76,9 @@ export const App: React.FC = () => {
           className={classNames('button', 'is-success', {
             'is-light': sortedBy !== Sort.LENGTH,
           })}
-          onClick={() => sentDataFromButtons(Sort.LENGTH, true)}
+          onClick={() => {
+            setSortedBy(Sort.LENGTH);
+          }}
         >
           Sort by length
         </button>
@@ -95,18 +88,21 @@ export const App: React.FC = () => {
           className={classNames('button', 'is-warning', {
             'is-light': !isReversed,
           })}
-          onClick={() => sentDataFromButtons(sortedBy,
-            !(isReversed && sortedBy === Sort.NONE),
-            !isReversed)}
+          onClick={() => {
+            setIsReversed(!isReversed);
+          }}
         >
           Reverse
         </button>
 
-        {isVisible && (
+        {(isReversed || sortedBy !== Sort.NONE) && (
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => sentDataFromButtons()}
+            onClick={() => {
+              setSortedBy(Sort.NONE);
+              setIsReversed(false);
+            }}
           >
             Reset
           </button>
