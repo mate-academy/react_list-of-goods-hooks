@@ -96,7 +96,9 @@ export const App: React.FC = () => {
           className={classNames('button', 'is-warning', {
             'is-light': !isReversed,
           })}
-          onClick={() => setIsReversed(!isReversed)}
+          onClick={
+            () => setIsReversed((currentIsReserved) => !currentIsReserved)
+          }
         >
           Reverse
         </button>
@@ -109,7 +111,9 @@ export const App: React.FC = () => {
           >
             Reset
           </button>
-        ) : null}
+        ) : (
+          null
+        )}
       </div>
 
       <ul>
