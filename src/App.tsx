@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
-import classNames from 'classnames';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -33,15 +33,14 @@ export function getReorderedGoods(
 ) {
   const visibleGoods = [...goods];
 
-  visibleGoods.sort((good1, good2) => {
+  visibleGoods.sort((a, b) => {
     switch (sortType) {
       case SortType.LENGTH:
-        return good1.length - good2.length;
+        return a.length - b.length;
 
       case SortType.ALPHABET:
-        return good1.localeCompare(good2);
+        return a.localeCompare(b);
 
-      case SortType.NONE:
       default:
         return 0;
     }
@@ -103,7 +102,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {sortType !== SortType.NONE || isReversed ? (
+        {(sortType !== SortType.NONE || isReversed) && (
           <button
             type="button"
             className="button is-danger is-light"
@@ -111,22 +110,18 @@ export const App: React.FC = () => {
           >
             Reset
           </button>
-        ) : (
-          null
         )}
       </div>
 
       <ul>
-        <ul>
-          {reoderedGoods.map(food => (
-            <li
-              key={food}
-              data-cy="Good"
-            >
-              {food}
-            </li>
-          ))}
-        </ul>
+        {reoderedGoods.map(food => (
+          <li
+            key={food}
+            data-cy="Good"
+          >
+            {food}
+          </li>
+        ))}
       </ul>
     </div>
   );
