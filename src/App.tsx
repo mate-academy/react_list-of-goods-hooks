@@ -16,9 +16,9 @@ export const goodsFromServer = [
 ];
 
 export const App: React.FC = () => {
-  const [isSortedAlphabetically, setAlphabet] = useState(false);
-  const [isSortedByLength, setLength] = useState(false);
-  const [isReversed, setReverse] = useState(false);
+  const [isSortedAlphabetically, setAlphabetSortType] = useState(false);
+  const [isSortedByLength, setLengthSortType] = useState(false);
+  const [isReversed, setReversedOrder] = useState(false);
   const [originalOrder, setOriginalOrder] = useState<string[]>([]);
   const [sortedArray, setSortedArray] = useState<string[]>([]);
 
@@ -28,8 +28,8 @@ export const App: React.FC = () => {
   }, []);
 
   const sortByAlphabet = () => {
-    setAlphabet(!isSortedAlphabetically);
-    setLength(false);
+    setAlphabetSortType(!isSortedAlphabetically);
+    setLengthSortType(false);
     let sorted;
 
     if (isReversed) {
@@ -42,8 +42,8 @@ export const App: React.FC = () => {
   };
 
   const sortByLength = () => {
-    setLength(!isSortedByLength);
-    setAlphabet(false);
+    setLengthSortType(!isSortedByLength);
+    setAlphabetSortType(false);
     let sorted;
 
     if (isReversed) {
@@ -56,16 +56,16 @@ export const App: React.FC = () => {
   };
 
   const reverse = () => {
-    setReverse(!isReversed);
+    setReversedOrder(!isReversed);
     const reversed = [...sortedArray].reverse();
 
     setSortedArray(reversed);
   };
 
   const reset = () => {
-    setReverse(false);
-    setAlphabet(false);
-    setLength(false);
+    setReversedOrder(false);
+    setAlphabetSortType(false);
+    setLengthSortType(false);
     setSortedArray([...originalOrder]);
   };
 
