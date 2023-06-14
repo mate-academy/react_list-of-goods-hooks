@@ -80,20 +80,16 @@ export const App: React.FC = () => {
     setSortType(SortType.ALPHABET);
   };
 
-  const showResetBtn = sortType === SortType.NONE && isReversed === false;
-  const classBtnInfo = classNames('button', 'is-info',
-    { 'is-light': sortType !== SortType.ALPHABET });
-  const classBtnSuccess = classNames('button', 'is-success',
-    { 'is-light': sortType !== SortType.LENGTH });
-  const classBtnWarning = classNames('button', 'is-warning',
-    { 'is-light': !isReversed });
+  const showResetBtn = sortType === SortType.NONE && !isReversed;
+  const goods = getReorderedGoods(goodsFromServer, { sortType, isReversed });
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={classBtnInfo}
+          className={classNames('button', 'is-info',
+            { 'is-light': sortType !== SortType.ALPHABET })}
           onClick={sortAlphabetically}
         >
           Sort alphabetically
@@ -101,7 +97,8 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={classBtnSuccess}
+          className={classNames('button', 'is-success',
+            { 'is-light': sortType !== SortType.LENGTH })}
           onClick={sortByLength}
         >
           Sort by length
@@ -109,7 +106,8 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={classBtnWarning}
+          className={classNames('button', 'is-warning',
+            { 'is-light': !isReversed })}
           onClick={reversed}
         >
           Reverse
@@ -126,12 +124,11 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {getReorderedGoods(goodsFromServer, { sortType, isReversed })
-          .map(good => (
-            <li data-cy="Good" key={good}>
-              {good}
-            </li>
-          ))}
+        {goods.map(good => (
+          <li data-cy="Good" key={good}>
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
