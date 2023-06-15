@@ -56,7 +56,7 @@ export const App: React.FC = () => {
         <button
           onClick={() => setType(SortType.ALPHABET)}
           type="button"
-          className={cn('button', 'is-info', { // Якщо цей код буде перевіряти Назар, сподіваюсь буде 0/3 сумних Назарів і після апрува буде мотивація жити це життя
+          className={cn('button is-info', { // Якщо цей код буде перевіряти Назар, сподіваюсь буде 0/3 сумних Назарів і після апрува буде мотивація жити це життя
             'is-light': type !== SortType.ALPHABET,
           })}
         >
@@ -66,7 +66,7 @@ export const App: React.FC = () => {
         <button
           onClick={() => setType(SortType.LENGTH)}
           type="button"
-          className={cn('button', 'is-success', {
+          className={cn('button is-success', {
             'is-light': type !== SortType.LENGTH,
           })}
         >
@@ -76,7 +76,7 @@ export const App: React.FC = () => {
         <button
           onClick={() => (changeReverse(!isReversed))}
           type="button"
-          className={cn('button', 'is-warning', { 'is-light': !isReversed })}
+          className={cn('button is-warning', { 'is-light': !isReversed })}
         >
           Reverse
         </button>
