@@ -17,6 +17,13 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+export enum ButtonType {
+  ALPHABET = 'is-info',
+  LENGTH = 'is-success',
+  REVERSE = 'is-warning',
+  RESET = 'is-danger',
+}
+
 enum SortType {
   NONE,
   ALPHABET,
@@ -34,12 +41,16 @@ export function getReorderedGoods(
 ) {
   const visibleGoods = [...goods];
 
-  if (sortType === SortType.ALPHABET) {
-    visibleGoods.sort();
-  }
-
-  if (sortType === SortType.LENGTH) {
-    visibleGoods.sort((a, b) => a.length - b.length);
+  switch (sortType) {
+    case SortType.ALPHABET:
+      visibleGoods.sort();
+      break;
+    case SortType.LENGTH:
+      visibleGoods.sort((a, b) => a.length - b.length);
+      break;
+    default:
+      // eslint-disable-next-line max-len
+      throw new Error('Oi mate, there is a problem innit! Oh my giddy aunt, it seems that sorting buttons are discombobulated');
   }
 
   if (isReversed) {
@@ -53,8 +64,12 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
-  const sortGoods = (value: SortType) => {
-    setSortType(sortType === value ? SortType.NONE : value);
+  const sortABC = () => {
+    setSortType(SortType.ALPHABET);
+  };
+
+  const sortByLength = () => {
+    setSortType(SortType.LENGTH);
   };
 
   const reverse = () => {
@@ -72,34 +87,24 @@ export const App: React.FC = () => {
     <div className="App">
       <div className="buttons">
         <Button
-          styles={{
-            'is-info': true,
-            'is-light': sortType !== SortType.ALPHABET,
-          }}
-          callback={() => {
-            sortGoods(SortType.ALPHABET);
-          }}
+          type={ButtonType.ALPHABET}
+          active={sortType !== SortType.ALPHABET}
+          callback={sortABC}
         >
           Sort alphabetically
         </Button>
 
         <Button
-          styles={{
-            'is-success': true,
-            'is-light': sortType !== SortType.LENGTH,
-          }}
-          callback={() => {
-            sortGoods(SortType.LENGTH);
-          }}
+          type={ButtonType.LENGTH}
+          active={sortType !== SortType.LENGTH}
+          callback={sortByLength}
         >
           Sort by length
         </Button>
 
         <Button
-          styles={{
-            'is-warning': true,
-            'is-light': !isReversed,
-          }}
+          type={ButtonType.REVERSE}
+          active={!isReversed}
           callback={reverse}
         >
           Reverse
@@ -107,10 +112,8 @@ export const App: React.FC = () => {
 
         {isChanged && (
           <Button
-            styles={{
-              'is-danger': true,
-              'is-light': true,
-            }}
+            type={ButtonType.RESET}
+            active
             callback={reset}
           >
             Reset
