@@ -48,6 +48,8 @@ export function getReorderedGoods(
     case SortType.LENGTH:
       visibleGoods.sort((a, b) => a.length - b.length);
       break;
+    case SortType.NONE:
+      break;
     default:
       // eslint-disable-next-line max-len
       throw new Error('Oi mate, there is a problem innit! Oh my giddy aunt, it seems that sorting buttons are discombobulated');
