@@ -1,0 +1,18 @@
+.productList {
+  margin: 0;
+  padding: 10px;
+  background-color: #aef4a4;
+  border-radius: 15px;
+  list-style: none;
+
+  &__item {
+    margin: 10px 0;
+    width: 200px;
+    background-color: #79b8d1;
+    border-radius: 5px;
+
+    font-size: large;
+    text-align: center;
+    letter-spacing: 5px;
+  }
+}
