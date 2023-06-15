@@ -31,7 +31,6 @@ export function getReorderedGoods(
   goods: string[],
   { sortType, isReversed }: ReorderOptions,
 ) {
-  // To avoid the original array mutation
   const visibleGoods = [...goods];
 
   visibleGoods.sort((goodA, goodB) => {
@@ -56,19 +55,19 @@ export function getReorderedGoods(
 
 export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
-  const [sortType, setIsSorted] = useState(SortType.NONE);
+  const [sortType, setSortType] = useState(SortType.NONE);
 
   const handleClickReverse = () => {
     setIsReversed((current) => !current);
   };
 
-  const sortListOnClick = (type: SortType) => {
-    setIsSorted(type);
+  const handleCickSort = (type: SortType) => {
+    setSortType(type);
   };
 
   const handleClickReset = () => {
     setIsReversed(false);
-    setIsSorted(SortType.NONE);
+    setSortType(SortType.NONE);
   };
 
   const visibleGoods = getReorderedGoods(
@@ -86,7 +85,7 @@ export const App: React.FC = () => {
           className={cn('button is-info', {
             'is-light': sortType !== SortType.ALPHABET,
           })}
-          onClick={() => sortListOnClick(SortType.ALPHABET)}
+          onClick={() => handleCickSort(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
@@ -96,7 +95,7 @@ export const App: React.FC = () => {
           className={cn('button is-success', {
             'is-light': sortType !== SortType.LENGTH,
           })}
-          onClick={() => sortListOnClick(SortType.LENGTH)}
+          onClick={() => handleCickSort(SortType.LENGTH)}
         >
           Sort by length
         </button>
@@ -125,11 +124,9 @@ export const App: React.FC = () => {
 
       <ul>
         <ul>
-          {visibleGoods.map(good => {
-            return (
-              <li key={good} data-cy="Good">{good}</li>
-            );
-          })}
+          {visibleGoods.map(good => (
+            <li key={good} data-cy="Good">{good}</li>
+          ))}
         </ul>
       </ul>
     </div>
