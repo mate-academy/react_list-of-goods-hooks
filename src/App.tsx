@@ -54,24 +54,24 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [isReversed, reverse] = useState(false);
-  const [sortType, sort] = useState(SortType.NONE);
+  const [isReversed, setIsReversed] = useState(false);
+  const [sortType, setSortType] = useState(SortType.NONE);
 
-  const handleReverseToggle = () => {
-    reverse((current) => !current);
+  const reverse = () => {
+    setIsReversed((current) => !current);
   };
 
   const reset = () => {
-    reverse(false);
-    sort(SortType.NONE);
+    setIsReversed(false);
+    setSortType(SortType.NONE);
   };
 
-  const visibleGoods = getReorderedGoods(
+  const reorderedGoods = getReorderedGoods(
     goodsFromServer,
     { isReversed, sortType },
   );
 
-  const resetFlag = sortType !== SortType.NONE || isReversed;
+  const isResetVisible = sortType !== SortType.NONE || isReversed;
 
   return (
     <div className="section content">
@@ -81,7 +81,7 @@ export const App: React.FC = () => {
           className={cn('button is-info', {
             'is-light': sortType !== SortType.ALPHABET,
           })}
-          onClick={() => sort(SortType.ALPHABET)}
+          onClick={() => setSortType(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
@@ -91,7 +91,7 @@ export const App: React.FC = () => {
           className={cn('button is-success', {
             'is-light': sortType !== SortType.LENGTH,
           })}
-          onClick={() => sort(SortType.LENGTH)}
+          onClick={() => setSortType(SortType.LENGTH)}
         >
           Sort by length
         </button>
@@ -101,16 +101,16 @@ export const App: React.FC = () => {
           className={cn('button is-warning', {
             'is-light': !isReversed,
           })}
-          onClick={() => handleReverseToggle()}
+          onClick={reverse}
         >
           Reverse
         </button>
 
-        {resetFlag && (
+        {isResetVisible && (
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => reset()}
+            onClick={reset}
           >
             Reset
           </button>
@@ -119,7 +119,7 @@ export const App: React.FC = () => {
 
       <ul>
         <ul>
-          {visibleGoods.map(good => (
+          {reorderedGoods.map(good => (
             <li data-cy="Good" key={good}>
               {good}
             </li>
