@@ -23,30 +23,30 @@ enum SortType {
 }
 
 export const App: React.FC = () => {
-  const [isReversed, changeReverse] = useState(false);
+  const [reverse, setReverse] = useState(false);
   const [type, setType] = useState(SortType.NONE);
 
   const visibleGoods = [...goodsFromServer];
 
-  switch (type) {
-    case SortType.ALPHABET:
-      visibleGoods.sort((g1, g2) => (
-        g1.localeCompare(g2)
-      ));
-      break;
+  const reset = () => {
+    setReverse(false);
+    setType(SortType.NONE);
+  };
 
-    case SortType.LENGTH:
-      visibleGoods.sort((g1, g2) => (
-        g1.length - g2.length
-      ));
+  visibleGoods.sort((good1, good2) => {
+    switch (type) {
+      case SortType.ALPHABET:
+        return good1.localeCompare(good2);
 
-      break;
+      case SortType.LENGTH:
+        return good1.length - good2.length;
 
-    default:
-      break;
-  }
+      default:
+        return 0;
+    }
+  });
 
-  if (isReversed) {
+  if (reverse) {
     visibleGoods.reverse();
   }
 
@@ -56,7 +56,7 @@ export const App: React.FC = () => {
         <button
           onClick={() => setType(SortType.ALPHABET)}
           type="button"
-          className={cn('button is-info', { // Якщо цей код буде перевіряти Назар, сподіваюсь буде 0/3 сумних Назарів і після апрува буде мотивація жити це життя
+          className={cn('button is-info', {
             'is-light': type !== SortType.ALPHABET,
           })}
         >
@@ -74,19 +74,16 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={() => (changeReverse(!isReversed))}
+          onClick={() => (setReverse(!reverse))}
           type="button"
-          className={cn('button is-warning', { 'is-light': !isReversed })}
+          className={cn('button is-warning', { 'is-light': !reverse })}
         >
           Reverse
         </button>
 
-        {(isReversed || type !== SortType.NONE) && (
+        {(reverse || type !== SortType.NONE) && (
           <button
-            onClick={() => {
-              changeReverse(false);
-              setType(SortType.NONE);
-            }}
+            onClick={reset}
             type="button"
             className="button is-danger is-light"
           >
