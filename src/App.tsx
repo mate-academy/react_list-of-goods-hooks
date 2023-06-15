@@ -62,15 +62,15 @@ export const App: React.FC = () => {
     { sortType, isReversed },
   );
 
-  const handleSortClick = (sortBy: SortType) => {
+  const sort = (sortBy: SortType) => {
     setSortType(sortBy);
   };
 
-  const handleReverseClick = () => {
+  const reverse = () => {
     setIsReversed(!isReversed);
   };
 
-  const handleResetClick = () => {
+  const reset = () => {
     if (isReversed) {
       setIsReversed(false);
     }
@@ -86,35 +86,44 @@ export const App: React.FC = () => {
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => handleSortClick(SortType.ALPHABET)}
+          onClick={() => sort(SortType.ALPHABET)}
           type="button"
-          className={cn('button is-info',
-            { 'is-light': sortType !== SortType.ALPHABET })}
+          className={cn(
+            'button is-info', {
+              'is-light': sortType !== SortType.ALPHABET,
+            },
+          )}
         >
           Sort alphabetically
         </button>
 
         <button
-          onClick={() => handleSortClick(SortType.LENGTH)}
+          onClick={() => sort(SortType.LENGTH)}
           type="button"
-          className={cn('button is-success',
-            { 'is-light': sortType !== SortType.LENGTH })}
+          className={cn(
+            'button is-success', {
+              'is-light': sortType !== SortType.LENGTH,
+            },
+          )}
         >
           Sort by length
         </button>
 
         <button
-          onClick={handleReverseClick}
+          onClick={reverse}
           type="button"
-          className={cn('button is-warning',
-            { 'is-light': !isReversed })}
+          className={cn(
+            'button is-warning', {
+              'is-light': !isReversed,
+            },
+          )}
         >
           Reverse
         </button>
 
         {isResetVisible && (
           <button
-            onClick={handleResetClick}
+            onClick={reset}
             type="button"
             className="button is-danger is-light"
           >
