@@ -58,25 +58,21 @@ export const App: React.FC = () => {
   };
 
   const sortByLength = () => {
-    // this.setState({ sortType: SortType.LENGTH });
     setSortType(SortType.LENGTH);
   };
 
   const sortByAlphabet = () => {
-    // this.setState({ sortType: SortType.ALPHABET });
     setSortType(SortType.ALPHABET);
   };
 
   const resetToDefault = () => {
-    // this.setState({
-    //   isReversed: false,
-    //   sortType: SortType.NONE,
-    // });
     setReverse(false);
     setSortType(SortType.NONE);
   };
 
   const goods = getReorderedGoods(goodsFromServer, { sortType, isReversed });
+
+  const isListModified = isReversed || sortType !== SortType.NONE;
 
   return (
     <div className="section content">
@@ -117,7 +113,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(isReversed || sortType !== SortType.NONE)
+        {(isListModified)
         && (
           <button
             type="button"
