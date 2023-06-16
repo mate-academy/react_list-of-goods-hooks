@@ -22,40 +22,40 @@ enum SortType {
   LENGTH,
 }
 
+const getReorderedGoods = (
+  goods: string[],
+  sortType: SortType,
+  reversed: boolean,
+) => {
+  const visibleGoods = [...goods];
+
+  visibleGoods.sort((good1, good2) => {
+    switch (sortType) {
+      case SortType.ALPHABET:
+        return good1.localeCompare(good2);
+
+      case SortType.LENGTH:
+        return good1.length - good2.length;
+
+      default:
+        return 0;
+    }
+  });
+
+  if (reversed) {
+    visibleGoods.reverse();
+  }
+
+  return visibleGoods;
+};
+
 export const App: React.FC = () => {
-  const [isReversed, setReverse] = useState(false);
+  const [isReversed, setIsReverse] = useState(false);
   const [sortOrder, setSortOrder] = useState(SortType.NONE);
 
   const reset = () => {
     setSortOrder(SortType.NONE);
-    setReverse(false);
-  };
-
-  const getReorderedGoods = (
-    goods: string[],
-    sortType: SortType,
-    reversed: boolean,
-  ) => {
-    const visibleGoods = [...goods];
-
-    visibleGoods.sort((good1, good2) => {
-      switch (sortType) {
-        case SortType.ALPHABET:
-          return good1.localeCompare(good2);
-
-        case SortType.LENGTH:
-          return good1.length - good2.length;
-
-        default:
-          return 0;
-      }
-    });
-
-    if (reversed) {
-      visibleGoods.reverse();
-    }
-
-    return visibleGoods;
+    setIsReverse(false);
   };
 
   const reorderedGoods = getReorderedGoods(
@@ -64,8 +64,8 @@ export const App: React.FC = () => {
     isReversed,
   );
 
-  const isDefaultOrder = sortOrder === SortType.NONE
-  && !isReversed;
+  const isResetButtonActive = sortOrder !== SortType.NONE
+  || isReversed;
 
   return (
 
@@ -96,12 +96,12 @@ export const App: React.FC = () => {
           className={cn('button is-warning', {
             'is-light': !isReversed,
           })}
-          onClick={() => setReverse(!isReversed)}
+          onClick={() => setIsReverse(!isReversed)}
         >
           Reverse
         </button>
 
-        {(!isDefaultOrder) && (
+        {(isResetButtonActive) && (
           <button
             type="button"
             className={cn('button is-danger is-light')}
@@ -116,10 +116,7 @@ export const App: React.FC = () => {
         <ul>
           {reorderedGoods
             .map(good => (
-              <li
-                key={good}
-                data-cy="Good"
-              >
+              <li key={good} data-cy="Good">
                 {good}
               </li>
             ))}
