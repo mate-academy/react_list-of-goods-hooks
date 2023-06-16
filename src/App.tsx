@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import classNames from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-export const goodsFromServer = [
+const goodsFromServer = [
   'Dumplings',
   'Carrot',
   'Eggs',
@@ -26,17 +27,21 @@ type ReorderOptions = {
   isReversed: boolean;
 };
 
-function getReorderedGoods(goods: string[],
-  { sortType, isReversed }: ReorderOptions) {
+function getReorderedGoods(
+  goods: string[],
+  { sortType, isReversed }: ReorderOptions,
+) {
   const visibleGoods = [...goods];
 
   switch (sortType) {
     case SortType.ALPHABET:
       visibleGoods.sort();
       break;
+
     case SortType.LENGTH:
       visibleGoods.sort((a, b) => a.length - b.length);
       break;
+
     default:
       break;
   }
@@ -98,12 +103,17 @@ export const App: React.FC = () => {
     });
   };
 
+  const shouldDisplayResetButton
+    = reorderOptions.sortType !== SortType.NONE || reorderOptions.isReversed;
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${reorderOptions.sortType === SortType.ALPHABET ? '' : 'is-light'}`}
+          className={classNames('button', 'is-info', {
+            'is-light': reorderOptions.sortType !== SortType.ALPHABET,
+          })}
           onClick={handleSortAlphabetically}
           disabled={reorderOptions.sortType === SortType.ALPHABET}
         >
@@ -112,7 +122,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-success ${reorderOptions.sortType === SortType.LENGTH ? '' : 'is-light'}`}
+          className={classNames('button', 'is-success', {
+            'is-light': reorderOptions.sortType !== SortType.LENGTH,
+          })}
           onClick={handleSortByLength}
           disabled={reorderOptions.sortType === SortType.LENGTH}
         >
@@ -121,14 +133,15 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-warning ${reorderOptions.isReversed ? '' : 'is-light'}`}
+          className={classNames('button', 'is-warning', {
+            'is-light': !reorderOptions.isReversed,
+          })}
           onClick={handleReverseOrder}
         >
           Reverse
         </button>
 
-        {(reorderOptions.sortType !== SortType.NONE
-        || reorderOptions.isReversed) && (
+        {shouldDisplayResetButton && (
           <button
             type="button"
             className="button is-danger"
@@ -149,3 +162,5 @@ export const App: React.FC = () => {
     </div>
   );
 };
+
+export default App;
