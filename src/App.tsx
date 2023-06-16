@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import cn from 'classnames';
@@ -56,15 +56,12 @@ export function getReorderedGoods(
 export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setIsReversed] = useState(false);
-  const [visibleGoods, setVisibleGoods] = useState(goodsFromServer);
-  const isChanged = sortType !== SortType.NONE || isReversed;
+  const visibleGoods = getReorderedGoods(
+    goodsFromServer,
+    { sortType, isReversed },
+  );
 
-  useEffect(() => {
-    setVisibleGoods(getReorderedGoods(
-      goodsFromServer,
-      { sortType, isReversed },
-    ));
-  }, [sortType, isReversed]);
+  const isOrderChanged = sortType !== SortType.NONE || isReversed;
 
   return (
     <div className="section content">
@@ -99,7 +96,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {isChanged && (
+        {isOrderChanged && (
           <button
             type="button"
             onClick={() => {
