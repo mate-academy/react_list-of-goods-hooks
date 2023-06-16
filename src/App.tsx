@@ -111,7 +111,9 @@ export const App: React.FC = () => {
 
       <ul>
         {reorderedGoods.map(product => (
-          <li data-cy="Good">{product}</li>
+          <li key={product} data-cy="Good">
+            {product}
+          </li>
         ))}
       </ul>
     </div>
