@@ -25,24 +25,24 @@ enum SortType {
 }
 
 export const App: React.FC = () => {
-  const [isReversed, setDirection] = useState(false);
-  const [sortType, setSort] = useState(SortType.NONE);
+  const [isReversed, setIsReversed] = useState(false);
+  const [sortType, setSortType] = useState(SortType.NONE);
 
   const sortAlphabetically = () => {
-    setSort(SortType.ALPHABET);
+    setSortType(SortType.ALPHABET);
   };
 
   const sortByLength = () => {
-    setSort(SortType.LENGTH);
+    setSortType(SortType.LENGTH);
   };
 
   const reverse = () => {
-    setDirection(current => !current);
+    setIsReversed(current => !current);
   };
 
   const reset = () => {
-    setDirection(false);
-    setSort(SortType.NONE);
+    setIsReversed(false);
+    setSortType(SortType.NONE);
   };
 
   const visibleGoods = getReorderedGoods(
