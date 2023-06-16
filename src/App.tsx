@@ -44,14 +44,6 @@ export function getReorderedGoods(
     }
   });
 
-  // if (sortType === SortType.LENGTH) {
-  //   visibleGoods.sort((item1, item2) => item1.length - item2.length);
-  // }
-
-  // if (sortType === SortType.ALPHABET) {
-  //   visibleGoods.sort();
-  // }
-
   if (isReversed) {
     visibleGoods.reverse();
   }
@@ -90,11 +82,9 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={cn(
-            'button',
-            'is-info',
-            { 'is-light': sortType !== SortType.ALPHABET },
-          )}
+          className={cn('button is-info', {
+            'is-light': sortType !== SortType.ALPHABET,
+          })}
           onClick={sortByAlphabet}
         >
           Sort alphabetically
@@ -102,11 +92,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={cn(
-            'button',
-            'is-success',
-            { 'is-light': sortType !== SortType.LENGTH },
-          )}
+          className={cn('button is-success', {
+            'is-light': sortType !== SortType.LENGTH,
+          })}
           onClick={sortByLength}
         >
           Sort by length
@@ -114,11 +102,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={cn(
-            'button',
-            'is-warning',
-            { 'is-light': !isReversed },
-          )}
+          className={cn('button is-warning', {
+            'is-light': !isReversed,
+          })}
           onClick={reverseList}
         >
           Reverse
