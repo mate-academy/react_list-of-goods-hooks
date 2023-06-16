@@ -18,10 +18,10 @@ export const goodsFromServer = [
 ];
 
 export enum ButtonType {
-  ALPHABET = 'is-info',
-  LENGTH = 'is-success',
-  REVERSE = 'is-warning',
-  RESET = 'is-danger',
+  INFO = 'is-info',
+  SUCCESS = 'is-success',
+  WARNING = 'is-warning',
+  DANGER = 'is-danger',
 }
 
 enum SortType {
@@ -66,7 +66,7 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
-  const sortABC = () => {
+  const sortAlphabetically = () => {
     setSortType(SortType.ALPHABET);
   };
 
@@ -83,21 +83,21 @@ export const App: React.FC = () => {
     setSortType(SortType.NONE);
   };
 
-  const isChanged = isReversed || sortType !== SortType.NONE;
+  const isOrderChanged = isReversed || sortType !== SortType.NONE;
 
   return (
     <div className="App">
       <div className="buttons">
         <Button
-          type={ButtonType.ALPHABET}
+          type={ButtonType.INFO}
           active={sortType !== SortType.ALPHABET}
-          callback={sortABC}
+          callback={sortAlphabetically}
         >
           Sort alphabetically
         </Button>
 
         <Button
-          type={ButtonType.LENGTH}
+          type={ButtonType.SUCCESS}
           active={sortType !== SortType.LENGTH}
           callback={sortByLength}
         >
@@ -105,16 +105,16 @@ export const App: React.FC = () => {
         </Button>
 
         <Button
-          type={ButtonType.REVERSE}
+          type={ButtonType.WARNING}
           active={!isReversed}
           callback={reverse}
         >
           Reverse
         </Button>
 
-        {isChanged && (
+        {isOrderChanged && (
           <Button
-            type={ButtonType.RESET}
+            type={ButtonType.DANGER}
             active
             callback={reset}
           >
