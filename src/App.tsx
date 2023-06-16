@@ -68,9 +68,11 @@ export const App: React.FC = () => {
     setSortType(SortType.NONE);
   };
 
-  const state = { isReversed, sortType };
+  const visibleGoods = getReorderedGoods(
+    goodsFromServer,
+    { isReversed, sortType },
+  );
 
-  const visibleGoods = getReorderedGoods(goodsFromServer, state);
   const isResetActive = sortType !== SortType.NONE || isReversed;
 
   return (
