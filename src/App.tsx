@@ -33,8 +33,6 @@ export function getReorderedGoods(
 ) {
   const visibleGoods = [...goods];
 
-  // Sort and reverse goods if needed
-  // eslint-disable-next-line no-console
   visibleGoods.sort((good1, good2) => {
     switch (sortType) {
       case SortType.ALPHABET:
@@ -52,7 +50,7 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [isReversed, setReverse] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState<SortType>(SortType.NONE);
 
   const sortAlphabetically = () => {
@@ -64,11 +62,11 @@ export const App: React.FC = () => {
   };
 
   const reverse = () => {
-    setReverse(current => !current);
+    setIsReversed(current => !current);
   };
 
   const reset = () => {
-    setReverse(false);
+    setIsReversed(false);
     setSortType(SortType.NONE);
   };
 
@@ -77,7 +75,7 @@ export const App: React.FC = () => {
     { sortType, isReversed },
   );
 
-  const doReset = isReversed || sortType !== SortType.NONE;
+  const isOrderChanged = isReversed || sortType !== SortType.NONE;
 
   return (
     <div className="section content">
@@ -112,7 +110,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        { doReset && (
+        { isOrderChanged && (
           <button
             type="button"
             className="button is-danger is-light"
@@ -123,12 +121,16 @@ export const App: React.FC = () => {
         )}
       </div>
 
-      <ul>
-        <ul>
-          {reorderedGoods.map(good => (
-            <li key={good} data-cy="Good">{good}</li>
-          ))}
-        </ul>
+      <ul className="list">
+        {reorderedGoods.map(good => (
+          <li
+            className="list__item"
+            key={good}
+            data-cy="Good"
+          >
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
