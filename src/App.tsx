@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
@@ -14,47 +14,82 @@ export const goodsFromServer = [
   'Jam',
 ];
 
+enum EnumSortType {
+  NONE,
+  ALPHABET,
+  LENGTH,
+}
+
 export const App: React.FC = () => {
+  const [goods, setGoods] = useState([...goodsFromServer]);
+  const [reverse, setReverse] = useState(false);
+  const [sortType, setSortType] = useState(EnumSortType.NONE);
+
+  const reverseList = () => {
+    setGoods([...goods].reverse());
+    setReverse(!reverse);
+  };
+
+  const sortByAlphabet = () => {
+    setSortType(EnumSortType.ALPHABET);
+    setGoods(prevGoods => prevGoods.sort((a, b) => a.localeCompare(b)));
+  };
+
+  const sortByLength = () => {
+    setSortType(EnumSortType.LENGTH);
+    setGoods(prevGoods => prevGoods.sort((a, b) => a.length - b.length));
+  };
+
+  const resetToDefault = () => {
+    setSortType(EnumSortType.NONE);
+    setGoods([...goodsFromServer]);
+    setReverse(false);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className="button is-info is-light"
+          className={`button is-info
+            ${sortType !== EnumSortType.ALPHABET && 'is-light'}`}
+          onClick={sortByAlphabet}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className="button is-success is-light"
+          className={`button is-success
+            ${sortType !== EnumSortType.LENGTH && 'is-light'}`}
+          onClick={sortByLength}
         >
           Sort by length
         </button>
 
         <button
           type="button"
-          className="button is-warning is-light"
+          className={`button is-warning
+            ${reverse ? '' : 'is-light'}`}
+          onClick={reverseList}
         >
           Reverse
         </button>
 
-        <button
-          type="button"
-          className="button is-danger is-light"
-        >
-          Reset
-        </button>
+        {(sortType !== EnumSortType.NONE || reverse)
+          && (
+            <button
+              type="button"
+              className="button is-danger is-light"
+              onClick={resetToDefault}
+            >
+              Reset
+            </button>
+          )}
       </div>
-
       <ul>
         <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
+          {goods.map(name => <li data-cy="Good" key={name}>{name}</li>)}
         </ul>
       </ul>
     </div>
