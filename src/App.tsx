@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-console */
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
