@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useMemo, useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import cn from 'classnames';
@@ -22,68 +22,42 @@ enum SortType {
   LENGTH,
 }
 
-type ReorderOptions = {
-  sortType: SortType,
-  isReversed: boolean,
-};
-
 export function App() {
-  const [reorderOptions, setReorderOptions] = useState<ReorderOptions>({
-    isReversed: false,
-    sortType: SortType.NONE,
-  });
-
-  const { sortType, isReversed } = reorderOptions;
+  const [isReversed, setIsReversed] = useState(false);
+  const [sortType, setSortType] = useState(SortType.NONE);
 
   const reset = () => {
-    setReorderOptions({
-      isReversed: false,
-      sortType: SortType.NONE,
-    });
+    setIsReversed(false);
+    setSortType(SortType.NONE);
   };
 
-  useEffect(() => {
-    return () => {
-      reset();
-    };
-  }, []);
-
   const sortAlphabetically = () => {
-    setReorderOptions({
-      isReversed: false,
-      sortType: SortType.ALPHABET,
-    });
+    setIsReversed(false);
+    setSortType(SortType.ALPHABET);
   };
 
   const sortByLength = () => {
-    setReorderOptions({
-      isReversed: false,
-      sortType: SortType.LENGTH,
-    });
+    setIsReversed(false);
+    setSortType(SortType.LENGTH);
   };
 
   const reverse = () => {
-    setReorderOptions((prevState) => ({
-      ...prevState,
-      isReversed: !prevState.isReversed,
-    }));
+    setIsReversed((prevState) => !prevState);
   };
 
   const getReorderedGoods = (): string[] => {
     let visibleGoods = [...goodsFromServer];
 
-    switch (sortType) {
-      case SortType.ALPHABET:
-        visibleGoods.sort((a, b) => a.localeCompare(b));
-        break;
-
-      case SortType.LENGTH:
-        visibleGoods.sort((a, b) => a.length - b.length);
-        break;
-
-      default:
-        break;
-    }
+    visibleGoods.sort((a, b) => {
+      switch (sortType) {
+        case SortType.ALPHABET:
+          return a.localeCompare(b);
+        case SortType.LENGTH:
+          return a.length - b.length;
+        default:
+          return 0;
+      }
+    });
 
     if (isReversed) {
       visibleGoods = visibleGoods.reverse();
@@ -92,7 +66,9 @@ export function App() {
     return visibleGoods;
   };
 
-  const visibleGoods = getReorderedGoods();
+  const visibleGoods = useMemo(() => getReorderedGoods(),
+    [goodsFromServer, sortType, isReversed]);
+
   const isResetButtonVisible = sortType !== SortType.NONE || isReversed;
 
   return (
@@ -100,13 +76,9 @@ export function App() {
       <div className="buttons">
         <button
           type="button"
-          className={cn(
-            'button',
-            'is-info',
-            {
-              'is-light': sortType !== SortType.ALPHABET,
-            },
-          )}
+          className={cn('button', 'is-info', {
+            'is-light': sortType !== SortType.ALPHABET,
+          })}
           onClick={sortAlphabetically}
         >
           Sort alphabetically
@@ -114,13 +86,9 @@ export function App() {
 
         <button
           type="button"
-          className={cn(
-            'button',
-            'is-success',
-            {
-              'is-light': sortType !== SortType.LENGTH,
-            },
-          )}
+          className={cn('button', 'is-success', {
+            'is-light': sortType !== SortType.LENGTH,
+          })}
           onClick={sortByLength}
         >
           Sort by length
@@ -128,13 +96,9 @@ export function App() {
 
         <button
           type="button"
-          className={cn(
-            'button',
-            'is-warning',
-            {
-              'is-light': !isReversed,
-            },
-          )}
+          className={cn('button', 'is-warning', {
+            'is-light': !isReversed,
+          })}
           onClick={reverse}
         >
           Reverse
