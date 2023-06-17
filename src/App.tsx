@@ -61,10 +61,6 @@ export const App: React.FC = () => {
     setIsReversed((current) => !current);
   };
 
-  const handleCickSort = (type: SortType) => {
-    setSortType(type);
-  };
-
   const handleClickReset = () => {
     setIsReversed(false);
     setSortType(SortType.NONE);
@@ -85,7 +81,7 @@ export const App: React.FC = () => {
           className={cn('button is-info', {
             'is-light': sortType !== SortType.ALPHABET,
           })}
-          onClick={() => handleCickSort(SortType.ALPHABET)}
+          onClick={() => setSortType(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
@@ -95,7 +91,7 @@ export const App: React.FC = () => {
           className={cn('button is-success', {
             'is-light': sortType !== SortType.LENGTH,
           })}
-          onClick={() => handleCickSort(SortType.LENGTH)}
+          onClick={() => setSortType(SortType.LENGTH)}
         >
           Sort by length
         </button>
