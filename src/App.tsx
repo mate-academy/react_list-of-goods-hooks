@@ -77,11 +77,9 @@ export const App: FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={className(
-            'button',
-            'is-info',
-            { 'is-light': sortType !== SortType.ALPHABET },
-          )}
+          className={className('button is-info', {
+            'is-light': sortType !== SortType.ALPHABET,
+          })}
           onClick={() => setSortType(SortType.ALPHABET)}
         >
           Sort alphabetically
@@ -89,11 +87,9 @@ export const App: FC = () => {
 
         <button
           type="button"
-          className={className(
-            'button',
-            'is-success',
-            { 'is-light': sortType !== SortType.LENGTH },
-          )}
+          className={className('button is-success', {
+            'is-light': sortType !== SortType.LENGTH,
+          })}
           onClick={() => setSortType(SortType.LENGTH)}
         >
           Sort by length
@@ -101,11 +97,9 @@ export const App: FC = () => {
 
         <button
           type="button"
-          className={className(
-            'button',
-            'is-warning',
-            { 'is-light': !isReversed },
-          )}
+          className={className('button is-warning', {
+            'is-light': !isReversed,
+          })}
           onClick={() => setIsReversed(!isReversed)}
         >
           Reverse
@@ -114,11 +108,9 @@ export const App: FC = () => {
         {isChanged && (
           <button
             type="button"
-            className={className(
-              'button',
-              'is-danger',
-              { 'is-light': isChanged },
-            )}
+            className={className('button is-danger', {
+              'is-light': isChanged,
+            })}
             onClick={reset}
           >
             Reset
