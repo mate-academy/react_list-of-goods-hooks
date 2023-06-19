@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import classNames from 'classnames';
+// eslint-disable-next-line import/no-cycle
 import { getReorderedGoods } from './helpers';
 
 export const goodsFromServer = [
@@ -17,7 +18,7 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-enum SortType {
+export enum SortType {
   NONE,
   ALPHABET,
   LENGTH,
@@ -33,7 +34,7 @@ export const App: React.FC = () => {
     isReversed,
   );
 
-  const resetCondition = sortType !== SortType.NONE || isReversed;
+  const isResetButtonActive = sortType !== SortType.NONE || isReversed;
 
   function resetList() {
     setSortType(SortType.NONE);
@@ -73,17 +74,15 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {
-          resetCondition && (
-            <button
-              type="button"
-              className="button is-danger is-light"
-              onClick={() => resetList()}
-            >
-              Reset
-            </button>
-          )
-        }
+        { isResetButtonActive && (
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={() => resetList()}
+          >
+            Reset
+          </button>
+        )}
       </div>
       <ul>
         {sortedList.map(product => (

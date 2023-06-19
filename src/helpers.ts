@@ -1,8 +1,5 @@
-enum SortType {
-  NONE,
-  ALPHABET,
-  LENGTH,
-}
+// eslint-disable-next-line import/no-cycle
+import { SortType } from './App';
 
 export const getReorderedGoods = (
   goods: string[],
