@@ -56,12 +56,18 @@ export function getReorderedGoods(
 export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setIsReversed] = useState(false);
+
   const visibleGoods = getReorderedGoods(
     goodsFromServer,
     { sortType, isReversed },
   );
 
   const isOrderChanged = sortType !== SortType.NONE || isReversed;
+
+  const resetClick = () => {
+    setSortType(SortType.NONE);
+    setIsReversed(false);
+  };
 
   return (
     <div className="section content">
@@ -99,10 +105,7 @@ export const App: React.FC = () => {
         {isOrderChanged && (
           <button
             type="button"
-            onClick={() => {
-              setSortType(SortType.NONE);
-              setIsReversed(false);
-            }}
+            onClick={resetClick}
             className="button is-danger is-light"
           >
             Reset
