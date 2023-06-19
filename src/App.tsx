@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import classNames from 'classnames';
+import { getReorderedGoods } from './helpers';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -24,37 +25,20 @@ enum SortType {
 
 export const App: React.FC = () => {
   const [sortType, setSortType] = useState<SortType>(SortType.NONE);
-  const [isReversed, setReversed] = useState<boolean>(false);
-
-  const getReorderedGoods = (
-    goods: string[],
-  ) => {
-    const visibleGoods = [...goods];
-
-    visibleGoods.sort((product1, product2) => {
-      switch (sortType) {
-        case SortType.ALPHABET:
-          return product1.localeCompare(product2);
-        case SortType.LENGTH:
-          return product1.length - product2.length;
-        default:
-          return 0;
-      }
-    });
-
-    if (isReversed) {
-      return visibleGoods.reverse();
-    }
-
-    return visibleGoods;
-  };
+  const [isReversed, setIsReversed] = useState<boolean>(false);
 
   const sortedList = getReorderedGoods(
     goodsFromServer,
+    sortType,
+    isReversed,
   );
 
-  const resetCondition = sortType !== SortType.NONE
-    || isReversed === true;
+  const resetCondition = sortType !== SortType.NONE || isReversed;
+
+  function resetList() {
+    setSortType(SortType.NONE);
+    setIsReversed(false);
+  }
 
   return (
     <div className="section content">
@@ -84,7 +68,7 @@ export const App: React.FC = () => {
           className={classNames('button is-warning', {
             'is-light': isReversed !== true,
           })}
-          onClick={() => setReversed(!isReversed)}
+          onClick={() => setIsReversed(!isReversed)}
         >
           Reverse
         </button>
@@ -94,10 +78,7 @@ export const App: React.FC = () => {
             <button
               type="button"
               className="button is-danger is-light"
-              onClick={() => {
-                setSortType(SortType.NONE);
-                setReversed(false);
-              }}
+              onClick={() => resetList()}
             >
               Reset
             </button>
