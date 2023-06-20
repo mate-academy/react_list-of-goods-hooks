@@ -55,7 +55,7 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
 
   const reverse = () => {
-    setIsReversed(true);
+    setIsReversed(prevState => !prevState);
   };
 
   const reset = () => {
