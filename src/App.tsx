@@ -57,10 +57,6 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
-  const sort = (getSortType: SortType) => {
-    setSortType(getSortType);
-  };
-
   const reverse = () => {
     setIsReversed(!isReversed);
   };
@@ -94,7 +90,7 @@ export const App: React.FC = () => {
           className={cn('button is-success', {
             'is-light': sortType !== SortType.LENGTH,
           })}
-          onClick={() => sort(SortType.LENGTH)}
+          onClick={() => setSortType(SortType.LENGTH)}
         >
           Sort by length
         </button>
