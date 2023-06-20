@@ -43,9 +43,6 @@ export function getReorderedGoods(
     visibleGoods.reverse();
   }
 
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
-
   return visibleGoods;
 }
 
@@ -70,7 +67,8 @@ export const App = () => {
     setIsReversed(false);
   };
 
-  const visGoods = getReorderedGoods(goodsFromServer, sortType, isReversed);
+  const visibleGoods = getReorderedGoods(goodsFromServer, sortType, isReversed);
+  const resetButton = sortType !== SortType.NONE || isReversed !== false;
 
   return (
     <div className="section content">
@@ -89,7 +87,6 @@ export const App = () => {
           className={`button is-success  
           ${sortType === SortType.LENGTH ? '' : 'is-light'}`}
           onClick={sortByLength}
-
         >
           Sort by length
         </button>
@@ -103,22 +100,20 @@ export const App = () => {
           Reverse
         </button>
 
-        {sortType !== SortType.NONE || isReversed !== false
-          ? (
-            <button
-              type="button"
-              data-cy="button"
-              className="button is-danger is-light "
-              onClick={reset}
-            >
-              Reset
-            </button>
-          )
-          : ''}
+        { resetButton && (
+          <button
+            type="button"
+            data-cy="button"
+            className="button is-danger is-light "
+            onClick={reset}
+          >
+            Reset
+          </button>
+        )}
       </div>
 
       <ul>
-        {visGoods.map((good: string) => (
+        {visibleGoods.map((good: string) => (
           <li
             key={good}
             data-cy="Good"
