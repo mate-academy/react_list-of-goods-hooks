@@ -22,10 +22,6 @@ enum SortType {
   LENGTH,
 }
 
-// type State = {
-//   isReversed: boolean,
-//   sortType: number,
-// }
 function getSortChoice(wordOne: string, wordTwo: string, SortType2: number) {
   switch (+SortType2) {
     case SortType.ALPHABET:
@@ -34,7 +30,7 @@ function getSortChoice(wordOne: string, wordTwo: string, SortType2: number) {
       return wordOne.length - wordTwo.length;
     case SortType.NONE:
     default:
-      return 0;
+      return SortType.NONE;
   }
 }
 
@@ -53,7 +49,7 @@ export function getReorderedGoods(
     ),
   );
 
-  if (isReversed === true) {
+  if (isReversed) {
     visibleGoods.reverse();
   }
 
@@ -61,48 +57,38 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [stateArray, setStateArray] = useState({
-    isReversed: false,
-    sortType: 0,
-  });
+  const [isReversed, setIsReversed] = useState(false);
+  const [sortType, setSortType] = useState(SortType.NONE);
 
   function sortByAlphabet() {
-    setStateArray({
-      isReversed: false,
-      sortType: SortType.ALPHABET,
-    });
+    setSortType(SortType.ALPHABET);
   }
 
   function sortByLength() {
-    setStateArray({
-      isReversed: false,
-      sortType: SortType.LENGTH,
-    });
+    setSortType(SortType.LENGTH);
   }
 
   function reverse() {
-    setStateArray(prevState => ({
-      isReversed: !prevState.isReversed, sortType: prevState.sortType,
-    }));
+    setIsReversed(prevState => (!prevState));
   }
 
   function reset() {
-    setStateArray({
-      isReversed: false,
-      sortType: SortType.NONE,
-    });
+    setIsReversed(false);
+    setSortType(SortType.NONE);
   }
 
-  const sort = stateArray.sortType;
+  const sort = sortType;
+  const goods = getReorderedGoods(
+    goodsFromServer, sortType, isReversed,
+  );
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={classNames('button', {
-            'is-info is-light': sort !== SortType.ALPHABET,
-            'is-info': sort === SortType.ALPHABET,
+          className={classNames('button', 'is-info ', {
+            'is-light': sort !== SortType.ALPHABET,
           })}
           onClick={sortByAlphabet}
         >
@@ -111,9 +97,8 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={classNames('button', {
-            'is-success is-light': sort !== SortType.LENGTH,
-            'is-success': sort === SortType.LENGTH,
+          className={classNames('button', 'is-success', {
+            'is-light': sort !== SortType.LENGTH,
           })}
           onClick={sortByLength}
         >
@@ -122,17 +107,16 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={classNames('button', {
-            'is-warning is-light': stateArray.isReversed !== true,
-            'is-warning': stateArray.isReversed === true,
+          className={classNames('button', 'is-warning ', {
+            'is-light': isReversed !== true,
           })}
           onClick={reverse}
         >
           Reverse
         </button>
 
-        {(stateArray.sortType !== SortType.NONE
-          || stateArray.isReversed === true) && (
+        {(sortType !== SortType.NONE
+          || isReversed === true) && (
           <button
             type="button"
             className="button is-danger is-light"
@@ -146,9 +130,7 @@ export const App: React.FC = () => {
 
       <ul>
         <ul>
-          {getReorderedGoods(
-            goodsFromServer, stateArray.sortType, stateArray.isReversed,
-          ).map(
+          {goods.map(
             (good: string) => (
               <li data-cy="Good" key={good}>
                 {good}
