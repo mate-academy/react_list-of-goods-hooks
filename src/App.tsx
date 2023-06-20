@@ -21,10 +21,10 @@ enum SortType {
   LENGTH,
 }
 
-  type ReorderOptions = {
-    sortType: SortType,
-    isReversed: boolean,
-  };
+type ReorderOptions = {
+  sortType: SortType,
+  isReversed: boolean,
+};
 
 export function getReorderedGoods(
   goods: string[],
@@ -66,6 +66,8 @@ export const App: React.FC = () => {
   const visibleGoods = getReorderedGoods(goodsFromServer,
     ({ sortType, isReversed }));
 
+  const showReverseButton = (sortType !== SortType.NONE || isReversed);
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -99,7 +101,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        { (sortType !== SortType.NONE || isReversed) && (
+        {showReverseButton && (
           <button
             type="button"
             className="button is-danger is-light"
