@@ -64,7 +64,7 @@ export const App: React.FC = () => {
       ? getReorderedGoods(goodsFromServer, { sortType, isReversed })
       : [...goodsFromServer];
 
-  const defaultOrder = isReversed === false && sortType === SortType.NONE;
+  const defaultOrder = !isReversed && sortType === SortType.NONE;
 
   const reset = () => {
     setIsReversed(false);
