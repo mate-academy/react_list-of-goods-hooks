@@ -58,6 +58,10 @@ export const App: React.FC = () => {
   const goods = getReorderedGoods(goodsFromServer, { sortType, isReversed });
 
   const hasInitialOrder = (!isReversed && (sortType === SortType.NONE));
+  const resetOrder = () => {
+    setIsReversed(false);
+    setSortType(SortType.NONE);
+  };
 
   return (
     <div className="section content">
@@ -90,10 +94,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setIsReversed(false);
-              setSortType(SortType.NONE);
-            }}
+            onClick={() => resetOrder()}
           >
             Reset
           </button>
