@@ -33,9 +33,6 @@ export function getReorderedGoods(
 ) {
   const visibleGoods = [...goods];
 
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
-
   visibleGoods.sort((f1, f2) => {
     switch (sortType) {
       case SortType.ALPHABET:
@@ -123,7 +120,7 @@ export const App: React.FC = () => {
 
       <ul>
         <ul>
-          {goods.map(good => <li data-cy="Good">{good}</li>)}
+          {goods.map(good => <li key={good} data-cy="Good">{good}</li>)}
         </ul>
       </ul>
     </div>
