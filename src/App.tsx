@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, FC } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import cn from 'classnames';
@@ -22,7 +22,31 @@ enum SortType {
   LENGTH,
 }
 
-export function App() {
+export const getReorderedGoods = (
+  sortType: SortType,
+  isReversed: boolean,
+): string[] => {
+  let visibleGoods = [...goodsFromServer];
+
+  visibleGoods.sort((a, b) => {
+    switch (sortType) {
+      case SortType.ALPHABET:
+        return a.localeCompare(b);
+      case SortType.LENGTH:
+        return a.length - b.length;
+      default:
+        return 0;
+    }
+  });
+
+  if (isReversed) {
+    visibleGoods = visibleGoods.reverse();
+  }
+
+  return visibleGoods;
+};
+
+export const App: FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
@@ -32,12 +56,10 @@ export function App() {
   };
 
   const sortAlphabetically = () => {
-    setIsReversed(false);
     setSortType(SortType.ALPHABET);
   };
 
   const sortByLength = () => {
-    setIsReversed(false);
     setSortType(SortType.LENGTH);
   };
 
@@ -45,29 +67,8 @@ export function App() {
     setIsReversed((prevState) => !prevState);
   };
 
-  const getReorderedGoods = (): string[] => {
-    let visibleGoods = [...goodsFromServer];
-
-    visibleGoods.sort((a, b) => {
-      switch (sortType) {
-        case SortType.ALPHABET:
-          return a.localeCompare(b);
-        case SortType.LENGTH:
-          return a.length - b.length;
-        default:
-          return 0;
-      }
-    });
-
-    if (isReversed) {
-      visibleGoods = visibleGoods.reverse();
-    }
-
-    return visibleGoods;
-  };
-
-  const visibleGoods = useMemo(() => getReorderedGoods(),
-    [goodsFromServer, sortType, isReversed]);
+  const visibleGoods = useMemo(() => getReorderedGoods(sortType, isReversed),
+    [sortType, isReversed]);
 
   const isResetButtonVisible = sortType !== SortType.NONE || isReversed;
 
@@ -77,7 +78,7 @@ export function App() {
         <button
           type="button"
           className={cn('button', 'is-info', {
-            'is-light': sortType !== SortType.ALPHABET,
+            'is-light': sortType === SortType.NONE,
           })}
           onClick={sortAlphabetically}
         >
@@ -124,4 +125,4 @@ export function App() {
       </ul>
     </div>
   );
-}
+};
