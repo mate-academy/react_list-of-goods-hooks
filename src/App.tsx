@@ -31,7 +31,7 @@ type ReorderOptions = {
 export function getReorderedGoods(
   goods: string[],
   { sortType, isReversed }: ReorderOptions,
-) {
+): string[] {
   const visibleGoods = [...goods];
 
   visibleGoods.sort((good1, good2) => {
@@ -59,19 +59,19 @@ export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setIsReversed] = useState(false);
 
-  const reverseGoodsList = () => {
+  const reverseGoodsList = (): void => {
     setIsReversed(!isReversed);
   };
 
-  const sortByAlphabet = () => {
+  const sortByAlphabet = (): void => {
     setSortType(SortType.ALPHABET);
   };
 
-  const sortByLength = () => {
+  const sortByLength = (): void => {
     setSortType(SortType.LENGTH);
   };
 
-  const resetHandler = () => {
+  const resetHandler = (): void => {
     setSortType(SortType.NONE);
     setIsReversed(false);
   };
