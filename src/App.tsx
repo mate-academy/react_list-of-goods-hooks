@@ -58,6 +58,15 @@ export const App = () => {
     { isReversed, sortType },
   );
 
+  const setSort = (sortTypeBy: SortType) => () => setSortType(sortTypeBy);
+
+  const setReverse = (reverse: boolean) => () => setIsReversed(reverse);
+
+  const setReset = () => {
+    setSortType(SortType.NONE);
+    setIsReversed(false);
+  };
+
   return (
     <>
       <div className="section content">
@@ -69,7 +78,7 @@ export const App = () => {
               'is-info',
               { 'is-light': sortType !== SortType.ALPHABET },
             )}
-            onClick={() => setSortType(SortType.ALPHABET)}
+            onClick={setSort(SortType.ALPHABET)}
           >
             Sort alphabetically
           </button>
@@ -81,7 +90,7 @@ export const App = () => {
               'is-info',
               { 'is-light': sortType !== SortType.LENGTH },
             )}
-            onClick={() => setSortType(SortType.LENGTH)}
+            onClick={setSort(SortType.LENGTH)}
           >
             Sort by length
           </button>
@@ -93,7 +102,7 @@ export const App = () => {
               'is-warning',
               { 'is-light': !isReversed },
             )}
-            onClick={() => setIsReversed(!isReversed)}
+            onClick={setReverse(!isReversed)}
           >
             Reverse
           </button>
@@ -102,10 +111,7 @@ export const App = () => {
             <button
               type="button"
               className="button is-danger is-light"
-              onClick={() => {
-                setSortType(SortType.NONE);
-                setIsReversed(false);
-              }}
+              onClick={setReset}
             >
               Reset
             </button>
