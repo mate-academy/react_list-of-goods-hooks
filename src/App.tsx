@@ -16,52 +16,49 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-const SORT_FEILD_ALPH = 'alph';
-const SORT_FEILD_LENGTH = 'length';
+enum SortType {
+  NONE,
+  ALPHABET,
+  LENGTH,
+}
+type ReorderOptions = {
+  sortType: SortType,
+  isReversed: boolean,
+};
 
-function getFinalGoods(
+export function getReorderedGoods(
   goods: string[],
-  criterion: string,
-  direction: boolean,
-): string[] {
-  const preliminaryGoods = [...goods];
+  { sortType, isReversed }: ReorderOptions,
+) {
+  const visibleGoods = [...goods];
 
-  if (!criterion && direction) {
-    return preliminaryGoods.reverse();
+  visibleGoods.sort((good1, good2) => {
+    switch (sortType) {
+      case (SortType.ALPHABET):
+        return good1.localeCompare(good2);
+
+      case (SortType.LENGTH):
+        return good1.length - good2.length;
+
+      default:
+        return 0;
+    }
+  });
+
+  if (isReversed) {
+    visibleGoods.reverse();
   }
 
-  if (criterion) {
-    preliminaryGoods.sort((good1, good2) => {
-      switch (criterion) {
-        case SORT_FEILD_LENGTH:
-          if (good1.length !== good2.length) {
-            return (direction)
-              ? good2.length - good1.length
-              : good1.length - good2.length;
-          }
-
-          return (direction)
-            ? good2.localeCompare(good1)
-            : good1.localeCompare(good2);
-
-        case SORT_FEILD_ALPH:
-          return (direction)
-            ? good2.localeCompare(good1)
-            : good1.localeCompare(good2);
-
-        default:
-          return 0;
-      }
-    });
-  }
-
-  return preliminaryGoods;
+  return visibleGoods;
 }
 
 export const App: React.FC = () => {
-  const [sortFeild, setSortFeild] = useState<string>('');
-  const [sortReverse, setSortReverse] = useState<boolean>(false);
-  const finalGoods = getFinalGoods(goodsFromServer, sortFeild, sortReverse);
+  const [sortType, setsortType] = useState<SortType>(0);
+  const [isReversed, setisReversed] = useState<boolean>(false);
+  const finalGoods = getReorderedGoods(
+    goodsFromServer,
+    { sortType, isReversed },
+  );
 
   return (
     <div className="section content">
@@ -71,10 +68,10 @@ export const App: React.FC = () => {
           className={cn(
             'button',
             'is-info',
-            { 'is-light': sortFeild !== SORT_FEILD_ALPH },
+            { 'is-light': sortType !== SortType.ALPHABET },
           )}
           onClick={() => {
-            setSortFeild(SORT_FEILD_ALPH);
+            setsortType(SortType.ALPHABET);
           }}
         >
           Sort alphabetically
@@ -85,10 +82,10 @@ export const App: React.FC = () => {
           className={cn(
             'button',
             'is-success',
-            { 'is-light': sortFeild !== SORT_FEILD_LENGTH },
+            { 'is-light': sortType !== SortType.LENGTH },
           )}
           onClick={() => {
-            setSortFeild(SORT_FEILD_LENGTH);
+            setsortType(SortType.LENGTH);
           }}
         >
           Sort by length
@@ -99,22 +96,22 @@ export const App: React.FC = () => {
           className={cn(
             'button',
             'is-warning',
-            { 'is-light': !sortReverse },
+            { 'is-light': !isReversed },
           )}
           onClick={() => {
-            setSortReverse(!sortReverse);
+            setisReversed(!isReversed);
           }}
         >
           Reverse
         </button>
 
-        {(sortFeild !== '' || sortReverse) && (
+        {(sortType !== 0 || isReversed) && (
           <button
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              setSortFeild('');
-              setSortReverse(false);
+              setsortType(0);
+              setisReversed(false);
             }}
           >
             Reset
