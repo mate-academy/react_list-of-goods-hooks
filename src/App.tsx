@@ -49,7 +49,7 @@ const sortButtons: ISortButton[] = [
 
 function getPreparedGoods(
   goods: string[],
-  sortField: typeof SortTypes[keyof typeof SortTypes],
+  sortField: SortTypes,
   isReversed: boolean,
 ) {
   const preparedGoods = [...goods];
@@ -71,14 +71,14 @@ function getPreparedGoods(
 
 export const App: React.FC = () => {
   const [sortField, setSortField]
-    = useState<typeof SortTypes[keyof typeof SortTypes]>(SortTypes.DEFAULT);
+    = useState<SortTypes>(SortTypes.DEFAULT);
   const [isReversed, setIsReversed] = useState(false);
 
   const visibleGoods = getPreparedGoods(
     goodsFromServer, sortField, isReversed,
   );
 
-  const handleSort = (type: typeof SortTypes[keyof typeof SortTypes]) => {
+  const handleSort = (type: SortTypes) => {
     if (type === SortTypes.SORT_REVERSE) {
       setIsReversed(!isReversed);
     } else {
