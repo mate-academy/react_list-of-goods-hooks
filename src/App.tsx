@@ -20,6 +20,7 @@ enum SortTypes {
   SORT_FIELD_ALPHABETICALLY = 'alphabetically',
   SORT_FIELD_BY_LENGTH = 'length',
   SORT_REVERSE = 'reverse',
+  DEFAULT = '',
 }
 
 interface ISortButton {
@@ -48,7 +49,7 @@ const sortButtons: ISortButton[] = [
 
 function getPreparedGoods(
   goods: string[],
-  sortField: typeof SortTypes[keyof typeof SortTypes] | '',
+  sortField: typeof SortTypes[keyof typeof SortTypes],
   isReversed: boolean,
 ) {
   const preparedGoods = [...goods];
@@ -70,7 +71,7 @@ function getPreparedGoods(
 
 export const App: React.FC = () => {
   const [sortField, setSortField]
-    = useState<typeof SortTypes[keyof typeof SortTypes] | ''>('');
+    = useState<typeof SortTypes[keyof typeof SortTypes]>(SortTypes.DEFAULT);
   const [isReversed, setIsReversed] = useState(false);
 
   const visibleGoods = getPreparedGoods(
@@ -86,7 +87,7 @@ export const App: React.FC = () => {
   };
 
   const handleReset = () => {
-    setSortField('');
+    setSortField(SortTypes.DEFAULT);
     setIsReversed(false);
   };
 
