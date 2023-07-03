@@ -28,47 +28,46 @@ type ReorderOptions = {
   isReversed: boolean,
 };
 
-export const App: FC = () => {
-  const getReorderedGoods = (
-    goods: string[],
-    { sortType, isReversed }: ReorderOptions,
-  ) => {
-    const visibleGoods = [...goods];
+export const getReorderedGoods = (
+  goods: string[],
+  { sortType, isReversed }: ReorderOptions,
+) => {
+  const visibleGoods = [...goods];
 
-    visibleGoods.sort((firstItem, secondItem) => {
-      switch (sortType) {
-        case SortType.ALPHABET:
-          return firstItem.localeCompare(secondItem);
+  visibleGoods.sort((firstItem, secondItem) => {
+    switch (sortType) {
+      case SortType.ALPHABET:
+        return firstItem.localeCompare(secondItem);
 
-        case SortType.LENGTH:
-          return firstItem.length - secondItem.length;
+      case SortType.LENGTH:
+        return firstItem.length - secondItem.length;
 
-        default:
-          return 0;
-      }
-    });
-
-    if (isReversed) {
-      visibleGoods.reverse();
+      default:
+        return 0;
     }
+  });
 
-    return visibleGoods;
-  };
+  if (isReversed) {
+    visibleGoods.reverse();
+  }
 
+  return visibleGoods;
+};
+
+export const App: FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
-  const [isReversed, setReverse] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
   const shouldShowReset = isReversed || sortType !== SortType.NONE;
-
-  const sortBy = (sortByKey: SortType) => {
-    setSortType(sortByKey);
-  };
+  const reorderedGoods = getReorderedGoods(goodsFromServer, {
+    sortType, isReversed,
+  });
 
   const reverse = () => {
-    setReverse((currentReverse) => !currentReverse);
+    setIsReversed((currentReverse) => !currentReverse);
   };
 
   const reset = () => {
-    setReverse(false);
+    setIsReversed(false);
     setSortType(SortType.NONE);
   };
 
@@ -80,7 +79,7 @@ export const App: FC = () => {
           className={cn('button is-info', {
             'is-light': sortType !== SortType.ALPHABET,
           })}
-          onClick={() => sortBy(SortType.ALPHABET)}
+          onClick={() => setSortType(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
@@ -90,7 +89,7 @@ export const App: FC = () => {
           className={cn('button is-success', {
             'is-light': sortType !== SortType.LENGTH,
           })}
-          onClick={() => sortBy(SortType.LENGTH)}
+          onClick={() => setSortType(SortType.LENGTH)}
         >
           Sort by length
         </button>
@@ -117,10 +116,7 @@ export const App: FC = () => {
       </div>
 
       <ul>
-        {getReorderedGoods(
-          goodsFromServer,
-          { sortType, isReversed },
-        ).map((item) => (
+        {reorderedGoods.map((item) => (
           <li data-cy="Good" key={item}>
             {item}
           </li>
