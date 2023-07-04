@@ -24,7 +24,7 @@ interface FilterParams {
 enum SortField {
   Alph = 'Sort alphabetically',
   Lngth = 'Sort by length',
-  None = '',
+  None = 'none',
 }
 
 function getPreparedList(
@@ -33,7 +33,7 @@ function getPreparedList(
 ) {
   let prepareGoods = [...goods];
 
-  if (sortField) {
+  if (sortField !== SortField.None) {
     prepareGoods.sort((good1, good2) => {
       switch (sortField) {
         case SortField.Alph:
@@ -79,7 +79,7 @@ export const App: React.FC = () => {
           onClick={() => setSortField(SortField.Lngth)}
           type="button"
           className={
-            classNames('button is-info',
+            classNames('button is-success',
               { 'is-light': sortField !== SortField.Lngth })
           }
         >
@@ -94,7 +94,7 @@ export const App: React.FC = () => {
           )}
           type="button"
           className={
-            classNames('button is-info',
+            classNames('button is-warning',
               { 'is-light': !isReversed })
           }
         >
