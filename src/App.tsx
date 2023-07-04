@@ -61,12 +61,8 @@ export const App: React.FC = () => {
   const listOfGoods
     = getPreparedList(goodsFromServer, { sortField, isReversed });
 
-  const handleSortByAlph = () => {
-    setSortField(SortField.Alph);
-  };
-
-  const handleSortByLngth = () => {
-    setSortField(SortField.Lngth);
+  const makeHandleSortBy = (field: SortField) => () => {
+    setSortField(field);
   };
 
   const handleToggleReverse = () => (
@@ -82,7 +78,7 @@ export const App: React.FC = () => {
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={handleSortByAlph}
+          onClick={makeHandleSortBy(SortField.Alph)}
           type="button"
           className={
             classNames('button is-info',
@@ -93,7 +89,7 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={handleSortByLngth}
+          onClick={makeHandleSortBy(SortField.Lngth)}
           type="button"
           className={
             classNames('button is-success',
@@ -114,7 +110,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {JSON.stringify(goodsFromServer) !== JSON.stringify(listOfGoods) && (
+        {(sortField !== SortField.None || isReversed) && (
           <button
             onClick={handleReset}
             type="button"
