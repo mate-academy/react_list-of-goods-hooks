@@ -30,30 +30,21 @@ function getPrepareGoods(
 ): string[] {
   const prepareGoods = [...goods];
 
-  if (!sortField && reverseField) {
+  switch (sortField) {
+    case SortBy.asc:
+      prepareGoods.sort((a, b) => a.localeCompare(b));
+      break;
+
+    case SortBy.length:
+      prepareGoods.sort((a, b) => a.length - b.length);
+      break;
+
+    default:
+      return prepareGoods;
+  }
+
+  if (reverseField) {
     prepareGoods.reverse();
-  } else if (sortField) {
-    prepareGoods.sort((a, b) => {
-      if (!reverseField) {
-        switch (sortField) {
-          case SortBy.asc:
-            return a.localeCompare(b);
-          case SortBy.length:
-            return a.length - b.length;
-          default:
-            return 0;
-        }
-      } else {
-        switch (sortField) {
-          case SortBy.asc:
-            return b.localeCompare(a);
-          case SortBy.length:
-            return b.length - a.length;
-          default:
-            return 0;
-        }
-      }
-    });
   }
 
   return prepareGoods;
@@ -72,9 +63,12 @@ export const App: React.FC = () => {
   );
 
   function reverseWithConditions() {
-    const reverseValue = !reverseField;
+    setReverseField(!reverseField);
+  }
 
-    setReverseField(reverseValue);
+  function reset() {
+    setSortField(SortBy.default);
+    setReverseField(false);
   }
 
   return (
@@ -109,9 +103,9 @@ export const App: React.FC = () => {
           className={cn(
             'button',
             'is-warning',
-            { 'is-light': reverseField },
+            { 'is-light': !reverseField },
           )}
-          onClick={() => reverseWithConditions()}
+          onClick={reverseWithConditions}
         >
           Reverse
         </button>
@@ -120,10 +114,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortField(SortBy.default);
-              setReverseField(false);
-            }}
+            onClick={reset}
           >
             Reset
           </button>
