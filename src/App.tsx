@@ -31,12 +31,12 @@ function orderGoods(goods: string[],
   { sortType, isReversed }: OrderOptions) {
   const visibleGoods = [...goods];
 
-  visibleGoods.sort((good1: string, good2: string) => {
+  visibleGoods.sort((goodA: string, goodB: string) => {
     switch (sortType) {
       case SortType.ALPABETICALLY:
-        return good1.localeCompare(good2);
+        return goodA.localeCompare(goodB);
       case SortType.LENGHT:
-        return good1.length - good2.length;
+        return goodA.length - goodB.length;
       default:
         return 0;
     }
