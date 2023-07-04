@@ -94,8 +94,8 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={sortField === SortType.Lenght
-            ? 'button is-info'
-            : 'button is-info is-light'}
+            ? 'button is-success'
+            : 'button is-success is-light'}
           onClick={() => setSortField(SortType.Lenght)}
         >
           Sort by length
@@ -104,8 +104,8 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={hasReverse
-            ? 'button is-info'
-            : 'button is-info is-light'}
+            ? 'button is-warning'
+            : 'button is-warning is-light'}
           onClick={() => setHasReverse(!hasReverse)}
         >
           Reverse
