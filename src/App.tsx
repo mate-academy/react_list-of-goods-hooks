@@ -70,7 +70,7 @@ export const App: React.FC = () => {
   };
 
   const onReverse = () => {
-    setReversed(!reverse);
+    setReversed(true);
   };
 
   return (
