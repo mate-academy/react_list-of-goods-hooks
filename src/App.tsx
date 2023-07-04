@@ -61,11 +61,28 @@ export const App: React.FC = () => {
   const listOfGoods
     = getPreparedList(goodsFromServer, { sortField, isReversed });
 
+  const handleSortByAlph = () => {
+    setSortField(SortField.Alph);
+  };
+
+  const handleSortByLngth = () => {
+    setSortField(SortField.Lngth);
+  };
+
+  const handleToggleReverse = () => (
+    isReversed ? setIsReversed(false) : setIsReversed(true)
+  );
+
+  const handleReset = () => {
+    setIsReversed(false);
+    setSortField(SortField.None);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => setSortField(SortField.Alph)}
+          onClick={handleSortByAlph}
           type="button"
           className={
             classNames('button is-info',
@@ -76,7 +93,7 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={() => setSortField(SortField.Lngth)}
+          onClick={handleSortByLngth}
           type="button"
           className={
             classNames('button is-success',
@@ -87,11 +104,7 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={() => (
-            isReversed
-              ? setIsReversed(false)
-              : setIsReversed(true)
-          )}
+          onClick={handleToggleReverse}
           type="button"
           className={
             classNames('button is-warning',
@@ -103,10 +116,7 @@ export const App: React.FC = () => {
 
         {JSON.stringify(goodsFromServer) !== JSON.stringify(listOfGoods) && (
           <button
-            onClick={() => {
-              setIsReversed(false);
-              setSortField(SortField.None);
-            }}
+            onClick={handleReset}
             type="button"
             className="button is-danger is-light"
           >
