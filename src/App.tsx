@@ -17,16 +17,18 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-type Good = string;
-type Sort = SortType | '';
-
 enum SortType {
   SORT_FIELD_ALPHABET = 'alphabet',
   SORT_FIELD_LENGTH = 'length',
   SORT_FIELD_REVERSE = 'reverse',
+  NONE = '',
 }
 
-function getSortedElements(goods: Good[], sortField: Sort, sortReverse: Sort) {
+function getSortedElements(
+  goods: string[],
+  sortField: SortType,
+  sortReverse: SortType,
+) {
   let preparedGoods = [...goods];
 
   if (sortField) {
@@ -52,19 +54,19 @@ function getSortedElements(goods: Good[], sortField: Sort, sortReverse: Sort) {
   return preparedGoods;
 }
 
-function getButtonColor(sortField: Sort, thisSortField: Sort) {
+function getButtonColor(sortField: SortType, thisSortField: SortType) {
   return sortField !== thisSortField;
 }
 
-function ifReversed(reverseField: Sort) {
+function ifReversed(reverseField: SortType) {
   return !reverseField
     ? SortType.SORT_FIELD_REVERSE
-    : '';
+    : SortType.NONE;
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState<Sort>('');
-  const [reverseField, setReverseField] = useState<Sort>('');
+  const [sortField, setSortField] = useState<SortType>(SortType.NONE);
+  const [reverseField, setReverseField] = useState<SortType>(SortType.NONE);
   const visibleGoods = getSortedElements(goodsFromServer,
     sortField, reverseField);
 
@@ -124,8 +126,8 @@ export const App: React.FC = () => {
         {(sortField || reverseField) && (
           <button
             onClick={() => {
-              setSortField('');
-              setReverseField('');
+              setSortField(SortType.NONE);
+              setReverseField(SortType.NONE);
             }}
             type="button"
             className="button is-danger is-light"
@@ -136,7 +138,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {visibleGoods.map((good: Good) => (
+        {visibleGoods.map((good: string) => (
           <li
             key={good}
             data-cy="Good"
