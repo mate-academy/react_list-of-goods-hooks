@@ -24,14 +24,14 @@ const SORT_BY = {
 
 type SortingParams = {
   sortBy: string,
-  reverse: boolean
+  isReverse: boolean
 };
 
 function getVisibleGoods(
   goods:string[],
   {
     sortBy,
-    reverse,
+    isReverse,
   }: SortingParams,
 ): string[] {
   const result = [...goods];
@@ -41,15 +41,17 @@ function getVisibleGoods(
       switch (sortBy) {
         case SORT_BY.ALPHA:
           return a.localeCompare(b);
+
         case SORT_BY.LENGTH:
           return a.length - b.length;
+
         default:
           return 0;
       }
     });
   }
 
-  if (reverse) {
+  if (isReverse) {
     result.reverse();
   }
 
@@ -58,10 +60,15 @@ function getVisibleGoods(
 
 export const App: React.FC = () => {
   const [sortBy, setSortBy] = useState('');
-  const [reverse, setReverse] = useState(false);
+  const [isReverse, setReverse] = useState(false);
 
   const visibleGoods = getVisibleGoods(goodsFromServer,
-    { sortBy, reverse });
+    { sortBy, isReverse });
+
+  const reset = () => {
+    setSortBy('');
+    setReverse(false);
+  };
 
   return (
     <div className="section content">
@@ -89,21 +96,18 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-warning ', {
-            'is-light': !reverse,
+            'is-light': !isReverse,
           })}
-          onClick={() => setReverse(!reverse)}
+          onClick={() => setReverse(!isReverse)}
         >
           Reverse
         </button>
 
-        {(sortBy || reverse) && (
+        {(sortBy || isReverse) && (
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortBy('');
-              setReverse(false);
-            }}
+            onClick={reset}
           >
             Reset
           </button>
