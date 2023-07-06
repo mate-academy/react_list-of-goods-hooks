@@ -16,14 +16,14 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-interface Sort {
-  DEFAULT_SORT: '',
-  SORT_GOODS_ALPH: 'alphabetically';
-  SORT_GOODS_LENGTH: 'length';
+enum Sort {
+  DEFAULT_SORT = '',
+  SORT_GOODS_ALPH = 'alphabetically',
+  SORT_GOODS_LENGTH = 'length',
 }
 
 interface FilteredParams {
-  sortFilter: keyof Sort;
+  sortFilter: Sort;
   reversedGoods: boolean;
 }
 
@@ -35,11 +35,11 @@ function getPreparedGoods(
 
   if (sortFilter) {
     preperedGoods.sort((good1, good2) => {
-      if (sortFilter === 'SORT_GOODS_ALPH') {
+      if (sortFilter === Sort.SORT_GOODS_ALPH) {
         return good1.localeCompare(good2);
       }
 
-      if (sortFilter === 'SORT_GOODS_LENGTH') {
+      if (sortFilter === Sort.SORT_GOODS_LENGTH) {
         return good1.length - good2.length;
       }
 
@@ -55,7 +55,7 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortFilter, setSortFilter] = useState<keyof Sort>('DEFAULT_SORT');
+  const [sortFilter, setSortFilter] = useState(Sort.DEFAULT_SORT);
   const [reversedGoods, setReversedGoods] = useState<boolean>(false);
 
   const vissibleGoods = getPreparedGoods(
@@ -71,9 +71,9 @@ export const App: React.FC = () => {
           className={cn(
             'button',
             'is-info',
-            { 'is-light': sortFilter !== 'SORT_GOODS_ALPH' },
+            { 'is-light': sortFilter !== Sort.SORT_GOODS_ALPH },
           )}
-          onClick={() => setSortFilter('SORT_GOODS_ALPH')}
+          onClick={() => setSortFilter(Sort.SORT_GOODS_ALPH)}
         >
           Sort alphabetically
         </button>
@@ -83,9 +83,9 @@ export const App: React.FC = () => {
           className={cn(
             'button',
             'is-success',
-            { 'is-light': sortFilter !== 'SORT_GOODS_LENGTH' },
+            { 'is-light': sortFilter !== Sort.SORT_GOODS_LENGTH },
           )}
-          onClick={() => setSortFilter('SORT_GOODS_LENGTH')}
+          onClick={() => setSortFilter(Sort.SORT_GOODS_LENGTH)}
         >
           Sort by length
         </button>
@@ -97,23 +97,17 @@ export const App: React.FC = () => {
             'is-warning',
             { 'is-light': !reversedGoods },
           )}
-          onClick={() => (
-            !reversedGoods ? (
-              setReversedGoods(true)
-            ) : (
-              setReversedGoods(false)
-            )
-          )}
+          onClick={() => setReversedGoods(!reversedGoods)}
         >
           Reverse
         </button>
 
-        { (sortFilter !== 'DEFAULT_SORT' || reversedGoods) && (
+        { (sortFilter !== Sort.DEFAULT_SORT || reversedGoods) && (
           <button
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              setSortFilter('DEFAULT_SORT');
+              setSortFilter(Sort.DEFAULT_SORT);
               setReversedGoods(false);
             }}
           >
