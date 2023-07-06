@@ -28,16 +28,18 @@ function getPrepearedGoods(
 ) {
   const prepearedGoods = [...goods];
 
-  prepearedGoods.sort((a, b) => {
-    switch (sortField) {
-      case SortType.Alphabeth:
-        return a.localeCompare(b);
-      case SortType.Length:
-        return a.length - b.length;
-      default:
-        return 0;
-    }
-  });
+  if (sortField) {
+    prepearedGoods.sort((a, b) => {
+      switch (sortField) {
+        case SortType.Alphabeth:
+          return a.localeCompare(b);
+        case SortType.Length:
+          return a.length - b.length;
+        default:
+          return 0;
+      }
+    });
+  }
 
   if (isReversed) {
     prepearedGoods.reverse();
@@ -62,11 +64,7 @@ export const App: React.FC = () => {
     return () => setSortField(field);
   }
 
-  const reset = () => {
-    const isResetButton = sortField !== '' || isReversed;
-
-    return isResetButton;
-  };
+  const reset = sortField !== '' || isReversed;
 
   const resetButton = () => {
     setSortField('');
@@ -110,7 +108,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {reset() && (
+        {reset && (
           <button
             type="button"
             className="button is-danger is-light"
