@@ -63,13 +63,9 @@ export const App: React.FC = () => {
     isReversed,
   });
 
-  function handleSort(field: SortType) {
-    return () => setSortField(field);
-  }
+  const handleSort = (field: SortType) => () => setSortField(field);
 
-  const handleReverse = () => {
-    setIsReversed(!isReversed);
-  };
+  const handleReverse = () => setIsReversed(!isReversed);
 
   const handleReset = () => {
     setSortField('');
@@ -109,7 +105,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {JSON.stringify(visibleGoods) !== JSON.stringify(goodsFromServer) && (
+        {(sortField || isReversed) && (
           <button
             type="button"
             className="button is-danger is-light"
