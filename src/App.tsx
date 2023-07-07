@@ -22,7 +22,7 @@ enum SortType {
   None = '',
 }
 
-export const App: React.FC= () => {
+export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const [sortedType, setSortedType] = useState<SortType>(SortType.None);
 
