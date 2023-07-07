@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import cn from 'classnames';
@@ -18,24 +18,24 @@ export const goodsFromServer: string[] = [
 ];
 
 enum SortType {
-  az = 'az',
-  length = 'length',
-  reverse = 'reverse',
+  byAlphabet = 'alphabet',
+  byLength = 'length',
+  reverseBy = 'reverse',
   default = '',
 }
 
-function getSortedGoods(goods: string[], type: SortType[]) {
+function getSortedGoods(goods: string[], type: SortType, reverse: SortType) {
   const sortedGoods = [...goods];
 
-  if (type[0] === SortType.az) {
+  if (type === SortType.byAlphabet) {
     sortedGoods.sort((good1, good2) => good1.localeCompare(good2));
   }
 
-  if (type[0] === SortType.length) {
+  if (type === SortType.byLength) {
     sortedGoods.sort((good1, good2) => good1.length - good2.length);
   }
 
-  if (type[1] === SortType.reverse) {
+  if (reverse === SortType.reverseBy) {
     sortedGoods.reverse();
   }
 
@@ -43,17 +43,23 @@ function getSortedGoods(goods: string[], type: SortType[]) {
 }
 
 export const App: React.FC = () => {
-  const [sortType, setSortType]
-  = React.useState<SortType[]>([SortType.default, SortType.default]);
-  const sortedGoods = getSortedGoods(goodsFromServer, sortType);
+  const [sortType, setSortType] = useState<SortType>(SortType.default);
+  const [reverseType, setReverseType] = useState<SortType>(SortType.default);
 
-  const isReset = sortType[0] !== SortType.default
-    || sortType[1] !== SortType.default;
+  const sortedGoods = getSortedGoods(goodsFromServer, sortType, reverseType);
 
-  const isReverse = () => setSortType(
-    sortType[1] === SortType.reverse
-      ? [sortType[0], SortType.default]
-      : [sortType[0], SortType.reverse],
+  const isReset = sortType !== SortType.default
+    || reverseType !== SortType.default;
+
+  const setResetSort = () => {
+    setSortType(SortType.default);
+    setReverseType(SortType.default);
+  };
+
+  const setReverseSort = () => setReverseType(
+    reverseType === SortType.reverseBy
+      ? SortType.default
+      : SortType.reverseBy,
   );
 
   return (
@@ -62,9 +68,12 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={
-            cn('button is-info', { 'is-light': sortType[0] !== SortType.az })
+            cn(
+              'button is-info',
+              { 'is-light': sortType !== SortType.byAlphabet },
+            )
           }
-          onClick={() => setSortType([SortType.az, sortType[1]])}
+          onClick={() => setSortType(SortType.byAlphabet)}
         >
           Sort alphabetically
         </button>
@@ -73,9 +82,9 @@ export const App: React.FC = () => {
           type="button"
           className={
             cn('button is-success',
-              { 'is-light': sortType[0] !== SortType.length })
+              { 'is-light': sortType !== SortType.byLength })
           }
-          onClick={() => setSortType([SortType.length, sortType[1]])}
+          onClick={() => setSortType(SortType.byLength)}
         >
           Sort by length
         </button>
@@ -84,9 +93,9 @@ export const App: React.FC = () => {
           type="button"
           className={
             cn('button is-warning',
-              { 'is-light': sortType[1] !== SortType.reverse })
+              { 'is-light': reverseType !== SortType.reverseBy })
           }
-          onClick={isReverse}
+          onClick={setReverseSort}
         >
           Reverse
         </button>
@@ -95,7 +104,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => setSortType([SortType.default, SortType.default])}
+            onClick={setResetSort}
           >
             Reset
           </button>
