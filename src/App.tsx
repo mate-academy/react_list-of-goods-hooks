@@ -40,7 +40,6 @@ function getPreparedGoods(
           return good1.localeCompare(good2);
         case SortType.LNGTH:
           return good1.length - good2.length;
-
         default:
           return 0;
       }
@@ -113,7 +112,9 @@ export const App: React.FC = () => {
       <ul>
         <ul>
           {visibleGoods.map((good) => (
-            <li data-cy="Good">{good}</li>
+            <li key={good} data-cy="Good">
+              {good}
+            </li>
           ))}
         </ul>
       </ul>
