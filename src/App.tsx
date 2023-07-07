@@ -20,7 +20,7 @@ enum SortType {
   Alphabetically = 'alphabetically',
   Length = 'length',
   Reverse = 'reverse',
-  Reset = '',
+  None = '',
 }
 
 export const App: React.FC = () => {
@@ -30,12 +30,17 @@ export const App: React.FC = () => {
   const sortMethod = () => {
     let res = [...goodsFromServer];
 
-    if (select === SortType.Alphabetically) {
-      res = [...goodsFromServer].sort((a, b) => a.localeCompare(b));
-    }
-
-    if (select === SortType.Length) {
-      res = [...goodsFromServer].sort((a, b) => a.length - b.length);
+    switch (select) {
+      case SortType.Alphabetically:
+        res = [...goodsFromServer].sort((a, b) => a.localeCompare(b));
+        break;
+      case SortType.Length:
+        res = [...goodsFromServer].sort((a, b) => a.length - b.length);
+        break;
+      case SortType.Reverse:
+        return res.reverse();
+      default:
+        res = [...goodsFromServer];
     }
 
     if (isReversed) {
@@ -46,13 +51,13 @@ export const App: React.FC = () => {
   };
 
   const Reset = () => {
-    if (select !== '' || isReversed) {
+    if (select !== SortType.None || isReversed) {
       return (
         <button
           type="button"
           className="button is-danger is-light"
           onClick={() => {
-            setSelect(SortType.Reset);
+            setSelect(SortType.None);
             setReversed(false);
           }}
         >
