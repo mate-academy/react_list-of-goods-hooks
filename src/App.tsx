@@ -19,11 +19,12 @@ export const goodsFromServer = [
 enum SortType {
   Alphabeth = 'alphabet',
   Length = 'length',
+  Default = '',
 }
 
 function getPrepearedGoods(
   goods: string[],
-  sortField: string,
+  sortField: SortType,
   isReversed:boolean,
 ) {
   const prepearedGoods = [...goods];
@@ -49,7 +50,7 @@ function getPrepearedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState(SortType.Default);
   const [isReversed, setIsReversed] = useState(false);
 
   const visibleGoods = getPrepearedGoods(
@@ -60,14 +61,10 @@ export const App: React.FC = () => {
     setIsReversed(prevIsReversed => !prevIsReversed)
   );
 
-  function makeSetSortField(field: SortType) {
-    return () => setSortField(field);
-  }
-
   const reset = sortField !== '' || isReversed;
 
   const resetButton = () => {
-    setSortField('');
+    setSortField(SortType.Default);
     setIsReversed(false);
   };
 
@@ -82,7 +79,7 @@ export const App: React.FC = () => {
               { 'is-light': sortField !== SortType.Alphabeth },
             )
           }
-          onClick={makeSetSortField(SortType.Alphabeth)}
+          onClick={() => setSortField(SortType.Alphabeth)}
         >
           Sort alphabetically
         </button>
@@ -95,7 +92,7 @@ export const App: React.FC = () => {
               { 'is-light': sortField !== SortType.Length },
             )
           }
-          onClick={makeSetSortField(SortType.Length)}
+          onClick={() => setSortField(SortType.Length)}
         >
           Sort by length
         </button>
