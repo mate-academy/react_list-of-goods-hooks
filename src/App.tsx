@@ -1,8 +1,5 @@
-// eslint-disable-next-line import/no-duplicates
-import React from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
-// eslint-disable-next-line import/no-duplicates
 import { useState } from 'react';
 
 export const goodsFromServer = [
@@ -41,10 +38,6 @@ export function getReorderedGoods(
 
   if (sortType === SortType.LENGTH) {
     visibleGoods.sort((a, b) => {
-      if (a.length - b.length === 0) {
-        return a.localeCompare(b);
-      }
-
       return a.length - b.length;
     });
   }
@@ -57,7 +50,6 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [goods] = useState<string[]>([...goodsFromServer]);
   const [isReversed, setIsReversed] = useState<boolean>(false);
   const [sortType, setSortType] = useState<SortType>(SortType.NONE);
 
@@ -80,7 +72,8 @@ export const App: React.FC = () => {
     setIsReversed((prevState) => !prevState);
   };
 
-  const visibleGoods = getReorderedGoods(goods, { sortType, isReversed });
+  const visibleGoods = getReorderedGoods(goodsFromServer,
+    { sortType, isReversed });
   const isHidden = sortType === SortType.NONE && !isReversed;
 
   return (
