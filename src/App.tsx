@@ -26,8 +26,8 @@ type Goods = string[];
 
 export const App: React.FC = () => {
   const [sortGoods, setSortGoods] = useState<SortType>(SortType.EMPTY);
-  const [reverse, setReverse] = useState(false);
-  const [actualGoods, setActualGoods] = useState(goodsFromServer);
+  const [reverse, setReverse] = useState<boolean>(false);
+  const [actualGoods, setActualGoods] = useState<Goods>([...goodsFromServer]);
 
   function changeActualGoods(
     actual: Goods,
