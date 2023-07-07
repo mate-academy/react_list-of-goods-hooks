@@ -18,24 +18,26 @@ export const goodsFromServer: string[] = [
 ];
 
 enum SortType {
-  byAlphabet = 'alphabet',
-  byLength = 'length',
-  reverseBy = 'reverse',
-  default = '',
+  byAlphabet,
+  byLength,
+  default,
 }
 
-function getSortedGoods(goods: string[], type: SortType, reverse: SortType) {
+function getSortedGoods(goods: string[], type: SortType, reverse: boolean) {
   const sortedGoods = [...goods];
 
-  if (type === SortType.byAlphabet) {
-    sortedGoods.sort((good1, good2) => good1.localeCompare(good2));
-  }
+  sortedGoods.sort((good1: string, good2: string) => {
+    switch (type) {
+      case SortType.byAlphabet:
+        return good1.localeCompare(good2);
+      case SortType.byLength:
+        return good1.length - good2.length;
+      default:
+        return 0;
+    }
+  });
 
-  if (type === SortType.byLength) {
-    sortedGoods.sort((good1, good2) => good1.length - good2.length);
-  }
-
-  if (reverse === SortType.reverseBy) {
+  if (reverse) {
     sortedGoods.reverse();
   }
 
@@ -44,23 +46,16 @@ function getSortedGoods(goods: string[], type: SortType, reverse: SortType) {
 
 export const App: React.FC = () => {
   const [sortType, setSortType] = useState<SortType>(SortType.default);
-  const [reverseType, setReverseType] = useState<SortType>(SortType.default);
+  const [reverseType, setReverseType] = useState<boolean>(false);
 
   const sortedGoods = getSortedGoods(goodsFromServer, sortType, reverseType);
 
-  const isReset = sortType !== SortType.default
-    || reverseType !== SortType.default;
+  const isReset = sortType !== SortType.default || reverseType;
 
   const setResetSort = () => {
     setSortType(SortType.default);
-    setReverseType(SortType.default);
+    setReverseType(false);
   };
-
-  const setReverseSort = () => setReverseType(
-    reverseType === SortType.reverseBy
-      ? SortType.default
-      : SortType.reverseBy,
-  );
 
   return (
     <div className="section content">
@@ -91,11 +86,8 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={
-            cn('button is-warning',
-              { 'is-light': reverseType !== SortType.reverseBy })
-          }
-          onClick={setReverseSort}
+          className={cn('button is-warning', { 'is-light': !reverseType })}
+          onClick={() => setReverseType(reverseType !== true)}
         >
           Reverse
         </button>
