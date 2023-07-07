@@ -52,7 +52,6 @@ export function getReorderedGoods(
 export const App: React.FC = () => {
   const [visibleGoods, setVisibleGoods] = useState([...goodsFromServer]);
   const [activeSort, setActiveSort] = useState(SortType.NONE);
-  const [activeReset, setActiveReset] = useState(false);
   const [activeReverse, setActiveReverse] = useState(false);
 
   const handleAlphabet = () => {
@@ -62,7 +61,6 @@ export const App: React.FC = () => {
     }));
 
     setActiveSort(SortType.ALPHABET);
-    setActiveReset(true);
   };
 
   const handleLength = () => {
@@ -72,23 +70,15 @@ export const App: React.FC = () => {
     }));
 
     setActiveSort(SortType.LENGTH);
-    setActiveReset(true);
   };
 
   const handleReverse = () => {
     setVisibleGoods([...visibleGoods].reverse());
     setActiveReverse(!activeReverse);
-
-    if (activeSort !== SortType.NONE) {
-      setActiveReset(activeReset);
-    } else {
-      setActiveReset(!activeReset);
-    }
   };
 
   const handleReset = () => {
     setVisibleGoods(goodsFromServer);
-    setActiveReset(false);
     setActiveReverse(false);
     setActiveSort(SortType.NONE);
   };
@@ -102,7 +92,7 @@ export const App: React.FC = () => {
             'button is-info is-light': activeSort !== SortType.ALPHABET,
             'button is-info': activeSort === SortType.ALPHABET,
           })}
-          onClick={() => handleAlphabet()}
+          onClick={handleAlphabet}
         >
           Sort alphabetically
         </button>
@@ -113,7 +103,7 @@ export const App: React.FC = () => {
             'button is-success is-light': activeSort !== SortType.LENGTH,
             'button is-success': activeSort === SortType.LENGTH,
           })}
-          onClick={() => handleLength()}
+          onClick={handleLength}
         >
           Sort by length
         </button>
@@ -124,19 +114,17 @@ export const App: React.FC = () => {
             'button is-warning is-light': !activeReverse,
             'button is-warning': activeReverse,
           })}
-          onClick={() => handleReverse()}
+          onClick={handleReverse}
         >
           Reverse
         </button>
 
-        {activeReset
+        {(activeSort !== SortType.NONE || activeReverse !== false)
           && (
             <button
               type="button"
               className="button is-danger is-light"
-              onClick={() => {
-                handleReset();
-              }}
+              onClick={handleReset}
             >
               Reset
             </button>
@@ -146,7 +134,10 @@ export const App: React.FC = () => {
       <ul>
         <ul>
           {visibleGoods.map(good => (
-            <li data-cy="Good">
+            <li
+              data-cy="Good"
+              key={good}
+            >
               {good}
             </li>
           ))}
