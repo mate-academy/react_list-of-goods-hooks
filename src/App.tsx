@@ -17,10 +17,11 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-const SORT_BY = {
-  ALPHA: 'alpha',
-  LENGTH: 'length',
-};
+enum SortingCase {
+  ALPHA = 'alphabetically',
+  LENGTH = 'length',
+  default = '',
+}
 
 type SortingParams = {
   sortBy: string,
@@ -39,10 +40,10 @@ function getVisibleGoods(
   if (sortBy) {
     result.sort((a, b) => {
       switch (sortBy) {
-        case SORT_BY.ALPHA:
+        case SortingCase.ALPHA:
           return a.localeCompare(b);
 
-        case SORT_BY.LENGTH:
+        case SortingCase.LENGTH:
           return a.length - b.length;
 
         default:
@@ -59,14 +60,14 @@ function getVisibleGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortBy, setSortBy] = useState('');
+  const [sortBy, setSortBy] = useState(SortingCase.default);
   const [isReverse, setReverse] = useState(false);
 
   const visibleGoods = getVisibleGoods(goodsFromServer,
     { sortBy, isReverse });
 
   const reset = () => {
-    setSortBy('');
+    setSortBy(SortingCase.default);
     setReverse(false);
   };
 
@@ -76,9 +77,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-info', {
-            'is-light': sortBy !== SORT_BY.ALPHA,
+            'is-light': sortBy !== SortingCase.ALPHA,
           })}
-          onClick={() => setSortBy(SORT_BY.ALPHA)}
+          onClick={() => setSortBy(SortingCase.ALPHA)}
         >
           Sort alphabetically
         </button>
@@ -86,9 +87,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-success', {
-            'is-light': sortBy !== SORT_BY.LENGTH,
+            'is-light': sortBy !== SortingCase.LENGTH,
           })}
-          onClick={() => setSortBy(SORT_BY.LENGTH)}
+          onClick={() => setSortBy(SortingCase.LENGTH)}
         >
           Sort by length
         </button>
