@@ -71,6 +71,8 @@ export const App: React.FC = () => {
     setIsReversed(false);
   };
 
+  const reset = sortType !== SortType.NONE || isReversed;
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -104,7 +106,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortType !== SortType.NONE || isReversed) && (
+        {reset && (
           <button
             type="button"
             className="button is-danger is-light"
@@ -118,7 +120,7 @@ export const App: React.FC = () => {
       <ul>
         <ul>
           {visibleGoods.map(good => (
-            <li data-cy="Good">{good}</li>
+            <li data-cy="Good" key={good}>{good}</li>
           ))}
         </ul>
       </ul>
