@@ -56,7 +56,7 @@ function getPreparedGoods(
   return preparedGoods;
 }
 
-export const App = () => {
+export const App: React.FC = () => {
   const [sortField, setSortField] = useState(SortType.default);
   const [isReversed, setIsReversed] = useState(false);
 
