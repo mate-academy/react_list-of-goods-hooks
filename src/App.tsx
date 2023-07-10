@@ -66,7 +66,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           onClick={() => setSortField(SortType.Alphabet)}
-          className={cn('button', 'is-success', {
+          className={cn('button', 'is-info', {
             'is-light': sortField !== SortType.Alphabet,
           })}
         >
