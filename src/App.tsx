@@ -65,11 +65,11 @@ export const App: React.FC = () => {
           onClick={() => setSortType(SORT_BY_ALPHABET)}
           type="button"
           className={cn(
-            "button is-info",
-              {
-                'is-light': sortType !== SORT_BY_ALPHABET
-              }
-            )}
+            'button is-info',
+            {
+              'is-light': sortType !== SORT_BY_ALPHABET,
+            },
+          )}
         >
           Sort alphabetically
         </button>
@@ -77,7 +77,12 @@ export const App: React.FC = () => {
         <button
           onClick={() => setSortType(SORT_BY_LENGTH)}
           type="button"
-          className={cn("button is-success", {'is-light': sortType !== SORT_BY_LENGTH} )}
+          className={cn(
+            'button is-success',
+            {
+              'is-light': sortType !== SORT_BY_LENGTH,
+            },
+          )}
         >
           Sort by length
         </button>
@@ -85,7 +90,12 @@ export const App: React.FC = () => {
         <button
           onClick={() => setIsReversed(!isReversed)}
           type="button"
-          className={cn("button is-danger", {'is-light': !isReversed} )}
+          className={cn(
+            'button is-danger',
+            {
+              'is-light': !isReversed,
+            },
+          )}
         >
           Reverse
         </button>
@@ -104,7 +114,12 @@ export const App: React.FC = () => {
       <ul>
         <ul>
           {visibleGoods.map(good => (
-            <li data-cy="Good">{good}</li>
+            <li
+              data-cy="Good"
+              key={good}
+            >
+              {good}
+            </li>
           ))}
         </ul>
       </ul>
