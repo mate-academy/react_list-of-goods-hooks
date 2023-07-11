@@ -19,13 +19,17 @@ export const goodsFromServer = [
 enum SortType {
   Alphabeth = 'alphabetically',
   Length = 'length',
-  None = '',
+  Default = '',
+}
+
+interface SortingFiltres {
+  sortType: SortType;
+  isReversed: boolean;
 }
 
 function getPreparedGoods(
   goods: string [],
-  sortType: SortType,
-  isReversed: boolean,
+  { sortType, isReversed } : SortingFiltres,
 ): string [] {
   let preparedGoods = [...goods];
 
@@ -52,9 +56,10 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortType, setSortType] = useState(SortType.None);
-  const [isReverse, setIsReverse] = useState(false);
-  const visibleGoods = getPreparedGoods(goodsFromServer, sortType, isReverse);
+  const [sortType, setSortType] = useState(SortType.Default);
+  const [isReversed, setIsReverse] = useState(false);
+  // eslint-disable-next-line max-len
+  const visibleGoods = getPreparedGoods(goodsFromServer, { sortType, isReversed });
 
   return (
 
@@ -81,18 +86,18 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button', 'is-warning',
-            { 'is-light': !isReverse })}
-          onClick={() => setIsReverse(!isReverse)}
+            { 'is-light': !isReversed })}
+          onClick={() => setIsReverse(!isReversed)}
         >
           Reverse
         </button>
 
-        {(sortType || isReverse) && (
+        {(sortType || isReversed) && (
           <button
             type="button"
             className={cn('button', 'is-danger', 'is-light')}
             onClick={() => {
-              setSortType(SortType.None);
+              setSortType(SortType.Default);
               setIsReverse(false);
             }}
           >
