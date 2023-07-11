@@ -3,7 +3,7 @@ import 'bulma/css/bulma.css';
 import './App.scss';
 import { Goods } from './components/Goods';
 import { Buttons } from './components/Buttons';
-import { SortField } from './enum/SortField';
+import { SortTypes } from './enum/SortTypes';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -32,10 +32,10 @@ function getPreparedGoods(
   if (sortField) {
     prepearGoods.sort((good1, good2) => {
       switch (sortField) {
-        case SortField.name:
+        case SortTypes.name:
           return good1.localeCompare(good2);
 
-        case SortField.length:
+        case SortTypes.length:
           return good1.length - good2.length;
 
         default:
