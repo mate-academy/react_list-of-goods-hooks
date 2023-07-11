@@ -53,9 +53,9 @@ function getPreparedGoods(goods: string[],
   return sortedGoods;
 }
 
-function setReverse(isReverse : boolean,
+function toggleReverse(isReverse : boolean,
   setIsRevers: React.Dispatch<React.SetStateAction<boolean>>) {
-  return isReverse === false ? setIsRevers(true) : setIsRevers(false);
+  return isReverse === false ? setIsRevers(true) : setIsRevers(!isReverse);
 }
 
 export const App: React.FC = () => {
@@ -92,8 +92,8 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button', 'is-warning',
-            { 'is-light': isReverse === false })}
-          onClick={() => setReverse(isReverse, setIsReverse)}
+            { 'is-light': !isReverse })}
+          onClick={() => toggleReverse(isReverse, setIsReverse)}
         >
           Reverse
         </button>
