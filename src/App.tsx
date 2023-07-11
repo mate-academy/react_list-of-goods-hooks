@@ -51,10 +51,12 @@ function getSortedGoods(
 export const App: React.FC = () => {
   const [sortField, setsortField] = useState<SortType | null>(null);
   const [isReversed, setReversed] = useState(false);
+
   const visibleGoods = getSortedGoods(
     goodsFromServer,
     { sortType: sortField, isReversed },
   );
+
   const isShowResetButton = sortField || isReversed;
 
   const reverseGoods = () => {
