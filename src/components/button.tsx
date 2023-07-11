@@ -3,6 +3,7 @@ import React from 'react';
 type Props = {
   className: string,
   children: string,
+  // eslint-disable-next-line
   [key: string]: any,
 };
 
