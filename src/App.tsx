@@ -90,7 +90,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {sortField !== '' || isReversed
+        {sortField !== SortType.default || isReversed
           ? (
             <button
               onClick={() => {
