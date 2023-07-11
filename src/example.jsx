@@ -1,18 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import cn from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-enum SortType {
-  SORT_BY_ABC = 'abc',
-  SORT_BY_LENGTH = 'length',
-  DEFAULT = '',
-}
-
-interface FilterParams {
-  sortBy: SortType;
-  isReverse: boolean;
-}
+const SORT_BY_ABC = 'abc';
+const SORT_BY_LENGTH = 'length';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -27,17 +19,16 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-function getPreparedGoods(goods: string[],
-  { sortBy, isReverse }: FilterParams) {
+function getPreparedGoods(goods, { sortBy, isReverse }) {
   const sortedGoods = [...goods];
 
   if (sortBy) {
     sortedGoods.sort((good1, good2) => {
       switch (sortBy) {
-        case SortType.SORT_BY_ABC:
+        case SORT_BY_ABC:
           return good1.localeCompare(good2);
 
-        case SortType.SORT_BY_LENGTH:
+        case SORT_BY_LENGTH:
           return good1.length - good2.length;
 
         default:
@@ -53,19 +44,18 @@ function getPreparedGoods(goods: string[],
   return sortedGoods;
 }
 
-function setReverse(isReverse : boolean,
-  setIsRevers: React.Dispatch<React.SetStateAction<boolean>>) {
+function setReverse(isReverse, setIsRevers) {
   return isReverse === false ? setIsRevers(true) : setIsRevers(false);
 }
 
-export const App: React.FC = () => {
-  const [sortBy, setSortBy] = useState(SortType.DEFAULT);
+export const App = () => {
+  const [sortBy, setSortBy] = useState('');
   const [isReverse, setIsReverse] = useState(false);
   const goods = getPreparedGoods(goodsFromServer, { sortBy, isReverse });
 
   const resetSorting = () => {
     setIsReverse(false);
-    setSortBy(SortType.DEFAULT);
+    setSortBy('');
   };
 
   return (
@@ -74,8 +64,8 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button', 'is-info',
-            { 'is-light': sortBy !== SortType.SORT_BY_ABC })}
-          onClick={() => setSortBy(SortType.SORT_BY_ABC)}
+            { 'is-light': sortBy !== SORT_BY_ABC })}
+          onClick={() => setSortBy(SORT_BY_ABC)}
         >
           Sort alphabetically
         </button>
@@ -83,8 +73,8 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button', 'is-success',
-            { 'is-light': sortBy !== SortType.SORT_BY_LENGTH })}
-          onClick={() => setSortBy(SortType.SORT_BY_LENGTH)}
+            { 'is-light': sortBy !== SORT_BY_LENGTH })}
+          onClick={() => setSortBy(SORT_BY_LENGTH)}
         >
           Sort by length
         </button>
