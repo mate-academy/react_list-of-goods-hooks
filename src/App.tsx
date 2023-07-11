@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
-import { Goods } from './components/goods';
+import { Goods } from './components/Goods';
 import { Buttons } from './components/Buttons';
-import { SortField } from './SortField';
+import { SortField } from './enum/SortField';
 
 export const goodsFromServer = [
   'Dumplings',
