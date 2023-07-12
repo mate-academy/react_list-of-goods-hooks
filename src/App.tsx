@@ -18,12 +18,13 @@ export const goodsFromServer: string[] = [
 ];
 
 enum SortField {
+  SORT_FIELD_DEFAULT = '',
   SORT_FIELD_ALPHABET = 'alphabet',
   SORT_FIELD_LENGTH = 'length',
 }
 
 interface SortParams {
-  sortField: string,
+  sortField: SortField,
   reverse: boolean,
 }
 
@@ -51,13 +52,13 @@ function resultGoodsArr(goods: string[], { sortField, reverse }: SortParams) {
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState(SortField.SORT_FIELD_DEFAULT);
   const [reverse, setReverse] = useState(false);
   // eslint-disable-next-line
   const goods = resultGoodsArr(goodsFromServer, { sortField, reverse });
 
   const reset = () => {
-    setSortField('');
+    setSortField(SortField.SORT_FIELD_DEFAULT);
     setReverse(false);
   };
 
