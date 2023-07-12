@@ -31,10 +31,10 @@ function gerPreparedGoods(
   goods: string[],
   { sortField, reverseField }: SortVer,
 ) {
-  const preraredGoods = [...goods];
+  const preparedGoods = [...goods];
 
   if (sortField) {
-    preraredGoods
+    preparedGoods
       .sort((good1, good2) => {
         switch (sortField) {
           case SortType.alpha:
@@ -50,10 +50,10 @@ function gerPreparedGoods(
   }
 
   if (reverseField) {
-    preraredGoods.reverse();
+    preparedGoods.reverse();
   }
 
-  return preraredGoods;
+  return preparedGoods;
 }
 
 export const App = () => {
