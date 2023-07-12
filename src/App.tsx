@@ -91,7 +91,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {visibleGoods.toString() !== goodsFromServer.toString() && (
+        {(sortField || isReverse) && (
           <button
             onClick={() => {
               setSortField(SortType.default);
@@ -106,7 +106,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {visibleGoods.map(good => <li data-cy="Good">{good}</li>)}
+        {visibleGoods.map(good => <li key={good} data-cy="Good">{good}</li>)}
       </ul>
     </div>
   );
