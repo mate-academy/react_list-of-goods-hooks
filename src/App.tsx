@@ -19,7 +19,7 @@ export const goodsFromServer = [
 ];
 
 interface PrepearedGoods {
-  sortField: string;
+  sortField: SortTypes;
   reversed: boolean;
 }
 
@@ -52,7 +52,7 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState(SortTypes.default);
   const [reversed, setReversed] = useState(false);
   const visibleGoods = getPreparedGoods(
     goodsFromServer, { sortField, reversed },

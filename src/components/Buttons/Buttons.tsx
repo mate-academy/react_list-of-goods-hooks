@@ -3,7 +3,7 @@ import { SortTypes } from '../../enum/SortTypes';
 
 type Props = {
   sortField: string;
-  setSortField: (value: string) => void;
+  setSortField: (value: SortTypes) => void;
   reversed: boolean;
   setReversed: (value: boolean) => void;
 };
@@ -13,7 +13,7 @@ export const Buttons: React.FC<Props> = ({
 }) => {
   const onReverse = () => {
     setReversed(false);
-    setSortField('');
+    setSortField(SortTypes.default);
   };
 
   return (
