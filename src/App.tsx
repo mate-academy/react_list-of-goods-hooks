@@ -16,12 +16,15 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-const SORT_BY_ALPHABET = 'aplhabet';
-const SORT_BY_LENGTH = 'length';
+enum SortField {
+  Alphabet = 'alphabet',
+  Length = 'length',
+  Default = '',
+}
 
 function getPreparedGoods(
   goods: string[],
-  sortField: string,
+  sortField: SortField,
   reverse: boolean,
 ):string[] {
   const copy = [...goods];
@@ -29,9 +32,9 @@ function getPreparedGoods(
   if (sortField) {
     copy.sort((curGood, nextGood) => {
       switch (sortField) {
-        case SORT_BY_ALPHABET:
+        case SortField.Alphabet:
           return curGood.localeCompare(nextGood);
-        case SORT_BY_LENGTH:
+        case SortField.Length:
           return curGood.length - nextGood.length;
 
         default:
@@ -48,13 +51,13 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortType, setSortType] = useState('');
+  const [sortType, setSortType] = useState(SortField.Default);
   const [isReversed, setIsReversed] = useState(false);
 
   const visibleGoods = getPreparedGoods(goodsFromServer, sortType, isReversed);
 
   const reset = () => {
-    setSortType('');
+    setSortType(SortField.Default);
     setIsReversed(false);
   };
 
@@ -62,12 +65,12 @@ export const App: React.FC = () => {
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => setSortType(SORT_BY_ALPHABET)}
+          onClick={() => setSortType(SortField.Alphabet)}
           type="button"
           className={cn(
             'button is-info',
             {
-              'is-light': sortType !== SORT_BY_ALPHABET,
+              'is-light': sortType !== SortField.Alphabet,
             },
           )}
         >
@@ -75,12 +78,12 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={() => setSortType(SORT_BY_LENGTH)}
+          onClick={() => setSortType(SortField.Length)}
           type="button"
           className={cn(
             'button is-success',
             {
-              'is-light': sortType !== SORT_BY_LENGTH,
+              'is-light': sortType !== SortField.Length,
             },
           )}
         >
