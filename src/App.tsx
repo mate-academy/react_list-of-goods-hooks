@@ -16,37 +16,37 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-enum SortFields {
-  byAlfabet = 'alphabet',
-  byLength = 'length',
-  byIndexdesc = 'reverse default',
-  default = 'default',
+enum SortBy {
+  Alfabet = 'alphabet',
+  Length = 'length',
+  Indexdesc = 'reverse Default',
+  Default = 'Default',
 }
 
 enum SortDirections {
-  byAsc = 'asc',
-  byDesc = 'desc',
+  Asc = 'asc',
+  Desc = 'desc',
 }
 
-const sortByAlfabet = (a: string, b: string, direction: SortDirections) => {
-  return direction === SortDirections.byAsc
+const sortAlfabet = (a: string, b: string, direction: SortDirections) => {
+  return direction === SortDirections.Asc
     ? a.localeCompare(b)
     : b.localeCompare(a);
 };
 
 const sortByLenght = (a: string, b: string, direction: SortDirections) => {
   if (a.length === b.length) {
-    return sortByAlfabet(a, b, direction);
+    return sortAlfabet(a, b, direction);
   }
 
-  return direction === SortDirections.byAsc
+  return direction === SortDirections.Asc
     ? a.length - b.length
     : b.length - a.length;
 };
 
 function getSortGoods(
   goods: string[],
-  sortField: SortFields,
+  sortField: SortBy,
   sortDirection: SortDirections,
 ) {
   const preparedGoods: string[] = [...goods];
@@ -54,18 +54,14 @@ function getSortGoods(
   if (sortField) {
     preparedGoods.sort((good1, good2) => {
       switch (sortField) {
-        case SortFields.default:
-          return 0;
+        case SortBy.Alfabet:
+          return sortAlfabet(good1, good2, sortDirection);
 
-        case SortFields.byAlfabet:
-          return sortByAlfabet(good1, good2, sortDirection);
-
-        case SortFields.byLength:
+        case SortBy.Length:
           return sortByLenght(good1, good2, sortDirection);
 
-        case SortFields.byIndexdesc:
+        case SortBy.Indexdesc:
           return preparedGoods.indexOf(good2) - preparedGoods.indexOf(good1);
-
         default:
           return 0;
       }
@@ -76,30 +72,30 @@ function getSortGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState(SortFields.default);
-  const [sortDirection, setSortDirection] = useState(SortDirections.byAsc);
+  const [sortField, setSortField] = useState(SortBy.Default);
+  const [sortDirection, setSortDirection] = useState(SortDirections.Asc);
   const sortGoods = getSortGoods(goodsFromServer, sortField, sortDirection);
   const sortReverse = () => {
-    if (sortDirection === SortDirections.byAsc) {
-      setSortDirection(SortDirections.byDesc);
+    if (sortDirection === SortDirections.Asc) {
+      setSortDirection(SortDirections.Desc);
 
-      if (sortField === SortFields.default) {
-        setSortField(SortFields.byIndexdesc);
+      if (sortField === SortBy.Default) {
+        setSortField(SortBy.Indexdesc);
       }
     } else {
-      setSortDirection(SortDirections.byAsc);
+      setSortDirection(SortDirections.Asc);
 
-      if (sortField === SortFields.byIndexdesc) {
-        setSortField(SortFields.default);
-      } else if (sortField === SortFields.default) {
-        setSortField(SortFields.byIndexdesc);
+      if (sortField === SortBy.Indexdesc) {
+        setSortField(SortBy.Default);
+      } else if (sortField === SortBy.Default) {
+        setSortField(SortBy.Indexdesc);
       }
     }
   };
 
   const resetSorting = () => {
-    setSortField(SortFields.default);
-    setSortDirection(SortDirections.byAsc);
+    setSortField(SortBy.Default);
+    setSortDirection(SortDirections.Asc);
   };
 
   return (
@@ -107,11 +103,11 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           onClick={() => {
-            setSortField(SortFields.byAlfabet);
+            setSortField(SortBy.Alfabet);
           }}
           type="button"
           className={cn('button is-info', {
-            'is-light': sortField !== SortFields.byAlfabet,
+            'is-light': sortField !== SortBy.Alfabet,
           })}
         >
           Sort alphabetically
@@ -119,11 +115,11 @@ export const App: React.FC = () => {
 
         <button
           onClick={() => {
-            setSortField(SortFields.byLength);
+            setSortField(SortBy.Length);
           }}
           type="button"
           className={cn('button is-success', {
-            'is-light': sortField !== SortFields.byLength,
+            'is-light': sortField !== SortBy.Length,
           })}
         >
           Sort by length
@@ -133,17 +129,15 @@ export const App: React.FC = () => {
           onClick={() => sortReverse()}
           type="button"
           className={cn('button is-warning', {
-            'is-light': sortDirection === SortDirections.byAsc,
+            'is-light': sortDirection === SortDirections.Asc,
           })}
         >
           Reverse
         </button>
 
-        {sortField !== SortFields.default && (
+        {sortField !== SortBy.Default && (
           <button
-            onClick={() => {
-              resetSorting();
-            }}
+            onClick={resetSorting}
             type="button"
             className="button is-danger is-light"
           >
