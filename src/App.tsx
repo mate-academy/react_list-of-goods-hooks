@@ -32,10 +32,10 @@ const getVisibleGoods = (
   goods: typeof goodsFromServer,
   { option, reversed }: SortOptions,
 ) => {
-  let visibleGoods = goods;
+  const visibleGoods = [...goods];
 
   if (option) {
-    visibleGoods = [...visibleGoods].sort((good1, good2) => {
+    visibleGoods.sort((good1, good2) => {
       switch (option) {
         case SortingParams.Name:
           return good1.localeCompare(good2);
@@ -48,7 +48,7 @@ const getVisibleGoods = (
   }
 
   if (reversed) {
-    visibleGoods = [...visibleGoods].reverse();
+    visibleGoods.reverse();
   }
 
   return visibleGoods;
@@ -113,7 +113,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {visibleGoods !== goodsFromServer
+        {JSON.stringify(visibleGoods) !== JSON.stringify(goodsFromServer)
         && (
           <button
             type="button"
