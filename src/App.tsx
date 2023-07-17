@@ -17,7 +17,7 @@ const goodsFromServer: string[] = [
 ];
 
 enum SortBy {
-  Alfabet = 'alphabet',
+  Alphabet = 'alphabet',
   Length = 'length',
   Default = 'Default',
 }
@@ -48,7 +48,7 @@ function getSortGoods(
   if (sortField) {
     preparedGoods.sort((good1, good2) => {
       switch (sortField) {
-        case SortBy.Alfabet:
+        case SortBy.Alphabet:
           return sortAlphabet(good1, good2, sortDirection);
 
         case SortBy.Length:
@@ -73,12 +73,8 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(true);
   const sortGoods = getSortGoods(goodsFromServer, sortField, isReversed);
   const sortReverse = () => {
-    if (isReversed === true) {
+    if (isReversed) {
       setIsReversed(false);
-
-      if (sortField === SortBy.Default) {
-        setIsReversed(false);
-      }
     } else {
       setIsReversed(true);
     }
@@ -94,11 +90,11 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           onClick={() => {
-            setSortField(SortBy.Alfabet);
+            setSortField(SortBy.Alphabet);
           }}
           type="button"
           className={cn('button is-info', {
-            'is-light': sortField !== SortBy.Alfabet,
+            'is-light': sortField !== SortBy.Alphabet,
           })}
         >
           Sort alphabetically
