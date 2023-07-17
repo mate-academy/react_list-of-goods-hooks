@@ -61,12 +61,21 @@ export const App: React.FC = () => {
     reverseField,
   );
 
+  const makeSetSortField = (field: SortType) => () => setSortField(field);
+
+  const onReverse = () => setReverseField(reverse => !reverse);
+
+  const getReset = () => {
+    setReverseField(false);
+    setSortField(SortType.BY_DEFAULT);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          onClick={() => setSortField(SortType.BY_ALPHABET)}
+          onClick={makeSetSortField(SortType.BY_ALPHABET)}
           className={
             classNames(
               'button is-info',
@@ -79,7 +88,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          onClick={() => setSortField(SortType.BY_LENGTH)}
+          onClick={makeSetSortField(SortType.BY_LENGTH)}
           className={
             classNames(
               'button is-success',
@@ -92,7 +101,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          onClick={() => setReverseField(reverse => !reverse)}
+          onClick={onReverse}
           className={
             classNames(
               'button is-warning',
@@ -105,11 +114,8 @@ export const App: React.FC = () => {
 
         {(sortField || reverseField) && (
           <button
-            onClick={() => {
-              setReverseField(false);
-              setSortField(SortType.BY_DEFAULT);
-            }}
             type="button"
+            onClick={getReset}
             className="button is-danger is-light"
           >
             Reset
