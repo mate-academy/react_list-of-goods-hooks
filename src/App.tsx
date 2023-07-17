@@ -24,10 +24,10 @@ enum SortType {
 
 type Filter = {
   sortField: SortType,
-  isSorted: boolean,
+  isReversed: boolean,
 };
 
-function sortGoods(goods: string[], { sortField, isSorted }: Filter) {
+function sortGoods(goods: string[], { sortField, isReversed }: Filter) {
   const localGoods = [...goods];
 
   if (sortField) {
@@ -45,7 +45,7 @@ function sortGoods(goods: string[], { sortField, isSorted }: Filter) {
     });
   }
 
-  if (isSorted) {
+  if (isReversed) {
     localGoods.reverse();
   }
 
@@ -54,19 +54,19 @@ function sortGoods(goods: string[], { sortField, isSorted }: Filter) {
 
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState<SortType>(SortType.Default);
-  const [isSorted, setSorted] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
 
   const makeSetSortField = (field: SortType) => () => setSortField(field);
-  const makeSetSorted = (sorted: boolean) => () => setSorted(sorted);
+  const makeSetSorted = (sorted: boolean) => () => setIsReversed(sorted);
 
   const showGoods = sortGoods(
     goodsFromServer,
-    { sortField, isSorted },
+    { sortField, isReversed },
   );
 
   const reset = () => {
     setSortField(SortType.Default);
-    setSorted(false);
+    setIsReversed(false);
   };
 
   return (
@@ -99,15 +99,15 @@ export const App: React.FC = () => {
           className={cn(
             ['button', 'is-warning'],
             {
-              'is-light': !isSorted,
+              'is-light': !isReversed,
             },
           )}
-          onClick={makeSetSorted(!isSorted)}
+          onClick={makeSetSorted(!isReversed)}
         >
           Reverse
         </button>
 
-        {(sortField || isSorted) && (
+        {(sortField || isReversed) && (
           <button
             type="button"
             className="button is-danger is-light"
