@@ -19,7 +19,6 @@ const goodsFromServer: string[] = [
 enum SortBy {
   Alfabet = 'alphabet',
   Length = 'length',
-  IndexReverse = 'index reverse',
   Default = 'Default',
 }
 
@@ -55,8 +54,11 @@ function getSortGoods(
         case SortBy.Length:
           return sortByLenght(good1, good2, sortDirection);
 
-        case SortBy.IndexReverse:
-          return preparedGoods.indexOf(good2) - preparedGoods.indexOf(good1);
+        case SortBy.Default:
+          return !sortDirection
+            ? preparedGoods.indexOf(good2) - preparedGoods.indexOf(good1)
+            : 0;
+
         default:
           return 0;
       }
@@ -75,16 +77,10 @@ export const App: React.FC = () => {
       setIsReversed(false);
 
       if (sortField === SortBy.Default) {
-        setSortField(SortBy.IndexReverse);
+        setIsReversed(false);
       }
     } else {
       setIsReversed(true);
-
-      if (sortField === SortBy.IndexReverse) {
-        setSortField(SortBy.Default);
-      } else if (sortField === SortBy.Default) {
-        setSortField(SortBy.IndexReverse);
-      }
     }
   };
 
@@ -124,13 +120,13 @@ export const App: React.FC = () => {
           onClick={sortReverse}
           type="button"
           className={cn('button is-warning', {
-            'is-light': isReversed === true,
+            'is-light': isReversed,
           })}
         >
           Reverse
         </button>
 
-        {sortField !== SortBy.Default && (
+        {(sortField !== SortBy.Default || !isReversed) && (
           <button
             onClick={resetSorting}
             type="button"
