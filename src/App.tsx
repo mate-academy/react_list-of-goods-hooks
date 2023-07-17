@@ -23,23 +23,18 @@ enum SortBy {
   Default = 'Default',
 }
 
-enum SortDirections {
-  Asc = 'asc',
-  Desc = 'desc',
-}
-
-const sortAlfabet = (a: string, b: string, direction: SortDirections) => {
-  return direction === SortDirections.Asc
+const sortAlfabet = (a: string, b: string, direction: boolean) => {
+  return direction === true
     ? a.localeCompare(b)
     : b.localeCompare(a);
 };
 
-const sortByLenght = (a: string, b: string, direction: SortDirections) => {
+const sortByLenght = (a: string, b: string, direction: boolean) => {
   if (a.length === b.length) {
     return sortAlfabet(a, b, direction);
   }
 
-  return direction === SortDirections.Asc
+  return direction === true
     ? a.length - b.length
     : b.length - a.length;
 };
@@ -47,7 +42,7 @@ const sortByLenght = (a: string, b: string, direction: SortDirections) => {
 function getSortGoods(
   goods: string[],
   sortField: SortBy,
-  sortDirection: SortDirections,
+  sortDirection: boolean,
 ) {
   const preparedGoods: string[] = [...goods];
 
@@ -73,17 +68,17 @@ function getSortGoods(
 
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState(SortBy.Default);
-  const [sortDirection, setSortDirection] = useState(SortDirections.Asc);
+  const [sortDirection, setSortDirection] = useState(true);
   const sortGoods = getSortGoods(goodsFromServer, sortField, sortDirection);
   const sortReverse = () => {
-    if (sortDirection === SortDirections.Asc) {
-      setSortDirection(SortDirections.Desc);
+    if (sortDirection === true) {
+      setSortDirection(false);
 
       if (sortField === SortBy.Default) {
         setSortField(SortBy.Indexdesc);
       }
     } else {
-      setSortDirection(SortDirections.Asc);
+      setSortDirection(true);
 
       if (sortField === SortBy.Indexdesc) {
         setSortField(SortBy.Default);
@@ -95,7 +90,7 @@ export const App: React.FC = () => {
 
   const resetSorting = () => {
     setSortField(SortBy.Default);
-    setSortDirection(SortDirections.Asc);
+    setSortDirection(true);
   };
 
   return (
@@ -129,7 +124,7 @@ export const App: React.FC = () => {
           onClick={() => sortReverse()}
           type="button"
           className={cn('button is-warning', {
-            'is-light': sortDirection === SortDirections.Asc,
+            'is-light': sortDirection === true,
           })}
         >
           Reverse
