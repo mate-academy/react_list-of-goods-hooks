@@ -16,8 +16,11 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-const SORT_LENGHT = 'length';
-const SORT_ALPHABETICALLY = 'alphabetically';
+enum SortType {
+  ALPH = 'alph',
+  LENGTH = 'length',
+  ALL = '',
+}
 
 interface GoodsFilter {
   sortField: string;
@@ -31,10 +34,10 @@ function getPreparedGoods(goods: string[],
   if (sortField) {
     preparedGoods.sort((good1, good2) => {
       switch (sortField) {
-        case SORT_LENGHT:
+        case SortType.LENGTH:
           return good1.length - good2.length;
 
-        case SORT_ALPHABETICALLY:
+        case SortType.ALPH:
           return good1.localeCompare(good2);
 
         default:
@@ -59,26 +62,26 @@ export const App: React.FC = () => {
 
   const handleReset = () => {
     setIsReversed(false);
-    setSortField('');
+    setSortField(SortType.ALL);
   };
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => setSortField(SORT_ALPHABETICALLY)}
+          onClick={() => setSortField(SortType.ALPH)}
           type="button"
           className={cn('button is-info',
-            { 'is-light': sortField !== SORT_ALPHABETICALLY })}
+            { 'is-light': sortField !== SortType.ALPH })}
         >
           Sort alphabetically
         </button>
 
         <button
-          onClick={() => setSortField(SORT_LENGHT)}
+          onClick={() => setSortField(SortType.LENGTH)}
           type="button"
           className={cn('button is-success',
-            { 'is-light': sortField !== SORT_LENGHT })}
+            { 'is-light': sortField !== SortType.LENGTH })}
         >
           Sort by length
         </button>
