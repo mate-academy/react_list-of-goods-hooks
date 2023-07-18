@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import cn from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
@@ -57,7 +58,10 @@ export const App = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortBy !== SortType.name ? 'is-light' : ''}`}
+          // className={`button is-info ${sortBy !== SortType.name ? 'is-light' : ''}`}
+          className={cn('button', 'is-info', {
+            'is-light': sortBy !== SortType.name,
+          })}
           onClick={() => {
             setSortBy(SortType.name);
           }}
@@ -67,7 +71,10 @@ export const App = () => {
 
         <button
           type="button"
-          className={`button is-success ${sortBy !== SortType.length ? 'is-light' : ''}`}
+          // className={`button is-success ${sortBy !== SortType.length ? 'is-light' : ''}`}
+          className={cn('button', 'is-success', {
+            'is-light': sortBy !== SortType.length,
+          })}
           onClick={() => {
             setSortBy(SortType.length);
           }}
@@ -77,7 +84,10 @@ export const App = () => {
 
         <button
           type="button"
-          className={`button is-warning ${!isReversed ? 'is-light' : ''}`}
+          // className={`button is-warning ${!isReversed ? 'is-light' : ''}`}
+          className={cn('button', 'is-warning', {
+            'is-light': !isReversed,
+          })}
           onClick={() => setIsReversed(prev => !prev)}
         >
           Reverse
