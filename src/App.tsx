@@ -21,8 +21,11 @@ enum SortField {
   LENGTH = 'LENGTH',
 }
 
-function sortBy(goods:string[],
-  sortField:SortField | undefined, isReversed:boolean) {
+function sortBy(
+  goods:string[],
+  sortField:SortField | undefined,
+  isReversed:boolean,
+) {
   const goodsArray = [...goods];
 
   if (sortField) {
@@ -30,8 +33,10 @@ function sortBy(goods:string[],
       switch (sortField) {
         case SortField.ALPHABETICALLY:
           return a.localeCompare(b);
+
         case SortField.LENGTH:
           return a.length - b.length;
+
         default:
           return 0;
       }
@@ -49,6 +54,11 @@ export const App: React.FC = () => {
   const [sortField, setSortField] = useState<SortField>();
   const [isReversed, setIsReversed] = useState(false);
   const sortedGoods = sortBy(goodsFromServer, sortField, isReversed);
+
+  const handleReset = () => {
+    setIsReversed(false);
+    setSortField(undefined);
+  };
 
   return (
     <div className="section content">
@@ -87,10 +97,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setIsReversed(false);
-              setSortField(undefined);
-            }}
+            onClick={handleReset}
           >
             Reset
           </button>
