@@ -58,7 +58,6 @@ export const App = () => {
       <div className="buttons">
         <button
           type="button"
-          // className={`button is-info ${sortBy !== SortType.name ? 'is-light' : ''}`}
           className={cn('button', 'is-info', {
             'is-light': sortBy !== SortType.name,
           })}
@@ -71,7 +70,6 @@ export const App = () => {
 
         <button
           type="button"
-          // className={`button is-success ${sortBy !== SortType.length ? 'is-light' : ''}`}
           className={cn('button', 'is-success', {
             'is-light': sortBy !== SortType.length,
           })}
@@ -84,7 +82,6 @@ export const App = () => {
 
         <button
           type="button"
-          // className={`button is-warning ${!isReversed ? 'is-light' : ''}`}
           className={cn('button', 'is-warning', {
             'is-light': !isReversed,
           })}
