@@ -27,14 +27,26 @@ type Options = {
   isReversed: boolean,
 };
 
-export function getReorderedGoods(
+function getReorderedGoods(
   goods: string[],
   { sortType, isReversed }: Options,
 ) {
   const visibleGoods = [...goods];
 
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
+  goods.sort((a, b) => {
+    switch (sortType) {
+      case SortType.ALPHABET:
+        return a.localeCompare(b);
+      case SortType.LENGTH:
+        return a.length - b.length;
+      default:
+        return 0;
+    }
+  });
+
+  if (isReversed) {
+    goods.reverse();
+  }
 
   return visibleGoods;
 }
@@ -60,7 +72,7 @@ export const App: React.FC = () => {
     setIsReversed(!isReversed);
   }
 
-  const goods = getReorderedGoods(goodsFromServer, { isReversed, sortType });
+  const goods = getReorderedGoods(goodsFromServer, { sortType, isReversed });
 
   goods.sort((a, b) => {
     switch (sortType) {
