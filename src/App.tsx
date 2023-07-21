@@ -24,12 +24,12 @@ enum SortField {
 
 interface FilterParams {
   sortField: SortField;
-  sortReverse: boolean;
+  isReverse: boolean;
 }
 
 function getPreparedGoods(
   goods: string[],
-  { sortField, sortReverse }: FilterParams,
+  { sortField, isReverse }: FilterParams,
 ) {
   const preparedGoods = [...goods];
 
@@ -48,7 +48,7 @@ function getPreparedGoods(
     });
   }
 
-  if (sortReverse) {
+  if (isReverse) {
     preparedGoods.reverse();
   }
 
@@ -57,16 +57,20 @@ function getPreparedGoods(
 
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState(SortField.NONE);
-  const [sortReverse, setSortReverse] = useState(false);
+  const [isReverse, setIsReverse] = useState(false);
 
   const visibleGoods = getPreparedGoods(
     goodsFromServer,
-    { sortField, sortReverse },
+    { sortField, isReverse },
   );
 
   const setSortParams = (field: SortField, reverse: boolean) => {
+    if (field === sortField && reverse === isReverse) {
+      return;
+    }
+
     setSortField(field);
-    setSortReverse(reverse);
+    setIsReverse(reverse);
   };
 
   const reset = () => {
@@ -80,8 +84,7 @@ export const App: React.FC = () => {
           onClick={() => setSortParams(SortField.ALPHABET, false)}
           type="button"
           className={cn('button is-info', {
-            'is-light': sortField
-              !== SortField.ALPHABET,
+            'is-light': sortField !== SortField.ALPHABET,
           })}
         >
           Sort alphabetically
@@ -91,22 +94,21 @@ export const App: React.FC = () => {
           onClick={() => setSortParams(SortField.LENGTH, false)}
           type="button"
           className={cn('button is-info', {
-            'is-light': sortField
-              !== SortField.LENGTH,
+            'is-light': sortField !== SortField.LENGTH,
           })}
         >
           Sort by length
         </button>
 
         <button
-          onClick={() => setSortReverse(!sortReverse)}
+          onClick={() => setIsReverse(!isReverse)}
           type="button"
-          className={cn('button is-warning', { 'is-light': !sortReverse })}
+          className={cn('button is-warning', { 'is-light': !isReverse })}
         >
           Reverse
         </button>
 
-        {(sortField || sortReverse) && (
+        {(sortField || isReverse) && (
           <button
             type="button"
             className="button is-danger is-light"
