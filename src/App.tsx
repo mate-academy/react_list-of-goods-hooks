@@ -1,6 +1,6 @@
 import 'bulma/css/bulma.css';
 import './App.scss';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   Good,
   ReverseParam,
@@ -8,6 +8,7 @@ import {
   SortType,
   SortingParams,
 } from './types';
+import { Reset } from './components/Reset';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -27,7 +28,7 @@ const LIGHT_COLOR_STYLE = 'is-light';
 function preparedGoods(
   goods: Good[],
   { sortBy, order } : SortingParams,
-) {
+): Good[] {
   const newGoods = [...goods];
 
   if (sortBy) {
@@ -56,9 +57,13 @@ function preparedGoods(
 export const App = () => {
   const [sortField, setSortField] = useState<SortParam>('');
   const [sortOrder, setSortOrder] = useState<ReverseParam>('');
-  const goodsForSort = preparedGoods(goodsFromServer, {
-    sortBy: sortField, order: sortOrder,
-  });
+
+  const goodsForSort = useMemo(
+    () => (
+      preparedGoods(goodsFromServer, { sortBy: sortField, order: sortOrder })
+    ),
+    [goodsFromServer, { sortField, sortOrder }],
+  );
 
   const reverseGoods = () => {
     if (sortOrder === SortType.reverse) {
@@ -70,19 +75,8 @@ export const App = () => {
 
   const resetGoods = () => {
     setSortField(SortType.reset);
-    setSortField('');
     setSortOrder('');
   };
-
-  const Reset = () => (
-    <button
-      type="button"
-      onClick={resetGoods}
-      className="button is-danger is-light"
-    >
-      Reset
-    </button>
-  );
 
   const sortingButtonClass = (sortBy: string) => {
     if (sortField === sortBy) {
@@ -119,7 +113,13 @@ export const App = () => {
           Reverse
         </button>
 
-        {(sortField || sortOrder) && <Reset />}
+        {
+          (
+            sortField === SortType.byName
+            || sortField === SortType.byLength
+            || sortOrder
+          ) && <Reset resetGoods={resetGoods} />
+        }
       </div>
 
       <ul>
