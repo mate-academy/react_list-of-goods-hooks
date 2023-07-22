@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
@@ -40,7 +40,6 @@ export function getReorderedGoods(
       case SortType.ALPHABET:
         return prev.localeCompare(next);
 
-      case SortType.NONE:
       default:
         return 0;
     }
@@ -57,7 +56,9 @@ export const App = () => {
   const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
-  const goods = getReorderedGoods(goodsFromServer, { sortType, isReversed });
+  const goods = useMemo(() => {
+    return getReorderedGoods(goodsFromServer, { sortType, isReversed });
+  }, [goodsFromServer, isReversed, sortType]);
 
   const reverse = () => setIsReversed(!isReversed);
   const reset = () => {
