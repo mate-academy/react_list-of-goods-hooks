@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import className from 'classnames';
+import classNames from 'classnames';
 
 import 'bulma/css/bulma.css';
 import './App.scss';
@@ -75,7 +75,7 @@ export const App: FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={className('button is-info', {
+          className={classNames('button is-info', {
             'is-light': sortType !== SortType.ALPHABET,
           })}
           onClick={() => setSortType(SortType.ALPHABET)}
@@ -85,7 +85,7 @@ export const App: FC = () => {
 
         <button
           type="button"
-          className={className('button is-success', {
+          className={classNames('button is-success', {
             'is-light': sortType !== SortType.LENGTH,
           })}
           onClick={() => setSortType(SortType.LENGTH)}
@@ -95,7 +95,7 @@ export const App: FC = () => {
 
         <button
           type="button"
-          className={className('button is-warning', {
+          className={classNames('button is-warning', {
             'is-light': !isReversed,
           })}
           onClick={() => setIsReversed(!isReversed)}
@@ -106,7 +106,7 @@ export const App: FC = () => {
         {isChanged && (
           <button
             type="button"
-            className={className('button is-danger', {
+            className={classNames('button is-danger', {
               'is-light': isChanged,
             })}
             onClick={reset}
