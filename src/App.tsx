@@ -82,18 +82,20 @@ const ReverseButton: FC<Props> = ({ onClick }) => {
 
 export const App: FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
+  const [isReversed, setIsReversed] = useState(false); // add a state for isReversed
 
   const reset = () => {
     setSortType(SortType.NONE);
+    setIsReversed(false); // reset isReversed when resetting the sortType
   };
 
   const handleReverseClick = () => {
-    // здесь можно добавить код, который будет выполняться при клике на кнопку ReverseButton
+    setIsReversed(!isReversed); // toggle isReversed
   };
 
   const reorderedGoods = getReorderedGoods(goodsFromServer, {
     sortType,
-    isReversed: false,
+    isReversed, // pass the current state of isReversed
   });
 
   const isChanged = sortType !== SortType.NONE;
