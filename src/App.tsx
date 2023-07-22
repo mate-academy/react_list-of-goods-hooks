@@ -35,7 +35,7 @@ export function getReorderedGoods(
 
   visibleGoods.sort((prev, next) => {
     switch (sortType) {
-      case SortType.NONE: 
+      case SortType.NONE:
         return 0;
       case SortType.LENGTH:
         return prev.length - next.length;
@@ -75,7 +75,9 @@ export const App = () => {
         <button
           onClick={() => setSortType(SortType.ALPHABET)}
           type="button"
-          className={cn('button is-info', {'is-light': sortType !== SortType.ALPHABET})}
+          className={cn('button is-info', {
+            'is-light': sortType !== SortType.ALPHABET,
+          })}
         >
           Sort alphabetically
         </button>
@@ -84,7 +86,9 @@ export const App = () => {
           onClick={() => setSortType(SortType.LENGTH)}
           type="button"
           className={
-            cn('button is-success', {'is-light': sortType !== SortType.LENGTH})
+            cn('button is-success', {
+              'is-light': sortType !== SortType.LENGTH,
+            })
           }
         >
           Sort by length
@@ -93,7 +97,7 @@ export const App = () => {
         <button
           onClick={reverse}
           type="button"
-          className={cn('button is-warning', {'is-light': !isReversed})}
+          className={cn('button is-warning', { 'is-light': !isReversed })}
         >
           Reverse
         </button>
