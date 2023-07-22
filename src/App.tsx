@@ -52,21 +52,51 @@ export function getReorderedGoods(
   return visibleGoods;
 }
 
-export const App: FC = () => {
+type Props = {
+  onClick?: () => void;
+};
+
+const ReverseButton: FC<Props> = ({ onClick }) => {
   const [isReversed, setIsReversed] = useState(false);
+
+  const handleClick = () => {
+    setIsReversed(!isReversed);
+
+    if (onClick) {
+      onClick();
+    }
+  };
+
+  return (
+    <button
+      type="button"
+      className={classNames('button is-warning', {
+        'is-light': !isReversed,
+      })}
+      onClick={handleClick}
+    >
+      Reverse
+    </button>
+  );
+};
+
+export const App: FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
 
   const reset = () => {
     setSortType(SortType.NONE);
-    setIsReversed(false);
+  };
+
+  const handleReverseClick = () => {
+    // здесь можно добавить код, который будет выполняться при клике на кнопку ReverseButton
   };
 
   const reorderedGoods = getReorderedGoods(goodsFromServer, {
     sortType,
-    isReversed,
+    isReversed: false,
   });
 
-  const isChanged = sortType !== SortType.NONE || isReversed;
+  const isChanged = sortType !== SortType.NONE;
 
   return (
     <div className="section content">
@@ -91,15 +121,7 @@ export const App: FC = () => {
           Sort by length
         </button>
 
-        <button
-          type="button"
-          className={classNames('button is-warning', {
-            'is-light': !isReversed,
-          })}
-          onClick={() => setIsReversed(!isReversed)}
-        >
-          Reverse
-        </button>
+        <ReverseButton onClick={handleReverseClick} />
 
         {isChanged && (
           <button
