@@ -41,7 +41,7 @@ function getPreparedGoods(
           return good1.localeCompare(good2);
 
         case SortField.length:
-          return good1[SortField.length] - good2[SortField.length];
+          return good1.length - good2.length;
 
         default:
           return 0;
