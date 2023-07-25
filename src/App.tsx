@@ -82,23 +82,23 @@ const ReverseButton: FC<Props> = ({ onClick }) => {
 
 export const App: FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
-  const [isReversed, setIsReversed] = useState(false); // add a state for isReversed
+  const [isReversed, setIsReversed] = useState(false);
 
   const reset = () => {
     setSortType(SortType.NONE);
-    setIsReversed(false); // reset isReversed when resetting the sortType
+    setIsReversed(false);
   };
 
   const handleReverseClick = () => {
-    setIsReversed(!isReversed); // toggle isReversed
+    setIsReversed(!isReversed);
   };
 
   const reorderedGoods = getReorderedGoods(goodsFromServer, {
     sortType,
-    isReversed, // pass the current state of isReversed
+    isReversed,
   });
 
-  const isChanged = sortType !== SortType.NONE;
+  const isChanged = sortType !== SortType.NONE || isReversed;
 
   return (
     <div className="section content">
