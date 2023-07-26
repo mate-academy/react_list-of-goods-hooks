@@ -16,30 +16,23 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-enum SortField {
-  NONE,
-  ALPHABET,
-  LENGTH,
+enum SortType {
+  NONE = '',
+  ALPHABET = 'abc',
+  LENGTH = 'length',
 }
 
-interface FilterParams {
-  sortField: SortField;
-  isReverse: boolean;
-}
-
-function getPreparedGoods(
-  goods: string[],
-  { sortField, isReverse }: FilterParams,
-) {
+const getPreparedGoods = (goods: string[],
+  { sortField, isReversed }: { sortField: SortType; isReversed: boolean }) => {
   const preparedGoods = [...goods];
 
-  if (sortField) {
+  if (sortField !== SortType.NONE) {
     preparedGoods.sort((good1, good2) => {
       switch (sortField) {
-        case SortField.ALPHABET:
+        case SortType.ALPHABET:
           return good1.localeCompare(good2);
 
-        case SortField.LENGTH:
+        case SortType.LENGTH:
           return good1.length - good2.length;
 
         default:
@@ -48,80 +41,77 @@ function getPreparedGoods(
     });
   }
 
-  if (isReverse) {
+  if (isReversed) {
     preparedGoods.reverse();
   }
 
   return preparedGoods;
-}
+};
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState(SortField.NONE);
-  const [isReverse, setIsReverse] = useState(false);
+  const [sortField, setSortField] = useState(SortType.NONE);
+  const [isReversed, setIsReversed] = useState(false);
 
-  const visibleGoods = getPreparedGoods(
-    goodsFromServer,
-    { sortField, isReverse },
-  );
+  const changedGoods = getPreparedGoods(goodsFromServer, {
+    sortField,
+    isReversed,
+  });
 
-  const setSortParams = (field: SortField, reverse: boolean) => {
-    if (field === sortField && reverse === isReverse) {
-      return;
-    }
-
-    setSortField(field);
-    setIsReverse(reverse);
-  };
-
-  const reset = () => {
-    setSortParams(SortField.NONE, false);
+  const clearSort = () => {
+    setSortField(SortType.NONE);
+    setIsReversed(false);
   };
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => setSortParams(SortField.ALPHABET, false)}
+          onClick={() => setSortField(SortType.ALPHABET)}
           type="button"
-          className={cn('button is-info', {
-            'is-light': sortField !== SortField.ALPHABET,
+          className={cn('button', {
+            'is-info': sortField === SortType.ALPHABET,
+            'is-light': sortField !== SortType.ALPHABET,
           })}
         >
           Sort alphabetically
         </button>
 
         <button
-          onClick={() => setSortParams(SortField.LENGTH, false)}
+          onClick={() => setSortField(SortType.LENGTH)}
           type="button"
-          className={cn('button is-info', {
-            'is-light': sortField !== SortField.LENGTH,
+          className={cn('button', {
+            'is-success': sortField === SortType.LENGTH,
+            'is-light': sortField !== SortType.LENGTH,
           })}
         >
           Sort by length
         </button>
 
         <button
-          onClick={() => setIsReverse(!isReverse)}
+          onClick={() => setIsReversed(reversed => !reversed)}
           type="button"
-          className={cn('button is-warning', { 'is-light': !isReverse })}
+          className={cn('button', {
+            'is-warning': isReversed,
+            'is-light': !isReversed,
+          })}
         >
           Reverse
         </button>
 
-        {(sortField || isReverse) && (
+        {sortField !== SortType.NONE || isReversed ? (
           <button
+            onClick={clearSort}
             type="button"
             className="button is-danger is-light"
-            onClick={reset}
           >
             Reset
           </button>
-        )}
+        ) : null}
       </div>
 
       <ul>
-        {visibleGoods.map((good) => (
-          <li data-cy="Good" key={good}>
+        {changedGoods.map(good => (
+          <li key={good} data-cy="Good">
             {good}
           </li>
         ))}
@@ -129,3 +119,5 @@ export const App: React.FC = () => {
     </div>
   );
 };
+
+export default App;
