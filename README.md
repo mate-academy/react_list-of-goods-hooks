@@ -2,8 +2,8 @@
 
 > DON'T use class components (for this and next tasks).
 
-Повторный список ** реагировать список товаров **, внедренных перед использованием крючков и типовой,.
-Скопируйте все, что вам нужно, из вашего предыдущего решения.
+Reimplement the **React list of goods** implemented before using hooks and typescript.
+Copy everything you need from your previous solution.
 
 > Here is [the working version](https://mate-academy.github.io/react_list-of-goods/)
 
