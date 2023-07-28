@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-shadow */
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
@@ -53,18 +55,8 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState<boolean>(false);
   const [sortType, setSortType] = useState<SortType>(SortType.NONE);
 
-  const sortAlphabetically = () => {
-    setSortType(SortType.ALPHABET);
-    setIsReversed(false);
-  };
-
-  const reset = () => {
-    setSortType(SortType.NONE);
-    setIsReversed(false);
-  };
-
-  const sortByLength = () => {
-    setSortType(SortType.LENGTH);
+  const sortBy = (sortType: any) => {
+    setSortType(sortType);
     setIsReversed(false);
   };
 
@@ -82,7 +74,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={`button is-info ${sortType === SortType.ALPHABET ? '' : 'is-light'}`}
-          onClick={sortAlphabetically}
+          onClick={sortBy}
         >
           Sort alphabetically
         </button>
@@ -90,7 +82,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={`button is-success ${sortType === SortType.LENGTH ? '' : 'is-light'}`}
-          onClick={sortByLength}
+          onClick={sortBy}
         >
           Sort by length
         </button>
@@ -106,7 +98,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={`button is-danger ${isHidden ? 'hidden-reset-button' : 'is-light'}`}
-          onClick={reset}
+          onClick={sortBy}
         >
           Reset
         </button>
