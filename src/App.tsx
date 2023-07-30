@@ -55,7 +55,8 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState<boolean>(false);
   const [sortType, setSortType] = useState<SortType>(SortType.NONE);
 
-  const sortBy = (sortType: any) => {
+  // eslint-disable-next-line max-len
+  const sortBy = (sortType: SortType.NONE | SortType.ALPHABET | SortType.LENGTH) => {
     setSortType(sortType);
     setIsReversed(false);
   };
@@ -74,7 +75,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={`button is-info ${sortType === SortType.ALPHABET ? '' : 'is-light'}`}
-          onClick={sortBy}
+          onClick={() => sortBy(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
@@ -82,7 +83,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={`button is-success ${sortType === SortType.LENGTH ? '' : 'is-light'}`}
-          onClick={sortBy}
+          onClick={() => sortBy(SortType.LENGTH)}
         >
           Sort by length
         </button>
@@ -98,7 +99,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={`button is-danger ${isHidden ? 'hidden-reset-button' : 'is-light'}`}
-          onClick={sortBy}
+          onClick={() => {
+            setIsReversed(false); sortBy(SortType.NONE);
+          }}
         >
           Reset
         </button>
