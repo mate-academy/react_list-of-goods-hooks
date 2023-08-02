@@ -51,11 +51,15 @@ function getPreparedGoods(
 
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState('');
-  const [isReverse, setIsReversed] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
 
-  const preparedGoods = getPreparedGoods(goodsFromServer, sortField, isReverse);
+  const preparedGoods = getPreparedGoods(
+    goodsFromServer,
+    sortField,
+    isReversed,
+  );
 
-  const reverse = () => {
+  const reset = () => {
     setSortField('');
     setIsReversed(false);
   };
@@ -81,15 +85,15 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={cn('button is-warning', { 'is-light': !isReverse })}
-          onClick={() => setIsReversed(!isReverse)}
+          className={cn('button is-warning', { 'is-light': !isReversed })}
+          onClick={() => setIsReversed(!isReversed)}
         >
           Reverse
         </button>
 
-        {(sortField || isReverse) && (
+        {(sortField || isReversed) && (
           <button
-            onClick={reverse}
+            onClick={reset}
             type="button"
             className="button is-danger is-light"
           >
