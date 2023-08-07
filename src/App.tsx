@@ -28,8 +28,9 @@ type OrderOptions = {
 };
 
 function getOrderedGoods(goods: string[],
-  { sortType, isReversed }: OrderOptions) {
+  orderOptions: OrderOptions) {
   const visibleGoods = [...goods];
+  const { sortType, isReversed } = orderOptions;
 
   visibleGoods.sort((goodA: string, goodB: string) => {
     switch (sortType) {
