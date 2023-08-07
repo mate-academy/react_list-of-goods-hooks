@@ -20,9 +20,9 @@ type Goods = string;
 type Reverse = boolean;
 
 enum Sortfield {
-  ALPHABET = 'alphabet',
-  LENGTH = 'length',
-  DEFAULT = '',
+  Alphabet = 'alphabet',
+  Length = 'length',
+  Default = '',
 }
 
 type Props = {
@@ -46,13 +46,13 @@ function getPrepareGoods(
 ): Goods[] {
   const prepareGoods: Goods[] = [...goods];
 
-  if (prepareGoods) {
+  if (prepareGoods.length !== 0) {
     prepareGoods.sort((good1, good2) => {
       switch (sortGood) {
-        case Sortfield.ALPHABET:
+        case Sortfield.Alphabet:
           return good1.localeCompare(good2);
 
-        case Sortfield.LENGTH:
+        case Sortfield.Length:
           return good1.length - good2.length;
 
         default:
@@ -69,27 +69,32 @@ function getPrepareGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortGood, setSortGood] = useState<Sortfield>(Sortfield.DEFAULT);
+  const [sortGood, setSortGood] = useState<Sortfield>(Sortfield.Default);
   const [reverse, setReverse] = useState<Reverse>(false);
   const visibleGoods = getPrepareGoods(goodsFromServer, sortGood, reverse);
+
+  const getReset = (): void => {
+    setSortGood(Sortfield.Default);
+    setReverse(false);
+  };
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => setSortGood(Sortfield.ALPHABET)}
+          onClick={() => setSortGood(Sortfield.Alphabet)}
           type="button"
           className={cn('button', 'is-info', {
-            'is-light': sortGood !== Sortfield.ALPHABET,
+            'is-light': sortGood !== Sortfield.Alphabet,
           })}
         >
           Sort alphabetically
         </button>
         <button
-          onClick={() => setSortGood(Sortfield.LENGTH)}
+          onClick={() => setSortGood(Sortfield.Length)}
           type="button"
           className={cn('button', 'is-success', {
-            'is-light': sortGood !== Sortfield.LENGTH,
+            'is-light': sortGood !== Sortfield.Length,
           })}
         >
           Sort by length
@@ -105,10 +110,7 @@ export const App: React.FC = () => {
         </button>
         {(sortGood || reverse) && (
           <button
-            onClick={() => {
-              setSortGood(Sortfield.DEFAULT);
-              setReverse(false);
-            }}
+            onClick={getReset}
             type="button"
             className="button is-danger is-light"
           >
