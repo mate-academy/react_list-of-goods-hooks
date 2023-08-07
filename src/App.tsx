@@ -16,25 +16,27 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-export const rev = 'reverse';
-export const alphabet = 'alphabet';
-export const alphabetRev = 'alphabet reverse';
-export const length = 'length';
-export const lengthRev = 'length reverse';
+export enum Classes {
+  rev = 'reverse',
+  alphabet = 'alphabet',
+  alphabetRev = 'alphabet reverse',
+  length = 'length',
+  lengthRev = 'length reverse',
+}
 
 export const App: React.FC = () => {
   const [visibleGoods, setVisibleGoods] = useState(goodsFromServer);
   const [sortField, setSortField] = useState('');
 
-  const searchClass = (allClass: string) => {
-    if (allClass.includes(rev)) {
+  const searchReverse = (allClass: string) => {
+    if (allClass.includes(Classes.rev)) {
       return true;
     }
 
     return false;
   };
 
-  const classButton = (buttonName: string, classButtonActive: string) => {
+  const searchClassButton = (buttonName: string, classButtonActive: string) => {
     if (sortField.includes(buttonName)) {
       return classButtonActive;
     }
@@ -44,28 +46,30 @@ export const App: React.FC = () => {
 
   const sortAlphabet = () => {
     setVisibleGoods(prevGoods => (
-      searchClass(sortField)
+      searchReverse(sortField)
         ? [...prevGoods].sort((a, b) => b.localeCompare(a))
         : [...prevGoods].sort((a, b) => a.localeCompare(b))
     ));
-    setSortField(searchClass(sortField) ? alphabetRev : alphabet);
+    setSortField(searchReverse(sortField)
+      ? Classes.alphabetRev
+      : Classes.alphabet);
   };
 
   const sortLength = () => {
     setVisibleGoods(prevGoods => (
-      searchClass(sortField)
+      searchReverse(sortField)
         ? [...prevGoods].sort((a, b) => b.length - a.length)
         : [...prevGoods].sort((a, b) => a.length - b.length)
     ));
-    setSortField(searchClass(sortField) ? lengthRev : length);
+    setSortField(searchReverse(sortField) ? Classes.lengthRev : Classes.length);
   };
 
   const reverse = () => {
     setVisibleGoods(prevGoods => ([...prevGoods].reverse()));
     setSortField(prevSortField => (
-      searchClass(prevSortField)
+      searchReverse(prevSortField)
         ? prevSortField.split(' ')[0]
-        : `${prevSortField} ${rev}`
+        : `${prevSortField} ${Classes.rev}`
     ));
   };
 
@@ -79,7 +83,7 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={classButton(alphabet, 'button is-info')}
+          className={searchClassButton(Classes.alphabet, 'button is-info')}
           onClick={sortAlphabet}
         >
           Sort alphabetically
@@ -87,7 +91,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={classButton(length, 'button is-success')}
+          className={searchClassButton(Classes.length, 'button is-success')}
           onClick={sortLength}
         >
           Sort by length
@@ -95,7 +99,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={classButton(rev, 'button is-warning')}
+          className={searchClassButton(Classes.rev, 'button is-warning')}
           onClick={reverse}
         >
           Reverse
