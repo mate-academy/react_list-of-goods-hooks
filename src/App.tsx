@@ -57,8 +57,10 @@ export const App = () => {
     { sortField, isReversed },
   );
 
-  const handleSortAlpha = () => setSortField(SortType.Alphabetical);
-  const handleSortLenght = () => setSortField(SortType.Length);
+  const handleSort = (
+    newSortField: SortType,
+  ) => () => setSortField(newSortField);
+
   const handleReset = () => {
     setSortField(SortType.None);
     setIsReversed(false);
@@ -71,7 +73,7 @@ export const App = () => {
           type="button"
           className={cn('button is-info',
             { 'is-light': sortField !== SortType.Alphabetical })}
-          onClick={handleSortAlpha}
+          onClick={handleSort(SortType.Alphabetical)}
         >
           Sort alphabetically
         </button>
@@ -80,7 +82,7 @@ export const App = () => {
           type="button"
           className={cn('button is-success',
             { 'is-light': sortField !== SortType.Length })}
-          onClick={handleSortLenght}
+          onClick={handleSort(SortType.Length)}
         >
           Sort by length
         </button>
