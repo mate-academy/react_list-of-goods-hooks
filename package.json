@@ -9,6 +9,7 @@
     "@cypress/react": "^5.12.4",
     "@fortawesome/fontawesome-free": "^6.2.0",
     "bulma": "^0.9.4",
+    "classname": "0.0.0",
     "classnames": "^2.3.1",
     "postcss": "^8.4.12",
     "react": "^17.0.2",
