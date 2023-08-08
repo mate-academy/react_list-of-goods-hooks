@@ -62,11 +62,28 @@ export const App: React.FC = () => {
   const visibleGoods
     = getPreparedGoods(goodsFromServer, { sortField, sortReverse });
 
+  const handleReset = () => {
+    setSortField(SortFIELD.DEFAULT);
+    setToReverse(false);
+  };
+
+  const handleReverse = () => {
+    if (sortReverse === false) {
+      setToReverse(true);
+    } else {
+      setToReverse(false);
+    }
+  };
+
+  const handleSortAlfabetically = () => setSortField(SortFIELD.ALFABETICALLY);
+
+  const handleSortLength = () => setSortField(SortFIELD.LENGTH);
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => setSortField(SortFIELD.ALFABETICALLY)}
+          onClick={handleSortAlfabetically}
           type="button"
           className={cn('button', 'is-info', {
             'is-light': sortField !== SortFIELD.ALFABETICALLY,
@@ -76,7 +93,7 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={() => setSortField(SortFIELD.LENGTH)}
+          onClick={handleSortLength}
           type="button"
           className={cn('button', 'is-success', {
             'is-light': sortField !== SortFIELD.LENGTH,
@@ -86,13 +103,7 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={() => {
-            if (sortReverse === false) {
-              setToReverse(true);
-            } else {
-              setToReverse(false);
-            }
-          }}
+          onClick={handleReverse}
           type="button"
           className={cn('button', 'is-warning', {
             'is-light': sortReverse === false,
@@ -105,10 +116,7 @@ export const App: React.FC = () => {
           sortField || sortReverse
             ? (
               <button
-                onClick={() => {
-                  setSortField(SortFIELD.DEFAULT);
-                  setToReverse(false);
-                }}
+                onClick={handleReset}
                 type="button"
                 className="button is-danger is-light"
               >
@@ -121,7 +129,7 @@ export const App: React.FC = () => {
 
       <ul>
         {visibleGoods.map(good => (
-          <li data-cy="Good">{good}</li>
+          <li data-cy="Good" key={good}>{good}</li>
         ))}
       </ul>
     </div>
