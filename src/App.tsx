@@ -4,9 +4,9 @@ import './App.scss';
 import cn from 'classnames';
 
 enum SortDirection {
-  alph = 'is-info',
-  len = 'is-success',
-  rev = 'is-warning',
+  Alph = 'is-info',
+  Len = 'is-success',
+  Rev = 'is-warning',
 }
 
 export const goodsFromServer = [
@@ -43,10 +43,10 @@ export const sortList = (
   if (sort) {
     allGoods.sort((good1, good2) => {
       switch (sort) {
-        case SortDirection.alph:
+        case SortDirection.Alph:
           return good1.localeCompare(good2);
 
-        case SortDirection.len:
+        case SortDirection.Len:
           return good1.length - good2.length;
 
         default:
@@ -86,9 +86,7 @@ export const App: React.FC = () => {
                 'is-light': sortBy !== button.class,
               },
             )}
-            onClick={() => {
-              setSortBy(button.class);
-            }}
+            onClick={() => setSortBy(button.class)}
           >
             {button.name}
           </button>
