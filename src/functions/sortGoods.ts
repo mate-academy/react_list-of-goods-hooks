@@ -15,6 +15,7 @@ export function sortGoods({
       setGoods(originalGoods);
       setSortBy(KindsOfSort.NO_SORT);
       break;
+
     case KindsOfSort.ALPHABET: {
       setSortBy(KindsOfSort.ALPHABET);
       const sortedGoods = originalGoods.sort(
