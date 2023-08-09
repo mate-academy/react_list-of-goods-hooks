@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import cn from 'classnames';
 import { GoodList } from './components/GoodList/GoodList';
 
 import 'bulma/css/bulma.css';
@@ -17,21 +18,31 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+enum SortType {
+  LENGTH = 'length',
+  ALPHABET = 'alphabet',
+  DEFAULT = '',
+}
+
 function getPreparedGoods(goods: string[],
   sortBy: string,
   isReversed: boolean) {
   const preparedGoods = [...goods];
 
-  if (sortBy === 'alphabet') {
+  if (sortBy === SortType.ALPHABET) {
     preparedGoods.sort((a, b) => a.localeCompare(b));
   }
 
-  if (sortBy === 'length') {
+  if (sortBy === SortType.LENGTH) {
     preparedGoods.sort((a, b) => a.length - b.length);
   }
 
   if (isReversed) {
     preparedGoods.reverse();
+  }
+
+  if (sortBy === SortType.DEFAULT) {
+    return preparedGoods;
   }
 
   return preparedGoods;
@@ -48,7 +59,8 @@ export const App: React.FC = () => {
         <button
           onClick={() => setSortBy('alphabet')}
           type="button"
-          className={`button is-info ${sortBy === 'alphabet' ? '' : 'is-light'}`}
+          className={cn('button is-info',
+            { 'is-light': sortBy !== SortType.ALPHABET })}
         >
           Sort alphabetically
         </button>
@@ -56,7 +68,8 @@ export const App: React.FC = () => {
         <button
           onClick={() => setSortBy('length')}
           type="button"
-          className={`button is-success ${sortBy === 'length' ? '' : 'is-light'}`}
+          className={cn('button is-success',
+            { 'is-light': sortBy !== SortType.LENGTH })}
         >
           Sort by length
         </button>
@@ -66,12 +79,13 @@ export const App: React.FC = () => {
             setIsReversed(!isReversed);
           }}
           type="button"
-          className={`button is-warning ${isReversed ? '' : 'is-light'}`}
+          className={cn('button is-warning',
+            { 'is-light': !isReversed })}
         >
           Reverse
         </button>
 
-        {(sortBy !== '' || isReversed) && (
+        {(!!sortBy || isReversed) && (
           <button
             onClick={() => {
               setSortBy('');
