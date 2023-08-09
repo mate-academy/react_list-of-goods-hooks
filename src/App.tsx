@@ -49,7 +49,7 @@ function getPreparedGoods(goods: string[],
 }
 
 export const App: React.FC = () => {
-  const [sortBy, setSortBy] = useState('');
+  const [sortBy, setSortBy] = useState<SortType>(SortType.DEFAULT);
   const [isReversed, setIsReversed] = useState(false);
   const visibleGoods = getPreparedGoods(goodsFromServer, sortBy, isReversed);
 
@@ -57,7 +57,7 @@ export const App: React.FC = () => {
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => setSortBy('alphabet')}
+          onClick={() => setSortBy(SortType.ALPHABET)}
           type="button"
           className={cn('button is-info',
             { 'is-light': sortBy !== SortType.ALPHABET })}
@@ -66,7 +66,7 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={() => setSortBy('length')}
+          onClick={() => setSortBy(SortType.LENGTH)}
           type="button"
           className={cn('button is-success',
             { 'is-light': sortBy !== SortType.LENGTH })}
@@ -88,7 +88,7 @@ export const App: React.FC = () => {
         {(!!sortBy || isReversed) && (
           <button
             onClick={() => {
-              setSortBy('');
+              setSortBy(SortType.DEFAULT);
               setIsReversed(false);
             }}
             type="button"
