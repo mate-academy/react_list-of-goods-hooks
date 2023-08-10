@@ -39,7 +39,7 @@ function getPreparedGoods(goods: string[],
     default:
   }
 
-  if (!isReversed) {
+  if (isReversed) {
     preparedGoods.reverse();
   }
 
