@@ -29,20 +29,19 @@ function getPreparedGoods(goods: string[],
   isReversed: boolean) {
   const preparedGoods = [...goods];
 
-  if (sortBy === SortType.ALPHABET) {
-    preparedGoods.sort((a, b) => a.localeCompare(b));
-  }
-
-  if (sortBy === SortType.LENGTH) {
-    preparedGoods.sort((a, b) => a.length - b.length);
+  switch (sortBy) {
+    case SortType.ALPHABET:
+      preparedGoods.sort((a, b) => a.localeCompare(b));
+      break;
+    case SortType.LENGTH:
+      preparedGoods.sort((a, b) => a.length - b.length);
+      break;
+    default:
+      return preparedGoods;
   }
 
   if (isReversed) {
     preparedGoods.reverse();
-  }
-
-  if (sortBy === SortType.DEFAULT) {
-    return preparedGoods;
   }
 
   return preparedGoods;
@@ -52,6 +51,11 @@ export const App: React.FC = () => {
   const [sortBy, setSortBy] = useState<SortType>(SortType.DEFAULT);
   const [isReversed, setIsReversed] = useState(false);
   const visibleGoods = getPreparedGoods(goodsFromServer, sortBy, isReversed);
+
+  const reverseHandler = () => {
+    setSortBy(SortType.DEFAULT);
+    setIsReversed(false);
+  };
 
   return (
     <div className="section content">
@@ -87,10 +91,7 @@ export const App: React.FC = () => {
 
         {(!!sortBy || isReversed) && (
           <button
-            onClick={() => {
-              setSortBy(SortType.DEFAULT);
-              setIsReversed(false);
-            }}
+            onClick={reverseHandler}
             type="button"
             className="button is-danger is-light"
           >
