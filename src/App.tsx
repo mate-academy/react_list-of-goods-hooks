@@ -25,7 +25,7 @@ enum SortType {
 }
 
 function getPreparedGoods(goods: string[],
-  sortBy: string,
+  sortBy: SortType,
   isReversed: boolean) {
   const preparedGoods = [...goods];
 
