@@ -17,6 +17,9 @@ export const goodsFromServer = [
 
 type SortType = 'length' | 'alphabet';
 
+const SORT_FIELD_LENGTH: SortType = 'length';
+const SORT_FIELD_ALPHABET: SortType = 'alphabet';
+
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState<SortType | ''>('');
   const [reverseField, setRevField] = useState<boolean>(false);
@@ -25,10 +28,10 @@ export const App: React.FC = () => {
   if (sortField) {
     visibleGoods.sort((good1, good2) => {
       switch (sortField) {
-        case 'length':
+        case SORT_FIELD_LENGTH:
           return good1.length - good2.length;
 
-        case 'alphabet':
+        case SORT_FIELD_ALPHABET:
           return good1.localeCompare(good2);
 
         default:
@@ -46,16 +49,16 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          onClick={() => (setSortField('alphabet'))}
-          className={`button is-info ${sortField !== 'alphabet' && 'is-light'}`}
+          onClick={() => (setSortField(SORT_FIELD_ALPHABET))}
+          className={`button is-info ${sortField !== SORT_FIELD_ALPHABET && 'is-light'}`}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          onClick={() => (setSortField('length'))}
-          className={`button is-success ${sortField !== 'length' && 'is-light'}`}
+          onClick={() => (setSortField(SORT_FIELD_LENGTH))}
+          className={`button is-success ${sortField !== SORT_FIELD_LENGTH && 'is-light'}`}
         >
           Sort by length
         </button>
