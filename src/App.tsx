@@ -37,10 +37,9 @@ function getPreparedGoods(goods: string[],
       preparedGoods.sort((a, b) => a.length - b.length);
       break;
     default:
-      return preparedGoods;
   }
 
-  if (isReversed) {
+  if (!isReversed) {
     preparedGoods.reverse();
   }
 
