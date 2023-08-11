@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import classNames from 'classnames';
+import { GoodsList } from './components/GoodsList';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -52,6 +54,13 @@ export const App: React.FC = () => {
   const [reverseParemeter, setReverseParemeter] = useState(false);
   const makeResetVisible = sortParameter !== '' || reverseParemeter;
 
+  const sortAlphClassName = classNames('button', 'is-info',
+    { 'is-light': sortParameter !== SortType.Alphabetically });
+  const sortLengthClassName = classNames('button', 'is-success',
+    { 'is-light': sortParameter !== SortType.Length });
+  const reverseClassName = classNames('button', 'is-warning',
+    { 'is-light': !reverseParemeter });
+
   const handleSort = (sortBy: SortType) => {
     setSortParameter(sortBy);
   };
@@ -68,7 +77,7 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortParameter !== SortType.Alphabetically ? 'is-light' : ''}`}
+          className={sortAlphClassName}
           onClick={() => {
             handleSort(SortType.Alphabetically);
           }}
@@ -78,7 +87,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-success ${sortParameter !== SortType.Length ? 'is-light' : ''}`}
+          className={sortLengthClassName}
           onClick={() => {
             handleSort(SortType.Length);
           }}
@@ -88,7 +97,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-warning ${reverseParemeter ? '' : 'is-light'}`}
+          className={reverseClassName}
           onClick={() => {
             setReverseParemeter(prevReverseParemeter => !prevReverseParemeter);
           }}
@@ -111,11 +120,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        <ul>
-          {visibleGoods.map(good => (
-            <li data-cy="Good" key={good}>{good}</li>
-          ))}
-        </ul>
+        <GoodsList visibleGoods={visibleGoods} />
       </ul>
     </div>
   );
