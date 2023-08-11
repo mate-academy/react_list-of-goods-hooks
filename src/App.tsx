@@ -50,13 +50,18 @@ function getOrderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [orderMethod, setOrderMethod] = useState(SortType.DEFAULT);
+  const [sortType, setsortType] = useState(SortType.DEFAULT);
   const [isReversed, setIsReversed] = useState(false);
   const orderedGoods = getOrderedGoods(
     goodsFromServer,
-    orderMethod,
+    sortType,
     isReversed,
   );
+
+  const resetOrder = () => {
+    setsortType(SortType.DEFAULT);
+    setIsReversed(false);
+  };
 
   return (
     <div className="section content">
@@ -64,9 +69,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-info', {
-            'is-light': orderMethod !== SortType.ALPHABET,
+            'is-light': sortType !== SortType.ALPHABET,
           })}
-          onClick={() => setOrderMethod(SortType.ALPHABET)}
+          onClick={() => setsortType(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
@@ -74,9 +79,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-success', {
-            'is-light': orderMethod !== SortType.LENGTH,
+            'is-light': sortType !== SortType.LENGTH,
           })}
-          onClick={() => setOrderMethod(SortType.LENGTH)}
+          onClick={() => setsortType(SortType.LENGTH)}
         >
           Sort by length
         </button>
@@ -86,17 +91,17 @@ export const App: React.FC = () => {
           className={cn('button is-warning', {
             'is-light': !isReversed,
           })}
-          onClick={() => setIsReversed(!isReversed)}
+          onClick={() => setIsReversed(prevIsReversed => !prevIsReversed)}
         >
           Reverse
         </button>
 
-        {(orderMethod || isReversed) && (
+        {(sortType || isReversed) && (
           <button
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              setOrderMethod(SortType.DEFAULT); setIsReversed(false);
+              resetOrder();
             }}
           >
             Reset
