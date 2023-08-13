@@ -60,6 +60,19 @@ export const App: React.FC = () => {
   const visibleGoods
     = getPreparedGoods(goodsFromServer, { sortField, toReverse });
 
+  const getReversedGoods = () => {
+    if (toReverse === false) {
+      setToReverse(true);
+    } else {
+      setToReverse(false);
+    }
+  }
+
+  const resetGoods = () => {
+    setSortField('');
+    setToReverse(false);
+  }
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -84,13 +97,7 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={() => {
-            if (toReverse === false) {
-              setToReverse(true);
-            } else {
-              setToReverse(false);
-            }
-          }}
+          onClick={getReversedGoods}
           type="button"
           className={cn('button', 'is-warning', {
             'is-light': toReverse === false,
@@ -103,10 +110,7 @@ export const App: React.FC = () => {
           sortField || toReverse
             ? (
               <button
-                onClick={() => {
-                  setSortField('');
-                  setToReverse(false);
-                }}
+                onClick={resetGoods}
                 type="button"
                 className="button is-danger is-light"
               >
