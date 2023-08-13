@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
-import { useState } from 'react';
 import cn from 'classnames';
 import './App.scss';
 
@@ -17,7 +16,7 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-enum sortType {
+enum SortType {
   alphabetically = 'Sort alphabetically',
   byLength = 'Sort by length',
 }
@@ -25,18 +24,21 @@ enum sortType {
 type Props = {
   sortField: string;
   toReverse: boolean
-}
+};
 
-const getPreparedGoods = (goods: string[], { sortField, toReverse }: Props): string[] => {
+const getPreparedGoods = (
+  goods: string[],
+  { sortField, toReverse }: Props,
+): string[] => {
   const preparedGoods = [...goods];
 
   if (sortField) {
     preparedGoods.sort((good1, good2) => {
       switch (sortField) {
-        case sortType.alphabetically:
+        case SortType.alphabetically:
           return good1.localeCompare(good2);
 
-        case sortType.byLength:
+        case SortType.byLength:
           return good1.length - good2.length;
 
         default:
@@ -62,20 +64,20 @@ export const App: React.FC = () => {
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => setSortField(sortType.alphabetically)}
+          onClick={() => setSortField(SortType.alphabetically)}
           type="button"
           className={cn('button', 'is-info', {
-            'is-light': sortField !== sortType.alphabetically,
+            'is-light': sortField !== SortType.alphabetically,
           })}
         >
           Sort alphabetically
         </button>
 
         <button
-          onClick={() => setSortField(sortType.byLength)}
+          onClick={() => setSortField(SortType.byLength)}
           type="button"
           className={cn('button', 'is-success', {
-            'is-light': sortField !== sortType.byLength,
+            'is-light': sortField !== SortType.byLength,
           })}
         >
           Sort by length
