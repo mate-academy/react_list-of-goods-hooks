@@ -73,11 +73,7 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(true);
   const sortGoods = getSortGoods(goodsFromServer, sortField, isReversed);
   const sortReverse = () => {
-    if (isReversed) {
-      setIsReversed(false);
-    } else {
-      setIsReversed(true);
-    }
+    setIsReversed(!isReversed);
   };
 
   const resetSorting = () => {
