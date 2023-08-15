@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
-import { useState } from 'react';
 import cn from 'classnames';
 
 export const goodsFromServer = [
@@ -57,8 +56,7 @@ export const App: React.FC = () => {
   const resetButton = () => {
     setSortType(SortType.NONE);
     setIsReversed(false);
-  }
-
+  };
 
   return (
     <div className="section content">
