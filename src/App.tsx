@@ -33,16 +33,18 @@ function getPreparedGoods(
 ) {
   const preparedGoods = [...goods];
 
-  preparedGoods.sort((good1, good2) => {
-    switch (sortField) {
-      case SortType.sortAlphabet:
-        return good1.localeCompare(good2);
-      case SortType.sortLength:
-        return good1.length - good2.length;
-      default:
-        return 0;
-    }
-  });
+  if (sortField) {
+    preparedGoods.sort((good1, good2) => {
+      switch (sortField) {
+        case SortType.sortAlphabet:
+          return good1.localeCompare(good2);
+        case SortType.sortLength:
+          return good1.length - good2.length;
+        default:
+          return 0;
+      }
+    });
+  }
 
   if (sortReverse) {
     preparedGoods.reverse();
