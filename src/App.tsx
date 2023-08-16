@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
+
 import cn from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
@@ -22,10 +23,14 @@ enum SortBy {
   DEFAULT = '',
 }
 
+type GoodsType = {
+  sortGoods: SortBy;
+  reverse: boolean;
+};
+
 const getPreparedGoods = (
   goods: string[],
-  sortGoods: SortBy,
-  reverse: boolean,
+  { sortGoods, reverse }: GoodsType,
 ) => {
   const preparedGoods: string[] = [...goods];
 
@@ -55,7 +60,10 @@ export const App: React.FC = () => {
   const [sortGoods, setSortGoods] = useState(SortBy.DEFAULT);
   const [reverse, setReverse] = useState(false);
 
-  const visibleGoods = getPreparedGoods(goodsFromServer, sortGoods, reverse);
+  const visibleGoods = useMemo(() => getPreparedGoods(goodsFromServer, {
+    sortGoods,
+    reverse,
+  }), [sortGoods, reverse]);
 
   const cancelReset = () => {
     setSortGoods(SortBy.DEFAULT);
