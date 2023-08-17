@@ -61,6 +61,11 @@ export const App: React.FC = () => {
     sortReverse,
   });
 
+  const reset = () => {
+    setSortField(SortType.sortNone);
+    setSortReverse(false);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -97,10 +102,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortField(SortType.sortNone);
-              setSortReverse(false);
-            }}
+            onClick={reset}
           >
             Reset
           </button>
@@ -109,7 +111,7 @@ export const App: React.FC = () => {
 
       <ul>
         {visibleGoods.map(good => (
-          <li data-cy="Good">{good}</li>
+          <li key={good} data-cy="Good">{good}</li>
         ))}
       </ul>
     </div>
