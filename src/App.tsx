@@ -5,6 +5,7 @@ import cn from 'classnames';
 import { GoodList } from './components/GoodsList';
 import { FilteredGoods } from './types/FilteredGoods';
 import { ProductList } from './types/ProductList';
+import { SortVariants } from './types/SortVariants';
 
 export const goodsFromServer: ProductList = [
   'Dumplings',
@@ -19,9 +20,6 @@ export const goodsFromServer: ProductList = [
   'Garlic',
 ];
 
-const APPLIED_SORT_ALPHABETICALLY = 'alphabetically';
-const APPLIED_SORT_LENGTH = 'length';
-
 function getSortedGoods(
   goods: ProductList,
   { appliedSort, reverseOrder }: FilteredGoods,
@@ -31,10 +29,10 @@ function getSortedGoods(
   if (appliedSort) {
     visibleGoods.sort((good1, good2) => {
       switch (appliedSort) {
-        case APPLIED_SORT_ALPHABETICALLY:
+        case SortVariants.APPLIED_SORT_ALPHABETICALLY:
           return good1.localeCompare(good2);
 
-        case APPLIED_SORT_LENGTH:
+        case SortVariants.APPLIED_SORT_LENGTH:
           return good1.length - good2.length;
 
         default:
@@ -68,8 +66,13 @@ export const App = () => {
         <button
           type="button"
           className={cn('button is-info',
-            { 'is-light': appliedSort !== APPLIED_SORT_ALPHABETICALLY })}
-          onClick={() => setAppliedSort(APPLIED_SORT_ALPHABETICALLY)}
+            {
+              'is-light': appliedSort
+            !== SortVariants.APPLIED_SORT_ALPHABETICALLY,
+            })}
+          onClick={() => setAppliedSort(
+            SortVariants.APPLIED_SORT_ALPHABETICALLY,
+          )}
         >
           Sort alphabetically
         </button>
@@ -77,8 +80,8 @@ export const App = () => {
         <button
           type="button"
           className={cn('button is-success',
-            { 'is-light': appliedSort !== APPLIED_SORT_LENGTH })}
-          onClick={() => setAppliedSort(APPLIED_SORT_LENGTH)}
+            { 'is-light': appliedSort !== SortVariants.APPLIED_SORT_LENGTH })}
+          onClick={() => setAppliedSort(SortVariants.APPLIED_SORT_LENGTH)}
         >
           Sort by length
         </button>
