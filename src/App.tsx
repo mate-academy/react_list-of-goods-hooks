@@ -1,6 +1,6 @@
 import 'bulma/css/bulma.css';
 import './App.scss';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import cn from 'classnames';
 import { GoodList } from './components/GoodsList';
 import { FilteredGoods } from './types/FilteredGoods';
@@ -22,7 +22,7 @@ export const goodsFromServer: ProductList = [
 
 function getSortedGoods(
   goods: ProductList,
-  { appliedSort, reverseOrder }: FilteredGoods,
+  { appliedSort, isReversed }: FilteredGoods,
 ): string[] {
   const visibleGoods = [...goods];
 
@@ -41,7 +41,7 @@ function getSortedGoods(
     });
   }
 
-  if (reverseOrder) {
+  if (isReversed) {
     visibleGoods.reverse();
   }
 
@@ -50,15 +50,24 @@ function getSortedGoods(
 
 export const App = () => {
   const [appliedSort, setAppliedSort] = useState('');
-  const [reverseOrder, setReverseOrder] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
 
-  const reset = () => {
+  const handleResetClick = () => {
     setAppliedSort('');
-    setReverseOrder(false);
+    setIsReversed(false);
   };
 
-  const visibleGoods:ProductList = getSortedGoods(goodsFromServer,
-    { appliedSort, reverseOrder });
+  const handleReverseClick = () => {
+    setIsReversed(prev => !prev);
+  }
+
+  const handleSortClick = () => {
+    setAppliedSort(SortVariants.APPLIED_SORT_ALPHABETICALLY);
+  }
+
+  const visibleGoods = useMemo(() => {
+    return getSortedGoods(goodsFromServer, { appliedSort, isReversed });
+  }, [goodsFromServer, appliedSort, isReversed]);
 
   return (
     <div className="section content">
@@ -70,9 +79,7 @@ export const App = () => {
               'is-light': appliedSort
             !== SortVariants.APPLIED_SORT_ALPHABETICALLY,
             })}
-          onClick={() => setAppliedSort(
-            SortVariants.APPLIED_SORT_ALPHABETICALLY,
-          )}
+          onClick={handleSortClick}
         >
           Sort alphabetically
         </button>
@@ -89,17 +96,17 @@ export const App = () => {
         <button
           type="button"
           className={cn('button is-warning',
-            { 'is-light': !reverseOrder })}
-          onClick={() => setReverseOrder(!reverseOrder)}
+            { 'is-light': !isReversed })}
+          onClick={handleReverseClick}
         >
           Reverse
         </button>
 
-        {(appliedSort || reverseOrder) && (
+        {(appliedSort || isReversed) && (
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => reset()}
+            onClick={handleResetClick}
           >
             Reset
           </button>

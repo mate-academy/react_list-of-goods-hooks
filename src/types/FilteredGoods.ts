@@ -1,4 +1,4 @@
 export interface FilteredGoods {
   appliedSort: string;
-  reverseOrder: boolean,
+  isReversed: boolean,
 }
