@@ -1,5 +1,4 @@
-import 'bulma/css/.css';
-import './App.scss';
+import 'bulma/css/bulma.css';
 import React, { useState } from 'react';
 
 const goodsFromServer = [
