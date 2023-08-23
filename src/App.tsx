@@ -20,7 +20,7 @@ const SORT_FIELD_LENGTH = 'Length';
 
 function getPreparedGoods(
   goods: string[],
-  { sortField, reverse }: { sortField: string, reverse: boolean },
+  { sortField, isReverse }: { sortField: string, isReverse: boolean },
 ) : string[] {
   const preparedGoods = [...goods];
 
@@ -39,7 +39,7 @@ function getPreparedGoods(
     });
   }
 
-  if (reverse) {
+  if (isReverse) {
     preparedGoods.reverse();
   }
 
@@ -48,19 +48,19 @@ function getPreparedGoods(
 
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState('');
-  const [reverse, setReverse] = useState(false);
+  const [isReverse, setIsReverse] = useState(false);
   const visibleGoods = getPreparedGoods(
     goodsFromServer,
-    { sortField, reverse },
+    { sortField, isReverse },
   );
 
   const toggleReverse = () => {
-    setReverse(prevReverse => !prevReverse);
+    setIsReverse(prevReverse => !prevReverse);
   };
 
   const resetSortAndReverse = () => {
     setSortField('');
-    setReverse(false);
+    setIsReverse(false);
   };
 
   return (
@@ -84,13 +84,13 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-warning ${reverse ? '' : 'is-light'}`}
+          className={`button is-warning ${isReverse ? '' : 'is-light'}`}
           onClick={toggleReverse}
         >
           Reverse
         </button>
 
-        {(sortField || reverse) && (
+        {(sortField || isReverse) && (
           <button
             type="button"
             className="button is-danger is-light"
@@ -100,12 +100,11 @@ export const App: React.FC = () => {
           </button>
         )}
       </div>
-
-      {visibleGoods.map(good => (
-        <ul key={good}>
-          <li data-cy="Good">{good}</li>
-        </ul>
-      ))}
+      <ul>
+        {visibleGoods.map(good => (
+          <li key={good} data-cy="Good">{good}</li>
+        ))}
+      </ul>
     </div>
   );
 };
