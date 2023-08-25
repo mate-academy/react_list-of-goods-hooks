@@ -18,9 +18,9 @@ export enum Goods {
 }
 
 function getPreparedGoods(goods: typeof Goods,
-  { sortField, isReversed }: { 
-    sortField: string; 
-    isReversed: boolean; 
+  { sortField, isReversed }: {
+    sortField: string;
+    isReversed: boolean;
   }) {
   const preparedGoods = Object.values(goods);
 
@@ -98,17 +98,16 @@ export const App: React.FC = () => {
               Reset
             </button>
           )
-          : ''
-        }
+          : ''}
       </div>
 
       <ul>
         <ul>
-        {toSortGoods.map(good => (
-          <li data-cy="Good" key={good}>
-            {good}
-          </li>
-        ))}
+          {toSortGoods.map(good => (
+            <li data-cy="Good" key={good}>
+              {good}
+            </li>
+          ))}
         </ul>
       </ul>
     </div>
