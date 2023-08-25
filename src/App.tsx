@@ -18,9 +18,9 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  none = '',
-  alphabet = 'alphabet',
-  length = 'length',
+  None = '',
+  Alphabet = 'alphabet',
+  Length = 'length',
 }
 
 const GoodList = ({ goods }: { goods: string[] }) => (
@@ -39,9 +39,9 @@ function getPreparedGoods(
   if (sortField) {
     prepearedGoods.sort((good1, good2) => {
       switch (sortField) {
-        case SortType.alphabet:
+        case SortType.Alphabet:
           return good1.localeCompare(good2);
-        case SortType.length:
+        case SortType.Length:
           return good1.length - good2.length;
         default:
           return 0;
@@ -57,7 +57,7 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState(SortType.none);
+  const [sortField, setSortField] = useState(SortType.None);
   const [isReversed, setIsReversed] = useState(false);
   const visibleGoods
   = getPreparedGoods(goodsFromServer, { sortField, isReversed });
@@ -68,9 +68,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button', 'is-info',
-            { 'is-light': sortField !== SortType.alphabet })}
+            { 'is-light': sortField !== SortType.Alphabet })}
           onClick={() => {
-            setSortField(SortType.alphabet);
+            setSortField(SortType.Alphabet);
           }}
         >
           Sort alphabetically
@@ -79,8 +79,8 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button', 'is-success',
-            { 'is-light': sortField !== SortType.length })}
-          onClick={() => setSortField(SortType.length)}
+            { 'is-light': sortField !== SortType.Length })}
+          onClick={() => setSortField(SortType.Length)}
         >
           Sort by length
         </button>
@@ -99,7 +99,7 @@ export const App: React.FC = () => {
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              setSortField(SortType.none);
+              setSortField(SortType.None);
               setIsReversed(false);
             }}
           >
