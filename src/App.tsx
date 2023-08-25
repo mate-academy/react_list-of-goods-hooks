@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import classnames from 'classnames';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -16,9 +17,9 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  NONE,
-  ALPHABET,
-  LENGTH,
+  NONE = 'none',
+  ALPHABET = 'alphabet',
+  LENGTH = 'length',
 }
 
 type ReorderOptions = {
@@ -66,11 +67,7 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={
-            `button ${sortType === SortType.ALPHABET
-              ? 'is-info'
-              : 'is-info is-light'}`
-          }
+          className={`button ${sortType === SortType.ALPHABET ? 'is-info' : 'is-info is-light'}`}
           onClick={() => setSortType(SortType.ALPHABET)}
         >
           Sort alphabetically
@@ -81,7 +78,7 @@ export const App: React.FC = () => {
           className={
             `button ${sortType === SortType.LENGTH
               ? 'is-success'
-              : 'is-sucesss is-light'}`
+              : 'is-success is-light'}`
           }
           onClick={() => setSortType(SortType.LENGTH)}
         >
@@ -90,7 +87,8 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-warning ${isReversed ? '' : 'is-light'}`}
+          className={classnames('button', 'is-warning',
+            { 'is-light': !isReversed })}
           onClick={() => setIsReversed(prev => !prev)}
         >
           Reverse
