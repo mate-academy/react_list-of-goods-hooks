@@ -69,7 +69,9 @@ export const App: React.FC = () => {
     setIsReverseFilter(false);
   };
 
-  const handleSort = (sortField: SortType) => setSortFilter(sortField);
+  const handleSortAlphabet = () => setSortFilter(SortType.SortAlphabet);
+  const handleSortLength = () => setSortFilter(SortType.SortLength);
+  const onReverse = () => setIsReverseFilter(!isReverseFilter);
 
   return (
     <div className="section content">
@@ -79,7 +81,7 @@ export const App: React.FC = () => {
           className={cn('button is-info', {
             'is-light': sortFilter !== SortType.SortAlphabet,
           })}
-          onClick={() => handleSort(SortType.SortAlphabet)}
+          onClick={handleSortAlphabet}
         >
           Sort alphabetically
         </button>
@@ -89,7 +91,7 @@ export const App: React.FC = () => {
           className={cn('button is-success', {
             'is-light': sortFilter !== SortType.SortLength,
           })}
-          onClick={() => handleSort(SortType.SortLength)}
+          onClick={handleSortLength}
         >
           Sort by length
         </button>
@@ -99,7 +101,7 @@ export const App: React.FC = () => {
           className={cn('button is-warning', {
             'is-light': !isReverseFilter,
           })}
-          onClick={() => setIsReverseFilter(!isReverseFilter)}
+          onClick={onReverse}
         >
           Reverse
         </button>
