@@ -67,7 +67,10 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={cn(`button ${sortType === SortType.ALPHABET ? 'is-info' : 'is-info is-light'}`)}
+          className={cn('button', {
+            'is-info': sortType === SortType.ALPHABET,
+            'is-info is-light': sortType !== SortType.ALPHABET,
+          })}
           onClick={() => setSortType(SortType.ALPHABET)}
         >
           Sort alphabetically
@@ -75,11 +78,10 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={cn(
-            `button ${sortType === SortType.LENGTH
-              ? 'is-success'
-              : 'is-success is-light'}`,
-          )}
+          className={cn('button', {
+            'is-success': sortType === SortType.LENGTH,
+            'is-success is-light': sortType !== SortType.LENGTH,
+          })}
           onClick={() => setSortType(SortType.LENGTH)}
         >
           Sort by length
@@ -87,8 +89,10 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={cn('button', 'is-warning',
-            { 'is-light': !isReversed })}
+          className={cn('button', {
+            'is-warning': !isReversed,
+            'is-warning is-light': isReversed,
+          })}
           onClick={() => setIsReversed(prev => !prev)}
         >
           Reverse
@@ -97,7 +101,10 @@ export const App: React.FC = () => {
         {(sortType !== SortType.NONE || isReversed) && (
           <button
             type="button"
-            className={cn(`button is-danger ${isReversed ? '' : 'is-light'}`)}
+            className={cn('button', {
+              'is-danger': !isReversed,
+              'is-danger is-light': isReversed,
+            })}
             onClick={resetSorting}
           >
             Reset
