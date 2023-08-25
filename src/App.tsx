@@ -97,7 +97,7 @@ export const App: React.FC = () => {
         {(sortType !== SortType.NONE || isReversed) && (
           <button
             type="button"
-            className="button is-danger is-light"
+            className={`button is-danger ${isReversed ? '' : 'is-light'}`}
             onClick={resetSorting}
           >
             Reset
