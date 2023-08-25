@@ -17,47 +17,47 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  alphabet = 'alphabet',
-  length = 'length',
-  reverse = 'reverse',
+  Alphabet = 'alphabet',
+  Length = 'length',
+  Empty = '',
 }
 
 interface FilterParams {
-  sortMethod: string | '';
-  reverseMethod: string;
+  sortMethod: SortType;
+  isReverse: boolean;
 }
 
 function getSortedGoods(
   goods: string[],
   {
     sortMethod,
-    reverseMethod,
+    isReverse,
   }: FilterParams,
 ) {
   const sortedGoods = [...goods];
 
-  if (reverseMethod && sortMethod === SortType.alphabet) {
+  if (isReverse && sortMethod === SortType.Alphabet) {
     return sortedGoods
       .sort((good1, good2) => good1.localeCompare(good2))
       .reverse();
   }
 
-  if (reverseMethod && sortMethod === SortType.length) {
+  if (isReverse && sortMethod === SortType.Length) {
     return sortedGoods
       .sort((good1, good2) => good1.length - good2.length)
       .reverse();
   }
 
-  if (reverseMethod) {
+  if (isReverse) {
     return sortedGoods.reverse();
   }
 
   if (sortMethod) {
     sortedGoods.sort((good1, good2) => {
       switch (sortMethod) {
-        case SortType.alphabet:
+        case SortType.Alphabet:
           return good1.localeCompare(good2);
-        case SortType.length:
+        case SortType.Length:
           return good1.length - good2.length;
         default:
           return 0;
@@ -69,13 +69,13 @@ function getSortedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortMethod, setSortMethod] = useState('');
-  const [reverseMethod, setreverseMethod] = useState('');
+  const [sortMethod, setSortMethod] = useState(SortType.Empty);
+  const [isReverse, setIsReverse] = useState(false);
   const visibleGoods = getSortedGoods(
     goodsFromServer,
     {
       sortMethod,
-      reverseMethod,
+      isReverse,
     },
   );
 
@@ -87,9 +87,9 @@ export const App: React.FC = () => {
           className={cn(
             'button',
             'is-info',
-            { 'is-light': sortMethod !== SortType.alphabet },
+            { 'is-light': sortMethod !== SortType.Alphabet },
           )}
-          onClick={() => setSortMethod(SortType.alphabet)}
+          onClick={() => setSortMethod(SortType.Alphabet)}
         >
           Sort alphabetically
         </button>
@@ -99,22 +99,22 @@ export const App: React.FC = () => {
           className={cn(
             'button',
             'is-success',
-            { 'is-light': sortMethod !== SortType.length },
+            { 'is-light': sortMethod !== SortType.Length },
           )}
-          onClick={() => setSortMethod(SortType.length)}
+          onClick={() => setSortMethod(SortType.Length)}
         >
           Sort by length
         </button>
 
-        {reverseMethod ? (
+        {!isReverse ? (
           <button
             type="button"
             className={cn(
               'button',
               'is-warning',
-              { 'is-light': reverseMethod !== SortType.reverse },
+              { 'is-light': !isReverse },
             )}
-            onClick={() => setreverseMethod('')}
+            onClick={() => setIsReverse(state => !state)}
           >
             Reverse
           </button>
@@ -124,21 +124,21 @@ export const App: React.FC = () => {
             className={cn(
               'button',
               'is-warning',
-              { 'is-light': reverseMethod !== SortType.reverse },
+              { 'is-light': !isReverse },
             )}
-            onClick={() => setreverseMethod(SortType.reverse)}
+            onClick={() => setIsReverse(state => !state)}
           >
             Reverse
           </button>
         )}
 
-        {(sortMethod || reverseMethod) && (
+        {(sortMethod || isReverse) && (
           <button
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              setSortMethod('');
-              setreverseMethod('');
+              setSortMethod(SortType.Empty);
+              setIsReverse(state => !state);
             }}
           >
             Reset
