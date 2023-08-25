@@ -138,7 +138,7 @@ export const App: React.FC = () => {
             className="button is-danger is-light"
             onClick={() => {
               setSortMethod(SortType.Empty);
-              setIsReverse(state => !state);
+              setIsReverse(false);
             }}
           >
             Reset
