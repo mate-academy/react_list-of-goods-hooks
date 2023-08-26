@@ -36,22 +36,6 @@ function getSortedGoods(
 ) {
   const sortedGoods = [...goods];
 
-  if (isReverse && sortMethod === SortType.Alphabet) {
-    return sortedGoods
-      .sort((good1, good2) => good1.localeCompare(good2))
-      .reverse();
-  }
-
-  if (isReverse && sortMethod === SortType.Length) {
-    return sortedGoods
-      .sort((good1, good2) => good1.length - good2.length)
-      .reverse();
-  }
-
-  if (isReverse) {
-    return sortedGoods.reverse();
-  }
-
   if (sortMethod) {
     sortedGoods.sort((good1, good2) => {
       switch (sortMethod) {
@@ -63,6 +47,10 @@ function getSortedGoods(
           return 0;
       }
     });
+  }
+
+  if (isReverse) {
+    return sortedGoods.reverse();
   }
 
   return sortedGoods;
