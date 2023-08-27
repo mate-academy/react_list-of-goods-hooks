@@ -65,7 +65,17 @@ export const App: React.FC = () => {
       sortMethod,
       isReverse,
     },
+
   );
+
+  function changeReverseState() {
+    setIsReverse(!isReverse);
+  }
+
+  function handleResetState() {
+    setSortMethod(SortType.Empty);
+    setIsReverse(false);
+  }
 
   return (
     <div className="section content">
@@ -102,7 +112,7 @@ export const App: React.FC = () => {
               'is-warning',
               { 'is-light': !isReverse },
             )}
-            onClick={() => setIsReverse(state => !state)}
+            onClick={() => changeReverseState()}
           >
             Reverse
           </button>
@@ -114,7 +124,7 @@ export const App: React.FC = () => {
               'is-warning',
               { 'is-light': !isReverse },
             )}
-            onClick={() => setIsReverse(state => !state)}
+            onClick={() => changeReverseState()}
           >
             Reverse
           </button>
@@ -124,10 +134,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortMethod(SortType.Empty);
-              setIsReverse(false);
-            }}
+            onClick={() => handleResetState()}
           >
             Reset
           </button>
