@@ -30,12 +30,12 @@ function getPreparedGoods(
   const preparedGoods: string[] = [...goods];
 
   if (sortBy) {
-    preparedGoods.sort((good1, good2) => {
+    preparedGoods.sort((a, b) => {
       switch (sortBy) {
         case SortType.ALPHABETICALLY:
-          return good1.localeCompare(good2);
+          return a.localeCompare(b);
         case SortType.LENGTH:
-          return good1.length - good2.length;
+          return a.length - b.length;
         case SortType.NONE:
         default:
           return 0;
@@ -63,6 +63,11 @@ export const App: React.FC = () => {
 
   const showResetBtn = sortBy !== SortType.NONE || isReversed;
 
+  const handleReset = () => {
+    setSortBy(SortType.NONE);
+    setIsReversed(false);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -85,7 +90,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={`button is-warning ${!isReversed && 'is-light'}`}
-          onClick={() => setIsReversed(!isReversed)}
+          onClick={() => setIsReversed(prevIsReversed => !prevIsReversed)}
         >
           Reverse
         </button>
@@ -94,10 +99,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortBy(SortType.NONE);
-              setIsReversed(false);
-            }}
+            onClick={handleReset}
           >
             Reset
           </button>
