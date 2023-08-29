@@ -46,9 +46,6 @@ export function getReorderedGoods(
     sortedGoods.reverse();
   }
 
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
-
   return sortedGoods;
 }
 
@@ -106,11 +103,9 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {visibleGoods.map(good => {
-          return (
-            <li data-cy="Good" key={good}>{good}</li>
-          );
-        })}
+        {visibleGoods.map(good => (
+          <li data-cy="Good" key={good}>{good}</li>
+        ))}
       </ul>
     </div>
   );
