@@ -19,7 +19,7 @@ export const goodsFromServer = [
 enum SortType {
   alpha = 'alpha',
   length = 'length',
-  default = 0,
+  default = '',
 }
 
 function getPreparedGoods(
@@ -39,7 +39,7 @@ function getPreparedGoods(
           return a.length - b.length;
 
         default:
-          return SortType.default;
+          return 0;
       }
     });
   }
@@ -52,7 +52,7 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState(SortType.default);
   const [sortReverse, setSortReverse] = useState(false);
 
   const visibleGoods = getPreparedGoods(
@@ -60,6 +60,11 @@ export const App: React.FC = () => {
     sortField,
     sortReverse,
   );
+
+  const reset = () => {
+    setSortField(SortType.default);
+    setSortReverse(false);
+  };
 
   return (
     <div className="section content">
@@ -85,7 +90,7 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={() => setSortReverse(sortReverse === false)}
+          onClick={() => setSortReverse(!sortReverse)}
           type="button"
           className={cn('button', 'is-warning', {
             'is-light': !sortReverse,
@@ -94,12 +99,9 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortField || sortReverse === true) && (
+        {(sortField || sortReverse) && (
           <button
-            onClick={() => {
-              setSortField('');
-              setSortReverse(false);
-            }}
+            onClick={reset}
             className="button is-danger is-light"
             type="button"
           >
