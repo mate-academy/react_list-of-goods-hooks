@@ -18,9 +18,9 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  SORT_ALPHABET = 'alphabet',
-  SORT_LENGTH = 'length',
-  SORT_DEFAULT = '',
+  ALPHABET = 'alphabet',
+  LENGTH = 'length',
+  DEFAULT = '',
 }
 
 function getVisibleGoods(
@@ -33,10 +33,10 @@ function getVisibleGoods(
   if (sortField) {
     visibleGoods.sort((good1, good2) => {
       switch (sortField) {
-        case SortType.SORT_ALPHABET:
+        case SortType.ALPHABET:
           return good1.localeCompare(good2);
 
-        case SortType.SORT_LENGTH:
+        case SortType.LENGTH:
           return good1.length - good2.length;
 
         default:
@@ -53,7 +53,7 @@ function getVisibleGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState(SortType.SORT_DEFAULT);
+  const [sortField, setSortField] = useState(SortType.DEFAULT);
   const [isReversed, setReversedField] = useState(false);
 
   const visibleGoods = getVisibleGoods(
@@ -61,7 +61,7 @@ export const App: React.FC = () => {
   );
 
   const handleResetClick = () => {
-    setSortField(SortType.SORT_DEFAULT);
+    setSortField(SortType.DEFAULT);
     setReversedField(false);
   };
 
@@ -71,8 +71,8 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-info',
-            { 'is-light': sortField !== SortType.SORT_ALPHABET })}
-          onClick={() => setSortField(SortType.SORT_ALPHABET)}
+            { 'is-light': sortField !== SortType.ALPHABET })}
+          onClick={() => setSortField(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
@@ -80,8 +80,8 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-success',
-            { 'is-light': sortField !== SortType.SORT_LENGTH })}
-          onClick={() => setSortField(SortType.SORT_LENGTH)}
+            { 'is-light': sortField !== SortType.LENGTH })}
+          onClick={() => setSortField(SortType.LENGTH)}
         >
           Sort by length
         </button>
@@ -90,7 +90,7 @@ export const App: React.FC = () => {
           type="button"
           className={cn('button is-warning',
             { 'is-light': !isReversed })}
-          onClick={() => setReversedField(!isReversed)}
+          onClick={() => setReversedField(prev => !prev)}
         >
           Reverse
         </button>
