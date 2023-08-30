@@ -23,7 +23,7 @@ enum SortType {
   SORT_DEFAULT = '',
 }
 
-function getvisibleGoods(
+function getVisibleGoods(
   goods: string[],
   sortField: SortType,
   toReverse: boolean,
@@ -56,7 +56,7 @@ export const App: React.FC = () => {
   const [sortField, setSortField] = useState(SortType.SORT_DEFAULT);
   const [isReversed, setReversedField] = useState(false);
 
-  const goods = getvisibleGoods(
+  const visibleGoods = getVisibleGoods(
     goodsFromServer, sortField, isReversed,
   );
 
@@ -108,7 +108,7 @@ export const App: React.FC = () => {
 
       <ul>
         <ul className="list">
-          {goods.map(good => (
+          {visibleGoods.map(good => (
             <li className="item" key={good} data-cy="Good">
               {good}
             </li>
