@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
+import classNames from 'classnames';
+
 import './App.scss';
 import { GoodsList } from './components/GooodsList';
 
@@ -43,11 +45,6 @@ export function getReorderedGoods(
 export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
-  const isLight = 'is-light';
-  const buttonBaseClasses = 'button is-';
-  const alphabeticalButtonClasses = `info ${sortType !== SortType.ALPHABET ? isLight : ''}`;
-  const lengthButtonClasses = `success ${sortType !== SortType.LENGTH ? isLight : ''}`;
-  const reverseButtonClasses = `warning ${isReversed ? '' : isLight}`;
   const sortAlphabetically = () => {
     setSortType(SortType.ALPHABET);
   };
@@ -70,7 +67,9 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`${buttonBaseClasses}${alphabeticalButtonClasses}`}
+          className={classNames('button', 'is-info', {
+            'is-light': sortType !== SortType.ALPHABET,
+          })}
           onClick={sortAlphabetically}
         >
           Sort alphabetically
@@ -78,7 +77,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`${buttonBaseClasses}${lengthButtonClasses}`}
+          className={classNames('button', 'is-success', {
+            'is-light': sortType !== SortType.LENGTH,
+          })}
           onClick={sortByLength}
         >
           Sort by length
@@ -86,7 +87,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`${buttonBaseClasses}${reverseButtonClasses}`}
+          className={classNames('button', 'is-warning', {
+            'is-light': !isReversed,
+          })}
           onClick={reverse}
         >
           Reverse
@@ -95,7 +98,7 @@ export const App: React.FC = () => {
         {(sortType !== SortType.NONE || isReversed) && (
           <button
             type="button"
-            className={`${buttonBaseClasses}danger ${isLight}`}
+            className={classNames('button', 'is-danger', 'is-light')}
             onClick={reset}
           >
             Reset
