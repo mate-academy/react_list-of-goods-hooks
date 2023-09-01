@@ -65,6 +65,10 @@ export const App: React.FC = () => {
     setReversedField(false);
   };
 
+  const handleSortAlphabet = () => setSortField(SortType.ALPHABET);
+  const handleSortLength = () => setSortField(SortType.LENGTH);
+  const handleOnReverse = () => setReversedField(prev => !prev);
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -72,7 +76,7 @@ export const App: React.FC = () => {
           type="button"
           className={cn('button is-info',
             { 'is-light': sortField !== SortType.ALPHABET })}
-          onClick={() => setSortField(SortType.ALPHABET)}
+          onClick={handleSortAlphabet}
         >
           Sort alphabetically
         </button>
@@ -81,7 +85,7 @@ export const App: React.FC = () => {
           type="button"
           className={cn('button is-success',
             { 'is-light': sortField !== SortType.LENGTH })}
-          onClick={() => setSortField(SortType.LENGTH)}
+          onClick={handleSortLength}
         >
           Sort by length
         </button>
@@ -90,7 +94,7 @@ export const App: React.FC = () => {
           type="button"
           className={cn('button is-warning',
             { 'is-light': !isReversed })}
-          onClick={() => setReversedField(prev => !prev)}
+          onClick={handleOnReverse}
         >
           Reverse
         </button>
