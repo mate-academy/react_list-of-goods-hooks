@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import cn from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import { variables } from './variables/sortBy';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -23,36 +24,31 @@ export const App: React.FC = () => {
   const [reverseValue, setReverseValue] = useState(false);
   const [resetValue, setResetValue] = useState(false);
 
-  const SORT_BY_ALPHABETICALLY = 'alphabetically';
-  const SORT_BY_LENGTH = 'length';
-
   const sortBy = (value: string) => {
-    if (value === SORT_BY_ALPHABETICALLY) {
+    if (value === variables.sort_by_alphabetically) {
       if (reverseValue) {
         setGoodsArr(prevState => [...prevState].sort((a, b) => b.localeCompare(a)));
       } else {
         setGoodsArr(prevState => [...prevState].sort((a, b) => a.localeCompare(b)));
       }
 
-      setSortValue(SORT_BY_ALPHABETICALLY);
+      setSortValue(variables.sort_by_alphabetically);
       setResetValue(true);
 
       return;
     }
 
-    if (value === SORT_BY_LENGTH) {
-      if (reverseValue) {
-        setGoodsArr(prevState => [...prevState].sort((a, b) => b.length - a.length));
-      } else {
-        setGoodsArr(prevState => [...prevState].sort((a, b) => a.length - b.length));
-      }
-
-      setSortValue(SORT_BY_LENGTH);
-      setResetValue(true);
-
-      return;
+    if (reverseValue) {
+      setGoodsArr(prevState => [...prevState].sort((a, b) => b.length - a.length));
+    } else {
+      setGoodsArr(prevState => [...prevState].sort((a, b) => a.length - b.length));
     }
 
+    setSortValue(variables.sort_by_length);
+    setResetValue(true);
+  };
+
+  const reset = () => {
     setGoodsArr(goodsFromServer);
     setReverseValue(false);
     setResetValue(false);
@@ -76,9 +72,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-info', {
-            'is-light': sortValue !== SORT_BY_ALPHABETICALLY,
+            'is-light': sortValue !== variables.sort_by_alphabetically,
           })}
-          onClick={() => sortBy(SORT_BY_ALPHABETICALLY)}
+          onClick={() => sortBy(variables.sort_by_alphabetically)}
         >
           Sort alphabetically
         </button>
@@ -86,9 +82,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-success', {
-            'is-light': sortValue !== SORT_BY_LENGTH,
+            'is-light': sortValue !== variables.sort_by_length,
           })}
-          onClick={() => sortBy(SORT_BY_LENGTH)}
+          onClick={() => sortBy(variables.sort_by_length)}
         >
           Sort by length
         </button>
@@ -107,7 +103,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => sortBy('')}
+            onClick={reset}
           >
             Reset
           </button>
