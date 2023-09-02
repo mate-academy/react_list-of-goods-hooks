@@ -25,34 +25,35 @@ export const App: React.FC = () => {
   const sortBy = (value: string) => {
     if (value === SORT_BY.alphabetically) {
       if (isReversed) {
-        setGoodsArr(prevState => [...prevState].sort((a, b) => b.localeCompare(a)));
+        [...goodsFromServer].sort((a, b) => b.localeCompare(a));
       } else {
-        setGoodsArr(prevState => [...prevState].sort((a, b) => a.localeCompare(b)));
+        [...goodsFromServer].sort((a, b) => a.localeCompare(b));
       }
 
       setSortValue(SORT_BY.alphabetically);
-      setResetValue(true);
 
       return;
     }
 
-    if (isReversed) {
-      setGoodsArr(prevState => [...prevState].sort((a, b) => b.length - a.length));
-    } else {
-      setGoodsArr(prevState => [...prevState].sort((a, b) => a.length - b.length));
+    if (value === SORT_BY.length) {
+      if (isReversed) {
+        [...goodsFromServer].sort((a, b) => b.length - a.length);
+      } else {
+        [...goodsFromServer].sort((a, b) => a.length - b.length);
+      }
+
+      setSortValue(SORT_BY.length);
+
+      return;
     }
 
-    setSortValue(SORT_BY.length);
-    setResetValue(true);
-  };
-
-  const reset = () => {
-    setGoodsArr(goodsFromServer);
-    setIsReversed(false);
     setSortValue(SORT_BY.none);
+    setIsReversed(false);
   };
 
   const reverse = () => setIsReversed(prevIsReversed => !prevIsReversed);
+
+  const reset = () => sortBy(SORT_BY.none);
 
   return (
     <div className="section content">
@@ -87,7 +88,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {resetValue && (
+        {!isReversed && (
           <button
             type="button"
             className="button is-danger is-light"
@@ -99,7 +100,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {goodsArr.map(good => (
+        {goodsFromServer.map(good => (
           <li data-cy="Good" key={good}>
             {good}
           </li>
