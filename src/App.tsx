@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import cn from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
-import { variables } from './variables/sortBy';
+import { SORT_BY } from './variables/sortBy';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -19,52 +19,40 @@ export const goodsFromServer = [
 ];
 
 export const App: React.FC = () => {
-  const [goodsArr, setGoodsArr] = useState(goodsFromServer);
-  const [sortValue, setSortValue] = useState('');
-  const [reverseValue, setReverseValue] = useState(false);
-  const [resetValue, setResetValue] = useState(false);
+  const [sortValue, setSortValue] = useState(SORT_BY.none);
+  const [isReversed, setIsReversed] = useState(false);
 
   const sortBy = (value: string) => {
-    if (value === variables.sort_by_alphabetically) {
-      if (reverseValue) {
+    if (value === SORT_BY.alphabetically) {
+      if (isReversed) {
         setGoodsArr(prevState => [...prevState].sort((a, b) => b.localeCompare(a)));
       } else {
         setGoodsArr(prevState => [...prevState].sort((a, b) => a.localeCompare(b)));
       }
 
-      setSortValue(variables.sort_by_alphabetically);
+      setSortValue(SORT_BY.alphabetically);
       setResetValue(true);
 
       return;
     }
 
-    if (reverseValue) {
+    if (isReversed) {
       setGoodsArr(prevState => [...prevState].sort((a, b) => b.length - a.length));
     } else {
       setGoodsArr(prevState => [...prevState].sort((a, b) => a.length - b.length));
     }
 
-    setSortValue(variables.sort_by_length);
+    setSortValue(SORT_BY.length);
     setResetValue(true);
   };
 
   const reset = () => {
     setGoodsArr(goodsFromServer);
-    setReverseValue(false);
-    setResetValue(false);
-    setSortValue('');
+    setIsReversed(false);
+    setSortValue(SORT_BY.none);
   };
 
-  const reverse = () => {
-    if (!sortValue) {
-      setResetValue(!resetValue);
-    } else {
-      setResetValue(true);
-    }
-
-    setGoodsArr(prevState => [...prevState].reverse());
-    setReverseValue(!reverseValue);
-  };
+  const reverse = () => setIsReversed(prevIsReversed => !prevIsReversed);
 
   return (
     <div className="section content">
@@ -72,9 +60,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-info', {
-            'is-light': sortValue !== variables.sort_by_alphabetically,
+            'is-light': sortValue !== SORT_BY.alphabetically,
           })}
-          onClick={() => sortBy(variables.sort_by_alphabetically)}
+          onClick={() => sortBy(SORT_BY.alphabetically)}
         >
           Sort alphabetically
         </button>
@@ -82,9 +70,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-success', {
-            'is-light': sortValue !== variables.sort_by_length,
+            'is-light': sortValue !== SORT_BY.length,
           })}
-          onClick={() => sortBy(variables.sort_by_length)}
+          onClick={() => sortBy(SORT_BY.length)}
         >
           Sort by length
         </button>
@@ -92,7 +80,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-warning', {
-            'is-light': !reverseValue,
+            'is-light': !isReversed,
           })}
           onClick={reverse}
         >

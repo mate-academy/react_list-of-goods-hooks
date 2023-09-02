@@ -1,4 +1,5 @@
-export const variables = {
-  sort_by_alphabetically: 'alphabetically',
-  sort_by_length: 'length',
+export const SORT_BY = {
+  alphabetically: 'alphabetically',
+  length: 'length',
+  none: 'none',
 };
