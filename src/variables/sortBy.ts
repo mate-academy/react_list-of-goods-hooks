@@ -1,5 +1,5 @@
-export const SORT_BY = {
-  alphabetically: 'alphabetically',
-  length: 'length',
-  none: 'none',
-};
+export enum SortBY {
+  alphabetically,
+  length,
+  none,
+}
