@@ -23,32 +23,29 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
 
   const sortBy = (value: string) => {
-    if (value === SortBY.alphabetically) {
-      if (isReversed) {
-        [...goodsFromServer].sort((a, b) => b.localeCompare(a));
-      } else {
-        [...goodsFromServer].sort((a, b) => a.localeCompare(b));
-      }
+    switch (value) {
+      case SortBY.alphabetically:
+        goodsFromServer.sort((a, b) => a.localeCompare(b));
+        setSortValue(SortBY.alphabetically);
 
-      setSortValue(SortBY.alphabetically);
+        if (isReversed) {
+          goodsFromServer.reverse();
+        }
 
-      return;
+        break;
+      case SortBY.length:
+        goodsFromServer.sort((a, b) => a.length - b.length);
+        setSortValue(SortBY.length);
+
+        if (isReversed) {
+          goodsFromServer.reverse();
+        }
+
+        break;
+      default:
+        setSortValue(SortBY.none);
+        setIsReversed(false);
     }
-
-    if (value === SortBY.length) {
-      if (isReversed) {
-        [...goodsFromServer].sort((a, b) => b.length - a.length);
-      } else {
-        [...goodsFromServer].sort((a, b) => a.length - b.length);
-      }
-
-      setSortValue(SortBY.length);
-
-      return;
-    }
-
-    setSortValue(SortBY.none);
-    setIsReversed(false);
   };
 
   const reverse = () => setIsReversed(prevIsReversed => !prevIsReversed);
