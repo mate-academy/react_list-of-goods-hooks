@@ -1,5 +1,5 @@
 export enum SortBY {
-  alphabetically,
-  length,
-  none,
+  alphabetically = 'alphabetically',
+  length = 'length',
+  none = 'none',
 }
