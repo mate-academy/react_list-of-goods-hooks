@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import classNames from 'classnames';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -24,7 +25,6 @@ enum SortType {
 export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setIsReversed] = useState(false);
-  const [visibleGoods, setVisibleGoods] = useState(goodsFromServer);
 
   const hadnleReverse = () => {
     setIsReversed(!isReversed);
@@ -37,34 +37,44 @@ export const App: React.FC = () => {
     setIsReversed(false);
   };
 
-  useEffect(() => {
-    const reorderGoods = () => {
-      const goodsCopy = [...goodsFromServer];
+  function getVisibleGoods() {
+    let visibleGoods = [...goodsFromServer];
 
-      if (sortType === SortType.ALPHABET) {
-        goodsCopy.sort((a, b) => a.localeCompare(b));
-      } else if (sortType === SortType.LENGTH) {
-        goodsCopy.sort((a, b) => a.length - b.length);
-      }
+    switch (sortType) {
+      case SortType.ALPHABET:
+        visibleGoods = visibleGoods.sort((a, b) => {
+          const nameA = a.toLowerCase();
+          const nameB = b.toLowerCase();
 
-      if (isReversed) {
-        goodsCopy.reverse();
-      }
+          return isReversed
+            ? nameB.localeCompare(nameA)
+            : nameA.localeCompare(nameB);
+        });
+        break;
+      case SortType.LENGTH:
+        visibleGoods = visibleGoods.sort((a, b) => {
+          return isReversed ? b.length - a.length : a.length - b.length;
+        });
+        break;
+      default:
+        // No sorting needed
+        break;
+    }
 
-      setVisibleGoods(goodsCopy);
-    };
+    return visibleGoods;
+  }
 
-    reorderGoods();
-  }, [sortType, isReversed]);
+  // Assign visibleGoods directly within the component function
+  const visibleGoods = getVisibleGoods();
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${
-            sortType === SortType.ALPHABET ? '' : 'is-light'
-          }`}
+          className={classNames('button', 'is-info', {
+            'is-light': sortType !== SortType.ALPHABET,
+          })}
           onClick={() => handleSort(SortType.ALPHABET)}
         >
           Sort alphabetically
@@ -72,9 +82,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is seccess ${
-            sortType === SortType.LENGTH ? '' : 'is-light'
-          }`}
+          className={classNames('button', 'is-success', {
+            'is-light': sortType !== SortType.LENGTH,
+          })}
           onClick={() => handleSort(SortType.LENGTH)}
         >
           Sort by length
@@ -82,7 +92,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-warning ${isReversed ? '' : 'is-light'}`}
+          className={classNames('button', 'is-warning', {
+            'is-light': !isReversed,
+          })}
           onClick={hadnleReverse}
         >
           Reverse
@@ -97,12 +109,13 @@ export const App: React.FC = () => {
             Reset
           </button>
         )}
-
       </div>
 
       <ul>
         {visibleGoods.map((good) => (
-          <li data-cy="Good">{good}</li>
+          <li key={good} data-cy="Good">
+            {good}
+          </li>
         ))}
       </ul>
     </div>
