@@ -24,9 +24,11 @@ export const App: React.FC = () => {
   const [isReverseActive, setIsReverseActive] = useState(false);
   const [resetButtonVisible, setResetButtonVisible] = useState(false);
 
+  const copyVisibleGoods = [...visibleGoods];
+
   const sortByAlph = () => {
     setVisibleGoods(
-      [...visibleGoods].sort(
+      copyVisibleGoods.sort(
         (goods1, goods2) => (
           goods1.toLowerCase()).localeCompare(goods2.toLowerCase()),
       ),
@@ -39,7 +41,7 @@ export const App: React.FC = () => {
 
   const sortByLength = () => {
     setVisibleGoods(
-      [...visibleGoods].sort(
+      copyVisibleGoods.sort(
         (goods1, goods2) => goods1.length - goods2.length,
       ),
     );
@@ -51,7 +53,7 @@ export const App: React.FC = () => {
 
   const reverse = () => {
     setVisibleGoods(
-      [...visibleGoods].reverse(),
+      copyVisibleGoods.reverse(),
     );
 
     setIsReverseActive(!isReverseActive);
