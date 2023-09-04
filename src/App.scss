@@ -1,3 +1,23 @@
 iframe {
   display: none;
 }
+
+body {
+  background-color: #fffdb7;
+
+}
+
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  padding: 150px 0 0;
+  height: 100vh;
+
+}
+
+.buttons {
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+}
