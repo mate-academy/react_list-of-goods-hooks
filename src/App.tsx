@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import cl from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
@@ -57,7 +57,7 @@ function getSortedGoodsList(
   return sortedGoodList;
 }
 
-export const App = () => {
+export const App: React.FC = () => {
   const [sortingOptions, setSortingOptions] = useState<SortingOptions>({
     sortType: SortType.DefaultValue,
     isReversed: false,
