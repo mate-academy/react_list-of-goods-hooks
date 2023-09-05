@@ -17,9 +17,9 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  ALPHABET = 'alphabet',
-  LENGTH = 'length',
-  NONE = '',
+  Alphabet = 'alphabet',
+  Length = 'length',
+  None = '',
 }
 
 function getPreparedGoods(
@@ -30,10 +30,10 @@ function getPreparedGoods(
   if (sortField) {
     preparedGoods.sort((good1, good2) => {
       switch (sortField) {
-        case SortType.ALPHABET:
+        case SortType.Alphabet:
           return good1.localeCompare(good2);
 
-        case SortType.LENGTH:
+        case SortType.Length:
           return good1.length - good2.length;
 
         default:
@@ -50,18 +50,13 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const { ALPHABET, LENGTH, NONE } = SortType;
-
-  const [sortField, setSortField] = useState(NONE);
-  const [
-    isReversed,
-    setIsReversed,
-  ] = useState(false);
+  const [sortField, setSortField] = useState(SortType.None);
+  const [isReversed, setIsReversed] = useState(false);
   const visibleGoods = getPreparedGoods(goodsFromServer, sortField, isReversed);
-  const ifShowResetButton = sortField || isReversed;
+  const isResetButtonVisible = sortField || isReversed;
 
-  function reset() {
-    setSortField(NONE);
+  function handleReset() {
+    setSortField(SortType.None);
     setIsReversed(false);
   }
 
@@ -69,14 +64,12 @@ export const App: React.FC = () => {
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => setSortField(ALPHABET)}
+          onClick={() => setSortField(SortType.Alphabet)}
           type="button"
           className={cn(
             'button',
             'is-info',
-            {
-              'is-light': sortField !== ALPHABET,
-            },
+            { 'is-light': sortField !== SortType.Alphabet },
           )}
         >
           Sort alphabetically
@@ -84,13 +77,11 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          onClick={() => setSortField(LENGTH)}
+          onClick={() => setSortField(SortType.Length)}
           className={cn(
             'button',
             'is-success',
-            {
-              'is-light': sortField !== LENGTH,
-            },
+            { 'is-light': sortField !== SortType.Length },
           )}
         >
           Sort by length
@@ -102,18 +93,16 @@ export const App: React.FC = () => {
           className={cn(
             'button',
             'is-warning',
-            {
-              'is-light': !isReversed,
-            },
+            { 'is-light': !isReversed },
           )}
         >
           Reverse
         </button>
 
-        {ifShowResetButton && (
+        {isResetButtonVisible && (
           <button
             type="button"
-            onClick={reset}
+            onClick={handleReset}
             className="button is-danger is-light"
           >
             Reset
