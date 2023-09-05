@@ -1,4 +1,3 @@
-// import React from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import React, { useState } from 'react';
