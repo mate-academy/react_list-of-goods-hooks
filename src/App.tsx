@@ -19,17 +19,14 @@ export const goodsFromServer = [
 
 enum SortType {
   noSort = '',
-  sortByLength = 'leng',
-  sortByName = 'name',
-}
-
-interface StateInterface {
-  sortType: SortType;
-  isReversed: boolean;
+  ByLength = 'length',
+  Alphabetically = 'alphabetically',
 }
 
 const sortGoods = (
-  goods: string[], { sortType, isReversed }: StateInterface,
+  goods: string[],
+  sortType: SortType,
+  isReversed: boolean,
 ) => {
   if (sortType === SortType.noSort && !isReversed) {
     return goods;
@@ -37,12 +34,12 @@ const sortGoods = (
 
   const sortedGoods = [...goods];
 
-  if (sortType === SortType.sortByLength || sortType === SortType.sortByName) {
+  if (sortType === SortType.ByLength || sortType === SortType.Alphabetically) {
     sortedGoods.sort((good1, good2) => {
       switch (sortType) {
-        case SortType.sortByLength:
+        case SortType.ByLength:
           return good1.length - good2.length;
-        case SortType.sortByName:
+        case SortType.Alphabetically:
           return good1.localeCompare(good2);
         default:
           throw new Error('The parameter of sort does not exist');
@@ -61,20 +58,20 @@ export const App = () => {
   const [sortType, setSortType] = useState(SortType.noSort);
   const [isReversed, setIsReversed] = useState(false);
 
-  const goods = sortGoods(goodsFromServer, { sortType, isReversed });
+  const goods = sortGoods(goodsFromServer, sortType, isReversed);
 
-  const isResetButton = sortType || isReversed;
+  const isResetButtonActive = sortType || isReversed;
 
-  const handleResetClick = () => {
+  const handleButtonReset = () => {
     setSortType(SortType.noSort);
     setIsReversed(false);
   };
 
-  const handleSortClick = (sortTypeValue: SortType) => {
+  const handleSortTypeChange = (sortTypeValue: SortType) => {
     setSortType(sortTypeValue);
   };
 
-  const handleReverseClick = () => {
+  const handleButtonReverse = () => {
     setIsReversed(!isReversed);
   };
 
@@ -84,9 +81,9 @@ export const App = () => {
         <button
           type="button"
           className={cn('button is-info', {
-            'is-light': SortType.sortByName !== sortType,
+            'is-light': SortType.Alphabetically !== sortType,
           })}
-          onClick={() => handleSortClick(SortType.sortByName)}
+          onClick={() => handleSortTypeChange(SortType.Alphabetically)}
         >
           Sort alphabetically
         </button>
@@ -94,9 +91,9 @@ export const App = () => {
         <button
           type="button"
           className={cn('button is-success', {
-            'is-light': SortType.sortByLength !== sortType,
+            'is-light': SortType.ByLength !== sortType,
           })}
-          onClick={() => handleSortClick(SortType.sortByLength)}
+          onClick={() => handleSortTypeChange(SortType.ByLength)}
         >
           Sort by length
         </button>
@@ -106,16 +103,16 @@ export const App = () => {
           className={cn('button is-warning', {
             'is-light': !isReversed,
           })}
-          onClick={handleReverseClick}
+          onClick={handleButtonReverse}
         >
           Reverse
         </button>
 
-        {isResetButton && (
+        {isResetButtonActive && (
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={handleResetClick}
+            onClick={handleButtonReset}
           >
             Reset
           </button>
