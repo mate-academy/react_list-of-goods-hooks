@@ -17,8 +17,8 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  SortByAlphabet = 'alphabet',
-  SortByLength = 'length',
+  ByAlphabet = 'alphabet',
+  ByLength = 'length',
   DefaultValue = '',
 }
 
@@ -36,11 +36,11 @@ function getSortedGoodsList(
   if (sortType) {
     sortedGoodList.sort((a, b) => {
       switch (sortType) {
-        case SortType.SortByLength: {
+        case SortType.ByLength: {
           return a.length - b.length;
         }
 
-        case SortType.SortByAlphabet: {
+        case SortType.ByAlphabet: {
           return a.localeCompare(b);
         }
 
@@ -63,26 +63,26 @@ export const App: React.FC = () => {
     isReversed: false,
   });
 
-  const visibleGoodsList = getSortedGoodsList(
+  const sortedGoods = getSortedGoodsList(
     goodsFromServer,
     sortingOptions,
   );
 
-  const handlerSetSortType = (sortType: SortType) => () => {
+  const handleSortTypeChange = (sortType: SortType) => () => {
     setSortingOptions((prevState: SortingOptions) => ({
       ...prevState,
       sortType,
     }));
   };
 
-  const handlerSetIsReversed = () => {
+  const handleButtonReverse = () => {
     setSortingOptions((prevState: SortingOptions) => ({
       ...prevState,
       isReversed: !prevState.isReversed,
     }));
   };
 
-  const resetSortingOptions = () => {
+  const handleButtonReset = () => {
     setSortingOptions({
       sortType: SortType.DefaultValue,
       isReversed: false,
@@ -101,9 +101,9 @@ export const App: React.FC = () => {
           className={cl(
             'button',
             'is-info',
-            { 'is-light': sortingOptions.sortType !== SortType.SortByAlphabet },
+            { 'is-light': sortingOptions.sortType !== SortType.ByAlphabet },
           )}
-          onClick={handlerSetSortType(SortType.SortByAlphabet)}
+          onClick={handleSortTypeChange(SortType.ByAlphabet)}
         >
           Sort alphabetically
         </button>
@@ -113,9 +113,9 @@ export const App: React.FC = () => {
           className={cl(
             'button',
             'is-success',
-            { 'is-light': sortingOptions.sortType !== SortType.SortByLength },
+            { 'is-light': sortingOptions.sortType !== SortType.ByLength },
           )}
-          onClick={handlerSetSortType(SortType.SortByLength)}
+          onClick={handleSortTypeChange(SortType.ByLength)}
         >
           Sort by length
         </button>
@@ -127,7 +127,7 @@ export const App: React.FC = () => {
             'is-warning',
             { 'is-light': !sortingOptions.isReversed },
           )}
-          onClick={handlerSetIsReversed}
+          onClick={handleButtonReverse}
         >
           Reverse
         </button>
@@ -137,7 +137,7 @@ export const App: React.FC = () => {
             <button
               type="button"
               className="button is-danger is-light"
-              onClick={resetSortingOptions}
+              onClick={handleButtonReset}
             >
               Reset
             </button>
@@ -146,7 +146,7 @@ export const App: React.FC = () => {
 
       <ul>
         {
-          visibleGoodsList.map(good => (
+          sortedGoods.map(good => (
             <li data-cy="Good" key={good}>{good}</li>
           ))
         }
