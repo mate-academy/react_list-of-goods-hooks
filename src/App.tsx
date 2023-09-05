@@ -19,70 +19,58 @@ export const goodsFromServer = [
 enum SortType {
   SortByName = 'alphabet',
   SortByLength = 'length',
-  ReverseOrder = 'reversed',
   DefaultOption = '',
 }
 
 const {
   SortByName,
   SortByLength,
-  ReverseOrder,
   DefaultOption,
 } = SortType;
 
-let isNameSelected = false;
-let isLengthSelected = false;
-let isReverseSelected = false;
-
-function getPreparedGoods(
+function getVisibleGoods(
   goods: string[],
-  sortField: SortType,
-  reverseSelection: boolean,
+  sortType: SortType,
+  reverseSelected: boolean,
 ) {
-  const preparedGoods = [...goods];
+  const visibleGoods = [...goods];
 
-  preparedGoods.sort((good1, good2) => {
-    switch (sortField) {
+  visibleGoods.sort((good1, good2) => {
+    switch (sortType) {
       case SortByName:
-        isNameSelected = true;
-        isLengthSelected = false;
-
         return good1.localeCompare(good2);
       case SortByLength:
-        isLengthSelected = true;
-        isNameSelected = false;
-
         return good1.length - good2.length;
       default:
         return 0;
     }
   });
 
-  if (reverseSelection) {
-    preparedGoods.reverse();
+  if (reverseSelected) {
+    visibleGoods.reverse();
   }
 
-  return preparedGoods;
+  return visibleGoods;
 }
 
 export const App = () => {
-  const [sortField, setSortField] = useState(DefaultOption);
-  const [reverseField, setReverseField] = useState(DefaultOption);
-  const visibleGoods = getPreparedGoods(
+  const [sortType, setSortType] = useState(DefaultOption);
+  const [reverseStatus, setReverseStatus] = useState(false);
+  const visibleGoods = getVisibleGoods(
     goodsFromServer,
-    sortField,
-    isReverseSelected,
+    sortType,
+    reverseStatus,
   );
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => setSortField(SortByName)}
+          onClick={() => setSortType(SortByName)}
           type="button"
           className={cn(
             'button', 'is-info', {
-              'is-light': !isNameSelected,
+              'is-light': sortType !== SortByName,
             },
           )}
         >
@@ -90,11 +78,11 @@ export const App = () => {
         </button>
 
         <button
-          onClick={() => setSortField(SortByLength)}
+          onClick={() => setSortType(SortByLength)}
           type="button"
           className={cn(
             'button', 'is-success', {
-              'is-light': !isLengthSelected,
+              'is-light': sortType !== SortByLength,
             },
           )}
         >
@@ -103,30 +91,24 @@ export const App = () => {
 
         <button
           onClick={() => {
-            isReverseSelected = !isReverseSelected;
-            setReverseField(isReverseSelected
-              ? ReverseOrder
-              : DefaultOption);
+            setReverseStatus(!reverseStatus);
           }}
           type="button"
           className={cn(
             'button', 'is-warning', {
-              'is-light': !isReverseSelected,
+              'is-light': !reverseStatus,
             },
           )}
         >
           Reverse
         </button>
 
-        {(sortField || reverseField)
+        {(sortType || reverseStatus)
           && (
             <button
               onClick={() => {
-                setSortField(DefaultOption);
-                setReverseField(DefaultOption);
-                isNameSelected = false;
-                isLengthSelected = false;
-                isReverseSelected = false;
+                setSortType(DefaultOption);
+                setReverseStatus(false);
               }}
               type="button"
               className="button is-danger is-light"
