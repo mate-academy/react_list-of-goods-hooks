@@ -9,15 +9,13 @@ interface ButtonReverseProps {
 export const ButtonReverse: React.FC<ButtonReverseProps> = ({
   onClick,
   reverseField,
-}) => {
-  return (
-    <button
-      type="button"
-      className={cn('button is-warning',
-        { 'is-light': !reverseField })}
-      onClick={onClick}
-    >
-      Reverse
-    </button>
-  );
-};
+}) => (
+  <button
+    type="button"
+    className={cn('button is-warning',
+      { 'is-light': !reverseField })}
+    onClick={onClick}
+  >
+    Reverse
+  </button>
+);
