@@ -52,7 +52,9 @@ function getPreparedGoods(
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState(SortType.None);
   const [isReversed, setIsReversed] = useState(false);
-  const visibleGoods = getPreparedGoods(goodsFromServer, sortField, isReversed);
+  const preparedGoods = getPreparedGoods(
+    goodsFromServer, sortField, isReversed,
+  );
   const isResetButtonVisible = sortField || isReversed;
 
   function handleReset() {
@@ -111,7 +113,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {visibleGoods.map(good => (
+        {preparedGoods.map(good => (
           <li data-cy="Good" key={good}>{good}</li>
         ))}
 
