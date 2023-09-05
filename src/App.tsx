@@ -2,7 +2,7 @@
 import 'bulma/css/bulma.css';
 import './App.scss';
 import React, { useState } from 'react';
-import cn from 'classnames';
+import classnames from 'classnames';
 
 export const goodsFromServer: string[] = [
   'Dumplings',
@@ -70,7 +70,7 @@ export const App: React.FC = () => {
         <button
           onClick={() => (setSortCase(SortCases.Alphabet))}
           type="button"
-          className={cn(
+          className={classnames(
             'button',
             'is-info',
             { 'is-light': sortCase !== SortCases.Alphabet },
@@ -82,7 +82,7 @@ export const App: React.FC = () => {
         <button
           onClick={() => (setSortCase(SortCases.Length))}
           type="button"
-          className={cn(
+          className={classnames(
             'button',
             'is-success',
             { 'is-light': sortCase !== SortCases.Length },
@@ -94,7 +94,7 @@ export const App: React.FC = () => {
         <button
           onClick={() => setIsReversed(!isReversed)}
           type="button"
-          className={cn(
+          className={classnames(
             'button',
             'is-warning',
             { 'is-light': !isReversed },
