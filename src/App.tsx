@@ -48,8 +48,9 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
 
   const goods: Good[] = getSortedGoods(sortField, isReversed);
+  const showResetBtn = sortField || isReversed;
 
-  const reset = () => {
+  const handleReset = () => {
     setIsReversed(false);
     setSortField(Sort.DEFAULT);
   };
@@ -93,12 +94,12 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortField || isReversed)
+        {showResetBtn
           && (
             <button
               type="button"
               className="button is-danger is-light"
-              onClick={reset}
+              onClick={handleReset}
             >
               Reset
             </button>
