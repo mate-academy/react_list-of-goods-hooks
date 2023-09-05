@@ -28,10 +28,7 @@ interface TypeSortedGoods {
 
 function getPreparedGoods(
   goods: string[],
-  {
-    sortField,
-    isReversed,
-  }: TypeSortedGoods,
+  { sortField, isReversed }: TypeSortedGoods,
 ): string[] {
   let preparedGoods = [...goods];
 
