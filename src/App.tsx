@@ -19,13 +19,14 @@ export const goodsFromServer = [
 enum SortType {
   SortFieldName = 'Name',
   SortFieldLength = 'Length',
+  SortFieldDefault = '',
 }
 
 function getPrepearedGoods(goods: string[],
-  sortType: string, isReversed: boolean) {
+  sortType: SortType, isReversed: boolean) {
   const prepearedGoods = [...goods];
 
-  if (sortType !== '') {
+  if (sortType !== SortType.SortFieldDefault) {
     prepearedGoods.sort((good1, good2) => {
       switch (sortType) {
         case SortType.SortFieldName: {
@@ -46,7 +47,7 @@ function getPrepearedGoods(goods: string[],
 }
 
 export const App: React.FC = () => {
-  const [sortType, setSortType] = useState('');
+  const [sortType, setSortType] = useState(SortType.SortFieldDefault);
   const [isReversed, setIsReversed] = useState(false);
   const vissibleGoods = getPrepearedGoods(goodsFromServer,
     sortType, isReversed);
@@ -55,12 +56,12 @@ export const App: React.FC = () => {
     setIsReversed(prev => !prev);
   };
 
-  const isStateNotReversedOrSorted
+  const isStateReversedOrSorted
     = isReversed || sortType;
 
   const reset = () => {
     setIsReversed(false);
-    setSortType('');
+    setSortType(SortType.SortFieldDefault);
   };
 
   return (
@@ -102,7 +103,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {isStateNotReversedOrSorted && (
+        {isStateReversedOrSorted && (
           <button
             onClick={reset}
             type="button"
