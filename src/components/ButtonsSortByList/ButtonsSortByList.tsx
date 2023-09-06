@@ -23,10 +23,6 @@ const buttons: TButtonInfo[] = [
     name: EButtonsSortBy.Length,
     ownClass: 'button is-success',
   },
-  {
-    name: EButtonsSortBy.Reset,
-    ownClass: 'button is-warning',
-  },
 ];
 
 export const ButtonsSortByList: FC<TButtonsSortByList> = ({
@@ -56,5 +52,15 @@ export const ButtonsSortByList: FC<TButtonsSortByList> = ({
     >
       Reverse
     </button>
+
+    {(sortBy || isReversed) && (
+      <button
+        type="button"
+        onClick={() => onSortByHandler(EButtonsSortBy.Reset)}
+        className="button is-warning is-light"
+      >
+        Reset
+      </button>
+    )}
   </div>
 );
