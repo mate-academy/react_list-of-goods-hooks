@@ -57,12 +57,10 @@ export const App: React.FC = () => {
 
   const setAndSortByLength = () => {
     setSortType(SortType.ByLength);
-    sortBy(SortType.ByLength, isReversed);
   };
 
   const setAndSortByAlphabet = () => {
     setSortType(SortType.ByAlphabet);
-    sortBy(SortType.ByAlphabet, isReversed);
   };
 
   return (
