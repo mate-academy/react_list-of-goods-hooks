@@ -1,6 +1,5 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
-import React from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
@@ -53,15 +52,15 @@ export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setIsReversed] = useState(false);
 
-  const sort = (newSortType: SortType) => {
+  const handleSort = (newSortType: SortType) => {
     setSortType(newSortType);
   };
 
-  const reverse = () => {
+  const handleReverse = () => {
     setIsReversed(!isReversed);
   };
 
-  const reset = () => {
+  const handleReset = () => {
     setIsReversed(false);
     setSortType(SortType.NONE);
   };
@@ -74,43 +73,43 @@ export const App: React.FC = () => {
   const visibleReset = sortType !== SortType.NONE || isReversed;
 
   return (
-    <div className='section content'>
-      <div className='buttons'>
+    <div className="section content">
+      <div className="buttons">
         <button
-          type='button'
+          type="button"
           className={cn('button', 'is-info', {
             'is-light': sortType !== SortType.ALPHABET,
           })}
-          onClick={() => sort(SortType.ALPHABET)}
+          onClick={() => handleSort(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
 
         <button
-          type='button'
+          type="button"
           className={cn('button', 'is-success', {
             'is-light': sortType !== SortType.LENGTH,
           })}
-          onClick={() => sort(SortType.LENGTH)}
+          onClick={() => handleSort(SortType.LENGTH)}
         >
           Sort by length
         </button>
 
         <button
-          type='button'
+          type="button"
           className={cn('button', 'is-warning', {
             'is-light': !isReversed,
           })}
-          onClick={reverse}
+          onClick={handleReverse}
         >
           Reverse
         </button>
 
         {visibleReset && (
           <button
-            type='button'
-            className='button is-danger is-light'
-            onClick={reset}
+            type="button"
+            className="button is-danger is-light"
+            onClick={handleReset}
           >
             Reset
           </button>
@@ -120,7 +119,7 @@ export const App: React.FC = () => {
       <ul>
         <ul>
           {visibleGoods.map((good) => (
-            <li data-cy='Good' key={good}>
+            <li data-cy="Good" key={good}>
               {good}
             </li>
           ))}
@@ -128,4 +127,4 @@ export const App: React.FC = () => {
       </ul>
     </div>
   );
-}
+};
