@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import cn from 'classnames';
+import classnames from 'classnames';
 
 import 'bulma/css/bulma.css';
 import './App.scss';
@@ -19,7 +19,7 @@ export const goodsFromServer = [
 
 enum SortType {
   Length = 'length',
-  Alphabet = 'abc',
+  Alphabet = 'alphabet',
   Default = '',
 }
 
@@ -63,7 +63,7 @@ export const App: React.FC = () => {
     { sortField, isReversed },
   );
 
-  const isResetBtnOn = sortField !== SortType.Default || isReversed;
+  const isResetButtonVisible = sortField !== SortType.Default || isReversed;
 
   const handleResetClick = () => {
     setIsReversed(false);
@@ -75,8 +75,11 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={cn('button is-info',
-            { 'is-light': sortField !== SortType.Alphabet })}
+          className={classnames(
+            'button',
+            'is-info',
+            { 'is-light': sortField !== SortType.Alphabet },
+          )}
           onClick={() => setSortField(SortType.Alphabet)}
         >
           Sort alphabetically
@@ -84,8 +87,11 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={cn('button is-success',
-            { 'is-light': sortField !== SortType.Length })}
+          className={classnames(
+            'button',
+            'is-success',
+            { 'is-light': sortField !== SortType.Length },
+          )}
           onClick={() => setSortField(SortType.Length)}
         >
           Sort by length
@@ -93,14 +99,17 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={cn('button is-warning',
-            { 'is-light': !isReversed })}
+          className={classnames(
+            'button',
+            'is-warning',
+            { 'is-light': !isReversed },
+          )}
           onClick={() => setIsReversed(!isReversed)}
         >
           Reverse
         </button>
 
-        {isResetBtnOn && (
+        {isResetButtonVisible && (
           <button
             type="button"
             className="button is-danger is-light"
@@ -113,10 +122,7 @@ export const App: React.FC = () => {
 
       <ul>
         {visibleGoods.map((good) => (
-          <li
-            data-cy="Good"
-            key={good}
-          >
+          <li data-cy="Good" key={good}>
             {good}
           </li>
         ))}
