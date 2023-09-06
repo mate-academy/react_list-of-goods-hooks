@@ -48,21 +48,28 @@ export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.Default);
   const shouldShowResetButton = sortType || isReversed;
 
-  const preparedGoods: string[] = sortBy(sortType, isReversed);
+  const preparedGoods = sortBy(sortType, isReversed);
 
-  const resetAllSort = (): void => {
+  const handleResetClicked = () => {
     setIsReversed(false);
     setSortType(SortType.Default);
+  };
+
+  const setAndSortByLength = () => {
+    setSortType(SortType.ByLength);
+    sortBy(SortType.ByLength, isReversed);
+  };
+
+  const setAndSortByAlphabet = () => {
+    setSortType(SortType.ByAlphabet);
+    sortBy(SortType.ByAlphabet, isReversed);
   };
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => {
-            setSortType(SortType.ByAlphabet);
-            sortBy(SortType.ByAlphabet, isReversed);
-          }}
+          onClick={setAndSortByAlphabet}
           type="button"
           className={
             classnames('button',
@@ -74,10 +81,7 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={() => {
-            setSortType(SortType.ByLength);
-            sortBy(SortType.ByLength, isReversed);
-          }}
+          onClick={setAndSortByLength}
           type="button"
           className={
             classnames('button',
@@ -106,7 +110,7 @@ export const App: React.FC = () => {
 
         {shouldShowResetButton && (
           <button
-            onClick={resetAllSort}
+            onClick={handleResetClicked}
             type="button"
             className="button is-danger is-light"
           >
