@@ -18,7 +18,7 @@ export const goodsFromServer: string[] = [
 
 enum SortType {
   NoSort,
-  Name,
+  Alphabetically,
   Length,
 }
 
@@ -27,21 +27,17 @@ enum DisplayOrder {
   Reverse,
 }
 
-type DisplayOptions = {
-  sortBy: SortType;
-  displayOrder: DisplayOrder;
-};
-
 function getPreparedGoods(
   goods: string[],
-  { sortBy, displayOrder }: DisplayOptions,
+  sortType: SortType,
+  displayOrder: DisplayOrder,
 ) {
   const preparedGoods = [...goods];
 
-  if (sortBy !== SortType.NoSort) {
+  if (sortType !== SortType.NoSort) {
     preparedGoods.sort((a, b) => {
-      switch (sortBy) {
-        case SortType.Name:
+      switch (sortType) {
+        case SortType.Alphabetically:
           return a.localeCompare(b);
 
         case SortType.Length:
@@ -61,26 +57,29 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortBy, setSortBy] = useState(SortType.NoSort);
+  const [sortType, setSortType] = useState(SortType.NoSort);
   const [displayOrder, setDisplayOrder] = useState(DisplayOrder.Normal);
 
   const toggleDisplayOrder = () => {
-    setDisplayOrder(
-      displayOrder === DisplayOrder.Normal
+    setDisplayOrder(prevOrder => {
+      return prevOrder === DisplayOrder.Normal
         ? DisplayOrder.Reverse
-        : DisplayOrder.Normal,
-    );
+        : DisplayOrder.Normal;
+    });
   };
 
-  const resetDisplayOptions = () => {
-    setSortBy(SortType.NoSort);
+  const handleResetButton = () => {
+    setSortType(SortType.NoSort);
     setDisplayOrder(DisplayOrder.Normal);
   };
 
-  const isDisplayOptionsEnabled = sortBy !== SortType.NoSort
-                                  || displayOrder !== DisplayOrder.Normal;
+  const isResetButtonActive = sortType || displayOrder;
 
-  const goods = getPreparedGoods(goodsFromServer, { sortBy, displayOrder });
+  const preparedGoods = getPreparedGoods(
+    goodsFromServer,
+    sortType,
+    displayOrder,
+  );
 
   return (
     <div className="section content">
@@ -88,9 +87,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button', 'is-info', {
-            'is-light': sortBy !== SortType.Name,
+            'is-light': sortType !== SortType.Alphabetically,
           })}
-          onClick={() => setSortBy(SortType.Name)}
+          onClick={() => setSortType(SortType.Alphabetically)}
         >
           Sort alphabetically
         </button>
@@ -98,9 +97,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button', 'is-success', {
-            'is-light': sortBy !== SortType.Length,
+            'is-light': sortType !== SortType.Length,
           })}
-          onClick={() => setSortBy(SortType.Length)}
+          onClick={() => setSortType(SortType.Length)}
         >
           Sort by length
         </button>
@@ -115,11 +114,11 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {isDisplayOptionsEnabled && (
+        {isResetButtonActive && (
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={resetDisplayOptions}
+            onClick={handleResetButton}
           >
             Reset
           </button>
@@ -127,8 +126,13 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {goods.map(good => (
-          <li data-cy="Good" key={good}>{good}</li>
+        {preparedGoods.map(good => (
+          <li
+            key={good}
+            data-cy="Good"
+          >
+            {good}
+          </li>
         ))}
       </ul>
     </div>
