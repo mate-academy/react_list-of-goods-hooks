@@ -17,35 +17,35 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-enum SortType {
+enum SortTypes {
   Idle = 'idle',
   Alphabet = 'alphabet',
   Length = 'length',
 }
 
-interface Filter {
-  active: SortType;
+interface SortProperties {
+  sortType: SortTypes;
   isReversed: boolean;
 }
 
-const initialFilter: Filter = {
-  active: SortType.Idle,
+const defaultSortType: SortProperties = {
+  sortType: SortTypes.Idle,
   isReversed: false,
 };
 
-const getGoodsForRender = ({ active, isReversed }: Filter): string[] => {
-  const cloneGoodsFromServer = [...goodsFromServer];
+const getSortedGoods = ({ sortType, isReversed }: SortProperties): string[] => {
+  const goodsCopy = [...goodsFromServer];
 
-  switch (active) {
-    case SortType.Idle:
+  switch (sortType) {
+    case SortTypes.Idle:
       break;
 
-    case SortType.Alphabet:
-      cloneGoodsFromServer.sort((a, b) => a.localeCompare(b));
+    case SortTypes.Alphabet:
+      goodsCopy.sort((a, b) => a.localeCompare(b));
       break;
 
-    case SortType.Length:
-      cloneGoodsFromServer.sort((a, b) => a.length - b.length);
+    case SortTypes.Length:
+      goodsCopy.sort((a, b) => a.length - b.length);
       break;
 
     default:
@@ -53,31 +53,32 @@ const getGoodsForRender = ({ active, isReversed }: Filter): string[] => {
   }
 
   if (isReversed) {
-    cloneGoodsFromServer.reverse();
+    goodsCopy.reverse();
   }
 
-  return cloneGoodsFromServer;
+  return goodsCopy;
 };
 
 export const App: React.FC = () => {
-  const [activeFilter, setActiveFilter] = useState(initialFilter);
+  const [sortType, setSortType] = useState(defaultSortType);
 
-  const isResetButtonVisible = activeFilter.active !== initialFilter.active
-    || activeFilter.isReversed !== initialFilter.isReversed;
+  const isResetButtonVisible
+    = sortType.sortType !== defaultSortType.sortType
+    || sortType.isReversed !== defaultSortType.isReversed;
 
-  const handleSetSortFilter = (filter: SortType) => {
-    setActiveFilter({
-      ...activeFilter,
-      active: filter,
+  const handleSetSortFilter = (filter: SortTypes) => {
+    setSortType({
+      ...sortType,
+      sortType: filter,
     });
   };
 
-  const goodsForRender = getGoodsForRender(activeFilter);
+  const goodsForRender = getSortedGoods(sortType);
 
   const handleToggleReversed = () => {
-    setActiveFilter({
-      ...activeFilter,
-      isReversed: !activeFilter.isReversed,
+    setSortType({
+      ...sortType,
+      isReversed: !sortType.isReversed,
     });
   };
 
@@ -86,28 +87,28 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={cn('button is-info', {
-            'is-light': activeFilter.active !== SortType.Alphabet,
+          className={cn('button', 'is-info', {
+            'is-light': sortType.sortType !== SortTypes.Alphabet,
           })}
-          onClick={() => handleSetSortFilter(SortType.Alphabet)}
+          onClick={() => handleSetSortFilter(SortTypes.Alphabet)}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={cn('button is-success', {
-            'is-light': activeFilter.active !== SortType.Length,
+          className={cn('button', 'is-success', {
+            'is-light': sortType.sortType !== SortTypes.Length,
           })}
-          onClick={() => handleSetSortFilter(SortType.Length)}
+          onClick={() => handleSetSortFilter(SortTypes.Length)}
         >
           Sort by length
         </button>
 
         <button
           type="button"
-          className={cn('button is-warning', {
-            'is-light': !activeFilter.isReversed,
+          className={cn('button', 'is-warning', {
+            'is-light': !sortType.isReversed,
           })}
           onClick={handleToggleReversed}
         >
@@ -118,7 +119,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => setActiveFilter(initialFilter)}
+            onClick={() => setSortType(defaultSortType)}
           >
             Reset
           </button>
@@ -127,10 +128,7 @@ export const App: React.FC = () => {
 
       <ul>
         {goodsForRender.map(good => (
-          <li
-            data-cy="Good"
-            key={good}
-          >
+          <li data-cy="Good" key={good}>
             {good}
           </li>
         ))}
