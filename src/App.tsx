@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import cn from 'classnames';
+import classnames from 'classnames';
 
 import 'bulma/css/bulma.css';
 import './App.scss';
@@ -17,7 +17,7 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-enum SortField {
+enum SortType {
   Default = '',
   Alphabet = 'alphabet',
   Length = 'length',
@@ -34,13 +34,13 @@ function getGoodsWithId(goods: string[]): GoodWithId[] {
 const goodsWithId = getGoodsWithId(goodsFromServer);
 
 type SortCallback = (goodA: GoodWithId, goodB: GoodWithId) => number;
-function getSortCallback(sortField: SortField): SortCallback {
+function getSortCallback(sortType: SortType): SortCallback {
   return (goodA: GoodWithId, goodB: GoodWithId) => {
-    switch (sortField) {
-      case SortField.Alphabet:
+    switch (sortType) {
+      case SortType.Alphabet:
         return goodA.product.localeCompare(goodB.product);
 
-      case SortField.Length:
+      case SortType.Length:
         return goodA.product.length - goodB.product.length;
 
       default:
@@ -51,12 +51,12 @@ function getSortCallback(sortField: SortField): SortCallback {
 
 function getSortedGoods(
   goods: GoodWithId[],
-  sortField: SortField,
+  sortType: SortType,
   isReversed: boolean,
 ): GoodWithId[] {
   const goodsCopy = [...goods];
 
-  goodsCopy.sort(getSortCallback(sortField));
+  goodsCopy.sort(getSortCallback(sortType));
 
   if (isReversed) {
     goodsCopy.reverse();
@@ -66,13 +66,13 @@ function getSortedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState<SortField>(SortField.Default);
+  const [sortType, setSortType] = useState<SortType>(SortType.Default);
   const [isReversed, setIsReversed] = useState(false);
-  const sortedGoods = getSortedGoods(goodsWithId, sortField, isReversed);
+  const sortedGoods = getSortedGoods(goodsWithId, sortType, isReversed);
 
-  const isChanged = () => Boolean(sortField) || isReversed;
-  const resetFilterOptions = (): void => {
-    setSortField(SortField.Default);
+  const isResetButtonVisible = Boolean(sortType) || isReversed;
+  const handleResetButtonClick = (): void => {
+    setSortType(SortType.Default);
     setIsReversed(false);
   };
 
@@ -81,39 +81,51 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={cn('button is-info', {
-            'is-light': SortField.Alphabet !== sortField,
-          })}
-          onClick={() => setSortField(SortField.Alphabet)}
+          className={classnames(
+            'button',
+            'is-info',
+            {
+              'is-light': SortType.Alphabet !== sortType,
+            },
+          )}
+          onClick={() => setSortType(SortType.Alphabet)}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={cn('button is-success', {
-            'is-light': SortField.Length !== sortField,
-          })}
-          onClick={() => setSortField(SortField.Length)}
+          className={classnames(
+            'button',
+            'is-success',
+            {
+              'is-light': SortType.Length !== sortType,
+            },
+          )}
+          onClick={() => setSortType(SortType.Length)}
         >
           Sort by length
         </button>
 
         <button
           type="button"
-          className={cn('button is-warning', {
-            'is-light': !isReversed,
-          })}
-          onClick={() => setIsReversed(!isReversed)}
+          className={classnames(
+            'button',
+            'is-warning',
+            {
+              'is-light': !isReversed,
+            },
+          )}
+          onClick={() => setIsReversed(() => !isReversed)}
         >
           Reverse
         </button>
 
-        {isChanged() && (
+        {isResetButtonVisible && (
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={resetFilterOptions}
+            onClick={handleResetButtonClick}
           >
             Reset
           </button>
