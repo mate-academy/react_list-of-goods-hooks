@@ -17,21 +17,21 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  SORT_BY_LENGTH = 'length',
-  SORT_BY_ALPHABET = 'alpha',
-  initialSortField = '',
+  ByLength = 'length',
+  ByAlphabet = 'alphabet',
+  Default = '',
 }
 
-function sortBy(fieldForSort: SortType, isReversed: boolean): string[] {
+function sortBy(sortType: SortType, isReversed: boolean): string[] {
   const goods = [...goodsFromServer];
 
-  if (fieldForSort) {
-    switch (fieldForSort) {
-      case SortType.SORT_BY_ALPHABET:
+  if (sortType) {
+    switch (sortType) {
+      case SortType.ByAlphabet:
         goods.sort((a, b) => a.localeCompare(b));
         break;
 
-      case SortType.SORT_BY_LENGTH:
+      case SortType.ByLength:
         goods.sort((a, b) => a.length - b.length);
         break;
 
@@ -44,14 +44,15 @@ function sortBy(fieldForSort: SortType, isReversed: boolean): string[] {
 }
 
 export const App: React.FC = () => {
-  const [isReverseActive, setIsReverseActive] = useState(false);
-  const [sortField, setSortField] = useState(SortType.initialSortField);
+  const [isReversed, setIsReversed] = useState(false);
+  const [sortType, setSortType] = useState(SortType.Default);
+  const shouldShowResetButton = sortType || isReversed;
 
-  const preparedGoods: string[] = sortBy(sortField, isReverseActive);
+  const preparedGoods: string[] = sortBy(sortType, isReversed);
 
   const resetAllSort = (): void => {
-    setIsReverseActive(false);
-    setSortField(SortType.initialSortField);
+    setIsReversed(false);
+    setSortType(SortType.Default);
   };
 
   return (
@@ -59,14 +60,14 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           onClick={() => {
-            setSortField(SortType.SORT_BY_ALPHABET);
-            sortBy(SortType.SORT_BY_ALPHABET, isReverseActive);
+            setSortType(SortType.ByAlphabet);
+            sortBy(SortType.ByAlphabet, isReversed);
           }}
           type="button"
           className={
             classnames('button',
               'is-info',
-              { 'is-light': sortField !== SortType.SORT_BY_ALPHABET })
+              { 'is-light': sortType !== SortType.ByAlphabet })
           }
         >
           Sort alphabetically
@@ -74,14 +75,14 @@ export const App: React.FC = () => {
 
         <button
           onClick={() => {
-            setSortField(SortType.SORT_BY_LENGTH);
-            sortBy(SortType.SORT_BY_LENGTH, isReverseActive);
+            setSortType(SortType.ByLength);
+            sortBy(SortType.ByLength, isReversed);
           }}
           type="button"
           className={
             classnames('button',
               'is-success',
-              { 'is-light': sortField !== SortType.SORT_BY_LENGTH })
+              { 'is-light': sortType !== SortType.ByLength })
           }
         >
           Sort by length
@@ -89,31 +90,25 @@ export const App: React.FC = () => {
 
         <button
           onClick={() => {
-            setIsReverseActive(!isReverseActive);
+            setIsReversed((prevState) => !prevState);
           }}
           type="button"
           className={
             classnames(
               'button',
               'is-warning',
-              { 'is-light': !isReverseActive },
+              { 'is-light': !isReversed },
             )
           }
         >
           Reverse
         </button>
 
-        {(sortField || isReverseActive) && (
+        {shouldShowResetButton && (
           <button
-            onClick={() => resetAllSort()}
+            onClick={resetAllSort}
             type="button"
-            className={
-              classnames(
-                'button',
-                'is-danger',
-                { 'is-light': true },
-              )
-            }
+            className="button is-danger is-light"
           >
             Reset
           </button>
@@ -122,10 +117,7 @@ export const App: React.FC = () => {
 
       <ul>
         {preparedGoods.map(good => (
-          <li
-            data-cy="Good"
-            key={good}
-          >
+          <li data-cy="Good" key={good}>
             {good}
           </li>
         ))}
