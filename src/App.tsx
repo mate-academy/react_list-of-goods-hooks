@@ -53,11 +53,11 @@ export function getReorderedGoods(
 
 export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
-  const [isReversed, setIsReversed] = useState(false);
+  const [isReversed, setReverseField] = useState(false);
 
   const handleReset = () => {
     setSortType(SortType.NONE);
-    setIsReversed(false);
+    setReverseField(false);
   };
 
   const reorderedGoods = getReorderedGoods({ sortType, isReversed });
@@ -93,7 +93,7 @@ export const App: React.FC = () => {
             'button is-warning': true,
             'is-light': isReversed !== true,
           })}
-          onClick={() => setIsReversed(!isReversed)}
+          onClick={() => setReverseField(Reversed => !Reversed)}
         >
           Reverse
         </button>
@@ -113,7 +113,7 @@ export const App: React.FC = () => {
       <ul>
         {reorderedGoods.map(item => {
           return (
-            <li data-cy="Good">{item}</li>
+            <li key={item} data-cy="Good">{item}</li>
           );
         })}
       </ul>
