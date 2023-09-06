@@ -45,7 +45,7 @@ export const ButtonsSortByList: FC<TButtonsSortByList> = ({
       type="button"
       onClick={() => onReverseHandler()}
       className={
-        cn('button is-danger', {
+        cn('button is-warning', {
           'is-light': !isReversed,
         })
       }
@@ -57,7 +57,7 @@ export const ButtonsSortByList: FC<TButtonsSortByList> = ({
       <button
         type="button"
         onClick={() => onSortByHandler(EButtonsSortBy.Reset)}
-        className="button is-warning is-light"
+        className="button is-danger is-light"
       >
         Reset
       </button>
