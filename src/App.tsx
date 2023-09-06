@@ -61,15 +61,8 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [
-    sortBy,
-    setSortBy,
-  ] = useState<SortType>(SortType.NoSort);
-
-  const [
-    displayOrder,
-    setDisplayOrder,
-  ] = useState<DisplayOrder>(DisplayOrder.Normal);
+  const [sortBy, setSortBy] = useState(SortType.NoSort);
+  const [displayOrder, setDisplayOrder] = useState(DisplayOrder.Normal);
 
   const toggleDisplayOrder = () => {
     setDisplayOrder(
