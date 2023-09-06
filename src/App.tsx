@@ -73,7 +73,7 @@ export const App: React.FC = () => {
     setDisplayOrder(DisplayOrder.Normal);
   };
 
-  const isResetButtonActive = sortType || displayOrder;
+  const isResetButtonActive = Boolean(sortType || displayOrder);
 
   const preparedGoods = getPreparedGoods(
     goodsFromServer,
