@@ -94,7 +94,6 @@ export const App: React.FC = () => {
         >
           Reverse
         </button>
-
         {!!isResetButtonVisible && (
           <button
             type="button"
