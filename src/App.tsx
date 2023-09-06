@@ -18,7 +18,7 @@ export const goodsFromServer = [
 
 enum SortType {
   Default = '',
-  Alphabetically = 'name',
+  Alphabetically = 'alphabetically',
   ByLength = 'length',
 }
 
@@ -30,19 +30,19 @@ enum SortOrder {
 
 function getPreparedGoods(
   goods: string[],
-  sortField: SortType,
+  sortType: SortType,
   isReversed: SortOrder,
 ): string[] {
   const preparedGoods: string[] = [...goods];
 
-  if (sortField !== SortType.Default) {
-    preparedGoods.sort((firstItem, secondItem) => {
-      if (sortField === SortType.Alphabetically) {
-        return firstItem.localeCompare(secondItem);
+  if (sortType !== SortType.Default) {
+    preparedGoods.sort((item1, item2) => {
+      if (sortType === SortType.Alphabetically) {
+        return item1.localeCompare(item2);
       }
 
-      if (sortField === SortType.ByLength) {
-        return firstItem.length - secondItem.length;
+      if (sortType === SortType.ByLength) {
+        return item1.length - item2.length;
       }
 
       return 0;
@@ -56,30 +56,29 @@ function getPreparedGoods(
   return preparedGoods;
 }
 
-export const App: React.FC = () => {
-  const [sortField, setSortField] = useState(SortType.Default);
-  const [isReversed, setIsReversed] = useState(SortOrder.Default);
-  const isResetButtonVisible = sortField !== SortType.Default
-    || isReversed === SortOrder.Ascending;
+function changeAscDesc(value: SortOrder): SortOrder {
+  let typeOfOrder = value;
 
-  const visibleGoods: string[]
-    = getPreparedGoods(goodsFromServer, sortField, isReversed);
-
-  function setSortReverse(): void {
-    setSortField(SortType.Default);
-    setIsReversed(SortOrder.Default);
+  if (typeOfOrder === SortOrder.Ascending) {
+    typeOfOrder = SortOrder.Descending;
+  } else {
+    typeOfOrder = SortOrder.Ascending;
   }
 
-  function changeAscDesc(value: SortOrder): SortOrder {
-    let typeOfOrder = value;
+  return typeOfOrder;
+}
 
-    if (typeOfOrder === SortOrder.Ascending) {
-      typeOfOrder = SortOrder.Descending;
-    } else {
-      typeOfOrder = SortOrder.Ascending;
-    }
+export const App: React.FC = () => {
+  const [sortType, setSortType] = useState(SortType.Default);
+  const [isReversed, setIsReversed] = useState(SortOrder.Default);
+  const isResetButtonVisible = sortType || isReversed === SortOrder.Ascending;
 
-    return typeOfOrder;
+  const sortedGoods: string[]
+    = getPreparedGoods(goodsFromServer, sortType, isReversed);
+
+  function handleButtonReverse(): void {
+    setSortType(SortType.Default);
+    setIsReversed(SortOrder.Default);
   }
 
   return (
@@ -89,9 +88,9 @@ export const App: React.FC = () => {
           type="button"
           className={classNames(
             'button is-info',
-            { 'is-light': sortField !== SortType.Alphabetically },
+            { 'is-light': sortType !== SortType.Alphabetically },
           )}
-          onClick={() => setSortField(SortType.Alphabetically)}
+          onClick={() => setSortType(SortType.Alphabetically)}
         >
           Sort alphabetically
         </button>
@@ -100,9 +99,9 @@ export const App: React.FC = () => {
           type="button"
           className={classNames(
             'button is-success',
-            { 'is-light': sortField !== SortType.ByLength },
+            { 'is-light': sortType !== SortType.ByLength },
           )}
-          onClick={() => setSortField(SortType.ByLength)}
+          onClick={() => setSortType(SortType.ByLength)}
         >
           Sort by length
         </button>
@@ -120,7 +119,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => setSortReverse()}
+            onClick={() => handleButtonReverse()}
           >
             Reset
           </button>
@@ -129,17 +128,15 @@ export const App: React.FC = () => {
 
       <ul>
         <ul>
-          {visibleGoods.map((item) => {
-            return (
-              <li
-                className="li"
-                data-cy="Good"
-                key={`${item} item`}
-              >
-                {item}
-              </li>
-            );
-          })}
+          {sortedGoods.map((item) => (
+            <li
+              className="li"
+              data-cy="Good"
+              key={`${item}_item`}
+            >
+              {item}
+            </li>
+          ))}
         </ul>
       </ul>
     </div>
