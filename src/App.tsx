@@ -84,8 +84,8 @@ export const App: React.FC = () => {
     setDisplayOrder(DisplayOrder.Normal);
   };
 
-  const isOptionsEnabled = sortBy !== SortType.NoSort
-                           || displayOrder !== DisplayOrder.Normal;
+  const isDisplayOptionsEnabled = sortBy !== SortType.NoSort
+                                  || displayOrder !== DisplayOrder.Normal;
 
   const goods = getPreparedGoods(goodsFromServer, { sortBy, displayOrder });
 
@@ -122,7 +122,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {isOptionsEnabled && (
+        {isDisplayOptionsEnabled && (
           <button
             type="button"
             className="button is-danger is-light"
