@@ -62,6 +62,13 @@ function changeAscDesc(value: SortOrder): SortOrder {
     : SortOrder.Ascending;
 }
 
+function getWarningButtonClass(order: SortOrder): string {
+  return classNames(
+    'button', 'is-warning',
+    { 'is-light': order !== SortOrder.Ascending },
+  );
+}
+
 export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.Default);
   const [isReversed, setIsReversed] = useState(SortOrder.Default);
@@ -73,13 +80,6 @@ export const App: React.FC = () => {
   function handleButtonReset(): void {
     setSortType(SortType.Default);
     setIsReversed(SortOrder.Default);
-  }
-
-  function changeButtonIsWarningClass(order: SortOrder): string {
-    return classNames(
-      'button is-warning',
-      { 'is-light': order !== SortOrder.Ascending },
-    );
   }
 
   return (
@@ -111,7 +111,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={changeButtonIsWarningClass(isReversed)}
+          className={getWarningButtonClass(isReversed)}
           onClick={() => setIsReversed(changeAscDesc(isReversed))}
         >
           Reverse
@@ -121,7 +121,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => handleButtonReset()}
+            onClick={handleButtonReset}
           >
             Reset
           </button>
