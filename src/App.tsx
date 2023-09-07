@@ -35,9 +35,7 @@ function getPreparedGoods(
     id: index + 1,
   }));
 
-  if (sortField === SortType.Alphabetically
-    || sortField === SortType.ByLength
-  ) {
+  if (sortField) {
     preparedGoods.sort((good1, good2) => {
       switch (sortField) {
         case SortType.Alphabetically:
@@ -65,12 +63,12 @@ export const App: React.FC = () => {
   const visibleGoods = getPreparedGoods(
     goodsFromServer, sortField, isReversed,
   );
-  const reset = () => {
+  const handleReset = () => {
     setSortField(SortType.NoSorting);
     setIsReversed(false);
   };
 
-  const isSorted = (sortField || isReversed);
+  const isResetButtonVisible = (sortField || isReversed);
 
   return (
     <div className="section content">
@@ -111,11 +109,11 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {isSorted && (
+        {isResetButtonVisible && (
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={reset}
+            onClick={handleReset}
           >
             Reset
           </button>
