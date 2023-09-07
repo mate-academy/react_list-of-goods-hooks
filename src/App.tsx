@@ -29,23 +29,20 @@ interface SortFields {
 
 function getPreparedGoods(
   goods: string[],
-  { sortField, isReverse } :SortFields,
+  { sortField, isReverse }: SortFields,
 ): string[] {
   const preparedGoods = [...goods];
 
   if (sortField !== SortType.Default) {
-    preparedGoods.sort((goodA, goodB) => {
-      switch (sortField) {
-        case SortType.Alphabet:
-          return goodA.localeCompare(goodB);
-
-        case SortType.Length:
-          return goodA.length - goodB.length;
-
-        default:
-          return 0;
-      }
-    });
+    switch (sortField) {
+      case SortType.Alphabet:
+        return preparedGoods.sort((goodA, goodB) => goodA.localeCompare(goodB));
+      case SortType.Length:
+        return preparedGoods
+          .sort((goodA, goodB) => goodA.length - goodB.length);
+      default:
+        return preparedGoods;
+    }
   }
 
   if (isReverse) {
@@ -60,6 +57,11 @@ export const App: React.FC = () => {
   const [isReverse, setIsReverse] = useState<boolean>(false);
   const visibleGoods: string[] = getPreparedGoods(goodsFromServer,
     { sortField, isReverse });
+
+  const handlerOnReset = () => {
+    setSortField(SortType.Default);
+    setIsReverse(false);
+  };
 
   return (
     <div className="section content">
@@ -98,10 +100,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortField(SortType.Default);
-              setIsReverse(false);
-            }}
+            onClick={handlerOnReset}
           >
             Reset
           </button>
