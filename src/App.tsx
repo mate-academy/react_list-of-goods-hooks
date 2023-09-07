@@ -3,7 +3,7 @@ import cn from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-export const goodsFromServer: string[] = [
+export const goodsFromServer = [
   'Dumplings',
   'Carrot',
   'Eggs',
@@ -127,10 +127,7 @@ export const App: React.FC = () => {
 
       <ul>
         {preparedGoods.map(good => (
-          <li
-            key={good}
-            data-cy="Good"
-          >
+          <li key={good} data-cy="Good">
             {good}
           </li>
         ))}
