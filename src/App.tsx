@@ -21,10 +21,8 @@ enum SortType {
   LENGTH,
 }
 
-export const App: React.FC = () => {
-  const [sortType, setSortType] = useState(SortType.NONE);
-  const [isReversed, setIsReversed] = useState(false);
-  const sortGoods = (a: string, b:string):number => {
+const sortGoods = (sortType:SortType):string[] => goodsFromServer
+  .sort((a:string, b:string) => {
     if (sortType === SortType.NONE) {
       return 0;
     }
@@ -32,11 +30,15 @@ export const App: React.FC = () => {
     return sortType === SortType.ALPHABETICALLY
       ? a.localeCompare(b)
       : a.length - b.length;
-  };
+  });
+
+export const App: React.FC = () => {
+  const [sortType, setSortType] = useState(SortType.NONE);
+  const [isReversed, setIsReversed] = useState(false);
 
   const goods:string[] = !isReversed
-    ? [...goodsFromServer].sort(sortGoods)
-    : [...goodsFromServer].sort(sortGoods).reverse();
+    ? sortGoods(sortType)
+    : sortGoods(sortType).reverse();
 
   return (
     <div className="section content">
