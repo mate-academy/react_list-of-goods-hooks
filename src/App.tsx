@@ -56,7 +56,7 @@ export const App = () => {
     isReversed,
   );
   const isResetVisible = sortType || isReversed;
-  const reset = () => {
+  const handleResetButtonClick = () => {
     setSortType(SortType.ByDefault);
     setIsReversed(false);
   };
@@ -108,7 +108,7 @@ export const App = () => {
         {isResetVisible
           && (
             <button
-              onClick={() => reset()}
+              onClick={() => handleResetButtonClick()}
               type="button"
               className="button is-danger is-light"
             >
