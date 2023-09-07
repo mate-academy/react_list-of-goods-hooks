@@ -57,15 +57,9 @@ function getPreparedGoods(
 }
 
 function changeAscDesc(value: SortOrder): SortOrder {
-  let typeOfOrder = value;
-
-  if (typeOfOrder === SortOrder.Ascending) {
-    typeOfOrder = SortOrder.Descending;
-  } else {
-    typeOfOrder = SortOrder.Ascending;
-  }
-
-  return typeOfOrder;
+  return value === SortOrder.Ascending
+    ? SortOrder.Descending
+    : SortOrder.Ascending;
 }
 
 export const App: React.FC = () => {
