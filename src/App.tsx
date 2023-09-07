@@ -92,7 +92,7 @@ export const App = () => {
 
         <button
           onClick={() => {
-            setIsReversed(!isReversed);
+            setIsReversed(prevIsReversed => !prevIsReversed);
           }}
           type="button"
           className={classNames(
