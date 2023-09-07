@@ -62,9 +62,9 @@ export const App: React.FC = () => {
     isListReversed,
   );
 
-  const canWeReset: boolean = (Boolean(sortType) || isListReversed);
+  const isResetButtonVisible = (sortType) || isListReversed;
 
-  const handlerClick = () => {
+  const handleResetButtonClick = () => {
     setIsListReversed(false);
     setSortType(SortType.None);
   };
@@ -75,9 +75,11 @@ export const App: React.FC = () => {
         <button
           onClick={() => setSortType(SortType.Alphabet)}
           type="button"
-          className={cn('button', 'is-info', {
-            'is-light': sortType !== SortType.Alphabet,
-          })}
+          className={cn(
+            'button',
+            'is-info',
+            { 'is-light': sortType !== SortType.Alphabet },
+          )}
         >
           Sort alphabetically
         </button>
@@ -93,7 +95,7 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={() => setIsListReversed(!isListReversed)}
+          onClick={() => setIsListReversed(isReversed => !isReversed)}
           type="button"
           className={cn('button', 'is-warning', {
             'is-light': !isListReversed,
@@ -102,9 +104,9 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {canWeReset && (
+        {isResetButtonVisible && (
           <button
-            onClick={handlerClick}
+            onClick={handleResetButtonClick}
             type="button"
             className="button is-danger is-light"
           >
