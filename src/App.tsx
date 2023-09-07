@@ -27,7 +27,7 @@ function getPreparedGoods(
   sortField: SortBy,
   isReversedField: boolean,
 ) {
-  const prepareGoods: string[] = [...goods];
+  const prepareGoods = [...goods];
 
   if (sortField) {
     prepareGoods.sort((good1, good2) => {
@@ -59,10 +59,12 @@ export const App: React.FC = () => {
     isReversedField,
   );
 
-  const handleResetClicked = () => {
+  const handleResetClick = () => {
     setSortField(SortBy.Default);
     setIsReversed(false);
   };
+
+  const isResetButtonVisible = (sortField || isReversedField);
 
   return (
     <div className="section content">
@@ -103,11 +105,11 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortField || isReversedField) && (
+        {isResetButtonVisible && (
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={handleResetClicked}
+            onClick={handleResetClick}
           >
             Reset
           </button>
