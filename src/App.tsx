@@ -26,7 +26,7 @@ export const goodsFromServer: Goods = [
 
 const getPreparedGoods = (
   goods: Goods,
-  sortType: string,
+  sortType: SortType,
   isReversed: boolean,
 ) => {
   const preparedGoods = [...goods];
@@ -104,7 +104,7 @@ export const App: React.FC = () => {
         </button>
 
         {isSorted
-          ? (
+          && (
             <button
               onClick={() => handleReset()}
               type="button"
@@ -112,17 +112,12 @@ export const App: React.FC = () => {
             >
               Reset
             </button>
-          ) : (
-            ''
           )}
       </div>
 
       <ul>
         {sortedGoods.map(good => (
-          <li
-            key={good}
-            data-cy="Good"
-          >
+          <li key={good} data-cy="Good">
             {good}
           </li>
         ))}
