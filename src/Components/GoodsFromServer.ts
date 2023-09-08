@@ -1,4 +1,4 @@
-export const goodsFromServer: string[] = [
+export const goodsFromServer = [
   'Dumplings',
   'Carrot',
   'Eggs',
