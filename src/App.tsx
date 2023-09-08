@@ -59,8 +59,12 @@ function getPreparedGoods(
   return preparedGoods;
 }
 
-function resetField(field: (param: string) => void) {
-  field('');
+function resetFields(...fields: Array<(param: string) => void>) {
+  fields.forEach(field => field(''));
+}
+
+function checkReverse(field: string, value: string): boolean {
+  return field !== value;
 }
 
 export const App: React.FC = () => {
@@ -98,12 +102,12 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-warning', {
-            'is-light': reverseField !== ReverseType.reverse,
+            'is-light': checkReverse(reverseField, ReverseType.reverse),
           })}
           onClick={() => setReverseField(
-            reverseField === ReverseType.reverse
-              ? ReverseType.empty
-              : ReverseType.reverse,
+            checkReverse(reverseField, ReverseType.reverse)
+              ? ReverseType.reverse
+              : ReverseType.empty,
           )}
         >
           Reverse
@@ -115,8 +119,7 @@ export const App: React.FC = () => {
               type="button"
               className="button is-danger is-light"
               onClick={() => {
-                resetField(setSortField);
-                resetField(setReverseField);
+                resetFields(setSortField, setReverseField);
               }}
             >
               Reset
