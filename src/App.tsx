@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
-import "bulma/css/bulma.css";
-import "./App.scss";
+import React, { useEffect, useState } from 'react';
+import 'bulma/css/bulma.css';
+import './App.scss';
 
 export const goodsFromServer = [
-  "Dumplings",
-  "Carrot",
-  "Eggs",
-  "Ice cream",
-  "Apple",
-  "Bread",
-  "Fish",
-  "Honey",
-  "Jam",
-  "Garlic",
+  'Dumplings',
+  'Carrot',
+  'Eggs',
+  'Ice cream',
+  'Apple',
+  'Bread',
+  'Fish',
+  'Honey',
+  'Jam',
+  'Garlic',
 ];
 
 enum SortType {
@@ -63,7 +63,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={`button is-info ${
-            sortType === SortType.ALPHABET ? "" : "is-light"
+            sortType === SortType.ALPHABET ? '' : 'is-light'
           }`}
           onClick={() => handleSort(SortType.ALPHABET)}
         >
@@ -73,7 +73,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={`button is-success ${
-            sortType === SortType.LENGTH ? "" : "is-light"
+            sortType === SortType.LENGTH ? '' : 'is-light'
           }`}
           onClick={() => handleSort(SortType.LENGTH)}
         >
@@ -82,7 +82,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-warning  ${isReversed ? "" : "is-light"}`}
+          className={`button is-warning  ${isReversed ? '' : 'is-light'}`}
           onClick={handleReverse}
         >
           Reverse
