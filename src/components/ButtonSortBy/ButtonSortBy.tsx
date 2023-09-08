@@ -1,24 +1,22 @@
 import { FC } from 'react';
 import cn from 'classnames';
 
-import { TButtonInfo, TOnSortByHandler } from '../../types/SortByButtons';
+import { TButtonInfo, TSortHandler } from '../../types/SortByButtons';
 
-type TSortByProps = {
+type TSortButton = {
   buttonInfo: TButtonInfo;
-  onSortByHandler: TOnSortByHandler;
+  onSortByHandler: TSortHandler;
   sortBy: string;
 };
 
-export const ButtonSortBy: FC<TSortByProps> = ({
+export const SortButton: FC<TSortButton> = ({
   buttonInfo,
   onSortByHandler,
   sortBy,
 }) => (
   <button
     type="button"
-    onClick={() => {
-      onSortByHandler(buttonInfo.name);
-    }}
+    onClick={() => onSortByHandler(buttonInfo.name)}
     className={
       cn(buttonInfo.ownClass, {
         'is-light': sortBy !== buttonInfo.name,

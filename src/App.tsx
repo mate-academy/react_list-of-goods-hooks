@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { v4 as getRandomKey } from 'uuid';
 
 import { GoodsList } from './components/GoodsList';
-import { ButtonsSortByList } from './components/ButtonsSortByList';
+import { SortButtons } from './components/ButtonsSortByList';
 
 import { IGoods } from './types/Goods';
-import { EButtonsSortBy } from './types/SortByButtons';
+import { ESortButtons } from './types/SortByButtons';
 
 import 'bulma/css/bulma.css';
 import './App.scss';
@@ -47,13 +47,14 @@ function getPreparedGoods(
   if (sortBy) {
     sortedGoods.sort((goodsA, goodsB) => {
       switch (sortBy) {
-        case EButtonsSortBy.Alphabet:
+        case ESortButtons.Alphabet:
           return goodsA.name.localeCompare(goodsB.name);
 
-        case EButtonsSortBy.Length:
+        case ESortButtons.Length:
           return goodsA.name.length - goodsB.name.length;
 
-        default: throw Error('Smth gone wrong');
+        default:
+          throw Error('Incorrect sort type received');
       }
     });
   }
@@ -66,36 +67,35 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortBy, setSortBy] = useState(EButtonsSortBy.SortByNone);
+  const [sortBy, setSortBy] = useState(ESortButtons.SortByNone);
   const [isReversed, setIsReversed] = useState(false);
 
   const preparedGoods = getPreparedGoods(goods, { sortBy, isReversed });
 
   const onSortByHandler = (query: string) => {
-    if (EButtonsSortBy.Alphabet === query
-      || EButtonsSortBy.Length === query) {
+    if (ESortButtons.Alphabet === query
+      || ESortButtons.Length === query) {
       setSortBy(query);
-
-      return;
-    }
-
-    if (EButtonsSortBy.Reset === query) {
-      setSortBy(EButtonsSortBy.SortByNone);
-      setIsReversed(false);
     }
   };
 
-  const onReverseHandler = () => {
+  const handleButtonReset = () => {
+    setSortBy(ESortButtons.SortByNone);
+    setIsReversed(false);
+  };
+
+  const handleButtonReverse = () => {
     setIsReversed(!isReversed);
   };
 
   return (
     <div className="section content">
-      <ButtonsSortByList
+      <SortButtons
         sortBy={sortBy}
         isReversed={isReversed}
         onSortByHandler={onSortByHandler}
-        onReverseHandler={onReverseHandler}
+        handleButtonReverse={handleButtonReverse}
+        handleButtonReset={handleButtonReset}
       />
 
       <GoodsList goods={preparedGoods} />

@@ -2,65 +2,71 @@ import { FC } from 'react';
 import cn from 'classnames';
 
 import {
-  EButtonsSortBy, TButtonInfo, TOnSortByHandler,
+  ESortButtons, TButtonInfo, TSortHandler,
 } from '../../types/SortByButtons';
 
-import { ButtonSortBy } from '../ButtonSortBy';
+import { SortButton } from '../ButtonSortBy';
 
-type TButtonsSortByList = {
-  onSortByHandler: TOnSortByHandler;
-  onReverseHandler: () => void;
+type TSortButtons = {
+  onSortByHandler: TSortHandler;
+  handleButtonReverse: () => void;
+  handleButtonReset: () => void;
   sortBy: string;
   isReversed: boolean;
 };
 
 const buttons: TButtonInfo[] = [
   {
-    name: EButtonsSortBy.Alphabet,
+    name: ESortButtons.Alphabet,
     ownClass: 'button is-info',
   },
   {
-    name: EButtonsSortBy.Length,
+    name: ESortButtons.Length,
     ownClass: 'button is-success',
   },
 ];
 
-export const ButtonsSortByList: FC<TButtonsSortByList> = ({
+export const SortButtons: FC<TSortButtons> = ({
   onSortByHandler,
   sortBy,
-  onReverseHandler,
+  handleButtonReverse,
   isReversed,
-}) => (
-  <div className="buttons">
-    {buttons.map((button) => (
-      <ButtonSortBy
-        key={button.name}
-        buttonInfo={button}
-        sortBy={sortBy}
-        onSortByHandler={onSortByHandler}
-      />
-    ))}
+  handleButtonReset,
+}) => {
+  const isResetButtonActive = (sortBy || isReversed);
 
-    <button
-      type="button"
-      onClick={() => onReverseHandler()}
-      className={
-        cn('button is-warning', {
-          'is-light': !isReversed,
-        })
-      }
-    >
-      Reverse
-    </button>
+  return (
+    <div className="buttons">
+      {buttons.map((button) => (
+        <SortButton
+          key={button.name}
+          buttonInfo={button}
+          sortBy={sortBy}
+          onSortByHandler={onSortByHandler}
+        />
+      ))}
 
-    {(sortBy || isReversed) && (
       <button
         type="button"
-        onClick={() => onSortByHandler(EButtonsSortBy.Reset)}
-        className="button is-danger is-light"
+        onClick={() => handleButtonReverse()}
+        className={
+          cn('button', 'is-warning', {
+            'is-light': !isReversed,
+          })
+        }
       >
-        Reset
+        Reverse
       </button>
-    )}
-  </div>
-);
+
+      {isResetButtonActive && (
+        <button
+          type="button"
+          onClick={() => handleButtonReset()}
+          className="button is-danger is-light"
+        >
+          Reset
+        </button>
+      )}
+    </div>
+  );
+};

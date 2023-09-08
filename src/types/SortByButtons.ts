@@ -1,4 +1,4 @@
-export enum EButtonsSortBy {
+export enum ESortButtons {
   Alphabet = 'Sort alphabetically',
   Length = 'Sort by length',
   Reverse = 'Reverse',
@@ -7,8 +7,8 @@ export enum EButtonsSortBy {
 }
 
 export type TButtonInfo = {
-  name: EButtonsSortBy;
+  name: ESortButtons;
   ownClass: string;
 };
 
-export type TOnSortByHandler = (name: string) => void;
+export type TSortHandler = (name: string) => void;
