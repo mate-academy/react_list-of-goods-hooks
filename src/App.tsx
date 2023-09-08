@@ -17,8 +17,8 @@ export const goodsFromServer = [
 ];
 
 interface Params {
-  sortField: SortType[keyof SortType],
-  reverseField: ReverseType[keyof ReverseType],
+  sortField: SortType,
+  reverseField: ReverseType,
 }
 
 enum SortType {
@@ -69,7 +69,7 @@ export const App: React.FC = () => {
 
   const visibleGoods = getPreparedGoods(
     goodsFromServer,
-    { sortField, reverseField },
+    { sortField, reverseField } as Params,
   );
 
   return (
