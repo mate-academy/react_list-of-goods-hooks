@@ -1,5 +1,5 @@
 import 'bulma/css/bulma.css';
-import cn from 'classnames';
+import classnames from 'classnames';
 import './App.scss';
 import React, { useState } from 'react';
 
@@ -21,7 +21,7 @@ export const goodsFromServer: string[] = [
 function getPreparedGoods(
   goods: string[],
   sortType: SortType,
-  reverseField: boolean,
+  isFieldReversed: boolean,
 ): string[] {
   const preparedGoods = [...goods];
 
@@ -43,34 +43,27 @@ function getPreparedGoods(
     });
   }
 
-  if (reverseField) {
+  if (isFieldReversed) {
     preparedGoods.reverse();
   }
 
   return preparedGoods;
 }
 
-type Props = {
-  goods: string[];
-};
-
-export const GoodList: React.FC<Props> = ({ goods }) => (
-  <ul>
-    {goods.map(good => (
-      <li
-        data-cy="Good"
-        key={good}
-      >
-        {good}
-      </li>
-    ))}
-  </ul>
-);
-
 export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.Default);
-  const [reverseField, setReverseField] = useState(false);
-  const goods = getPreparedGoods(goodsFromServer, sortType, reverseField);
+  const [isFieldReversed, setIsFieldReversed] = useState(false);
+
+  const filteredGoods = getPreparedGoods(
+    goodsFromServer, sortType, isFieldReversed,
+  );
+
+  const isSortedOrReversed = sortType || isFieldReversed;
+
+  const resetHandler = () => {
+    setSortType(SortType.Default);
+    setIsFieldReversed(false);
+  };
 
   return (
     <div className="section content">
@@ -78,7 +71,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           onClick={() => setSortType(SortType.Alphabet)}
-          className={cn('button', 'is-info',
+          className={classnames('button', 'is-info',
             {
               'is-light': sortType !== SortType.Alphabet,
             })}
@@ -89,7 +82,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           onClick={() => setSortType(SortType.Length)}
-          className={cn('button', 'is-info',
+          className={classnames('button', 'is-info',
             {
               'is-light': sortType !== SortType.Length,
             })}
@@ -99,22 +92,19 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          onClick={() => setReverseField(!reverseField)}
-          className={cn('button', 'is-info',
+          onClick={() => setIsFieldReversed(!isFieldReversed)}
+          className={classnames('button', 'is-info',
             {
-              'is-light': !reverseField,
+              'is-light': !isFieldReversed,
             })}
         >
           Reverse
         </button>
 
-        {(sortType || reverseField) && (
+        {isSortedOrReversed && (
           <button
             type="button"
-            onClick={() => {
-              setSortType(SortType.Default);
-              setReverseField(false);
-            }}
+            onClick={resetHandler}
             className="button is-danger is-light"
           >
             Reset
@@ -122,7 +112,13 @@ export const App: React.FC = () => {
         )}
       </div>
 
-      <GoodList goods={goods} />
+      <ul>
+        {filteredGoods.map(good => (
+          <li data-cy="Good" key={good}>
+            {good}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
