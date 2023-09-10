@@ -9,7 +9,7 @@ import { goodsFromServer } from './Components/goodListData';
 enum SortField {
   Alphabet = 'abc',
   Id = 'id',
-  DefaultSort = '',
+  Default = '',
 }
 
 interface FilterSort {
@@ -30,9 +30,7 @@ function getPreparedGoods(
     preparedGoods = preparedGoods.sort((good1, good2) => {
       switch (sortField) {
         case SortField.Alphabet:
-
           return good1.localeCompare(good2);
-
         case SortField.Id:
 
           return good1.length - good2.length;
@@ -47,13 +45,17 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState(SortField.DefaultSort);
+  const [sortField, setSortField] = useState(SortField.Default);
   const [isReversed, setIsReversed] = useState(false);
 
   const visibleGoods = getPreparedGoods(goodsFromServer, {
     sortField,
     isReversed,
   });
+  const handleOnReset = () => {
+    setSortField(SortField.Default);
+    setIsReversed(false);
+  };
 
   return (
     <div className="section content">
@@ -92,10 +94,7 @@ export const App: React.FC = () => {
 
         {(sortField || isReversed) && (
           <button
-            onClick={() => {
-              setSortField(SortField.DefaultSort);
-              setIsReversed(false);
-            }}
+            onClick={handleOnReset}
             type="button"
             className="button is-danger is-light"
           >
