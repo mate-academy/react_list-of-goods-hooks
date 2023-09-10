@@ -34,7 +34,7 @@ function getPreparedGoods(
     isReversed,
   }: SortingOptions,
 ): string[] {
-  let preparedGoods = [...goods];
+  const preparedGoods = [...goods];
 
   if (sortType) {
     switch (sortType) {
@@ -53,7 +53,7 @@ function getPreparedGoods(
   }
 
   if (isReversed) {
-    preparedGoods = preparedGoods.reverse();
+    preparedGoods.reverse();
   }
 
   return preparedGoods;
@@ -61,7 +61,7 @@ function getPreparedGoods(
 
 export const App = () => {
   const [sortType, setSortType] = useState(SortType.Default);
-  const [isReversed, setReverseField] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
 
   const visibleGoods: string[] = getPreparedGoods(
     goodsFromServer,
@@ -70,7 +70,7 @@ export const App = () => {
 
   const resetSortingSettings = () => {
     setSortType(SortType.Default);
-    setReverseField(false);
+    setIsReversed(false);
   };
 
   const isResetButtonVisible = sortType || isReversed;
@@ -80,9 +80,13 @@ export const App = () => {
       <div className="buttons">
         <button
           type="button"
-          className={cn('button', 'is-info', {
-            'is-light': sortType !== SortType.Name,
-          })}
+          className={cn(
+            'button',
+            'is-info',
+            {
+              'is-light': sortType !== SortType.Name,
+            },
+          )}
           onClick={() => {
             setSortType(SortType.Name);
           }}
@@ -107,7 +111,7 @@ export const App = () => {
           className={cn('button', 'is-warning', {
             'is-light': !isReversed,
           })}
-          onClick={() => setReverseField((isPrevReversed) => !isPrevReversed)}
+          onClick={() => setIsReversed((isPrevReversed) => !isPrevReversed)}
         >
           Reverse
         </button>
