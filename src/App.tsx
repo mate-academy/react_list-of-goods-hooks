@@ -54,8 +54,8 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortedBy, setSortedBy] = useState<SortType>(SortType.DEFAULT);
-  const [isReversed, setIsReversed] = useState<boolean>(false);
+  const [sortedBy, setSortedBy] = useState(SortType.DEFAULT);
+  const [isReversed, setIsReversed] = useState(false);
 
   const visibleGoods = useMemo(() => getPreparedGoods(goodsFromServer, {
     sortedBy,
@@ -100,16 +100,14 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {sortedBy || isReversed ? (
+        {(sortedBy || isReversed) && (
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => reset()}
+            onClick={reset}
           >
             Reset
           </button>
-        ) : (
-          ''
         )}
       </div>
 
