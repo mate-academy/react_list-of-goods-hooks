@@ -17,18 +17,20 @@ export const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-const SORT_FIELD_ALPHBT = 'alphabet';
-const SORT_FIELD_LENGTH = 'length';
+enum SortType {
+  sort_abc = 'alphabet',
+  sort_length = 'length',
+}
 
-function getVisibleGoods(sortType: string, isReversed: boolean): string[] {
+function getVisibleGoods(sortType: string, isReversed: boolean) {
   const visibleGoods: string[] = [...goodsFromServer];
 
   switch (sortType) {
-    case SORT_FIELD_ALPHBT:
+    case SortType.sort_abc:
       visibleGoods
         .sort((good1: string, good2: string) => good1.localeCompare(good2));
       break;
-    case SORT_FIELD_LENGTH:
+    case SortType.sort_length:
       visibleGoods
         .sort((good1: string, good2: string) => good1.length - good2.length);
       break;
@@ -47,7 +49,7 @@ export const App: React.FC = () => {
   const [sortType, setSortType] = useState('');
   const [isReversed, setIsReversed] = useState(false);
 
-  const reset = (): void => {
+  const reset = () => {
     setSortType('');
     setIsReversed(false);
   };
@@ -63,9 +65,9 @@ export const App: React.FC = () => {
           className={cn(
             'button',
             'is-info',
-            { 'is-light': sortType !== SORT_FIELD_ALPHBT },
+            { 'is-light': sortType !== SortType.sort_abc},
           )}
-          onClick={() => setSortType(SORT_FIELD_ALPHBT)}
+          onClick={() => setSortType(SortType.sort_abc)}
         >
           Sort alphabetically
         </button>
@@ -75,9 +77,9 @@ export const App: React.FC = () => {
           className={cn(
             'button',
             'is-success',
-            { 'is-light': sortType !== SORT_FIELD_LENGTH },
+            { 'is-light': sortType !== SortType.sort_length },
           )}
-          onClick={(): void => setSortType(SORT_FIELD_LENGTH)}
+          onClick={() => setSortType(SortType.sort_length)}
         >
           Sort by length
         </button>
@@ -89,7 +91,7 @@ export const App: React.FC = () => {
             'is-warning',
             { 'is-light': !isReversed },
           )}
-          onClick={(): void => setIsReversed(!isReversed)}
+          onClick={() => setIsReversed(!isReversed)}
         >
           Reverse
         </button>
