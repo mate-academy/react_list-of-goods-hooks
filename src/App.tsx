@@ -57,7 +57,7 @@ export const App: React.FC = () => {
     setIsReversed(false);
   };
 
-  const isResetButtonVisibleButtonVisible = SortType || isReversed;
+  const isResetButtonVisible = sortType !== SortType.Default || isReversed;
 
   return (
     <div className="section content">
@@ -106,7 +106,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(isResetButtonVisibleButtonVisible) && (
+        {(isResetButtonVisible) && (
           <button
             onClick={handleReset}
             type="button"
