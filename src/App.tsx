@@ -57,7 +57,7 @@ export const App: React.FC = () => {
     setIsReversed(false);
   };
 
-  const isReset = SortType || isReversed;
+  const isResetButtonVisibleButtonVisible = SortType || isReversed;
 
   return (
     <div className="section content">
@@ -106,7 +106,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(isReset) && (
+        {(isResetButtonVisibleButtonVisible) && (
           <button
             onClick={handleReset}
             type="button"
@@ -118,6 +118,6 @@ export const App: React.FC = () => {
       </div>
 
       <GoodList goods={visibleGoods} />
-    </div >
+    </div>
   );
 };
