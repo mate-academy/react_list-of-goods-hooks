@@ -22,9 +22,9 @@ enum SortType {
 }
 
 export const App: React.FC = () => {
-  const [sortType, setSortType] = useState(SortType.NONE);
-  const [isReversed, setIsReversed] = useState(false);
-  const [visibleGoods, setVisibleGoods] = useState(goodsFromServer);
+  const [sortType, setSortType] = useState<SortType>(SortType.NONE);
+  const [isReversed, setIsReversed] = useState<boolean>(false);
+  const [visibleGoods, setVisibleGoods] = useState<string[]>(goodsFromServer);
 
   const handleReverse = () => {
     setIsReversed(!isReversed);
@@ -37,24 +37,24 @@ export const App: React.FC = () => {
     setIsReversed(false);
   };
 
+  const reorderGoods = (sort: SortType, reversed: boolean) => {
+    const goodsCopy = [...goodsFromServer];
+
+    if (sort === SortType.ALPHABET) {
+      goodsCopy.sort((a, b) => a.localeCompare(b));
+    } else if (sort === SortType.LENGTH) {
+      goodsCopy.sort((a, b) => a.length - b.length);
+    }
+
+    if (reversed) {
+      goodsCopy.reverse();
+    }
+
+    setVisibleGoods(goodsCopy);
+  };
+
   useEffect(() => {
-    const reorderGoods = () => {
-      const goodsCopy = [...goodsFromServer];
-
-      if (sortType === SortType.ALPHABET) {
-        goodsCopy.sort((a, b) => a.localeCompare(b));
-      } else if (sortType === SortType.LENGTH) {
-        goodsCopy.sort((a, b) => a.length - b.length);
-      }
-
-      if (isReversed) {
-        goodsCopy.reverse();
-      }
-
-      setVisibleGoods(goodsCopy);
-    };
-
-    reorderGoods();
+    reorderGoods(sortType, isReversed);
   }, [sortType, isReversed]);
 
   return (
@@ -101,7 +101,9 @@ export const App: React.FC = () => {
 
       <ul>
         {visibleGoods.map((good) => (
-          <li data-cy="Good">{good}</li>
+          <li key={good} data-cy="Good">
+            {good}
+          </li>
         ))}
       </ul>
     </div>
