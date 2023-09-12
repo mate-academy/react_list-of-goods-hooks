@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
@@ -21,65 +22,49 @@ const initialGoods: string[] = [
   'Garlic',
 ];
 
-// eslint-disable-next-line max-len
-const stableSort = (array: string[], compareFunction: (a: string, b: string) => number) => {
-  return array
-    .map((item, index) => ({ item, index }))
-    .sort((a, b) => compareFunction(a.item, b.item) || a.index - b.index)
-    .map(({ item }) => item);
-};
-
 export const App: React.FC = () => {
   const [goods, setGoods] = useState<string[]>(initialGoods);
   const [sortType, setSortType] = useState<SortType>(SortType.Default);
   const [ascending, setAscending] = useState<boolean>(true);
-  // eslint-disable-next-line max-len
-  const [originalOrderReversed, setOriginalOrderReversed] = useState<boolean>(false);
 
-  const handleSort = (type: SortType) => {
-    let sortedGoods = [...goods];
+  const sortGoods = (items: string[], type: SortType, isReversed: boolean): string[] => {
+    const sortedItems = [...items];
 
     if (type === SortType.Alphabetically) {
-      sortedGoods = stableSort([...goods], (a, b) => a.localeCompare(b));
+      sortedItems.sort((a, b) => b.localeCompare(a));
     } else if (type === SortType.Length) {
-      sortedGoods = stableSort(
-        [...goods],
-        (a, b) => a.length - b.length || goods.indexOf(a) - goods.indexOf(b),
-      );
+      sortedItems.sort((a, b) => a.length - b.length);
     }
 
-    if (!ascending) {
-      sortedGoods.reverse();
+    if (isReversed) {
+      sortedItems.reverse();
     }
+
+    return sortedItems;
+  };
+
+  const handleSort = (type: SortType) => {
+    const sortedGoods = sortGoods([...goods], type, ascending);
 
     setGoods(sortedGoods);
     setSortType(type);
     setAscending(true);
-    setOriginalOrderReversed(false);
   };
 
   const handleReverse = () => {
-    if (sortType) {
-      setGoods([...goods].reverse());
-      setAscending(!ascending);
-      setOriginalOrderReversed(false);
-    } else {
-      const reversedOriginalOrder = [...initialGoods].reverse();
+    const reversedGoods = [...goods].reverse();
 
-      setGoods(reversedOriginalOrder);
-      setOriginalOrderReversed(!originalOrderReversed);
-    }
+    setGoods(reversedGoods);
+    setAscending(!ascending);
   };
 
   const handleReset = () => {
     setGoods(initialGoods);
     setSortType(SortType.Default);
     setAscending(true);
-    setOriginalOrderReversed(false);
   };
 
-  // eslint-disable-next-line max-len
-  const isResetVisible = sortType !== SortType.Default || !ascending || originalOrderReversed;
+  const isResetVisible = sortType !== SortType.Default || !ascending;
 
   return (
     <div className="section content">
@@ -102,9 +87,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-warning ${
-            originalOrderReversed || !sortType || !ascending ? '' : 'is-light'
-          }`}
+          className={`button is-warning ${!sortType || !ascending ? '' : 'is-light'}`}
           onClick={handleReverse}
         >
           Reverse
@@ -123,7 +106,7 @@ export const App: React.FC = () => {
 
       <ul>
         {goods.map((good) => (
-          <li key={good} data-cy={good}>
+          <li key={good} data-cy="Good">
             {good}
           </li>
         ))}
