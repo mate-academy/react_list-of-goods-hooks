@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import classNames from 'classnames';
 
 enum SortType {
   Alphabetically = 'alphabetically',
@@ -71,7 +72,9 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortType === SortType.Alphabetically ? '' : 'is-light'}`}
+          className={classNames('button is-info', {
+            'is-light': sortType !== SortType.Alphabetically,
+          })}
           onClick={() => handleSort(SortType.Alphabetically)}
         >
           Sort alphabetically
@@ -79,7 +82,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-success ${sortType === SortType.Length ? '' : 'is-light'}`}
+          className={classNames('button is-success', {
+            'is-light': sortType !== SortType.Length,
+          })}
           onClick={() => handleSort(SortType.Length)}
         >
           Sort by length
@@ -87,7 +92,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-warning ${!sortType || !ascending ? '' : 'is-light'}`}
+          className={classNames('button is-warning', {
+            'is-light': sortType !== SortType.Default || !ascending,
+          })}
           onClick={handleReverse}
         >
           Reverse
