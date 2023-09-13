@@ -93,11 +93,11 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={classNames('button is-warning', {
-            'is-light': sortType !== SortType.Default || !ascending,
+            'is-light': ascending,
           })}
           onClick={handleReverse}
         >
-          Reverse
+          Реверс
         </button>
 
         {isResetVisible && (
