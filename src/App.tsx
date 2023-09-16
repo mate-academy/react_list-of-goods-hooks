@@ -28,15 +28,16 @@ function sortArray(
   const array = [...goods];
 
   array.sort((value1, value2) => {
-    if (howSort === SortType.NAME) {
-      return value1.localeCompare(value2);
-    }
+    switch (howSort) {
+      case SortType.NAME:
+        return value1.localeCompare(value2);
 
-    if (howSort === SortType.LENGTH) {
-      return value1.length - value2.length;
-    }
+      case SortType.LENGTH:
+        return value1.length - value2.length;
 
-    return 0;
+      default:
+        return 0;
+    }
   });
 
   if (isReversed) {
@@ -54,12 +55,6 @@ export const App: React.FC = () => {
     sort as SortType,
     isReversed,
   );
-
-  function resetAll() {
-    setSort('');
-
-    setIsReversed(false);
-  }
 
   return (
     <div className="section content">
@@ -93,7 +88,10 @@ export const App: React.FC = () => {
             <button
               type="button"
               className={`button is-danger ${sort !== '' || isReversed ? null : 'is-light'}`}
-              onClick={resetAll}
+              onClick={() => {
+                setSort('');
+                setIsReversed(false);
+              }}
             >
               Reset
             </button>
