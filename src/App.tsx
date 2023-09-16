@@ -84,18 +84,20 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {sort !== SortType.NONE || (isReversed && (
-          <button
-            type="button"
-            className={`button is-danger ${sort !== SortType.NONE || isReversed ? null : 'is-light'}`}
-            onClick={() => {
-              setSort(SortType.NONE);
-              setIsReversed(false);
-            }}
-          >
-            Reset
-          </button>
-        ))}
+        {sort !== SortType.NONE || isReversed
+          ? (
+            <button
+              type="button"
+              className={`button is-danger ${sort !== SortType.NONE || isReversed ? null : 'is-light'}`}
+              onClick={() => {
+                setSort(SortType.NONE);
+                setIsReversed(false);
+              }}
+            >
+              Reset
+            </button>
+          )
+          : null}
 
       </div>
 
