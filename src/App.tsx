@@ -15,7 +15,11 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-type SortType = 'name' | 'lenght' | '';
+enum SortType {
+  NAME = 'name',
+  LENGTH = 'length',
+  NONE = 'none',
+}
 
 function sortArray(
   goods: string[],
@@ -25,11 +29,11 @@ function sortArray(
   const array = [...goods];
 
   array.sort((value1, value2) => {
-    if (howSort === 'name') {
+    if (howSort === SortType.NAME) {
       return value1.localeCompare(value2);
     }
 
-    if (howSort === 'lenght') {
+    if (howSort === SortType.LENGTH) {
       return value1.length - value2.length;
     }
 
@@ -63,16 +67,16 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sort === 'name' ? null : 'is-light'}`}
-          onClick={() => setSort('name')}
+          className={`button is-info ${sort === SortType.NAME ? null : 'is-light'}`}
+          onClick={() => setSort(SortType.NAME)}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={`button is-success ${sort === 'lenght' ? null : 'is-light'}`}
-          onClick={() => setSort('lenght')}
+          className={`button is-success ${sort === SortType.LENGTH ? null : 'is-light'}`}
+          onClick={() => setSort(SortType.LENGTH)}
         >
           Sort by length
         </button>
