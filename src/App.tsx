@@ -102,7 +102,7 @@ export const App: React.FC = () => {
             <button
               type="button"
               className="button is-danger is-light"
-              onClick={() => reset()}
+              onClick={reset}
             >
               Reset
             </button>
@@ -111,7 +111,7 @@ export const App: React.FC = () => {
               <button
                 type="button"
                 className="button is-danger is-light"
-                onClick={() => reset()}
+                onClick={reset}
               >
                 Reset
               </button>
@@ -124,7 +124,7 @@ export const App: React.FC = () => {
         <ul>
           {
             visibleGoods.map((good) => (
-              <li data-cy="Good">
+              <li key={good} data-cy="Good">
                 {good}
               </li>
             ))
