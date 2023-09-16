@@ -15,24 +15,21 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-type Sort = 'name' | 'lenght' | '';
-
-const SORT_NAME: Sort = 'name';
-const SORT_LENGTH: Sort = 'lenght';
+type SortType = 'name' | 'lenght' | '';
 
 function sortArray(
   goods: string[],
-  howSort: Sort,
+  howSort: SortType,
   isReversed: boolean,
 ) {
   const array = [...goods];
 
   array.sort((value1, value2) => {
-    if (howSort === SORT_NAME) {
+    if (howSort === 'name') {
       return value1.localeCompare(value2);
     }
 
-    if (howSort === SORT_LENGTH) {
+    if (howSort === 'lenght') {
       return value1.length - value2.length;
     }
 
@@ -51,7 +48,7 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const visibleGoods = sortArray(
     goodsFromServer,
-    sort as Sort,
+    sort as SortType,
     isReversed,
   );
 
@@ -66,16 +63,16 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sort === SORT_NAME ? null : 'is-light'}`}
-          onClick={() => setSort(SORT_NAME)}
+          className={`button is-info ${sort === 'name' ? null : 'is-light'}`}
+          onClick={() => setSort('name')}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={`button is-success ${sort === SORT_LENGTH ? null : 'is-light'}`}
-          onClick={() => setSort(SORT_LENGTH)}
+          className={`button is-success ${sort === 'lenght' ? null : 'is-light'}`}
+          onClick={() => setSort('lenght')}
         >
           Sort by length
         </button>
