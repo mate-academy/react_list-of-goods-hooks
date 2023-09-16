@@ -18,6 +18,7 @@ export const goodsFromServer = [
 enum SortType {
   NAME = 'name',
   LENGTH = 'length',
+  NONE = 'none',
 }
 
 function sortArray(
@@ -48,11 +49,11 @@ function sortArray(
 }
 
 export const App: React.FC = () => {
-  const [sort, setSort] = useState('');
+  const [sort, setSort] = useState(SortType.NONE);
   const [isReversed, setIsReversed] = useState(false);
   const visibleGoods = sortArray(
     goodsFromServer,
-    sort as SortType,
+    sort,
     isReversed,
   );
 
@@ -83,20 +84,18 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {sort !== '' || isReversed
-          ? (
-            <button
-              type="button"
-              className={`button is-danger ${sort !== '' || isReversed ? null : 'is-light'}`}
-              onClick={() => {
-                setSort('');
-                setIsReversed(false);
-              }}
-            >
-              Reset
-            </button>
-          )
-          : null}
+        {sort !== SortType.NONE || (isReversed && (
+          <button
+            type="button"
+            className={`button is-danger ${sort !== SortType.NONE || isReversed ? null : 'is-light'}`}
+            onClick={() => {
+              setSort(SortType.NONE);
+              setIsReversed(false);
+            }}
+          >
+            Reset
+          </button>
+        ))}
 
       </div>
 
