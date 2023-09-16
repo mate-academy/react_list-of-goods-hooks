@@ -18,7 +18,6 @@ export const goodsFromServer = [
 enum SortType {
   NAME = 'name',
   LENGTH = 'length',
-  NONE = 'none',
 }
 
 function sortArray(
