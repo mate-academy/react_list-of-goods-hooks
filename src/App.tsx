@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import classNames from 'classnames';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -62,7 +63,11 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sort === SortType.NAME ? null : 'is-light'}`}
+          className={classNames(
+            'button',
+            'is-info',
+            { 'is-light': sort !== SortType.NAME },
+          )}
           onClick={() => setSort(SortType.NAME)}
         >
           Sort alphabetically
@@ -70,7 +75,11 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-success ${sort === SortType.LENGTH ? null : 'is-light'}`}
+          className={classNames(
+            'button',
+            'is-success',
+            { 'is-light': sort !== SortType.LENGTH },
+          )}
           onClick={() => setSort(SortType.LENGTH)}
         >
           Sort by length
@@ -78,17 +87,25 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-warning ${isReversed === true ? null : 'is-light'}`}
+          className={classNames(
+            'button',
+            'is-warning',
+            { 'is-light': !isReversed },
+          )}
           onClick={() => setIsReversed(prevIsReversed => !prevIsReversed)}
         >
           Reverse
         </button>
 
-        {sort !== SortType.NONE || isReversed
-          ? (
+        {(sort !== SortType.NONE || isReversed)
+          && (
             <button
               type="button"
-              className={`button is-danger ${sort !== SortType.NONE || isReversed ? null : 'is-light'}`}
+              className={classNames(
+                'button',
+                'is-danger',
+                { 'is-light': !(sort !== SortType.NONE || isReversed) },
+              )}
               onClick={() => {
                 setSort(SortType.NONE);
                 setIsReversed(false);
@@ -96,8 +113,7 @@ export const App: React.FC = () => {
             >
               Reset
             </button>
-          )
-          : null}
+          )}
 
       </div>
 
