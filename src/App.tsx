@@ -24,17 +24,18 @@ enum SortType {
 
 function handleSortOfGoods(sort: SortType, newSortedGoods: string[]): string[] {
   let sorted: string[] = [];
+  const copyOfNewSortedGoods = [...newSortedGoods];
 
   if (sort === SortType.Alphabet) {
-    sorted = [...newSortedGoods].sort((a, b) => a.localeCompare(b));
+    sorted = copyOfNewSortedGoods.sort((a, b) => a.localeCompare(b));
   }
 
   if (sort === SortType.Length) {
-    sorted = [...newSortedGoods].sort((a, b) => a.length - b.length);
+    sorted = copyOfNewSortedGoods.sort((a, b) => a.length - b.length);
   }
 
   if (sort === SortType.Reverse) {
-    sorted = [...newSortedGoods].reverse();
+    sorted = copyOfNewSortedGoods.reverse();
   }
 
   return sorted;
