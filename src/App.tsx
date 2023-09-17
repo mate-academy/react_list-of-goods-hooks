@@ -24,13 +24,13 @@ enum SortType {
 
 function sortArray(
   goods: string[],
-  howSort: SortType,
+  sortType: SortType,
   isReversed: boolean,
 ) {
   const array = [...goods];
 
   array.sort((value1, value2) => {
-    switch (howSort) {
+    switch (sortType) {
       case SortType.NAME:
         return value1.localeCompare(value2);
 
@@ -57,6 +57,12 @@ export const App: React.FC = () => {
     sort,
     isReversed,
   );
+
+  function resetAll() {
+    setSort(SortType.NONE);
+
+    setIsReversed(false);
+  }
 
   return (
     <div className="section content">
@@ -106,10 +112,7 @@ export const App: React.FC = () => {
                 'is-danger',
                 { 'is-light': !(sort !== SortType.NONE || isReversed) },
               )}
-              onClick={() => {
-                setSort(SortType.NONE);
-                setIsReversed(false);
-              }}
+              onClick={resetAll}
             >
               Reset
             </button>
