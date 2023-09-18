@@ -18,8 +18,8 @@ export const goodsFromServer = [
 
 enum SortType {
   Alphabet = 'alphabet',
-  Length = 'length',
   Reverse = 'reverse',
+  Length = 'length',
 }
 
 function handleSortOfGoods(sort: SortType, newSortedGoods: string[]): string[] {
