@@ -46,8 +46,8 @@ function getReorderedGoods(
 }
 
 export function App(): JSX.Element {
-  const [isReversed, setIsReversed] = useState(false);
-  const [sortType, setSortType] = useState(SortType.NONE);
+  const [isReversed, setIsReversed] = useState<boolean>(false);
+  const [sortType, setSortType] = useState<SortType>(SortType.NONE);
 
   const handleSortAlphabetically = (): void => {
     setSortType(SortType.ALPHABETICALLY);
