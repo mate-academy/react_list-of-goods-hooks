@@ -20,7 +20,7 @@ type Goods = Array<string>;
 
 interface FnArg {
   sortField: string;
-  reversed: boolean;
+  isReversed: boolean;
 }
 
 enum SortType {
@@ -28,7 +28,7 @@ enum SortType {
   sortByLength = 'length',
 }
 
-function getPrepearedGoods(goods: Goods, { sortField, reversed }: FnArg) {
+function getPrepearedGoods(goods: Goods, { sortField, isReversed }: FnArg) {
   let prepearedGoods = [...goods];
 
   if (sortField) {
@@ -36,15 +36,17 @@ function getPrepearedGoods(goods: Goods, { sortField, reversed }: FnArg) {
       switch (sortField) {
         case SortType.sortByAlpha:
           return a.localeCompare(b);
+
         case SortType.sortByLength:
           return a.length - b.length;
+
         default:
           return 0;
       }
     });
   }
 
-  if (reversed) {
+  if (isReversed) {
     prepearedGoods = prepearedGoods.reverse();
   }
 
@@ -53,9 +55,14 @@ function getPrepearedGoods(goods: Goods, { sortField, reversed }: FnArg) {
 
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState('');
-  const [reversed, setReversed] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
   const visibleGoods = getPrepearedGoods(goodsFromServer,
-    { sortField, reversed });
+    { sortField, isReversed });
+
+  function makeReset() {
+    setSortField('');
+    setIsReversed(false);
+  }
 
   return (
     <div className="section content">
@@ -79,19 +86,16 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={() => setReversed(!reversed)}
+          onClick={() => setIsReversed(!isReversed)}
           type="button"
-          className={cn('button is-warning', { 'is-light': !reversed })}
+          className={cn('button is-warning', { 'is-light': !isReversed })}
         >
           Reverse
         </button>
 
-        {(sortField || reversed) && (
+        {(sortField || isReversed) && (
           <button
-            onClick={() => {
-              setSortField('');
-              setReversed(false);
-            }}
+            onClick={() => makeReset()}
             type="button"
             className="button is-danger is-light"
           >
