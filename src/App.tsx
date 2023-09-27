@@ -33,10 +33,10 @@ function getPrepearedGoods(goods: string[],
   if (sortField) {
     prepearedGoods = prepearedGoods.sort((good1, good2) => {
       switch (sortField) {
-        case 'Sort alphabetically':
+        case SortField.Alphabetically:
           return good1.localeCompare(good2);
 
-        case 'Sort by length':
+        case SortField.ByLength:
           return good1.length - good2.length;
 
         default:
