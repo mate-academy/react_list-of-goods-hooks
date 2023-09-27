@@ -16,22 +16,27 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-interface FilterParems {
-  sortField: string;
+enum SortField {
+  Alphabetically = 'Sort alphabetically',
+  ByLength = 'Sort by length',
+}
+
+interface FilterParams {
+  sortField: SortField | '';
   reverseOrder: boolean;
 }
 
-function getPrepearedGoods(goods: string[],
-  { sortField, reverseOrder }: FilterParems) {
-  let prepearedGoods = [...goods];
+function getPreparedGoods(goods: string[],
+  { sortField, reverseOrder }: FilterParams) {
+  let preparedGoods = [...goods];
 
   if (sortField) {
-    prepearedGoods = prepearedGoods.sort((good1, good2) => {
+    preparedGoods = preparedGoods.sort((good1, good2) => {
       switch (sortField) {
-        case 'Sort alphabetically':
+        case SortField.Alphabetically:
           return good1.localeCompare(good2);
 
-        case 'Sort by length':
+        case SortField.ByLength:
           return good1.length - good2.length;
 
         default:
@@ -41,19 +46,26 @@ function getPrepearedGoods(goods: string[],
   }
 
   if (reverseOrder) {
-    prepearedGoods.reverse();
+    preparedGoods.reverse();
   }
 
-  return prepearedGoods;
+  return preparedGoods;
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState('');
-  const [isOrderReverser, setIsOrderReversed] = useState(false);
-  const visibleGoods = getPrepearedGoods(goodsFromServer, {
+  const [sortField, setSortField] = useState<SortField | ''>('');
+  const [isOrderReversed, setIsOrderReversed] = useState(false);
+  const visibleGoods = getPreparedGoods(goodsFromServer, {
     sortField,
-    reverseOrder: isOrderReverser,
+    reverseOrder: isOrderReversed,
   });
+
+  const handleSort = (sort: SortField) => () => setSortField(sort);
+
+  const handleReset = () => {
+    setSortField('');
+    setIsOrderReversed(false);
+  };
 
   return (
     <div className="section content">
@@ -61,11 +73,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-info', {
-            'is-light': sortField !== 'Sort alphabetically',
+            'is-light': sortField !== SortField.Alphabetically,
           })}
-          onClick={() => {
-            setSortField('Sort alphabetically');
-          }}
+          onClick={handleSort(SortField.Alphabetically)}
         >
           Sort alphabetically
         </button>
@@ -73,11 +83,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-success', {
-            'is-light': sortField !== 'Sort by length',
+            'is-light': sortField !== SortField.ByLength,
           })}
-          onClick={() => {
-            setSortField('Sort by length');
-          }}
+          onClick={handleSort(SortField.ByLength)}
         >
           Sort by length
         </button>
@@ -85,21 +93,18 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-warning', {
-            'is-light': !isOrderReverser,
+            'is-light': !isOrderReversed,
           })}
-          onClick={() => setIsOrderReversed(!isOrderReverser)}
+          onClick={() => setIsOrderReversed(!isOrderReversed)}
         >
           Reverse
         </button>
 
-        {sortField || isOrderReverser ? (
+        {sortField || isOrderReversed ? (
           <button
             type="button"
             className="button is-danger"
-            onClick={() => {
-              setSortField('');
-              setIsOrderReversed(false);
-            }}
+            onClick={handleReset}
           >
             Reset
           </button>
@@ -107,7 +112,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {visibleGoods.map(good => (
+        {visibleGoods.map((good) => (
           <li data-cy="Good" key={good}>
             {good}
           </li>
