@@ -26,17 +26,17 @@ enum SortField {
   ByLength = 'Sort by length',
 }
 
-function getPreparedGoods(goods: string[],
+function getPrepearedGoods(goods: string[],
   { sortField, reverseOrder }: FilterParams) {
-  let preparedGoods = [...goods];
+  let prepearedGoods = [...goods];
 
   if (sortField) {
-    preparedGoods = preparedGoods.sort((good1, good2) => {
+    prepearedGoods = prepearedGoods.sort((good1, good2) => {
       switch (sortField) {
-        case SortField.Alphabetically:
+        case 'Sort alphabetically':
           return good1.localeCompare(good2);
 
-        case SortField.ByLength:
+        case 'Sort by length':
           return good1.length - good2.length;
 
         default:
@@ -46,16 +46,16 @@ function getPreparedGoods(goods: string[],
   }
 
   if (reverseOrder) {
-    preparedGoods.reverse();
+    prepearedGoods.reverse();
   }
 
-  return preparedGoods;
+  return prepearedGoods;
 }
 
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState<SortField | ''>('');
   const [isOrderReversed, setIsOrderReversed] = useState(false);
-  const visibleGoods = getPreparedGoods(goodsFromServer, {
+  const visibleGoods = getPrepearedGoods(goodsFromServer, {
     sortField,
     reverseOrder: isOrderReversed,
   });
