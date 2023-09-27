@@ -16,14 +16,14 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-enum SortField {
-  Alphabetically = 'Sort alphabetically',
-  ByLength = 'Sort by length',
-}
-
 interface FilterParams {
   sortField: SortField | '';
   reverseOrder: boolean;
+}
+
+enum SortField {
+  Alphabetically = 'Sort alphabetically',
+  ByLength = 'Sort by length',
 }
 
 function getPreparedGoods(goods: string[],
