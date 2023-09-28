@@ -4,8 +4,8 @@ import 'bulma/css/bulma.css';
 
 import { Goods } from './types/Goods';
 import { SortType } from './types/SortType';
-import './App.scss';
 import { GoodList } from './components/GoodsList/GoodsList';
+import './App.scss';
 
 export const goodsFromServer: Goods = [
   'Dumplings',
@@ -29,10 +29,10 @@ function getPreparedGoods<T>(
   goods: T[],
   { sortReverse, sortField }: SortParams<T>,
 ) {
-  const preparedGoods = [...goods];
+  let preparedGoods = [...goods];
 
   if (sortField) {
-    preparedGoods.sort((element1, element2) => {
+    preparedGoods = preparedGoods.sort((element1, element2) => {
       const value1 = element1[sortField];
       const value2 = element2[sortField];
 
@@ -57,9 +57,22 @@ function getPreparedGoods<T>(
 
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState<keyof SortType | ''>('');
-  const [sortReverse, setSortReverse] = useState(false);
+  const [isReverse, setIsReverse] = useState(false);
   const visibleGoods
-  = getPreparedGoods(goodsFromServer, { sortReverse, sortField });
+  = getPreparedGoods(goodsFromServer, { sortReverse: isReverse, sortField });
+
+  const reset = (): void => {
+    setSortField('');
+    setIsReverse(false);
+  };
+
+  const handleReverseClick = () => {
+    setIsReverse(prev => !prev);
+  };
+
+  const handleSortByLengthClick = () => {
+    setSortField(SortType.Length);
+  };
 
   return (
     <div className="section content">
@@ -81,7 +94,7 @@ export const App: React.FC = () => {
             'button is-success',
             { 'is-light': sortField !== SortType.Length },
           )}
-          onClick={() => setSortField(SortType.Length)}
+          onClick={handleSortByLengthClick}
         >
           Sort by length
         </button>
@@ -90,21 +103,18 @@ export const App: React.FC = () => {
           type="button"
           className={classnames(
             'button is-warning',
-            { 'is-light': !sortReverse },
+            { 'is-light': !isReverse },
           )}
-          onClick={() => setSortReverse(!sortReverse)}
+          onClick={handleReverseClick}
         >
           Reverse
         </button>
 
-        {(sortField || sortReverse) && (
+        {(sortField || isReverse) && (
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortField('');
-              setSortReverse(false);
-            }}
+            onClick={reset}
           >
             Reset
           </button>
