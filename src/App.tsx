@@ -3,8 +3,8 @@ import classnames from 'classnames';
 import 'bulma/css/bulma.css';
 
 import { Goods } from './types/Goods';
-import { SortType } from './types/SortType';
 import { GoodList } from './components/GoodsList/GoodsList';
+import { SORT_FIELD } from './constans';
 import './App.scss';
 
 export const goodsFromServer: Goods = [
@@ -19,32 +19,27 @@ export const goodsFromServer: Goods = [
   'Jam',
   'Garlic',
 ];
-
-interface SortParams<T> {
+interface SortParams {
   sortReverse: boolean;
-  sortField: keyof T | '';
+  sortField: string;
 }
 
-function getPreparedGoods<T>(
-  goods: T[],
-  { sortReverse, sortField }: SortParams<T>,
+function getPreparedGoods(
+  goods: string[],
+  { sortReverse, sortField }: SortParams,
 ) {
   let preparedGoods = [...goods];
 
   if (sortField) {
     preparedGoods = preparedGoods.sort((element1, element2) => {
-      const value1 = element1[sortField];
-      const value2 = element2[sortField];
-
-      if (typeof value1 === 'number' && typeof value2 === 'number') {
-        return value1 - value2;
+      switch (sortField) {
+        case SORT_FIELD.LENGTH:
+          return element1.length - element2.length;
+        case SORT_FIELD.NAME:
+          return element1.localeCompare(element2);
+        default:
+          return 0;
       }
-
-      if (typeof value1 === 'string' && typeof value2 === 'string') {
-        return value1.localeCompare(value2);
-      }
-
-      return 0;
     });
   }
 
@@ -56,8 +51,8 @@ function getPreparedGoods<T>(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState<keyof SortType | ''>('');
-  const [isReverse, setIsReverse] = useState(false);
+  const [sortField, setSortField] = useState<string>('');
+  const [isReverse, setIsReverse] = useState<boolean>(false);
   const visibleGoods
   = getPreparedGoods(goodsFromServer, { sortReverse: isReverse, sortField });
 
@@ -71,7 +66,7 @@ export const App: React.FC = () => {
   };
 
   const handleSortByLengthClick = () => {
-    setSortField(SortType.Length);
+    setSortField(SORT_FIELD.LENGTH);
   };
 
   return (
@@ -81,9 +76,9 @@ export const App: React.FC = () => {
           type="button"
           className={classnames(
             'button is-info',
-            { 'is-light': sortField !== SortType.Name as keyof SortType },
+            { 'is-light': sortField !== SORT_FIELD.NAME },
           )}
-          onClick={() => setSortField(SortType.Name as keyof SortType)}
+          onClick={() => setSortField(SORT_FIELD.NAME)}
         >
           Sort alphabetically
         </button>
@@ -92,7 +87,7 @@ export const App: React.FC = () => {
           type="button"
           className={classnames(
             'button is-success',
-            { 'is-light': sortField !== SortType.Length },
+            { 'is-light': sortField !== SORT_FIELD.LENGTH },
           )}
           onClick={handleSortByLengthClick}
         >
