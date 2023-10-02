@@ -17,6 +17,7 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
+  none = 'none',
   alphabet = 'alphabet',
   length = 'length',
 }
@@ -53,16 +54,19 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState(SortType.none);
   const [isReversed, setIsReversed] = useState(false);
   const visibleGoods = getPreparedGoods(
     goodsFromServer,
     { sortField, isReversed },
   );
+
   const handleReset = () => {
     setIsReversed(false);
-    setSortField('');
+    setSortField(SortType.none);
   };
+
+  const handleSort = (sort: SortType) => () => setSortField(sort);
 
   return (
     <div className="section content">
@@ -72,7 +76,7 @@ export const App: React.FC = () => {
           className={cn('button is-info', {
             'is-light': sortField !== SortType.alphabet,
           })}
-          onClick={() => setSortField(SortType.alphabet)}
+          onClick={handleSort(SortType.alphabet)}
         >
           Sort alphabetically
         </button>
@@ -82,7 +86,7 @@ export const App: React.FC = () => {
           className={cn('button is-success', {
             'is-light': sortField !== SortType.length,
           })}
-          onClick={() => setSortField(SortType.length)}
+          onClick={handleSort(SortType.length)}
         >
           Sort by length
         </button>
@@ -97,7 +101,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortField !== '' || isReversed) && (
+        {(sortField !== SortType.none || isReversed) && (
           <button
             type="button"
             className="button is-danger is-light"
