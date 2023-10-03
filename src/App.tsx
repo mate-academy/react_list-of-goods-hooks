@@ -33,7 +33,7 @@ function getPreparedGoods(
 ) {
   const prepearedGoods = [...goods];
 
-  if (sortField) {
+  if (sortField !== SortType.none) {
     prepearedGoods.sort((good1, good2) => {
       switch (sortField) {
         case SortType.alphabet:
