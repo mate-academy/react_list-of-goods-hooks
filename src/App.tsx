@@ -51,13 +51,21 @@ function getPreparedGoods(
 
 export const App: React.FC = () => {
   const [sortBy, setSortBy] = useState<SortType>(SortType.default);
-  const [reversed, setReversed] = useState(false);
-  const visibleGoods = getPreparedGoods(goodsFromServer, sortBy, reversed);
+  const [isReversed, setIsReversed] = useState(false);
+  const visibleGoods = getPreparedGoods(goodsFromServer, sortBy, isReversed);
 
-  function getDefault() {
+  function reset() {
     setSortBy(SortType.default);
-    setReversed(false);
+    setIsReversed(false);
   }
+
+  const handleSortClick = (type: SortType) => (): void => {
+    setSortBy(type);
+  };
+
+  const handleReverseClick = () => {
+    setIsReversed(prev => !prev);
+  };
 
   return (
     <div className="section content">
@@ -67,7 +75,7 @@ export const App: React.FC = () => {
           className={cn(
             'button', 'is-info', { 'is-light': sortBy !== SortType.alphabet },
           )}
-          onClick={() => setSortBy(SortType.alphabet)}
+          onClick={handleSortClick(SortType.alphabet)}
         >
           Sort alphabetically
         </button>
@@ -77,7 +85,7 @@ export const App: React.FC = () => {
           className={cn(
             'button', 'is-success', { 'is-light': sortBy !== SortType.length },
           )}
-          onClick={() => setSortBy(SortType.length)}
+          onClick={handleSortClick(SortType.length)}
         >
           Sort by length
         </button>
@@ -85,18 +93,18 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn(
-            'button', 'is-warning', { 'is-light': !reversed },
+            'button', 'is-warning', { 'is-light': !isReversed },
           )}
-          onClick={() => setReversed(!reversed)}
+          onClick={handleReverseClick}
         >
           Reverse
         </button>
 
-        {(sortBy || reversed) && (
+        {(sortBy || isReversed) && (
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => getDefault()}
+            onClick={reset}
           >
             Reset
           </button>
