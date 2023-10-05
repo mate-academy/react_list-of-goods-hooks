@@ -27,12 +27,19 @@ function getPreparedGoods(
 ): string[] {
   const preparedGoods = [...goods];
 
-  if (sortBy === SortType.alphabet) {
-    preparedGoods.sort((good1, good2) => good1.localeCompare(good2));
-  }
+  if (sortBy) {
+    preparedGoods.sort((good1, good2) => {
+      switch (sortBy) {
+        case SortType.alphabet:
+          return good1.localeCompare(good2);
 
-  if (sortBy === SortType.length) {
-    preparedGoods.sort((good1, good2) => good1.length - good2.length);
+        case SortType.length:
+          return good1.length - good2.length;
+
+        default:
+          return 0;
+      }
+    });
   }
 
   if (reverse) {
@@ -46,6 +53,11 @@ export const App: React.FC = () => {
   const [sortBy, setSortBy] = useState<SortType>(SortType.default);
   const [reversed, setReversed] = useState(false);
   const visibleGoods = getPreparedGoods(goodsFromServer, sortBy, reversed);
+
+  function getDefault() {
+    setSortBy(SortType.default);
+    setReversed(false);
+  }
 
   return (
     <div className="section content">
@@ -84,10 +96,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortBy(SortType.default);
-              setReversed(false);
-            }}
+            onClick={() => getDefault()}
           >
             Reset
           </button>
