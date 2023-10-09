@@ -3,10 +3,15 @@ import './App.scss';
 import { useState } from 'react';
 import classNames from 'classnames';
 
-type SortField = 'name' | 'length' | '';
+type SortField = 'name' | 'length';
+
+enum SortType {
+  name = 'name',
+  length = 'length',
+}
 
 interface PreparedGoodsOptions {
-  sortField: SortField;
+  sortField: SortField | null;
   reversed: boolean;
 }
 
@@ -52,14 +57,14 @@ function getPreparedArray(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState<SortField | ''>('');
+  const [sortField, setSortField] = useState<SortField | null>(null);
   const [isReversed, setIsReversed] = useState(false);
 
   const visibleGoods
    = getPreparedArray(goodsFromServer, { sortField, reversed: isReversed });
 
   const reset = () => {
-    setSortField('');
+    setSortField(null);
     setIsReversed(false);
   };
 
@@ -71,10 +76,10 @@ export const App: React.FC = () => {
           className={
             classNames(
               'button is-info',
-              { 'is-light': sortField !== 'name' },
+              { 'is-light': sortField !== SortType.name },
             )
           }
-          onClick={() => setSortField('name')}
+          onClick={() => setSortField(SortType.name)}
         >
           Sort alphabetically
         </button>
@@ -84,10 +89,10 @@ export const App: React.FC = () => {
           className={
             classNames(
               'button is-success',
-              { 'is-light': sortField !== 'length' },
+              { 'is-light': sortField !== SortType.length },
             )
           }
-          onClick={() => setSortField('length')}
+          onClick={() => setSortField(SortType.length)}
         >
           Sort by length
         </button>
