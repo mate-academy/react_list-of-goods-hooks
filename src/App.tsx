@@ -17,13 +17,13 @@ export const goodsFromServer: string[] = [
 ];
 
 enum SortType {
-  Default = 0,
-  Alphabetically = 1,
+  Default,
+  Alphabetically,
   Length,
 }
 
 enum ReverseType {
-  Default = 0,
+  Default,
   IsReversed,
 }
 
@@ -35,7 +35,7 @@ function getGoodsRepresentation(
 
   switch (selectedSort) {
     case SortType.Alphabetically:
-      goods = goods.sort();
+      goods.sort();
       break;
 
     case SortType.Length:
@@ -75,8 +75,11 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={classnames('button', 'is-info',
-            selectedSortOption !== SortType.Alphabetically ? 'is-light' : '')}
+          className={classnames(
+            'button',
+            'is-info',
+            { 'is-light': selectedSortOption !== SortType.Alphabetically },
+          )}
           onClick={() => setSelectedSortOption(SortType.Alphabetically)}
         >
           Sort alphabetically
@@ -84,8 +87,11 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={classnames('button', 'is-success',
-            selectedSortOption !== SortType.Length ? 'is-light' : '')}
+          className={classnames(
+            'button',
+            'is-success',
+            { 'is-light': selectedSortOption !== SortType.Length },
+          )}
           onClick={() => setSelectedSortOption(SortType.Length)}
         >
           Sort by length
@@ -93,8 +99,11 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={classnames('button', 'is-warning',
-            selectedReverseOption !== ReverseType.IsReversed ? 'is-light' : '')}
+          className={classnames(
+            'button',
+            'is-warning',
+            { 'is-light': selectedReverseOption !== ReverseType.IsReversed },
+          )}
           onClick={handleReverseClick}
         >
           Reverse
