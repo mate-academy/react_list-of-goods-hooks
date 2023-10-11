@@ -89,7 +89,6 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          // className="button is-danger is-light"
           className={cn('button', { 'is-light': sortField !== '' || reversed })}
           style={{ display: sortField !== '' || reversed ? 'block' : 'none' }}
           onClick={() => setSortField('')}
@@ -99,9 +98,8 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {visibleGoods.map((good, index) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <li key={index} data-cy="Good">
+        {visibleGoods.map((good) => (
+          <li key={good} data-cy="Good">
             {good}
           </li>
         ))}
