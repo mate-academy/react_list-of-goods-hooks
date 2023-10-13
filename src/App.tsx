@@ -23,7 +23,7 @@ enum SortField {
 }
 
 interface FilterParaments {
-  sortField: string;
+  sortField: SortField;
   isReversed: boolean;
 }
 
@@ -31,7 +31,7 @@ function getPrepareGoods(
   goods: string[],
   { sortField, isReversed }: FilterParaments,
 ): string[] {
-  let prepareGoods = [...goods];
+  const prepareGoods = [...goods];
 
   if (sortField !== SortField.Default) {
     prepareGoods.sort((good1, good2) => {
@@ -48,19 +48,13 @@ function getPrepareGoods(
     });
   }
 
-  if (isReversed) {
-    prepareGoods = prepareGoods.reverse();
-  }
-
-  return prepareGoods;
+  return isReversed ? prepareGoods.reverse() : prepareGoods;
 }
 
 const sortButtons = [
-  { name: 'Sort alphabetically', class: 'is-info', change: SortField.Name },
-  { name: 'Sort by length', class: 'is-success', change: SortField.Length },
+  { name: 'Sort alphabetically', className: 'is-info', change: SortField.Name },
+  { name: 'Sort by length', className: 'is-success', change: SortField.Length },
 ];
-
-type Callback = () => void;
 
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState(SortField.Default);
@@ -71,15 +65,11 @@ export const App: React.FC = () => {
     { sortField, isReversed },
   );
 
-  const onGoodClick = (sortChange: SortField) => () => {
-    setSortField(sortChange);
-  };
-
-  const onReverseClick: Callback = () => {
+  const onReverseClick = () => {
     setIsReversed(!isReversed);
   };
 
-  const reset: Callback = () => {
+  const reset = () => {
     setIsReversed(false);
     setSortField(SortField.Default);
   };
@@ -87,14 +77,14 @@ export const App: React.FC = () => {
   return (
     <div className="section content">
       <div className="buttons">
-        {sortButtons.map(button => (
+        {sortButtons.map(({ name, className, change }) => (
           <button
-            key={button.name}
+            key={name}
             type="button"
-            className={cn('button', `${button.class}`, { 'is-light': sortField !== button.change })}
-            onClick={onGoodClick(button.change)}
+            className={cn('button', `${className}`, { 'is-light': sortField !== change })}
+            onClick={() => setSortField(change)}
           >
-            {button.name}
+            {name}
           </button>
         ))}
 
