@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import classNames from 'classnames';
@@ -22,44 +22,40 @@ enum SortType {
   Length,
 }
 
+function getSortedGoods(
+  goods: string[],
+  sortType: SortType,
+  isReverseActive: boolean,
+) {
+  let sorted = [...goods];
+
+  if (sortType === SortType.Alphabetical) {
+    sorted = sorted.sort();
+  } else if (sortType === SortType.Length) {
+    sorted = sorted.sort((good1, good2) => good1.length - good2.length);
+  }
+
+  if (isReverseActive) {
+    sorted = sorted.reverse();
+  }
+
+  return sorted;
+}
+
 export const App: React.FC = () => {
-  const originalGoods = [...goodsFromServer];
-  const [visibleGoods, setVisibleGoods] = useState<string[]>(originalGoods);
   const [sortType, setSortType] = useState<SortType>(SortType.Default);
   const [isReverseActive, setIsReverseActive] = useState(false);
-
-  const sortGoods = () => {
-    let sortedGoods: string[] = [...visibleGoods];
-
-    switch (sortType) {
-      case SortType.Alphabetical:
-        sortedGoods = sortedGoods.sort();
-        break;
-      case SortType.Length:
-        sortedGoods = sortedGoods.sort(
-          (good1, good2) => good1.length - good2.length,
-        );
-        break;
-      default:
-        break;
-    }
-
-    if (isReverseActive) {
-      sortedGoods.reverse();
-    }
-
-    setVisibleGoods(sortedGoods);
-  };
 
   const resetGoods = () => {
     setSortType(SortType.Default);
     setIsReverseActive(false);
-    setVisibleGoods(originalGoods);
   };
 
-  useEffect(() => {
-    sortGoods();
-  }, [sortType, isReverseActive]);
+  const sortedGoods = useMemo(() => getSortedGoods(
+    goodsFromServer,
+    sortType,
+    isReverseActive,
+  ), [sortType, isReverseActive]);
 
   return (
     <div className="section content">
@@ -97,7 +93,7 @@ export const App: React.FC = () => {
             { 'is-light': !isReverseActive },
           )}
           onClick={() => {
-            setIsReverseActive(!isReverseActive);
+            setIsReverseActive(prev => !prev);
           }}
         >
           Reverse
@@ -115,7 +111,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {visibleGoods.map((good) => (
+        {sortedGoods.map((good) => (
           <li key={good} data-cy="Good">
             {good}
           </li>
