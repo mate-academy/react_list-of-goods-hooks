@@ -3,8 +3,14 @@ import cn from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
+enum SortType {
+  name = 'name',
+  length = 'length',
+  none = '',
+}
+
 type SortParams = {
-  property: string,
+  property: SortType,
   reverse: boolean,
 };
 
@@ -46,10 +52,28 @@ export const goodsFromServer = [
 
 export const App: React.FC = () => {
   const [sortParams, setSortParams] = useState({
-    property: '',
+    property: SortType.none,
     reverse: false,
   });
   const preparedGoods = getGoods(goodsFromServer, sortParams);
+
+  function reset() {
+    setSortParams({ property: SortType.none, reverse: false });
+  }
+
+  const handleSortClick = (type: SortType) => (): void => {
+    setSortParams({
+      ...sortParams,
+      property: type,
+    });
+  };
+
+  const handleReverseClick = () => {
+    setSortParams({
+      ...sortParams,
+      reverse: !sortParams.reverse,
+    })
+  };
 
   return (
     <div className="section content">
@@ -60,10 +84,7 @@ export const App: React.FC = () => {
             'button is-info',
             { 'is-light': sortParams.property !== 'name' },
           )}
-          onClick={() => setSortParams({
-            ...sortParams,
-            property: 'name',
-          })}
+          onClick={handleSortClick(SortType.name)}
         >
           Sort alphabetically
         </button>
@@ -74,10 +95,7 @@ export const App: React.FC = () => {
             'button is-success',
             { 'is-light': sortParams.property !== 'length' },
           )}
-          onClick={() => setSortParams({
-            ...sortParams,
-            property: 'length',
-          })}
+          onClick={handleSortClick(SortType.length)}
         >
           Sort by length
         </button>
@@ -88,10 +106,7 @@ export const App: React.FC = () => {
             'button is-warning',
             { 'is-light': !sortParams.reverse },
           )}
-          onClick={() => setSortParams({
-            ...sortParams,
-            reverse: !sortParams.reverse,
-          })}
+          onClick={handleReverseClick}
         >
           Reverse
         </button>
@@ -100,10 +115,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => setSortParams({
-              property: '',
-              reverse: false,
-            })}
+            onClick={reset}
           >
             Reset
           </button>
