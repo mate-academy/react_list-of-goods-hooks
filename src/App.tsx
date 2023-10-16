@@ -20,9 +20,9 @@ function getGoods(goods: string[], sortParams: SortParams) {
   if (sortParams.property) {
     goodsCopy.sort((good1, good2) => {
       switch (sortParams.property) {
-        case 'name':
+        case SortType.name:
           return good1.localeCompare(good2);
-        case 'length':
+        case SortType.length:
           return good1.length - good2.length;
         default:
           return 0;
@@ -72,7 +72,7 @@ export const App: React.FC = () => {
     setSortParams({
       ...sortParams,
       reverse: !sortParams.reverse,
-    })
+    });
   };
 
   return (
