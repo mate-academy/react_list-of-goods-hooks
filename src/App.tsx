@@ -1,7 +1,7 @@
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import cn from 'classnames';
 
 import { GoodList } from './Components/GoodList/GoodList';
@@ -15,7 +15,7 @@ const SORT_FIELD_ALPHABET = 'ALPHABET';
 
 function sortGoods(
   goods: Good[],
-  { sortField, reverse }: SortParams,
+  { sortField, isReverse }: SortParams,
 ): Good[] {
   const prepearedGoods = [...goods];
 
@@ -34,7 +34,7 @@ function sortGoods(
     });
   }
 
-  if (reverse) {
+  if (isReverse) {
     prepearedGoods.reverse();
   }
 
@@ -43,9 +43,14 @@ function sortGoods(
 
 export const App = () => {
   const [sortField, setSortField] = useState('');
-  const [reverse, setReverse] = useState(false);
+  const [isReverse, setIsReverse] = useState(false);
 
-  const visibleGoods = sortGoods(goodsFromServer, { sortField, reverse });
+  const visibleGoods = useMemo(() => {
+    return sortGoods(
+      goodsFromServer,
+      { sortField, isReverse },
+    );
+  }, [goodsFromServer, { sortField, isReverse }]);
 
   return (
     <div className="section content">
@@ -71,19 +76,19 @@ export const App = () => {
         <button
           type="button"
           className={cn('button', 'is-warning',
-            { 'is-light': !reverse })}
-          onClick={() => setReverse(!reverse)}
+            { 'is-light': !isReverse })}
+          onClick={() => setIsReverse(prev => !prev)}
         >
           Reverse
         </button>
 
-        {(reverse || sortField) && (
+        {(isReverse || sortField) && (
           <button
             type="button"
             className="button is-danger is-light"
             onClick={() => {
               setSortField('');
-              setReverse(false);
+              setIsReverse(false);
             }}
           >
             Reset
