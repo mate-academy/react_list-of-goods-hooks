@@ -18,12 +18,13 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
+  default = '',
   name = 'name',
   length = 'length',
 }
 
 interface FilterParams {
-  sortField: string;
+  sortField: SortType;
   isReversed: boolean;
 }
 
@@ -56,7 +57,7 @@ function getPreparedGoods(
 }
 
 export const App = () => {
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState(SortType.default);
   const [isReversed, setIsReversed] = useState(false);
 
   const visibleGoods = getPreparedGoods(goodsFromServer, {
@@ -69,7 +70,7 @@ export const App = () => {
   }
 
   const reset = () => {
-    setSortField('');
+    setSortField(SortType.default);
     setIsReversed(false);
   };
 
