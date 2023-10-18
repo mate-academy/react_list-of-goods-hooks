@@ -104,7 +104,7 @@ export const App: React.FC = () => {
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              setSortField('');
+              setSortField(SortType.Empty);
               setIsReversed(false);
             }}
           >
