@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import cn from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import { Good } from './components/Good';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -50,7 +51,7 @@ const prepareList:PrepareList = (list, sortType, isReversed) => {
   return sortedList;
 };
 
-export const App = () => {
+export const App: React.FC = () => {
   const [sortType, setSortType] = useState<SortType>('');
   const [isReversed, setIsReversed] = useState(false);
 
@@ -114,7 +115,10 @@ export const App = () => {
 
       <ul>
         {preparedList.map(good => (
-          <li key={good} data-cy="Good">{good}</li>
+          <Good
+            key={good}
+            good={good}
+          />
         ))}
       </ul>
     </div>
