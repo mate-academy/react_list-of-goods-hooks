@@ -40,7 +40,7 @@ const getPreparedGoods = (
           return goodA.length - goodB.length;
 
         case SortBy.default:
-          default:
+        default:
           return 0;
       }
     });
@@ -53,7 +53,7 @@ const getPreparedGoods = (
   return preparedGoods;
 };
 
-export const App = () => {
+export const App: React.FC = () => {
   const [sortBy, setSortBy] = useState(SortBy.default);
   const [isReversed, setIsReversed] = useState(false);
 
