@@ -17,22 +17,18 @@ export const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-// const SetById = 'id';
-// const SetByAlphabet = 'alphabet';
-// const SetByLength = 'length';
 const SetByReverse = true;
-// const SetByDanger = 'danger';
 
 enum SortedFields {
-  SetById = 'id',
-  SetByAlphabet = 'alphabet',
-  SetByLength = 'length',
-  SetByDanger = 'danger',
+  SetById,
+  SetByAlphabet,
+  SetByLength,
+  SetByDanger,
 
 }
 
 function getSortedGoods(goods: string[],
-   { sortField, reversed }: { sortField: SortedFields, reversed: boolean }) {
+  { sortField, reversed }: { sortField: SortedFields, reversed: boolean }) {
   const preparedGoods = [...goods];
 
   preparedGoods.sort((good1, good2) => {

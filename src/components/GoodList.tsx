@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 import { GoodCard } from './GoodCard';
 
 type Props = {
   goods: string[];
-}
+};
 
 export const GoodList: React.FC<Props> = ({ goods }) => (
   <ul>
