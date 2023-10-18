@@ -17,7 +17,7 @@ export const goodsFromServer = [
 ];
 
 enum Sortype {
-  Alpha = 'alpha',
+  Alphabetic = 'alphabetic',
   Length = 'length',
   Empty = '',
 }
@@ -29,7 +29,7 @@ function getPreaparedGoods(goods: string[],
 
   preparedGoods.sort((good1, good2) => {
     switch (sortType) {
-      case Sortype.Alpha:
+      case Sortype.Alphabetic:
         return good1.localeCompare(good2);
 
       case Sortype.Length:
@@ -58,17 +58,21 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={cn('button is-info',
-            { 'is-light': sortType !== 'alpha' })}
-          onClick={() => setSortType(Sortype.Alpha)}
+          className={cn(
+            'button is-info',
+            { 'is-light': sortType !== Sortype.Alphabetic },
+          )}
+          onClick={() => setSortType(Sortype.Alphabetic)}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={cn('button is-success',
-            { 'is-light': sortType !== Sortype.Length })}
+          className={cn(
+            'button is-success',
+            { 'is-light': sortType !== Sortype.Length },
+          )}
           onClick={() => setSortType(Sortype.Length)}
         >
           Sort by length
@@ -76,8 +80,10 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={cn('button is-warning',
-            { 'is-light': !reversed })}
+          className={cn(
+            'button is-warning',
+            { 'is-light': !reversed },
+          )}
           onClick={() => setReverse(!reversed)}
         >
           Reverse
@@ -98,7 +104,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {displayGoods.map(good => (
+        {displayGoods.map((good:string) => (
           <li data-cy="Good" key={good}>{good}</li>
         ))}
 
