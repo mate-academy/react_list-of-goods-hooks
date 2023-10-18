@@ -4,7 +4,7 @@ import './App.scss';
 
 import cn from 'classnames';
 
-export const goodsFromServer = [
+export const goodsFromServer: string[] = [
   'Dumplings',
   'Carrot',
   'Eggs',
@@ -20,7 +20,7 @@ export const goodsFromServer = [
 export enum SortType {
   Alphabet = 'abc',
   Length = 'length',
-  Empty = '',
+  Default = '',
 }
 
 function getSortedGoods(
@@ -50,7 +50,7 @@ function getSortedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState<SortType>(SortType.Empty);
+  const [sortField, setSortField] = useState<SortType>(SortType.Default);
   const [isReversed, setIsReversed] = useState(false);
   const sortedGoods = getSortedGoods(goodsFromServer, sortField, isReversed);
 
@@ -104,7 +104,7 @@ export const App: React.FC = () => {
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              setSortField(SortType.Empty);
+              setSortField(SortType.Default);
               setIsReversed(false);
             }}
           >
