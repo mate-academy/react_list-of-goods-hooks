@@ -40,9 +40,7 @@ const getPreparedGoods = (
           return goodA.length - goodB.length;
 
         case SortBy.default:
-          return 0;
-
-        default:
+          default:
           return 0;
       }
     });
