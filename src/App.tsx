@@ -20,11 +20,12 @@ export const goodsFromServer = [
 export enum SortType {
   Alphabet = 'abc',
   Length = 'length',
+  Empty = '',
 }
 
 function getSortedGoods(
   goods: string[],
-  sortField: SortType | '',
+  sortField: SortType,
   isReversed: boolean,
 ): string[] {
   const sortedGoodsCopy = [...goods];
@@ -49,7 +50,7 @@ function getSortedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState<SortType | ''>('');
+  const [sortField, setSortField] = useState<SortType>(SortType.Empty);
   const [isReversed, setIsReversed] = useState(false);
   const sortedGoods = getSortedGoods(goodsFromServer, sortField, isReversed);
 
