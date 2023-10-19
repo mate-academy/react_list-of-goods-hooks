@@ -17,9 +17,9 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  all = '',
-  name = 'name',
-  length = 'length',
+  DEFAULT = 'DEFAULT',
+  ALPHABET = 'ALPHABET',
+  LENGTH = 'LENGTH',
 }
 
 const handleSort = (
@@ -30,11 +30,11 @@ const handleSort = (
   const sortedGoods = [...goods];
 
   switch (sortField) {
-    case SortType.name:
+    case SortType.ALPHABET:
       sortedGoods.sort((good1, good2) => good1.localeCompare(good2));
       break;
 
-    case SortType.length:
+    case SortType.LENGTH:
       sortedGoods.sort((good1, good2) => good1.length - good2.length);
       break;
 
@@ -50,13 +50,13 @@ const handleSort = (
 };
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState(SortType.all);
+  const [sortField, setSortField] = useState(SortType.DEFAULT);
   const [isReversed, setReverse] = useState(false);
 
   const visibleGoods = handleSort(goodsFromServer, sortField, isReversed);
 
   const handleReset = () => {
-    setSortField(SortType.all);
+    setSortField(SortType.DEFAULT);
     setReverse(false);
   };
 
@@ -66,10 +66,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-info', {
-            'is-light': sortField !== SortType.name,
-
+            'is-light': sortField !== SortType.ALPHABET,
           })}
-          onClick={() => setSortField(SortType.name)}
+          onClick={() => setSortField(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
@@ -77,9 +76,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-success', {
-            'is-light': sortField !== SortType.length,
+            'is-light': sortField !== SortType.LENGTH,
           })}
-          onClick={() => setSortField(SortType.length)}
+          onClick={() => setSortField(SortType.LENGTH)}
         >
           Sort by length
         </button>
@@ -98,7 +97,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => handleReset()}
+            onClick={handleReset}
           >
             Reset
           </button>
