@@ -4,8 +4,6 @@ import React, { useState } from 'react';
 import cn from 'classnames';
 
 enum SortType {
-  // SORT_FILED_ALPHABET = 'alphabet',
-  // SORT_FILED_LENGTH = 'length',
   Alphabet = 'alphabet',
   Length = 'length',
   Empty = '',
@@ -26,14 +24,14 @@ export const goodsFromServer = [
 
 function getPreparedGoods(
   goods: string[],
-  sortFiled: SortType,
+  sortField: SortType,
   isReversed: boolean,
 ) {
   const preparedGoods = [...goods];
 
-  if (sortFiled) {
+  if (sortField) {
     preparedGoods.sort((goodA, goodB) => {
-      switch (sortFiled) {
+      switch (sortField) {
         case SortType.Alphabet:
           return goodA.localeCompare(goodB);
 
@@ -62,6 +60,13 @@ export const App: React.FC = () => {
     sortFiled,
     isReversed,
   );
+
+  const reset = sortFiled || isReversed;
+
+  const handleReset = () => {
+    setSortFiled(SortType.Empty);
+    setIsReversed(false);
+  };
 
   return (
     <div className="section content">
@@ -97,22 +102,17 @@ export const App: React.FC = () => {
             'is-warning',
             { 'is-light': isReversed === false },
           )}
-          onClick={
-            isReversed === false
-              ? () => setIsReversed(true)
-              : () => setIsReversed(false)
-          }
+          onClick={() => setIsReversed(reversed => !reversed)}
         >
           Reverse
         </button>
-        {(sortFiled || isReversed)
+        {(reset)
             && (
               <button
                 type="button"
                 className="button is-danger is-light"
                 onClick={() => {
-                  setSortFiled(SortType.Empty);
-                  setIsReversed(false);
+                  handleReset();
                 }}
               >
                 Reset
@@ -122,16 +122,14 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {
-          visibleGoods.map(good => (
-            <li
-              data-cy="Good"
-              key={good}
-            >
-              {good}
-            </li>
-          ))
-        }
+        {visibleGoods.map(good => (
+          <li
+            data-cy="Good"
+            key={good}
+          >
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
