@@ -3,13 +3,13 @@ import 'bulma/css/bulma.css';
 import './App.scss';
 import cn from 'classnames';
 
-import { SortType, sortData } from './functions';
+import { SortType, sortGoods } from './functions';
 
 export const App: React.FC = () => {
-  const [sortField, setSortField]
-    = useState<SortType>(SortType.DEFAULT);
+  const [sortField, setSortField] = useState<SortType>(SortType.DEFAULT);
   const [isReversed, setIsReversed] = useState(false);
-  const goods = sortData(sortField, isReversed);
+  const goods = sortGoods(sortField, isReversed);
+  const isResetButton = sortField || isReversed;
 
   const reset = () => {
     setSortField(SortType.DEFAULT);
@@ -60,7 +60,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortField || isReversed) && (
+        {isResetButton && (
           <button
             type="button"
             className="button is-danger is-light"

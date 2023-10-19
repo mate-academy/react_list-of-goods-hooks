@@ -17,23 +17,23 @@ export enum SortType {
   DEFAULT = '',
 }
 
-export const sortData = (sortField: SortType, reverse: boolean): string[] => {
-  const data: string[] = [...goodsFromServer];
+export const sortGoods = (sortField: SortType, reverse: boolean): string[] => {
+  const preparedGoods: string[] = [...goodsFromServer];
 
   switch (sortField) {
     case SortType.ALPHABET:
-      data.sort((a, b) => a.localeCompare(b));
+      preparedGoods.sort((a, b) => a.localeCompare(b));
       break;
     case SortType.LENGTH:
-      data.sort((a, b) => a.length - b.length);
+      preparedGoods.sort((a, b) => a.length - b.length);
       break;
     default:
       break;
   }
 
   if (reverse) {
-    data.reverse();
+    preparedGoods.reverse();
   }
 
-  return data;
+  return preparedGoods;
 };
