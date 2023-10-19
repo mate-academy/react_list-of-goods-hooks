@@ -4,7 +4,7 @@ import './App.scss';
 import cn from 'classnames';
 import { Good } from './components/Good/Good';
 
-enum SortBy {
+enum SORT_BY {
   DEFAULT = 'default',
   NAME = 'name',
   LENGTH = 'length',
@@ -25,18 +25,18 @@ export const goodsFromServer = [
 
 const getPreparedGoods = (
   goods: string[],
-  sortedBy: SortBy,
+  sortedBy: SORT_BY,
   isReversed: boolean,
 ): string[] => {
   let preparedGoods = [...goods];
 
   if (sortedBy) {
     preparedGoods.sort((goodA, goodB) => {
-      if (sortedBy === SortBy.NAME) {
+      if (sortedBy === SORT_BY.NAME) {
         return goodA.localeCompare(goodB);
       }
 
-      if (sortedBy === SortBy.LENGTH) {
+      if (sortedBy === SORT_BY.LENGTH) {
         return goodA.length - goodB.length;
       }
 
@@ -52,12 +52,12 @@ const getPreparedGoods = (
 };
 
 export const App: React.FC = () => {
-  const [sortBy, setSortBy] = useState(SortBy.DEFAULT);
+  const [sortBy, setSortBy] = useState(SORT_BY.DEFAULT);
   const [isReversed, setIsReversed] = useState(false);
   const goods = getPreparedGoods(goodsFromServer, sortBy, isReversed);
 
   const reset = () => {
-    setSortBy(SortBy.DEFAULT);
+    setSortBy(SORT_BY.DEFAULT);
     setIsReversed(false);
   };
 
@@ -67,18 +67,18 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-info', {
-            'is-light': sortBy !== SortBy.NAME,
+            'is-light': sortBy !== SORT_BY.NAME,
           })}
-          onClick={() => setSortBy(SortBy.NAME)}
+          onClick={() => setSortBy(SORT_BY.NAME)}
         >
           Sort alphabetically
         </button>
         <button
           type="button"
           className={cn('button is-success', {
-            'is-light': sortBy !== SortBy.LENGTH,
+            'is-light': sortBy !== SORT_BY.LENGTH,
           })}
-          onClick={() => setSortBy(SortBy.LENGTH)}
+          onClick={() => setSortBy(SORT_BY.LENGTH)}
         >
           Sort by length
         </button>
@@ -93,7 +93,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortBy !== SortBy.DEFAULT || isReversed) && (
+        {(sortBy !== SORT_BY.DEFAULT || isReversed) && (
           <button
             type="button"
             className="button is-danger is-light"
