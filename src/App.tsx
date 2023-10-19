@@ -22,8 +22,10 @@ enum SortField {
   Length,
 }
 
-function getPreparedGoods(goods: string[], { sortField, reversed }:
-{ sortField: SortField, reversed: boolean }) {
+function getPreparedGoods(
+  goods: string[],
+  { sortField, reversed }: { sortField: SortField, reversed: boolean },
+) {
   let sortedGoods = [...goods];
 
   if (sortField) {
@@ -49,8 +51,10 @@ function getPreparedGoods(goods: string[], { sortField, reversed }:
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState(SortField.Default);
   const [reversed, setReversed] = useState(false);
-  const visibleGoods = getPreparedGoods(goodsFromServer,
-    { sortField, reversed });
+  const visibleGoods = getPreparedGoods(
+    goodsFromServer,
+    { sortField, reversed },
+  );
   const resetButton = () => {
     setSortField(SortField.Default);
     setReversed(false);
@@ -98,7 +102,12 @@ export const App: React.FC = () => {
 
       <ul>
         {visibleGoods.map(good => (
-          <li key={good} data-cy="Good">{good}</li>
+          <li
+            key={good}
+            data-cy="Good"
+          >
+            {good}
+          </li>
         ))}
       </ul>
     </div>
