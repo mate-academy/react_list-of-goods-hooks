@@ -17,7 +17,7 @@ export const goodsFromServer: string[] = [
 ];
 
 enum SortType {
-  Name = 'Sort alphabetically',
+  Alphabetically = 'Sort alphabetically',
   Length = 'Sort by length',
   Null = '',
   Reverse = 'Reverse',
@@ -29,7 +29,7 @@ interface Buttons {
 }
 
 const buttons: Buttons[] = [
-  { sortType: SortType.Name, buttonStyle: 'is-info' },
+  { sortType: SortType.Alphabetically, buttonStyle: 'is-info' },
   { sortType: SortType.Length, buttonStyle: 'is-success' },
   { sortType: SortType.Reverse, buttonStyle: 'is-warning' },
 ];
@@ -39,23 +39,24 @@ const sortByParams = (
   sortType: SortType,
   isReversed: boolean,
 ): string[] => {
-  let array: string[] = [...toSortArray];
+  const arrayCopy: string[] = [...toSortArray];
 
-  array = !SortType.Null && array.sort((a: string, b: string) => {
-    switch (sortType) {
-      case SortType.Name:
-        return a.localeCompare(b);
+  if (sortType) {
+    arrayCopy.sort((a: string, b: string) => {
+      switch (sortType) {
+        case SortType.Alphabetically:
+          return a.localeCompare(b);
 
-      case SortType.Length:
-        return a.length - b.length;
+        case SortType.Length:
+          return a.length - b.length;
 
-      case SortType.Null:
-      default:
-        return 0;
-    }
-  });
+        default:
+          return 0;
+      }
+    });
+  }
 
-  return isReversed ? array.reverse() : array;
+  return isReversed ? arrayCopy.reverse() : arrayCopy;
 };
 
 export const App: React.FC = () => {
