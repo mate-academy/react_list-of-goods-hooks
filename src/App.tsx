@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import classes from 'classnames';
+import { v4 as uuidv4 } from 'uuid';
 
 type Good = {
   good: string;
-  id: number;
+  id: string;
 };
 
-export const goodsFromServer :string[] = [
+export const goodsFromServer: string[] = [
   'Dumplings',
   'Carrot',
   'Eggs',
@@ -21,10 +22,10 @@ export const goodsFromServer :string[] = [
   'Garlic',
 ];
 
-const goodsWithKeys :Good[] = goodsFromServer.map((elem, index) => {
+const goodsWithKeys: Good[] = goodsFromServer.map((elem) => {
   return {
     good: elem,
-    id: index,
+    id: uuidv4(),
   };
 });
 
@@ -34,24 +35,24 @@ enum SortType {
 }
 
 interface SortParams {
-  sortParam : string;
+  sortParam: SortType | '';
   isReversed: boolean;
 }
 
 const getPreparedGoods = (
   goods: Good[],
-  { sortParam, isReversed } :SortParams,
-) :Good[] => {
-  const prepareGoods = [...goods];
+  { sortParam, isReversed }: SortParams,
+): Good[] => {
+  const preparedGoods = [...goods];
 
   if (sortParam) {
-    prepareGoods.sort((good1, good2) => {
+    preparedGoods.sort(({ good: firstGood }, { good: secondGood }) => {
       switch (sortParam) {
         case SortType.Alphabetically:
-          return good1.good.localeCompare(good2.good);
+          return firstGood.localeCompare(secondGood);
 
         case SortType.Length:
-          return good1.good.length - good2.good.length;
+          return firstGood.length - secondGood.length;
 
         default:
           return 0;
@@ -60,19 +61,26 @@ const getPreparedGoods = (
   }
 
   if (isReversed) {
-    prepareGoods.reverse();
+    preparedGoods.reverse();
   }
 
-  return prepareGoods;
+  return preparedGoods;
 };
 
 export const App: React.FC = () => {
-  const [sortParam, setSortParam] = useState('');
+  const [sortParam, setSortParam] = useState<SortType | ''>('');
   const [isReversed, setIsReversed] = useState(false);
-  const reparedGoods = getPreparedGoods(
+  const preparedGoods = getPreparedGoods(
     goodsWithKeys,
     { sortParam, isReversed },
   );
+
+  const handleResetSorting = () => {
+    setIsReversed(false);
+    setSortParam('');
+  };
+
+  const isSorted = (sortParam || isReversed);
 
   return (
     <div className="section content">
@@ -113,15 +121,12 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortParam || isReversed)
+        {isSorted
           && (
             <button
               type="button"
               className="button is-danger is-light"
-              onClick={() => {
-                setIsReversed(false);
-                setSortParam('');
-              }}
+              onClick={() => handleResetSorting()}
             >
               Reset
             </button>
@@ -129,7 +134,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {reparedGoods.map(good => (
+        {preparedGoods.map(good => (
           <li data-cy="Good" key={good.id}>
             {good.good}
           </li>
