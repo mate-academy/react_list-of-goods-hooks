@@ -19,6 +19,7 @@ export const goodsFromServer = [
 enum SortBy {
   Name = 'name',
   Length = 'length',
+  Default = '',
 }
 
 type SortType = SortBy | '';
@@ -55,12 +56,12 @@ function sortGoods(
 export const App: React.FC = () => {
   const [isReversed, setReversed] = useState(false);
 
-  const [sortType, setSortType] = useState<SortType>('');
+  const [sortType, setSortType] = useState<SortBy>(SortBy.Default);
 
   const sortedGoods = sortGoods(goodsFromServer, sortType, isReversed);
   const resetFilter = () => {
     setReversed(false);
-    setSortType('');
+    setSortType(SortBy.Default);
   };
 
   return (
