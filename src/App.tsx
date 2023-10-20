@@ -22,7 +22,11 @@ enum SortType {
   Default = '',
 }
 
-function sortGoods(goods: string[], sortType: SortType, isReversed: boolean) {
+function sortGoods(
+  goods: string[],
+  sortType: SortType,
+  isReversed: boolean,
+) {
   const preparedGoods = [...goods];
 
   if (sortType) {
@@ -50,7 +54,9 @@ function sortGoods(goods: string[], sortType: SortType, isReversed: boolean) {
 export const App: React.FC = () => {
   const [sortType, setSortType] = useState<SortType>(SortType.Default);
   const [isReversed, setIsReversed] = useState(false);
+
   const visibleGoods = sortGoods(goodsFromServer, sortType, isReversed);
+
   const reset = () => {
     setSortType(SortType.Default);
     setIsReversed(false);
@@ -83,7 +89,7 @@ export const App: React.FC = () => {
           type="button"
           className={cn('button', 'is-warning',
             { 'is-light': !isReversed })}
-          onClick={() => setIsReversed(!isReversed)}
+          onClick={() => setIsReversed((prevValue) => !prevValue)}
         >
           Reverse
         </button>
@@ -92,9 +98,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              reset();
-            }}
+            onClick={reset}
           >
             Reset
           </button>
