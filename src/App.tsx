@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import cn from 'classnames';
-import { useState } from 'react';
 
 interface Methods {
   sortField: string;
   isReversed: boolean;
 }
+
+const alphabeticallySort = 'alphabet';
+const lengthSort = 'length';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -23,8 +25,8 @@ export const goodsFromServer = [
 ];
 
 function getPreparedItems(
-  {sortField, isReversed} : Methods,
-  )  {
+  { sortField, isReversed } : Methods,
+) {
   const sortedGoods = [...goodsFromServer];
 
   if (sortField) {
@@ -49,15 +51,11 @@ function getPreparedItems(
   return sortedGoods;
 }
 
-
-const alphabeticallySort = 'alphabet';
-const lengthSort= 'length';
-
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState<string>('');
   const [isReversed, setIsReversed] = useState<boolean>(false);
   const visibleGoods = getPreparedItems(
-    {sortField, isReversed}
+    { sortField, isReversed },
   );
 
   return (
@@ -97,16 +95,16 @@ export const App: React.FC = () => {
 
         {(sortField || isReversed) && (
 
-        <button
-          type="button"
-          className="button is-danger is-light"
-          onClick={() => {
-            setSortField('');
-            setIsReversed(false);
-          }}
-        >
-          Reset
-        </button>
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={() => {
+              setSortField('');
+              setIsReversed(false);
+            }}
+          >
+            Reset
+          </button>
         )}
       </div>
 
