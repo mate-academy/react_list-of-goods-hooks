@@ -1,26 +1,26 @@
-import React, { useState } from 'react';
-import 'bulma/css/bulma.css';
-import './App.scss';
-import cn from 'classnames';
+import React, { useState } from "react";
+import "bulma/css/bulma.css";
+import "./App.scss";
+import cn from "classnames";
 
 enum Sort {
-  ALPHABETICALLY = 'alpha',
-  BY_LENGTH = 'length',
-  REVERSE = 'reverse',
-  RESET = 'reset',
+  ALPHABETICALLY = "alpha",
+  BY_LENGTH = "length",
+  REVERSE = "reverse",
+  RESET = "reset",
 }
 
 export const goodsFromServer = [
-  'Dumplings',
-  'Carrot',
-  'Eggs',
-  'Ice cream',
-  'Apple',
-  'Bread',
-  'Fish',
-  'Honey',
-  'Jam',
-  'Garlic',
+  "Dumplings",
+  "Carrot",
+  "Eggs",
+  "Ice cream",
+  "Apple",
+  "Bread",
+  "Fish",
+  "Honey",
+  "Jam",
+  "Garlic",
 ];
 
 type Goods = string[];
@@ -28,7 +28,7 @@ type Goods = string[];
 const getSortedGoods = (
   goods: Goods,
   sortMethod: string,
-  isReversed: boolean,
+  isReversed: boolean
 ) => {
   let newGoods = [...goods];
 
@@ -50,25 +50,23 @@ const getSortedGoods = (
 };
 
 export const App: React.FC = () => {
-  const [selectedSort, setSelectedSort] = useState('');
+  const [selectedSort, setSelectedSort] = useState("");
   const [isReversed, setIsReversed] = useState(false);
   const sortedGoods = getSortedGoods(goodsFromServer, selectedSort, isReversed);
 
-  const isResetHidden = selectedSort === '' && !isReversed;
+  const isResetHidden = !selectedSort && !isReversed;
 
   const handleSortChange = (eventName: Sort) => {
-    if (eventName === selectedSort) {
-      return;
+    if (eventName !== selectedSort) {
+      setSelectedSort(eventName);
     }
 
     if (eventName === Sort.RESET) {
-      setSelectedSort('');
+      setSelectedSort("");
       setIsReversed(false);
 
       return;
     }
-
-    setSelectedSort(eventName);
   };
 
   const handleReverse = () => {
@@ -80,10 +78,13 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={cn({
-            'button is-info': selectedSort === Sort.ALPHABETICALLY,
-            'button is-info is-light': selectedSort !== Sort.ALPHABETICALLY,
-          })}
+          className={
+            "button " +
+            cn({
+              "is-info": selectedSort === Sort.ALPHABETICALLY,
+              "is-info is-light": selectedSort !== Sort.ALPHABETICALLY,
+            })
+          }
           onClick={() => handleSortChange(Sort.ALPHABETICALLY)}
         >
           Sort alphabetically
@@ -91,10 +92,13 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={cn({
-            'button is-success': selectedSort === Sort.BY_LENGTH,
-            'button is-success is-light': selectedSort !== Sort.BY_LENGTH,
-          })}
+          className={
+            "button " +
+            cn({
+              "is-success": selectedSort === Sort.BY_LENGTH,
+              "is-success is-light": selectedSort !== Sort.BY_LENGTH,
+            })
+          }
           onClick={() => handleSortChange(Sort.BY_LENGTH)}
         >
           Sort by length
@@ -102,10 +106,13 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={cn({
-            'button is-warning': isReversed,
-            'button is-warning is-light': !isReversed,
-          })}
+          className={
+            "button " +
+            cn({
+              "is-warning": isReversed,
+              "is-warning is-light": !isReversed,
+            })
+          }
           onClick={handleReverse}
         >
           Reverse
@@ -114,10 +121,13 @@ export const App: React.FC = () => {
         {!isResetHidden && (
           <button
             type="button"
-            className={cn({
-              'button is-danger': selectedSort === Sort.RESET,
-              'button is-danger is-light': selectedSort !== Sort.RESET,
-            })}
+            className={
+              "button " +
+              cn({
+                "is-danger": selectedSort === Sort.RESET,
+                "is-danger is-light": selectedSort !== Sort.RESET,
+              })
+            }
             onClick={() => handleSortChange(Sort.RESET)}
           >
             Reset
