@@ -30,16 +30,20 @@ function sortGoods(
 ): string[] {
   const copyOfGoods = [...goods];
 
-  copyOfGoods.sort((good1, good2) => {
-    switch (sortType) {
-      case SortBy.Name:
+  switch (sortType) {
+    case SortBy.Name:
+      copyOfGoods.sort((good1, good2) => {
         return good1.localeCompare(good2);
-      case SortBy.Length:
+      });
+      break;
+    case SortBy.Length:
+      copyOfGoods.sort((good1, good2) => {
         return good1.length - good2.length;
-      default:
-        return 0;
-    }
-  });
+      });
+      break;
+    default:
+      break;
+  }
 
   if (isReversed) {
     copyOfGoods.reverse();
@@ -50,7 +54,9 @@ function sortGoods(
 
 export const App: React.FC = () => {
   const [isReversed, setReversed] = useState(false);
+
   const [sortType, setSortType] = useState<SortType>('');
+
   const sortedGoods = sortGoods(goodsFromServer, sortType, isReversed);
   const resetFilter = () => {
     setReversed(false);
@@ -92,7 +98,7 @@ export const App: React.FC = () => {
             'button is-warning',
             { 'is-light': isReversed === false },
           )}
-          onClick={() => setReversed(!isReversed)}
+          onClick={() => setReversed(preValue => !preValue)}
         >
           Reverse
         </button>
