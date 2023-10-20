@@ -17,8 +17,8 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  SORT_BY_ALPHABET = 'SORT_BY_ALPHABET',
-  SORT_BY_LENGTH = 'SORT_BY_LENGTH',
+  Alphabet = 'alphabet',
+  Length = 'length',
 }
 
 export const App: React.FC = () => {
@@ -34,7 +34,7 @@ export const App: React.FC = () => {
     });
 
     setCurrentList(sortedAlphabetically);
-    setSortBy(SortType.SORT_BY_ALPHABET);
+    setSortBy(SortType.Alphabet);
   };
 
   const handleSortByLength = () => {
@@ -45,7 +45,7 @@ export const App: React.FC = () => {
     });
 
     setCurrentList(sortedByLength);
-    setSortBy(SortType.SORT_BY_LENGTH);
+    setSortBy(SortType.Length);
   };
 
   const handleReverse = () => {
@@ -67,7 +67,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={`button is-info ${
-            sortBy !== SortType.SORT_BY_ALPHABET && 'is-light'
+            sortBy !== SortType.Alphabet && 'is-light'
           } `}
           onClick={handleSortAlfabet}
         >
@@ -78,7 +78,7 @@ export const App: React.FC = () => {
           onClick={handleSortByLength}
           type="button"
           className={`button is-success ${
-            sortBy !== SortType.SORT_BY_LENGTH && 'is-light'
+            sortBy !== SortType.Length && 'is-light'
           } `}
         >
           Sort by length
