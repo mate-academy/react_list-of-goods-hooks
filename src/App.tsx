@@ -49,10 +49,16 @@ function getSortedGoods(
   return sortedGoodsCopy;
 }
 
+
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState<SortType>(SortType.Default);
   const [isReversed, setIsReversed] = useState(false);
   const sortedGoods = getSortedGoods(goodsFromServer, sortField, isReversed);
+
+  function reset() {
+    setSortField(SortType.Default);
+    setIsReversed(false);
+  };
 
   return (
     <div className="section content">
@@ -60,8 +66,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn(
-            'button',
-            'is-info',
+            'button', 'is-info',
             { 'is-light': sortField !== SortType.Alphabet },
           )}
           onClick={() => {
@@ -74,8 +79,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn(
-            'button',
-            'is-success',
+            'button', 'is-success',
             { 'is-light': sortField !== SortType.Length },
           )}
           onClick={() => {
@@ -88,8 +92,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn(
-            'button',
-            'is-warning',
+            'button', 'is-warning',
             { 'is-light': !isReversed },
           )}
           onClick={() => {
@@ -103,10 +106,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortField(SortType.Default);
-              setIsReversed(false);
-            }}
+            onClick={reset}
           >
             Reset
           </button>
