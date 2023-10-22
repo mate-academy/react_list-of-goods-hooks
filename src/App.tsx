@@ -33,18 +33,18 @@ function sortGoods(
 ): string[] {
   const preparedGoods = goods;
 
-  preparedGoods.sort((goodA, goodB) => {
-    switch (sortValue) {
-      case SortType.ALPHABET:
-        return goodA.localeCompare(goodB);
+  switch (sortValue) {
+    case SortType.ALPHABET:
+      preparedGoods.sort((goodA, goodB) => goodA.localeCompare(goodB));
+      break;
 
-      case SortType.LENGTH:
-        return goodA.length - goodB.length;
+    case SortType.LENGTH:
+      preparedGoods.sort((goodA, goodB) => goodA.length - goodB.length);
+      break;
 
-      default:
-        return 0;
-    }
-  });
+    default:
+      break;
+  }
 
   if (isReverse) {
     preparedGoods.reverse();
@@ -57,6 +57,12 @@ export const App: React.FC = () => {
   const [isReverse, setIsReverse] = useState(false);
   const [sortValue, setSortValue] = useState(SortType.RESET);
   const sortedGoods = sortGoods([...goodsFromServer], { sortValue, isReverse });
+  const isVisibleReset = sortValue || isReverse;
+
+  const reset = () => {
+    setSortValue(SortType.RESET);
+    setIsReverse(false);
+  };
 
   return (
     <div className="section content">
@@ -88,12 +94,9 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortValue || isReverse) && (
+        {(isVisibleReset) && (
           <button
-            onClick={() => {
-              setSortValue(SortType.RESET);
-              setIsReverse(false);
-            }}
+            onClick={reset}
             type="button"
             className="button is-danger is-light"
           >
