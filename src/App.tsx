@@ -21,13 +21,21 @@ interface Good {
   id: number;
 }
 
+interface Button {
+  id: number;
+  text: string;
+  classNames: string;
+  isActive: boolean;
+  onClick: () => void;
+}
+
 enum SortType {
   Name = 'name',
   Length = 'length',
   None = 'no-sorting',
 }
 
-export const goodsObject: Good[] = goodsFromServer
+const goodsObject: Good[] = goodsFromServer
   .map((good, index) => ({ name: good, id: index }));
 
 function getSortedGoods(
@@ -53,7 +61,7 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
 
   const visibleGoods = getSortedGoods(goodsObject, sortType, isReversed);
-  const isResetSeen = sortType !== SortType.None || isReversed;
+  const isResetVisible = sortType !== SortType.None || isReversed;
 
   const handleReverseButton = () => {
     setIsReversed(!isReversed);
@@ -64,37 +72,47 @@ export const App: React.FC = () => {
     setIsReversed(false);
   };
 
+  const buttons: Button[] = [
+    {
+      id: 1,
+      text: 'Sort alphabetically',
+      classNames: 'button is-info',
+      isActive: sortType === SortType.Name,
+      onClick: () => setSortType(SortType.Name),
+    },
+    {
+      id: 2,
+      text: 'Sort by length',
+      classNames: 'button is-success',
+      isActive: sortType === SortType.Length,
+      onClick: () => setSortType(SortType.Length),
+    },
+    {
+      id: 3,
+      text: 'Reverse',
+      classNames: 'button is-warning',
+      isActive: isReversed,
+      onClick: handleReverseButton,
+    },
+  ];
+
   return (
     <div className="section content">
       <div className="buttons">
-        <button
-          type="button"
-          className={cn('button is-info',
-            { 'is-light': sortType !== SortType.Name })}
-          onClick={() => setSortType(SortType.Name)}
-        >
-          Sort alphabetically
-        </button>
+        {buttons.map(button => (
+          <button
+            key={button.id}
+            type="button"
+            className={cn(button.classNames, {
+              'is-light': !button.isActive,
+            })}
+            onClick={button.onClick}
+          >
+            {button.text}
+          </button>
+        ))}
 
-        <button
-          type="button"
-          className={cn('button is-success',
-            { 'is-light': sortType !== SortType.Length })}
-          onClick={() => setSortType(SortType.Length)}
-        >
-          Sort by length
-        </button>
-
-        <button
-          type="button"
-          className={cn('button is-warning',
-            { 'is-light': !isReversed })}
-          onClick={handleReverseButton}
-        >
-          Reverse
-        </button>
-
-        {isResetSeen && (
+        {isResetVisible && (
           <button
             type="button"
             className="button is-danger is-light"
@@ -106,12 +124,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {visibleGoods.map((good) => {
-          const {
-            name,
-            id,
-          } = good;
-
+        {visibleGoods.map(({ name, id }) => {
           return (
             <li data-cy="Good" key={id}>{name}</li>
           );
