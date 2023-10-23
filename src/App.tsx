@@ -22,23 +22,37 @@ enum SortType {
   none = 'none',
 }
 
+const getSortedList = (method: SortType) => {
+  const preparedGoods = [...goodsFromServer];
+
+  switch (method) {
+    case SortType.byAlphabetical:
+      preparedGoods.sort((good1, good2) => good1.localeCompare(good2));
+      break;
+
+    case SortType.byLength:
+      preparedGoods.sort((good1, good2) => good1.length - good2.length);
+      break;
+
+    default:
+      break;
+  }
+
+  return preparedGoods;
+};
+
 export const App: React.FC = () => {
-  const [sortedList, setSortedList]
-  = useState<typeof goodsFromServer>(goodsFromServer);
-  const [sortMethod, setSortMethod] = useState<SortType>(SortType.none);
+  const [sortMethod, setSortMethod] = useState(SortType.none);
   const [isReversed, setIsReversed] = useState(false);
+  const sortedList = getSortedList(sortMethod);
 
   const handleSort = (method: SortType) => {
-    const preparedGoods = [...goodsFromServer];
-
     switch (method) {
       case SortType.byAlphabetical:
-        preparedGoods.sort((good1, good2) => good1.localeCompare(good2));
         setSortMethod(method);
         break;
 
       case SortType.byLength:
-        preparedGoods.sort((good1, good2) => good1.length - good2.length);
         setSortMethod(method);
         break;
 
@@ -46,12 +60,6 @@ export const App: React.FC = () => {
         setSortMethod(SortType.none);
         break;
     }
-
-    if (isReversed) {
-      preparedGoods.reverse();
-    }
-
-    setSortedList(preparedGoods);
   };
 
   const handleReverse = () => {
@@ -59,14 +67,16 @@ export const App: React.FC = () => {
 
     preparedGoods.reverse();
     setIsReversed(!isReversed);
-    setSortedList(preparedGoods);
   };
 
   const handleReset = () => {
     setIsReversed(false);
-    setSortedList(goodsFromServer);
     setSortMethod(SortType.none);
   };
+
+  if (isReversed) {
+    sortedList.reverse();
+  }
 
   return (
     <div className="section content">
