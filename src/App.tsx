@@ -60,8 +60,13 @@ export const App: React.FC = () => {
     goodsFromServer, { typeOfSort, isReversed },
   );
 
-  const handleSort = (sortType: string) => {
+  const handleSort = (sortType: SortType) => {
     setTypeOfSort(sortType);
+  };
+
+  const handleReset = () => {
+    setTypeOfSort('');
+    setIsReversed(false);
   };
 
   return (
@@ -95,10 +100,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setTypeOfSort('');
-              setIsReversed(false);
-            }}
+            onClick={() => handleReset()}
           >
             Reset
           </button>
