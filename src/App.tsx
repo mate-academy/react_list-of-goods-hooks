@@ -55,14 +55,15 @@ function sortGoods(
 
 export const App: React.FC = () => {
   const [isReversed, setReversed] = useState(false);
-
   const [sortType, setSortType] = useState<SortBy>(SortBy.Default);
 
-  const sortedGoods = sortGoods(goodsFromServer, sortType, isReversed);
   const resetFilter = () => {
     setReversed(false);
     setSortType(SortBy.Default);
   };
+
+  const sortedGoods = sortGoods(goodsFromServer, sortType, isReversed);
+  const needChange = (sortType || isReversed);
 
   return (
     <div className="section content">
@@ -104,7 +105,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortType || isReversed) && (
+        {needChange && (
           <button
             type="button"
             className={cn(
