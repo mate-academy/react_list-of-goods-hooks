@@ -58,7 +58,7 @@ function getGoods(goods: string[], sortField: string, isReversed: boolean) {
   return preparedGoods;
 }
 
-export const App: React.FC<SortType> = () => {
+export const App: React.FC = () => {
   const [sortField, setSortField] = useState('');
   const [isReversed, setIsReversed] = useState(false);
 
