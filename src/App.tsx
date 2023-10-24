@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import { SortType } from './types/SortType';
+import { GoodsList } from './components/GoodsList';
+import { Buttons } from './components/Buttons/Buttons';
 
-export const goodsFromServer = [
+type Goods = string[];
+
+export const goodsFromServer: Goods = [
   'Dumplings',
   'Carrot',
   'Eggs',
@@ -14,50 +19,48 @@ export const goodsFromServer = [
   'Jam',
   'Garlic',
 ];
+function getPreparedGoods(
+  goods: string[],
+  sortField: string,
+  isReversed: boolean,
+): Goods {
+  const preparedGoods = [...goods];
+
+  if (sortField) {
+    preparedGoods.sort((good1, good2) => {
+      switch (sortField) {
+        case SortType.SORT_FIELD_LENGTH:
+          return good1[sortField] - good2[sortField];
+
+        case SortType.SORT_FIELD_ORDER:
+          return good1.localeCompare(good2);
+
+        default:
+          return 0;
+      }
+    });
+  }
+
+  return isReversed ? preparedGoods.reverse() : preparedGoods;
+}
 
 export const App: React.FC = () => {
+  const [sortField, setSortField] = useState('');
+  const [isReversed, setIsReversed] = useState(false);
+
+  const visablGoods = getPreparedGoods(
+    goodsFromServer, sortField, isReversed,
+  );
+
   return (
     <div className="section content">
-      <div className="buttons">
-        <button
-          type="button"
-          className="button is-info is-light"
-        >
-          Sort alphabetically
-        </button>
-
-        <button
-          type="button"
-          className="button is-success is-light"
-        >
-          Sort by length
-        </button>
-
-        <button
-          type="button"
-          className="button is-warning is-light"
-        >
-          Reverse
-        </button>
-
-        <button
-          type="button"
-          className="button is-danger is-light"
-        >
-          Reset
-        </button>
-      </div>
-
-      <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
-      </ul>
+      <Buttons
+        sortField={sortField}
+        sortBy={(field: string) => setSortField(field)}
+        isReversed={isReversed}
+        setReverse={(reverse: boolean) => setIsReversed(reverse)}
+      />
+      <GoodsList goods={visablGoods} />
     </div>
   );
 };
