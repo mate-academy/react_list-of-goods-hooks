@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import cn from 'classnames';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -62,9 +63,7 @@ export const App: React.FC = () => {
   };
 
   const handleSortReversed = () => {
-    setIsSortReversed((prev = isSortReversed) => {
-      return !prev;
-    });
+    setIsSortReversed(prev => !prev);
   };
 
   const handleSortReset = () => {
@@ -80,8 +79,10 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info
-          ${sortBy !== SortType.BY_ALPHABET && 'is-light'}`}
+          className={cn(
+            'button is-info',
+            { 'is-light': sortBy !== SortType.BY_ALPHABET },
+          )}
           onClick={handleSortByAlphabet}
         >
           Sort alphabetically
@@ -89,8 +90,10 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-success
-          ${sortBy !== SortType.BY_LENGTH && 'is-light'}`}
+          className={cn(
+            'button is-success',
+            { 'is-light': sortBy !== SortType.BY_LENGTH },
+          )}
           onClick={handleSortByLength}
         >
           Sort by length
@@ -98,8 +101,10 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-warning
-          ${!isSortReversed && 'is-light'}`}
+          className={cn(
+            'button is-warning',
+            { 'is-light': !isSortReversed },
+          )}
           onClick={handleSortReversed}
         >
           Reverse
@@ -121,7 +126,6 @@ export const App: React.FC = () => {
         {visibleGoods.map(good => (
           <li key={good} data-cy="Good">{good}</li>
         ))}
-        {/* <li data-cy="Good">...</li> */}
       </ul>
     </div>
   );
