@@ -21,10 +21,14 @@ export const goodsFromServer = [
 
 function getPreparedGoods(
   goods: string[],
-  sortedBy: string,
+  sortedBy: SortBy | null,
   isReversed: boolean,
 ) {
   let preparedGoods = [...goods];
+
+  if (sortedBy === null) {
+    return [...goods];
+  }
 
   if (sortedBy) {
     preparedGoods.sort((good1, good2) => {
@@ -49,7 +53,7 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortBy, setSortBy] = useState('');
+  const [sortBy, setSortBy] = useState<SortBy | null>(null);
   const [isReversed, setIsReversed] = useState(false);
 
   const visibleGoods = getPreparedGoods(goodsFromServer, sortBy, isReversed);

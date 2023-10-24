@@ -2,10 +2,10 @@ import React from 'react';
 import { SortBy } from '../../Types/sortBy';
 
 interface Props {
-  sortBy: string;
-  setSortBy: (sortBy: string) => void;
+  sortBy: SortBy | null;
+  setSortBy: React.Dispatch<React.SetStateAction<SortBy | null>>;
   isReversed: boolean;
-  setIsReversed: (isReversed: boolean) => void;
+  setIsReversed: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const Buttons: React.FC<Props> = ({
@@ -46,7 +46,7 @@ export const Buttons: React.FC<Props> = ({
           type="button"
           className="button is-danger is-light"
           onClick={() => {
-            setSortBy('');
+            setSortBy(null);
             setIsReversed(false);
           }}
         >
