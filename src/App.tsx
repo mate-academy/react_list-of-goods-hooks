@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import { v4 as uuidv4 } from 'uuid';
+import cn from 'classnames';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -21,7 +22,11 @@ enum SortType {
   Length = 'length',
 }
 
-function getPreparedGoods(goods: string[], sortField: string, reverse:boolean) {
+function getPreparedGoods(
+  goods: string[],
+  sortField: string,
+  reverse: boolean
+) {
   const preparedGoods = [...goods];
 
   if (sortField) {
@@ -61,9 +66,9 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${
-            isSorting !== SortType.Alphabet && 'is-light'
-          } `}
+          className={cn('button is-info', {
+            'is-light': isSorting !== SortType.Alphabet,
+          })}
           onClick={() => setSortBy(SortType.Alphabet)}
         >
           Sort alphabetically
@@ -71,9 +76,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-success ${
-            isSorting !== SortType.Length && 'is-light'
-          }`}
+          className={cn('button is-success', {
+            'is-light': isSorting !== SortType.Length,
+          })}
           onClick={() => setSortBy(SortType.Length)}
         >
           Sort by length
@@ -81,7 +86,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-warning ${!isReversed && 'is-light'}`}
+          className={cn('button is-warning', {
+            'is-light': !isReversed,
+          })}
           onClick={() => setIsReversed((prevVal) => !prevVal)}
         >
           Reverse
