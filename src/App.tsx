@@ -30,8 +30,6 @@ function getPreparedGoods(
   const preparedGoods = [...goods];
 
   if (sortField) {
-    // setIsResetVisible(true);
-
     preparedGoods.sort((good1, good2) => {
       switch (sortField) {
         case SORT_FIELD_NAME:
@@ -47,7 +45,6 @@ function getPreparedGoods(
   }
 
   if (isReversed) {
-    // isResetVisible = true;
     preparedGoods.reverse();
   }
 
@@ -63,22 +60,6 @@ export const App: React.FC = () => {
     goodsFromServer,
     { sortField, isReversed },
   );
-
-  // function setReverseButtonAction(reverse: boolean) {
-  //   if (reverse) {
-  //     isResetVisible = false;
-
-  //     return setReversed(false);
-  //   }
-
-  //   return setReversed(true);
-  // }
-
-  // function resetSorting() {
-  //   setSortField(SortType.None);
-  //   setReversed(false);
-  //   isResetVisible = false;
-  // }
 
   function setReverseButtonAction(reverse: boolean) {
     if (reverse && sortField === SortType.None) {
