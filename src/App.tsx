@@ -32,7 +32,7 @@ function prepareTodos(
       todos.sort((a, b) => a.length - b.length);
       break;
     case SortType.STATE_BY_ALPHABET:
-      todos.sort((a, b) => a.length - b.length);
+      todos.sort((a, b) => a.localeCompare(b));
       break;
     default:
       break;
