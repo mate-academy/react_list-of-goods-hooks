@@ -20,7 +20,6 @@ export const goodsFromServer = [
 
 const SORT_FIELD_NAME: SortType = SortType.Name;
 const SORT_FIELD_LENGTH: SortType = SortType.Length;
-let isResetVisible = false;
 
 type Goods = string[];
 
@@ -31,7 +30,7 @@ function getPreparedGoods(
   const preparedGoods = [...goods];
 
   if (sortField) {
-    isResetVisible = true;
+    // setIsResetVisible(true);
 
     preparedGoods.sort((good1, good2) => {
       switch (sortField) {
@@ -48,7 +47,7 @@ function getPreparedGoods(
   }
 
   if (isReversed) {
-    isResetVisible = true;
+    // isResetVisible = true;
     preparedGoods.reverse();
   }
 
@@ -58,25 +57,52 @@ function getPreparedGoods(
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState<SortType>(SortType.None);
   const [isReversed, setReversed] = useState<boolean>(false);
+  const [isResetVisible, setIsResetVisible] = useState<boolean>(false);
+
   const visibleGoods = getPreparedGoods(
     goodsFromServer,
     { sortField, isReversed },
   );
 
+  // function setReverseButtonAction(reverse: boolean) {
+  //   if (reverse) {
+  //     isResetVisible = false;
+
+  //     return setReversed(false);
+  //   }
+
+  //   return setReversed(true);
+  // }
+
+  // function resetSorting() {
+  //   setSortField(SortType.None);
+  //   setReversed(false);
+  //   isResetVisible = false;
+  // }
+
   function setReverseButtonAction(reverse: boolean) {
-    if (reverse) {
-      isResetVisible = false;
-
-      return setReversed(false);
+    if (reverse && sortField === SortType.None) {
+      setIsResetVisible(false);
+      setReversed(false);
+    } else if (reverse && sortField !== SortType.None) {
+      setReversed(false);
+    } else if (!reverse && sortField !== SortType.None) {
+      setReversed(true);
+    } else if (!reverse && sortField === SortType.None) {
+      setIsResetVisible(true);
+      setReversed(true);
     }
-
-    return setReversed(true);
   }
 
   function resetSorting() {
     setSortField(SortType.None);
     setReversed(false);
-    isResetVisible = false;
+    setIsResetVisible(false);
+  }
+
+  function handleSortFieldChange(newSortField: SortType) {
+    setSortField(newSortField);
+    setIsResetVisible(true);
   }
 
   return (
@@ -84,7 +110,7 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          onClick={() => setSortField(SORT_FIELD_NAME)}
+          onClick={() => handleSortFieldChange(SORT_FIELD_NAME)}
           className={`button is-info ${classNames({ 'is-light': sortField !== SORT_FIELD_NAME })}`}
         >
           Sort alphabetically
@@ -92,7 +118,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          onClick={() => setSortField(SORT_FIELD_LENGTH)}
+          onClick={() => handleSortFieldChange(SORT_FIELD_LENGTH)}
           className={`button is-success ${classNames({ 'is-light': sortField !== SORT_FIELD_LENGTH })}`}
         >
           Sort by length
@@ -106,8 +132,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {isResetVisible
-        && (
+        {isResetVisible && (
           <button
             type="button"
             onClick={resetSorting}

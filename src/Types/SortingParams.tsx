@@ -1,5 +1,3 @@
-// export enum SortType { '', 'name', 'length' }
-
 export enum SortType {
   Name = 'name',
   Length = 'length',
