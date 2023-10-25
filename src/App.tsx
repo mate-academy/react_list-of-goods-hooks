@@ -58,7 +58,7 @@ export const App = () => {
     isReversed,
   });
 
-  const causeButton = isReversed === true || sortField;
+  const causeButton = isReversed || sortField;
 
   const resetButton = () => {
     setSortField('');
@@ -91,7 +91,7 @@ export const App = () => {
         <button
           type="button"
           className={cn('button', 'is-warning', {
-            'is-light': isReversed === false,
+            'is-light': !isReversed,
           })}
           onClick={() => setIsReversed(prev => !prev)}
         >
