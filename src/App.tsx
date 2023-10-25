@@ -16,8 +16,8 @@ export const goodsFromServer = [
   'Garlic',
 ];
 enum SortType {
-  CONST_STATE_BY_LENGTH = 'byLength',
-  CONST_STATE_BY_ALPHABET = 'byAlphabet',
+  STATE_BY_LENGTH = 'byLength',
+  STATE_BY_ALPHABET = 'byAlphabet',
 }
 
 function prepareTodos(
@@ -27,10 +27,15 @@ function prepareTodos(
 ) {
   let todos : string[] = [...data];
 
-  if (sortBy === SortType.CONST_STATE_BY_LENGTH) {
-    todos.sort((a, b) => a.length - b.length);
-  } else if (sortBy === SortType.CONST_STATE_BY_ALPHABET) {
-    todos.sort((a, b) => a.localeCompare(b));
+  switch (sortBy) {
+    case SortType.STATE_BY_LENGTH:
+      todos.sort((a, b) => a.length - b.length);
+      break;
+    case SortType.STATE_BY_ALPHABET:
+      todos.sort((a, b) => a.length - b.length);
+      break;
+    default:
+      break;
   }
 
   if (isReversed) {
@@ -42,7 +47,7 @@ function prepareTodos(
 
 export const App: React.FC = () => {
   const [sortBy, setSortBy] = useState<SortType | null>(null);
-  const [sortStateReverse, setSortStateReverse] = useState(false);
+  const [sortStateReverse, isReversed] = useState(false);
   const [todos, setTodos] = useState(goodsFromServer);
 
   useEffect(() => {
@@ -56,12 +61,12 @@ export const App: React.FC = () => {
   }, [sortBy, sortStateReverse]);
 
   function toggleReverse() {
-    setSortStateReverse(!sortStateReverse);
+    isReversed(!sortStateReverse);
   }
 
   function reset() {
     setSortBy(null);
-    setSortStateReverse(false);
+    isReversed(false);
   }
 
   return (
@@ -70,9 +75,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-info', {
-            'is-light': sortBy !== SortType.CONST_STATE_BY_ALPHABET,
+            'is-light': sortBy !== SortType.STATE_BY_ALPHABET,
           })}
-          onClick={() => setSortBy(SortType.CONST_STATE_BY_ALPHABET)}
+          onClick={() => setSortBy(SortType.STATE_BY_ALPHABET)}
         >
           Sort alphabetically
         </button>
@@ -80,9 +85,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-success', {
-            'is-light': sortBy !== SortType.CONST_STATE_BY_LENGTH,
+            'is-light': sortBy !== SortType.STATE_BY_LENGTH,
           })}
-          onClick={() => setSortBy(SortType.CONST_STATE_BY_LENGTH)}
+          onClick={() => setSortBy(SortType.STATE_BY_LENGTH)}
         >
           Sort by length
         </button>
@@ -109,15 +114,11 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {todos.map((todo, index) => {
-          const key = index;
-
-          return (
-            <li key={key} data-cy="Good">
-              {todo}
-            </li>
-          );
-        })}
+        {todos.map((todo, index) => (
+          <li key={Number(index)} data-cy="Good">
+            {todo}
+          </li>
+        ))}
       </ul>
     </div>
   );
