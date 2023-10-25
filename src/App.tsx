@@ -17,7 +17,7 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  BY_NONE = 0,
+  BY_NONE,
   BY_ALPHABET,
   BY_LENGTH,
 }
@@ -71,8 +71,10 @@ export const App: React.FC = () => {
     setIsSortReversed(false);
   };
 
-  const visibleGoods = getPreparedGoods(goodsFromServer,
-    { sortBy, isSortReversed });
+  const visibleGoods = getPreparedGoods(
+    goodsFromServer,
+    { sortBy, isSortReversed },
+  );
 
   return (
     <div className="section content">
