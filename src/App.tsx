@@ -114,8 +114,8 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {todos.map((todo, index) => (
-          <li key={Number(index)} data-cy="Good">
+        {todos.map((todo) => (
+          <li key={todo} data-cy="Good">
             {todo}
           </li>
         ))}
