@@ -54,36 +54,16 @@ function getPreparedGoods(
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState<SortType>(SortType.None);
   const [isReversed, setReversed] = useState<boolean>(false);
-  const [isResetVisible, setIsResetVisible] = useState<boolean>(false);
+  const isResetVisible = isReversed || sortField !== SortType.None;
 
   const visibleGoods = getPreparedGoods(
     goodsFromServer,
     { sortField, isReversed },
   );
 
-  function setReverseButtonAction(reverse: boolean) {
-    if (reverse && sortField === SortType.None) {
-      setIsResetVisible(false);
-      setReversed(false);
-    } else if (reverse && sortField !== SortType.None) {
-      setReversed(false);
-    } else if (!reverse && sortField !== SortType.None) {
-      setReversed(true);
-    } else if (!reverse && sortField === SortType.None) {
-      setIsResetVisible(true);
-      setReversed(true);
-    }
-  }
-
   function resetSorting() {
     setSortField(SortType.None);
     setReversed(false);
-    setIsResetVisible(false);
-  }
-
-  function handleSortFieldChange(newSortField: SortType) {
-    setSortField(newSortField);
-    setIsResetVisible(true);
   }
 
   return (
@@ -91,7 +71,7 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          onClick={() => handleSortFieldChange(SORT_FIELD_NAME)}
+          onClick={() => setSortField(SORT_FIELD_NAME)}
           className={`button is-info ${classNames({ 'is-light': sortField !== SORT_FIELD_NAME })}`}
         >
           Sort alphabetically
@@ -99,7 +79,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          onClick={() => handleSortFieldChange(SORT_FIELD_LENGTH)}
+          onClick={() => setSortField(SORT_FIELD_LENGTH)}
           className={`button is-success ${classNames({ 'is-light': sortField !== SORT_FIELD_LENGTH })}`}
         >
           Sort by length
@@ -107,7 +87,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          onClick={() => setReverseButtonAction(isReversed)}
+          onClick={() => setReversed(!isReversed)}
           className={`button is-warning ${classNames({ 'is-light': !isReversed })}`}
         >
           Reverse
