@@ -16,7 +16,7 @@ export const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-type TypeGood = {
+type Good = {
   id: number,
   name: string,
 };
@@ -27,18 +27,15 @@ enum SortType {
   Default = '',
 }
 
-export const App: React.FC = () => {
-  const [value, setValue] = useState<SortType>(SortType.Default);
-  const [reversed, setReversed] = useState(false);
-  const goodsWithID: TypeGood[] = goodsFromServer
+function getSortedGoods(sortType: SortType, isReversed: boolean) {
+  const goodsWithID: Good[] = goodsFromServer
     .map((good, index) => ({ id: index, name: good }));
-  const sortedGoods = [...goodsWithID];
 
-  switch (value) {
-    case SortType.ALPHABETICALLY: sortedGoods
+  switch (sortType) {
+    case SortType.ALPHABETICALLY: goodsWithID
       .sort((a, b) => a.name.localeCompare(b.name));
       break;
-    case SortType.BY_LENGTH: sortedGoods
+    case SortType.BY_LENGTH: goodsWithID
       .sort((a, b) => a.name.length - b.name.length);
       break;
     case SortType.Default:
@@ -46,9 +43,22 @@ export const App: React.FC = () => {
       break;
   }
 
-  if (reversed) {
-    sortedGoods.reverse();
+  if (isReversed) {
+    goodsWithID.reverse();
   }
+
+  return goodsWithID;
+}
+
+export const App: React.FC = () => {
+  const [value, setValue] = useState<SortType>(SortType.Default);
+  const [reversed, setReversed] = useState(false);
+  const goodsWithID: Good[] = getSortedGoods(value, reversed);
+
+  const handleResetOnClick = () => {
+    setValue(SortType.Default);
+    setReversed(false);
+  };
 
   return (
     <div className="section content">
@@ -75,9 +85,7 @@ export const App: React.FC = () => {
           type="button"
           className={cn({ 'is-light': !reversed },
             'button', 'is-warning')}
-          onClick={reversed
-            ? () => setReversed(false)
-            : () => setReversed(true)}
+          onClick={() => setReversed(current => !current)}
         >
           Reverse
         </button>
@@ -86,10 +94,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger"
-            onClick={() => {
-              setValue(SortType.Default);
-              setReversed(false);
-            }}
+            onClick={handleResetOnClick}
           >
             Reset
           </button>
@@ -97,7 +102,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {sortedGoods.map(good => (
+        {goodsWithID.map(good => (
           <li key={good.id} data-cy="Good">{good.name}</li>
         ))}
       </ul>
