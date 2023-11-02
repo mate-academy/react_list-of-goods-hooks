@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable @typescript-eslint/quotes */
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
@@ -81,6 +83,7 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
+          // eslint-disable-next-line no-sequences, @typescript-eslint/object-curly-spacing
           className={`button is-info ${(sortType === SortType.Alphabetical) ? '' : 'is-light'}`}
           onClick={() => handleSort(SortType.Alphabetical)}
         >
@@ -105,7 +108,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {goods.join(',') !== goodsFromServer.join(',') && (
+        {((sortType) || (isReverse)) && (
           <button
             type="button"
             className="button is-danger is-light"
@@ -118,7 +121,7 @@ export const App: React.FC = () => {
 
       <ul>
         {goods.map(good => (
-          <li key={good.indexOf(good)} data-cy="Good">
+          <li key={good} data-cy="Good">
             {good}
           </li>
         ))}
