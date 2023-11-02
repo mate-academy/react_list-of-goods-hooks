@@ -25,25 +25,30 @@ const sortGoods = (goodsArray: string[], sortType: SortType,
   isReverse: boolean): string[] => {
   let sortedGoods = [...goodsArray];
 
-  if (sortType === SortType.Alphabetical) {
-    sortedGoods = sortedGoods.sort();
-  } else if (sortType === SortType.Length) {
-    sortedGoods = [...goodsFromServer].sort((a, b) => {
-      const lengthComparison = a.length - b.length;
-
-      if (lengthComparison === 0) {
-        return 1;
+  switch (sortType) {
+    case SortType.Alphabetical:
+      sortedGoods = sortedGoods.sort();
+      if (isReverse) {
+        sortedGoods.reverse();
       }
 
-      return lengthComparison;
-    });
-  }
+      return sortedGoods;
+    default:
+      sortedGoods = [...goodsFromServer].sort((a, b) => {
+        const lengthComparison = a.length - b.length;
 
-  if (isReverse) {
-    sortedGoods.reverse();
-  }
+        if (lengthComparison === 0) {
+          return 1;
+        }
 
-  return sortedGoods;
+        return lengthComparison;
+      });
+      if (isReverse) {
+        sortedGoods.reverse();
+      }
+
+      return sortedGoods;
+  }
 };
 
 export const App: React.FC = () => {
