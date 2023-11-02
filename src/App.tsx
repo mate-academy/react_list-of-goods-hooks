@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import classNames from 'classnames';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -20,43 +21,41 @@ enum SortType {
   Length = 'Length',
 }
 
+const sortGoods = (goodsArray: string[], sortType: SortType,
+  isReverse: boolean): string[] => {
+  let sortedGoods = [...goodsArray];
+
+  if (sortType === SortType.Alphabetical) {
+    sortedGoods = sortedGoods.sort();
+  } else if (sortType === SortType.Length) {
+    sortedGoods = [...goodsFromServer].sort((a, b) => {
+      const lengthComparison = a.length - b.length;
+
+      if (lengthComparison === 0) {
+        return 1;
+      }
+
+      return lengthComparison;
+    });
+  }
+
+  if (isReverse) {
+    sortedGoods.reverse();
+  }
+
+  return sortedGoods;
+};
+
 export const App: React.FC = () => {
   const [goods, setGoods] = useState([...goodsFromServer]);
   const [sortType, setSortType] = useState<SortType | null>(null);
   const [isReverse, setIsReverse] = useState(false);
 
-  const sortAlphabetically = () => {
-    const sortedGoods = [...goods].sort();
+  const handleSort = (type: SortType) => {
+    const sortedGoods = sortGoods([...goods], type, isReverse);
 
-    if (isReverse) {
-      setGoods([...sortedGoods].reverse());
-    } else {
-      setGoods(sortedGoods);
-    }
-
-    setSortType(SortType.Alphabetical);
-  };
-
-  const sortByLength = () => {
-    if (!(sortType === SortType.Length)) {
-      const sortedGoods = [...goodsFromServer].sort((a, b) => {
-        const lengthComparison = a.length - b.length;
-
-        if (lengthComparison === 0) {
-          return 1;
-        }
-
-        return lengthComparison;
-      });
-
-      if (isReverse) {
-        setGoods([...sortedGoods].reverse());
-      } else {
-        setGoods(sortedGoods);
-      }
-
-      setSortType(SortType.Length);
-    }
+    setGoods(sortedGoods);
+    setSortType(type);
   };
 
   const reverseGoods = () => {
@@ -78,15 +77,17 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={`button is-info ${(sortType === SortType.Alphabetical) ? '' : 'is-light'}`}
-          onClick={sortAlphabetically}
+          onClick={() => handleSort(SortType.Alphabetical)}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={`button is-success ${(sortType === SortType.Length) ? '' : 'is-light'}`}
-          onClick={sortByLength}
+          className={classNames('button', 'is-success', {
+            'is-light': sortType !== SortType.Length,
+          })}
+          onClick={() => handleSort(SortType.Length)}
         >
           Sort by length
         </button>
@@ -112,7 +113,7 @@ export const App: React.FC = () => {
 
       <ul>
         {goods.map(good => (
-          <li data-cy="Good">
+          <li key={good.indexOf(good)} data-cy="Good">
             {good}
           </li>
         ))}
