@@ -1,5 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable @typescript-eslint/quotes */
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
@@ -30,27 +28,25 @@ const sortGoods = (goodsArray: string[], sortType: SortType,
   switch (sortType) {
     case SortType.Alphabetical:
       sortedGoods = sortedGoods.sort();
-      if (isReverse) {
-        sortedGoods.reverse();
-      }
-
-      return sortedGoods;
-    default:
+      break;
+    case SortType.Length:
       sortedGoods = [...goodsFromServer].sort((a, b) => {
-        const lengthComparison = a.length - b.length;
-
-        if (lengthComparison === 0) {
+        if (a.length - b.length === 0) {
           return 1;
         }
 
-        return lengthComparison;
+        return a.length - b.length;
       });
-      if (isReverse) {
-        sortedGoods.reverse();
-      }
-
-      return sortedGoods;
+      break;
+    default:
+      return [...goodsFromServer];
   }
+
+  if (isReverse) {
+    sortedGoods.reverse();
+  }
+
+  return sortedGoods;
 };
 
 export const App: React.FC = () => {
@@ -83,7 +79,6 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          // eslint-disable-next-line no-sequences, @typescript-eslint/object-curly-spacing
           className={`button is-info ${(sortType === SortType.Alphabetical) ? '' : 'is-light'}`}
           onClick={() => handleSort(SortType.Alphabetical)}
         >
