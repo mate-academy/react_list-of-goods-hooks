@@ -1,17 +1,22 @@
-# React list of goods (Hooks)
+# Goods List Using React Hooks
 
-> DON'T use class components (for this and next tasks).
+This repository contains the source code for an application created as an exercise for learning how to use hooks in React at Mate Academy. The application allows sorting and reversing the order of a list of goods.
 
-Reimplement the **React list of goods** implemented before using hooks and typescript.
-Copy everything you need from your previous solution.
+## Demo
 
-> Here is [the working version](https://mate-academy.github.io/react_list-of-goods/)
+Feel free to explore the live demo of the application: [DEMO LINK](https://spojrzenie.github.io/react_list-of-goods-hooks/)
 
-- Use the [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript) if needed.
-- Use `enum SortType` instead of string literals for possible sorting options (including the default one)
+## Features
 
-## Instructions
+The application provides the following features:
 
-- Implement a solution following the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline).
-- Open one more terminal and run tests with `npm test` to ensure your solution is correct.
-- Replace `<your_account>` with your Github username in the [DEMO LINK](https://<your_account>.github.io/react_list-of-goods-hooks/) and add it to the PR description.
+- Sorting the list of goods alphabetically.
+- Sorting the list of goods by the length of names.
+- Reversing the order of the list of goods.
+- Resetting sorting and order reversal settings.
+
+## Author
+
+Krzysztof Janiewicz
+
+I hope this documentation helps users understand how to use this application. If you have any questions or suggestions, please feel free to let me know.
