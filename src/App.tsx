@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import cn from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
@@ -23,12 +23,12 @@ type Goods = string[];
 
 type Props = {
   sortField: string;
-  isSorted: boolean;
+  isReversed: boolean;
 };
 
 function getPreparedGoods(
   goods: Goods,
-  { sortField, isSorted }: Props,
+  { sortField, isReversed }: Props,
 ): string[] {
   const preparedGoods = [...goods];
 
@@ -47,18 +47,18 @@ function getPreparedGoods(
     });
   }
 
-  if (isSorted) {
+  if (isReversed) {
     preparedGoods.reverse();
   }
 
   return preparedGoods;
 }
 
-export const App = () => {
-  const [sortField, setSortField] = useState<string>('');
-  const [isSorted, setIsSorted] = useState<boolean>(false);
+export const App: React.FC = () => {
+  const [sortField, setSortField] = useState('');
+  const [isReversed, setIsSorted] = useState(false);
   const visibleGoods = getPreparedGoods(goodsFromServer,
-    { sortField, isSorted });
+    { sortField, isReversed });
 
   const resetFunc = () => {
     setSortField('');
@@ -66,7 +66,7 @@ export const App = () => {
   };
 
   const toggleSort = () => {
-    setIsSorted(!isSorted);
+    setIsSorted(!isReversed);
   };
 
   return (
@@ -98,7 +98,7 @@ export const App = () => {
         <button
           type="button"
           className={cn('button', 'is-warning',
-            { 'is-light': !isSorted })}
+            { 'is-light': !isReversed })}
           onClick={toggleSort}
         >
           Reverse
@@ -114,11 +114,11 @@ export const App = () => {
         </button>
       </div>
 
-      {visibleGoods.map(good => (
-        <ul key={good}>
-          <li data-cy="Good">{good}</li>
-        </ul>
-      ))}
+      <ul>
+        {visibleGoods.map(good => (
+          <li key={good} data-cy="Good">{good}</li>
+        ))}
+      </ul>
     </div>
   );
 };
