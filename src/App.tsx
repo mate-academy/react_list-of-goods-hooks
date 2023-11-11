@@ -22,14 +22,10 @@ enum SortType {
   clear = '',
 }
 
-enum QueryType {
-  clear = '',
-  reverse = 'reverse',
-}
-
 function getPrepareGoods(
   goods: string[],
-  { sortField, query }: { sortField: string, query: string },
+  sortField: SortType,
+  isReversed: boolean,
 ) {
   const preparedGoods = [...goods];
 
@@ -48,7 +44,7 @@ function getPrepareGoods(
     });
   }
 
-  if (query) {
+  if (isReversed) {
     preparedGoods.reverse();
   }
 
@@ -56,13 +52,10 @@ function getPrepareGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState('');
-  const [query, setQuery] = useState('');
+  const [sortField, setSortField] = useState(SortType.clear);
+  const [isReversed, setIsReversed] = useState(false);
 
-  const visibleGoods = getPrepareGoods(
-    goodsFromServer,
-    { sortField, query },
-  );
+  const visibleGoods = getPrepareGoods(goodsFromServer, sortField, isReversed);
 
   return (
     <div className="section content">
@@ -90,23 +83,19 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button', 'is-warning', {
-            'is-light': query !== QueryType.reverse,
+            'is-light': !isReversed,
           })}
-          onClick={() => setQuery(
-            query === QueryType.reverse
-              ? QueryType.clear
-              : QueryType.reverse,
-          )}
+          onClick={() => setIsReversed(!isReversed)}
         >
           Reverse
         </button>
 
-        {(sortField || query) && (
+        {(sortField || isReversed) && (
           <button
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              setQuery(QueryType.clear);
+              setIsReversed(false);
               setSortField(SortType.clear);
             }}
           >
@@ -116,7 +105,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {visibleGoods.map((good: string) => (
+        {visibleGoods.map(good => (
           <li
             data-cy="Good"
             key={good}
