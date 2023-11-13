@@ -2,7 +2,7 @@ import { SortType } from '../types/sortType';
 
 export const getGoodsList = (
   goods: string[],
-  sortField: SortType | string,
+  sortField: SortType,
   isReversed: boolean,
 ) => {
   const preparedGoods = [...goods];

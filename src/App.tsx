@@ -9,14 +9,15 @@ import { SortType } from './types/sortType';
 import { getGoodsList } from './helpers/getGoodsList';
 
 export const App = () => {
-  const [targetInnerText, setTargetInnerText] = useState<SortType | string>('');
+  const [targetInnerText, setTargetInnerText]
+    = useState<SortType>(SortType.Default);
   const [isReversed, setIsReversed] = useState(false);
   const visibleGoods = getGoodsList(
     goodsFromServer, targetInnerText, isReversed,
   );
 
   const handleSort = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setTargetInnerText(e.currentTarget.innerText);
+    setTargetInnerText(e.currentTarget.innerText as SortType);
   };
 
   const handlleReverse = () => {
@@ -24,7 +25,7 @@ export const App = () => {
   };
 
   const handleReset = () => {
-    setTargetInnerText('');
+    setTargetInnerText(SortType.Default);
     setIsReversed(false);
   };
 
