@@ -60,7 +60,12 @@ export const App: React.FC = () => {
     isReverse,
   );
 
-  const handleReverse = () => setIsReverse(!isReverse);
+  const handleReverse = () => setIsReverse(curr => !curr);
+
+  const reset = () => {
+    setSortField(SortType.clear);
+    setIsReverse(false);
+  };
 
   return (
     <div className="section content">
@@ -98,10 +103,7 @@ export const App: React.FC = () => {
         {(isReverse || sortField)
         && (
           <button
-            onClick={() => {
-              setSortField(SortType.clear);
-              setIsReverse(false);
-            }}
+            onClick={reset}
             type="button"
             className="button is-danger is-light"
           >
