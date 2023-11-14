@@ -10,29 +10,30 @@ enum SortType {
 }
 
 const goodsFromServer = [
-  'Dumplings',
-  'Carrot',
-  'Eggs',
-  'Ice cream',
-  'Apple',
-  'Bread',
-  'Fish',
-  'Honey',
-  'Jam',
-  'Garlic',
+  { id: 1, name: 'Dumplings' },
+  { id: 2, name: 'Carrot' },
+  { id: 3, name: 'Eggs' },
+  { id: 4, name: 'Ice cream' },
+  { id: 5, name: 'Apple' },
+  { id: 6, name: 'Bread' },
+  { id: 7, name: 'Fish' },
+  { id: 8, name: 'Honey' },
+  { id: 9, name: 'Jam' },
+  { id: 10, name: 'Garlic' },
 ];
 
-function getPreparedGoods(goods: string[], { sortField, reverseList }:
-{ sortField: SortType | ''; reverseList: boolean }) {
+function getPreparedGoods(goods: { id: number; name: string }[],
+  { sortField, reverseList }:
+  { sortField: SortType | ''; reverseList: boolean }) {
   let preparedGoods = [...goods];
 
   if (sortField) {
     preparedGoods.sort((good1, good2) => {
       switch (sortField) {
         case SortType.NAME:
-          return good1.localeCompare(good2);
+          return good1.name.localeCompare(good2.name);
         case SortType.LENGTH:
-          return good1.length - good2.length;
+          return good1.name.length - good2.name.length;
         default:
           return 0;
       }
@@ -97,9 +98,9 @@ const App: React.FC = () => {
       </div>
 
       <ul>
-        {visibleGoods.map((good, index) => (
-          <li data-cy="Good" key={index}>
-            {good}
+        {visibleGoods.map((good) => (
+          <li data-cy="Good" key={good.id}>
+            {good.name}
           </li>
         ))}
       </ul>
