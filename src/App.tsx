@@ -3,9 +3,9 @@ import 'bulma/css/bulma.css';
 import cn from 'classnames';
 import './App.scss';
 import { GoodList } from './components/GoodList/GoodList';
-import { Sortfield } from './types/Sortfield';
+import { Params } from './types/Params';
 
-export const goodsFromServer: string[] = [
+export const goodsFromServer = [
   'Dumplings',
   'Carrot',
   'Eggs',
@@ -18,8 +18,13 @@ export const goodsFromServer: string[] = [
   'Garlic',
 ];
 
+export enum Sortfield {
+  name = 'name',
+  length = 'length',
+}
+
 function getPreparedGoods(
-  goods: string[], { sortField, isReveresed },
+  goods: string[], { sortField, isReveresed }: Params,
 ): string[] {
   const preparedGoods = [...goods];
 
@@ -30,7 +35,7 @@ function getPreparedGoods(
           return good1.localeCompare(good2);
 
         case Sortfield.length:
-          return good1[sortField] - good2[sortField];
+          return good1.length - good2.length;
 
         default:
           return 0;

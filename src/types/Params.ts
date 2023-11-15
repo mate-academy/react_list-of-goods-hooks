@@ -1,6 +1,4 @@
-import { Sortfield } from './Sortfield';
-
 export interface Params {
-  sortField: Sortfield;
+  sortField: string;
   isReveresed: boolean;
 }
