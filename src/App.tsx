@@ -18,7 +18,7 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-export enum Sortfield {
+enum Sortfield {
   name = 'name',
   length = 'length',
 }
