@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import cn from 'classnames';
 import './App.scss';
 import { GoodList } from './components/GoodList/GoodList';
 import { Sortfield } from './types/Sortfield';
 
-export const goodsFromServer = [
+export const goodsFromServer: string[] = [
   'Dumplings',
   'Carrot',
   'Eggs',
@@ -53,7 +53,7 @@ export const App: React.FC = () => {
     goodsFromServer, { sortField, isReveresed },
   );
 
-  const reverse = () => setIsReversed((prevState: string) => !prevState);
+  const reverse = () => setIsReversed(prevState => !prevState);
 
   const reset = () => {
     setSortField('');
