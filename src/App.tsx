@@ -3,79 +3,69 @@ import cn from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-// export const goodsFromServer = [
-//   'Dumplings',
-//   'Carrot',
-//   'Eggs',
-//   'Ice cream',
-//   'Apple',
-//   'Bread',
-//   'Fish',
-//   'Honey',
-//   'Jam',
-//   'Garlic',
-// ];
+export const goodsFromServer = [
+  'Dumplings',
+  'Carrot',
+  'Eggs',
+  'Ice cream',
+  'Apple',
+  'Bread',
+  'Fish',
+  'Honey',
+  'Jam',
+  'Garlic',
+];
 
-enum GoodsFromServer {
-  Dumplings = 'Dumplings',
-  Carrot = 'Carrot',
-  Eggs = 'Eggs',
-  IceCream = 'Ice cream',
-  Apple = 'Apple',
-  Bread = 'Bread',
-  Fish = 'Fish',
-  Honey = 'Honey',
-  Jam = 'Jam',
-  Garlic = 'Garlic',
+export enum SortOptions {
+  Alphabetically = 'alphabetically',
+  Length = 'length',
+  Reset = 'reset',
 }
 
-interface SortOptions {
-  activeSort: 'alphabetically' | 'length' | 'reset';
-  isReversed: boolean;
-}
+const handleSort
+  = (goods: string[],
+    options: { activeSort: SortOptions; isReversed: boolean }) => {
+    const preparedGoods = [...goods];
 
-const handleSort = (goods: GoodsFromServer[], options: SortOptions) => {
-  const preparedGoods = [...goods];
+    preparedGoods.sort((a, b) => {
+      switch (options.activeSort) {
+        case SortOptions.Alphabetically:
+          return a.localeCompare(b);
 
-  preparedGoods.sort((a, b) => {
-    switch (options.activeSort) {
-      case 'alphabetically':
-        return a.localeCompare(b);
+        case SortOptions.Length:
+          return a.length - b.length;
 
-      case 'length':
+        default:
+          return 0;
+      }
+    });
 
-        return a.length - b.length;
-
-      default:
-        return 0;
+    if (options.isReversed) {
+      preparedGoods.reverse();
     }
-  });
 
-  if (options.isReversed) {
-    preparedGoods.reverse();
-  }
-
-  return preparedGoods;
-};
+    return preparedGoods;
+  };
 
 export const App: React.FC = () => {
   const [activeSort, setActiveSort]
-    = useState<SortOptions['activeSort'] | null>(null);
+    = useState('');
 
   const [isReversed, setIsReversed]
-    = useState<SortOptions['isReversed']>(false);
+    = useState(false);
 
-  const visibleGoods = handleSort(Object.values(GoodsFromServer), {
-    activeSort: activeSort || 'alphabetically',
+  const visibleGoods = handleSort(goodsFromServer, {
+    activeSort: activeSort || SortOptions.Alphabetically,
     isReversed,
-  });
+  } as { activeSort: SortOptions; isReversed: boolean });
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${activeSort === 'alphabetically' ? '' : 'is-light'}`}
+          className={cn('button', 'is-info',
+            { 'is-light': activeSort !== 'alphabetically' })}
           onClick={() => setActiveSort('alphabetically')}
         >
           Sort alphabetically
@@ -83,7 +73,8 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-success ${activeSort === 'length' ? '' : 'is-light'}`}
+          className={cn('button', 'is-success',
+            { 'is-light': activeSort !== 'length' })}
           onClick={() => setActiveSort('length')}
         >
           Sort by length
@@ -92,23 +83,23 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button', 'is-warning', { 'is-light': !isReversed })}
-          onClick={() => setIsReversed(true)}
+          onClick={() => setIsReversed(!isReversed)}
         >
           Reverse
         </button>
 
-        {activeSort || isReversed ? (
+        {(activeSort || isReversed) && (
           <button
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              setActiveSort(null);
+              setActiveSort('');
               setIsReversed(false);
             }}
           >
             Reset
           </button>
-        ) : null}
+        )}
       </div>
 
       <ul>
