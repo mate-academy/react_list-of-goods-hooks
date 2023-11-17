@@ -19,7 +19,7 @@ export const goodsFromServer = [
 export enum SortOptions {
   Alphabetically = 'alphabetically',
   Length = 'length',
-  Reset = 'reset',
+  None = '',
 }
 
 const handleSort
@@ -49,7 +49,7 @@ const handleSort
 
 export const App: React.FC = () => {
   const [activeSort, setActiveSort]
-    = useState('');
+    = useState<SortOptions>(SortOptions.None);
 
   const [isReversed, setIsReversed]
     = useState(false);
@@ -59,21 +59,12 @@ export const App: React.FC = () => {
     isReversed,
   } as { activeSort: SortOptions; isReversed: boolean });
 
-  function setAlphabetically() {
-    setActiveSort('length');
-  }
-
-  function setLength() {
-    setActiveSort('length');
-  }
-
   function setReversed() {
     setIsReversed(!isReversed);
   }
 
-  function setReset() {
-    setActiveSort('');
-    setIsReversed(false);
+  function setSort(selectedOption: SortOptions) {
+    setActiveSort(selectedOption);
   }
 
   return (
@@ -83,7 +74,7 @@ export const App: React.FC = () => {
           type="button"
           className={cn('button', 'is-info',
             { 'is-light': activeSort !== 'alphabetically' })}
-          onClick={setAlphabetically}
+          onClick={() => setSort(SortOptions.Alphabetically)}
         >
           Sort alphabetically
         </button>
@@ -92,7 +83,7 @@ export const App: React.FC = () => {
           type="button"
           className={cn('button', 'is-success',
             { 'is-light': activeSort !== 'length' })}
-          onClick={setLength}
+          onClick={() => setSort(SortOptions.Length)}
         >
           Sort by length
         </button>
@@ -100,7 +91,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button', 'is-warning', { 'is-light': !isReversed })}
-          onClick={setReversed}
+          onClick={() => setReversed}
         >
           Reverse
         </button>
@@ -109,7 +100,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={setReset}
+            onClick={() => setSort(SortOptions.None)}
           >
             Reset
           </button>
