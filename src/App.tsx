@@ -59,9 +59,9 @@ export const App: React.FC = () => {
     isReversed,
   } as { activeSort: SortOptions; isReversed: boolean });
 
-  function setReversed() {
-    setIsReversed(!isReversed);
-  }
+  // function setReversed() {
+  //   setIsReversed(!isReversed);
+  // }
 
   function setSort(selectedOption: SortOptions) {
     setActiveSort(selectedOption);
@@ -91,7 +91,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button', 'is-warning', { 'is-light': !isReversed })}
-          onClick={() => setReversed}
+          onClick={() => setIsReversed(!isReversed)}
         >
           Reverse
         </button>
@@ -100,7 +100,10 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => setSort(SortOptions.None)}
+            onClick={() => {
+              setSort(SortOptions.None);
+              setIsReversed(false);
+            }}
           >
             Reset
           </button>
