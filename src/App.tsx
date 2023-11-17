@@ -59,10 +59,6 @@ export const App: React.FC = () => {
     isReversed,
   } as { activeSort: SortOptions; isReversed: boolean });
 
-  // function setReversed() {
-  //   setIsReversed(!isReversed);
-  // }
-
   function setSort(selectedOption: SortOptions) {
     setActiveSort(selectedOption);
   }
@@ -73,7 +69,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button', 'is-info',
-            { 'is-light': activeSort !== 'alphabetically' })}
+            { 'is-light': activeSort !== SortOptions.Alphabetically })}
           onClick={() => setSort(SortOptions.Alphabetically)}
         >
           Sort alphabetically
@@ -82,7 +78,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button', 'is-success',
-            { 'is-light': activeSort !== 'length' })}
+            { 'is-light': activeSort !== SortOptions.Length })}
           onClick={() => setSort(SortOptions.Length)}
         >
           Sort by length
@@ -99,7 +95,10 @@ export const App: React.FC = () => {
         {(activeSort || isReversed) && (
           <button
             type="button"
-            className="button is-danger is-light"
+            className={cn('button is-danger is-light', {
+              'is-reversed': isReversed,
+              'is-active-sort': activeSort,
+            })}
             onClick={() => {
               setSort(SortOptions.None);
               setIsReversed(false);
@@ -108,6 +107,7 @@ export const App: React.FC = () => {
             Reset
           </button>
         )}
+
       </div>
 
       <ul>
