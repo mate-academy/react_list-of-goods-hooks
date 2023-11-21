@@ -18,9 +18,9 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  abc = 'abc',
-  length = 'length',
-  reset = '',
+  Abc = 'abc',
+  Length = 'length',
+  Reset = '',
 }
 
 function sortLogic(goods: string[], field: string, reverse: boolean) {
@@ -29,10 +29,10 @@ function sortLogic(goods: string[], field: string, reverse: boolean) {
   if (field) {
     resultGoods.sort((good1, good2) => {
       switch (field) {
-        case SortType.abc:
+        case SortType.Abc:
           return good1.localeCompare(good2);
 
-        case SortType.length:
+        case SortType.Length:
           return good1.length - good2.length;
 
         default:
@@ -62,7 +62,7 @@ export const App = () => {
   const handleReverse = (reversed: boolean) => () => setReverse(!reversed);
   const handleReset = () => {
     setReverse(false);
-    setSortField(SortType.reset);
+    setSortField(SortType.Reset);
   };
 
   return (
@@ -71,9 +71,9 @@ export const App = () => {
         <button
           type="button"
           className={cn('button', 'is-info', {
-            'is-light': sortField !== SortType.abc,
+            'is-light': sortField !== SortType.Abc,
           })}
-          onClick={handleSort(SortType.abc)}
+          onClick={handleSort(SortType.Abc)}
         >
           Sort alphabetically
         </button>
@@ -81,9 +81,9 @@ export const App = () => {
         <button
           type="button"
           className={cn('button', 'is-success', {
-            'is-light': sortField !== SortType.length,
+            'is-light': sortField !== SortType.Length,
           })}
-          onClick={handleSort(SortType.length)}
+          onClick={handleSort(SortType.Length)}
         >
           Sort by length
         </button>
