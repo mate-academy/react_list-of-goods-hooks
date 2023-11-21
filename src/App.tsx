@@ -23,22 +23,12 @@ enum SortType {
   reset = '',
 }
 
-export const App = () => {
-  let visibleGoods = [...goodsFromServer];
-  const [reverse, setReverse] = useState(false);
-  const [sortField, setSortField] = useState('');
-  const hasResetButton = reverse || sortField;
+function sortLogic(goods: string[], field: string, reverse: boolean) {
+  let resultGoods = [...goods];
 
-  const handleSort = (field: string) => () => setSortField(field);
-  const handleReverse = (reversed: boolean) => () => setReverse(!reversed);
-  const handleReset = () => {
-    setReverse(false);
-    setSortField(SortType.reset);
-  };
-
-  if (sortField) {
-    visibleGoods.sort((good1, good2) => {
-      switch (sortField) {
+  if (field) {
+    resultGoods.sort((good1, good2) => {
+      switch (field) {
         case SortType.abc:
           return good1.localeCompare(good2);
 
@@ -51,13 +41,29 @@ export const App = () => {
     });
   }
 
-  if (!sortField) {
-    visibleGoods = [...goodsFromServer];
+  if (!field) {
+    resultGoods = [...goodsFromServer];
   }
 
   if (reverse) {
-    visibleGoods.reverse();
+    resultGoods.reverse();
   }
+
+  return resultGoods;
+}
+
+export const App = () => {
+  const visibleGoods = [...goodsFromServer];
+  const [reverse, setReverse] = useState(false);
+  const [sortField, setSortField] = useState('');
+  const hasResetButton = reverse || sortField;
+
+  const handleSort = (field: string) => () => setSortField(field);
+  const handleReverse = (reversed: boolean) => () => setReverse(!reversed);
+  const handleReset = () => {
+    setReverse(false);
+    setSortField(SortType.reset);
+  };
 
   return (
     <div className="section content">
@@ -105,7 +111,7 @@ export const App = () => {
 
       </div>
 
-      <ComponentList goods={visibleGoods} />
+      <ComponentList goods={sortLogic(visibleGoods, sortField, reverse)} />
     </div>
   );
 };
