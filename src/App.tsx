@@ -1,62 +1,94 @@
-import React from 'react';
+import React, { useState } from 'react';
+import cn from 'classnames';
 import 'bulma/css/bulma.css';
+
 import './App.scss';
 
-export const goodsFromServer = [
-  'Dumplings',
-  'Carrot',
-  'Eggs',
-  'Ice cream',
-  'Apple',
-  'Bread',
-  'Fish',
-  'Honey',
-  'Jam',
-  'Garlic',
-];
+import { goodsFromServer } from './constants/goodsFromServer';
+import { SortType } from './types/sortType';
+import { getGoodsList } from './helpers/getGoodsList';
 
-export const App: React.FC = () => {
+export const App = () => {
+  const [targetInnerText, setTargetInnerText]
+    = useState<SortType>(SortType.Default);
+  const [isReversed, setIsReversed] = useState(false);
+  const visibleGoods = getGoodsList(
+    goodsFromServer, targetInnerText, isReversed,
+  );
+
+  const handleSort = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setTargetInnerText(e.currentTarget.innerText as SortType);
+  };
+
+  const handlleReverse = () => {
+    setIsReversed(prev => !prev);
+  };
+
+  const handleReset = () => {
+    setTargetInnerText(SortType.Default);
+    setIsReversed(false);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className="button is-info is-light"
+          className={
+            cn(
+              'button is-info',
+              { 'is-light': targetInnerText !== SortType.Alphabetically },
+            )
+          }
+          onClick={handleSort}
         >
-          Sort alphabetically
+          {SortType.Alphabetically}
         </button>
 
         <button
           type="button"
-          className="button is-success is-light"
+          className={
+            cn(
+              'button is-success',
+              { 'is-light': targetInnerText !== SortType.Length },
+            )
+          }
+          onClick={handleSort}
         >
-          Sort by length
+          {SortType.Length}
         </button>
 
         <button
           type="button"
-          className="button is-warning is-light"
+          className={
+            cn(
+              'button is-warning',
+              { 'is-light': !isReversed },
+            )
+          }
+          onClick={handlleReverse}
         >
           Reverse
         </button>
 
-        <button
-          type="button"
-          className="button is-danger is-light"
-        >
-          Reset
-        </button>
+        {
+          (targetInnerText || isReversed)
+            && (
+              <button
+                type="button"
+                className="button is-danger is-light"
+                onClick={handleReset}
+              >
+                Reset
+              </button>
+            )
+        }
       </div>
 
       <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
+        {visibleGoods.map(good => (
+          <li data-cy="Good" key={good}>{good}</li>
+        ))}
       </ul>
     </div>
   );
