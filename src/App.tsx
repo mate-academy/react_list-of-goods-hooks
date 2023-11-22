@@ -1,6 +1,7 @@
 import 'bulma/css/bulma.css';
 import './App.scss';
 import { useState } from 'react';
+import cn from 'classnames';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -55,7 +56,6 @@ function isLight(sortField:string, SORT_FIELD:string):string {
 export const App:React.FC = () => {
   const [sortField, setSortField] = useState('');
   const [isReversed, setReversed] = useState(false);
-  const [isReset, setReset] = useState(false);
   const visibleGoods = getPreparedGoods(goodsFromServer,
     sortField, isReversed);
 
@@ -65,10 +65,9 @@ export const App:React.FC = () => {
         <button
           onClick={() => {
             setSortField(SortType.NAME);
-            setReset(true);
           }}
           type="button"
-          className={`button is-info ${isLight(sortField, SortType.NAME)}`}
+          className={cn('button is-info', isLight(sortField, SortType.NAME))}
         >
           Sort alphabetically
         </button>
@@ -76,10 +75,9 @@ export const App:React.FC = () => {
         <button
           onClick={() => {
             setSortField(SortType.LEN);
-            setReset(true);
           }}
           type="button"
-          className={`button is-info ${isLight(sortField, SortType.LEN)}`}
+          className={cn('button is-info', isLight(sortField, SortType.LEN))}
         >
           Sort by length
         </button>
@@ -88,20 +86,18 @@ export const App:React.FC = () => {
           onClick={() => {
             setReversed(!isReversed);
             setSortField(sortField);
-            setReset(!isReversed || sortField !== '');
           }}
           type="button"
-          className={`button is-info ${isReversed ? '' : 'is-light'}`}
+          className={cn('button is-info', isReversed ? '' : 'is-light')}
         >
           Reverse
         </button>
 
         {
-          isReset ? (
+          (isReversed || sortField !== '') && (
             <button
               onClick={() => {
                 setSortField('');
-                setReset(false);
                 setReversed(false);
               }}
               type="button"
@@ -109,7 +105,7 @@ export const App:React.FC = () => {
             >
               Reset
             </button>
-          ) : ''
+          )
         }
 
       </div>
