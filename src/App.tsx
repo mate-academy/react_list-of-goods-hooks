@@ -30,7 +30,7 @@ function getSortedGoods(
 ): string[] {
   const copyGoods = [...goods];
 
-  if (reverseParameter === true) {
+  if (reverseParameter) {
     copyGoods.reverse();
   }
 
