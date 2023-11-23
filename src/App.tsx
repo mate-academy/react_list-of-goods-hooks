@@ -17,9 +17,9 @@ export const goodsFromServer: string[] = [
 ];
 
 enum SortType {
-  SORT_FILED_DEFAULT = '',
-  SORT_FILED_NAME = 'name',
-  SORT_FILED_LENGTH = 'length',
+  Default = '',
+  Name = 'name',
+  Length = 'length',
 }
 
 function getPreparedGoods(
@@ -31,10 +31,10 @@ function getPreparedGoods(
   if (sortField) {
     preparedGoods.sort((good1, good2) => {
       switch (sortField) {
-        case SortType.SORT_FILED_NAME:
+        case SortType.Name:
           return good1.localeCompare(good2);
 
-        case SortType.SORT_FILED_LENGTH:
+        case SortType.Length:
           return good1.length - good2.length;
 
         default:
@@ -51,7 +51,7 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState(SortType.SORT_FILED_DEFAULT);
+  const [sortField, setSortField] = useState(SortType.Default);
   const [isReversed, setIsReversed] = useState(false);
   const visibleGoods
     = getPreparedGoods(
@@ -61,7 +61,7 @@ export const App: React.FC = () => {
 
   const reset = () => {
     setIsReversed(false);
-    setSortField(SortType.SORT_FILED_DEFAULT);
+    setSortField(SortType.Default);
   };
 
   return (
@@ -73,10 +73,10 @@ export const App: React.FC = () => {
             'button',
             'is-info',
             {
-              'is-light': sortField !== SortType.SORT_FILED_NAME,
+              'is-light': sortField !== SortType.Name,
             },
           )}
-          onClick={() => setSortField(SortType.SORT_FILED_NAME)}
+          onClick={() => setSortField(SortType.Name)}
         >
           Sort alphabetically
         </button>
@@ -87,10 +87,10 @@ export const App: React.FC = () => {
             'button',
             'is-success',
             {
-              'is-light': sortField !== SortType.SORT_FILED_LENGTH,
+              'is-light': sortField !== SortType.Length,
             },
           )}
-          onClick={() => setSortField(SortType.SORT_FILED_LENGTH)}
+          onClick={() => setSortField(SortType.Length)}
         >
           Sort by length
         </button>
