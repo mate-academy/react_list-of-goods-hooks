@@ -26,11 +26,11 @@ enum SortType {
 function getSortedGoods(
   goods: string[],
   sortParameter: SortType,
-  reverseParameter: string,
+  reverseParameter: boolean,
 ): string[] {
   const copyGoods = [...goods];
 
-  if (reverseParameter === '1') {
+  if (reverseParameter === true) {
     copyGoods.reverse();
   }
 
@@ -61,7 +61,7 @@ function getSortedGoods(
 }
 
 export const App: React.FC = () => {
-  const [reverseParameter, setReverseParameter] = useState('');
+  const [reverseParameter, setReverseParameter] = useState(false);
   const [sortParameter, setSortParameter] = useState(SortType.default);
 
   const visibleGoods
@@ -69,16 +69,16 @@ export const App: React.FC = () => {
 
   const reset = () => {
     setSortParameter(SortType.default);
-    setReverseParameter('');
+    setReverseParameter(false);
   };
 
   const reverse = () => {
     if (reverseParameter) {
-      setReverseParameter('');
+      setReverseParameter(false);
     }
 
     if (!reverseParameter) {
-      setReverseParameter('1');
+      setReverseParameter(true);
     }
   };
 
@@ -109,7 +109,7 @@ export const App: React.FC = () => {
           onClick={reverse}
           type="button"
           className={cn('button is-warning', {
-            'is-light': reverseParameter === '',
+            'is-light': reverseParameter === false,
           })}
         >
           Reverse
