@@ -54,6 +54,23 @@ export const App: React.FC = () => {
 
   const vizibleGoods = getPrepearedGoods(goods, sortedField, reverse);
 
+  function sortByAlphabet() {
+    setSortedField(SortType.Alphabetically);
+  }
+
+  function handleReset() {
+    setSortedField(SortType.withoutSort);
+    setReverse(false);
+  }
+
+  function sortByLength() {
+    setSortedField(SortType.Length);
+  }
+
+  function sortByReverse() {
+    setReverse(!reverse);
+  }
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -64,7 +81,7 @@ export const App: React.FC = () => {
               'is-light': sortedField !== SortType.Alphabetically,
             })
           }
-          onClick={() => setSortedField(SortType.Alphabetically)}
+          onClick={sortByAlphabet}
         >
           Sort alphabetically
         </button>
@@ -76,7 +93,7 @@ export const App: React.FC = () => {
               'is-light': sortedField !== SortType.Length,
             })
           }
-          onClick={() => setSortedField(SortType.Length)}
+          onClick={sortByLength}
         >
           Sort by length
         </button>
@@ -86,24 +103,21 @@ export const App: React.FC = () => {
           className={cn('button', 'is-warning', {
             'is-light': !reverse,
           })}
-          onClick={() => setReverse(!reverse)}
+          onClick={sortByReverse}
         >
           Reverse
         </button>
 
         {
-          sortedField || reverse ? (
+          (sortedField || reverse) && (
             <button
               type="button"
               className="button is-danger is-light"
-              onClick={() => {
-                setSortedField(SortType.withoutSort);
-                setReverse(false);
-              }}
+              onClick={handleReset}
             >
               Reset
             </button>
-          ) : null
+          )
         }
       </div>
 
