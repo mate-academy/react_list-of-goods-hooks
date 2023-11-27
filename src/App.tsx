@@ -17,85 +17,75 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-const SORT_BY_ALPHABET = 'alphabet';
-const SORT_BY_LENGTH = 'length';
+enum SortType {
+  None,
+  Alphabetic,
+  Length,
+}
 
 function getPreparedGoods(
   goods: string[],
-  sortByType: string,
+  sortByType: SortType,
   isReverse: boolean,
 ): string[] {
-  let preparedGoods = [...goods];
+  const preparedGoods = [...goods];
 
-  if (sortByType) {
-    return preparedGoods.sort((good1: string, good2: string) => {
-      switch (sortByType) {
-        case SORT_BY_ALPHABET:
-          return isReverse
-            ? good2.localeCompare(good1)
-            : good1.localeCompare(good2);
-        case SORT_BY_LENGTH:
-          if (good1.length === good2.length) {
-            return isReverse
-              ? good2.localeCompare(good1)
-              : good1.localeCompare(good2);
-          }
-
-          return isReverse
-            ? good2.length - good1.length
-            : good1.length - good2.length;
-        default:
-          return 0;
-      }
-    });
+  switch (sortByType) {
+    case SortType.Alphabetic:
+      preparedGoods.sort((good1, good2) => good1.localeCompare(good2));
+      break;
+    case SortType.Length:
+      preparedGoods.sort((good1, good2) => good1.length - good2.length);
+      break;
+    case SortType.None:
+    default:
+      break;
   }
 
   if (isReverse) {
-    preparedGoods = [...goodsFromServer].reverse();
+    preparedGoods.reverse();
   }
 
   return preparedGoods;
 }
 
 export const App: React.FC = () => {
-  const [sortBy, setSortBy] = useState('');
+  const [sortBy, setSortBy] = useState(SortType.None);
   const [isReverse, setIsReverse] = useState(false);
   const goods = [...goodsFromServer];
 
   const preparedGoods = getPreparedGoods(goods, sortBy, isReverse);
+  const reset = () => {
+    setSortBy(SortType.None);
+    setIsReverse(false);
+  };
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
+          onClick={() => setSortBy(SortType.Alphabetic)}
           type="button"
-          className={cn({
-            button: true,
-            'is-info': true,
-            'is-light': sortBy !== SORT_BY_ALPHABET,
+          className={cn('button is-info', {
+            'is-light': sortBy !== SortType.Alphabetic,
           })}
-          onClick={() => setSortBy(SORT_BY_ALPHABET)}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={cn({
-            button: true,
-            'is-success': true,
-            'is-light': sortBy !== SORT_BY_LENGTH,
+          className={cn('button is-success', {
+            'is-light': sortBy !== SortType.Length,
           })}
-          onClick={() => setSortBy(SORT_BY_LENGTH)}
+          onClick={() => setSortBy(SortType.Length)}
         >
           Sort by length
         </button>
 
         <button
           type="button"
-          className={cn({
-            button: true,
-            'is-warning': true,
+          className={cn('button is-warning', {
             'is-light': !isReverse,
           })}
           onClick={() => setIsReverse(!isReverse)}
@@ -107,10 +97,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortBy('');
-              setIsReverse(false);
-            }}
+            onClick={reset}
           >
             Reset
           </button>
