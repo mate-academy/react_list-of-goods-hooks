@@ -93,7 +93,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(isReverse || !!sortBy) && (
+        {(isReverse || sortBy !== SortType.None) && (
           <button
             type="button"
             className="button is-danger is-light"
