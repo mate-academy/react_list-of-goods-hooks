@@ -66,9 +66,9 @@ export const App: React.FC = () => {
   const resetGoods = () => {
     setSortField(SortType.default);
     setReverse(false);
-  }
+  };
 
-  const addLightClass = (param: boolean) => param && 'is-light' || '';
+  const addLightClass = (param: boolean) => param && 'is-light';
 
   return (
     <div className="section content">
