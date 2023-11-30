@@ -18,9 +18,9 @@ export const goodsFromServer = [
 ];
 
 export enum SortFieldType {
-  sortAlphabetically = 'sortAlphabetically',
-  sortByLength = 'sortByLength',
-  sortByDefault = 'sortByDefault',
+  alphabetically = 'alphabetically',
+  byLength = 'byLength',
+  byDefault = '',
 }
 
 const sortProducts = (
@@ -33,13 +33,12 @@ const sortProducts = (
   if (sortField) {
     sortedProducts.sort((product1, product2) => {
       switch (sortField) {
-        case SortFieldType.sortAlphabetically:
+        case SortFieldType.alphabetically:
           return product1.localeCompare(product2);
 
-        case SortFieldType.sortByLength:
+        case SortFieldType.byLength:
           return product1.length - product2.length;
 
-        case SortFieldType.sortByDefault:
         default:
           return 0;
       }
@@ -54,14 +53,15 @@ const sortProducts = (
 };
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState<string>('');
+  const [sortField, setSortField]
+    = useState<SortFieldType>(SortFieldType.byDefault);
   const [isReversed, setIsReversed] = useState<boolean>(false);
 
   const visibleProducts
-    = sortProducts(goodsFromServer, sortField as SortFieldType, isReversed);
+    = sortProducts(goodsFromServer, sortField, isReversed);
 
   const resetSorting = () => {
-    setSortField('');
+    setSortField(SortFieldType.byDefault);
     setIsReversed(false);
   };
 
@@ -71,8 +71,8 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-info',
-            { 'is-light': sortField !== SortFieldType.sortAlphabetically })}
-          onClick={() => setSortField(SortFieldType.sortAlphabetically)}
+            { 'is-light': sortField !== SortFieldType.alphabetically })}
+          onClick={() => setSortField(SortFieldType.alphabetically)}
         >
           Sort alphabetically
         </button>
@@ -80,8 +80,8 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-success',
-            { 'is-light': sortField !== SortFieldType.sortByLength })}
-          onClick={() => setSortField(SortFieldType.sortByLength)}
+            { 'is-light': sortField !== SortFieldType.byLength })}
+          onClick={() => setSortField(SortFieldType.byLength)}
         >
           Sort by length
         </button>
