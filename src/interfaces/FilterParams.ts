@@ -1,4 +1,6 @@
+import { SortType } from './SortType';
+
 export interface FilterParams {
-  sortField: string,
+  sortField: SortType,
   reverse: boolean
 }

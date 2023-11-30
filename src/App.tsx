@@ -11,7 +11,7 @@ import { GoodsList } from './components/GoodsList';
 function getPreperedGoods(
   goods: string[],
   { sortField, reverse }: FilterParams,
-) {
+): string[] {
   const preperedGoods = [...goods];
 
   if (sortField) {
@@ -37,7 +37,7 @@ function getPreperedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState(SortType.default);
   const [reverse, setReverse] = useState(false);
 
   const visibleGoods = getPreperedGoods(
@@ -46,7 +46,7 @@ export const App: React.FC = () => {
   );
 
   const handleClickReset = () => {
-    setSortField('');
+    setSortField(SortType.default);
     setReverse(false);
   };
 
