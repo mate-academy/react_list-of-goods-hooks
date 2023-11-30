@@ -24,11 +24,10 @@ enum SortType {
 }
 
 function getPreparedGoods(
-  goods: string[],
   sortByType: SortType,
   isReverse: boolean,
 ): string[] {
-  const preparedGoods = [...goods];
+  const preparedGoods = [...goodsFromServer];
 
   switch (sortByType) {
     case SortType.Alphabetic:
@@ -52,9 +51,8 @@ function getPreparedGoods(
 export const App: React.FC = () => {
   const [sortBy, setSortBy] = useState(SortType.None);
   const [isReverse, setIsReverse] = useState(false);
-  const goods = [...goodsFromServer];
 
-  const preparedGoods = getPreparedGoods(goods, sortBy, isReverse);
+  const preparedGoods = getPreparedGoods(sortBy, isReverse);
   const reset = () => {
     setSortBy(SortType.None);
     setIsReverse(false);
