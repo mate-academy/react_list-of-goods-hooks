@@ -17,7 +17,7 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-type goodsList = string[];
+type GoodsList = string[];
 
 export enum SortFieldType {
   sortAlphabetically = 'sortAlphabetically',
@@ -26,7 +26,7 @@ export enum SortFieldType {
 }
 
 function getPreparedGoods(
-  goods: goodsList,
+  goods: GoodsList,
   sortField: SortFieldType,
   reverse: boolean,
 ) {
