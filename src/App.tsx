@@ -20,6 +20,7 @@ export const goodsFromServer = [
 export enum SortFieldType {
   sortAlphabetically = 'sortAlphabetically',
   sortByLength = 'sortByLength',
+  sortByDefault = 'sortByDefault',
 }
 
 const sortProducts = (
@@ -38,6 +39,7 @@ const sortProducts = (
         case SortFieldType.sortByLength:
           return product1.length - product2.length;
 
+        case SortFieldType.sortByDefault:
         default:
           return 0;
       }
