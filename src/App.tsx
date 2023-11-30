@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import cn from 'classnames';
-import { v4 as uuidv4 } from 'uuid';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
@@ -24,7 +23,7 @@ enum SortType {
 }
 
 interface FunctionArguments {
-  sortField : string,
+  sortField : SortType,
   reversed: boolean,
 }
 
@@ -62,6 +61,8 @@ export const App: React.FC = () => {
     setSortField(SortType.Default);
     setReversed(false);
   };
+
+  const shouldShowResetButton : boolean = !!sortField || reversed;
 
   const visibleGoods = prepareGoods(goodsFromServer, { sortField, reversed });
 
@@ -101,7 +102,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortField || reversed) && (
+        {shouldShowResetButton && (
           <button
             type="button"
             className="button is-danger is-light"
@@ -116,7 +117,7 @@ export const App: React.FC = () => {
         {visibleGoods.map(good => (
           <li
             data-cy="Good"
-            key={uuidv4()}
+            key={good}
           >
             {good}
           </li>
