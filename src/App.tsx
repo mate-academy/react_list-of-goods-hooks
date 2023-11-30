@@ -63,17 +63,19 @@ export const App: React.FC = () => {
     { sortField, reverse },
   );
 
-  function resetGoods() {
+  const resetGoods = () => {
     setSortField(SortType.default);
     setReverse(false);
   }
+
+  const addLightClass = (param: boolean) => param && 'is-light' || '';
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortField !== SortType.alphabet && 'is-light'}`}
+          className={`button is-info ${addLightClass(sortField !== SortType.alphabet)}`}
           onClick={() => setSortField(SortType.alphabet)}
         >
           Sort alphabetically
@@ -81,7 +83,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-success ${sortField !== SortType.length && 'is-light'}`}
+          className={`button is-success ${addLightClass(sortField !== SortType.length)}`}
           onClick={() => setSortField(SortType.length)}
         >
           Sort by length
@@ -89,7 +91,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-warning ${!reverse && 'is-light'}`}
+          className={`button is-warning ${addLightClass(!reverse)}`}
           onClick={() => setReverse(!reverse)}
         >
           Reverse
