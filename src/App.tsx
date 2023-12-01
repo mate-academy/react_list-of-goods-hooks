@@ -66,6 +66,9 @@ function getPreparedGoods(
 export const App: React.FC = () => {
   const [sortedBy, setSortedBy] = useState<SortType>(SortType.Initial);
   const [isReversed, setIsReversed] = useState<IsReversed>(false);
+
+  const resetBtnCondition = sortedBy || isReversed;
+
   const visibleGoods: PreparedGood[] = getPreparedGoods(
     goodsFromServer,
     sortedBy,
@@ -108,7 +111,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortedBy || isReversed) && (
+        {resetBtnCondition && (
           <button
             type="button"
             className="button is-danger is-light"
