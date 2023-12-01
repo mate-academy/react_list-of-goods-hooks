@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
+import { GoodsType, GetFuncType } from './types/Types';
+import { sortBy } from './const/const';
+import { SortButtons } from './components/SortButtons/SortButtons';
+import { DataList } from './components/DataList/DataList';
 import './App.scss';
 
-export const goodsFromServer = [
+export const goodsFromServer: GoodsType = [
   'Dumplings',
   'Carrot',
   'Eggs',
@@ -15,49 +19,53 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+const getSortedGoods: GetFuncType = (goods, { sort, reverse }) => {
+  if (sort) {
+    goods.sort((a: string, b: string) => {
+      switch (sort) {
+        case sortBy.alphabet:
+          return a.localeCompare(b);
+
+        case sortBy.length:
+          return a.length - b.length;
+
+        default:
+          return 0;
+      }
+    });
+  }
+
+  if (reverse) {
+    return goods.reverse();
+  }
+
+  return goods;
+};
+
 export const App: React.FC = () => {
+  const [sortedBy, setSortedBy] = useState<string>('');
+  const [reverse, setReverse] = useState<boolean>(false);
+  const visibleGoods = getSortedGoods(
+    [...goodsFromServer], { sort: sortedBy, reverse },
+  );
+
+  const handlerReset = () => {
+    setSortedBy('');
+    setReverse(false);
+  };
+
   return (
     <div className="section content">
-      <div className="buttons">
-        <button
-          type="button"
-          className="button is-info is-light"
-        >
-          Sort alphabetically
-        </button>
+      <SortButtons
+        sortedBy={(value: string) => setSortedBy(value)}
+        reverse={() => setReverse(!reverse)}
+        reset={handlerReset}
+        showReset={(sortedBy.length > 0 || reverse)}
+        currentSorted={sortedBy}
+        isRevers={reverse}
+      />
 
-        <button
-          type="button"
-          className="button is-success is-light"
-        >
-          Sort by length
-        </button>
-
-        <button
-          type="button"
-          className="button is-warning is-light"
-        >
-          Reverse
-        </button>
-
-        <button
-          type="button"
-          className="button is-danger is-light"
-        >
-          Reset
-        </button>
-      </div>
-
-      <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
-      </ul>
+      <DataList data={visibleGoods} />
     </div>
   );
 };
