@@ -54,11 +54,7 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
 
   const setIsReversedToggle = () => {
-    if (isReversed === true) {
-      setIsReversed(false);
-    } else {
-      setIsReversed(true);
-    }
+    setIsReversed((prevState) => !prevState);
   };
 
   const resetAllFilters = (): void => {
