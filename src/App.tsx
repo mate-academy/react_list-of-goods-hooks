@@ -27,36 +27,36 @@ interface SortingOptions {
   isReversed: boolean;
 }
 
+const getGoodsToView = (
+  goods: string[],
+  { sortMethod, isReversed }: SortingOptions,
+) => {
+  let newGoods = [...goods];
+
+  switch (sortMethod) {
+    case SortType.Alphabetically:
+      newGoods = newGoods.sort((a, b) => a.localeCompare(b));
+      break;
+
+    case SortType.Length:
+      newGoods = newGoods.sort((a, b) => a.length - b.length);
+      break;
+
+    default:
+      break;
+  }
+
+  if (isReversed) {
+    newGoods = newGoods.reverse();
+  }
+
+  return newGoods;
+};
+
 export const App: React.FC = () => {
-  const getGoodsToView = (
-    goods: string[],
-    { sortMethod, isReversed }: SortingOptions,
-  ) => {
-    let newGoods = [...goods];
-
-    switch (sortMethod) {
-      case SortType.Alphabetically:
-        newGoods = newGoods.sort((a, b) => a.localeCompare(b));
-        break;
-
-      case SortType.Length:
-        newGoods = newGoods.sort((a, b) => a.length - b.length);
-        break;
-
-      default:
-        break;
-    }
-
-    if (isReversed) {
-      newGoods = newGoods.reverse();
-    }
-
-    return newGoods;
-  };
-
   const [sortMethod, setSortMethod] = useState(SortType.None);
   const [isReversed, setIsReversed] = useState(false);
-  const GoodsToView: string[] = getGoodsToView(
+  const goodsToView: string[] = getGoodsToView(
     goodsFromServer,
     { sortMethod, isReversed },
   );
@@ -115,7 +115,7 @@ export const App: React.FC = () => {
 
       <ul>
         <ul>
-          {GoodsToView.map(good => (
+          {goodsToView.map(good => (
             <li data-cy="Good" key={good}>
               {good}
             </li>
