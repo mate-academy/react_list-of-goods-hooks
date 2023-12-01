@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import cn from 'classnames';
 import './App.scss';
-import { Good } from './types/Good';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -16,6 +15,7 @@ export const goodsFromServer = [
   'Jam',
   'Garlic',
 ];
+type Good = string;
 
 enum SortType {
   NONE = '',
