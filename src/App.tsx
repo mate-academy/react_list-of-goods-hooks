@@ -17,8 +17,10 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+type SortField = string | '';
+
 interface Filters {
-  sortField: string | '';
+  sortField: SortField;
   reverse: boolean;
 }
 
@@ -29,10 +31,10 @@ enum SortBy {
 }
 
 function getPreparedGoods(goods: string[], { sortField, reverse }: Filters) {
-  let preparedGoods = [...goods];
+  const preparedGoods = [...goods];
 
   if (sortField) {
-    preparedGoods = preparedGoods.sort((good1, good2) => {
+    preparedGoods.sort((good1, good2) => {
       switch (sortField) {
         case SortBy.ByAlphabet:
           return good1.localeCompare(good2);
@@ -60,6 +62,8 @@ export const App = () => {
     sortField,
     reverse,
   });
+
+  const sortedOrReversed = sortField || reverse;
 
   const reset = () => {
     setSortField(SortBy.ByDefault);
@@ -105,7 +109,7 @@ export const App = () => {
           Reverse
         </button>
 
-        {(sortField || reverse) && (
+        {sortedOrReversed && (
           <button
             type="button"
             className="button is-danger is-light"
