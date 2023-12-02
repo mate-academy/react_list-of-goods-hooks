@@ -22,8 +22,8 @@ interface SortingParams {
 }
 
 enum SortType {
-  alphabet = 'alphabet',
-  length = 'length',
+  Alphabet = 'alphabet',
+  Length = 'length',
 }
 
 function getPreparedGoods(
@@ -35,10 +35,10 @@ function getPreparedGoods(
   if (sortField) {
     preparedGoods.sort((good1, good2) => {
       switch (sortField) {
-        case SortType.alphabet:
+        case SortType.Alphabet:
           return good1.localeCompare(good2);
 
-        case SortType.length:
+        case SortType.Length:
           return good1.length - good2.length;
 
         default:
@@ -71,9 +71,9 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          onClick={() => setSortField(SortType.alphabet)}
+          onClick={() => setSortField(SortType.Alphabet)}
           className={cn('button is-info', {
-            'is-light': sortField !== SortType.alphabet,
+            'is-light': sortField !== SortType.Alphabet,
           })}
         >
           Sort alphabetically
@@ -81,9 +81,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          onClick={() => setSortField(SortType.length)}
+          onClick={() => setSortField(SortType.Length)}
           className={cn('button is-success', {
-            'is-light': sortField !== SortType.length,
+            'is-light': sortField !== SortType.Length,
           })}
         >
           Sort by length
