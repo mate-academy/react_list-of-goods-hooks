@@ -16,8 +16,13 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-const ALPHABETICALLY = 'alphabetically';
-const SORT_BY_LENGTH = 'sortByLength';
+// const ALPHABETICALLY = 'alphabetically';
+// const SORT_BY_LENGTH = 'sortByLength';
+
+enum SortType {
+  ALPHABETICALLY = 'alphabetically',
+  SORT_BY_LENGTH = 'sortByLength',
+}
 
 function sortedGoodByType(goods: string[],
   sortType: string,
@@ -25,13 +30,13 @@ function sortedGoodByType(goods: string[],
   const copyGoods = [...goods];
 
   switch (sortType) {
-    case ALPHABETICALLY:
+    case SortType.ALPHABETICALLY:
       copyGoods.sort((good1, good2) => (
         good1.localeCompare(good2)
       ));
       break;
 
-    case SORT_BY_LENGTH:
+    case SortType.SORT_BY_LENGTH:
       copyGoods.sort((good1, good2) => (
         good1.length - good2.length
       ));
@@ -48,12 +53,8 @@ function sortedGoodByType(goods: string[],
   return copyGoods;
 }
 
-interface Props {
-  
-}
-
-export const App: React.FC<Props> = () => {
-  const [sortType, setSortType] = useState('');
+export const App: React.FC = () => {
+  const [sortType, setSortType] = useState<string>('');
   const [isReversed, setIsReversed] = useState(false);
 
   const preparedGoods = sortedGoodByType(goodsFromServer, sortType, isReversed);
@@ -69,20 +70,20 @@ export const App: React.FC<Props> = () => {
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => setSortType(ALPHABETICALLY)}
+          onClick={() => setSortType(SortType.ALPHABETICALLY)}
           type="button"
           className={cn('button', 'is-info', {
-            'is-light': sortType !== ALPHABETICALLY,
+            'is-light': sortType !== SortType.ALPHABETICALLY,
           })}
         >
           Sort alphabetically
         </button>
 
         <button
-          onClick={() => setSortType(SORT_BY_LENGTH)}
+          onClick={() => setSortType(SortType.SORT_BY_LENGTH)}
           type="button"
           className={cn('button', 'is-success', {
-            'is-light': sortType !== SORT_BY_LENGTH,
+            'is-light': sortType !== SortType.SORT_BY_LENGTH,
           })}
         >
           Sort by length
