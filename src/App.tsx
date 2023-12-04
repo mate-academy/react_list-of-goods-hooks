@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
-import { GoodsType, GetFuncType } from './types/Types';
-import { sortBy } from './const/const';
+import { SortBy, GoodsType, Options } from './types/Types';
 import { SortButtons } from './components/SortButtons/SortButtons';
 import { DataList } from './components/DataList/DataList';
 import './App.scss';
@@ -19,14 +18,18 @@ export const goodsFromServer: GoodsType = [
   'Garlic',
 ];
 
-const getSortedGoods: GetFuncType = (goods, { sort, reverse }) => {
+const getSortedGoods = (goods: GoodsType,
+  {
+    sort,
+    isReversed,
+  }: Options): GoodsType => {
   if (sort) {
     goods.sort((a: string, b: string) => {
       switch (sort) {
-        case sortBy.alphabet:
+        case SortBy.Alphabet:
           return a.localeCompare(b);
 
-        case sortBy.length:
+        case SortBy.Length:
           return a.length - b.length;
 
         default:
@@ -35,7 +38,7 @@ const getSortedGoods: GetFuncType = (goods, { sort, reverse }) => {
     });
   }
 
-  if (reverse) {
+  if (isReversed) {
     return goods.reverse();
   }
 
@@ -43,26 +46,26 @@ const getSortedGoods: GetFuncType = (goods, { sort, reverse }) => {
 };
 
 export const App: React.FC = () => {
-  const [sortedBy, setSortedBy] = useState<string>('');
-  const [reverse, setReverse] = useState<boolean>(false);
+  const [sortedBy, setSortedBy] = useState<SortBy>(SortBy.Default);
+  const [isReversed, setIsReversed] = useState(false);
   const visibleGoods = getSortedGoods(
-    [...goodsFromServer], { sort: sortedBy, reverse },
+    [...goodsFromServer], { sort: sortedBy, isReversed },
   );
 
   const handlerReset = () => {
-    setSortedBy('');
-    setReverse(false);
+    setSortedBy(SortBy.Default);
+    setIsReversed(false);
   };
 
   return (
     <div className="section content">
       <SortButtons
-        sortedBy={(value: string) => setSortedBy(value)}
-        reverse={() => setReverse(!reverse)}
+        sortedBy={(value: SortBy) => setSortedBy(value)}
+        reverse={() => setIsReversed(!isReversed)}
         reset={handlerReset}
-        showReset={(sortedBy.length > 0 || reverse)}
+        showReset={(sortedBy.length > 0 || isReversed)}
         currentSorted={sortedBy}
-        isRevers={reverse}
+        isRevers={isReversed}
       />
 
       <DataList data={visibleGoods} />

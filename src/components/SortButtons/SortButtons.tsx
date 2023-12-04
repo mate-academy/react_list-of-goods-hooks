@@ -1,10 +1,10 @@
 import React from 'react';
 import cn from 'classnames';
-import { sortBy } from '../../const/const';
+import { SortBy } from '../../types/Types';
 import { Button } from '../Button/Button';
 
 type Props = {
-  sortedBy: (arg: string) => void,
+  sortedBy: (arg: SortBy) => void,
   reverse: () => void,
   reset: () => void,
   showReset: boolean,
@@ -24,15 +24,15 @@ export const SortButtons: React.FC<Props> = ({
     <div className="buttons">
       <Button
         classStr={cn('is-info',
-          { 'is-light': currentSorted !== sortBy.alphabet })}
-        click={() => sortedBy(sortBy.alphabet)}
+          { 'is-light': currentSorted !== SortBy.Alphabet })}
+        click={() => sortedBy(SortBy.Alphabet)}
         text="Sort alphabetically"
       />
 
       <Button
         classStr={cn('is-success',
-          { 'is-light': currentSorted !== sortBy.length })}
-        click={() => sortedBy(sortBy.length)}
+          { 'is-light': currentSorted !== SortBy.Length })}
+        click={() => sortedBy(SortBy.Length)}
         text="Sort by length"
       />
 

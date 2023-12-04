@@ -1,13 +1,12 @@
-export type SortByType = {
-  alphabet: string,
-  length: string,
-};
+export enum SortBy {
+  Default = '',
+  Alphabet = 'alphabet',
+  Length = 'length',
+}
 
 export type Options = {
   sort: string,
-  reverse: boolean,
+  isReversed: boolean,
 };
 
 export type GoodsType = string[];
-
-export type GetFuncType = (arg: GoodsType, { ...args }: Options) => GoodsType;
