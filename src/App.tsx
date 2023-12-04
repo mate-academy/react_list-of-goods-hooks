@@ -68,10 +68,12 @@ export const App: React.FC = () => {
     setIsReversed(currentReversed => !currentReversed)
   );
 
-  const reset = () => {
+  const resetSorting = () => {
     setSortBy(SortBy.Default);
     setIsReversed(false);
   };
+
+  const isSortedAndReversed = sortBy || isReversed;
 
   return (
     <div className="section content">
@@ -106,12 +108,12 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortBy || isReversed)
+        {(isSortedAndReversed)
           && (
             <button
               type="button"
               className="button is-danger is-light"
-              onClick={reset}
+              onClick={resetSorting}
             >
               Reset
             </button>
