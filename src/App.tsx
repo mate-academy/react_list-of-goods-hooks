@@ -16,12 +16,9 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-const SORT_BY_ALPHABET = 'alphabet';
-const SORT_BY_LENGTH = 'length';
-
 enum SortBy {
-  Alphabet = SORT_BY_ALPHABET,
-  Length = SORT_BY_LENGTH,
+  Alphabet = 'alphabet',
+  Length = 'length',
   Default = '',
 }
 
