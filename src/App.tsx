@@ -19,15 +19,20 @@ export const goodsFromServer = [
 const BY_NAME = 'byName';
 const BY_LENGTH = 'byLength';
 
+enum Sort {
+  ByName = 'byName',
+  ByLength = 'byLength',
+}
+
 function sortByType(goods: string[], sortType: string, isReversed: boolean) {
   const goodsCopy = [...goods];
 
   if (sortType) {
     switch (sortType) {
-      case BY_NAME:
+      case Sort.ByName:
         goodsCopy.sort((a, b) => a.localeCompare(b));
         break;
-      case BY_LENGTH:
+      case Sort.ByLength:
         goodsCopy.sort((a, b) => a.length - b.length);
         break;
       default:
@@ -56,7 +61,7 @@ export const App: React.FC = () => {
   };
 
   const makeReversed = () => {
-    setIsReversed(!isReversed);
+    setIsReversed(hasState => !hasState);
   };
 
   const reset = () => {
