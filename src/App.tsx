@@ -19,11 +19,12 @@ export const goodsFromServer = [
 enum SortField {
   SORT_ALPHABETICALLY = 'Sort alphabetically',
   SORT_BY_LENGTH = 'Sort by length',
+  None = '',
 }
 
 function getSortedGoods(
   goods: string[],
-  sortField: string,
+  sortField: SortField,
   reversed: boolean,
 ) {
   const sortedGoods = [...goods];
@@ -50,7 +51,7 @@ function getSortedGoods(
 
 export const App: React.FC = () => {
   const [reversed, setReversed] = useState(false);
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState(SortField.None);
 
   const [visibleGoods, setVisibleGoods] = useState(
     getSortedGoods(goodsFromServer, sortField, reversed),
@@ -61,13 +62,13 @@ export const App: React.FC = () => {
     setVisibleGoods(getSortedGoods(goodsFromServer, sortField, !reversed));
   }
 
-  function handleSort(field: string) {
+  function handleSort(field: SortField) {
     setSortField(field);
     setVisibleGoods(getSortedGoods(goodsFromServer, field, reversed));
   }
 
   function handleReset() {
-    setSortField('');
+    setSortField(SortField.None);
     setReversed(false);
     setVisibleGoods(goodsFromServer);
   }
