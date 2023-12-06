@@ -63,7 +63,7 @@ export const App: React.FC = () => {
     [...goodsFromServer], { sortType, isReversed },
   );
 
-  const sort = (text: SortType) => {
+  const sort = (text: SortType) => () => {
     setSortType(text);
   };
 
@@ -71,7 +71,7 @@ export const App: React.FC = () => {
     setIsReversed(!isReversed);
   };
 
-  const reset = (text: SortType) => {
+  const reset = (text: SortType) => () => {
     setSortType(text);
     setIsReversed(false);
   };
@@ -85,7 +85,7 @@ export const App: React.FC = () => {
           className={cn('button is-info', {
             'is-light': sortType !== SortType.ALPHABET,
           })}
-          onClick={() => sort(SortType.ALPHABET)}
+          onClick={sort(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
@@ -95,7 +95,7 @@ export const App: React.FC = () => {
           className={cn('button is-success', {
             'is-light': sortType !== SortType.LENGTH,
           })}
-          onClick={() => sort(SortType.LENGTH)}
+          onClick={sort(SortType.LENGTH)}
         >
           Sort by length
         </button>
@@ -114,7 +114,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => reset(SortType.NONE)}
+            onClick={reset(SortType.NONE)}
           >
             Reset
           </button>
