@@ -16,151 +16,111 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  NONE,
   ALPHABET,
   LENGTH,
 }
 
 type ReorderOptions = {
-  sortType: SortType;
+  sort: SortType | null;
   isReversed: boolean;
 };
 
 export const App: React.FC = () => {
-  const [goods, setGoods] = useState([...goodsFromServer]);
-  const [sortState, setSortState] = useState({
-    isUsable: false,
-    isAlphabetActive: false,
-    isLengthActive: false,
-    isReverseActive: false,
-  });
+  const [updatedGoods, setUpdatedGoods] = useState<string[]>(goodsFromServer);
+  const [sortType, setSortType] = useState(null as SortType | null);
+  const [isReverse, setIsReversed] = useState(false);
 
-  function getReorderedGoods({ sortType, isReversed }: ReorderOptions) {
-    const visibleGoods = [...goods];
-    let updatedGoods: string[] = [];
+  const getReorderedGoods = ({ sort, isReversed }: ReorderOptions) => {
+    let goodsCopy = [...goodsFromServer];
 
-    if (isReversed && sortType === SortType.NONE) {
-      setSortState((prevState) => ({
-        ...prevState,
-        isReverseActive: !prevState.isReverseActive,
-      }));
-
-      if (!sortState.isAlphabetActive && !sortState.isLengthActive) {
-        setSortState((prevState) => ({
-          ...prevState,
-          isUsable: !prevState.isUsable,
-        }));
-      }
-
-      updatedGoods = [...visibleGoods].reverse();
-    } else {
-      switch (sortType) {
-        case SortType.ALPHABET:
-          setSortState({
-            isUsable: true,
-            isAlphabetActive: true,
-            isLengthActive: false,
-            isReverseActive: isReversed,
-          });
-          updatedGoods = [...visibleGoods].sort(
-            (a: string, b: string) => a.localeCompare(b),
-          );
-          break;
-        case SortType.LENGTH:
-          setSortState({
-            isUsable: true,
-            isAlphabetActive: false,
-            isLengthActive: true,
-            isReverseActive: isReversed,
-          });
-          updatedGoods = [...visibleGoods].sort((a: string, b: string) => {
-            const lengthDifference = a.length - b.length;
-
-            if (lengthDifference !== 0) {
-              return lengthDifference;
-            }
-
-            return a.localeCompare(b);
-          });
-          break;
-        case SortType.NONE:
-          setSortState({
-            isUsable: false,
-            isAlphabetActive: false,
-            isLengthActive: false,
-            isReverseActive: false,
-          });
-          updatedGoods = [...goodsFromServer];
-          break;
-        default:
-          break;
-      }
-
-      if (isReversed && sortType !== SortType.NONE) {
-        updatedGoods = updatedGoods.reverse();
-      }
+    switch (sort) {
+      case SortType.ALPHABET:
+        goodsCopy = goodsCopy.sort((a, b) => a.localeCompare(b));
+        setSortType(SortType.ALPHABET);
+        break;
+      case SortType.LENGTH:
+        goodsCopy = goodsCopy.sort((a, b) => a.length - b.length);
+        setSortType(SortType.LENGTH);
+        break;
+      default:
+        break;
     }
 
-    setGoods(updatedGoods);
-  }
+    if (isReversed) {
+      goodsCopy.reverse();
+    }
+
+    setUpdatedGoods(goodsCopy);
+  };
+
+  const reverseGoods = () => {
+    setIsReversed(!isReverse);
+    getReorderedGoods({ sort: sortType, isReversed: !isReverse });
+  };
+
+  const resetGoods = () => {
+    setSortType(null);
+    setIsReversed(false);
+    setUpdatedGoods(goodsFromServer);
+  };
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={sortState.isAlphabetActive
+          className={sortType === SortType.ALPHABET
             ? 'button is-info'
             : 'button is-info is-light'}
-          onClick={() => getReorderedGoods({
-            sortType: SortType.ALPHABET,
-            isReversed: sortState.isReverseActive,
-          })}
+          onClick={
+            () => getReorderedGoods(
+              { sort: SortType.ALPHABET, isReversed: isReverse },
+            )
+          }
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={sortState.isLengthActive
+          className={sortType === SortType.LENGTH
             ? 'button is-success'
             : 'button is-success is-light'}
-          onClick={() => getReorderedGoods({
-            sortType: SortType.LENGTH,
-            isReversed: sortState.isReverseActive,
-          })}
+          onClick={
+            () => getReorderedGoods(
+              { sort: SortType.LENGTH, isReversed: isReverse },
+            )
+          }
         >
           Sort by length
         </button>
 
         <button
           type="button"
-          className={sortState.isReverseActive
+          className={isReverse
             ? 'button is-warning'
             : 'button is-warning is-light'}
-          onClick={() => getReorderedGoods({
-            sortType: SortType.NONE,
-            isReversed: true,
-          })}
+          onClick={reverseGoods}
         >
           Reverse
         </button>
 
-        {sortState.isUsable && (
+        {
+          (isReverse || sortType !== null)
+        && (
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => getReorderedGoods(
-              { sortType: SortType.NONE, isReversed: false },
-            )}
+            onClick={resetGoods}
           >
             Reset
           </button>
-        )}
+        )
+        }
       </div>
 
       <ul>
-        {goods.map(good => (
+        {updatedGoods.map((good) => (
           <li key={good} data-cy="Good">
             {good}
           </li>
