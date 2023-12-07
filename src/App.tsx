@@ -33,10 +33,15 @@ export function getReorderedGoods(
 ) {
   const visibleGoods = [...goods];
 
-  if (sortType === SortType.ALPHABET) {
-    visibleGoods.sort((a, b) => a.localeCompare(b));
-  } else if (sortType === SortType.LENGTH) {
-    visibleGoods.sort((a, b) => a.length - b.length);
+  switch (sortType) {
+    case SortType.ALPHABET:
+      visibleGoods.sort((a, b) => a.localeCompare(b));
+      break;
+    case SortType.LENGTH:
+      visibleGoods.sort((a, b) => a.length - b.length);
+      break;
+    default:
+      break;
   }
 
   if (isReversed) {
@@ -52,7 +57,7 @@ export function getReorderedGoods(
 export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
 
-  const [sortType, setSortType] = useState(SortType.NONE);
+  const [sortType, setSortType] = useState<SortType>(SortType.NONE);
 
   const handleSort = (sortOption: SortType) => () => {
     setSortType(sortOption);
@@ -66,6 +71,11 @@ export const App: React.FC = () => {
     setIsReversed(false);
     setSortType(SortType.NONE);
   };
+
+  const goodsToRender = getReorderedGoods(goodsFromServer, {
+    sortType,
+    isReversed,
+  });
 
   return (
     <div className="section content">
@@ -115,12 +125,9 @@ export const App: React.FC = () => {
 
       <ul>
         <ul>
-          {getReorderedGoods(goodsFromServer, { sortType, isReversed })
-            .map((good) => {
-              return (
-                <li data-cy="Good" key={good}>{good}</li>
-              );
-            })}
+          {goodsToRender.map((good) => (
+            <li data-cy="Good" key={good}>{good}</li>
+          ))}
         </ul>
       </ul>
     </div>
