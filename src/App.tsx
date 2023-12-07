@@ -53,12 +53,20 @@ export const App: React.FC = () => {
     setUpdatedGoods(goodsCopy);
   };
 
-  const reverseGoods = () => {
+  const handleSortAlphabetically = () => {
+    getReorderedGoods({ sort: SortType.ALPHABET, isReversed: isReverse });
+  };
+
+  const handleSortByLength = () => {
+    getReorderedGoods({ sort: SortType.LENGTH, isReversed: isReverse });
+  };
+
+  const handleReverse = () => {
     setIsReversed(!isReverse);
     getReorderedGoods({ sort: sortType, isReversed: !isReverse });
   };
 
-  const resetGoods = () => {
+  const handleReset = () => {
     setSortType(null);
     setIsReversed(false);
     setUpdatedGoods(goodsFromServer);
@@ -72,11 +80,7 @@ export const App: React.FC = () => {
           className={sortType === SortType.ALPHABET
             ? 'button is-info'
             : 'button is-info is-light'}
-          onClick={
-            () => getReorderedGoods(
-              { sort: SortType.ALPHABET, isReversed: isReverse },
-            )
-          }
+          onClick={handleSortAlphabetically}
         >
           Sort alphabetically
         </button>
@@ -86,11 +90,7 @@ export const App: React.FC = () => {
           className={sortType === SortType.LENGTH
             ? 'button is-success'
             : 'button is-success is-light'}
-          onClick={
-            () => getReorderedGoods(
-              { sort: SortType.LENGTH, isReversed: isReverse },
-            )
-          }
+          onClick={handleSortByLength}
         >
           Sort by length
         </button>
@@ -100,23 +100,20 @@ export const App: React.FC = () => {
           className={isReverse
             ? 'button is-warning'
             : 'button is-warning is-light'}
-          onClick={reverseGoods}
+          onClick={handleReverse}
         >
           Reverse
         </button>
 
-        {
-          (isReverse || sortType !== null)
-        && (
+        {(isReverse || sortType !== null) && (
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={resetGoods}
+            onClick={handleReset}
           >
             Reset
           </button>
-        )
-        }
+        )}
       </div>
 
       <ul>
