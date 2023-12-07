@@ -111,17 +111,17 @@ export const App: React.FC = () => {
         >
           Reverse
         </button>
-        {sortType !== SortType.NONE
-        || isReversed === true}
+        {(sortType !== SortType.NONE
+        || isReversed === true)
         && (
-        <button
-          type="button"
-          className="button is-danger is-light"
-          onClick={handleReset}
-        >
-          Reset
-        </button>
-        )
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={handleReset}
+          >
+            Reset
+          </button>
+        )}
       </div>
 
       <ul>
