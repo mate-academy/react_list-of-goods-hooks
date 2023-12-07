@@ -46,7 +46,7 @@ function sortByType(goods:string[], query:string, isReversed:boolean) {
 }
 
 export const App: React.FC = () => {
-  const [sortType, setSortType] = useState('');
+  const [sortType, setSortType] = useState(SortType.None);
   const [isReversed, setIsReversed] = useState(false);
   const sortedGoods = sortByType(goodsFromServer, sortType, isReversed);
 
@@ -63,7 +63,7 @@ export const App: React.FC = () => {
   };
 
   const reset = () => {
-    setSortType('');
+    setSortType(SortType.None);
     setIsReversed(false);
   };
 
