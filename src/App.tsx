@@ -32,45 +32,45 @@ export function getReorderedGoods(
   { sortType, isReversed }: ReorderOptions,
 ) {
   const visibleGoods = [...goods];
-  const sign = isReversed === false ? 1 : -1;
 
-  visibleGoods.sort((good1, good2) => {
-    switch (sortType) {
-      case SortType.ALPHABET:
-        return sign * (good1.localeCompare(good2));
-      case SortType.LENGTH:
-        return sign * (good1.length - good2.length
-          + 0.1 * (good1.localeCompare(good2) > 0 ? 1 : -1));
-      case SortType.NONE:
-        return sign * (goodsFromServer.indexOf(good1)
-                  - goodsFromServer.indexOf(good2));
-      default:
-        return 0;
-    }
-  });
+  switch (sortType) {
+    case SortType.ALPHABET:
+      visibleGoods.sort((good1, good2) => good1.localeCompare(good2));
+      break;
+    case SortType.LENGTH:
+      visibleGoods.sort((good1, good2) => good1.length - good2.length);
+      break;
+    default:
+      break;
+  }
+
+  // eslint-disable-next-line no-console
+  console.log(sortType, isReversed);
+
+  if (isReversed) {
+    visibleGoods.reverse();
+  }
 
   return visibleGoods;
 }
 
 export const App = () => {
-  const [state, setState] = useState({
-    sortType: SortType.NONE,
-    isReversed: false,
-  });
+  const [sortType, setSortType] = useState(SortType.NONE);
 
-  const handleSortClick = (sortType: SortType) => {
-    const { isReversed } = state;
+  const [isReversed, setIsReversed] = useState(false);
 
-    setState({ sortType, isReversed });
+  const handleSortClick = (inputSortType: SortType) => () => {
+    setSortType(inputSortType);
   };
 
-  const handleReverseClick = () => {
-    const { sortType, isReversed } = state;
-
-    setState({ sortType, isReversed: !isReversed });
+  const handleReverseClick = () => () => {
+    setIsReversed(!isReversed);
   };
 
-  const { sortType, isReversed } = state;
+  const handleResetClick = () => () => {
+    setIsReversed(false);
+    setSortType(SortType.NONE);
+  };
 
   return (
     <div className="section content">
@@ -79,7 +79,7 @@ export const App = () => {
           type="button"
           className={sortType === SortType.ALPHABET
             ? 'button is-info' : 'button is-info is-light'}
-          onClick={() => handleSortClick(SortType.ALPHABET)}
+          onClick={handleSortClick(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
@@ -88,7 +88,7 @@ export const App = () => {
           type="button"
           className={sortType === SortType.LENGTH
             ? 'button is-success' : 'button is-success is-light'}
-          onClick={() => handleSortClick(SortType.LENGTH)}
+          onClick={handleSortClick(SortType.LENGTH)}
         >
           Sort by length
         </button>
@@ -97,7 +97,7 @@ export const App = () => {
           type="button"
           className={isReversed === true
             ? 'button is-warning' : 'button is-warning is-light'}
-          onClick={() => handleReverseClick()}
+          onClick={handleReverseClick()}
         >
           Reverse
         </button>
@@ -108,12 +108,7 @@ export const App = () => {
             <button
               type="button"
               className="button is-danger is-light"
-              onClick={() => setState(
-                {
-                  isReversed: false,
-                  sortType: SortType.NONE,
-                },
-              )}
+              onClick={handleResetClick()}
             >
               Reset
             </button>
