@@ -58,75 +58,62 @@ export function getReorderedGoods(
 // };
 
 export const App = () => {
-  const [reorderOptions, setReorderOptions] = useState<ReorderOptions>({
-    sortType: SortType.NONE,
-    isReversed: false,
-  });
+  const [sortType, setSortType] = useState<SortType>(SortType.NONE);
+  const [isReversed, setIsReversed] = useState<boolean>(false);
 
   const handleSortAlphabetically = () => {
-    setReorderOptions({
-      ...reorderOptions,
-      sortType: SortType.ALPHABET,
-    });
+    setSortType(SortType.ALPHABET);
   };
 
   const handleSortByLength = () => {
-    setReorderOptions({
-      ...reorderOptions,
-      sortType: SortType.LENGTH,
-    });
+    setSortType(SortType.LENGTH);
   };
 
   const handleReverse = () => {
-    setReorderOptions({
-      ...reorderOptions,
-      isReversed: !reorderOptions.isReversed,
-    });
+    setIsReversed(!isReversed);
   };
 
   const handleReset = () => {
-    setReorderOptions({
-      sortType: SortType.NONE,
-      isReversed: false,
-    });
+    setSortType(SortType.NONE);
+    setIsReversed(false);
   };
 
-  const visibleGoods = getReorderedGoods(goodsFromServer, reorderOptions);
+  const visibleGoods
+  = getReorderedGoods(goodsFromServer, { sortType, isReversed });
   const alphabetButtonClass
-  = reorderOptions.sortType
-  === SortType.ALPHABET ? 'button is-info' : 'button is-info is-light';
+  = sortType
+  === SortType.ALPHABET ? '' : 'is-light';
   const reverseButtonClass
-  = reorderOptions.isReversed
-    ? 'button is-warning' : 'button is-warning is-light';
+  = isReversed
+    ? '' : 'is-light';
   const lengthButtonClass
-  = reorderOptions.sortType
-  === SortType.LENGTH ? 'button is-success' : 'button is-success is-light';
+  = sortType
+  === SortType.LENGTH ? '' : 'is-light';
 
   return (
     <div>
       <button
         type="button"
         onClick={handleSortAlphabetically}
-        className={alphabetButtonClass}
+        className={`button is-info ${alphabetButtonClass}`}
       >
         Sort alphabetically
       </button>
       <button
         type="button"
         onClick={handleSortByLength}
-        className={lengthButtonClass}
+        className={`button is-warning ${lengthButtonClass}`}
       >
         Sort by length
       </button>
       <button
         type="button"
         onClick={handleReverse}
-        className={reverseButtonClass}
+        className={`button is-success ${reverseButtonClass}`}
       >
         Reverse
       </button>
-      {(reorderOptions.sortType
-      !== SortType.NONE || reorderOptions.isReversed) && (
+      {(sortType !== SortType.NONE || isReversed) && (
         <button
           type="button"
           onClick={handleReset}
