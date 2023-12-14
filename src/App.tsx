@@ -15,77 +15,79 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-type SortCallback = (a: string, b: string) => number;
-
 enum SortType {
   LENGTH = 'length',
   ALPHABETICAL = 'alphabetical',
   NONE = '',
 }
 
+type ReorderOptions = {
+  sortType: SortType,
+  isReversed: boolean,
+};
+
+export function getReorderedGoods(goods: string[],
+  { sortType, isReversed }: ReorderOptions) {
+  // To avoid the original array mutation
+  const visibleGoods = [...goods];
+
+  switch (sortType) {
+    case SortType.ALPHABETICAL:
+      visibleGoods.sort((a: string, b: string) => {
+        if (a < b) {
+          return -1;
+        }
+
+        if (a > b) {
+          return 1;
+        }
+
+        return 0;
+      });
+      break;
+
+    case SortType.LENGTH:
+      visibleGoods.sort((a: string, b: string) => {
+        if (a.length < b.length) {
+          return -1;
+        }
+
+        if (a.length > b.length) {
+          return 1;
+        }
+
+        return 0;
+      });
+      break;
+
+    default:
+      break;
+  }
+
+  return isReversed ? visibleGoods.reverse() : visibleGoods;
+}
+
 export const App: React.FC = () => {
-  const [goods, setGoods] = useState<string[]>(goodsFromServer);
   const [sortType, setSortType] = useState<SortType>(SortType.NONE);
   const [isReversed, setIsReversed] = useState<boolean>(false);
 
-  const sort = (array: string[], callback: SortCallback) => {
-    const sorted = array.sort(callback);
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    isReversed
-      ? setGoods(sorted.reverse())
-      : setGoods(sorted);
-  };
+  const goods = getReorderedGoods(goodsFromServer, { sortType, isReversed });
 
   const sortAlphabetically = () => {
-    sort([...goods], (a: string, b: string) => {
-      if (a < b) {
-        return -1;
-      }
-
-      if (a > b) {
-        return 1;
-      }
-
-      return 0;
-    });
-
     setSortType(SortType.ALPHABETICAL);
   };
 
   const sortByLength = () => {
-    let copyGoods = [...goods];
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    isReversed ? copyGoods = copyGoods.reverse() : null;
-
-    sort(copyGoods, (a: string, b: string) => {
-      if (a.length < b.length) {
-        return -1;
-      }
-
-      if (a.length > b.length) {
-        return 1;
-      }
-
-      return 0;
-    });
-
     setSortType(SortType.LENGTH);
   };
 
   const reverse = () => {
-    const copyGoods = [...goods];
-    const reversed = copyGoods.reverse();
-
     setIsReversed(!isReversed);
-    setGoods(reversed);
   };
 
   const reset = () => {
     setSortType(SortType.NONE);
     setIsReversed(false);
-    setGoods(goodsFromServer);
   };
 
   return (
