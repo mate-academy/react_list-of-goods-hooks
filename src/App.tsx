@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import cn from 'classnames';
@@ -31,13 +31,15 @@ interface AppState {
   isReverse: boolean;
 }
 
-class App extends Component<{}, AppState> {
-  state: AppState = {
+const App: React.FC = () => {
+  const [state, setState] = useState<AppState>({
     sortField: '',
     isReverse: false,
-  };
+  });
 
-  setSortedGoods = (goods: string[], { sortField, isReverse }: SortOptions) => {
+  const setSortedGoods = (
+    goods: string[], { sortField, isReverse }: SortOptions,
+  ) => {
     const sortedGoods = [...goods];
 
     if (sortField) {
@@ -62,83 +64,83 @@ class App extends Component<{}, AppState> {
     return sortedGoods;
   };
 
-  handleSort = (sortField: string) => {
-    this.setState((prevState) => ({
+  const handleSort = (sortField: string) => {
+    setState((prevState) => ({
+      ...prevState,
       sortField: prevState.sortField === sortField ? '' : sortField,
     }));
   };
 
-  handleReverse = () => {
-    this.setState((prevState) => ({
+  const handleReverse = () => {
+    setState((prevState) => ({
+      ...prevState,
       isReverse: !prevState.isReverse,
     }));
   };
 
-  handleReset = () => {
-    this.setState({
+  const handleReset = () => {
+    setState({
       sortField: '',
       isReverse: false,
     });
   };
 
-  render() {
-    const { sortField, isReverse } = this.state;
-    const goods = this.setSortedGoods(goodsFromServer, {
-      sortField,
-      isReverse,
-    });
+  const { sortField, isReverse } = state;
+  const goods = setSortedGoods(goodsFromServer, {
+    sortField,
+    isReverse,
+  });
 
-    return (
-      <div className="section content">
-        <div className="buttons">
+  return (
+    <div className="section content">
+      <div className="buttons">
+        <button
+          type="button"
+          className={cn('button is-info', {
+            'is-light': sortField !== SortType.ALPHABETICALLY,
+          })}
+          onClick={() => handleSort(SortType.ALPHABETICALLY)}
+        >
+          Sort alphabetically
+        </button>
+
+        <button
+          type="button"
+          className={cn('button is-success', {
+            'is-light': sortField !== SortType.LENGTH,
+          })}
+          onClick={() => handleSort(SortType.LENGTH)}
+        >
+          Sort by length
+        </button>
+
+        <button
+          type="button"
+          className={cn('button is-warning', { 'is-light': !isReverse })}
+          onClick={handleReverse}
+        >
+          Reverse
+        </button>
+
+        {(sortField || isReverse) && (
           <button
             type="button"
-            className={cn('button is-info', {
-              'is-light': sortField !== SortType.ALPHABETICALLY,
-            })}
-            onClick={() => this.handleSort(SortType.ALPHABETICALLY)}
+            className="button is-danger is-light"
+            onClick={handleReset}
           >
-            Sort alphabetically
+            Reset
           </button>
-
-          <button
-            type="button"
-            className={cn('button is-success', {
-              'is-light': sortField !== SortType.LENGTH,
-            })}
-            onClick={() => this.handleSort(SortType.LENGTH)}
-          >
-            Sort by length
-          </button>
-
-          <button
-            type="button"
-            className={cn('button is-warning', { 'is-light': !isReverse })}
-            onClick={this.handleReverse}
-          >
-            Reverse
-          </button>
-
-          {(sortField || isReverse) && (
-            <button
-              type="button"
-              className="button is-danger is-light"
-              onClick={this.handleReset}
-            >
-              Reset
-            </button>
-          )}
-        </div>
-        <ul>
-          {goods.map((good) => (
-            <li key={good} data-cy="Good">
-              {good}
-            </li>
-          ))}
-        </ul>
+        )}
       </div>
-    );
-  }
-}
+      <ul>
+        {goods.map((good) => (
+          <li key={good} data-cy="Good">
+            {good}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
 export default App;
