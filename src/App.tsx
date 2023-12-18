@@ -55,6 +55,11 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const goods = getPreparedGoods(goodsFromServer, { sortField, isReversed });
 
+  function reset() {
+    setSortField(SortType.DEFAULT);
+    setIsReversed(false);
+  }
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -89,10 +94,7 @@ export const App: React.FC = () => {
 
         {(isReversed || sortField !== SortType.DEFAULT) && (
           <button
-            onClick={() => {
-              setSortField(SortType.DEFAULT);
-              setIsReversed(false);
-            }}
+            onClick={reset}
             type="button"
             className="button is-danger is-light"
           >
