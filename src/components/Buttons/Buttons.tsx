@@ -50,7 +50,10 @@ export const Buttons: React.FC<Props> = (
         <button
           type="button"
           className="button is-danger is-light"
-          onClick={() => setSortby(SortType.reset)}
+          onClick={() => {
+            setIsReversed(false);
+            setSortby(SortType.reset);
+          }}
         >
           Reset
         </button>
