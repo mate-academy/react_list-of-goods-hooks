@@ -32,6 +32,7 @@ function prepereList(sortBy: SortType | string, isReversed: boolean): string[] {
 
         return good1.localeCompare(good2);
       });
+
     case SORT_BY.LENGTH:
       return list.sort((good1, good2) => {
         if (isReversed) {
@@ -40,15 +41,17 @@ function prepereList(sortBy: SortType | string, isReversed: boolean): string[] {
 
         return good1.length - good2.length;
       });
-    case SORT_BY.REVERSE:
-      return list.reverse();
-    default:
+
+    case SORT_BY.RESET:
       return goodsFromServer;
+
+    default:
+      return list.reverse();
   }
 }
 
 export const App: React.FC = () => {
-  const [sortBy, setSortby] = useState<SortType>(SortType.reset);
+  const [sortBy, setSortby] = useState<SortType>(SortType.initial);
   const [isReversed, setIsReversed] = useState(false);
 
   const sortedList = prepereList(sortBy, isReversed);

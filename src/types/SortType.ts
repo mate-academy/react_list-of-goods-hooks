@@ -3,4 +3,5 @@ export enum SortType {
   length,
   reverse,
   reset,
+  initial,
 }

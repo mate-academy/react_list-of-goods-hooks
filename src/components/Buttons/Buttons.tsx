@@ -17,6 +17,20 @@ export const Buttons: React.FC<Props> = (
     sortBy,
   },
 ) => {
+  const showResetBtn = () => {
+    if (sortBy === SORT_BY.INITIAL && isReversed === false) {
+      return false;
+    }
+
+    if (sortBy === SORT_BY.REVERSE && isReversed === false) {
+      return false;
+    }
+
+    return true;
+  };
+
+  const isResetBtnVisible = showResetBtn();
+
   return (
     <div className="buttons">
       <button
@@ -29,7 +43,7 @@ export const Buttons: React.FC<Props> = (
 
       <button
         type="button"
-        className={`button is-info ${sortBy !== SORT_BY.LENGTH && 'is-light'}`}
+        className={`button is-success ${sortBy !== SORT_BY.LENGTH && 'is-light'}`}
         onClick={() => setSortby(SORT_BY.LENGTH)}
       >
         Sort by length
@@ -37,22 +51,21 @@ export const Buttons: React.FC<Props> = (
 
       <button
         type="button"
-        className={`button is-info ${!isReversed && 'is-light'}`}
+        className={`button is-warning ${!isReversed && 'is-light'}`}
         onClick={() => {
           setIsReversed(!isReversed);
-          setSortby(SORT_BY.REVERSE);
         }}
       >
         Reverse
       </button>
 
-      {sortBy !== SortType.reset && (
+      { isResetBtnVisible && (
         <button
           type="button"
           className="button is-danger is-light"
           onClick={() => {
             setIsReversed(false);
-            setSortby(SortType.reset);
+            setSortby(SortType.initial);
           }}
         >
           Reset

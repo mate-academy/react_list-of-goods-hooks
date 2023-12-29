@@ -8,4 +8,6 @@ export const SORT_BY: SortBy = {
   ALPHABET: SortType.alphabet,
   LENGTH: SortType.length,
   REVERSE: SortType.reverse,
+  RESET: SortType.reset,
+  INITIAL: SortType.initial,
 };
