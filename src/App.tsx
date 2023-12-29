@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import { GoodType } from './Types/GoodType';
+import { GoodList } from './Components/GoodList/GoodList';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -15,49 +17,93 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+enum SortType {
+  alphabet = 'alphabet',
+  length = 'length',
+}
+
+export interface ActionParams {
+  sortCondition: string,
+  reverseCondition: boolean,
+}
+
+function getPreparedGoods(
+  goods: GoodType[],
+  { sortCondition, reverseCondition }: ActionParams,
+) {
+  const preparedGoods = [...goods];
+
+  if (sortCondition) {
+    preparedGoods.sort((good1, good2) => {
+      switch (sortCondition) {
+        case SortType.alphabet:
+          return good1.localeCompare(good2);
+        case SortType.length:
+          return good1.length - good2.length;
+        default:
+          return 0;
+      }
+    });
+  }
+
+  if (reverseCondition) {
+    preparedGoods.reverse();
+  }
+
+  return preparedGoods;
+}
+
 export const App: React.FC = () => {
+  const [sortCondition, setSortCondition] = useState('');
+  const [reverseCondition, setReverseCondition] = useState(false);
+
+  const visibleGoods = getPreparedGoods(
+    goodsFromServer, { sortCondition, reverseCondition },
+  );
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className="button is-info is-light"
+          onClick={() => setSortCondition(SortType.alphabet)}
+          className={`button is-info ${sortCondition === SortType.alphabet ? '' : 'is-light'}`}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className="button is-success is-light"
+          onClick={() => setSortCondition(SortType.length)}
+          className={`button is-success ${sortCondition === SortType.length ? '' : 'is-light'}`}
         >
           Sort by length
         </button>
 
         <button
           type="button"
-          className="button is-warning is-light"
+          onClick={() => setReverseCondition(!reverseCondition)}
+          className={`button is-warning ${reverseCondition === true ? '' : 'is-light'}`}
         >
           Reverse
         </button>
 
-        <button
-          type="button"
-          className="button is-danger is-light"
-        >
-          Reset
-        </button>
+        {(sortCondition || reverseCondition) && (
+          <button
+            type="button"
+            onClick={() => {
+              setSortCondition('');
+              setReverseCondition(false);
+            }}
+            className="button is-danger is-light"
+          >
+            Reset
+          </button>
+        )}
       </div>
 
-      <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
-      </ul>
+      <GoodList goods={visibleGoods} />
+
     </div>
   );
 };
