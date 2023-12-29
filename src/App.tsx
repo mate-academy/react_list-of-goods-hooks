@@ -22,12 +22,24 @@ export const goodsFromServer = [
 
 const list = [...goodsFromServer];
 
-function prepereList(sortBy: SortType | string): string[] {
+function prepereList(sortBy: SortType | string, isReversed: boolean): string[] {
   switch (sortBy) {
     case SORT_BY.ALPHABET:
-      return list.sort((good1, good2) => good1.localeCompare(good2));
+      return list.sort((good1, good2) => {
+        if (isReversed) {
+          return good2.localeCompare(good1);
+        }
+
+        return good1.localeCompare(good2);
+      });
     case SORT_BY.LENGTH:
-      return list.sort((good1, good2) => good1.length - good2.length);
+      return list.sort((good1, good2) => {
+        if (isReversed) {
+          return good2.length - good1.length;
+        }
+
+        return good1.length - good2.length;
+      });
     case SORT_BY.REVERSE:
       return list.reverse();
     default:
@@ -39,7 +51,7 @@ export const App: React.FC = () => {
   const [sortBy, setSortby] = useState<SortType>(SortType.reset);
   const [isReversed, setIsReversed] = useState(false);
 
-  const sortedList = prepereList(sortBy);
+  const sortedList = prepereList(sortBy, isReversed);
 
   return (
     <div className="section content">
