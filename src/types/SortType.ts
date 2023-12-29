@@ -1,7 +1,5 @@
 export enum SortType {
-  alphabet,
-  length,
-  reverse,
-  reset,
-  initial,
+  alphabet = 'alphabet',
+  length = 'length',
+  initial = 'initial',
 }

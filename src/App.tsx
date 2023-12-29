@@ -5,7 +5,6 @@ import './App.scss';
 import { GoodList } from './components/GoodList';
 import { Buttons } from './components/Buttons';
 import { SortType } from './types/SortType';
-import { SORT_BY } from './constanst/sortBy';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -20,47 +19,46 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-const list = [...goodsFromServer];
+interface ActionParams {
+  sortBy: SortType;
+  isReversed: boolean;
+}
 
-function prepereList(sortBy: SortType | string, isReversed: boolean): string[] {
-  switch (sortBy) {
-    case SORT_BY.ALPHABET:
-      return list.sort((good1, good2) => {
-        if (isReversed) {
-          return good2.localeCompare(good1);
-        }
+function getPreparedList(
+  goods: string[],
+  { sortBy, isReversed }: ActionParams,
+): string[] {
+  const list = [...goods];
 
+  list.sort((good1, good2) => {
+    switch (sortBy) {
+      case SortType.alphabet:
         return good1.localeCompare(good2);
-      });
-
-    case SORT_BY.LENGTH:
-      return list.sort((good1, good2) => {
-        if (isReversed) {
-          return good2.length - good1.length;
-        }
-
+      case SortType.length:
         return good1.length - good2.length;
-      });
 
-    case SORT_BY.RESET:
-      return goodsFromServer;
+      default: return 0;
+    }
+  });
 
-    default:
-      return list.reverse();
+  if (isReversed) {
+    return list.reverse();
   }
+
+  return list;
 }
 
 export const App: React.FC = () => {
   const [sortBy, setSortby] = useState<SortType>(SortType.initial);
   const [isReversed, setIsReversed] = useState(false);
 
-  const sortedList = prepereList(sortBy, isReversed);
+  const sortedList = getPreparedList(goodsFromServer, { sortBy, isReversed });
 
   return (
     <div className="section content">
       <Buttons
         setSortby={(sort) => setSortby(sort)}
-        setIsReversed={(status) => setIsReversed(status)}
+        setIsReversed={(status:boolean) => setIsReversed(status)}
         isReversed={isReversed}
         sortBy={sortBy}
       />
