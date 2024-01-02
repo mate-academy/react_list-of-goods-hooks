@@ -78,50 +78,48 @@ export const App = () => {
     setIsReversed(false);
   };
 
-  const visibleGoods
-  = getReorderedGoods(goodsFromServer, { sortType, isReversed });
-  const alphabetButtonClass
-  = sortType
-  === SortType.ALPHABET ? '' : 'is-light';
-  const reverseButtonClass
-  = isReversed
+  const visibleGoods = getReorderedGoods(goodsFromServer,
+    { sortType, isReversed });
+  const alphabetButtonClass = sortType === SortType.ALPHABET ? '' : 'is-light';
+  const reverseButtonClass = isReversed
     ? '' : 'is-light';
-  const lengthButtonClass
-  = sortType
-  === SortType.LENGTH ? '' : 'is-light';
+  const lengthButtonClass = sortType === SortType.LENGTH ? '' : 'is-light';
 
   return (
-    <div>
-      <button
-        type="button"
-        onClick={handleSortAlphabetically}
-        className={`button is-info ${alphabetButtonClass}`}
-      >
-        Sort alphabetically
-      </button>
-      <button
-        type="button"
-        onClick={handleSortByLength}
-        className={`button is-warning ${lengthButtonClass}`}
-      >
-        Sort by length
-      </button>
-      <button
-        type="button"
-        onClick={handleReverse}
-        className={`button is-success ${reverseButtonClass}`}
-      >
-        Reverse
-      </button>
-      {(sortType !== SortType.NONE || isReversed) && (
+    <div className="section content">
+      <div className="buttons">
         <button
           type="button"
-          onClick={handleReset}
-          className="button is-danger is-light"
+          onClick={handleSortAlphabetically}
+          className={`button is-info ${alphabetButtonClass}`}
         >
-          Reset
+          Sort alphabetically
         </button>
-      )}
+        <button
+          type="button"
+          onClick={handleSortByLength}
+          className={`button is-success ${lengthButtonClass}`}
+        >
+          Sort by length
+        </button>
+        <button
+          type="button"
+          onClick={handleReverse}
+          className={`button is-warning ${reverseButtonClass}`}
+        >
+          Reverse
+        </button>
+        {(sortType !== SortType.NONE || isReversed) && (
+          <button
+            type="button"
+            onClick={handleReset}
+            className="button is-danger is-light"
+          >
+            Reset
+          </button>
+
+        )}
+      </div>
       <ul>
         {visibleGoods.map(good => <li key={good} data-cy="Good">{good}</li>)}
       </ul>
