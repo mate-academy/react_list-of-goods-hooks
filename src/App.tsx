@@ -59,6 +59,10 @@ export const App: React.FC = () => {
   const visibleGoods = getPreparedGoods(
     goodsFromServer, { sortField, reversedField },
   );
+  const reset = () => {
+    setSortField('');
+    setReversedField(false);
+  };
 
   return (
     <div className="section content">
@@ -93,8 +97,7 @@ export const App: React.FC = () => {
               type="button"
               className="button is-danger is-light"
               onClick={() => {
-                setSortField('');
-                setReversedField(false);
+                reset();
               }}
             >
               Reset
