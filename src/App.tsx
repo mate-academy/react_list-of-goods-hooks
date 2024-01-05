@@ -16,7 +16,8 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-const adoptedGoods = goodsFromServer.map((good, id) => ({ name: good, id }));
+const adoptedGoods = goodsFromServer.map((good, index) => (
+  { name: good, index }));
 
 enum SortType {
   ALPHABETIC = 'ALPHABETIC',
@@ -32,20 +33,21 @@ export const App = () => {
   const sortBy = (value: SortType) => {
     const modifiedGoods = [...goods];
 
-    if (value === SortType.ALPHABETIC) {
-      modifiedGoods.sort((good1, good2) => (
-        good1.name.localeCompare(good2.name)));
-      setsortedByState(SortType.ALPHABETIC);
-      setState(modifiedGoods);
-
-      return;
-    }
-
-    if (value === SortType.LENGTH) {
-      modifiedGoods.sort((good1, good2) => (
-        good1.name.length - good2.name.length));
-      setsortedByState(SortType.LENGTH);
-      setState(modifiedGoods);
+    switch (value) {
+      case SortType.ALPHABETIC:
+        modifiedGoods.sort((good1, good2) => (
+          good1.name.localeCompare(good2.name)));
+        setsortedByState(SortType.ALPHABETIC);
+        setState(modifiedGoods);
+        break;
+      case SortType.LENGTH:
+        modifiedGoods.sort((good1, good2) => (
+          good1.name.length - good2.name.length));
+        setsortedByState(SortType.LENGTH);
+        setState(modifiedGoods);
+        break;
+      default:
+        break;
     }
   };
 
@@ -113,7 +115,7 @@ export const App = () => {
 
       <ul>
         {goods.map(good => (
-          <li key={good.id} data-cy="Good">{good.name}</li>
+          <li key={good.index} data-cy="Good">{good.name}</li>
         ))}
       </ul>
     </div>
