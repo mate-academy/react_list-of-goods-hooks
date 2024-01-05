@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+// eslint-disable-next-line import/no-duplicates
+import * as React from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import cn from 'classnames';
@@ -50,8 +51,8 @@ function getParameterGood(
 }
 
 export const App = () => {
-  const [visibleGoods, setVisibleGoods] = useState(SortType.toDefault);
-  const [isReversed, setIsReversed] = useState(true);
+  const [visibleGoods, setVisibleGoods] = React.useState(SortType.toDefault);
+  const [isReversed, setIsReversed] = React.useState(true);
   const sortField = getParameterGood(goodsFromServer, visibleGoods, isReversed);
 
   const reset = () => {
