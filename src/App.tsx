@@ -76,9 +76,7 @@ export const App: React.FC = () => {
           className={cn('button', 'is-info', {
             'is-light': sortField !== SORT_FIELD_ALPHABET,
           })}
-          onClick={() => {
-            setSortField(SORT_FIELD_ALPHABET);
-          }}
+          onClick={() => setSortField(SORT_FIELD_ALPHABET)}
         >
           Sort alphabetically
         </button>
