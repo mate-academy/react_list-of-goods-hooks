@@ -88,9 +88,7 @@ export const App: React.FC = () => {
           className={cn('button', 'is-success', {
             'is-light': sortField !== SORT_FIELD_LENGTH,
           })}
-          onClick={() => {
-            setSortField(SORT_FIELD_LENGTH);
-          }}
+          onClick={() => setSortField(SORT_FIELD_LENGTH)}
         >
           Sort by length
         </button>
