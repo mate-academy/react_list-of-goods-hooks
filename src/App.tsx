@@ -28,13 +28,13 @@ const goodsFromServer: Goods[] = [
 
 export const App: React.FC = () => {
   const [goods, setGoods] = useState<Goods[]>(goodsFromServer);
-  const [activeButton, setActiveButton] = useState<SortType | null>(null);
+  const [sortType, setSortType] = useState<SortType | null>(null);
 
   const handleSortAlphabetically = () => {
     const sortedGoods = [...goods].sort((a, b) => a.name.localeCompare(b.name));
 
     setGoods(sortedGoods);
-    setActiveButton(SortType.Alphabetical);
+    setSortType(SortType.Alphabetical);
   };
 
   const handleSortByLength = () => {
@@ -42,19 +42,19 @@ export const App: React.FC = () => {
       - b.name.length);
 
     setGoods(sortedGoods);
-    setActiveButton(SortType.Length);
+    setSortType(SortType.Length);
   };
 
   const handleReverse = () => {
     const reversedGoods = [...goods].reverse();
 
     setGoods(reversedGoods);
-    setActiveButton(SortType.Reverse);
+    setSortType(SortType.Reverse);
   };
 
   const handleReset = () => {
     setGoods(goodsFromServer);
-    setActiveButton(null);
+    setSortType(null);
   };
 
   return (
@@ -62,7 +62,7 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${activeButton === SortType.Alphabetical ? '' : 'is-light'}`}
+          className={`button is-info ${sortType === SortType.Alphabetical ? '' : 'is-light'}`}
           onClick={handleSortAlphabetically}
         >
           Sort alphabetically
@@ -70,7 +70,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-success ${activeButton === SortType.Length ? '' : 'is-light'}`}
+          className={`button is-success ${sortType === SortType.Length ? '' : 'is-light'}`}
           onClick={handleSortByLength}
         >
           Sort by length
@@ -78,16 +78,16 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-warning ${activeButton === SortType.Reverse ? '' : 'is-light'}`}
+          className={`button is-warning ${sortType === SortType.Reverse ? '' : 'is-light'}`}
           onClick={handleReverse}
         >
           Reverse
         </button>
 
-        {activeButton && (
+        {sortType && (
           <button
             type="button"
-            className={`button is-danger ${activeButton === null ? '' : 'is-light'}`}
+            className={`button is-danger ${sortType === null ? '' : 'is-light'}`}
             onClick={handleReset}
           >
             Reset
