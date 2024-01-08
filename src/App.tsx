@@ -2,58 +2,67 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
+// Enum for sorting options
 enum SortType {
   Alphabetical = 'alphabetical',
   Length = 'length',
   Reverse = 'reverse',
 }
 
-export const goodsFromServer = [
-  'Dumplings',
-  'Carrot',
-  'Eggs',
-  'Ice cream',
-  'Apple',
-  'Bread',
-  'Fish',
-  'Honey',
-  'Jam',
-  'Garlic',
+// Goods interface
+interface Goods {
+  id: number;
+  name: string;
+}
+
+// Initial goods list
+const goodsFromServer: Goods[] = [
+  { id: 1, name: 'Dumplings' },
+  { id: 2, name: 'Carrot' },
+  { id: 3, name: 'Eggs' },
+  { id: 4, name: 'Ice cream' },
+  { id: 5, name: 'Apple' },
+  { id: 6, name: 'Bread' },
+  { id: 7, name: 'Fish' },
+  { id: 8, name: 'Honey' },
+  { id: 9, name: 'Jam' },
+  { id: 10, name: 'Garlic' },
 ];
 
+// App component
 export const App: React.FC = () => {
-  const [goods, setGoods] = useState([...goodsFromServer]);
+  const [goods, setGoods] = useState<Goods[]>(goodsFromServer);
   const [activeButton, setActiveButton] = useState<SortType | null>(null);
-  const [resetVisible, setResetVisible] = useState(false);
 
+  // Sort goods alphabetically
   const handleSortAlphabetically = () => {
-    const sortedGoods = [...goods].sort();
+    const sortedGoods = [...goods].sort((a, b) => a.name.localeCompare(b.name));
 
     setGoods(sortedGoods);
     setActiveButton(SortType.Alphabetical);
-    setResetVisible(true);
   };
 
+  // Sort goods by length
   const handleSortByLength = () => {
-    const sortedGoods = [...goods].sort((a, b) => a.length - b.length);
+    const sortedGoods = [...goods].sort((a, b) => a.name.length
+      - b.name.length);
 
     setGoods(sortedGoods);
     setActiveButton(SortType.Length);
-    setResetVisible(true);
   };
 
+  // Reverse the order of goods
   const handleReverse = () => {
     const reversedGoods = [...goods].reverse();
 
     setGoods(reversedGoods);
     setActiveButton(SortType.Reverse);
-    setResetVisible(true);
   };
 
+  // Reset goods to the initial order
   const handleReset = () => {
-    setGoods([...goodsFromServer]);
+    setGoods(goodsFromServer);
     setActiveButton(null);
-    setResetVisible(false);
   };
 
   return (
@@ -83,7 +92,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {resetVisible && (
+        {activeButton && (
           <button
             type="button"
             className={`button is-danger ${activeButton === null ? '' : 'is-light'}`}
@@ -96,8 +105,8 @@ export const App: React.FC = () => {
 
       <ul>
         {goods.map((good) => (
-          <li key={good} data-cy="Good">
-            {good}
+          <li key={good.id} data-cy="Good">
+            {good.name}
           </li>
         ))}
       </ul>
