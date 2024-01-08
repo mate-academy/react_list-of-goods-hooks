@@ -2,20 +2,17 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-// Enum for sorting options
 enum SortType {
   Alphabetical = 'alphabetical',
   Length = 'length',
   Reverse = 'reverse',
 }
 
-// Goods interface
 interface Goods {
   id: number;
   name: string;
 }
 
-// Initial goods list
 const goodsFromServer: Goods[] = [
   { id: 1, name: 'Dumplings' },
   { id: 2, name: 'Carrot' },
@@ -29,12 +26,10 @@ const goodsFromServer: Goods[] = [
   { id: 10, name: 'Garlic' },
 ];
 
-// App component
 export const App: React.FC = () => {
   const [goods, setGoods] = useState<Goods[]>(goodsFromServer);
   const [activeButton, setActiveButton] = useState<SortType | null>(null);
 
-  // Sort goods alphabetically
   const handleSortAlphabetically = () => {
     const sortedGoods = [...goods].sort((a, b) => a.name.localeCompare(b.name));
 
@@ -42,7 +37,6 @@ export const App: React.FC = () => {
     setActiveButton(SortType.Alphabetical);
   };
 
-  // Sort goods by length
   const handleSortByLength = () => {
     const sortedGoods = [...goods].sort((a, b) => a.name.length
       - b.name.length);
@@ -51,7 +45,6 @@ export const App: React.FC = () => {
     setActiveButton(SortType.Length);
   };
 
-  // Reverse the order of goods
   const handleReverse = () => {
     const reversedGoods = [...goods].reverse();
 
@@ -59,7 +52,6 @@ export const App: React.FC = () => {
     setActiveButton(SortType.Reverse);
   };
 
-  // Reset goods to the initial order
   const handleReset = () => {
     setGoods(goodsFromServer);
     setActiveButton(null);
