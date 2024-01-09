@@ -60,6 +60,11 @@ export const App: React.FC = () => {
     }
   }
 
+  function resetFunc() {
+    setSortText('');
+    setReverseText('');
+  }
+
   if (sortText !== SortType.reverse && reverseText === SortType.reverse) {
     sortedGoods = sortedGoods.reverse();
   } else if (reverseText === SortType.reverse) {
@@ -104,10 +109,7 @@ export const App: React.FC = () => {
 
         {(sortText || reverseText) && (
           <button
-            onClick={() => {
-              setSortText('');
-              setReverseText('');
-            }}
+            onClick={resetFunc}
             type="button"
             className="button is-danger is-light"
           >
