@@ -24,10 +24,11 @@ enum SortType {
 
 interface SomeParams{
   sortText: string;
+  reverseText: string;
 }
 
-function getReadyGoods(goods: string[], { sortText }: SomeParams) {
-  const readyGoods = [...goods];
+function getReadyGoods(goods: string[], { sortText, reverseText }: SomeParams) {
+  let readyGoods = [...goods];
 
   if (sortText) {
     readyGoods.sort((good1, good2) => {
@@ -44,13 +45,22 @@ function getReadyGoods(goods: string[], { sortText }: SomeParams) {
     });
   }
 
+  if (sortText !== SortType.reverse && reverseText === SortType.reverse) {
+    readyGoods = readyGoods.reverse();
+  } else if (reverseText === SortType.reverse) {
+    readyGoods = goodsFromServer.reverse();
+  } else if (sortText === SortType.alphabet
+    && reverseText === SortType.reverse) {
+    readyGoods = getReadyGoods(readyGoods, { sortText, reverseText });
+  }
+
   return readyGoods;
 }
 
 export const App: React.FC = () => {
   const [sortText, setSortText] = useState('');
   const [reverseText, setReverseText] = useState('');
-  let sortedGoods = getReadyGoods(goodsFromServer, { sortText });
+  const sortedGoods = getReadyGoods(goodsFromServer, { sortText, reverseText });
 
   function reverseFunc() {
     if (reverseText) {
@@ -63,15 +73,6 @@ export const App: React.FC = () => {
   function resetFunc() {
     setSortText('');
     setReverseText('');
-  }
-
-  if (sortText !== SortType.reverse && reverseText === SortType.reverse) {
-    sortedGoods = sortedGoods.reverse();
-  } else if (reverseText === SortType.reverse) {
-    sortedGoods = goodsFromServer.reverse();
-  } else if (sortText === SortType.alphabet
-    && reverseText === SortType.reverse) {
-    sortedGoods = getReadyGoods(sortedGoods, { sortText });
   }
 
   return (
