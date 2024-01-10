@@ -28,7 +28,7 @@ interface SomeParams{
 }
 
 function getReadyGoods(goods: string[], { sortText, isReverse }: SomeParams) {
-  let readyGoods = [...goods];
+  const readyGoods = [...goods];
 
   if (sortText) {
     readyGoods.sort((good1, good2) => {
