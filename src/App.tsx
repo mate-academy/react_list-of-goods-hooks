@@ -44,7 +44,8 @@ function getReadyGoods(goods: string[], { sortText, isReverse }: SomeParams) {
           return 0;
       }
     });
-  } else if (sortText && isReverse) {
+  }  
+  if (sortText && isReverse) {
     readyGoods.sort((good1, good2) => {
       switch (sortText) {
         case SortType.alphabet:
@@ -59,7 +60,8 @@ function getReadyGoods(goods: string[], { sortText, isReverse }: SomeParams) {
     });
 
     readyGoods = readyGoods.reverse();
-  } else if (sortText === '') {
+  }  
+  if (sortText === '' && isReverse) {
     readyGoods = goodsFromServer.reverse();
   }
 
