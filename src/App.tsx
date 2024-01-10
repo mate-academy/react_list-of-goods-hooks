@@ -44,7 +44,7 @@ function getReadyGoods(goods: string[], { sortText, isReverse }: SomeParams) {
           return 0;
       }
     });
-  } else if (sortText && isReverse){
+  } else if (sortText && isReverse) {
     readyGoods.sort((good1, good2) => {
       switch (sortText) {
         case SortType.alphabet:
@@ -63,8 +63,6 @@ function getReadyGoods(goods: string[], { sortText, isReverse }: SomeParams) {
     readyGoods = goodsFromServer.reverse();
   }
 
-  
-
   return readyGoods;
 }
 
@@ -72,8 +70,6 @@ export const App: React.FC = () => {
   const [sortText, setSortText] = useState('');
   const [isReverse, setIsReverse] = useState(false);
   const sortedGoods = getReadyGoods(goodsFromServer, { sortText, isReverse });
-
-  
 
   function reverseFunc() {
     if (isReverse) {
