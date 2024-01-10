@@ -20,14 +20,15 @@ enum SortType {
   alphabet = 'alphabet',
   length = 'length',
   reverse = 'reverse',
+  none = '',
 }
 
 interface SomeParams{
   sortText: string;
-  reverseText: string;
+  isReverse: boolean;
 }
 
-function getReadyGoods(goods: string[], { sortText, reverseText }: SomeParams) {
+function getReadyGoods(goods: string[], { sortText, isReverse }: SomeParams) {
   let readyGoods = [...goods];
 
   if (sortText) {
@@ -43,36 +44,48 @@ function getReadyGoods(goods: string[], { sortText, reverseText }: SomeParams) {
           return 0;
       }
     });
+  } else if (sortText && isReverse){
+    readyGoods.sort((good1, good2) => {
+      switch (sortText) {
+        case SortType.alphabet:
+          return good1.localeCompare(good2);
+
+        case SortType.length:
+          return good1.length - good2.length;
+
+        default:
+          return 0;
+      }
+    });
+
+    readyGoods = readyGoods.reverse();
+  } else if (sortText === '') {
+    readyGoods = goodsFromServer.reverse();
   }
 
-  if (sortText !== SortType.reverse && reverseText === SortType.reverse) {
-    readyGoods = readyGoods.reverse();
-  } else if (reverseText === SortType.reverse) {
-    readyGoods = goodsFromServer.reverse();
-  } else if (sortText === SortType.alphabet
-    && reverseText === SortType.reverse) {
-    readyGoods = getReadyGoods(readyGoods, { sortText, reverseText });
-  }
+  
 
   return readyGoods;
 }
 
 export const App: React.FC = () => {
   const [sortText, setSortText] = useState('');
-  const [reverseText, setReverseText] = useState('');
-  const sortedGoods = getReadyGoods(goodsFromServer, { sortText, reverseText });
+  const [isReverse, setIsReverse] = useState(false);
+  const sortedGoods = getReadyGoods(goodsFromServer, { sortText, isReverse });
+
+  
 
   function reverseFunc() {
-    if (reverseText) {
-      setReverseText('');
+    if (isReverse) {
+      setIsReverse(false);
     } else {
-      setReverseText(SortType.reverse);
+      setIsReverse(true);
     }
   }
 
   function resetFunc() {
     setSortText('');
-    setReverseText('');
+    setIsReverse(false);
   }
 
   return (
@@ -102,13 +115,13 @@ export const App: React.FC = () => {
           onClick={reverseFunc}
           type="button"
           className={cn('button', 'is-warning', {
-            'is-light': reverseText !== SortType.reverse,
+            'is-light': isReverse !== true,
           })}
         >
           Reverse
         </button>
 
-        {(sortText || reverseText) && (
+        {(sortText || isReverse) && (
           <button
             onClick={resetFunc}
             type="button"
