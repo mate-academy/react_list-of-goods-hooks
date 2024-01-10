@@ -19,12 +19,11 @@ export const goodsFromServer = [
 enum SortType {
   alphabet = 'alphabet',
   length = 'length',
-  reverse = 'reverse',
   none = '',
 }
 
 interface SomeParams{
-  sortText: string;
+  sortText: SortType;
   isReverse: boolean;
 }
 
@@ -46,32 +45,15 @@ function getReadyGoods(goods: string[], { sortText, isReverse }: SomeParams) {
     });
   }
 
-  if (sortText && isReverse) {
-    readyGoods.sort((good1, good2) => {
-      switch (sortText) {
-        case SortType.alphabet:
-          return good1.localeCompare(good2);
-
-        case SortType.length:
-          return good1.length - good2.length;
-
-        default:
-          return 0;
-      }
-    });
-
-    readyGoods = readyGoods.reverse();
-  }
-
-  if (sortText === '' && isReverse) {
-    readyGoods = goodsFromServer.reverse();
+  if (isReverse) {
+    readyGoods.reverse();
   }
 
   return readyGoods;
 }
 
 export const App: React.FC = () => {
-  const [sortText, setSortText] = useState('');
+  const [sortText, setSortText] = useState<SortType>(SortType.none);
   const [isReverse, setIsReverse] = useState(false);
   const sortedGoods = getReadyGoods(goodsFromServer, { sortText, isReverse });
 
@@ -84,7 +66,7 @@ export const App: React.FC = () => {
   }
 
   function resetFunc() {
-    setSortText('');
+    setSortText(SortType.none);
     setIsReverse(false);
   }
 
