@@ -21,7 +21,7 @@ const SORT_BY_LENGTH = 'sortByLength';
 
 function getPreparedGroceries(
   groceries: string[],
-  sortField: string | '',
+  sortField: string,
   reverseMethod: boolean,
 ): string[] {
   const preparedGroceries = [...groceries];
