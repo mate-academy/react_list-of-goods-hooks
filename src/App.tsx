@@ -1,63 +1,67 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
-
-export const goodsFromServer = [
-  'Dumplings',
-  'Carrot',
-  'Eggs',
-  'Ice cream',
-  'Apple',
-  'Bread',
-  'Fish',
-  'Honey',
-  'Jam',
-  'Garlic',
-];
+import cn from 'classnames';
+import {
+  prepareListOfGoods,
+} from './services/preparedListOfGoods/preparedListOfGoods';
+import {
+  SORT_METHOD_ALPHABET,
+  SORT_METHOD_LENGTH,
+  goodsFromServer,
+} from './variables/variables';
+import { GoodsList } from './components/GoodsList/GoodsList';
 
 export const App: React.FC = () => {
+  const [sortField, setSortField] = useState('');
+  const [reversed, setReversed] = useState(false);
+  const visibleGoods
+    = prepareListOfGoods(goodsFromServer, sortField, reversed);
+
+  const reset = () => {
+    setSortField('');
+    setReversed(false);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
+          onClick={() => setSortField(SORT_METHOD_ALPHABET)}
           type="button"
-          className="button is-info is-light"
+          className={`button is-info ${cn({ 'is-light': sortField !== SORT_METHOD_ALPHABET })}`}
         >
           Sort alphabetically
         </button>
 
         <button
+          onClick={() => setSortField(SORT_METHOD_LENGTH)}
           type="button"
-          className="button is-success is-light"
+          className={`button is-success ${cn({ 'is-light': sortField !== SORT_METHOD_LENGTH })}`}
         >
           Sort by length
         </button>
 
         <button
+          onClick={() => setReversed(!reversed)}
           type="button"
-          className="button is-warning is-light"
+          className={`button is-warning ${cn({ 'is-light': !reversed })}`}
         >
           Reverse
         </button>
 
-        <button
-          type="button"
-          className="button is-danger is-light"
-        >
-          Reset
-        </button>
+        {(sortField || reversed) && (
+          <button
+            onClick={reset}
+            type="button"
+            className="button is-danger is-light"
+          >
+            Reset
+          </button>
+        )}
       </div>
 
-      <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
-      </ul>
+      <GoodsList goods={visibleGoods} />
     </div>
   );
 };
