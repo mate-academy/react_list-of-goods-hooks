@@ -21,12 +21,12 @@ enum SortBy {
   Length = 'length',
 }
 
-type Props = {
+type StateVar = {
   sortBy: string,
   isReverse: boolean,
 };
 
-type Func = (goods: string[], { sortBy, isReverse }: Props) => string[];
+type Func = (goods: string[], { sortBy, isReverse }: StateVar) => string[];
 
 const getPrepareGoods: Func = (goods, { sortBy, isReverse }) => {
   const prepareGoods = [...goods];
