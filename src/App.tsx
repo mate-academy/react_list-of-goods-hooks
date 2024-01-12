@@ -17,8 +17,8 @@ export const goodsFromServer: string[] = [
 ];
 
 enum SortBy {
-  alphabet = 'alphabet',
-  length = 'length',
+  Alphabet = 'alphabet',
+  Length = 'length',
 }
 
 type Props = {
@@ -26,15 +26,17 @@ type Props = {
   isReverse: boolean,
 };
 
-const getPrepareGoods = (goods: string[], { sortBy, isReverse }: Props) => {
+type Func = (goods: string[], { sortBy, isReverse }: Props) => string[];
+
+const getPrepareGoods: Func = (goods, { sortBy, isReverse }) => {
   const prepareGoods = [...goods];
 
   if (sortBy) {
     prepareGoods.sort((goodA, goodB) => {
       switch (sortBy) {
-        case SortBy.alphabet:
+        case SortBy.Alphabet:
           return goodA.localeCompare(goodB);
-        case SortBy.length:
+        case SortBy.Length:
           return goodA.length - goodB.length;
         default:
           return 0;
@@ -75,7 +77,7 @@ export const App: React.FC = () => {
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={handleSort(SortBy.alphabet)}
+          onClick={handleSort(SortBy.Alphabet)}
           type="button"
           className={
             cn('button is-info', { 'is-light': sortBy !== 'alphabet' })
@@ -85,7 +87,7 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={handleSort(SortBy.length)}
+          onClick={handleSort(SortBy.Length)}
           type="button"
           className={
             cn('button is-success', { 'is-light': sortBy !== 'length' })
