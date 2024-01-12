@@ -62,12 +62,8 @@ export const App = () => {
     { sortField, reverse },
   );
 
-  const onAlphabet = () => {
-    setSortField(SORT_FIELD_ALPHABET);
-  };
-
-  const onLength = () => {
-    setSortField(SORT_FIELD_LENGTH);
+  const sortFieldEvent = (arg: string) => {
+    return () => setSortField(arg);
   };
 
   const reverseEvent = () => setReverse(prevReverse => !prevReverse);
@@ -81,7 +77,7 @@ export const App = () => {
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={onAlphabet}
+          onClick={sortFieldEvent(SORT_FIELD_ALPHABET)}
           type="button"
           className={cn(
             'button',
@@ -93,7 +89,7 @@ export const App = () => {
         </button>
 
         <button
-          onClick={onLength}
+          onClick={sortFieldEvent(SORT_FIELD_LENGTH)}
           type="button"
           className={cn(
             'button',
