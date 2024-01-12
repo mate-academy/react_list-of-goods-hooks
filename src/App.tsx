@@ -17,7 +17,8 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  alphabetically, length,
+  Alphabet = 'alphabet',
+  Length = 'length',
 }
 
 interface SortField {
@@ -25,20 +26,16 @@ interface SortField {
   isReverse: boolean;
 }
 
-const SORT_FIELD_ALPHABETICALLY = SortType.alphabetically;
-const SORT_FIELD_LENGTH = SortType.length;
-// const IS_REVERSE = true;
-
 function getSortedGoods(goods: string[], sortField: SortField): string[] {
   const preparedGoods = [...goods];
   const { field, isReverse } = sortField;
 
   preparedGoods.sort((good1, good2) => {
-    if (field === SORT_FIELD_ALPHABETICALLY) {
+    if (field === SortType.Alphabet) {
       return good1.localeCompare(good2);
     }
 
-    if (field === SORT_FIELD_LENGTH) {
+    if (field === SortType.Length) {
       return good1.length - good2.length;
     }
 
@@ -75,10 +72,10 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-info', {
-            'is-light': sortField.field !== SORT_FIELD_ALPHABETICALLY,
+            'is-light': sortField.field !== SortType.Alphabet,
           })}
           onClick={() => setSortField(
-            { ...sortField, field: SORT_FIELD_ALPHABETICALLY },
+            { ...sortField, field: SortType.Alphabet },
           )}
         >
           Sort alphabetically
@@ -87,10 +84,10 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-success', {
-            'is-light': sortField.field !== SORT_FIELD_LENGTH,
+            'is-light': sortField.field !== SortType.Length,
           })}
           onClick={() => {
-            setSortField({ ...sortField, field: SORT_FIELD_LENGTH });
+            setSortField({ ...sortField, field: SortType.Length });
           }}
         >
           Sort by length
