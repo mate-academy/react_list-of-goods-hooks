@@ -8,6 +8,6 @@ type Props = {
 
 export const GoodsList: React.FC<Props> = ({ goods }) => (
   <ul>
-    {goods.map(good => <GoodInfo good={good} />)}
+    {goods.map(good => <GoodInfo good={good} key={good} />)}
   </ul>
 );

@@ -4,7 +4,7 @@ import './App.scss';
 import { GoodsList } from './components/GoodsList';
 import { SortBar } from './components/SortBar';
 import { Good } from './types/Good';
-import { SORT_ALPHABET, SORT_LENGTH } from './variables/constants';
+import { SortType } from './variables/constants';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -19,21 +19,26 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-function formatGoods(goods: Good[], sortMethod: string, isReversed: boolean) {
+interface SortRules {
+  sortMethod: string,
+  isReversed: boolean
+}
+
+function formatGoods(goods: Good[], sortRules: SortRules) {
   const goodsCopy = [...goods];
 
-  switch (sortMethod) {
-    case SORT_ALPHABET:
+  switch (sortRules.sortMethod) {
+    case SortType.Alphabetic:
       goodsCopy.sort((good1, good2) => good1.localeCompare(good2));
       break;
-    case SORT_LENGTH:
+    case SortType.Length:
       goodsCopy.sort((good1, good2) => good1.length - good2.length);
       break;
     default:
       break;
   }
 
-  if (isReversed) {
+  if (sortRules.isReversed) {
     goodsCopy.reverse();
   }
 
@@ -44,7 +49,7 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const [sortMethod, setSortMethod] = useState('');
 
-  const goods = formatGoods(goodsFromServer, sortMethod, isReversed);
+  const goods = formatGoods(goodsFromServer, { sortMethod, isReversed });
 
   return (
     <div className="section content">

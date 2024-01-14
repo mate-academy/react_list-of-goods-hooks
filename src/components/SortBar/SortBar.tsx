@@ -1,6 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
-import { SORT_ALPHABET, SORT_LENGTH } from '../../variables/constants';
+import { SortType } from '../../variables/constants';
 
 interface Props {
   isReversed: boolean
@@ -9,27 +9,28 @@ interface Props {
   onReverse: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const SortBar: React.FC<Props> = ({ sortBy,
+export const SortBar: React.FC<Props> = ({
+  sortBy,
   onReverse,
   isReversed,
   sortMethod,
 }) => (
   <div className="buttons">
     <button
-      onClick={() => sortBy(SORT_ALPHABET)}
+      onClick={() => sortBy(SortType.Alphabetic)}
       type="button"
       className={cn('button is-info', {
-        'is-light': sortMethod !== SORT_ALPHABET,
+        'is-light': sortMethod !== SortType.Alphabetic,
       })}
     >
       Sort alphabetically
     </button>
 
     <button
-      onClick={() => sortBy(SORT_LENGTH)}
+      onClick={() => sortBy(SortType.Length)}
       type="button"
       className={cn('button is-success', {
-        'is-light': sortMethod !== SORT_LENGTH,
+        'is-light': sortMethod !== SortType.Length,
       })}
     >
       Sort by length
