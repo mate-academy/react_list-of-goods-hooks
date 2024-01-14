@@ -21,12 +21,10 @@ enum SortType {
   length = 'length',
 }
 
-const REVERSE = 'reverse';
-
 export function getPreparedGoods(
   goods: string[],
   howSort: SortType | '',
-  reverse = '',
+  reverse = false,
 ) {
   const preparedGoods = [...goods];
 
@@ -54,7 +52,7 @@ export function getPreparedGoods(
 
 export const App: React.FC = () => {
   const [sortBy, setSortBy] = useState<SortType | ''>('');
-  const [reverse, setReverse] = useState('');
+  const [reverse, setReverse] = useState(false);
   const visibleGoods = getPreparedGoods(goodsFromServer, sortBy, reverse);
 
   return (
@@ -97,7 +95,7 @@ export const App: React.FC = () => {
               { 'is-light': !reverse },
             )
           }
-          onClick={() => setReverse(reverse ? '' : REVERSE)}
+          onClick={() => setReverse(!reverse)}
         >
           Reverse
         </button>
@@ -108,7 +106,7 @@ export const App: React.FC = () => {
             className="button is-danger is-light"
             onClick={() => {
               setSortBy('');
-              setReverse('');
+              setReverse(false);
             }}
           >
             Reset
