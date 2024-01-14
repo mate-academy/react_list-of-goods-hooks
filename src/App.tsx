@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import { GoodsList } from './components/GoodsList';
+import { SortBar } from './components/SortBar';
+import { Good } from './types/Good';
+import { SortType } from './variables/constants';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -15,49 +19,48 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+interface SortRules {
+  sortMethod: string,
+  isReversed: boolean
+}
+
+function formatGoods(goods: Good[], sortRules: SortRules) {
+  const goodsCopy = [...goods];
+
+  switch (sortRules.sortMethod) {
+    case SortType.Alphabetic:
+      goodsCopy.sort((good1, good2) => good1.localeCompare(good2));
+      break;
+    case SortType.Length:
+      goodsCopy.sort((good1, good2) => good1.length - good2.length);
+      break;
+    default:
+      break;
+  }
+
+  if (sortRules.isReversed) {
+    goodsCopy.reverse();
+  }
+
+  return goodsCopy;
+}
+
 export const App: React.FC = () => {
+  const [isReversed, setIsReversed] = useState(false);
+  const [sortMethod, setSortMethod] = useState('');
+
+  const goods = formatGoods(goodsFromServer, { sortMethod, isReversed });
+
   return (
     <div className="section content">
-      <div className="buttons">
-        <button
-          type="button"
-          className="button is-info is-light"
-        >
-          Sort alphabetically
-        </button>
+      <SortBar
+        sortBy={setSortMethod}
+        onReverse={setIsReversed}
+        sortMethod={sortMethod}
+        isReversed={isReversed}
+      />
 
-        <button
-          type="button"
-          className="button is-success is-light"
-        >
-          Sort by length
-        </button>
-
-        <button
-          type="button"
-          className="button is-warning is-light"
-        >
-          Reverse
-        </button>
-
-        <button
-          type="button"
-          className="button is-danger is-light"
-        >
-          Reset
-        </button>
-      </div>
-
-      <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
-      </ul>
+      <GoodsList goods={goods} />
     </div>
   );
 };
