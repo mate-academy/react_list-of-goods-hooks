@@ -54,7 +54,7 @@ const initialState: SortField = { field: '', isReverse: false };
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState(initialState);
   const visibleGoods = getSortedGoods(goodsFromServer, sortField);
-  const isShowReset = sortField.field !== '' || sortField.isReverse;
+  const isShowReset = !!sortField.field  || sortField.isReverse;
 
   const handleReverse = () => {
     if (sortField.isReverse) {
