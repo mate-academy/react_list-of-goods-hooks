@@ -6,6 +6,7 @@ import React from 'react';
 enum SortType {
   Alphabet = 'alphabetically',
   Length = 'by length',
+  Empty = '',
 }
 
 interface SortMode {
@@ -30,10 +31,10 @@ function formatGoods(goods: string[], { isReverse, sortMode }:SortMode) {
   const data = [...goods];
 
   switch (sortMode) {
-    case ('alphabetically'):
+    case (SortType.Alphabet):
       data.sort((a, b) => a.localeCompare(b));
       break;
-    case ('by length'):
+    case (SortType.Length):
       data.sort((a, b) => a.length - b.length);
       break;
     default:
