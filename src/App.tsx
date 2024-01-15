@@ -16,8 +16,13 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-const IS_SORTED_ALPHABET = 'A';
-const IS_SORTED_LENGTH = 'L';
+enum SortType {
+  ALPHABETICAL = 'A',
+  LENGTH = 'L',
+}
+
+const IS_SORTED_ALPHABET:SortType = SortType.ALPHABETICAL;
+const IS_SORTED_LENGTH:SortType = SortType.LENGTH;
 
 function getPreparedGoods(
   goods: string[],
