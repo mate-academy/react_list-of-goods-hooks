@@ -19,11 +19,12 @@ export const goodsFromServer = [
 enum SortType {
   name = 'name',
   length = 'length',
+  default = '',
 }
 
 export function getPreparedGoods(
   goods: string[],
-  howSort: SortType | '',
+  howSort: SortType,
   reverse = false,
 ) {
   const preparedGoods = [...goods];
@@ -51,9 +52,14 @@ export function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortBy, setSortBy] = useState<SortType | ''>('');
+  const [sortBy, setSortBy] = useState<SortType>(SortType.default);
   const [reverse, setReverse] = useState(false);
   const visibleGoods = getPreparedGoods(goodsFromServer, sortBy, reverse);
+
+  const handleReset = () => {
+    setSortBy(SortType.default);
+    setReverse(false);
+  };
 
   return (
     <div className="section content">
@@ -104,10 +110,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortBy('');
-              setReverse(false);
-            }}
+            onClick={handleReset}
           >
             Reset
           </button>
