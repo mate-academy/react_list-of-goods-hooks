@@ -1,7 +1,9 @@
 import 'bulma/css/bulma.css';
 import './App.scss';
 import React, { useState } from 'react';
-import cn from 'classnames';
+import { SortType } from './types/Good';
+import { SortBar } from './components/SortBar';
+import { GoodsList } from './components/GoodsList';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -16,25 +18,10 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-enum SortType {
-  Alphabet = 'alphabet',
-  Length = 'length',
-  Default = '',
-}
-
-interface SortBy {
-  method: SortType,
-  isReversedOrder: boolean,
-}
-
-const sortByDefault = {
-  method: SortType.Default,
-  isReversedOrder: false,
-};
-
 function getPreparedGoods(
   goods: string[],
-  { method, isReversedOrder }: SortBy,
+  method: SortType,
+  isReversedOrder: boolean,
 ) {
   const preparedGoods = [...goods];
 
@@ -63,79 +50,31 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortBy, setSortBy] = useState(sortByDefault);
-  const goods = getPreparedGoods(goodsFromServer, sortBy);
+  const [sortBy, setSortBy] = useState(SortType.Default);
+  const [isReversed, setIsReversed] = useState(false);
+  const goods = getPreparedGoods(goodsFromServer, sortBy, isReversed);
+
+  const ChangeSortMethods = (m:SortType) => {
+    setSortBy(m);
+  };
+
+  const SetSortByDefault = () => {
+    setSortBy(SortType.Default);
+    setIsReversed(false);
+  };
 
   return (
     <div className="section content">
-      <div className="buttons">
-        <button
-          onClick={() => setSortBy({ ...sortBy, method: SortType.Alphabet })}
-          type="button"
-          className={
-            cn(
-              'button',
-              'is-info',
-              {
-                'is-light': sortBy.method !== SortType.Alphabet,
-              },
-            )}
-        >
-          Sort alphabetically
-        </button>
-
-        <button
-          onClick={() => setSortBy({ ...sortBy, method: SortType.Length })}
-          type="button"
-          className={
-            cn(
-              'button',
-              'is-success',
-              {
-                'is-light': sortBy.method !== SortType.Length,
-              },
-            )
-          }
-        >
-          Sort by length
-        </button>
-
-        <button
-          onClick={() => setSortBy(
-            sortBy.isReversedOrder
-              ? { ...sortBy, isReversedOrder: false }
-              : { ...sortBy, isReversedOrder: true },
-          )}
-          type="button"
-          className={cn(
-            'button',
-            'is-warning',
-            {
-              'is-light': !sortBy.isReversedOrder,
-            },
-          )}
-        >
-          Reverse
-        </button>
-
-        {(sortBy.method || sortBy.isReversedOrder) && (
-          <button
-            onClick={() => setSortBy({
-              method: SortType.Default,
-              isReversedOrder: false,
-            })}
-            type="button"
-            className="button is-danger is-light"
-          >
-            Reset
-          </button>
-        )}
-      </div>
+      <SortBar
+        sortBy={sortBy}
+        ChangeSortMethods={ChangeSortMethods}
+        SetSortByDefault={SetSortByDefault}
+        isReversed={isReversed}
+        setIsReversed={setIsReversed}
+      />
 
       <ul>
-        {goods.map(good => (
-          <li data-cy="Good" key={good}>{good}</li>
-        ))}
+        <GoodsList goods={goods} />
       </ul>
     </div>
   );
