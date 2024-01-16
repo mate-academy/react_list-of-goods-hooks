@@ -1,128 +1,3 @@
-// import React, { useState } from 'react';
-// import 'bulma/css/bulma.css';
-// import './App.scss';
-// import classNames from 'classnames';
-
-// export const goodsFromServer = [
-//   'Dumplings',
-//   'Carrot',
-//   'Eggs',
-//   'Ice cream',
-//   'Apple',
-//   'Bread',
-//   'Fish',
-//   'Honey',
-//   'Jam',
-//   'Garlic',
-// ];
-
-// interface SortBy {
-//   alphabet?: boolean;
-//   length?: boolean;
-//   isReversed?: boolean;
-// }
-
-// function preparedGoods(
-//   goods: string[],
-//   { alphabet, length, isReversed }: SortBy,
-// ) {
-//   const getGoods = [...goods];
-
-//   if (alphabet) {
-//     getGoods.sort((good1, good2) => good1.localeCompare(good2));
-//   }
-
-//   if (length) {
-//     getGoods.sort((good1, good2) => good1.length - good2.length);
-//   }
-
-//   if (isReversed) {
-//     getGoods.reverse();
-//   }
-
-//   return getGoods;
-// }
-
-// export const App: React.FC = () => {
-//   const [sortBy, setSortBy] = useState<SortBy>({});
-//   const goods = preparedGoods(goodsFromServer, sortBy);
-
-//   return (
-//     <div className="section content">
-//       <div className="buttons">
-//         <button
-//           type="button"
-//           onClick={() => setSortBy(
-//             { ...sortBy, alphabet: true, length: false },
-//           )}
-//           className={classNames(
-//             'button',
-//             'is-info',
-//             {
-//               'is-light': sortBy.alphabet !== true,
-//             },
-//           )}
-//         >
-//           Sort alphabetically
-//         </button>
-
-//         <button
-//           type="button"
-//           onClick={() => setSortBy(
-//             { ...sortBy, length: true, alphabet: false },
-//           )}
-//           className={classNames(
-//             'button',
-//             'is-success',
-//             {
-//               'is-light': sortBy.length !== true,
-//             },
-//           )}
-//         >
-//           Sort by length
-//         </button>
-
-//         <button
-//           type="button"
-//           onClick={() => setSortBy(
-//             { ...sortBy, isReversed: !sortBy.isReversed },
-//           )}
-//           className={classNames(
-//             'button',
-//             'is-warning',
-//             {
-//               'is-light': !sortBy.isReversed,
-//             },
-//           )}
-//         >
-//           Reverse
-//         </button>
-
-//         {(sortBy.alphabet || sortBy.length || sortBy.isReversed) && (
-//           <button
-//             type="button"
-//             onClick={() => setSortBy({
-//               alphabet: false,
-//               length: false,
-//               isReversed: false,
-//             })}
-//             className="button is-danger is-light"
-//           >
-//             Reset
-//           </button>
-//         )}
-//       </div>
-
-//       <ul>
-//         {goods.map((good, index) => (
-//           // eslint-disable-next-line react/no-array-index-key
-//           <li key={index} data-cy="Good">{good}</li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// };
-
 import 'bulma/css/bulma.css';
 import './App.scss';
 import { useState } from 'react';
@@ -141,7 +16,7 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-export const defSorting = {
+const defSorting = {
   method: '',
   isReversed: false,
 };
@@ -190,9 +65,7 @@ export const App = () => {
 
   const handleReverse = () => {
     setSortBy(
-      sortBy.isReversed
-        ? { ...sortBy, isReversed: false }
-        : { ...sortBy, isReversed: true },
+      { ...sortBy, isReversed: !sortBy.isReversed },
     );
   };
 
@@ -207,7 +80,7 @@ export const App = () => {
               'button',
               'is-info',
               {
-                'is-light': sortBy.method !== 'alphabet',
+                'is-light': sortBy.method !== Metods.Alphabet,
               },
             )
           }
@@ -223,7 +96,7 @@ export const App = () => {
               'button',
               'is-success',
               {
-                'is-light': sortBy.method !== 'length',
+                'is-light': sortBy.method !== Metods.Length,
               },
             )
           }
