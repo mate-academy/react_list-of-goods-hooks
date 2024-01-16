@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import cn from 'classnames';
+import { SortType } from './Types/SortType';
+import { getPreparedGoods } from './Services/getPreparedGoods';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -15,44 +17,6 @@ export const goodsFromServer = [
   'Jam',
   'Garlic',
 ];
-
-interface Params {
-  sortField: string;
-  reverse: boolean;
-}
-
-enum SortType {
-  SORT_FIELD_ALPHABET = 'alphabet',
-  SORT_FIELD_LENGTH = 'length',
-}
-
-function getPreparedGoods(
-  goods: string[],
-  { sortField, reverse }: Params,
-) {
-  const prepearedGoods = [...goods];
-
-  if (sortField) {
-    prepearedGoods.sort((good1, good2) => {
-      switch (sortField) {
-        case SortType.SORT_FIELD_ALPHABET:
-          return good1.localeCompare(good2);
-
-        case SortType.SORT_FIELD_LENGTH:
-          return good1.length - good2.length;
-
-        default:
-          return 0;
-      }
-    });
-  }
-
-  if (reverse !== false) {
-    prepearedGoods.reverse();
-  }
-
-  return prepearedGoods;
-}
 
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState('');
