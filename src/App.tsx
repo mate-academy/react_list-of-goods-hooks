@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import cn from 'classnames';
+import { GoodList } from './components/GoodList';
+import { SortType } from './types/SortType';
+import { getPreparedGoods } from './services/PreparedGoods';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -15,41 +18,6 @@ export const goodsFromServer = [
   'Jam',
   'Garlic',
 ];
-
-enum SortType {
-  name = 'name',
-  length = 'length',
-  default = '',
-}
-
-export function getPreparedGoods(
-  goods: string[],
-  howSort: SortType,
-  reverse = false,
-) {
-  const preparedGoods = [...goods];
-
-  if (howSort) {
-    preparedGoods.sort((good1, good2) => {
-      switch (howSort) {
-        case SortType.name:
-          return good1.localeCompare(good2);
-
-        case SortType.length:
-          return good1.length - good2.length;
-
-        default:
-          return 0;
-      }
-    });
-  }
-
-  if (reverse) {
-    preparedGoods.reverse();
-  }
-
-  return preparedGoods;
-}
 
 export const App: React.FC = () => {
   const [sortBy, setSortBy] = useState<SortType>(SortType.default);
@@ -117,11 +85,7 @@ export const App: React.FC = () => {
         )}
       </div>
 
-      <ul>
-        {visibleGoods.map(good => (
-          <li data-cy="Good" key={good}>{good}</li>
-        ))}
-      </ul>
+      <GoodList goods={visibleGoods} />
     </div>
   );
 };
