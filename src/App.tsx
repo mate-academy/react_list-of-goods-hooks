@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import cn from 'classnames';
+import { GoodList } from './components/GoodList';
+import { SortType } from './types/SortType';
+import { getPreparedGoods } from './services/PreparedGoods';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -16,48 +20,72 @@ export const goodsFromServer = [
 ];
 
 export const App: React.FC = () => {
+  const [sortBy, setSortBy] = useState<SortType>(SortType.default);
+  const [reverse, setReverse] = useState(false);
+  const visibleGoods = getPreparedGoods(goodsFromServer, sortBy, reverse);
+
+  const handleReset = () => {
+    setSortBy(SortType.default);
+    setReverse(false);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className="button is-info is-light"
+          className={
+            cn(
+              'button',
+              'is-info',
+              { 'is-light': sortBy !== SortType.name },
+            )
+          }
+          onClick={() => setSortBy(SortType.name)}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className="button is-success is-light"
+          className={
+            cn(
+              'button',
+              'is-success',
+              { 'is-light': sortBy !== SortType.length },
+            )
+          }
+          onClick={() => setSortBy(SortType.length)}
         >
           Sort by length
         </button>
 
         <button
           type="button"
-          className="button is-warning is-light"
+          className={
+            cn(
+              'button',
+              'is-warning',
+              { 'is-light': !reverse },
+            )
+          }
+          onClick={() => setReverse(!reverse)}
         >
           Reverse
         </button>
 
-        <button
-          type="button"
-          className="button is-danger is-light"
-        >
-          Reset
-        </button>
+        {(sortBy || reverse) && (
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={handleReset}
+          >
+            Reset
+          </button>
+        )}
       </div>
 
-      <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
-      </ul>
+      <GoodList goods={visibleGoods} />
     </div>
   );
 };
