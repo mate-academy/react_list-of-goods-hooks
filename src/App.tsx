@@ -26,9 +26,9 @@ type StateVar = {
   isReverse: boolean,
 };
 
-type Func = (goods: string[], { sortBy, isReverse }: StateVar) => string[];
+type GoodsFunc = (goods: string[], { sortBy, isReverse }: StateVar) => string[];
 
-const getPrepareGoods: Func = (goods, { sortBy, isReverse }) => {
+const getPrepareGoods: GoodsFunc = (goods, { sortBy, isReverse }) => {
   const prepareGoods = [...goods];
 
   if (sortBy) {
@@ -56,14 +56,6 @@ export const App: React.FC = () => {
   const [isReverse, setIsReverse] = useState(false);
 
   const goods = getPrepareGoods(goodsFromServer, { sortBy, isReverse });
-
-  const GoodItems = () => (
-    <ul>
-      {goods.map(good => (
-        <li key={good} data-cy="Good">{good}</li>
-      ))}
-    </ul>
-  );
 
   const handleSort = (sort: string) => () => setSortBy(sort);
   const handleReverse = () => setIsReverse(!isReverse);
@@ -119,7 +111,9 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        <GoodItems />
+        {goods.map(good => (
+          <li key={good} data-cy="Good">{good}</li>
+        ))}
       </ul>
     </div>
   );
