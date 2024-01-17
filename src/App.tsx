@@ -17,19 +17,32 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-const SORT_FIELD_ALPHABETICALLY = 'Alphabetically';
-const SORT_FIELD_LENGTH = 'Length';
+enum SortType {
+  Alphabetically = 'Alphabetically',
+  Length = 'Length',
+  Default = '',
+}
 
-function getPrepareGoods(goods, { sortField, reverse }) {
+type Props = {
+  visibleGoods: string[],
+};
+
+// const SORT_FIELD_ALPHABETICALLY = 'Alphabetically';
+// const SORT_FIELD_LENGTH = 'Length';
+
+function getPrepareGoods(
+  goods: string[],
+  { sortField, reverse }: { sortField: SortType, reverse: boolean },
+) {
   const prepareGoods = [...goods];
 
   if (sortField) {
     prepareGoods.sort((good1, good2) => {
       switch (sortField) {
-        case SORT_FIELD_ALPHABETICALLY:
+        case SortType.Alphabetically:
           return good1.localeCompare(good2);
 
-        case SORT_FIELD_LENGTH:
+        case SortType.Length:
           return good1.length - good2.length;
 
         default:
@@ -45,7 +58,7 @@ function getPrepareGoods(goods, { sortField, reverse }) {
   return prepareGoods;
 }
 
-export const GoodsList = ({ visibleGoods }) => (
+export const GoodsList: React.FC<Props> = ({ visibleGoods }) => (
   <ul>
     {visibleGoods.map(good => (
       <li key={good} data-cy="Good">{good}</li>
@@ -54,13 +67,13 @@ export const GoodsList = ({ visibleGoods }) => (
 );
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState<SortType>(SortType.Default);
   const [reverse, setReverse] = useState(false);
 
   const visibleGoods = getPrepareGoods(goodsFromServer, { sortField, reverse });
 
   const resetGoods = () => {
-    setSortField('');
+    setSortField(SortType.Default);
     setReverse(false);
   };
 
@@ -68,17 +81,17 @@ export const App: React.FC = () => {
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => setSortField(SORT_FIELD_ALPHABETICALLY)}
+          onClick={() => setSortField(SortType.Alphabetically)}
           type="button"
-          className={`button is-info ${cn({ 'is-light': sortField !== SORT_FIELD_ALPHABETICALLY })}`}
+          className={`button is-info ${cn({ 'is-light': sortField !== SortType.Alphabetically })}`}
         >
           Sort alphabetically
         </button>
 
         <button
-          onClick={() => setSortField(SORT_FIELD_LENGTH)}
+          onClick={() => setSortField(SortType.Length)}
           type="button"
-          className={`button is-success ${cn({ 'is-light': sortField !== SORT_FIELD_LENGTH })}`}
+          className={`button is-success ${cn({ 'is-light': sortField !== SortType.Length })}`}
         >
           Sort by length
         </button>
