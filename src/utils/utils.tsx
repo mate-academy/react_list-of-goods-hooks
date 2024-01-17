@@ -1,6 +1,7 @@
 export enum SortType {
   ALPHABETICAL = 'A',
   LENGTH = 'L',
+  DEFAULT = '',
 }
 
 export function getPreparedGoods(

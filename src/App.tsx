@@ -19,16 +19,28 @@ export const goodsFromServer = [
 ];
 
 export const App: React.FC = () => {
-  const [isSortedBy, setIsSortedBy] = useState('');
-  const [isReversed, setIsReversed] = useState(false);
+  const [isSortedBy, setIsSortedBy] = useState<string>(SortType.DEFAULT);
+  const [isReversed, setIsReversed] = useState<boolean>(false);
   const visibleGoods = getPreparedGoods(
     goodsFromServer,
     isSortedBy,
     isReversed,
   );
 
+  const Alphabet = () => {
+    setIsSortedBy(SortType.ALPHABETICAL);
+  };
+
+  const Length = () => {
+    setIsSortedBy(SortType.LENGTH);
+  };
+
+  const Reverse = () => {
+    setIsReversed(!isReversed);
+  };
+
   const reset = () => {
-    setIsSortedBy('');
+    setIsSortedBy(SortType.DEFAULT);
     setIsReversed(false);
   };
 
@@ -40,7 +52,7 @@ export const App: React.FC = () => {
           className={cn('button', 'is-info', {
             'is-light': isSortedBy !== SortType.ALPHABETICAL,
           })}
-          onClick={() => setIsSortedBy(SortType.ALPHABETICAL)}
+          onClick={Alphabet}
         >
           Sort alphabetically
         </button>
@@ -50,7 +62,7 @@ export const App: React.FC = () => {
           className={cn('button', 'is-success', {
             'is-light': isSortedBy !== SortType.LENGTH,
           })}
-          onClick={() => setIsSortedBy(SortType.LENGTH)}
+          onClick={Length}
         >
           Sort by length
         </button>
@@ -60,7 +72,7 @@ export const App: React.FC = () => {
           className={cn('button', 'is-warning', {
             'is-light': !isReversed,
           })}
-          onClick={() => setIsReversed(!isReversed)}
+          onClick={Reverse}
         >
           Reverse
         </button>
