@@ -26,11 +26,11 @@ enum SortType {
 }
 
 function sortPreparedGoods(
-  arr: Goods,
+  goods: Goods,
   sortBy: SortType,
   isReverse: boolean,
 ) {
-  const preparedGoodsList = [...arr];
+  const preparedGoodsList = [...goods];
 
   switch (sortBy) {
     case SortType.Length:
@@ -42,6 +42,7 @@ function sortPreparedGoods(
       break;
 
     default:
+      break;
   }
 
   if (isReverse) {
