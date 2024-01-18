@@ -21,14 +21,15 @@ enum SortBy {
   Length = 'length',
 }
 
-type StateVar = {
+type GoodsState = {
   sortBy: string,
   isReverse: boolean,
 };
 
-type GoodsFunc = (goods: string[], { sortBy, isReverse }: StateVar) => string[];
+type GetGoods = (goods: string[],
+  { sortBy, isReverse }: GoodsState) => string[];
 
-const getPrepareGoods: GoodsFunc = (goods, { sortBy, isReverse }) => {
+const getPrepareGoods: GetGoods = (goods, { sortBy, isReverse }) => {
   const prepareGoods = [...goods];
 
   if (sortBy) {
@@ -72,7 +73,7 @@ export const App: React.FC = () => {
           onClick={handleSort(SortBy.Alphabet)}
           type="button"
           className={
-            cn('button is-info', { 'is-light': sortBy !== 'alphabet' })
+            cn('button is-info', { 'is-light': sortBy !== SortBy.Alphabet })
           }
         >
           Sort alphabetically
@@ -82,7 +83,7 @@ export const App: React.FC = () => {
           onClick={handleSort(SortBy.Length)}
           type="button"
           className={
-            cn('button is-success', { 'is-light': sortBy !== 'length' })
+            cn('button is-success', { 'is-light': sortBy !== SortBy.Length })
           }
         >
           Sort by length
