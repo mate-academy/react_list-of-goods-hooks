@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import cn from 'classnames';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -15,15 +16,17 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+enum Sortfield {
+  SORT_FILED_ALPHABET = 'Sort alphabetically',
+  SORT_FILED_LENGTH = 'Sort by length',
+}
+
 interface FilterParams {
-  sortField: string;
+  sortField: Sortfield | string;
   isReversed: boolean;
 }
 
-type IsLightFunction = (a: string, b: string) => string;
-
-const SORT_FILED_ALPHABET = 'Sort alphabetically';
-const SORT_FILED_LENGTH = 'Sort by length';
+type IsLightFunction = (a: Sortfield | string, b: Sortfield | string) => string;
 
 function getPrepareGoods(
   goods: string[],
@@ -34,9 +37,9 @@ function getPrepareGoods(
   if (sortField) {
     preparedGoods.sort((good1, good2) => {
       switch (sortField) {
-        case SORT_FILED_ALPHABET:
+        case Sortfield.SORT_FILED_ALPHABET:
           return good1.localeCompare(good2);
-        case SORT_FILED_LENGTH:
+        case Sortfield.SORT_FILED_LENGTH:
           return good1.length - good2.length;
         default:
           return 0;
@@ -56,7 +59,7 @@ const isLightStyle: IsLightFunction = (sortField, sortFieldType) => {
 };
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState<Sortfield | string>('');
   const [isReversed, setIsReversed] = useState(false);
 
   const toggleReverse = () => {
@@ -78,35 +81,35 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`
+          className={cn(`
             button
             is-info
-            ${isLightStyle(sortField, SORT_FILED_ALPHABET)}
-          `}
-          onClick={() => setSortField(SORT_FILED_ALPHABET)}
+            ${isLightStyle(sortField, Sortfield.SORT_FILED_ALPHABET)}
+          `)}
+          onClick={() => setSortField(Sortfield.SORT_FILED_ALPHABET)}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={`
+          className={cn(`
             button
             is-success
-            ${isLightStyle(sortField, SORT_FILED_LENGTH)}
-          `}
-          onClick={() => setSortField(SORT_FILED_LENGTH)}
+            ${isLightStyle(sortField, Sortfield.SORT_FILED_LENGTH)}
+          `)}
+          onClick={() => setSortField(Sortfield.SORT_FILED_LENGTH)}
         >
           Sort by length
         </button>
 
         <button
           type="button"
-          className={`
+          className={cn(`
             button
             is-warning
             ${isReversed ? '' : 'is-light'}
-          `}
+          `)}
           onClick={toggleReverse}
         >
           Reverse
