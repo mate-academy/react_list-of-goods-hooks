@@ -5,6 +5,7 @@ import cn from 'classnames';
 import { Good } from './types/Good';
 import { Fild } from './types/Fild';
 import { IsReversed } from './types/IsReversed';
+import { SortType } from './types/SortType';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -19,25 +20,16 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-const SORT_BY_LENGTH = 'length';
-const SORT_BY_ALPHABET = 'alphabet';
-
-enum SortType {
-  default = '',
-  length = 'length',
-  alphabet = 'alphabet',
-}
-
 function setOrder(goods: Good[], fild: Fild, revers: IsReversed): Good[] {
   const prepereGoods = [...goods];
 
   if (fild) {
     prepereGoods.sort((good1, good2) => {
       switch (fild) {
-        case SORT_BY_LENGTH:
+        case SortType.length:
           return good1[fild] - good2[fild];
 
-        case SORT_BY_ALPHABET:
+        case SortType.alphabet:
           return good1.localeCompare(good2);
 
         default:
