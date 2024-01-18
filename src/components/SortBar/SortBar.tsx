@@ -11,7 +11,7 @@ type Props = {
 };
 
 export const SortBar: React.FC<Props> = ({
-  sortBy,
+  sortBy: isSortedBy,
   ChangeSortMethods,
   SetSortByDefault,
   isReversed,
@@ -27,7 +27,7 @@ export const SortBar: React.FC<Props> = ({
             'button',
             'is-info',
             {
-              'is-light': sortBy !== SortType.Alphabet,
+              'is-light': isSortedBy !== SortType.Alphabet,
             },
           )
         }
@@ -43,7 +43,7 @@ export const SortBar: React.FC<Props> = ({
             'button',
             'is-success',
             {
-              'is-light': sortBy !== SortType.Length,
+              'is-light': isSortedBy !== SortType.Length,
             },
           )
         }
@@ -65,7 +65,7 @@ export const SortBar: React.FC<Props> = ({
         Reverse
       </button>
 
-      {(sortBy || isReversed) && (
+      {(isSortedBy || isReversed) && (
         <button
           onClick={() => SetSortByDefault()}
           type="button"
