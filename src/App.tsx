@@ -19,14 +19,13 @@ export const goodsFromServer = [
 enum Sortfield {
   SORT_FILED_ALPHABET = 'Sort alphabetically',
   SORT_FILED_LENGTH = 'Sort by length',
+  SORT_FILED_DEFAULT = '',
 }
 
 interface FilterParams {
-  sortField: Sortfield | string;
+  sortField: Sortfield;
   isReversed: boolean;
 }
-
-type IsLightFunction = (a: Sortfield | string, b: Sortfield | string) => string;
 
 function getPrepareGoods(
   goods: string[],
@@ -54,12 +53,8 @@ function getPrepareGoods(
   return preparedGoods;
 }
 
-const isLightStyle: IsLightFunction = (sortField, sortFieldType) => {
-  return sortField === sortFieldType ? '' : 'is-light';
-};
-
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState<Sortfield | string>('');
+  const [sortField, setSortField] = useState(Sortfield.SORT_FILED_DEFAULT);
   const [isReversed, setIsReversed] = useState(false);
 
   const toggleReverse = () => {
@@ -67,7 +62,7 @@ export const App: React.FC = () => {
   };
 
   const resetSortAndReverse = () => {
-    setSortField('');
+    setSortField(Sortfield.SORT_FILED_DEFAULT);
     setIsReversed(false);
   };
 
@@ -81,11 +76,11 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={cn(`
-            button
-            is-info
-            ${isLightStyle(sortField, Sortfield.SORT_FILED_ALPHABET)}
-          `)}
+          className={cn(
+            'button',
+            'is-info',
+            { 'is-light': sortField !== Sortfield.SORT_FILED_ALPHABET },
+          )}
           onClick={() => setSortField(Sortfield.SORT_FILED_ALPHABET)}
         >
           Sort alphabetically
@@ -93,11 +88,11 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={cn(`
-            button
-            is-success
-            ${isLightStyle(sortField, Sortfield.SORT_FILED_LENGTH)}
-          `)}
+          className={cn(
+            'button',
+            'is-success',
+            { 'is-light': sortField !== Sortfield.SORT_FILED_LENGTH },
+          )}
           onClick={() => setSortField(Sortfield.SORT_FILED_LENGTH)}
         >
           Sort by length
@@ -105,11 +100,11 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={cn(`
-            button
-            is-warning
-            ${isReversed ? '' : 'is-light'}
-          `)}
+          className={cn(
+            'button',
+            'is-warning',
+            { 'is-light': !isReversed },
+          )}
           onClick={toggleReverse}
         >
           Reverse
