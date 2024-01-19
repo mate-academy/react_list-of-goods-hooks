@@ -18,7 +18,7 @@ export const goodsFromServer = [
 ];
 
 const sortByDefault: FilterParams = {
-  method: SortType.default,
+  method: SortType.Default,
   isReversedOrder: false,
 };
 
@@ -31,10 +31,10 @@ const getPreparedGoods = (
   if (method) {
     preparedGoods.sort((good1, good2) => {
       switch (method) {
-        case (SortType.alphabet):
+        case (SortType.Alphabet):
           return good1.localeCompare(good2);
 
-        case (SortType.length):
+        case (SortType.Length):
           return good1.length - good2.length;
 
         default:
@@ -58,14 +58,14 @@ export const App: React.FC = () => {
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => setSortBy({ ...sortBy, method: SortType.alphabet })}
+          onClick={() => setSortBy({ ...sortBy, method: SortType.Alphabet })}
           type="button"
           className={
             classNames(
               'button',
               'is-info',
               {
-                'is-light': sortBy.method !== SortType.alphabet,
+                'is-light': sortBy.method !== SortType.Alphabet,
               },
             )
           }
@@ -74,14 +74,14 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={() => setSortBy({ ...sortBy, method: SortType.length })}
+          onClick={() => setSortBy({ ...sortBy, method: SortType.Length })}
           type="button"
           className={
             classNames(
               'button',
               'is-success',
               {
-                'is-light': sortBy.method !== SortType.length,
+                'is-light': sortBy.method !== SortType.Length,
               },
             )
           }
@@ -91,9 +91,7 @@ export const App: React.FC = () => {
 
         <button
           onClick={() => setSortBy(
-            sortBy.isReversedOrder
-              ? { ...sortBy, isReversedOrder: false }
-              : { ...sortBy, isReversedOrder: true },
+            { ...sortBy, isReversedOrder: !sortBy.isReversedOrder },
           )}
           type="button"
           className={classNames(
@@ -110,7 +108,7 @@ export const App: React.FC = () => {
         {(sortBy.method || sortBy.isReversedOrder) && (
           <button
             onClick={() => setSortBy({
-              method: SortType.default,
+              method: SortType.Default,
               isReversedOrder: false,
             })}
             type="button"

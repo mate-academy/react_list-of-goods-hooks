@@ -1,5 +1,5 @@
 export enum SortType {
-  alphabet = 'alphabet',
-  length = 'length',
-  default = '',
+  Alphabet = 'alphabet',
+  Length = 'length',
+  Default = '',
 }
