@@ -10,7 +10,7 @@ export const GoodsList: React.FC<Props> = ({ goods }) => {
   return (
     <ul>
       {goods.map(good => (
-        <GoodsInfo good={good} />
+        <GoodsInfo good={good} key={good} />
       ))}
     </ul>
   );

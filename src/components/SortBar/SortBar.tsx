@@ -4,23 +4,23 @@ import { SortType } from '../../types/Good';
 
 type Props = {
   sortBy: SortType,
-  ChangeSortMethods: (sortBy: SortType) => void,
-  SetSortByDefault: () => void,
+  changeSortMethods: (sortBy: SortType) => void,
+  setSortByDefault: () => void,
   isReversed: boolean,
   setIsReversed: (isReversed: boolean) => void,
 };
 
 export const SortBar: React.FC<Props> = ({
   sortBy: isSortedBy,
-  ChangeSortMethods,
-  SetSortByDefault,
+  changeSortMethods,
+  setSortByDefault,
   isReversed,
   setIsReversed,
 }) => {
   return (
     <div className="buttons">
       <button
-        onClick={() => ChangeSortMethods(SortType.Alphabet)}
+        onClick={() => changeSortMethods(SortType.Alphabet)}
         type="button"
         className={
           cn(
@@ -36,7 +36,7 @@ export const SortBar: React.FC<Props> = ({
       </button>
 
       <button
-        onClick={() => ChangeSortMethods(SortType.Length)}
+        onClick={() => changeSortMethods(SortType.Length)}
         type="button"
         className={
           cn(
@@ -67,7 +67,7 @@ export const SortBar: React.FC<Props> = ({
 
       {(isSortedBy || isReversed) && (
         <button
-          onClick={() => SetSortByDefault()}
+          onClick={() => setSortByDefault()}
           type="button"
           className="button is-danger is-light"
         >

@@ -54,11 +54,11 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const goods = getPreparedGoods(goodsFromServer, sortBy, isReversed);
 
-  const ChangeSortMethods = (m:SortType) => {
-    setSortBy(m);
+  const changeSortMethods = (sortMethod:SortType) => {
+    setSortBy(sortMethod);
   };
 
-  const SetSortByDefault = () => {
+  const setSortByDefault = () => {
     setSortBy(SortType.Default);
     setIsReversed(false);
   };
@@ -67,8 +67,8 @@ export const App: React.FC = () => {
     <div className="section content">
       <SortBar
         sortBy={sortBy}
-        ChangeSortMethods={ChangeSortMethods}
-        SetSortByDefault={SetSortByDefault}
+        changeSortMethods={changeSortMethods}
+        setSortByDefault={setSortByDefault}
         isReversed={isReversed}
         setIsReversed={setIsReversed}
       />
