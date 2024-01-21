@@ -58,6 +58,15 @@ export const App = () => {
   const visibleGoods = getPreparedGoods(goodsFromServer,
     { sortField, isReversed });
 
+  const handleReverseClick = () => {
+    setReversed(prev => !prev);
+  };
+
+  const handleResetClick = () => {
+    setSortField(SortType.DEFAULT);
+    setReversed(false);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -87,11 +96,9 @@ export const App = () => {
         <button
           type="button"
           className={classNames('button', 'is-warning', {
-            'is-light': isReversed === false,
+            'is-light': !isReversed,
           })}
-          onClick={() => {
-            setReversed(!isReversed);
-          }}
+          onClick={handleReverseClick}
         >
           Reverse
         </button>
@@ -99,10 +106,7 @@ export const App = () => {
           <button
             type="button"
             className={classNames('button', 'is-danger', 'is-light')}
-            onClick={() => {
-              setSortField(SortType.DEFAULT);
-              setReversed(false);
-            }}
+            onClick={handleResetClick}
           >
             Reset
           </button>
