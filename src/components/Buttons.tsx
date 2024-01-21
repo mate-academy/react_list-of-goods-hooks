@@ -5,10 +5,14 @@ import { ButtonProps, SortType } from '../types';
 export const Buttons: React.FC<ButtonProps> = (
   { state, setState, goodsFromServer },
 ) => {
+  function reverseIfRequired(array: string[]): string[] {
+    return state.isReverse ? array.reverse() : array;
+  }
+
   function reverseGoods(): void {
     setState(prevState => ({
       ...prevState,
-      reverse: !prevState.reverse,
+      isReverse: !prevState.isReverse,
       visibleGoods: [...prevState.visibleGoods].reverse(),
     }));
   }
@@ -18,14 +22,10 @@ export const Buttons: React.FC<ButtonProps> = (
       (a, b) => a.length - b.length,
     );
 
-    if (state.reverse) {
-      sortedVisibleGoods.reverse();
-    }
-
     setState(prevState => ({
       ...prevState,
       sortField: SortType.Length,
-      visibleGoods: sortedVisibleGoods,
+      visibleGoods: reverseIfRequired(sortedVisibleGoods),
     }));
   }
 
@@ -33,20 +33,16 @@ export const Buttons: React.FC<ButtonProps> = (
     const sortedVisibleGoods = [...goodsFromServer]
       .sort((a, b) => a.localeCompare(b));
 
-    if (state.reverse) {
-      sortedVisibleGoods.reverse();
-    }
-
     setState(prevState => ({
       ...prevState,
       sortField: SortType.Alphabet,
-      visibleGoods: sortedVisibleGoods,
+      visibleGoods: reverseIfRequired(sortedVisibleGoods),
     }));
   }
 
   function resetGoods(): void {
     setState({
-      reverse: false,
+      isReverse: false,
       sortField: SortType.Default,
       visibleGoods: [...goodsFromServer],
     });
@@ -79,13 +75,13 @@ export const Buttons: React.FC<ButtonProps> = (
           onClick={reverseGoods}
           type="button"
           className={classNames('button', 'is-warning', {
-            'is-light': state.reverse !== true,
+            'is-light': state.isReverse !== true,
           })}
         >
           Reverse
         </button>
 
-        {state.sortField || state.reverse ? (
+        {(state.sortField || state.isReverse) && (
           <button
             onClick={resetGoods}
             type="button"
@@ -93,7 +89,7 @@ export const Buttons: React.FC<ButtonProps> = (
           >
             Reset
           </button>
-        ) : null}
+        )}
       </div>
 
     </div>

@@ -5,7 +5,7 @@ export enum SortType {
 }
 
 export type State = {
-  reverse: boolean;
+  isReverse: boolean;
   sortField: SortType;
   visibleGoods: string[];
 };

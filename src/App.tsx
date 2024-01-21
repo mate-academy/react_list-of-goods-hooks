@@ -20,7 +20,7 @@ export const goodsFromServer: string[] = [
 
 export const App: React.FC = () => {
   const [state, setState] = useState<State>({
-    reverse: false,
+    isReverse: false,
     sortField: SortType.Default,
     visibleGoods: [...goodsFromServer],
   });
