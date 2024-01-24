@@ -6,8 +6,8 @@ import './App.scss';
 enum SortTypes {
   SORT_FIELD_ALPHABET = 'ab',
   SORT_FIELD_LENGTH = 'length',
-  REVERS_FIELDS = 'fields'
-};
+  DEFAULT = 'default',
+}
 
 export const goodsFromServer = [
   'Dumplings',
@@ -22,8 +22,11 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-
-function getPreperedGoods(goods: string[], sortMethod: SortTypes | string, sortDirection: SortTypes | string): string[] {
+function getPreperedGoods(
+  goods: string[],
+  sortMethod: SortTypes,
+  sortDirection: boolean,
+): string[] {
   const preperedGoods = [...goods];
 
   if (sortMethod) {
@@ -48,11 +51,9 @@ function getPreperedGoods(goods: string[], sortMethod: SortTypes | string, sortD
   return preperedGoods;
 }
 
-
-
 export const App: React.FC = () => {
-  const [sortMethod, setSortMethod] = useState('');
-  const [sortDirection, setSortDirection] = useState('');
+  const [sortMethod, setSortMethod] = useState(SortTypes.DEFAULT);
+  const [sortDirection, setSortDirection] = useState(false);
   const visibleGoods: string[] = getPreperedGoods(
     goodsFromServer,
     sortMethod,
@@ -60,9 +61,9 @@ export const App: React.FC = () => {
   );
 
   function setResetData() {
-    setSortMethod('');
-    setSortDirection('');
-  };
+    setSortMethod(SortTypes.DEFAULT);
+    setSortDirection(false);
+  }
 
   return (
     <div className="section content">
@@ -95,11 +96,11 @@ export const App: React.FC = () => {
           type="button"
           className={
             classNames('button is-warning', {
-              'is-light': sortDirection !== SortTypes.REVERS_FIELDS,
+              'is-light': !sortDirection,
             })
           }
           onClick={
-            () => setSortDirection(sortDirection === '' ? SortTypes.REVERS_FIELDS : '')
+            () => setSortDirection(!sortDirection)
           }
         >
           Reverse
@@ -109,7 +110,7 @@ export const App: React.FC = () => {
           type="button"
           className={
             classNames('button is-info is-light', {
-              'is-hidden': (sortMethod === '' && sortDirection === ''),
+              'is-hidden': (sortMethod === SortTypes.DEFAULT && sortDirection === false),
             })
           }
           onClick={setResetData}
