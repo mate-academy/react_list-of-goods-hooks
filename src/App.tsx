@@ -61,7 +61,7 @@ export const App: React.FC = () => {
     isReversed,
   );
   const reset = () => {
-    setSortButtonName(SortType.Default);
+    setSortButtonName(SortType.Dflt);
     setIsReversed(false);
   };
 
