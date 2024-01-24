@@ -53,16 +53,16 @@ function getPreperedGoods(
 
 export const App: React.FC = () => {
   const [sortMethod, setSortMethod] = useState(SortTypes.DEFAULT);
-  const [sortDirection, setSortDirection] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
   const visibleGoods: string[] = getPreperedGoods(
     goodsFromServer,
     sortMethod,
-    sortDirection,
+    isReversed,
   );
 
   function setResetData() {
     setSortMethod(SortTypes.DEFAULT);
-    setSortDirection(false);
+    setIsReversed(false);
   }
 
   return (
@@ -96,11 +96,11 @@ export const App: React.FC = () => {
           type="button"
           className={
             classNames('button is-warning', {
-              'is-light': !sortDirection,
+              'is-light': !isReversed,
             })
           }
           onClick={
-            () => setSortDirection(!sortDirection)
+            () => setIsReversed(!isReversed)
           }
         >
           Reverse
@@ -109,9 +109,12 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={
-            classNames('button is-info is-light', {
-              'is-hidden': (sortMethod === SortTypes.DEFAULT && sortDirection === false),
-            })
+            classNames(
+              'button is-info is-light',
+              {
+                'is-hidden': (sortMethod === SortTypes.DEFAULT
+                  && !isReversed),
+              })
           }
           onClick={setResetData}
         >
