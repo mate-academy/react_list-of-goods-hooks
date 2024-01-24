@@ -1,0 +1,3 @@
+[0124/223726.896:ERROR:persistent_memory_allocator.cc(777)] Corruption detected in shared-memory segment.
+[0124/223726.946:ERROR:crash_report_database_win.cc(426)] unexpected header
+[0124/230323.151:ERROR:crash_report_database_win.cc(426)] unexpected header
