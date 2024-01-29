@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import cn from 'classnames';
@@ -61,11 +61,16 @@ function getPreparedGoods(
 export const App: React.FC = () => {
   const [sortFild, setSortFild] = useState(SortType.DEFAULT);
   const [reverseFild, setReverseFild] = useState(false);
+  const [goods, setGoods] = useState(goodsFromServer);
 
-  const visibleGoods = getPreparedGoods(
-    goodsFromServer,
-    { sortFild, reverseFild },
-  );
+  useEffect(() => {
+    const visibleGoods = getPreparedGoods(
+      goodsFromServer,
+      { sortFild, reverseFild },
+    );
+
+    setGoods(visibleGoods);
+  }, [sortFild, reverseFild]);
 
   const handleClick = () => {
     setSortFild(SortType.DEFAULT);
@@ -127,7 +132,7 @@ export const App: React.FC = () => {
 
       <ul>
         <ul>
-          {visibleGoods.map(({ good, id }) => (
+          {goods.map(({ good, id }) => (
             <li data-cy="Good" key={id}>{good}</li>
           ))}
         </ul>
