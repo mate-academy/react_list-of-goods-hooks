@@ -16,8 +16,10 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-const SORT_FIELD_ALPH = 'Sort alphabetically';
-const SORT_FIELD_LENGTH = 'Sort by length';
+enum Sort {
+  alph = 'Sort alphabetically',
+  length = 'Sort by length',
+}
 
 function getPreparedGoods(
   goods: string[],
@@ -29,10 +31,10 @@ function getPreparedGoods(
   if (sortField) {
     preparedGoods.sort((good1, good2) => {
       switch (sortField) {
-        case SORT_FIELD_ALPH:
+        case Sort.alph:
           return good1.localeCompare(good2);
 
-        case SORT_FIELD_LENGTH:
+        case Sort.length:
           return good1.length - good2.length;
 
         default:
@@ -54,19 +56,19 @@ export const App: React.FC = () => {
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => setSortField(SORT_FIELD_ALPH)}
+          onClick={() => setSortField(Sort.alph)}
           type="button"
           className={cn('button', 'is-info',
-            { 'is-light': sortField !== SORT_FIELD_ALPH })}
+            { 'is-light': sortField !== Sort.alph })}
         >
           Sort alphabetically
         </button>
 
         <button
-          onClick={() => setSortField(SORT_FIELD_LENGTH)}
+          onClick={() => setSortField(Sort.length)}
           type="button"
           className={cn('button', 'is-success',
-            { 'is-light': sortField !== SORT_FIELD_LENGTH })}
+            { 'is-light': sortField !== Sort.length })}
         >
           Sort by length
         </button>
