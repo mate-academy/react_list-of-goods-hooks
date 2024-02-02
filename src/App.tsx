@@ -19,8 +19,8 @@ export const goodsFromServer: Goods = [
 type Goods = string[];
 
 enum SortType {
-  alphabetically = 'Sort alphabetically',
-  length = 'Sort by length',
+  alphabetically = 'alphabetically',
+  length = 'length',
   default = '',
 }
 
@@ -51,6 +51,11 @@ export const App: React.FC = () => {
 
   const sortedGoods = getGoods(goodsFromServer, sortType);
   const visibleGoods = isReversed ? sortedGoods.reverse() : sortedGoods;
+
+  const handleReset = () => {
+    setSortType(SortType.default);
+    setIsReversed(false);
+  };
 
   return (
     <div className="section content">
@@ -84,7 +89,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-warning', { 'is-light': !isReversed })}
-          onClick={() => setIsReversed(!isReversed)}
+          onClick={() => setIsReversed(prev => !prev)}
         >
           Reverse
         </button>
@@ -94,10 +99,7 @@ export const App: React.FC = () => {
             <button
               type="button"
               className="button is-danger is-light"
-              onClick={() => {
-                setSortType(SortType.default);
-                setIsReversed(false);
-              }}
+              onClick={handleReset}
             >
               Reset
             </button>
