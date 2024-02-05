@@ -35,8 +35,10 @@ function getPreparedGoods(
       switch (sortField) {
         case SortType.Name:
           return good1.localeCompare(good2);
+
         case SortType.Length:
           return good1.length - good2.length;
+
         default:
           return 0;
       }
@@ -55,6 +57,10 @@ export const App: React.FC = () => {
   const [confirmation, setConfirmation] = useState(false);
   const visibleGoods
     = getPreparedGoods(goodsFromServer, { sortField, confirmation });
+  const reset = () => {
+    setSortField('');
+    setConfirmation(false);
+  };
 
   return (
     <div className="section content">
@@ -64,9 +70,7 @@ export const App: React.FC = () => {
           className={cn('button', 'is-info', {
             'is-ligth': sortField !== SortType.Name,
           })}
-          onClick={() => {
-            setSortField(SortType.Name);
-          }}
+          onClick={() => setSortField(SortType.Name)}
         >
           Sort alphabetically
         </button>
@@ -76,9 +80,7 @@ export const App: React.FC = () => {
           className={cn('button', 'is-success', {
             'is-ligth': sortField !== SortType.Length,
           })}
-          onClick={() => {
-            setSortField(SortType.Length);
-          }}
+          onClick={() => setSortField(SortType.Length)}
         >
           Sort by length
         </button>
@@ -100,10 +102,7 @@ export const App: React.FC = () => {
             <button
               type="button"
               className="button is-danger is-light"
-              onClick={() => {
-                setSortField('');
-                setConfirmation(false);
-              }}
+              onClick={reset}
             >
               Reset
             </button>
