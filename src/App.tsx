@@ -90,9 +90,7 @@ export const App: React.FC = () => {
           className={cn('button', 'is-warning', {
             'is-ligth': !confirmation,
           })}
-          onClick={() => {
-            setConfirmation(!confirmation);
-          }}
+          onClick={() => setConfirmation(!confirmation)}
         >
           Reverse
         </button>
