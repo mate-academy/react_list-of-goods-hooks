@@ -69,10 +69,11 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={cn('button', 'is-info', {
-            'is-light':
-              sortField !== SortType.Name,
-          })}
+          className={cn(
+            'button',
+            'is-info',
+            { 'is-light': sortField !== SortType.Name },
+          )}
           onClick={() => setSortField(SortType.Name)}
         >
           Sort alphabetically
@@ -80,10 +81,11 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={cn('button', 'is-success', {
-            'is-light':
-              sortField !== SortType.Length,
-          })}
+          className={cn(
+            'button',
+            'is-success',
+            { 'is-light': sortField !== SortType.Length },
+          )}
           onClick={() => setSortField(SortType.Length)}
         >
           Sort by length
