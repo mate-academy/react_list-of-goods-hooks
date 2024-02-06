@@ -86,17 +86,18 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {sortField !== '' ? (
+        {(sortField || isReversed) && (
           <button
             type="button"
             className="button is-danger is-light"
             onClick={() => {
               setSortField('');
+              SetIsReversed(false)
             }}
           >
             Reset
           </button>
-        ) : null}
+        )}
       </div>
       <GoodsList list={visibleGoods} />
     </div>
