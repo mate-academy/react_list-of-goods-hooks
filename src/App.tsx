@@ -6,7 +6,7 @@ import cn from 'classnames';
 enum SortType {
   none = '',
   alphabet = 'alphabet',
-  length = 'length'
+  length = 'length',
 }
 
 export const goodsFromServer = [
@@ -22,7 +22,11 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-function getPreparedGoods(goods: string[], sortField: SortType, reverseField: boolean) {
+function getPreparedGoods(
+  goods: string[],
+  sortField: SortType,
+  reverseField: boolean,
+) {
   const preparedGoods = [...goods];
 
   if (sortField) {
@@ -100,13 +104,13 @@ export const App: React.FC = () => {
         </button>
 
         {(sortField || reverseField) && (
-        <button
-          type="button"
-          className="button is-danger is-light"
-          onClick={reset}
-        >
-          Reset
-        </button>
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={reset}
+          >
+            Reset
+          </button>
         )}
       </div>
 
