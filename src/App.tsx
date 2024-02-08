@@ -78,7 +78,8 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={classNames('button', 'is-warning', { 'is-light': !isReversed })}
+          className={classNames('button', 'is-warning',
+            { 'is-light': !isReversed })}
           onClick={() => {
             SetIsReversed(!isReversed);
             getPrepared(goodsFromServer, sortField, isReversed);
