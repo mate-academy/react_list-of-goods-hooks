@@ -9,9 +9,8 @@ type Post = string;
 enum SortType {
   letter = 'letter',
   length = 'length',
-  none = ''
-};
-
+  none = '',
+}
 
 export const goodsFromServer = [
   'Dumplings',
@@ -36,18 +35,20 @@ const sortingBy = (goods: Post[], property: SortType): Post[] => {
     case SortType.length:
       sortedGoods.sort((item1, item2) => item1.length - item2.length);
       break;
+    default:
+      return sortedGoods;
   }
 
   return sortedGoods;
 };
 
 export const App: React.FC = () => {
-  const [sortingProperties, setSortingProperty] = useState<SortType>(SortType.none);
+  const [sortProperty, setSortProperty] = useState<SortType>(SortType.none);
   const [reverseSorting, setReverseSorting] = useState(false);
   let goods: Post[] = [...goodsFromServer];
 
-  if (sortingProperties) {
-    goods = sortingBy(goods, sortingProperties);
+  if (sortProperty) {
+    goods = sortingBy(goods, sortProperty);
   }
 
   if (reverseSorting) {
@@ -60,9 +61,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-info', {
-            'is-light': sortingProperties !== SortType.letter,
+            'is-light': sortProperty !== SortType.letter,
           })}
-          onClick={() => setSortingProperty(SortType.letter)}
+          onClick={() => setSortProperty(SortType.letter)}
         >
           Sort alphabetically
         </button>
@@ -70,9 +71,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-success', {
-            'is-light': sortingProperties !== SortType.length,
+            'is-light': sortProperty !== SortType.length,
           })}
-          onClick={() => setSortingProperty(SortType.length)}
+          onClick={() => setSortProperty(SortType.length)}
         >
           Sort by length
         </button>
@@ -87,12 +88,12 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortingProperties || reverseSorting) && (
+        {(sortProperty || reverseSorting) && (
           <button
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              setSortingProperty(SortType.none);
+              setSortProperty(SortType.none);
               setReverseSorting(false);
             }}
           >
