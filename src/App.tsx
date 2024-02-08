@@ -1,6 +1,7 @@
 import 'bulma/css/bulma.css';
 import './App.scss';
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import { GoodsList } from './GoodsList';
 
 export const goodsFromServer = [
@@ -30,10 +31,12 @@ function getPrepared(goods: string[], sortField: string, isReversed: boolean) {
         preparedGoods
           .sort((good1: string, good2: string) => good2.length - good1.length);
         break;
+
       case SortField.ALPHABETICALLY:
         preparedGoods
           .sort((good1: string, good2: string) => good1.localeCompare(good2));
         break;
+
       default:
         break;
     }
@@ -57,27 +60,25 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortField === SortField.ALPHABETICALLY ? '' : 'is-light'}`}
-          onClick={() => {
-            setSortField(SortField.ALPHABETICALLY);
-          }}
+          className={classNames('button', 'is-info',
+            { 'is-light': sortField !== SortField.ALPHABETICALLY })}
+          onClick={() => setSortField(SortField.ALPHABETICALLY)}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={`button is-success ${sortField === SortField.LENGTH ? '' : 'is-light'}`}
-          onClick={() => {
-            setSortField(SortField.LENGTH);
-          }}
+          className={classNames('button', 'is-success',
+            { 'is-light': sortField !== SortField.LENGTH })}
+          onClick={() => setSortField(SortField.LENGTH)}
         >
           Sort by length
         </button>
 
         <button
           type="button"
-          className={`button is-warning ${isReversed ? '' : 'is-light'}`}
+          className={classNames('button', 'is-warning', { 'is-light': !isReversed })}
           onClick={() => {
             SetIsReversed(!isReversed);
             getPrepared(goodsFromServer, sortField, isReversed);
@@ -89,10 +90,10 @@ export const App: React.FC = () => {
         {(sortField || isReversed) && (
           <button
             type="button"
-            className="button is-danger is-light"
+            className={classNames('button', 'is-danger', 'is-light')}
             onClick={() => {
               setSortField('');
-              SetIsReversed(false)
+              SetIsReversed(false);
             }}
           >
             Reset
