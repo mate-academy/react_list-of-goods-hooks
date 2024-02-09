@@ -7,7 +7,7 @@ import './App.scss';
 type Post = string;
 
 enum SortType {
-  letter = 'letter',
+  alphabetical = 'letter',
   length = 'length',
   none = '',
 }
@@ -29,7 +29,7 @@ const sortingBy = (goods: Post[], property: SortType): Post[] => {
   const sortedGoods = [...goods];
 
   switch (property) {
-    case SortType.letter:
+    case SortType.alphabetical:
       sortedGoods.sort((item1, item2) => item1.localeCompare(item2));
       break;
     case SortType.length:
@@ -43,12 +43,12 @@ const sortingBy = (goods: Post[], property: SortType): Post[] => {
 };
 
 export const App: React.FC = () => {
-  const [sortProperty, setSortProperty] = useState<SortType>(SortType.none);
+  const [sortBy, setSortBy] = useState<SortType>(SortType.none);
   const [reverseSorting, setReverseSorting] = useState(false);
   let goods: Post[] = [...goodsFromServer];
 
-  if (sortProperty) {
-    goods = sortingBy(goods, sortProperty);
+  if (sortBy) {
+    goods = sortingBy(goods, sortBy);
   }
 
   if (reverseSorting) {
@@ -61,9 +61,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-info', {
-            'is-light': sortProperty !== SortType.letter,
+            'is-light': sortBy !== SortType.alphabetical,
           })}
-          onClick={() => setSortProperty(SortType.letter)}
+          onClick={() => setSortBy(SortType.alphabetical)}
         >
           Sort alphabetically
         </button>
@@ -71,9 +71,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-success', {
-            'is-light': sortProperty !== SortType.length,
+            'is-light': sortBy !== SortType.length,
           })}
-          onClick={() => setSortProperty(SortType.length)}
+          onClick={() => setSortBy(SortType.length)}
         >
           Sort by length
         </button>
@@ -81,19 +81,19 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-warning', {
-            'is-light': reverseSorting !== true,
+            'is-light': !reverseSorting,
           })}
           onClick={() => setReverseSorting(!reverseSorting)}
         >
           Reverse
         </button>
 
-        {(sortProperty || reverseSorting) && (
+        {(sortBy || reverseSorting) && (
           <button
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              setSortProperty(SortType.none);
+              setSortBy(SortType.none);
               setReverseSorting(false);
             }}
           >
