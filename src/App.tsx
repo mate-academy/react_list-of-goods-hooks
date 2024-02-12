@@ -88,7 +88,7 @@ export const App: React.FC = () => {
           onClick={() => setSortOrder('desc')}
           type="button"
           className={cn('button is-warning', {
-            'is-light': sortOrder === 'desc',
+            'is-light': sortOrder !== 'desc',
           })}
         >
           Reverse
