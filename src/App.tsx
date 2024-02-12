@@ -7,7 +7,7 @@ interface ForState {
   sortField: string,
 }
 
-type SortOrder = 'asc' | 'desc';
+type SortOrder = false | true;
 
 enum SortField {
   Alphabet = 'Sort alphabetically',
@@ -48,12 +48,12 @@ function getPreparedGoods(
     });
   }
 
-  return sortOrder === 'asc' ? newGoods : newGoods.reverse();
+  return !sortOrder ? newGoods : newGoods.reverse();
 }
 
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState<SortField>(SortField.Clear);
-  const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
+  const [sortOrder, setSortOrder] = useState<SortOrder>(false);
 
   const visibleGoods = getPreparedGoods(
     goodsFromServer,
@@ -85,20 +85,20 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={() => setSortOrder('desc')}
+          onClick={() => setSortOrder(!sortOrder)}
           type="button"
           className={cn('button is-warning', {
-            'is-light': sortOrder !== 'desc',
+            'is-light': !sortOrder,
           })}
         >
           Reverse
         </button>
 
-        {(sortField || sortOrder === 'desc') && (
+        {(sortField || sortOrder) && (
           <button
             onClick={() => {
               setSortField(SortField.Clear);
-              setSortOrder('asc');
+              setSortOrder(false);
             }}
             type="button"
             className="button is-danger is-light"
