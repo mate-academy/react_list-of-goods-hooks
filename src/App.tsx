@@ -109,7 +109,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {[...visibleGoods].map((good) => (
+        {visibleGoods.map((good) => (
           <Fragment key={good}>
             <li data-cy="Good">{good}</li>
           </Fragment>
