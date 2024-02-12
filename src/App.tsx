@@ -1,4 +1,3 @@
-import React from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import { useState } from 'react';
@@ -20,14 +19,12 @@ export const goodsFromServer = [
 enum SortType {
   SORT_BY_ALPHABET = 'Sort alphabetically',
   SORT_BY_LENGTH = 'Sort by length',
+  SORT_DEFAULT = '',
 }
 
-interface SortParams {
-  sortField: SortType;
-  reverse: boolean;
-}
-
-function getPrepareGoods(goods: string[], { sortField, reverse }: SortParams) {
+function getPrepareGoods(
+  goods: string[], sortField: SortType, isReverse: boolean,
+) {
   let prepareGoods = [...goods];
 
   if (sortField) {
@@ -43,7 +40,7 @@ function getPrepareGoods(goods: string[], { sortField, reverse }: SortParams) {
     });
   }
 
-  if (reverse) {
+  if (isReverse) {
     return prepareGoods.reverse();
   }
 
@@ -51,72 +48,79 @@ function getPrepareGoods(goods: string[], { sortField, reverse }: SortParams) {
 }
 
 export const App: React.FC = () => {
-  const [sortParams, setSortParams] = useState<SortParams>({
-    sortField: SortType.SORT_BY_ALPHABET,
-    reverse: false,
-  });
+  const [sortField, setSortField] = useState(SortType.SORT_DEFAULT);
+  const [isReverse, setReverse] = useState(false);
+  const getListOfGoods = getPrepareGoods(
+    goodsFromServer, sortField, isReverse,
+  );
 
-  const resetSorting = () => {
-    if (sortParams.sortField || sortParams.reverse) {
-      setSortParams({
-        sortField: SortType.SORT_BY_ALPHABET,
-        reverse: false,
-      });
-    }
+  const handleClickSortName = () => {
+    setSortField(SortType.SORT_BY_ALPHABET);
+  };
+
+  const handleClickSortLength = () => {
+    setSortField(SortType.SORT_BY_LENGTH);
+  };
+
+  const handleReverseClick = () => {
+    setReverse(prev => !prev);
+  };
+
+  const resetClick = () => {
+    setSortField(SortType.SORT_DEFAULT);
+    setReverse(false);
   };
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => {
-            setSortParams({ sortField: SortType.SORT_BY_ALPHABET, reverse: false });
-          }}
+          onClick={handleClickSortName}
           type="button"
-          className={cn('button is-info',
-            { 'is-light': sortParams.sortField !== SortType.SORT_BY_ALPHABET })
+          className={
+            cn('button is-info',
+              { 'is-light': sortField !== SortType.SORT_BY_ALPHABET })
           }
         >
           Sort alphabetically
         </button>
 
         <button
-          onClick={() => {
-            setSortParams({ sortField: SortType.SORT_BY_LENGTH, reverse: false});
-          }}
+          onClick={handleClickSortLength}
           type="button"
-          className={cn('button is-success',
-            { 'is-light': sortParams.sortField !== SortType.SORT_BY_LENGTH })
+          className={
+            cn('button is-success',
+              { 'is-light': sortField !== SortType.SORT_BY_LENGTH })
           }
         >
           Sort by length
         </button>
 
         <button
-          onClick={() => {
-            setSortParams({ ...sortParams, reverse: !sortParams.reverse });
-          }}
+          onClick={handleReverseClick}
           type="button"
-          className={cn('button is-warning',
-            { 'is-light': !sortParams.reverse })
+          className={
+            cn('button is-warning',
+              { 'is-light': !isReverse })
           }
         >
           Reverse
         </button>
 
-        <button
-          onClick={resetSorting}
-          type="button"
-          className={cn('button is-danger is-light',
-            { 'is-hidden': !(sortParams.sortField || sortParams.reverse) })
-          }
-        >
-          Reset
-        </button>
+        {(isReverse || sortField !== '') && (
+          <button
+            onClick={resetClick}
+            type="button"
+            className="button is-danger is-light"
+          >
+            Reset
+          </button>
+        )}
+
       </div>
 
       <ul>
-        {getPrepareGoods(goodsFromServer, sortParams).map(good => (
+        {getListOfGoods.map(good => (
           <li
             data-cy="Good"
             key={good}
