@@ -51,7 +51,7 @@ function getSortedGoods(goods: string[], sortField: SortField): string[] {
 
 const initialState: SortField = { field: '', isReverse: false };
 
-export const App: React.FC = () => {
+const App: React.FC = () => {
   const [sortField, setSortField] = useState(initialState);
   const visibleGoods = getSortedGoods(goodsFromServer, sortField);
   const isShowReset = !!sortField.field || sortField.isReverse;
@@ -122,3 +122,5 @@ export const App: React.FC = () => {
     </div>
   );
 };
+
+export default App;
