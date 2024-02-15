@@ -17,25 +17,29 @@ export const goodsFromServer = [
   "Garlic",
 ];
 
-enum Sort {
+enum SortType {
   name = "alphabet",
   length = "length",
   default = "",
 }
 
-function getPrepareGoods(
-  goods: string[],
-  { sortField, reverse }: { sortField: string; reverse: boolean },
-) {
+type SortField = {
+  sortField: string;
+  reverse: boolean;
+};
+
+function getPrepareGoods(goods: string[], { sortField, reverse }: SortField) {
   let prepareGoods = [...goods];
 
   if (sortField) {
     prepareGoods = prepareGoods.sort((good1, good2) => {
       switch (sortField) {
-        case Sort.name:
+        case SortType.name:
           return good1.localeCompare(good2);
-        case Sort.length:
+
+        case SortType.length:
           return good1[sortField] - good2[sortField];
+
         default:
           return 0;
       }
@@ -58,7 +62,15 @@ export const App: React.FC = () => {
 
   const resetAll = () => {
     setReverse(false);
-    setSortField(Sort.default);
+    setSortField(SortType.default);
+  };
+
+  const handleSortField = (sortType: SortType) => {
+    return () => setSortField(sortType);
+  };
+
+  const handleReverse = () => {
+    setReverse((content) => !content);
   };
 
   return (
@@ -67,9 +79,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn("button is-info", {
-            "is-light": sortField !== Sort.name,
+            "is-light": sortField !== SortType.name,
           })}
-          onClick={() => setSortField(Sort.name)}
+          onClick={handleSortField(SortType.name)}
         >
           Sort alphabetically
         </button>
@@ -77,16 +89,16 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn("button is-success", {
-            "is-light": sortField !== Sort.length,
+            "is-light": sortField !== SortType.length,
           })}
-          onClick={() => setSortField(Sort.length)}
+          onClick={handleSortField(SortType.length)}
         >
           Sort by length
         </button>
 
         <button
           type="button"
-          onClick={() => setReverse((content) => !content)}
+          onClick={handleReverse}
           className={cn("button is-warning", {
             "is-light": !reverse,
           })}
