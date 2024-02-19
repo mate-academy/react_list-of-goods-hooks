@@ -51,6 +51,10 @@ function getPreparedGoods(
 export const App: React.FC = () => {
   const [isReversed, setReversed] = useState(false);
   const [sortField, setSortField] = useState('');
+  const handleClick = () => {
+    setSortField('');
+    setReversed(false);
+  };
 
   const visibleGoods = getPreparedGoods(goodsFromServer, sortField, isReversed);
 
@@ -83,10 +87,10 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={classNames('button', 'is-warning', {
-            'is-light': isReversed === false,
+            'is-light': !isReversed,
           })}
           onClick={() => {
-            setReversed(!isReversed);
+            setReversed(prev => !prev);
           }}
         >
           Reverse
@@ -95,10 +99,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className={classNames('button', 'is-danger', 'is-light')}
-            onClick={() => {
-              setSortField('');
-              setReversed(false);
-            }}
+            onClick={handleClick}
           >
             Reset
           </button>
