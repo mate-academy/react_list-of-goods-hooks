@@ -10,14 +10,12 @@ export const Button: React.FC<Props> = ({
   title, classOfTitle, sortFunction,
 }) => {
   return (
-    <>
-      <button
-        type="button"
-        className={classOfTitle}
-        onClick={sortFunction}
-      >
-        {title}
-      </button>
-    </>
+    <button
+      type="button"
+      className={classOfTitle}
+      onClick={sortFunction}
+    >
+      {title}
+    </button>
   );
 };

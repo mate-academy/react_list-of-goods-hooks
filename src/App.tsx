@@ -26,26 +26,17 @@ function getPreparedGood(
   sortField: string,
   isReversed: boolean,
 ): string[] {
-  const visibleGoods = [...goods];
+  let visibleGoods = [...goods];
 
   if (sortField) {
     switch (sortField) {
       case SORT_BY_ALPHABETICALLY:
-        if (isReversed) {
-          visibleGoods.sort((good1, good2) => good2.localeCompare(good1));
-        } else {
-          visibleGoods.sort((good1, good2) => good1.localeCompare(good2));
-        }
+        visibleGoods.sort((good1, good2) => good1.localeCompare(good2));
 
         break;
       case SORT_BY_LENGTH:
-        if (isReversed) {
-          visibleGoods.sort((good1, good2) => (
-            good2.length - good1.length));
-        } else {
-          visibleGoods.sort((good1, good2) => (
-            good1.length - good2.length));
-        }
+          visibleGoods = [...goodsFromServer].sort((good1, good2) => (
+          good1.length - good2.length));
 
         break;
       default:
@@ -53,7 +44,7 @@ function getPreparedGood(
     }
   }
 
-  if (sortField === SORT_BY_REVERSE) {
+  if (sortField === SORT_BY_REVERSE || isReversed) {
     visibleGoods.reverse();
   }
 
@@ -82,7 +73,7 @@ export const App: React.FC = () => {
   const sortByReverse = () => {
     setIsReversed(!isReversed);
     setVisibleGoods(
-      getPreparedGood(visibleGoods, SORT_BY_REVERSE, !isReversed),
+      getPreparedGood(visibleGoods, SORT_BY_REVERSE, isReversed),
     );
   };
 
