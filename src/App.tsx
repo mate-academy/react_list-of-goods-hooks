@@ -35,7 +35,7 @@ function getPreparedGood(
 
         break;
       case SORT_BY_LENGTH:
-          visibleGoods = [...goodsFromServer].sort((good1, good2) => (
+        visibleGoods = [...goodsFromServer].sort((good1, good2) => (
           good1.length - good2.length));
 
         break;
