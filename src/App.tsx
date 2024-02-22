@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import cn from 'classnames';
 
 enum SortType {
   NONE,
@@ -33,15 +34,15 @@ function getReorderedGoods(
   let visibleGoods = [...goods];
 
   switch (sortType) {
-    case 0:
+    case SortType.NONE:
       visibleGoods = [...goodsFromServer];
       break;
 
-    case 1:
+    case SortType.ALPHABET:
       visibleGoods.sort((goodA, goodB) => goodA.localeCompare(goodB));
       break;
 
-    case 2:
+    case SortType.LENGTH:
       visibleGoods.sort((goodA, goodB) => goodA.length - goodB.length);
       break;
 
@@ -70,7 +71,10 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortType !== 1 && 'is-light'}`}
+          className={cn({
+            'button is-info': true,
+            'is-light': sortType !== SortType.ALPHABET,
+          })}
           onClick={() => setSortType(1)}
         >
           Sort alphabetically
@@ -78,7 +82,10 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-success ${sortType !== 2 && 'is-light'}`}
+          className={cn({
+            'button is-success': true,
+            'is-light': sortType !== SortType.LENGTH,
+          })}
           onClick={() => setSortType(2)}
         >
           Sort by length
@@ -86,25 +93,29 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-warning ${!isReversed && 'is-light'}`}
+          className={cn({
+            'button is-warning': true,
+            'is-light': !isReversed,
+          })}
           onClick={() => setIsReversed(!isReversed)}
         >
           Reverse
         </button>
 
-        <button
-          type="button"
-          className="button is-danger is-light"
-          style={{
-            display: sortType !== 0 || isReversed ? 'inline' : 'none',
-          }}
-          onClick={() => {
-            setSortType(0);
-            setIsReversed(false);
-          }}
-        >
-          Reset
-        </button>
+        {sortType !== 0 || isReversed ? (
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={() => {
+              setSortType(0);
+              setIsReversed(false);
+            }}
+          >
+            Reset
+          </button>
+        ) : (
+          ''
+        )}
       </div>
 
       <ul>
