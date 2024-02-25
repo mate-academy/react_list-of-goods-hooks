@@ -59,6 +59,7 @@ export const App: React.FC = () => {
     sortBy,
     reverse,
   }) as string[];
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -74,8 +75,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={cn('button', 'is-sucsses',
-            {'is-light': sortBy !== SortType.length})}
+          className={cn('button', 'is-sucsses', {
+            'is-light': sortBy !== SortType.length,
+          })}
           onClick={() => setSortBy(2)}
         >
           Sort by length
@@ -93,7 +95,7 @@ export const App: React.FC = () => {
 
         {sortBy !== 0 || reverse ? (
           <button
-            type="button" 
+            type="button"
             className="button is-danger is-light"
             onClick={() => {
               setSortBy(0);
