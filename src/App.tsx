@@ -61,11 +61,25 @@ export const App: React.FC = () => {
     isReversed,
   });
 
-  const sortByAplhabet = () => setSortType(SortType.ALPHABET);
+  const sortByAplhabet = () => {
+    setSortType(SortType.ALPHABET);
+    setIsResetButtonVisible(true);
+  };
 
-  const sortByLength = () => setSortType(SortType.LENGTH);
+  const sortByLength = () => {
+    setSortType(SortType.LENGTH);
+    setIsResetButtonVisible(true);
+  };
 
-  const reset = () => setSortType(SortType.NONE);
+  const reverse = () => {
+    setIsReversed(state => !state);
+    setIsResetButtonVisible(true);
+  };
+
+  const reset = () => {
+    setSortType(SortType.NONE);
+    setIsResetButtonVisible(state => !state);
+  };
 
   return (
     <div className="section content">
@@ -75,10 +89,7 @@ export const App: React.FC = () => {
           className={`button is-info ${cn({
             'is-light': sortType !== SortType.ALPHABET,
           })}`}
-          onClick={() => {
-            sortByAplhabet();
-            setIsResetButtonVisible(true);
-          }}
+          onClick={sortByAplhabet}
         >
           Sort alphabetically
         </button>
@@ -88,10 +99,7 @@ export const App: React.FC = () => {
           className={`button is-success ${cn({
             'is-light': sortType !== SortType.LENGTH,
           })}`}
-          onClick={() => {
-            sortByLength();
-            setIsResetButtonVisible(true);
-          }}
+          onClick={sortByLength}
         >
           Sort by length
         </button>
@@ -101,10 +109,7 @@ export const App: React.FC = () => {
           className={`button is-warning ${cn({
             'is-light': isReversed !== true,
           })}`}
-          onClick={() => {
-            setIsReversed(!isReversed);
-            setIsResetButtonVisible(true);
-          }}
+          onClick={reverse}
         >
           Reverse
         </button>
@@ -113,10 +118,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              reset();
-              setIsResetButtonVisible(false);
-            }}
+            onClick={reset}
           >
             Reset
           </button>
