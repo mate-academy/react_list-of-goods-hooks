@@ -79,6 +79,7 @@ export const App: React.FC = () => {
   const reset = () => {
     setSortType(SortType.NONE);
     setIsResetButtonVisible(state => !state);
+    setIsReversed(false);
   };
 
   return (
