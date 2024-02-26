@@ -72,10 +72,9 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={cn({
-            'button is-info': true,
+          className={`button is-info ${cn({
             'is-light': sortType !== SortType.ALPHABET,
-          })}
+          })}`}
           onClick={() => {
             sortByAplhabet();
             setIsResetButtonVisible(true);
@@ -86,10 +85,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={cn({
-            'button is-success': true,
+          className={`button is-success ${cn({
             'is-light': sortType !== SortType.LENGTH,
-          })}
+          })}`}
           onClick={() => {
             sortByLength();
             setIsResetButtonVisible(true);
@@ -100,10 +98,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={cn({
-            'button is-warning': true,
+          className={`button is-warning ${cn({
             'is-light': isReversed !== true,
-          })}
+          })}`}
           onClick={() => {
             setIsReversed(!isReversed);
             setIsResetButtonVisible(true);
@@ -124,18 +121,6 @@ export const App: React.FC = () => {
             Reset
           </button>
         )}
-
-        {/* <button
-          type="button"
-          className="button is-danger is-light"
-          onClick={() => {
-            reset();
-            setIsResetButtonVisible(false);
-          }}
-          style={{ display: isResetButtonVisible ? 'block' : 'none' }}
-        >
-          Reset
-        </button> */}
       </div>
 
       <ul>
