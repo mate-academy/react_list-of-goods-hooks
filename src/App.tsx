@@ -49,6 +49,17 @@ export const App: React.FC = () => {
     });
   };
 
+  const handleReverse = () => {
+    setIsReversed(!isReversed);
+    setGoods(goods.reverse());
+  };
+
+  const handleReset = () => {
+    setGoods(goodsFromServer);
+    setSortType(null);
+    setIsReversed(false);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -80,10 +91,7 @@ export const App: React.FC = () => {
             'button is-warning': true,
             'is-light': !isReversed,
           })}
-          onClick={() => {
-            setIsReversed(!isReversed);
-            setGoods(goods.reverse());
-          }}
+          onClick={handleReverse}
         >
           Reverse
         </button>
@@ -92,11 +100,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setGoods(goodsFromServer);
-              setSortType(null);
-              setIsReversed(false);
-            }}
+            onClick={handleReset}
           >
             Reset
           </button>
