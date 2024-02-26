@@ -73,7 +73,7 @@ export const App: React.FC = () => {
 
   const reverse = () => {
     setIsReversed(state => !state);
-    setIsResetButtonVisible(!isReversed);
+    setIsResetButtonVisible(!isReversed || sortType !== SortType.NONE);
   };
 
   const reset = () => {
