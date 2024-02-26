@@ -34,10 +34,6 @@ function getReorderedGoods(
   let visibleGoods = [...goods];
 
   switch (sortType) {
-    case SortType.NONE:
-      visibleGoods = [...goodsFromServer];
-      break;
-
     case SortType.ALPHABET:
       visibleGoods.sort((goodA, goodB) => goodA.localeCompare(goodB));
       break;
@@ -47,6 +43,7 @@ function getReorderedGoods(
       break;
 
     default:
+      visibleGoods = [...goodsFromServer];
       break;
   }
 
@@ -75,7 +72,7 @@ export const App: React.FC = () => {
             'button is-info': true,
             'is-light': sortType !== SortType.ALPHABET,
           })}
-          onClick={() => setSortType(1)}
+          onClick={() => setSortType(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
@@ -86,7 +83,7 @@ export const App: React.FC = () => {
             'button is-success': true,
             'is-light': sortType !== SortType.LENGTH,
           })}
-          onClick={() => setSortType(2)}
+          onClick={() => setSortType(SortType.LENGTH)}
         >
           Sort by length
         </button>
