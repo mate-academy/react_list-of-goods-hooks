@@ -16,13 +16,13 @@ export const goodsFromServer = [
 ];
 
 const enum SortType {
-  SORT_ALPHABETICALLY = 'alphabetically',
-  SORT_BY_LENGTH = 'length',
-  default = '',
+  SortAlphabetically = 'alphabetically',
+  SortByLength = 'length',
+  Default = '',
 }
 
 interface PreparedGoodsParams {
-  sortBy: string;
+  sortBy: SortType;
   isReversed: boolean;
 }
 
@@ -35,10 +35,10 @@ function getPreparedGoods(
   if (sortBy) {
     preparedGoods.sort((good1, good2) => {
       switch (sortBy) {
-        case SortType.SORT_ALPHABETICALLY:
+        case SortType.SortAlphabetically:
           return good1.localeCompare(good2);
 
-        case SortType.SORT_BY_LENGTH:
+        case SortType.SortByLength:
           return good1[sortBy] - good2[sortBy];
 
         default:
@@ -55,32 +55,32 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortBy, setSortBy] = useState(SortType.default);
+  const [sortBy, setSortBy] = useState(SortType.Default);
   const [isReversed, setIsReversed] = useState(false);
   const goods = getPreparedGoods(goodsFromServer, { sortBy, isReversed });
 
   const handleReset = () => {
-    setSortBy(SortType.default);
+    setSortBy(SortType.Default);
     setIsReversed(false);
   };
 
-  const isSortTypeChecked = (sortType: string) => sortBy === sortType;
+  const isSortTypeChecked = (sortType: SortType) => sortBy === sortType;
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => setSortBy(SortType.SORT_ALPHABETICALLY)}
+          onClick={() => setSortBy(SortType.SortAlphabetically)}
           type="button"
-          className={`button is-info ${!isSortTypeChecked(SortType.SORT_ALPHABETICALLY) && 'is-light'}`}
+          className={`button is-info ${!isSortTypeChecked(SortType.SortAlphabetically) && 'is-light'}`}
         >
           Sort alphabetically
         </button>
 
         <button
-          onClick={() => setSortBy(SortType.SORT_BY_LENGTH)}
+          onClick={() => setSortBy(SortType.SortByLength)}
           type="button"
-          className={`button is-success ${!isSortTypeChecked(SortType.SORT_BY_LENGTH) && 'is-light'}`}
+          className={`button is-success ${!isSortTypeChecked(SortType.SortByLength) && 'is-light'}`}
         >
           Sort by length
         </button>
