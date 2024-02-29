@@ -4,22 +4,39 @@ import 'bulma/css/bulma.css';
 import './App.scss';
 import { GoodList } from './GoodList/GoodList';
 
-function getPreparedGoods(goods: string[], sortField: string) {
-  const preparedGoods = [...goods];
+enum SortField {
+  name = 'name',
+  length = 'length',
+}
+
+function getPreparedGoods(
+  goods: string[],
+  sortField: string,
+  isAscending: boolean,
+) {
+  let preparedGoods = [...goods];
 
   if (sortField) {
-    preparedGoods.sort((good1, good2) => {
-      switch (sortField) {
-        case 'name':
-          return good1.localeCompare(good2);
+    switch (sortField) {
+      case SortField.name:
+        preparedGoods = preparedGoods.sort((good1, good2) =>
+          good1.localeCompare(good2),
+        );
+        break;
 
-        case 'length':
-          return good1.length - good2.length;
+      case SortField.length:
+        preparedGoods = preparedGoods.sort(
+          (good1, good2) => good1.length - good2.length,
+        );
+        break;
 
-        default:
-          return 0;
-      }
-    });
+      default:
+        break;
+    }
+  }
+
+  if (!isAscending) {
+    preparedGoods.reverse();
   }
 
   return preparedGoods;
@@ -40,10 +57,10 @@ export const goodsFromServer = [
 
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState('');
-  const [isAscending, setIsAscending] = useState(true);
+  const [isAsce, setIsAscending] = useState(true);
 
   const toggleSortOrder = () => {
-    setIsAscending(!isAscending);
+    setIsAscending(!isAsce);
   };
 
   function reset() {
@@ -51,17 +68,16 @@ export const App: React.FC = () => {
     setIsAscending(true);
   }
 
-  const sortedGoods = getPreparedGoods(goodsFromServer, sortField);
-  const visibleGoods = isAscending ? sortedGoods : sortedGoods.reverse();
+  const visibleGoods = getPreparedGoods(goodsFromServer, sortField, isAsce);
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          onClick={() => setSortField('name')}
+          onClick={() => setSortField(SortField.name)}
           className={cn('button', 'is-info', {
-            'is-light': sortField !== 'name',
+            'is-light': sortField !== SortField.name,
           })}
         >
           Sort alphabetically
@@ -69,9 +85,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          onClick={() => setSortField('length')}
+          onClick={() => setSortField(SortField.length)}
           className={cn('button', 'is-success', {
-            'is-light': sortField !== 'length',
+            'is-light': sortField !== SortField.length,
           })}
         >
           Sort by length
@@ -80,14 +96,14 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button', 'is-warning', {
-            'is-light': isAscending,
+            'is-light': isAsce,
           })}
           onClick={toggleSortOrder}
         >
           Reverse
         </button>
 
-        {(sortField !== '' || !isAscending) && (
+        {(sortField !== '' || !isAsce) && (
           <button
             type="button"
             className="button is-danger is-light"
