@@ -12,7 +12,7 @@ enum SortField {
 function getPreparedGoods(
   goods: string[],
   sortField: string,
-  isAscending: boolean,
+  isAscendin: boolean,
 ) {
   let preparedGoods = [...goods];
 
@@ -35,7 +35,7 @@ function getPreparedGoods(
     }
   }
 
-  if (!isAscending) {
+  if (!isAscendin) {
     preparedGoods.reverse();
   }
 
