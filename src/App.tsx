@@ -17,12 +17,13 @@ export const goodsFromServer = [
 ];
 
 interface FilterParams {
-  sortField: string;
+  sortField: SortType;
 }
 
 enum SortType {
   Alphabetically = 'alphabetically',
   Length = 'length',
+  Default = '',
 }
 
 function getPreparedGoods(
@@ -55,7 +56,7 @@ function getPreparedGoods(
 }
 
 export const App = () => {
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState(SortType.Default);
   const [isReversed, setIsReversed] = useState(false);
   const preparedGoods = getPreparedGoods(goodsFromServer, isReversed, {
     sortField,
@@ -99,7 +100,7 @@ export const App = () => {
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              setSortField('');
+              setSortField(SortType.Default);
               setIsReversed(false);
             }}
           >
