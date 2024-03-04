@@ -44,6 +44,10 @@ export const App: React.FC = () => {
 
   const sortedGoods = sortBy(goodsFromServer, sortField);
   const visibleGoods = isReversed ? sortedGoods.reverse() : sortedGoods;
+  const resetGood = () => {
+    setSortField(SortType.none);
+    setIsReversed(false);
+  };
 
   return (
     <div className="section content">
@@ -80,10 +84,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortField(SortType.none);
-              setIsReversed(false);
-            }}
+            onClick={resetGood}
           >
             Reset
           </button>
