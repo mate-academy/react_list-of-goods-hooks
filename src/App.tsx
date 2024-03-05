@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
+import Button from './components/Button';
+
 export const goodsFromServer = [
   'Dumplings',
   'Carrot',
@@ -15,16 +17,14 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-enum SortType {
+const enum SortType {
   Alphabet = 'Alphabet',
   Length = 'Length',
   Default = '',
 }
 
-function prepareGoods(goods: string[], type: SortType, reverse: boolean) {
-  const preparedGoods = [...goods];
-
-  preparedGoods.sort((good1, good2) => {
+const normalizeGoods = (goods: string[], type: SortType, reversed: boolean) => {
+  const compareGoods = (good1: string, good2: string) => {
     switch (type) {
       case SortType.Alphabet:
         return good1.localeCompare(good2);
@@ -33,68 +33,62 @@ function prepareGoods(goods: string[], type: SortType, reverse: boolean) {
       default:
         return 0;
     }
-  });
+  };
 
-  if (reverse) {
-    preparedGoods.reverse();
-  }
+  const sortedGoods = [...goods].sort(compareGoods);
 
-  return preparedGoods;
-}
+  return reversed ? sortedGoods.reverse() : sortedGoods;
+};
 
 export const App: React.FC = () => {
-  const [sortQuery, setSortQuery] = useState<SortType>(SortType.Default);
+  const [sortType, setSortType] = useState<SortType>(SortType.Default);
   const [reversed, setReversed] = useState(false);
 
-  const sortedGoods = prepareGoods(goodsFromServer, sortQuery, reversed);
+  const normalizedGoods = normalizeGoods(goodsFromServer, sortType, reversed);
 
-  const isChanged = sortQuery || reversed;
+  const isResetButtonVisible = sortType || reversed;
 
   const resetFilter = () => {
-    setSortQuery(SortType.Default);
+    setSortType(SortType.Default);
     setReversed(false);
   };
 
   return (
     <div className="section content">
       <div className="buttons">
-        <button
-          type="button"
-          className={`button is-info ${sortQuery === SortType.Alphabet || 'is-light'}`}
-          onClick={() => setSortQuery(SortType.Alphabet)}
+        <Button
+          active={sortType === SortType.Alphabet}
+          styleClass="is-info"
+          onClick={() => setSortType(SortType.Alphabet)}
         >
           Sort alphabetically
-        </button>
+        </Button>
 
-        <button
-          type="button"
-          className={`button is-success ${sortQuery === SortType.Length || 'is-light'}`}
-          onClick={() => setSortQuery(SortType.Length)}
+        <Button
+          active={sortType === SortType.Length}
+          styleClass="is-success"
+          onClick={() => setSortType(SortType.Length)}
         >
           Sort by length
-        </button>
+        </Button>
 
-        <button
-          type="button"
-          className={`button is-warning ${reversed || 'is-light'}`}
+        <Button
+          active={reversed}
+          styleClass="is-warning"
           onClick={() => setReversed(!reversed)}
         >
           Reverse
-        </button>
+        </Button>
 
-        {isChanged && (
-          <button
-            type="button"
-            className="button is-danger is-light"
-            onClick={resetFilter}
-          >
+        {isResetButtonVisible && (
+          <Button styleClass="is-danger is-light" onClick={resetFilter}>
             Reset
-          </button>
+          </Button>
         )}
       </div>
 
       <ul>
-        {sortedGoods.map(good => (
+        {normalizedGoods.map(good => (
           <li data-cy="Good" key={good}>
             {good}
           </li>
