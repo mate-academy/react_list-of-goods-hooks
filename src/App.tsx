@@ -53,6 +53,15 @@ export const App: React.FC = () => {
     sortField,
   });
 
+  const handleReverse = (prevReverse: boolean) => {
+    setIsReverse(!prevReverse);
+  };
+
+  const reset = () => {
+    setIsReverse(false);
+    setSortField('');
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -73,7 +82,7 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={() => (isReverse ? setIsReverse(false) : setIsReverse(true))}
+          onClick={() => handleReverse(isReverse)}
           type="button"
           className={`button is-warning ${isReverse !== true && 'is-light'}`}
         >
@@ -82,10 +91,7 @@ export const App: React.FC = () => {
 
         {(sortField || isReverse) && (
           <button
-            onClick={() => {
-              setIsReverse(false);
-              setSortField('');
-            }}
+            onClick={reset}
             type="button"
             className={`button is-danger ${sortField === '' && 'is-light'}`}
           >
