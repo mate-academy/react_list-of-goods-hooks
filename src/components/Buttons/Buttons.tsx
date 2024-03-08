@@ -50,7 +50,8 @@ export const Buttons: React.FC<Props> = ({
       Reverse
     </button>
 
-    {(direction !== SortDirection.DIRECTLY || order !== SortType.BY_DEFAULT) && (
+    {(direction !== SortDirection.DIRECTLY ||
+      order !== SortType.BY_DEFAULT) && (
       <button
         type="button"
         className="button is-danger is-light"
