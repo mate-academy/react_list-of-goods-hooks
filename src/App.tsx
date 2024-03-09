@@ -22,7 +22,7 @@ enum SortType {
 }
 
 type FilterParameter = {
-  sortField?: string | '';
+  sortField?: SortType | '';
   isReversed?: boolean;
 };
 
@@ -53,7 +53,7 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState<string | ''>('');
+  const [sortField, setSortField] = useState<SortType | ''>('');
   const [isReversed, setIsReversed] = useState(false);
 
   const preparedGoods = getPreparedGoods(goodsFromServer, {
