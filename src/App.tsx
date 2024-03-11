@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import { getPreparedGoods } from './functions';
+import { Buttons } from './Components/Buttons/Buttons';
+import { SortOptions } from './Types/SortOptions';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -16,34 +19,32 @@ export const goodsFromServer = [
 ];
 
 export const App: React.FC = () => {
+  const [sortField, setSortField] = useState<SortOptions>(SortOptions.empty);
+  const [reverseStatus, setReverseStatus] = useState('');
+
+  const goodsList = getPreparedGoods(goodsFromServer, {
+    sortField,
+    reverseStatus,
+  });
+
   return (
     <div className="section content">
-      <div className="buttons">
-        <button type="button" className="button is-info is-light">
-          Sort alphabetically
-        </button>
-
-        <button type="button" className="button is-success is-light">
-          Sort by length
-        </button>
-
-        <button type="button" className="button is-warning is-light">
-          Reverse
-        </button>
-
-        <button type="button" className="button is-danger is-light">
-          Reset
-        </button>
-      </div>
+      <Buttons
+        sortField={sortField}
+        sortBy={setSortField}
+        reverseStatus={reverseStatus}
+        reverse={setReverseStatus}
+      />
 
       <ul>
         <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
+          {goodsList.map(good => {
+            return (
+              <li data-cy="Good" key={good}>
+                {good}
+              </li>
+            );
+          })}
         </ul>
       </ul>
     </div>
