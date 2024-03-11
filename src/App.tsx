@@ -3,6 +3,12 @@ import { useState } from 'react';
 import cn from 'classnames';
 import './App.scss';
 
+enum SortType {
+  default = '',
+  alphabetically = 'name',
+  length = 'length',
+}
+
 export const goodsFromServer = [
   'Dumplings',
   'Carrot',
@@ -16,12 +22,6 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-enum SortType {
-  default = '',
-  alphabetically = 'name',
-  length = 'length',
-}
-
 function getPreparedGoods(
   goods: string[],
   sortField: SortType,
@@ -29,10 +29,19 @@ function getPreparedGoods(
 ) {
   const preparedGoods = [...goods];
 
-  if (sortField === SortType.alphabetically) {
-    preparedGoods.sort((a, b) => a.localeCompare(b));
-  } else if (sortField === SortType.length) {
-    preparedGoods.sort((a, b) => a.length - b.length);
+  if (sortField) {
+    switch (sortField) {
+      case SortType.alphabetically:
+        preparedGoods.sort((a, b) => a.localeCompare(b));
+        break;
+
+      case SortType.length:
+        preparedGoods.sort((a, b) => a.length - b.length);
+        break;
+
+      default:
+        break;
+    }
   }
 
   if (isReversed) {
@@ -46,6 +55,11 @@ export const App: React.FC = () => {
   const [sortField, setSortField] = useState(SortType.default);
   const [isReversed, setIsReversed] = useState(false);
   const visibleGoods = getPreparedGoods(goodsFromServer, sortField, isReversed);
+
+  function handleClick() {
+    setSortField(SortType.default);
+    setIsReversed(false);
+  }
 
   return (
     <div className="section content">
@@ -83,10 +97,7 @@ export const App: React.FC = () => {
         {(sortField || isReversed) && (
           <button
             type="button"
-            onClick={() => {
-              setSortField(SortType.default);
-              setIsReversed(false);
-            }}
+            onClick={handleClick}
             className="button is-danger is-light"
           >
             Reset
