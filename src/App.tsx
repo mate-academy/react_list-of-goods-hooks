@@ -20,11 +20,11 @@ export const goodsFromServer = [
 
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState<SortOptions>(SortOptions.empty);
-  const [reverseStatus, setReverseStatus] = useState('');
+  const [isReversed, setIsReversed] = useState(false);
 
   const goodsList = getPreparedGoods(goodsFromServer, {
     sortField,
-    reverseStatus,
+    isReversed,
   });
 
   return (
@@ -32,8 +32,8 @@ export const App: React.FC = () => {
       <Buttons
         sortField={sortField}
         sortBy={setSortField}
-        reverseStatus={reverseStatus}
-        reverse={setReverseStatus}
+        isReversed={isReversed}
+        reverse={setIsReversed}
       />
 
       <ul>

@@ -4,22 +4,14 @@ import { Button } from '../Button/Button';
 interface Props {
   sortField: SortOptions;
   sortBy: React.Dispatch<React.SetStateAction<SortOptions>>;
-  reverseStatus: string;
-  reverse: React.Dispatch<React.SetStateAction<string>>;
+  isReversed: boolean;
+  reverse: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
-const ResetButton = (reverseStatus: string, sortField: SortOptions) => {
-  return reverseStatus || (sortField && sortField !== 'reset');
-};
-
-const ResetClassName = (reverseStatus: string, sortField: SortOptions) => {
-  return reverseStatus !== '' || sortField !== '';
-};
 
 export const Buttons: React.FC<Props> = ({
   sortField,
   sortBy,
-  reverseStatus,
+  isReversed,
   reverse,
 }) => (
   <div className="buttons">
@@ -30,7 +22,7 @@ export const Buttons: React.FC<Props> = ({
       sortField={sortField}
       currentValue={SortOptions.abc}
       sortBy={sortBy}
-      reverseStatus={reverseStatus}
+      isReversed={isReversed}
       reverse={reverse}
     />
 
@@ -41,30 +33,30 @@ export const Buttons: React.FC<Props> = ({
       sortField={sortField}
       currentValue={SortOptions.length}
       sortBy={sortBy}
-      reverseStatus={reverseStatus}
+      isReversed={isReversed}
       reverse={reverse}
     />
 
     <Button
       name="Reverse"
       color="is-warning"
-      colorNameCondition={reverseStatus === ''}
+      colorNameCondition={!isReversed}
       sortField={sortField}
       currentValue={sortField}
       sortBy={sortBy}
-      reverseStatus={reverseStatus}
+      isReversed={isReversed}
       reverse={reverse}
     />
 
-    {ResetButton(reverseStatus, sortField) && (
+    {(isReversed || sortField) && (
       <Button
         name="Reset"
         color="is-danger"
-        colorNameCondition={ResetClassName(reverseStatus, sortField)}
+        colorNameCondition={isReversed || sortField !== ''}
         sortField={sortField}
-        currentValue={SortOptions.reset}
+        currentValue={sortField}
         sortBy={sortBy}
-        reverseStatus={reverseStatus}
+        isReversed={isReversed}
         reverse={reverse}
       />
     )}

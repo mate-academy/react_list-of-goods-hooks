@@ -1,13 +1,14 @@
+import { Args } from './Types/Arguments';
 import { SortOptions } from './Types/SortOptions';
 
 interface FilterParams {
   sortField: SortOptions;
-  reverseStatus: string;
+  isReversed: boolean;
 }
 
 export function getPreparedGoods(
   goods: string[],
-  { sortField, reverseStatus }: FilterParams,
+  { sortField, isReversed }: FilterParams,
 ) {
   let preparedGoods = [...goods];
 
@@ -25,9 +26,31 @@ export function getPreparedGoods(
     });
   }
 
-  if (reverseStatus) {
+  if (isReversed) {
     preparedGoods = preparedGoods.reverse();
   }
 
   return preparedGoods;
+}
+
+function checkSortField(oldValue: SortOptions, newValue: SortOptions) {
+  return oldValue === newValue ? SortOptions.empty : newValue;
+}
+
+export function onClickHandler(args: Args) {
+  const { name, sortField, currentValue, sortBy, isReversed, reverse } = args;
+
+  switch (name) {
+    case 'Reverse':
+      reverse(!isReversed);
+      break;
+
+    case 'Reset':
+      reverse(false);
+      sortBy(SortOptions.empty);
+      break;
+
+    default:
+      sortBy(checkSortField(sortField, currentValue));
+  }
 }

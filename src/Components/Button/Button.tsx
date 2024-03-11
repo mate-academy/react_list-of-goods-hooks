@@ -1,23 +1,10 @@
 import classNames from 'classnames';
-import { SortOptions } from '../../Types/SortOptions';
+import { onClickHandler } from '../../functions';
+import { Args } from '../../Types/Arguments';
 
-interface Props {
-  name: string;
+interface Props extends Args {
   color: string;
   colorNameCondition: boolean;
-  sortField: SortOptions;
-  currentValue: SortOptions;
-  sortBy: React.Dispatch<React.SetStateAction<SortOptions>>;
-  reverseStatus: string;
-  reverse: React.Dispatch<React.SetStateAction<string>>;
-}
-
-function checkSortField(oldValue: SortOptions, newValue: SortOptions) {
-  return oldValue === newValue ? SortOptions.empty : newValue;
-}
-
-function checkReverseField(oldValue: string, newValue: string) {
-  return oldValue === newValue ? '' : newValue;
 }
 
 export const Button: React.FC<Props> = ({
@@ -27,7 +14,7 @@ export const Button: React.FC<Props> = ({
   sortField,
   currentValue,
   sortBy,
-  reverseStatus,
+  isReversed,
   reverse,
 }) => {
   return (
@@ -37,14 +24,14 @@ export const Button: React.FC<Props> = ({
         'is-light': colorNameCondition,
       })}
       onClick={() => {
-        if (name === 'Reverse') {
-          reverse(checkReverseField(reverseStatus, 'reverse'));
-        } else if (name === 'Reset') {
-          reverse('');
-          sortBy(SortOptions.empty);
-        } else {
-          sortBy(checkSortField(sortField, currentValue));
-        }
+        onClickHandler({
+          name,
+          sortField,
+          currentValue,
+          sortBy,
+          isReversed,
+          reverse,
+        });
       }}
     >
       {name}
