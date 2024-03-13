@@ -1,4 +1,6 @@
-import React from 'react';
+import { useState } from 'react';
+import cn from 'classnames';
+
 import 'bulma/css/bulma.css';
 import './App.scss';
 
@@ -15,36 +17,118 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-export const App: React.FC = () => {
+enum SortField {
+  alphabet = 'alphabet',
+  length = 'length',
+}
+
+interface Rules {
+  sortField: SortField | '';
+  isReversed: boolean;
+}
+
+function sortGoods(array: string[], { sortField, isReversed }: Rules) {
+  const result = [...array];
+
+  switch (sortField) {
+    case SortField.alphabet:
+      result.sort((a, b) => a.localeCompare(b));
+      break;
+    case SortField.length:
+      result.sort((a, b) => a.length - b.length);
+      break;
+    default:
+      break;
+  }
+
+  if (isReversed) {
+    result.reverse();
+  }
+
+  return result;
+}
+
+export const App = () => {
+  const [objOfRules, setObjOfRules] = useState<Rules>({
+    sortField: '',
+    isReversed: false,
+  });
+  let goods = [...goodsFromServer];
+
+  goods = sortGoods(goods, objOfRules);
+
   return (
     <div className="section content">
       <div className="buttons">
-        <button type="button" className="button is-info is-light">
+        <button
+          type="button"
+          className={cn({
+            button: true,
+            'is-info': true,
+            'is-light': objOfRules.sortField !== SortField.alphabet,
+          })}
+          onClick={() =>
+            setObjOfRules({
+              ...objOfRules,
+              sortField: SortField.alphabet,
+            })
+          }
+        >
           Sort alphabetically
         </button>
-
-        <button type="button" className="button is-success is-light">
+        <button
+          type="button"
+          className={cn({
+            button: true,
+            'is-success': true,
+            'is-light': objOfRules.sortField !== SortField.length,
+          })}
+          onClick={() =>
+            setObjOfRules({
+              ...objOfRules,
+              sortField: SortField.length,
+            })
+          }
+        >
           Sort by length
         </button>
-
-        <button type="button" className="button is-warning is-light">
+        <button
+          type="button"
+          className={cn({
+            button: true,
+            'is-warning': true,
+            'is-light': !objOfRules.isReversed,
+          })}
+          onClick={() =>
+            objOfRules.isReversed
+              ? setObjOfRules({ ...objOfRules, isReversed: false })
+              : setObjOfRules({ ...objOfRules, isReversed: true })
+          }
+        >
           Reverse
         </button>
-
-        <button type="button" className="button is-danger is-light">
-          Reset
-        </button>
+        {(objOfRules.sortField || objOfRules.isReversed) && (
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={() =>
+              setObjOfRules({
+                sortField: '',
+                isReversed: false,
+              })
+            }
+          >
+            Reset
+          </button>
+        )}
       </div>
 
       <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
+        {goods.map(good => (
+          <li data-cy="Good" key={good}>
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
