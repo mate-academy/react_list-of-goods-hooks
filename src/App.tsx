@@ -82,7 +82,7 @@ export const App: React.FC = () => {
           {REVERSE}
         </button>
 
-        {sortField || reversed ? (
+        {(sortField || reversed) && (
           <button
             type="button"
             className="button is-danger is-light"
@@ -93,8 +93,6 @@ export const App: React.FC = () => {
           >
             Reset
           </button>
-        ) : (
-          <></>
         )}
       </div>
 
