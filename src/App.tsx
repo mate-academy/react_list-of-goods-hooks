@@ -34,9 +34,11 @@ function sortGoods(array: string[], { sortField, isReversed }: Rules) {
     case SortField.alphabet:
       result.sort((a, b) => a.localeCompare(b));
       break;
+
     case SortField.length:
       result.sort((a, b) => a.length - b.length);
       break;
+
     default:
       break;
   }
