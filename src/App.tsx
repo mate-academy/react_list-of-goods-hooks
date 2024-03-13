@@ -55,9 +55,39 @@ export const App = () => {
     sortField: '',
     isReversed: false,
   });
+
   let goods = [...goodsFromServer];
 
   goods = sortGoods(goods, objOfRules);
+
+  function sortedByAlphabetically() {
+    setObjOfRules({
+      ...objOfRules,
+      sortField: SortField.alphabet,
+    });
+  }
+
+  function sortedByLength() {
+    setObjOfRules({
+      ...objOfRules,
+      sortField: SortField.length,
+    });
+  }
+
+  function reverseList() {
+    if (objOfRules.isReversed) {
+      setObjOfRules({ ...objOfRules, isReversed: false });
+    } else {
+      setObjOfRules({ ...objOfRules, isReversed: true });
+    }
+  }
+
+  function resetList() {
+    setObjOfRules({
+      sortField: '',
+      isReversed: false,
+    });
+  }
 
   return (
     <div className="section content">
@@ -69,12 +99,7 @@ export const App = () => {
             'is-info': true,
             'is-light': objOfRules.sortField !== SortField.alphabet,
           })}
-          onClick={() =>
-            setObjOfRules({
-              ...objOfRules,
-              sortField: SortField.alphabet,
-            })
-          }
+          onClick={sortedByAlphabetically}
         >
           Sort alphabetically
         </button>
@@ -85,12 +110,7 @@ export const App = () => {
             'is-success': true,
             'is-light': objOfRules.sortField !== SortField.length,
           })}
-          onClick={() =>
-            setObjOfRules({
-              ...objOfRules,
-              sortField: SortField.length,
-            })
-          }
+          onClick={sortedByLength}
         >
           Sort by length
         </button>
@@ -101,11 +121,7 @@ export const App = () => {
             'is-warning': true,
             'is-light': !objOfRules.isReversed,
           })}
-          onClick={() =>
-            objOfRules.isReversed
-              ? setObjOfRules({ ...objOfRules, isReversed: false })
-              : setObjOfRules({ ...objOfRules, isReversed: true })
-          }
+          onClick={reverseList}
         >
           Reverse
         </button>
@@ -113,12 +129,7 @@ export const App = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() =>
-              setObjOfRules({
-                sortField: '',
-                isReversed: false,
-              })
-            }
+            onClick={resetList}
           >
             Reset
           </button>
