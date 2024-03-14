@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
+import cn from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-export const goodsFromServer = [
+type Good = string;
+
+export const goodsFromServer: Good[] = [
   'Dumplings',
   'Carrot',
   'Eggs',
@@ -15,36 +18,110 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+enum SortBy {
+  Default,
+  Name,
+  Length,
+}
+
+type SortTheGoods = (
+  items: Good[],
+  sortBy: SortBy | null,
+  option: boolean,
+) => Good[];
+
+const getSortedGoods: SortTheGoods = (goods, sortBy, isReverseAdded) => {
+  const sortedGoods: Good[] = [...goods];
+
+  if (sortBy) {
+    sortedGoods.sort((good1, good2) => {
+      switch (sortBy) {
+        case SortBy.Name:
+          return good1.localeCompare(good2);
+
+        case SortBy.Length:
+          return good1.length - good2.length;
+
+        default:
+          return SortBy.Default;
+      }
+    });
+  }
+
+  if (isReverseAdded) {
+    return sortedGoods.reverse();
+  }
+
+  return sortedGoods;
+};
+
 export const App: React.FC = () => {
+  const [sortBy, setSortBy] = useState<SortBy | null>(null);
+  const [isReverseAdded, setIsReverseAdded] = useState(false);
+
+  const visibleGoods: Good[] = getSortedGoods(
+    goodsFromServer,
+    sortBy,
+    isReverseAdded,
+  );
+
+  const isResetButtonVisible = isReverseAdded || sortBy;
+
+  const resetSort = () => {
+    setSortBy(null);
+    setIsReverseAdded(false);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
-        <button type="button" className="button is-info is-light">
+        <button
+          type="button"
+          className={cn('button', 'is-info', {
+            'is-light': sortBy !== SortBy.Name,
+          })}
+          onClick={() => setSortBy(SortBy.Name)}
+        >
           Sort alphabetically
         </button>
 
-        <button type="button" className="button is-success is-light">
+        <button
+          type="button"
+          className={cn('button', 'is-info', {
+            'is-light': sortBy !== SortBy.Length,
+          })}
+          onClick={() => setSortBy(SortBy.Length)}
+        >
           Sort by length
         </button>
 
-        <button type="button" className="button is-warning is-light">
+        <button
+          type="button"
+          className={cn('button', 'is-warning', {
+            'is-light': !isReverseAdded,
+          })}
+          onClick={() => setIsReverseAdded(prev => !prev)}
+        >
           Reverse
         </button>
 
-        <button type="button" className="button is-danger is-light">
-          Reset
-        </button>
+        {isResetButtonVisible && (
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={resetSort}
+          >
+            Reset
+          </button>
+        )}
       </div>
 
       <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
+        {visibleGoods.map(good => (
+          <li data-cy="Good" key={good}>
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
