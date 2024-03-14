@@ -26,7 +26,7 @@ export enum SortType {
 function getPreparedGoods(
   goods: string[],
   sortField: SortType,
-  reverse: boolean,
+  isReverse: boolean,
 ) {
   const preparedGoods = [...goods];
 
@@ -45,7 +45,7 @@ function getPreparedGoods(
     });
   }
 
-  if (reverse) {
+  if (isReverse) {
     preparedGoods.reverse();
   }
 
@@ -54,7 +54,7 @@ function getPreparedGoods(
 
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState(SortType.DEFAULT);
-  const [reverse, setReverse] = useState(false);
+  const [isReverse, setIsReverse] = useState(false);
 
   const handleSortBy = (field: SortType) => {
     setSortField(field);
@@ -62,15 +62,15 @@ export const App: React.FC = () => {
 
   const handleReset = () => {
     setSortField(SortType.DEFAULT);
-    setReverse(false);
+    setIsReverse(false);
   };
 
   const handleReverse = () => {
-    setReverse(!reverse);
+    setIsReverse(prev => !prev);
   };
 
-  const isSortOrReverseActive = sortField !== SortType.DEFAULT || reverse;
-  const visibleGoods = getPreparedGoods(goodsFromServer, sortField, reverse);
+  const isSortOrReverseActive = sortField !== SortType.DEFAULT || isReverse;
+  const visibleGoods = getPreparedGoods(goodsFromServer, sortField, isReverse);
 
   return (
     <div className="section content">
@@ -98,7 +98,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-warning', {
-            'is-light': !reverse,
+            'is-light': !isReverse,
           })}
           onClick={handleReverse}
         >
