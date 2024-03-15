@@ -19,9 +19,9 @@ export const goodsFromServer: Good[] = [
 ];
 
 enum SortBy {
-  Default,
-  Name,
-  Length,
+  Default = '',
+  Name = 'name',
+  Length = 'length',
 }
 
 type SortTheGoods = (
@@ -43,7 +43,7 @@ const getSortedGoods: SortTheGoods = (goods, sortBy, isReverseAdded) => {
           return good1.length - good2.length;
 
         default:
-          return SortBy.Default;
+          return 0;
       }
     });
   }
@@ -56,7 +56,7 @@ const getSortedGoods: SortTheGoods = (goods, sortBy, isReverseAdded) => {
 };
 
 export const App: React.FC = () => {
-  const [sortBy, setSortBy] = useState<SortBy | null>(null);
+  const [sortBy, setSortBy] = useState<SortBy>(SortBy.Default);
   const [isReverseAdded, setIsReverseAdded] = useState(false);
 
   const visibleGoods: Good[] = getSortedGoods(
@@ -68,7 +68,7 @@ export const App: React.FC = () => {
   const isResetButtonVisible = isReverseAdded || sortBy;
 
   const resetSort = () => {
-    setSortBy(null);
+    setSortBy(SortBy.Default);
     setIsReverseAdded(false);
   };
 
@@ -87,7 +87,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={cn('button', 'is-info', {
+          className={cn('button', 'is-success', {
             'is-light': sortBy !== SortBy.Length,
           })}
           onClick={() => setSortBy(SortBy.Length)}
