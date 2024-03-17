@@ -4,6 +4,12 @@ import cn from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
+enum SortType {
+  Alphabet = 'alphabet',
+  Length = 'length',
+  Default = 'default',
+}
+
 const goodsFromServer: string[] = [
   'Dumplings',
   'Carrot',
@@ -17,17 +23,14 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-const SORT_ALPHABET = 'alphabet';
-const SORT_LENGTH = 'length';
-
-const getPreparedGoods = (sortMethod: string, isReverse: boolean): string[] => {
+const getPreparedGoods = (sortMethod: SortType, isReverse: boolean): string[] => {
   const goods = [...goodsFromServer];
 
   goods.sort((a, b) => {
     switch (sortMethod) {
-      case SORT_ALPHABET:
+      case SortType.Alphabet:
         return a.localeCompare(b);
-      case SORT_LENGTH:
+      case SortType.Length:
         return a.length - b.length;
       default:
         return 0;
@@ -42,16 +45,16 @@ const getPreparedGoods = (sortMethod: string, isReverse: boolean): string[] => {
 };
 
 export const App: React.FC = () => {
-  const [goodSort, setGoodSort] = useState<string>('');
+  const [goodSort, setGoodSort] = useState<SortType>(SortType.Default);
   const [isSortReverse, setSortIsReverse] = useState<boolean>(false);
 
   const reset = () => {
-    setGoodSort('');
+    setGoodSort(SortType.Default);
     setSortIsReverse(false);
   };
 
   const SortReverss = () => {
-    return goodSort || isSortReverse;
+    return goodSort !== SortType.Default || isSortReverse;
   };
 
   const sorts = getPreparedGoods(goodSort, isSortReverse);
@@ -60,19 +63,19 @@ export const App: React.FC = () => {
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => setGoodSort(SORT_ALPHABET)}
+          onClick={() => setGoodSort(SortType.Alphabet)}
           type="button"
           className={cn('button is-info', {
-            'is-light': goodSort !== SORT_ALPHABET,
+            'is-light': goodSort !== SortType.Alphabet,
           })}
         >
           Sort alphabetically
         </button>
         <button
-          onClick={() => setGoodSort(SORT_LENGTH)}
+          onClick={() => setGoodSort(SortType.Length)}
           type="button"
           className={cn('button is-success', {
-            'is-light': goodSort !== SORT_LENGTH,
+            'is-light': goodSort !== SortType.Length,
           })}
         >
           Sort by length
