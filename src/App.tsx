@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/indent */
 import { useState } from 'react';
 import cn from 'classnames';
 
@@ -54,12 +55,19 @@ export const App = () => {
   const [isReversed, setIsReversed] = useState(false);
   const goods = getPreparedGoods(goodsFromServer, sortField, isReversed);
 
+  const handleResetButton: React.MouseEventHandler<
+    HTMLButtonElement
+  > = (): void => {
+    setSortField('');
+    setIsReversed(false);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={cn('button', 'is-info', {
+          className={cn('button is-info', {
             'is-light': sortField !== SortField.ALPHABET,
           })}
           onClick={() => {
@@ -70,7 +78,7 @@ export const App = () => {
         </button>
         <button
           type="button"
-          className={cn('button', 'is-success', {
+          className={cn('button is-success', {
             'is-light': sortField !== SortField.LENGTH,
           })}
           onClick={() => {
@@ -81,7 +89,7 @@ export const App = () => {
         </button>
         <button
           type="button"
-          className={cn('button', 'is-warning', {
+          className={cn('button is-warning', {
             'is-light': !isReversed,
           })}
           onClick={() => setIsReversed(prevState => !prevState)}
@@ -92,10 +100,7 @@ export const App = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortField('');
-              setIsReversed(false);
-            }}
+            onClick={handleResetButton}
           >
             Reset
           </button>
