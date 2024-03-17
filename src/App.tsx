@@ -3,7 +3,7 @@ import 'bulma/css/bulma.css';
 import './App.scss';
 import cn from 'classnames';
 
-export const goodsFromServer = [
+export const goodsFromServer: string[] = [
   'Dumplings',
   'Carrot',
   'Eggs',
@@ -19,8 +19,9 @@ export const goodsFromServer = [
 const CLASS_IS_LIGHT = 'is-light';
 
 enum SortType {
-  SORT_BY_ALPHABET = 'alphabet',
-  SORT_BY_LENGTH = 'length',
+  BY_ALPHABET = 'alphabet',
+  BY_LENGTH = 'length',
+  BY_DEFAULT = '',
 }
 
 type GetPreparedGoods = (
@@ -35,9 +36,9 @@ const getPreparedGoods: GetPreparedGoods = (goods, sortField, reversed) => {
   if (sortField) {
     preparedGoods.sort((good1, good2) => {
       switch (sortField) {
-        case SortType.SORT_BY_ALPHABET:
+        case SortType.BY_ALPHABET:
           return good1.localeCompare(good2);
-        case SortType.SORT_BY_LENGTH:
+        case SortType.BY_LENGTH:
           return good1.length - good2.length;
         default:
           return 0;
@@ -53,12 +54,12 @@ const getPreparedGoods: GetPreparedGoods = (goods, sortField, reversed) => {
 };
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState(SortType.BY_DEFAULT);
   const [reversed, isReversed] = useState(false);
   const visibleGoods = getPreparedGoods(goodsFromServer, sortField, reversed);
   const reverseCondition = reversed || sortField;
   const reset = () => {
-    setSortField('');
+    setSortField(SortType.BY_DEFAULT);
     isReversed(false);
   };
 
@@ -68,18 +69,18 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-info', {
-            [CLASS_IS_LIGHT]: sortField !== SortType.SORT_BY_ALPHABET,
+            [CLASS_IS_LIGHT]: sortField !== SortType.BY_ALPHABET,
           })}
-          onClick={() => setSortField(SortType.SORT_BY_ALPHABET)}
+          onClick={() => setSortField(SortType.BY_ALPHABET)}
         >
           Sort alphabetically
         </button>
         <button
           type="button"
           className={cn('button is-success', {
-            [CLASS_IS_LIGHT]: sortField !== SortType.SORT_BY_LENGTH,
+            [CLASS_IS_LIGHT]: sortField !== SortType.BY_LENGTH,
           })}
-          onClick={() => setSortField(SortType.SORT_BY_LENGTH)}
+          onClick={() => setSortField(SortType.BY_LENGTH)}
         >
           Sort by length
         </button>
