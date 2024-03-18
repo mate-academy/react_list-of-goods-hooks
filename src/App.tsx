@@ -19,14 +19,12 @@ export const goodsFromServer: Goods = [
   'Garlic',
 ];
 
-type SortField = ''
-  | 'alphabet'
-  | 'length';
+type SortField = '' | 'alphabet' | 'length';
 
 interface SortOptions {
   sortField: SortField;
   isReverse: boolean;
-};
+}
 
 function getSortedGoods(goods: Goods, { sortField, isReverse }: SortOptions) {
   const sortedGoods = [...goods];
@@ -61,9 +59,9 @@ export const App: React.FC = () => {
     sortField,
     isReverse,
   });
-  const isChanged: boolean = isReverse || sortField !== '';
+  const isResetButtonVisible = isReverse || sortField;
 
-  const resetOnClick = () => {
+  const handleReset = () => {
     setSortField('');
     setIsReverse(false);
   };
@@ -102,11 +100,11 @@ export const App: React.FC = () => {
         >
           Reverse
         </button>
-        {isChanged && (
+        {isResetButtonVisible && (
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => resetOnClick()}
+            onClick={() => handleReset()}
           >
             Reset
           </button>
