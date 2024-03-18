@@ -33,11 +33,11 @@ enum Sorting {
 }
 
 type Props = {
-  reversed: boolean;
-  sorted: Sorting;
+  reversed?: boolean;
+  sorted?: Sorting;
 };
 
-export const App: React.FC<Props> = ({ reversed, sorted }) => {
+export const App: React.FC<Props> = ({ reversed = false, sorted = '' }) => {
   const [isReversed, setIsReversed] = useState(reversed);
   const [sortedBy, setSortedBy] = useState(sorted);
 
