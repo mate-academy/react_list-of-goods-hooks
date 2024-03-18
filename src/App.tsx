@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import cn from 'classnames';
+
 import 'bulma/css/bulma.css';
 import './App.scss';
 
@@ -21,24 +22,32 @@ enum SortType {
   LENGTH = 'length',
 }
 
-const getGoods = (goods: string[], sortType: string, isReversed: boolean) => {
+type SortFunction = (a: string, b: string) => number;
+
+const sortFunctions: Record<SortType, SortFunction> = {
+  [SortType.ALPHABETIC]: (a, b) => a.localeCompare(b),
+  [SortType.LENGTH]: (good1, good2) => {
+    if (good1.length === good2.length) {
+      return good1.localeCompare(good2);
+    }
+
+    return good1.length - good2.length;
+  },
+};
+
+const getGoods = (
+  goods: string[],
+  sortType: '' | SortType,
+  isReversed: boolean,
+): string[] => {
   const visibleGoods: string[] = [...goods];
 
   switch (sortType) {
     case SortType.ALPHABETIC:
-      visibleGoods.sort((a, b) => a.localeCompare(b));
-      break;
     case SortType.LENGTH:
-      visibleGoods.sort((good1, good2) => {
-        if (good1.length === good2.length) {
-          return good1.localeCompare(good2);
-        }
-
-        return good1.length - good2.length;
-      });
+      visibleGoods.sort(sortFunctions[sortType]);
       break;
     default:
-      break;
   }
 
   if (isReversed) {
