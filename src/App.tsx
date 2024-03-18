@@ -19,14 +19,14 @@ export const goodsFromServer: string[] = [
 const CLASS_IS_LIGHT = 'is-light';
 
 enum SortType {
-  BY_ALPHABET = 'alphabet',
-  BY_LENGTH = 'length',
-  BY_DEFAULT = '',
+  Alphabet = 'ALPHABET',
+  Length = 'LENGTH',
+  Default = '',
 }
 
 type GetPreparedGoods = (
   goods: string[],
-  sortField: string,
+  sortField: SortType,
   isReversed: boolean,
 ) => string[];
 
@@ -36,9 +36,9 @@ const getPreparedGoods: GetPreparedGoods = (goods, sortField, isReversed) => {
   if (sortField) {
     preparedGoods.sort((good1, good2) => {
       switch (sortField) {
-        case SortType.BY_ALPHABET:
+        case SortType.Alphabet:
           return good1.localeCompare(good2);
-        case SortType.BY_LENGTH:
+        case SortType.Length:
           return good1.length - good2.length;
         default:
           return 0;
@@ -54,12 +54,12 @@ const getPreparedGoods: GetPreparedGoods = (goods, sortField, isReversed) => {
 };
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState(SortType.BY_DEFAULT);
+  const [sortField, setSortField] = useState(SortType.Default);
   const [isReversed, setIsReversed] = useState(false);
   const visibleGoods = getPreparedGoods(goodsFromServer, sortField, isReversed);
   const reverseCondition = isReversed || sortField;
   const reset = () => {
-    setSortField(SortType.BY_DEFAULT);
+    setSortField(SortType.Default);
     setIsReversed(false);
   };
 
@@ -69,18 +69,18 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-info', {
-            [CLASS_IS_LIGHT]: sortField !== SortType.BY_ALPHABET,
+            [CLASS_IS_LIGHT]: sortField !== SortType.Alphabet,
           })}
-          onClick={() => setSortField(SortType.BY_ALPHABET)}
+          onClick={() => setSortField(SortType.Alphabet)}
         >
           Sort alphabetically
         </button>
         <button
           type="button"
           className={cn('button is-success', {
-            [CLASS_IS_LIGHT]: sortField !== SortType.BY_LENGTH,
+            [CLASS_IS_LIGHT]: sortField !== SortType.Length,
           })}
-          onClick={() => setSortField(SortType.BY_LENGTH)}
+          onClick={() => setSortField(SortType.Length)}
         >
           Sort by length
         </button>
