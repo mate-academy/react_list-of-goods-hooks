@@ -27,10 +27,10 @@ enum SortType {
 type GetPreparedGoods = (
   goods: string[],
   sortField: string,
-  reversed: boolean,
+  isReversed: boolean,
 ) => string[];
 
-const getPreparedGoods: GetPreparedGoods = (goods, sortField, reversed) => {
+const getPreparedGoods: GetPreparedGoods = (goods, sortField, isReversed) => {
   const preparedGoods = [...goods];
 
   if (sortField) {
@@ -46,7 +46,7 @@ const getPreparedGoods: GetPreparedGoods = (goods, sortField, reversed) => {
     });
   }
 
-  if (reversed) {
+  if (isReversed) {
     preparedGoods.reverse();
   }
 
@@ -55,12 +55,12 @@ const getPreparedGoods: GetPreparedGoods = (goods, sortField, reversed) => {
 
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState(SortType.BY_DEFAULT);
-  const [reversed, isReversed] = useState(false);
-  const visibleGoods = getPreparedGoods(goodsFromServer, sortField, reversed);
-  const reverseCondition = reversed || sortField;
+  const [isReversed, setIsReversed] = useState(false);
+  const visibleGoods = getPreparedGoods(goodsFromServer, sortField, isReversed);
+  const reverseCondition = isReversed || sortField;
   const reset = () => {
     setSortField(SortType.BY_DEFAULT);
-    isReversed(false);
+    setIsReversed(false);
   };
 
   return (
@@ -87,9 +87,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-warning', {
-            [CLASS_IS_LIGHT]: !reversed,
+            [CLASS_IS_LIGHT]: !isReversed,
           })}
-          onClick={() => isReversed(hasReversed => !hasReversed)}
+          onClick={() => setIsReversed(hasReversed => !hasReversed)}
         >
           Reverse
         </button>
