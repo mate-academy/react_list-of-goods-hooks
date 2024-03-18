@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import { ListOfGoods } from './components/ListOfGoods';
+import { PropsPanel } from './components/PropsPanel';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -16,36 +18,23 @@ export const goodsFromServer = [
 ];
 
 export const App: React.FC = () => {
+  const [sortBy, setSortBy] = useState<string>('');
+  const [isReversed, setIsReversed] = useState<boolean>(false);
+
   return (
     <div className="section content">
-      <div className="buttons">
-        <button type="button" className="button is-info is-light">
-          Sort alphabetically
-        </button>
+      <PropsPanel
+        sort={sortBy}
+        isReversed={isReversed}
+        setSort={setSortBy}
+        setIsReversed={setIsReversed}
+      />
 
-        <button type="button" className="button is-success is-light">
-          Sort by length
-        </button>
-
-        <button type="button" className="button is-warning is-light">
-          Reverse
-        </button>
-
-        <button type="button" className="button is-danger is-light">
-          Reset
-        </button>
-      </div>
-
-      <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
-      </ul>
+      <ListOfGoods
+        goodTitles={[...goodsFromServer]}
+        sortBy={sortBy}
+        isReversed={isReversed}
+      />
     </div>
   );
 };
