@@ -18,8 +18,8 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  ALPHABETIC = 'alphabet',
-  LENGTH = 'length',
+  ALPHABETIC = 'ALPHABET',
+  LENGTH = 'LENGTH',
 }
 
 type SortFunction = (a: string, b: string) => number;
@@ -42,12 +42,8 @@ const getGoods = (
 ): string[] => {
   const visibleGoods: string[] = [...goods];
 
-  switch (sortType) {
-    case SortType.ALPHABETIC:
-    case SortType.LENGTH:
-      visibleGoods.sort(sortFunctions[sortType]);
-      break;
-    default:
+  if (sortType && sortFunctions[sortType]) {
+    visibleGoods.sort(sortFunctions[sortType]);
   }
 
   if (isReversed) {
