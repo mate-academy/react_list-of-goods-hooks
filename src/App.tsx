@@ -50,15 +50,15 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortFile, setSortFile] = useState(SortType.Default);
+  const [sortField, setSortField] = useState(SortType.Default);
   const [isReversed, setIsReversed] = useState(false);
 
-  const visibleGoods = getPreparedGoods(goodsFromServer, sortFile, isReversed);
+  const visibleGoods = getPreparedGoods(goodsFromServer, sortField, isReversed);
 
-  const isSelectionActive = sortFile || isReversed;
+  const isSelectionActive = sortField || isReversed;
 
-  const resetFile = () => {
-    setSortFile(SortType.Default);
+  const resetField = () => {
+    setSortField(SortType.Default);
     setIsReversed(false);
   };
 
@@ -68,9 +68,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-info', {
-            'is-light': sortFile !== SortType.Alphabet,
+            'is-light': sortField !== SortType.Alphabet,
           })}
-          onClick={() => setSortFile(SortType.Alphabet)}
+          onClick={() => setSortField(SortType.Alphabet)}
         >
           Sort alphabetically
         </button>
@@ -78,9 +78,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-success', {
-            'is-light': sortFile !== SortType.Length,
+            'is-light': sortField !== SortType.Length,
           })}
-          onClick={() => setSortFile(SortType.Length)}
+          onClick={() => setSortField(SortType.Length)}
         >
           Sort by length
         </button>
@@ -99,7 +99,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={resetFile}
+            onClick={resetField}
           >
             Reset
           </button>
