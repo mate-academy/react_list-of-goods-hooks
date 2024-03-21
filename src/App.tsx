@@ -58,7 +58,7 @@ export const App: React.FC = () => {
 
   const isResetButtonVisible = sortType !== SortType.Default || isSortReversed;
 
-  const sortAndReversed = getPreparedGoods(sortType, isSortReversed);
+  const visibleGoods = getPreparedGoods(sortType, isSortReversed);
 
   return (
     <div className="section content">
@@ -82,7 +82,7 @@ export const App: React.FC = () => {
           Sort by length
         </button>
         <button
-          onClick={() => setSortIsReversed(!isSortReversed)}
+          onClick={() => setSortIsReversed(prev => !prev)}
           type="button"
           className={cn('button is-warning ', {
             'is-light': !isSortReversed,
@@ -102,7 +102,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {sortAndReversed.map((item: string) => (
+        {visibleGoods.map((item: string) => (
           <li key={item} data-cy="Good">
             {item}
           </li>
