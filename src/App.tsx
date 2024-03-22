@@ -1,8 +1,6 @@
-/* eslint-disable max-len */
-import React from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
-import { useState } from 'react';
 import cn from 'classnames';
 
 export const goodsFromServer = [
@@ -18,52 +16,61 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-const IS_SORTED_ALPHABETICALLY = 'alphabetically';
-const IS_SORTED_BY_LENGTH = 'length';
+enum SortType {
+  SORT_BY_ALPHABET = 'name',
+  SORT_BY_LENGTH = 'length',
+  DEFAULT = '',
+}
 
-function getPreparedGoods(
-  goods: string[],
-  { sortType, isReversed }: { sortType: string; isReversed: boolean },
-) {
-  let preparedGoods = [...goods];
+const sortFunctions = {
+  [SortType.SORT_BY_ALPHABET]: (good1: string, good2: string) =>
+    good1.localeCompare(good2),
+  [SortType.SORT_BY_LENGTH]: (good1: string, good2: string) =>
+    good1.length - good2.length,
+};
 
-  switch (sortType) {
-    case IS_SORTED_ALPHABETICALLY:
-      preparedGoods.sort((good1, good2) => good1.localeCompare(good2));
-      break;
+interface Goods {
+  sortField: SortType;
+  isReversed: boolean;
+}
 
-    case IS_SORTED_BY_LENGTH:
-      preparedGoods.sort((good1, good2) => good1.length - good2.length);
-      break;
+function getPreparedGoods(goods: string[], { sortField, isReversed }: Goods) {
+  const preparedGoods = [...goods];
 
-    default:
-      break;
+  if (sortField && sortFunctions[sortField]) {
+    preparedGoods.sort(sortFunctions[sortField]);
   }
 
   if (isReversed) {
-    preparedGoods = preparedGoods.reverse();
+    preparedGoods.reverse();
   }
 
   return preparedGoods;
 }
 
 export const App: React.FC = () => {
-  const [sortType, setSortType] = useState('');
+  const [sortField, setSortField] = useState(SortType.DEFAULT);
   const [isReversed, setIsReversed] = useState(false);
 
   const visibleGoods = getPreparedGoods(goodsFromServer, {
-    sortType,
+    sortField,
     isReversed,
   });
 
-  const toggleReverse = () => {
-    setIsReversed(!isReversed);
+  const handleSortFieldChange = (newSortField: SortType) => {
+    setSortField(newSortField);
   };
 
-  const reset = () => {
-    setSortType('');
+  const toggleIsReversed = () => {
+    setIsReversed(reverse => !reverse);
+  };
+
+  const handleReset = () => {
+    setSortField(SortType.DEFAULT);
     setIsReversed(false);
   };
+
+  const isResetButtonVisible = sortField || isReversed;
 
   return (
     <div className="section content">
@@ -71,9 +78,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button', 'is-info', {
-            'is-light': sortType !== IS_SORTED_ALPHABETICALLY,
+            'is-light': sortField !== SortType.SORT_BY_ALPHABET,
           })}
-          onClick={() => setSortType(IS_SORTED_ALPHABETICALLY)}
+          onClick={() => handleSortFieldChange(SortType.SORT_BY_ALPHABET)}
         >
           Sort alphabetically
         </button>
@@ -81,9 +88,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button', 'is-info', {
-            'is-light': sortType !== IS_SORTED_BY_LENGTH,
+            'is-light': sortField !== SortType.SORT_BY_LENGTH,
           })}
-          onClick={() => setSortType(IS_SORTED_BY_LENGTH)}
+          onClick={() => handleSortFieldChange(SortType.SORT_BY_LENGTH)}
         >
           Sort by length
         </button>
@@ -93,16 +100,20 @@ export const App: React.FC = () => {
           className={cn('button', 'is-warning', {
             'is-light': !isReversed,
           })}
-          onClick={toggleReverse}
+          onClick={toggleIsReversed}
         >
           Reverse
         </button>
 
-        {sortType || isReversed ? (
-          <button type="button" className="button is-danger" onClick={reset}>
+        {isResetButtonVisible && (
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={handleReset}
+          >
             Reset
           </button>
-        ) : null}
+        )}
       </div>
 
       <ul>
