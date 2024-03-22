@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { MouseEventHandler, useState } from 'react';
 import cn from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
@@ -23,7 +23,7 @@ enum SortType {
 }
 
 function getGoods(goods: string[], sortBy: SortType, isReversed: boolean) {
-  const prepareGoods = [...goods];
+  let prepareGoods = [...goods];
 
   if (sortBy) {
     prepareGoods.sort((good1, good2) => {
@@ -38,10 +38,10 @@ function getGoods(goods: string[], sortBy: SortType, isReversed: boolean) {
           return 0;
       }
     });
+  }
 
-    if (isReversed) {
-      prepareGoods.reverse();
-    }
+  if (isReversed) {
+    prepareGoods = prepareGoods.reverse();
   }
 
   return prepareGoods;
@@ -52,6 +52,10 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState<boolean>(false);
 
   const visibleGoods = getGoods(goodsFromServer, goodsField, isReversed);
+
+  const handleReversed: MouseEventHandler<HTMLButtonElement> = () => {
+    setIsReversed(!isReversed);
+  };
 
   return (
     <div className="section content">
@@ -81,9 +85,7 @@ export const App: React.FC = () => {
           className={cn('button is-warning', {
             'is-light': !isReversed,
           })}
-          onClick={() => {
-            setIsReversed(!isReversed);
-          }}
+          onClick={handleReversed}
         >
           Reverse
         </button>
