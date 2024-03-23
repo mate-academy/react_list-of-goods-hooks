@@ -37,7 +37,6 @@ export function getReorderedGoods(
 
   // Sort and reverse goods if needed
   // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
 
   switch (sortType) {
     case SortType.ALPHABET:
@@ -60,8 +59,8 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [isReversed, setIsReversed] = React.useState(false);
-  const [sortType, setSortType] = React.useState(SortType.NONE);
+  const [isReversed, setIsReversed] = React.useState<boolean>(false);
+  const [sortType, setSortType] = React.useState<SortType>(SortType.NONE);
 
   return (
     <div className="section content">
