@@ -23,13 +23,13 @@ enum SortType {
 }
 
 type Query = {
-  reverse: boolean;
+  isReversed: boolean;
 };
 
 function getVisibleGoods(
   goods: Array<string>,
   sortField: SortType,
-  query: Query = { reverse: false },
+  query: Query = { isReversed: false },
 ) {
   const resGoods = [...goods];
 
@@ -47,7 +47,7 @@ function getVisibleGoods(
     });
   }
 
-  if (query.reverse) {
+  if (query.isReversed) {
     resGoods.reverse();
   }
 
@@ -59,7 +59,7 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
 
   const visibleGoods = getVisibleGoods(goodsFromServer, sortField, {
-    reverse: isReversed,
+    isReversed: isReversed,
   });
 
   return (
