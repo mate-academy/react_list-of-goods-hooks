@@ -23,13 +23,13 @@ enum SortType {
 }
 
 type Query = {
-  order: 'asc' | 'desc';
+  reverse: boolean;
 };
 
 function getVisibleGoods(
   goods: Array<string>,
   sortField: SortType,
-  query: Query = { order: 'asc' },
+  query: Query = { reverse: false },
 ) {
   const resGoods = [...goods];
 
@@ -47,7 +47,7 @@ function getVisibleGoods(
     });
   }
 
-  if (query.order === 'desc') {
+  if (query.reverse) {
     resGoods.reverse();
   }
 
@@ -58,10 +58,9 @@ export const App: React.FC = () => {
   const [sortField, setSortField] = useState(SortType.Empty);
   const [reverse, setReverse] = useState(false);
 
-  const query: Query = {
-    order: reverse ? 'desc' : 'asc',
-  };
-  const visibleGoods = getVisibleGoods(goodsFromServer, sortField, query);
+  const visibleGoods = getVisibleGoods(goodsFromServer, sortField, {
+    reverse: reverse,
+  });
 
   return (
     <div className="section content">
