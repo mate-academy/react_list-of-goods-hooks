@@ -18,7 +18,7 @@ export const goodsFromServer = [
 
 enum SortType {
   Empty = '',
-  Length = 'id',
+  Length = 'length',
   Alphabetically = 'alphabetically',
 }
 
@@ -56,10 +56,10 @@ function getVisibleGoods(
 
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState(SortType.Empty);
-  const [reverse, setReverse] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
 
   const visibleGoods = getVisibleGoods(goodsFromServer, sortField, {
-    reverse: reverse,
+    reverse: isReversed,
   });
 
   return (
@@ -87,19 +87,19 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={cn('button', 'is-warning', { 'is-light': !reverse })}
-          onClick={() => setReverse(!reverse)}
+          className={cn('button', 'is-warning', { 'is-light': !isReversed })}
+          onClick={() => setIsReversed(!isReversed)}
         >
           Reverse
         </button>
 
-        {(sortField || reverse) && (
+        {(sortField || isReversed) && (
           <button
             type="button"
             className="button is-danger"
             onClick={() => {
               setSortField(SortType.Empty);
-              setReverse(false);
+              setIsReversed(false);
             }}
           >
             Reset
