@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import classNames from 'classnames';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -44,9 +45,6 @@ export function getReorderedGoods(
     visibleGoods.reverse();
   }
 
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
-
   return visibleGoods;
 }
 
@@ -66,7 +64,9 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortType === SortType.ALPHABET ? '' : 'is-light'}`}
+          className={classNames('button', 'is-info', {
+            'is-light': sortType !== SortType.ALPHABET,
+          })}
           onClick={() => handleSorting(SortType.ALPHABET)}
         >
           Sort alphabetically
@@ -74,7 +74,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-success ${sortType === SortType.LENGTH ? '' : 'is-light'}`}
+          className={classNames('button', 'is-success', {
+            'is-light': sortType !== SortType.LENGTH,
+          })}
           onClick={() => handleSorting(SortType.LENGTH)}
         >
           Sort by length
@@ -82,7 +84,10 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-warning ${isReversed ? '' : 'is-light'}`}
+          // className={`button is-warning ${isReversed ? '' : 'is-light'}`}
+          className={classNames('button', 'is-warning', {
+            'is-light': !isReversed,
+          })}
           onClick={handleReverse}
         >
           Reverse
