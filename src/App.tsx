@@ -15,11 +15,19 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-const GoodItem = ({ good }) => {
+interface GoodItemProps {
+  good: string;
+}
+
+const GoodItem: React.FC<GoodItemProps> = ({ good }) => {
   return <li data-cy="Good">{good}</li>;
 };
 
-const GoodList = ({ goods }) => {
+interface GoodListProps {
+  goods: string[];
+}
+
+const GoodList: React.FC<GoodListProps> = ({ goods }) => {
   return (
     <ul>
       {goods.map((good: string) => {
