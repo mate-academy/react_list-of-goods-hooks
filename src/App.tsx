@@ -31,6 +31,7 @@ function getReorderedGoods(sortType: SortType, isReversed: boolean) {
     case SortType.LENGTH:
       goodsCopy.sort((a, b) => a.length - b.length);
       break;
+    default:
   }
 
   return isReversed ? goodsCopy.reverse() : goodsCopy;
@@ -53,7 +54,7 @@ export const App: React.FC = () => {
   const isResetButtonActive = sortType !== SortType.NONE || isReversed;
 
   const getCssLightClass = (buttonType: string) => {
-    let isActiveCssClass = false;
+    let isActiveCssClass;
 
     switch (buttonType) {
       case 'alphabet':
@@ -64,6 +65,9 @@ export const App: React.FC = () => {
         break;
       case 'reverse':
         isActiveCssClass = !isReversed;
+        break;
+      default:
+        isActiveCssClass = false;
     }
 
     return isActiveCssClass ? 'is-light' : '';
