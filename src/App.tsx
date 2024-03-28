@@ -7,12 +7,14 @@ import './App.scss';
 enum SortType {
   SORT_FILED_ALPHABET = 'alphabet',
   SORT_FILED_LENGT = 'length',
+  DEFAULT = '',
 }
 
-// const SORT_FILED_ALPHABET = 'alphabet';
-// const SORT_FILED_LENGT = 'length';
-
-function getPrepareGoods<T>(goods: string[], sortField: T, isReverse: boolean) {
+function getPrepareGoods(
+  goods: string[],
+  sortField: SortType,
+  isReverse: boolean,
+) {
   let prepearedGoods = [...goods];
 
   if (sortField) {
@@ -51,12 +53,12 @@ export const goodsFromServer = [
 ];
 
 export const App = () => {
-  const [sortField, setSortField] = useState<SortType | boolean>(false);
+  const [sortField, setSortField] = useState<SortType>(SortType.DEFAULT);
   const [isReverse, setIsReverse] = useState<boolean>(false);
   const visibleGoods = getPrepareGoods(goodsFromServer, sortField, isReverse);
 
   const reset = () => {
-    setSortField(false);
+    setSortField(SortType.DEFAULT);
     setIsReverse(false);
   };
 
