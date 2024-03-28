@@ -3,10 +3,7 @@ import 'bulma/css/bulma.css';
 import './App.scss';
 import { useState } from 'react';
 import { Button } from './components/Button';
-import { Goods } from './components/Goods/Goods';
-
-const SORT_BY_ALPHABET = 'alphabet';
-const SORT_BY_LENGTH = 'length';
+import { Good } from './components/Good/Good';
 
 enum SortType {
   alphabet = 'alphabet',
@@ -15,7 +12,7 @@ enum SortType {
 }
 
 interface FilterParams {
-  sortField: number | string;
+  sortField: SortType;
   isReversed: boolean;
 }
 
@@ -40,9 +37,9 @@ const filteringGoods = (
 
   goodsForFiltering.sort((good1, good2) => {
     switch (sortField) {
-      case SORT_BY_ALPHABET:
+      case SortType.alphabet:
         return good1.localeCompare(good2);
-      case SORT_BY_LENGTH:
+      case SortType.length:
         return good1.length - good2.length;
       default:
         return 0;
@@ -108,7 +105,7 @@ export const App: React.FC = () => {
 
       <ul>
         {visibleGoods.map(good => (
-          <Goods key={good} good={good} />
+          <Good key={good} good={good} />
         ))}
       </ul>
     </div>
