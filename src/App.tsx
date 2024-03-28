@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import classnames from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
@@ -18,9 +19,13 @@ export const goodsFromServer = [
 const SORT_FIELD_LENGTH = 'length';
 const SORT_FIELD_ALPHABET = 'alphabet';
 
-type SortField = 'length' | 'alphabet' | string;
+type SortField = 'length' | 'alphabet' | '';
 
-function getSortedGoods(goods: string[], sortField: SortField) {
+function getSortedGoods(
+  goods: string[],
+  sortField: SortField,
+  reverseSort: boolean,
+) {
   const prepearGoods = [...goods];
 
   if (sortField) {
@@ -38,32 +43,28 @@ function getSortedGoods(goods: string[], sortField: SortField) {
     });
   }
 
+  if (reverseSort) {
+    prepearGoods.reverse();
+  }
+
   return prepearGoods;
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState<SortField>('');
   const [reverseSort, setReverseSort] = useState(false);
-
-  const sortChange = (field: SortField) => {
-    setSortField(field);
-  };
 
   const reverseChange = () => {
     setReverseSort(!reverseSort);
   };
 
-  const sortedGoods = getSortedGoods(goodsFromServer, sortField);
-
-  if (reverseSort) {
-    sortedGoods.reverse();
-  }
+  const sortedGoods = getSortedGoods(goodsFromServer, sortField, reverseSort);
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => sortChange(SORT_FIELD_ALPHABET)}
+          onClick={() => setSortField(SORT_FIELD_ALPHABET)}
           type="button"
           className={`button is-info ${sortField !== SORT_FIELD_ALPHABET && 'is-light'}`}
         >
@@ -71,7 +72,7 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={() => sortChange(SORT_FIELD_LENGTH)}
+          onClick={() => setSortField(SORT_FIELD_LENGTH)}
           type="button"
           className={`button is-success ${sortField !== SORT_FIELD_LENGTH && 'is-light'}`}
         >
@@ -81,7 +82,9 @@ export const App: React.FC = () => {
         <button
           onClick={reverseChange}
           type="button"
-          className={`button is-warning ${!reverseSort && 'is-light'}`}
+          className={classnames('button', 'is-warning', {
+            'is-light': !reverseSort,
+          })}
         >
           Reverse
         </button>
