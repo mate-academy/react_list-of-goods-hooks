@@ -18,19 +18,21 @@ enum SortType {
   ALPHABET,
   LENGTH,
 }
-type ReorderOptions = {
-  sortType: SortType;
+type TypeIsReversed = {
   isReversed: boolean;
+};
+
+type TypeSort = {
+  sortType: number;
 };
 // Use this function in the render method to prepare goods
 export function getReorderedGoods(
   goods: string[],
-  { sortType, isReversed }: ReorderOptions,
+  { isReversed }: TypeIsReversed,
+  { sortType }: TypeSort,
 ) {
-  // To avoid the original array mutation
   const visibleGoods = [...goods];
 
-  // Sort and reverse goods if needed
   switch (sortType) {
     case SortType.ALPHABET:
       visibleGoods.sort((a, b) => (a > b ? 1 : -1));
@@ -47,46 +49,43 @@ export function getReorderedGoods(
 
   return visibleGoods;
 }
-// DON'T save goods to the state
-// type State = {
-//   isReversed: boolean,
-//   sortType: SortType,
-// };
 
 export const App: React.FC = () => {
-  const [order, setOrder] = React.useState<ReorderOptions>({
+  const [type, setType] = React.useState<TypeSort>({
     sortType: SortType.NONE,
+  });
+
+  const [reverse, setReverse] = React.useState<TypeIsReversed>({
     isReversed: false,
   });
 
   const alphabeticalOrder = () =>
-    setOrder({
+    setType({
       sortType: SortType.ALPHABET,
-      isReversed: order.isReversed,
     });
 
-  const orderByLength = () =>
-    setOrder({ sortType: SortType.LENGTH, isReversed: order.isReversed });
+  const orderByLength = () => setType({ sortType: SortType.LENGTH });
 
-  const reverseOrder = () =>
-    setOrder({ sortType: order.sortType, isReversed: !order.isReversed });
+  const reverseOrder = () => setReverse({ isReversed: !reverse.isReversed });
 
-  const reset = () =>
-    setOrder({
+  const reset = () => {
+    setType({
       sortType: SortType.NONE,
-      isReversed: false,
     });
 
-  const beginningOrder = !order.isReversed && order.sortType === SortType.NONE;
+    setReverse({ isReversed: reverse.isReversed });
+  };
 
-  const goods = getReorderedGoods(goodsFromServer, order);
+  const beginningOrder = !reverse.isReversed && type.sortType === SortType.NONE;
+
+  const goods = getReorderedGoods(goodsFromServer, reverse, type);
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={`button is info ${order.sortType === SortType.ALPHABET ? '' : 'is-light'}`}
+          className={`button is info ${type.sortType === SortType.ALPHABET ? '' : 'is-light'}`}
           onClick={alphabeticalOrder}
         >
           Sort alphabetically
@@ -94,7 +93,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is success ${order.sortType === SortType.LENGTH ? '' : 'is-light'}`}
+          className={`button is success ${type.sortType === SortType.LENGTH ? '' : 'is-light'}`}
           onClick={orderByLength}
         >
           Sort by length
@@ -102,7 +101,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is warning ${order.isReversed === true ? '' : 'is-light'} `}
+          className={`button is warning ${reverse.isReversed === true ? '' : 'is-light'} `}
           onClick={reverseOrder}
         >
           Reverse
