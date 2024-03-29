@@ -19,10 +19,11 @@ export const goodsFromServer = [
 enum SortType {
   Alphabet = 'alphabet',
   Length = 'length',
+  Default = '',
 }
 
 type Props = {
-  sortBy: SortType | '';
+  sortBy: SortType;
   isReversed: boolean;
 };
 
@@ -52,7 +53,7 @@ function getPreparedGoods(goods: string[], { sortBy, isReversed }: Props) {
 }
 
 export const App: React.FC = () => {
-  const [sortBy, setSortBy] = useState<SortType | ''>('');
+  const [sortBy, setSortBy] = useState<SortType>(SortType.Default);
   const [isReversed, setIsReversed] = useState<boolean>(false);
   const visibleGoods = getPreparedGoods(goodsFromServer, {
     sortBy,
@@ -60,7 +61,7 @@ export const App: React.FC = () => {
   });
 
   const reset = () => {
-    setSortBy('');
+    setSortBy(SortType.Default);
     setIsReversed(false);
   };
 
