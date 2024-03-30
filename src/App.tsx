@@ -32,11 +32,13 @@ function prepareGoods(
 
   if (sortType) {
     preparedGoods.sort((good1, good2) => {
-      switch (sortType) {
+          switch (sortType) {
         case SortType.name:
           return good1.localeCompare(good2);
+
         case SortType.length:
           return good1.length - good2.length;
+
         default:
           return 0;
       }
@@ -50,6 +52,11 @@ export const App = () => {
   const [sortType, setSortType] = useState(SortType.none);
   const [isReversed, setIsReversed] = useState(false);
 
+  const handleResetChange = () => {
+    setSortType(SortType.none);
+    setIsReversed(false);
+  }
+
   const visibleGoods: string[] = prepareGoods(
     goodsFromServer,
     sortType,
@@ -61,7 +68,7 @@ export const App = () => {
       <div className="buttons">
         <button
           type="button"
-          className={cn('button', 'is-info', {
+          className={cn('button is-info', {
             'is-light': sortType !== SortType.name,
           })}
           onClick={() => setSortType(SortType.name)}
@@ -71,7 +78,7 @@ export const App = () => {
 
         <button
           type="button"
-          className={cn('button', 'is-success', {
+          className={cn('button is-success', {
             'is-light': sortType !== SortType.length,
           })}
           onClick={() => setSortType(SortType.length)}
@@ -81,7 +88,7 @@ export const App = () => {
 
         <button
           type="button"
-          className={cn('button', 'is-warning', { 'is-light': !isReversed })}
+          className={cn('button is-warning', { 'is-light': !isReversed })}
           onClick={() => setIsReversed(!isReversed)}
         >
           Reverse
@@ -91,10 +98,7 @@ export const App = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortType(SortType.none);
-              setIsReversed(false);
-            }}
+            onClick={handleResetChange}
           >
             Reset
           </button>
