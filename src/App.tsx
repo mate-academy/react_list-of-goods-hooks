@@ -25,7 +25,7 @@ type TypeIsReversed = {
 type TypeSort = {
   sortType: number;
 };
-// Use this function in the render method to prepare goods
+
 export function getReorderedGoods(
   goods: string[],
   { isReversed }: TypeIsReversed,
@@ -51,29 +51,23 @@ export function getReorderedGoods(
 }
 
 export const App: React.FC = () => {
-  const [type, setType] = React.useState<TypeSort>({
+  const [type, setType] = React.useState({
     sortType: SortType.NONE,
   });
 
-  const [reverse, setReverse] = React.useState<TypeIsReversed>({
+  const [reverse, setReverse] = React.useState({
     isReversed: false,
   });
 
-  const alphabeticalOrder = () =>
-    setType({
-      sortType: SortType.ALPHABET,
-    });
+  const alphabeticalOrder = () => setType({ sortType: SortType.ALPHABET });
 
   const orderByLength = () => setType({ sortType: SortType.LENGTH });
 
   const reverseOrder = () => setReverse({ isReversed: !reverse.isReversed });
 
   const reset = () => {
-    setType({
-      sortType: SortType.NONE,
-    });
-
-    setReverse({ isReversed: reverse.isReversed });
+    setType({ sortType: SortType.NONE });
+    setReverse({ isReversed: false });
   };
 
   const beginningOrder = !reverse.isReversed && type.sortType === SortType.NONE;
