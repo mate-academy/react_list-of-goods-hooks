@@ -18,6 +18,7 @@ enum SortType {
   ALPHABET,
   LENGTH,
 }
+
 type TypeIsReversed = {
   isReversed: boolean;
 };
