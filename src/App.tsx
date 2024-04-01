@@ -57,6 +57,11 @@ export const App = () => {
   const [reversed, setReversed] = useState<boolean>(false);
   const prepareGoods = getVisibleGoods(goodsFromServer, { sortBy, reversed });
 
+  const onPageChange = () => {
+    setSortBy(SortType.Default);
+    setReversed(false);
+  }
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -100,10 +105,7 @@ export const App = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortBy(SortType.Default);
-              setReversed(false);
-            }}
+            onClick={onPageChange}
           >
             Reset
           </button>
