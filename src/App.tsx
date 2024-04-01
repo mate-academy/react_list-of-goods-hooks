@@ -19,15 +19,14 @@ export const goodsFromServer = [
 enum SortType {
   SORT_BY_ALPHABETICALLY = 'alphabet',
   SORT_BY_LENGTH = 'length',
-  SORT_REVERSE = 'reverse',
-  SORT_RESET = '',
+  RESET = '',
 }
 type Goods = string[];
 
 function getPreparedGoods(
   goods: Goods,
   sortField: SortType,
-  isReverse: SortType,
+  isReverse: boolean,
 ): Goods {
   let preparedGoods = [...goods];
 
@@ -52,8 +51,8 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState(SortType.SORT_RESET);
-  const [isReverse, setIsReverse] = useState(SortType.SORT_RESET);
+  const [sortField, setSortField] = useState(SortType.RESET);
+  const [isReverse, setIsReverse] = useState(false);
 
   const visibleleGoods = getPreparedGoods(
     goodsFromServer,
@@ -62,16 +61,12 @@ export const App: React.FC = () => {
   );
 
   const reverseBtn = () => {
-    if (isReverse) {
-      setIsReverse(SortType.SORT_RESET);
-    } else {
-      setIsReverse(SortType.SORT_REVERSE);
-    }
+    setIsReverse(!isReverse);
   };
 
   const resetBtn = () => {
-    setSortField(SortType.SORT_RESET);
-    setIsReverse(SortType.SORT_RESET);
+    setSortField(SortType.RESET);
+    setIsReverse(false);
   };
 
   return (
