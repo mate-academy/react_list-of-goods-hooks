@@ -62,6 +62,8 @@ export const App = () => {
     setReversed(false);
   }
 
+  const toggleReversed = () => setReversed(!reversed);
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -94,9 +96,7 @@ export const App = () => {
           className={cn('button is-warning', {
             'is-light': !reversed,
           })}
-          onClick={() => {
-            setReversed(() => !reversed);
-          }}
+          onClick={toggleReversed}
         >
           Reverse
         </button>
