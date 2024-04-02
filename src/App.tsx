@@ -29,14 +29,14 @@ type TypeSort = {
 
 export function getReorderedGoods(
   goods: string[],
-  { isReversed }: TypeIsReversed,
+  isReversed: TypeIsReversed,
   { sortType }: TypeSort,
 ) {
   const visibleGoods = [...goods];
 
   switch (sortType) {
     case SortType.ALPHABET:
-      visibleGoods.sort((a, b) => (a > b ? 1 : -1));
+      visibleGoods.sort((a, b) => a.localeCompare(b));
       break;
     case SortType.LENGTH:
       visibleGoods.sort((a, b) => a.length - b.length);
@@ -53,7 +53,7 @@ export function getReorderedGoods(
 
 export const App: React.FC = () => {
   const [type, setType] = React.useState({
-    sortType: SortType.NONE,
+    sortType: 0,
   });
 
   const [reverse, setReverse] = React.useState({
