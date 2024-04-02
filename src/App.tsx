@@ -5,7 +5,7 @@ import './App.scss';
 enum SortStatus {
   SORT_FIELD_ALPHABETICALLY = 'alphabetically',
   SORT_FIELD_LENGTH = 'length',
-  SORT_REVERSE = 'reverse',
+  SORT_DEFAULT = '',
 }
 
 type Goods = string[];
@@ -25,7 +25,7 @@ export const goodsFromServer = [
 
 function getPreperedGoods(
   goods: Goods,
-  sortField: SortStatus | '',
+  sortField: SortStatus,
   reverseField: boolean,
 ) {
   const preparedGoods = [...goods];
@@ -52,7 +52,9 @@ function getPreperedGoods(
 
 export const App: React.FC = () => {
   const [reverseField, setReverseField] = useState(false);
-  const [sortField, setSortField] = useState<SortStatus | ''>('');
+  const [sortField, setSortField] = useState<SortStatus>(
+    SortStatus.SORT_DEFAULT
+  );
   const visibleGoods = getPreperedGoods(
     goodsFromServer,
     sortField,
@@ -89,10 +91,10 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {sortField || reverseField ? (
+        {(sortField || reverseField) && (
           <button
             onClick={() => {
-              setSortField('');
+              setSortField(SortStatus.SORT_DEFAULT);
               setReverseField(false);
             }}
             type="button"
@@ -100,8 +102,6 @@ export const App: React.FC = () => {
           >
             Reset
           </button>
-        ) : (
-          ''
         )}
       </div>
 
