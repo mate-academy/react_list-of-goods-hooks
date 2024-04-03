@@ -49,22 +49,22 @@ export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
   const [isReversed, setIsReversed] = useState(false);
 
-  function sortAlphabetically() {
+  const sortAlphabetically = () => {
     setSortType(SortType.ALPHABET);
-  }
+  };
 
-  function sortByLength() {
+  const sortByLength = () => {
     setSortType(SortType.LENGTH);
-  }
+  };
 
-  function reverse() {
-    setIsReversed(!isReversed);
-  }
+  const reverse = () => {
+    setIsReversed(prevIsReversed => !prevIsReversed);
+  };
 
-  function reset() {
+  const reset = () => {
     setSortType(SortType.NONE);
     setIsReversed(false);
-  }
+  };
 
   return (
     <div className="section content">
