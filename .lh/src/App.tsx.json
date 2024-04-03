@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/App.tsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1712144324389,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1712144324389,
+            "name": "Commit-0",
+            "content": "import React, { useState } from 'react';\nimport 'bulma/css/bulma.css';\nimport './App.scss';\nimport { GoodsList } from './Components/GoodsList';\n\nexport const goodsFromServer = [\n  'Dumplings',\n  'Carrot',\n  'Eggs',\n  'Ice cream',\n  'Apple',\n  'Bread',\n  'Fish',\n  'Honey',\n  'Jam',\n  'Garlic',\n];\n\nenum SortType {\n  NONE,\n  ALPHABET,\n  LENGTH,\n}\n\ntype ReorderOptions = {\n  sortType: SortType;\n  isReversed: boolean;\n};\n\n// Use this function in the render method to prepare goods\nexport function getReorderedGoods(\n  goods: string[],\n  { sortType, isReversed }: ReorderOptions,\n) {\n  // To avoid the original array mutation\n  const visibleGoods = [...goods];\n\n  // Sort and reverse goods if needed\n  switch (sortType) {\n    case SortType.ALPHABET:\n      visibleGoods.sort((a, b) => a.localeCompare(b));\n      break;\n    case SortType.LENGTH:\n      visibleGoods.sort((a, b) => a.length - b.length);\n      break;\n    default:\n      break;\n  }\n\n  if (isReversed) {\n    visibleGoods.reverse();\n  }\n\n  // eslint-disable-next-line no-console\n  console.log(sortType, isReversed);\n\n  return visibleGoods;\n}\n\n// DON'T save goods to the state\n// type State = {\n//   isReversed: boolean,\n//   sortType: SortType,\n// };\n\nexport const App: React.FC = () => {\n  const defaultOptions = {\n    sortType: SortType.NONE,\n    isReversed: false,\n  };\n\n  const [reorderOptions, setReorderOptions] =\n    useState<ReorderOptions>(defaultOptions);\n\n  const createSortTypeHandler = (sortType: SortType) => () => {\n    setReorderOptions({ ...reorderOptions, sortType: sortType });\n  };\n\n  const toggleReverseHandler = () => {\n    setReorderOptions({\n      ...reorderOptions,\n      isReversed: !reorderOptions.isReversed,\n    });\n  };\n\n  const resetHandler = () => {\n    setReorderOptions(defaultOptions);\n  };\n\n  const isResetVisible =\n    reorderOptions.sortType !== SortType.NONE || reorderOptions.isReversed;\n\n  return (\n    <div className=\"section content\">\n      <div className=\"buttons\">\n        <button\n          type=\"button\"\n          className={`button is-info ${reorderOptions.sortType === SortType.ALPHABET ? '' : 'is-light'}`}\n          onClick={createSortTypeHandler(SortType.ALPHABET)}\n        >\n          Sort alphabetically\n        </button>\n\n        <button\n          type=\"button\"\n          className={`button is-info ${reorderOptions.sortType === SortType.LENGTH ? '' : 'is-light'}`}\n          onClick={createSortTypeHandler(SortType.LENGTH)}\n        >\n          Sort by length\n        </button>\n\n        <button\n          type=\"button\"\n          className={`button is-warning ${reorderOptions.isReversed ? '' : 'is-light'}`}\n          onClick={toggleReverseHandler}\n        >\n          Reverse\n        </button>\n\n        {isResetVisible && (\n          <button\n            type=\"button\"\n            className=\"button is-danger is-light\"\n            onClick={resetHandler}\n          >\n            Reset\n          </button>\n        )}\n      </div>\n\n      <ul>\n        <GoodsList goods={getReorderedGoods(goodsFromServer, reorderOptions)} />\n      </ul>\n    </div>\n  );\n};\n"
+        }
+    ]
+}
