@@ -84,34 +84,34 @@ export const App: React.FC = () => {
   };
 
   const goods = getReorderedGoods(goodsFromServer);
-  const { isSorted } = ReorderOptions;
+  const { sortType, isReversed } = ReorderOptions;
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${isSorted ? '' : 'is-light'}`}
+          className={`button is-info ${sortType === SortType.ALPHABET ? '' : 'is-light'}`}
           onClick={setSortAlphabetically}
         >
           Sort alphabetically
         </button>
         <button
           type="button"
-          className={`button is-success ${isSorted ? '' : 'is-light'}`}
+          className={`button is-success ${sortType === SortType.LENGTH ? '' : 'is-light'}`}
           onClick={setSortByLength}
         >
           Sort by length
         </button>
         <button
           type="button"
-          className={`button is-warning ${isSorted ? '' : 'is-light'}`}
+          className={`button is-warning ${isReversed ? '' : 'is-light'}`}
           onClick={toggleReverse}
         >
           Reverse
         </button>
 
-        {isSorted && (
+        {(sortType !== SortType.NONE || isReversed) && (
           <button
             type="button"
             className="button is-danger is-light"
@@ -123,8 +123,8 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {goods.map((good, index) => (
-          <li data-cy="Good" key={index}>
+        {goods.map(good => (
+          <li data-cy="Good" key={good}>
             {good}
           </li>
         ))}
