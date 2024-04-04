@@ -1,0 +1,18 @@
+{
+    "sourceFile": "README.md",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1712158134766,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1712158134766,
+            "name": "Commit-0",
+            "content": "# React list of goods (Hooks)\n\n> DON'T use class components (for this and next tasks).\n\nReimplement the **React list of goods** implemented before using hooks and typescript.\nCopy everything you need from your previous solution.\n\n> Here is [the working version](https://mate-academy.github.io/react_list-of-goods/)\n\n- Use the [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript) if needed.\n- Use `enum SortType` instead of string literals for possible sorting options (including the default one)\n\n## Instructions\n- Install Prettier Extention and use this [VSCode settings](https://mate-academy.github.io/fe-program/tools/vscode/settings.json) to enable format on save.\n- Implement a solution following the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline).\n- Open one more terminal and run tests with `npm test` to ensure your solution is correct.\n- Replace `<your_account>` with your Github username in the [DEMO LINK](https://mat.github.io/react_list-of-goods-hooks/) and add it to the PR description.\n"
+        }
+    ]
+}
