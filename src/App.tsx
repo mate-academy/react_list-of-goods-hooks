@@ -24,14 +24,12 @@ enum SortType {
 type ReorderOptions = {
   sortType: SortType;
   isReversed: boolean;
-  isSorted: boolean;
 };
 
 export const App: React.FC = () => {
   const [ReorderOptions, setReorderOptions] = useState<ReorderOptions>({
     sortType: SortType.NONE,
     isReversed: false,
-    isSorted: false,
   });
 
   const getReorderedGoods = (goods: string[]) => {
@@ -54,7 +52,6 @@ export const App: React.FC = () => {
     setReorderOptions(prevState => ({
       ...prevState,
       sortType: SortType.ALPHABET,
-      isSorted: true,
     }));
   };
 
@@ -62,7 +59,6 @@ export const App: React.FC = () => {
     setReorderOptions(prevState => ({
       ...prevState,
       sortType: SortType.LENGTH,
-      isSorted: true,
     }));
   };
 
@@ -70,7 +66,6 @@ export const App: React.FC = () => {
     setReorderOptions(prevState => ({
       ...prevState,
       isReversed: !prevState.isReversed,
-      isSorted: true,
     }));
   };
 
@@ -79,7 +74,6 @@ export const App: React.FC = () => {
       ...prevState,
       sortType: SortType.NONE,
       isReversed: false,
-      isSorted: false,
     }));
   };
 
