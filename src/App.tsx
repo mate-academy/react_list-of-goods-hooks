@@ -29,12 +29,12 @@ function getReorderedGoods(
 ) {
   const visibleGoods = [...goods];
 
-  switch (true) {
-    case sortType === SortType.ALPHABET:
+  switch (sortType) {
+    case SortType.ALPHABET:
       visibleGoods.sort((a, b) => a.localeCompare(b));
       break;
 
-    case sortType === SortType.LENGTH:
+    case SortType.LENGTH:
       visibleGoods.sort((a, b) => a.length - b.length);
       break;
 
