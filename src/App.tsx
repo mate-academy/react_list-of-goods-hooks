@@ -60,6 +60,10 @@ export const App: React.FC = () => {
     setReverse(false);
   };
 
+  const reversed = () => {
+    setReverse(prevState => !prevState);
+  }
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -88,9 +92,7 @@ export const App: React.FC = () => {
           className={classNames('button is-warning', {
             'is-light': !isReversed,
           })}
-          onClick={() => {
-            setReverse(prevState => !prevState);
-          }}
+          onClick={reversed}
         >
           Reverse
         </button>
