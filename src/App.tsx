@@ -26,15 +26,12 @@ type ReorderOptions = {
   isReversed: boolean;
 };
 
-// Use this function in the render method to prepare goods
 const getReorderedGoods = (
   goods: string[],
   { sortType, isReversed }: ReorderOptions,
 ): string[] => {
-  // To avoid the original array mutation
   const visibleGoods = [...goods];
 
-  // Sort and reverse goods if needed
   switch (sortType) {
     case SortType.ALPHABET:
       visibleGoods.sort((a, b) => a.localeCompare(b));
@@ -49,9 +46,6 @@ const getReorderedGoods = (
   if (isReversed) {
     visibleGoods.reverse();
   }
-
-  // eslint-disable-next-line no-console
-  console.log(sortType, isReversed);
 
   return visibleGoods;
 };
