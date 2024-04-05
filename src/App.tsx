@@ -48,6 +48,8 @@ export const App: React.FC = () => {
 
   const reorderedGoods = getReorderedGoods(goodsFromServer);
 
+  const displayResetButton = sortType !== SortType.NONE || isReversed;
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -75,7 +77,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortType !== SortType.NONE || isReversed) && (
+        {displayResetButton && (
           <button
             type="button"
             className="button is-danger is-light"
