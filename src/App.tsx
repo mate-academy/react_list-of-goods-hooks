@@ -60,9 +60,17 @@ export const App: React.FC = () => {
     setReverse(false);
   };
 
+  const sortByAlfabet = () => {
+    setSortType(SortType.ALPHABET);
+  };
+
+  const sortByLength = () => {
+    setSortType(SortType.LENGTH);
+  };
+
   const reversed = () => {
     setReverse(prevState => !prevState);
-  }
+  };
 
   return (
     <div className="section content">
@@ -72,7 +80,7 @@ export const App: React.FC = () => {
           className={classNames('button is-info', {
             'is-light': sortType !== SortType.ALPHABET,
           })}
-          onClick={() => setSortType(SortType.ALPHABET)}
+          onClick={sortByAlfabet}
         >
           Sort alphabetically
         </button>
@@ -82,7 +90,7 @@ export const App: React.FC = () => {
           className={classNames('button is-success', {
             'is-light': sortType !== SortType.LENGTH,
           })}
-          onClick={() => setSortType(SortType.LENGTH)}
+          onClick={sortByLength}
         >
           Sort by length
         </button>
