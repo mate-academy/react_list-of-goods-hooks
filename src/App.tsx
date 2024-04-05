@@ -13,6 +13,8 @@ export const goodsFromServer = [
   'Honey',
   'Jam',
   'Garlic',
+  'Zizi',
+  'Pups',
 ];
 
 enum SortType {
@@ -28,10 +30,13 @@ export const App: React.FC = () => {
   function getReorderedGoods(goods: string[]) {
     const visibleGoods = [...goods];
 
-    if (sortType === SortType.ALPHABET) {
-      visibleGoods.sort((a: string, b: string) => a.localeCompare(b));
-    } else if (sortType === SortType.LENGTH) {
-      visibleGoods.sort((a: string, b: string) => a.length - b.length);
+    switch (sortType) {
+      case SortType.ALPHABET:
+        visibleGoods.sort((a: string, b: string) => a.localeCompare(b));
+        break;
+      case SortType.LENGTH:
+        visibleGoods.sort((a: string, b: string) => a.length - b.length);
+        break;
     }
 
     if (isReversed) {
