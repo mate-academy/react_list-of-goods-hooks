@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import { GoodsList } from './components/GoodsList';
@@ -24,115 +24,78 @@ enum SortType {
 }
 
 export const App: React.FC = () => {
-  const [goods, setGoods] = useState(goodsFromServer);
   const [sortType, setSortType] = useState(SortType.NONE);
   const [reverse, setReverse] = useState(false);
-  const [clicked1, setClicked1] = useState(false);
-  const [clicked2, setClicked2] = useState(false);
-  const [clicked3, setClicked3] = useState(false);
-  const [clicked4, setClicked4] = useState(false);
-
-  useEffect(() => {
-    const sortedGoods = [...goodsFromServer];
-
-    if (sortType === SortType.ALPHABET) {
-      sortedGoods.sort((a, b) => a.localeCompare(b));
-    } else if (sortType === SortType.LENGTH) {
-      sortedGoods.sort((a, b) => a.length - b.length);
-    }
-
-    if (reverse) {
-      sortedGoods.reverse();
-    }
-
-    setGoods(sortedGoods);
-  }, [sortType, reverse]);
-
-  const resetClicked = () => {
-    setClicked1(false);
-    setClicked2(false);
-    setClicked3(false);
-    setClicked4(false);
-  };
 
   const handleSort = (type: SortType) => {
-    setSortType(type);
-    setReverse(false);
-    resetClicked();
+    if (sortType === type) {
+      setReverse(curr => !curr);
+    } else {
+      setSortType(type);
+      setReverse(false);
+    }
   };
 
-  const handleReverse = () => {
-    setReverse(!reverse);
-    resetClicked();
-  };
-
-  const handleReset = () => {
-    setSortType(SortType.NONE);
-    setReverse(false);
-    resetClicked();
-  };
+  const sortedGoods = [...goodsFromServer].sort((a, b) => {
+    switch (sortType) {
+      case SortType.ALPHABET:
+        return reverse ? b.localeCompare(a) : a.localeCompare(b);
+      case SortType.LENGTH:
+        return reverse ? b.length - a.length : a.length - b.length;
+      default:
+        return 0;
+    }
+  });
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={cn('button', {
-            'is-info': true,
-            'is-light': !clicked1,
+          className={cn('button is-info', {
+            'is-light': sortType !== SortType.ALPHABET,
           })}
-          onClick={() => {
-            handleSort(SortType.ALPHABET);
-            setClicked1(true);
-          }}
+          onClick={() => handleSort(SortType.ALPHABET)}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={cn('button', {
-            'is-warning': true,
-            'is-light': !clicked2,
+          className={cn('button is-warning', {
+            'is-light': sortType !== SortType.LENGTH,
           })}
-          onClick={() => {
-            handleSort(SortType.LENGTH);
-            setClicked2(true);
-          }}
+          onClick={() => handleSort(SortType.LENGTH)}
         >
           Sort by length
         </button>
 
         <button
           type="button"
-          className={cn('button', {
-            'is-warning': true,
-            'is-light': !clicked3,
+          className={cn('button is-warning', {
+            'is-light': !reverse,
           })}
-          onClick={() => {
-            handleReverse();
-            setClicked3(true);
-          }}
+          onClick={() => setReverse(curr => !curr)}
         >
           Reverse
         </button>
+
         {(sortType !== SortType.NONE || reverse) && (
           <button
             type="button"
-            className={cn('button', {
-              'is-danger': true,
-              'is-light': !clicked4,
+            className={cn('button is-danger', {
+              'is-light': !reverse,
             })}
             onClick={() => {
-              handleReset();
-              setClicked4(true);
+              setSortType(SortType.NONE);
+              setReverse(false);
             }}
           >
             Reset
           </button>
         )}
       </div>
-      <GoodsList goodsList={goods} />
+      <GoodsList goodsList={reverse ? sortedGoods.reverse() : sortedGoods} />
     </div>
   );
 };
