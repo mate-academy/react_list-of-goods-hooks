@@ -39,9 +39,9 @@ export const App: React.FC = () => {
   const sortedGoods = [...goodsFromServer].sort((a, b) => {
     switch (sortType) {
       case SortType.ALPHABET:
-        return reverse ? b.localeCompare(a) : a.localeCompare(b);
+        return a.localeCompare(b);
       case SortType.LENGTH:
-        return reverse ? b.length - a.length : a.length - b.length;
+        return a.length - b.length;
       default:
         return 0;
     }
