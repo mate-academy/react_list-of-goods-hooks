@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import { getReorderedGoods } from './helpers';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -13,8 +14,6 @@ export const goodsFromServer = [
   'Honey',
   'Jam',
   'Garlic',
-  'Zizi',
-  'Pups',
 ];
 
 enum SortType {
@@ -27,26 +26,11 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState(SortType.NONE);
 
-  function getReorderedGoods(goods: string[]) {
-    const visibleGoods = [...goods];
-
-    switch (sortType) {
-      case SortType.ALPHABET:
-        visibleGoods.sort((a: string, b: string) => a.localeCompare(b));
-        break;
-      case SortType.LENGTH:
-        visibleGoods.sort((a: string, b: string) => a.length - b.length);
-        break;
-    }
-
-    if (isReversed) {
-      visibleGoods.reverse();
-    }
-
-    return visibleGoods;
-  }
-
-  const reorderedGoods = getReorderedGoods(goodsFromServer);
+  const reorderedGoods = getReorderedGoods(
+    goodsFromServer,
+    sortType,
+    isReversed,
+  );
 
   const displayResetButton = sortType !== SortType.NONE || isReversed;
 
