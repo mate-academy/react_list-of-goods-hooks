@@ -3,9 +3,9 @@ import './App.scss';
 import cn from 'classnames';
 import React, { useState } from 'react';
 
-type infoFromServer = string[];
+type InfoFromServer = string[];
 
-export const goodsFromServer: infoFromServer = [
+export const goodsFromServer: InfoFromServer = [
   'Dumplings',
   'Carrot',
   'Eggs',
@@ -24,7 +24,7 @@ enum SortType {
 }
 
 function getPreparedList(
-  list: infoFromServer,
+  list: InfoFromServer,
   sortField: string,
   reverseState: boolean,
 ) {
