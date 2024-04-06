@@ -41,12 +41,14 @@ function getPreparedList(
   if (sortField) {
     preparedList = preparedList.sort((good1, good2) => {
       switch (sortField) {
-        default:
-          return 0;
         case SortType.SORT_ALPHABETICALY:
           return good1.localeCompare(good2);
+
         case SortType.SORT_BY_LENGTH:
           return good1.length - good2.length;
+
+        default:
+          return 0;
       }
     });
   }
@@ -67,6 +69,11 @@ export const App = () => {
     reverseState,
   );
 
+  const handleReset = () => {
+    setSortField('');
+    setReverseState(false);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -75,9 +82,7 @@ export const App = () => {
           className={cn('button', 'is-info', {
             'is-light': sortField !== SortType.SORT_ALPHABETICALY,
           })}
-          onClick={() => {
-            setSortField(SortType.SORT_ALPHABETICALY);
-          }}
+          onClick={() => setSortField(SortType.SORT_ALPHABETICALY)}
         >
           Sort alphabetically
         </button>
@@ -97,11 +102,9 @@ export const App = () => {
         <button
           type="button"
           className={cn('button', 'is-warning', {
-            'is-light': reverseState === false,
+            'is-light': !reverseState,
           })}
-          onClick={() => {
-            setReverseState(!reverseState);
-          }}
+          onClick={() => setReverseState(!reverseState)}
         >
           Reverse
         </button>
@@ -110,10 +113,7 @@ export const App = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortField('');
-              setReverseState(false);
-            }}
+            onClick={handleReset}
           >
             Reset
           </button>
