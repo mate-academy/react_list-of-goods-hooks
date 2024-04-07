@@ -22,10 +22,11 @@ export const goodsFromServer: Goods = [
 enum SortType {
   name = 'Name',
   length = 'Length',
+  default = '',
 }
 
 interface SortProperty {
-  sortField: string;
+  sortField: SortType;
   isReversed: boolean;
 }
 
@@ -57,7 +58,7 @@ function getPrepareGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState<SortType>(SortType.default);
   const [isReversed, setIsReversed] = useState(false);
   const visibleGoods = getPrepareGoods(goodsFromServer, {
     sortField,
@@ -65,7 +66,7 @@ export const App: React.FC = () => {
   });
 
   function reset() {
-    setSortField('');
+    setSortField(SortType.default);
     setIsReversed(false);
   }
 
@@ -102,7 +103,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {sortField || isReversed ? (
+        {(sortField || isReversed) && (
           <button
             onClick={reset}
             type="button"
@@ -110,8 +111,6 @@ export const App: React.FC = () => {
           >
             Reset
           </button>
-        ) : (
-          ''
         )}
       </div>
 
