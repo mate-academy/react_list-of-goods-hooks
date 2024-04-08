@@ -1,6 +1,7 @@
 import React from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+
 export const goodsFromServer = [
   'Dumplings',
   'Carrot',
@@ -19,12 +20,12 @@ enum SortType {
   LENGTH,
 }
 
-type TypeIsReversed = {
-  isReversed: boolean;
-};
-
 type TypeSort = {
   sortType: number;
+};
+
+type TypeIsReversed = {
+  isReversed: boolean;
 };
 
 export function getReorderedGoods(
@@ -36,7 +37,7 @@ export function getReorderedGoods(
 
   switch (sortType) {
     case SortType.ALPHABET:
-      visibleGoods.sort((a, b) => a.localeCompare(b));
+      visibleGoods.sort((a, b) => (a > b ? 1 : -1));
       break;
     case SortType.LENGTH:
       visibleGoods.sort((a, b) => a.length - b.length);
