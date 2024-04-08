@@ -21,12 +21,12 @@ export const goodsFromServer: string[] = [
 
 function getPreparedGoods(
   goods: string[],
-  sortField: SortParam | '',
+  sortField: SortParam,
   reverseField: boolean,
 ) {
   const preparedGoods: string[] = [...goods];
 
-  if (sortField) {
+  if (sortField !== SortParam.SORT_BY_DEFAULT) {
     preparedGoods.sort((good1, good2) => {
       switch (sortField) {
         case SortParam.SORT_BY_LENGTH:
@@ -47,7 +47,7 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState<SortParam | ''>('');
+  const [sortField, setSortField] = useState<SortParam>(SortParam.SORT_BY_DEFAULT);
   const [reverseField, setReverseField] = useState(false);
   const visibleGoods = getPreparedGoods(
     goodsFromServer,
@@ -91,7 +91,7 @@ export const App: React.FC = () => {
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              setSortField('');
+              setSortField(SortParam.SORT_BY_DEFAULT);
               setReverseField(false);
             }}
           >
