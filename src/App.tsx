@@ -30,7 +30,7 @@ type TypeIsReversed = {
 
 export function getReorderedGoods(
   goods: string[],
-  isReversed: TypeIsReversed,
+  { isReversed }: TypeIsReversed,
   { sortType }: TypeSort,
 ) {
   const visibleGoods = [...goods];
@@ -54,7 +54,7 @@ export function getReorderedGoods(
 
 export const App: React.FC = () => {
   const [type, setType] = React.useState({
-    sortType: 0,
+    sortType: SortType.NONE,
   });
 
   const [reverse, setReverse] = React.useState({
