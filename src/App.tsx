@@ -58,15 +58,30 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = React.useState(false);
   const [sortType, setSortType] = React.useState(SortType.NONE);
 
+  const handleSortAlphabetically = () => {
+    setSortType(SortType.ALPHABET);
+  };
+
+  const handleSortByLength = () => {
+    setSortType(SortType.LENGTH);
+  };
+
+  const handleReverse = () => {
+    setIsReversed(prevState => !prevState);
+  };
+
+  const handleReset = () => {
+    setSortType(SortType.NONE);
+    setIsReversed(false);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
           className={`button is-info ${sortType !== SortType.ALPHABET ? 'is-light' : ''}`}
-          onClick={() => {
-            setSortType(SortType.ALPHABET);
-          }}
+          onClick={handleSortAlphabetically}
         >
           Sort alphabetically
         </button>
@@ -74,9 +89,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={`button is-success ${sortType !== SortType.LENGTH ? 'is-light' : ''}`}
-          onClick={() => {
-            setSortType(SortType.LENGTH);
-          }}
+          onClick={handleSortByLength}
         >
           Sort by length
         </button>
@@ -84,11 +97,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={`button is-warning ${!isReversed ? 'is-light' : ''}`}
-          onClick={() => {
-            setIsReversed(p => {
-              return !p;
-            });
-          }}
+          onClick={handleReverse}
         >
           Reverse
         </button>
@@ -97,10 +106,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger"
-            onClick={() => {
-              setSortType(SortType.NONE);
-              setIsReversed(false);
-            }}
+            onClick={handleReset}
           >
             Reset
           </button>
@@ -108,15 +114,13 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        <ul>
-          {getReorderedGoods(goodsFromServer, { sortType, isReversed }).map(
-            good => (
-              <li key={good} data-cy="Good">
-                {good}
-              </li>
-            ),
-          )}
-        </ul>
+        {getReorderedGoods(goodsFromServer, { sortType, isReversed }).map(
+          good => (
+            <li key={good} data-cy="Good">
+              {good}
+            </li>
+          ),
+        )}
       </ul>
     </div>
   );
