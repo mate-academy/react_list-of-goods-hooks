@@ -31,7 +31,7 @@ export const App: React.FC = () => {
   const [value, setValue] = useState<SortType>(SortType.NONE);
   const [reverse, setReverse] = useState(false);
 
-  function Sorting(goods: string[], { values, reverses }: ObjectTypes) {
+  function getVisibleGoods(goods: string[], { values, reverses }: ObjectTypes) {
     const copy = [...goods];
 
     copy.sort((item1: string, item2: string): number => {
@@ -52,7 +52,10 @@ export const App: React.FC = () => {
     return copy;
   }
 
-  const SORT = Sorting(goodsFromServer, { values: value, reverses: reverse });
+  const visibleGoods = getVisibleGoods(goodsFromServer, {
+    values: value,
+    reverses: reverse,
+  });
 
   function Reset() {
     setValue(SortType.NONE);
@@ -84,13 +87,13 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={cn('button is-warning', { 'is-light': reverse !== true })}
+          className={cn('button is-warning', { 'is-light': !reverse })}
           onClick={() => setReverse(!reverse)}
         >
           Reverse
         </button>
 
-        {(value !== SortType.NONE || reverse === true) ? (
+        {(value !== SortType.NONE || reverse === true) && (
           <button
             type="button"
             className="button is-danger is-light"
@@ -98,12 +101,12 @@ export const App: React.FC = () => {
           >
             Reset
           </button>
-        ) : null}
+        )}
       </div>
 
       <ul>
         <ul>
-          {SORT.map(item => (
+          {visibleGoods.map(item => (
             <li data-cy="Good" key={item}>
               {item}
             </li>
