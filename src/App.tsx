@@ -61,7 +61,7 @@ export const App: React.FC = () => {
     actualSortMode,
     listReverse,
   );
-
+  const renderCondition = !(actualSortMode === SetMode.reset) || listReverse;
   const setRevers = () => {
     setActualSortMode(SetMode.reset);
     setListReverse(false);
@@ -100,7 +100,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(!(actualSortMode === SetMode.reset) || listReverse) && (
+        {renderCondition && (
           <button
             type="button"
             className="button is-danger is-light"
