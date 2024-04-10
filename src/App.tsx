@@ -17,27 +17,27 @@ export const goodsList = [
 ];
 
 enum SortOption {
-  ALPHABETICALLY = 'alphabetically',
-  BY_LENGTH = 'length',
-  DEFAULT = '',
+  Alphabetically = 'alphabetically',
+  By_lengyh = 'length',
+  Deffault = '',
 }
 
 interface SortingParams {
   sortBy: SortOption;
-  reverseOrder: boolean;
+  isReverseOrder: boolean;
 }
 
 const sortingFunctions = {
-  [SortOption.ALPHABETICALLY]: (itemA: string, itemB: string) =>
+  [SortOption.Alphabetically]: (itemA: string, itemB: string) =>
     itemA.localeCompare(itemB),
 
-  [SortOption.BY_LENGTH]: (itemA: string, itemB: string) =>
+  [SortOption.By_lengyh]: (itemA: string, itemB: string) =>
     itemA.length - itemB.length,
 };
 
 function getSortedGoods(
   goods: string[],
-  { sortBy, reverseOrder }: SortingParams,
+  { sortBy, isReverseOrder }: SortingParams,
 ) {
   const sortedGoods = [...goods];
 
@@ -45,7 +45,7 @@ function getSortedGoods(
     sortedGoods.sort(sortingFunctions[sortBy]);
   }
 
-  if (reverseOrder) {
+  if (isReverseOrder) {
     sortedGoods.reverse();
   }
 
@@ -53,12 +53,12 @@ function getSortedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortBy, setSortBy] = useState(SortOption.DEFAULT);
-  const [reverseOrder, setReverseOrder] = useState(false);
+  const [sortBy, setSortBy] = useState(SortOption.Deffault);
+  const [isReverseOrder, setIsReverseOrder] = useState(false);
 
   const displayedGoods = getSortedGoods(goodsList, {
     sortBy,
-    reverseOrder,
+    isReverseOrder,
   });
 
   const handleSortChange = (newSortBy: SortOption) => {
@@ -66,15 +66,15 @@ export const App: React.FC = () => {
   };
 
   const toggleReverseOrder = () => {
-    setReverseOrder(reverse => !reverse);
+    setIsReverseOrder(reverse => !reverse);
   };
 
   const resetSorting = () => {
-    setSortBy(SortOption.DEFAULT);
-    setReverseOrder(false);
+    setSortBy(SortOption.Deffault);
+    setIsReverseOrder(false);
   };
 
-  const isReset = sortBy || reverseOrder;
+  const isReset = sortBy || isReverseOrder;
 
   return (
     <div className="section content">
@@ -82,19 +82,19 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button', 'is-info', {
-            'is-light': sortBy !== SortOption.ALPHABETICALLY,
+            'is-light': sortBy !== SortOption.Alphabetically,
           })}
-          onClick={() => handleSortChange(SortOption.ALPHABETICALLY)}
+          onClick={() => handleSortChange(SortOption.Alphabetically)}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={cn('button', 'is-info', {
-            'is-light': sortBy !== SortOption.BY_LENGTH,
+          className={cn('button', 'is-success', {
+            'is-light': sortBy !== SortOption.By_lengyh,
           })}
-          onClick={() => handleSortChange(SortOption.BY_LENGTH)}
+          onClick={() => handleSortChange(SortOption.By_lengyh)}
         >
           Sort by length
         </button>
@@ -102,7 +102,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button', 'is-warning', {
-            'is-light': !reverseOrder,
+            'is-light': !isReverseOrder,
           })}
           onClick={toggleReverseOrder}
         >
