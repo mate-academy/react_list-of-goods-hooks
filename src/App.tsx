@@ -5,8 +5,10 @@ import './App.scss';
 
 import { SortField } from './types/sortField';
 import { SortType } from './types/sortType';
+import { Goods } from './Goods';
+import { Good } from './types/Good';
 
-export const goodsFromServer: Array<string> = [
+export const goodsFromServer: Good = [
   'Dumplings',
   'Carrot',
   'Eggs',
@@ -19,11 +21,8 @@ export const goodsFromServer: Array<string> = [
   'Garlic',
 ];
 
-export const App: React.FC = () => {
-  const [sortField, setSortField] = useState<SortField>('');
-  const [reverseToogle, setReverseToogle] = useState<boolean | string>(false);
-
-  let goods = [...goodsFromServer].sort((goods1: string, goods2: string) => {
+const preparedGoods = (sortField: SortField) => {
+  const goods = [...goodsFromServer].sort((goods1: string, goods2: string) => {
     switch (sortField) {
       case SortType.alphabet:
         return goods1.localeCompare(goods2);
@@ -34,8 +33,16 @@ export const App: React.FC = () => {
     }
   });
 
+  return goods;
+};
+
+export const App: React.FC = () => {
+  const [sortField, setSortField] = useState<SortField>('');
+  const [reverseToogle, setReverseToogle] = useState<boolean | string>(false);
+  let visibleGoods = preparedGoods(sortField);
+
   if (reverseToogle) {
-    goods = goods.reverse();
+    visibleGoods = visibleGoods.reverse();
   }
 
   const reverse = () => {
@@ -87,13 +94,7 @@ export const App: React.FC = () => {
         )}
       </div>
 
-      <ul>
-        {goods.map((good: string) => (
-          <li key={good} data-cy="Good">
-            {good}
-          </li>
-        ))}
-      </ul>
+      <Goods goods={visibleGoods} />
     </div>
   );
 };
