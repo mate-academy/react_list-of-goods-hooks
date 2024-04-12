@@ -71,8 +71,7 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={classNames({
-            'button is-info': true,
+          className={classNames('button is-info', {
             'is-light': statusOfCurrentList !== SortStatus.alphabetically,
           })}
           onClick={() => {
@@ -84,8 +83,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={classNames({
-            'button is-success': true,
+          className={classNames('button is-success', {
             'is-light': statusOfCurrentList !== SortStatus.length,
           })}
           onClick={() => {
@@ -97,8 +95,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={classNames({
-            'button is-warning': true,
+          className={classNames('button is-warning', {
             'is-light': !isReversed,
           })}
           onClick={() => {
