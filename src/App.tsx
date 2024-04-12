@@ -28,8 +28,10 @@ interface SortFieldProp {
   isReversed: boolean;
 }
 
-
-function getPreparedGoods(goods: Goods, { sortField, isReversed } : SortFieldProp) {
+function getPreparedGoods(
+  goods: Goods,
+  { sortField, isReversed }: SortFieldProp,
+) {
   let preparedGoods = [...goods];
 
   preparedGoods.sort((good1, good2) => {
@@ -52,7 +54,6 @@ function getPreparedGoods(goods: Goods, { sortField, isReversed } : SortFieldPro
   return preparedGoods;
 }
 
-
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState('');
   const [isReversed, setIsReversed] = useState(false);
@@ -66,9 +67,8 @@ export const App: React.FC = () => {
     setIsReversed(false);
   };
 
-
   return (
-  <div className="section content">
+    <div className="section content">
       <div className="buttons">
         <button
           type="button"
