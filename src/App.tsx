@@ -1,7 +1,7 @@
 import { useState } from 'react';
+import classNames from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
-import React from 'react';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -16,21 +16,21 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-enum SortField {
+enum SortType {
   Default = '',
   Length = 'length',
   Alphabet = 'alphabet',
 }
 
-const prepareGoods = (sortField: SortField, isReverse: boolean): string[] => {
+const prepareGoods = (sortType: SortType, isReversed: boolean): string[] => {
   const sortedGoods = [...goodsFromServer];
 
-  if (sortField) {
+  if (sortType) {
     sortedGoods.sort((good1, good2) => {
-      switch (sortField) {
-        case SortField.Alphabet:
+      switch (sortType) {
+        case SortType.Alphabet:
           return good1.localeCompare(good2);
-        case SortField.Length:
+        case SortType.Length:
           return good1.length - good2.length;
         default:
           return 0;
@@ -38,7 +38,7 @@ const prepareGoods = (sortField: SortField, isReverse: boolean): string[] => {
     });
   }
 
-  if (isReverse) {
+  if (isReversed) {
     sortedGoods.reverse();
   }
 
@@ -46,41 +46,47 @@ const prepareGoods = (sortField: SortField, isReverse: boolean): string[] => {
 };
 
 export const App = () => {
-  const [sortField, setSortField] = useState<SortField>(SortField.Default);
-  const [isReverse, setIsReverse] = useState(false);
+  const [sortType, setSortType] = useState<SortType>(SortType.Default);
+  const [isReversed, setIsReversed] = useState(false);
 
   const resetAll = () => {
-    setSortField(SortField.Default);
-    setIsReverse(false);
+    setSortType(SortType.Default);
+    setIsReversed(false);
   };
 
-  const isResetButtonVisible = sortField || isReverse;
+  const isResetButtonVisible = sortType || isReversed;
 
-  const goodsList = prepareGoods(sortField, isReverse);
+  const goodsList = prepareGoods(sortType, isReversed);
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => setSortField(SortField.Alphabet)}
+          onClick={() => setSortType(SortType.Alphabet)}
           type="button"
-          className={`button is-info ${sortField !== SortField.Alphabet && 'is-light'}`}
+          className={classNames('button', 'is-info', {
+            'is-light': sortType !== SortType.Alphabet,
+          })}
         >
           Sort alphabetically
         </button>
 
         <button
-          onClick={() => setSortField(SortField.Length)}
+          onClick={() => setSortType(SortType.Length)}
           type="button"
-          className={`button is-success ${sortField !== SortField.Length && 'is-light'}`}
+          className={classNames('button', 'is-success', {
+            'is-light': sortType !== SortType.Length,
+          })}
         >
           Sort by length
         </button>
 
         <button
-          onClick={() => setIsReverse(!isReverse)}
+          onClick={() => setIsReversed(prev => !prev)}
           type="button"
-          className={`button is-warning ${!isReverse && 'is-light'}`}
+          className={classNames('button', 'is-warning', {
+            'is-light': !isReversed,
+          })}
         >
           Reverse
         </button>
@@ -106,3 +112,4 @@ export const App = () => {
     </div>
   );
 };
+
