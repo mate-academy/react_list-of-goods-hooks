@@ -69,7 +69,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={cn('button', 'is-info', {
+          className={cn('button', 'is-success', {
             'is-light': sortFild !== SORT_BY_LENGTH,
           })}
           onClick={() => {
@@ -81,7 +81,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={cn('button', 'is-info', {
+          className={cn('button', 'is-warning', {
             'is-light': reverseGood !== true,
           })}
           onClick={() => {
