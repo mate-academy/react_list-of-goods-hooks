@@ -52,6 +52,8 @@ export const App: React.FC = () => {
   const [sortFild, setSortFild] = useState('');
   const [reverseGood, setReverseGood] = useState(false);
 
+  const visibleGoods = visibleListGoods(goodsFromServer, sortFild, reverseGood);
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -91,12 +93,13 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {sortFild !== '' && (
+        {(sortFild !== '' || reverseGood) && (
           <button
             type="button"
             className="button is-danger is-light"
             onClick={() => {
               setSortFild('');
+              setReverseGood(false);
             }}
           >
             Reset
@@ -104,7 +107,7 @@ export const App: React.FC = () => {
         )}
       </div>
       <ul>
-        {visibleListGoods(goodsFromServer, sortFild, reverseGood).map(good => (
+        {visibleGoods.map(good => (
           <li key={good} data-cy="Good">
             {good}
           </li>
