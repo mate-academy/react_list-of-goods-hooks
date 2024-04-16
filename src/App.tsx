@@ -24,7 +24,7 @@ function getPreparedGoods(
   sortByType: string,
   isReverse: boolean,
 ): string[] {
-  let preparedGoods = [...goods];
+  const preparedGoods = [...goods];
 
   if (sortByType) {
     return preparedGoods.sort((good1: string, good2: string) => {
@@ -50,7 +50,7 @@ function getPreparedGoods(
   }
 
   if (isReverse) {
-    preparedGoods = [...goodsFromServer].reverse();
+    preparedGoods.reverse();
   }
 
   return preparedGoods;
@@ -62,6 +62,12 @@ export const App: React.FC = () => {
   const goods = [...goodsFromServer];
 
   const preparedGoods = getPreparedGoods(goods, sortBy, isReverse);
+
+  const handleIsReverse = () => setIsReverse(!isReverse);
+  const handleReset = () => {
+    setSortBy('');
+    setIsReverse(false);
+  };
 
   return (
     <div className="section content">
@@ -97,7 +103,7 @@ export const App: React.FC = () => {
             'is-warning': true,
             'is-light': !isReverse,
           })}
-          onClick={() => setIsReverse(!isReverse)}
+          onClick={handleIsReverse}
         >
           Reverse
         </button>
@@ -105,10 +111,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortBy('');
-              setIsReverse(false);
-            }}
+            onClick={handleReset}
           >
             Reset
           </button>
@@ -116,11 +119,8 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {preparedGoods.map(good => (
-          <li
-            data-cy="Good"
-            key={good}
-          >
+        {preparedGoods.map((good) => (
+          <li data-cy="Good" key={good}>
             {good}
           </li>
         ))}
