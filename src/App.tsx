@@ -63,7 +63,7 @@ export const App: React.FC = () => {
 
   const preparedGoods = getPreparedGoods(goods, sortBy, isReverse);
 
-  const handleIsReverse = () => setIsReverse(!isReverse);
+  const handleIsReverse = () => setIsReverse(prevReversed => !prevReversed);
   const handleReset = () => {
     setSortBy('');
     setIsReverse(false);
