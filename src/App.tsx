@@ -27,11 +27,14 @@ interface SortProps {
   reverse: boolean;
 }
 
-export function prepareList(list: string[], { sortField, reverse }: SortProps) {
-  const res = [...list];
+export function getPreparedList(
+  list: string[],
+  { sortField, reverse }: SortProps,
+) {
+  const listCopy = [...list];
 
   if (sortField) {
-    res.sort((a, b) => {
+    listCopy.sort((a, b) => {
       switch (sortField) {
         case SortType.name:
           return a.localeCompare(b);
@@ -44,21 +47,24 @@ export function prepareList(list: string[], { sortField, reverse }: SortProps) {
   }
 
   if (reverse) {
-    res.reverse();
+    listCopy.reverse();
   }
 
-  return res;
+  return listCopy;
 }
 
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState<SortType>(SortType.default);
-  const [reverse, setReverse] = useState(false);
+  const [isReverse, setIsReverse] = useState(false);
 
-  const goods = prepareList(goodsFromServer, { sortField, reverse });
+  const goods = getPreparedList(goodsFromServer, {
+    sortField,
+    reverse: isReverse,
+  });
 
   const reset = () => {
     setSortField(SortType.default);
-    setReverse(false);
+    setIsReverse(false);
   };
 
   return (
@@ -84,16 +90,16 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={() => setReverse(!reverse)}
+          onClick={() => setIsReverse(!isReverse)}
           type="button"
           className={cn('button', 'is-warning', {
-            'is-light': !reverse,
+            'is-light': !isReverse,
           })}
         >
           Reverse
         </button>
 
-        {(sortField || reverse) && (
+        {(sortField || isReverse) && (
           <button
             type="button"
             className="button is-danger is-light"
