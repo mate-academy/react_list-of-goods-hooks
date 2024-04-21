@@ -34,8 +34,10 @@ function getPreparedGoods(goods: string[], { sortField, order }: Props) {
       switch (sortField) {
         case SortType.alphabetically:
           return good1.localeCompare(good2);
+
         case SortType.length:
           return good1.length - good2.length;
+
         default:
           return 0;
       }
@@ -53,6 +55,11 @@ export const App: React.FC = () => {
   const [sortField, setSortField] = useState<SortType | ''>('');
   const [order, setOrder] = useState(false);
   const listOfGoods = getPreparedGoods(goodsFromServer, { sortField, order });
+
+  const reset = () => {
+    setSortField('');
+    setOrder(false);
+  };
 
   return (
     <div className="section content">
@@ -89,10 +96,7 @@ export const App: React.FC = () => {
 
         {(sortField || order) && (
           <button
-            onClick={() => {
-              setOrder(false);
-              setSortField('');
-            }}
+            onClick={reset}
             type="button"
             className="button is-danger is-light"
           >
