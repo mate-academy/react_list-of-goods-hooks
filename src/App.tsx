@@ -32,10 +32,19 @@ export function getReorderedGoods(
 ) {
   let visibleGoods = [...goods];
 
-  if (sortType === SortType.ALPHABET) {
-    visibleGoods = visibleGoods.sort((a, b) => a.localeCompare(b));
-  } else if (sortType === SortType.LENGTH) {
-    visibleGoods = visibleGoods.sort((a, b) => a.length - b.length);
+  switch (sortType) {
+    case SortType.NONE:
+      //prevents error in case of reset
+      break;
+    case SortType.ALPHABET:
+      visibleGoods = visibleGoods.sort((a, b) => a.localeCompare(b));
+      break;
+    case SortType.LENGTH:
+      visibleGoods = visibleGoods.sort((a, b) => a.length - b.length);
+      break;
+    default:
+      // eslint-disable-next-line no-console
+      console.error('Unexpected sort type:', sortType);
   }
 
   if (isReversed) {
@@ -52,12 +61,8 @@ export const App: React.FC = () => {
   const [sortType, setSortType] = useState<SortType>(SortType.NONE);
   const [isReversed, setIsReversed] = useState<boolean>(false);
 
-  const handleSortAlphabetically = () => {
-    setSortType(SortType.ALPHABET);
-  };
-
-  const handleSortByLength = () => {
-    setSortType(SortType.LENGTH);
+  const handleSort = (passedSortType: SortType) => {
+    setSortType(passedSortType);
   };
 
   const handleReverse = () => {
@@ -79,7 +84,7 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          onClick={handleSortAlphabetically}
+          onClick={() => handleSort(SortType.ALPHABET)}
           className={`button is-info ${sortType === SortType.ALPHABET ? '' : 'is-light'}`}
         >
           Sort alphabetically
@@ -87,7 +92,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          onClick={handleSortByLength}
+          onClick={() => handleSort(SortType.LENGTH)}
           className={`button is-success ${sortType === SortType.LENGTH ? '' : 'is-light'}`}
         >
           Sort by length
