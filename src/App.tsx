@@ -18,29 +18,29 @@ export const goodsFromServer = [
 
 export const App: React.FC = () => {
   enum Sort {
-    none = '',
-    alph = 'alph',
-    length = 'length',
+    None = '',
+    Alphabetic = 'alphabetic',
+    Length = 'length',
   }
 
-  const [sortMethod, setSortmethod] = useState<Sort>(Sort.none);
-  const [isReverse, changeReverse] = useState(false);
-  let goods = [...goodsFromServer];
+  const [sortMethod, setSortmethod] = useState<Sort>(Sort.None);
+  const [isReversed, changeReverse] = useState(false);
+  const goods = [...goodsFromServer];
 
   switch (sortMethod) {
-    case Sort.none:
-      goods = [...goodsFromServer];
-      break;
-
-    case Sort.alph:
+    case Sort.Alphabetic:
       goods.sort((a, b) => a.localeCompare(b));
       break;
 
-    case Sort.length:
+    case Sort.Length:
       goods.sort((a, b) => a.length - b.length);
+      break;
+
+    default:
+      break;
   }
 
-  if (isReverse) {
+  if (isReversed) {
     goods.reverse();
   }
 
@@ -49,11 +49,11 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={cn('button is-success', {
-            'is-light': Sort.alph !== sortMethod,
+          className={cn('button is-info', {
+            'is-light': Sort.Alphabetic !== sortMethod,
           })}
           onClick={() => {
-            setSortmethod(Sort.alph);
+            setSortmethod(Sort.Alphabetic);
           }}
         >
           Sort alphabetically
@@ -62,10 +62,10 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-success', {
-            'is-light': Sort.length !== sortMethod,
+            'is-light': Sort.Length !== sortMethod,
           })}
           onClick={() => {
-            setSortmethod(Sort.length);
+            setSortmethod(Sort.Length);
           }}
         >
           Sort by length
@@ -74,9 +74,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-warning', {
-            'is-light': !isReverse,
+            'is-light': !isReversed,
           })}
-          onClick={() => changeReverse(!isReverse)}
+          onClick={() => changeReverse(!isReversed)}
         >
           Reverse
         </button>
@@ -85,10 +85,10 @@ export const App: React.FC = () => {
           type="button"
           className="button is-danger is-light"
           style={{
-            display: !isReverse && sortMethod === Sort.none ? 'none' : 'block',
+            display: !isReversed && sortMethod === Sort.None ? 'none' : 'block',
           }}
           onClick={() => {
-            setSortmethod(Sort.none);
+            setSortmethod(Sort.None);
             changeReverse(false);
           }}
         >
