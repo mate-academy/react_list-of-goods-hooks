@@ -18,10 +18,11 @@ export const goodsFromServer = [
 enum SortType {
   ABC = 'ABC',
   LENGTH = 'LENGTH',
+  DEFFAULT = 'DEFAULT',
 }
 
 type Props = {
-  sortField: SortType | '';
+  sortField: SortType;
   order: boolean;
 };
 
@@ -49,7 +50,7 @@ function getPreparedGoods(goods: string[], { sortField, order }: Props) {
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState<SortType | ''>('');
+  const [sortField, setSortField] = useState<SortType>(SortType.DEFAULT);
   const [order, setOrder] = useState(false);
   const listOfGoods = getPreparedGoods(goodsFromServer, { sortField, order });
 
