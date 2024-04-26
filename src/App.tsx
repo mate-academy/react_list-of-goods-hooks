@@ -60,6 +60,11 @@ export const App: React.FC = () => {
     sortReverse,
   });
 
+  function resetGoodsList() {
+    setSortReverse(false);
+    setSortField('');
+  }
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -99,10 +104,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortReverse(false);
-              setSortField('');
-            }}
+            onClick={() => resetGoodsList()}
           >
             Reset
           </button>
