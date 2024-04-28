@@ -17,8 +17,9 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  ByAlphabet = 'alphabet',
-  ByLength = 'length',
+  Alphabet = 'alphabet',
+  Length = 'length',
+  Default = '',
 }
 
 type SortBy = {
@@ -32,9 +33,9 @@ const getPrepareGoods = (goods: string[], { sortBy, isReverse }: SortBy) => {
   if (sortBy) {
     prepareGoods.sort((good1, good2) => {
       switch (sortBy) {
-        case SortType.ByAlphabet:
+        case SortType.Alphabet:
           return good1.localeCompare(good2);
-        case SortType.ByLength:
+        case SortType.Length:
           return good1.length - good2.length;
         default:
           return 0;
@@ -50,7 +51,7 @@ const getPrepareGoods = (goods: string[], { sortBy, isReverse }: SortBy) => {
 };
 
 export const App: React.FC = () => {
-  const [sortBy, setSortBy] = useState('');
+  const [sortBy, setSortBy] = useState(SortType.Default);
   const [isReverse, setIsReverse] = useState(false);
   const visibleGoods = getPrepareGoods(goodsFromServer, { sortBy, isReverse });
 
@@ -58,20 +59,20 @@ export const App: React.FC = () => {
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => setSortBy(SortType.ByAlphabet)}
+          onClick={() => setSortBy(SortType.Alphabet)}
           type="button"
           className={cn('button is-info', {
-            'is-light': sortBy !== SortType.ByAlphabet,
+            'is-light': sortBy !== SortType.Alphabet,
           })}
         >
           Sort alphabetically
         </button>
 
         <button
-          onClick={() => setSortBy(SortType.ByLength)}
+          onClick={() => setSortBy(SortType.Length)}
           type="button"
           className={cn('button is-success', {
-            'is-light': sortBy !== SortType.ByLength,
+            'is-light': sortBy !== SortType.Length,
           })}
         >
           Sort by length
@@ -90,7 +91,7 @@ export const App: React.FC = () => {
         {(sortBy || isReverse) && (
           <button
             onClick={() => {
-              setSortBy('');
+              setSortBy(SortType.Default);
               setIsReverse(false);
             }}
             type="button"
