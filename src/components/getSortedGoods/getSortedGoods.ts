@@ -2,7 +2,8 @@ import { SortType, SortedGoods } from '../../App';
 
 export const getSortedGoods = (
   goods: string[],
-  { sortField, goodsReverse }: SortedGoods,) => {
+  { sortField, goodsReverse }: SortedGoods,
+) => {
   let prepearedGoods: string[] = [...goods];
 
   if (sortField) {
