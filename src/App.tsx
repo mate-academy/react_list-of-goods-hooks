@@ -86,16 +86,18 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        <button
-          type="button"
-          className="button is-danger is-light"
-          onClick={() => {
-            setSortBy(SortField.NoField);
-            setReversed(false);
-          }}
-        >
-          Reset
-        </button>
+        {(sortBy || reversed) && (
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={() => {
+              setSortBy(SortField.NoField);
+              setReversed(false);
+            }}
+          >
+            Reset
+          </button>
+        )}
       </div>
 
       <ul>
