@@ -33,8 +33,10 @@ export const App: React.FC = () => {
         switch (sortedBtn) {
           case SortBy.SORT_BY_ALPHABET:
             return good1.localeCompare(good2);
+
           case SortBy.SORT_BY_LENGTH:
             return good1.length - good2.length;
+
           default:
             return 0;
         }
@@ -49,6 +51,10 @@ export const App: React.FC = () => {
   };
 
   const finalGoods = prepareGoods();
+  const reset = (): void => {
+    setSortedBtn('');
+    setIsReverse(false);
+  };
 
   return (
     <div className="section content">
@@ -85,10 +91,7 @@ export const App: React.FC = () => {
 
         {(sortedBtn || isReverse) && (
           <button
-            onClick={() => {
-              setSortedBtn('');
-              setIsReverse(false);
-            }}
+            onClick={reset}
             type="button"
             className="button is-danger is-light"
           >
