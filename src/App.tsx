@@ -17,10 +17,6 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-interface Props {
-  goodsFromServer: string[];
-}
-
 enum SortType {
   alphabetically = 'alphabetically',
   length = 'length',
@@ -38,18 +34,18 @@ function getPreparedGoods(goods: Good[], { sortField, reversed }: SortOptions) {
   const preparedGoods: Good[] = [...goods];
 
   if (sortField) {
-    preparedGoods.sort((good1, good2) => {
-      switch (sortField) {
-        case SortType.alphabetically:
-          return good1.localeCompare(good2);
-        case SortType.length:
-          return good1.length - good2.length;
-        case SortType.reset:
-          return [...goodsFromServer];
-        default:
-          return 0;
-      }
-    });
+    switch (sortField) {
+      case SortType.alphabetically:
+        preparedGoods.sort((good1, good2) => good1.localeCompare(good2));
+        break;
+      case SortType.length:
+        preparedGoods.sort((good1, good2) => good1.length - good2.length);
+        break;
+      case SortType.reset:
+        return goods;
+      default:
+        break;
+    }
   }
 
   if (reversed) {
@@ -59,7 +55,7 @@ function getPreparedGoods(goods: Good[], { sortField, reversed }: SortOptions) {
   return preparedGoods;
 }
 
-export const App: React.FC<Props> = () => {
+export const App: React.FC = () => {
   const [sortField, setSortField] = useState('');
   const [reversed, setReversed] = useState(false);
 
