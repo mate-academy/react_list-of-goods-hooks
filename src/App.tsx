@@ -64,7 +64,11 @@ export const App = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${cn({ 'is-light': sortField !== SortField.Name })}`}
+          className={cn({
+            button: true,
+            'is-info': true,
+            'is-light': sortField !== SortField.Name,
+          })}
           onClick={() => setSortField(SortField.Name)}
         >
           Sort alphabetically
@@ -72,7 +76,11 @@ export const App = () => {
 
         <button
           type="button"
-          className={`button is-success ${cn({ 'is-light': sortField !== SortField.Length })}`}
+          className={cn({
+            button: true,
+            'is-success': true,
+            'is-light': sortField !== SortField.Length,
+          })}
           onClick={() => setSortField(SortField.Length)}
         >
           Sort by length
@@ -80,7 +88,11 @@ export const App = () => {
 
         <button
           type="button"
-          className={`button is-warning ${cn({ 'is-light': !reversed })}`}
+          className={cn({
+            button: true,
+            'is-warning': true,
+            'is-light': !reversed,
+          })}
           onClick={() => {
             setReversed(!reversed);
           }}
