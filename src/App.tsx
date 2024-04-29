@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 
 import 'bulma/css/bulma.css';
+import cn from 'classnames';
 
 import './App.scss';
 import { GoodsList } from './Components/GoodsList/GoodsList';
@@ -22,13 +23,7 @@ export const goodsFromServer: string[] = [
 enum SortType {
   Alphabetically = 'Alphabetically',
   Length = 'Length',
-}
-
-enum ButtonType {
-  Alphabetically = 'Sort alphabetically',
-  Length = 'Sort by length',
-  Reverse = 'Reverse',
-  Reset = 'Reset',
+  None = '',
 }
 
 function getSortedGoods(
@@ -59,8 +54,8 @@ function getSortedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sort, setSort] = useState<SortType | ''>('');
-  const [reverse, setReverse] = useState<boolean>(false);
+  const [sort, setSort] = useState<SortType>(SortType.None);
+  const [reverse, setReverse] = useState(false);
   const visibleGoods = getSortedGoods(goodsFromServer, sort, reverse);
 
   return (
@@ -71,7 +66,7 @@ export const App: React.FC = () => {
           className={`button is-info ${sort !== SortType.Alphabetically ? 'is-light' : ''} `}
           onClick={() => setSort(SortType.Alphabetically)}
         >
-          {ButtonType.Alphabetically}
+          Sort alphabetically
         </button>
 
         <button
@@ -79,15 +74,17 @@ export const App: React.FC = () => {
           className={`button is-success ${sort !== SortType.Length ? 'is-light' : ''} `}
           onClick={() => setSort(SortType.Length)}
         >
-          {ButtonType.Length}
+          Sort by length
         </button>
 
         <button
           type="button"
-          className={`button is-warning ${!reverse && 'is-light'} `}
+          className={cn('button is-warning', {
+            'is-light': !reverse,
+          })}
           onClick={() => setReverse(!reverse)}
         >
-          {ButtonType.Reverse}
+          Reverse
         </button>
 
         {(sort !== '' || reverse) && (
@@ -95,11 +92,11 @@ export const App: React.FC = () => {
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              setSort('');
+              setSort(SortType.None);
               setReverse(false);
             }}
           >
-            {ButtonType.Reset}
+            Reset
           </button>
         )}
       </div>
