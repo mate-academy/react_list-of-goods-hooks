@@ -1,6 +1,7 @@
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
-import React, { useState } from 'react';
+import { GoodList } from './components/GoodList/GoodList';
 
 export enum Goods {
   Dumplings = 'Dumplings',
@@ -15,76 +16,96 @@ export enum Goods {
   Garlic = 'Garlic',
 }
 
-export const App: React.FC = () => {
-  const [selected, setSelected] = useState(true);
-  const [selectGood, setSelectGood] = useState('Jam');
+export enum SortFild {
+  alphabet = 'alphabet',
+  length = 'length',
+}
 
-  function handleSelection(product: Goods) {
-    let select = true;
+function getPreparedGoods(
+  goods: Goods[],
+  { sortField, reverse }: { sortField: SortFild | ''; reverse: boolean },
+) {
+  let preparedGoods = [...goods];
 
-    if (!product) {
-      select = false;
-    }
-
-    setSelectGood(product);
-    setSelected(select);
+  if (sortField) {
+    preparedGoods.sort((good1, good2) => {
+      switch (sortField) {
+        case SortFild.alphabet:
+          return good1.localeCompare(good2);
+        case SortFild.length:
+          return good1.length - good2.length;
+        default:
+          return 0;
+      }
+    });
   }
 
-  const handleResetClick = () => {
-    setSelected(false);
-    setSelectGood('');
+  if (reverse) {
+    preparedGoods = preparedGoods.reverse();
+  }
+
+  return preparedGoods;
+}
+
+export const App: React.FC = () => {
+  const goods = Object.values(Goods);
+
+  const [sortField, setSortField] = useState<SortFild | ''>('');
+  const [reverse, setReverse] = useState(false);
+
+  const visibleGoods = getPreparedGoods(goods, {
+    sortField,
+    reverse,
+  });
+
+  const toggleReverse = () => {
+    setReverse(!reverse);
+  };
+
+  const reset = () => {
+    setSortField('');
+    setReverse(false);
   };
 
   return (
-    <main className="section container">
-      {selected ? (
-        <h1 className="title is-flex is-align-items-center">
-          {selectGood} is selected
+    <div className="section content">
+      <div className="buttons">
+        <button
+          type="button"
+          className={`button is-info ${sortField !== SortFild.alphabet && 'is-light'}`}
+          onClick={() => setSortField(SortFild.alphabet)}
+        >
+          Sort alphabetically
+        </button>
+
+        <button
+          type="button"
+          className={`button is-success ${sortField !== SortFild.length && 'is-light'}`}
+          onClick={() => setSortField(SortFild.length)}
+        >
+          Sort by length
+        </button>
+
+        <button
+          type="button"
+          className={`button is-warning ${!reverse && 'is-light'}`}
+          onClick={toggleReverse}
+        >
+          Reverse
+        </button>
+
+        {sortField || reverse ? (
           <button
-            data-cy="ClearButton"
             type="button"
-            className="delete ml-3"
-            onClick={handleResetClick}
-          />
-        </h1>
-      ) : (
-        <h1 className="title is-flex is-align-items-center">
-          No goods selected
-        </h1>
-      )}
+            className="button is-danger is-light"
+            onClick={reset}
+          >
+            Reset
+          </button>
+        ) : null}
+      </div>
 
-      <table className="table">
-        <tbody>
-          {Object.values(Goods).map(good => {
-            const isSelect = selectGood === good;
-
-            return (
-              <tr
-                key={good}
-                data-cy="Good"
-                className={
-                  isSelect ? 'has-background-success-light' : undefined
-                }
-              >
-                <td>
-                  <button
-                    data-cy={isSelect ? 'RemoveButton' : 'AddButton'}
-                    type="button"
-                    className={`button ${isSelect ? 'is-info' : ''}`}
-                    onClick={() => handleSelection(isSelect ? Goods.Jam : good)}
-                  >
-                    {isSelect ? '-' : '+'}
-                  </button>
-                </td>
-
-                <td data-cy="GoodTitle" className="is-vcentered">
-                  {good}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </main>
+      <GoodList goods={visibleGoods} />
+    </div>
   );
 };
