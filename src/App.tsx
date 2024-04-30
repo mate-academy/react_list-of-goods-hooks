@@ -2,6 +2,8 @@ import classNames from 'classnames';
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import { getPreparedGoods } from './Filter/Filter';
+import { SortField } from './Filter/type';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -16,42 +18,8 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-enum SortField {
-  Name = 'name',
-  Length = 'length',
-  NoField = '',
-}
-
-type SortProps = {
-  sortBy: SortField;
-  reversed: boolean;
-};
-
-function getPreparedGoods(products: string[], { sortBy, reversed }: SortProps) {
-  const copy = [...products];
-
-  if (sortBy) {
-    copy.sort((a, b) => {
-      switch (sortBy) {
-        case SortField.Name:
-          return a.localeCompare(b);
-        case SortField.Length:
-          return a.length - b.length;
-        default:
-          return 0;
-      }
-    });
-  }
-
-  if (reversed) {
-    return copy.reverse();
-  }
-
-  return copy;
-}
-
 export const App: React.FC = () => {
-  const [sortBy, setSortBy] = useState(SortField.NoField);
+  const [sortBy, setSortBy] = useState(SortField.Default);
   const [reversed, setReversed] = useState(false);
 
   const visibleGoods = getPreparedGoods(goodsFromServer, {
@@ -91,7 +59,7 @@ export const App: React.FC = () => {
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              setSortBy(SortField.NoField);
+              setSortBy(SortField.Default);
               setReversed(false);
             }}
           >
