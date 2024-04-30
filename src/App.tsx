@@ -99,7 +99,7 @@ export const App: React.FC = () => {
       <ul>
         {goodsList.map(good => (
           <li data-cy="Good" key={good}>
-            {good}{' '}
+            {good}
           </li>
         ))}
       </ul>
