@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+import cn from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
-import cn from 'classnames';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -109,15 +109,12 @@ export const App: React.FC = () => {
           </button>
         )}
       </div>
-
       <ul>
-        <ul>
-          {visibleGoods.map(good => (
-            <li key={good} data-cy="Good">
-              {good}
-            </li>
-          ))}
-        </ul>
+        {visibleGoods.map(good => (
+          <li key={good} data-cy="Good">
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
