@@ -1,51 +1,90 @@
-import React from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import React, { useState } from 'react';
 
-export const goodsFromServer = [
-  'Dumplings',
-  'Carrot',
-  'Eggs',
-  'Ice cream',
-  'Apple',
-  'Bread',
-  'Fish',
-  'Honey',
-  'Jam',
-  'Garlic',
-];
+export enum Goods {
+  Dumplings = 'Dumplings',
+  Carrot = 'Carrot',
+  Eggs = 'Eggs',
+  IceCream = 'Ice cream',
+  Apple = 'Apple',
+  Bread = 'Bread',
+  Fish = 'Fish',
+  Honey = 'Honey',
+  Jam = 'Jam',
+  Garlic = 'Garlic',
+}
 
 export const App: React.FC = () => {
+  const [selected, setSelected] = useState(true);
+  const [selectGood, setSelectGood] = useState('Jam');
+
+  function handleSelection(product: Goods) {
+    let select = true;
+
+    if (!product) {
+      select = false;
+    }
+
+    setSelectGood(product);
+    setSelected(select);
+  }
+
+  const handleResetClick = () => {
+    setSelected(false);
+    setSelectGood('');
+  };
+
   return (
-    <div className="section content">
-      <div className="buttons">
-        <button type="button" className="button is-info is-light">
-          Sort alphabetically
-        </button>
+    <main className="section container">
+      {selected ? (
+        <h1 className="title is-flex is-align-items-center">
+          {selectGood} is selected
+          <button
+            data-cy="ClearButton"
+            type="button"
+            className="delete ml-3"
+            onClick={handleResetClick}
+          />
+        </h1>
+      ) : (
+        <h1 className="title is-flex is-align-items-center">
+          No goods selected
+        </h1>
+      )}
 
-        <button type="button" className="button is-success is-light">
-          Sort by length
-        </button>
+      <table className="table">
+        <tbody>
+          {Object.values(Goods).map(good => {
+            const isSelect = selectGood === good;
 
-        <button type="button" className="button is-warning is-light">
-          Reverse
-        </button>
+            return (
+              <tr
+                key={good}
+                data-cy="Good"
+                className={
+                  isSelect ? 'has-background-success-light' : undefined
+                }
+              >
+                <td>
+                  <button
+                    data-cy={isSelect ? 'RemoveButton' : 'AddButton'}
+                    type="button"
+                    className={`button ${isSelect ? 'is-info' : ''}`}
+                    onClick={() => handleSelection(isSelect ? Goods.Jam : good)}
+                  >
+                    {isSelect ? '-' : '+'}
+                  </button>
+                </td>
 
-        <button type="button" className="button is-danger is-light">
-          Reset
-        </button>
-      </div>
-
-      <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
-      </ul>
-    </div>
+                <td data-cy="GoodTitle" className="is-vcentered">
+                  {good}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </main>
   );
 };
