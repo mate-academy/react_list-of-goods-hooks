@@ -23,7 +23,7 @@ export enum SortFild {
 
 function getPreparedGoods(
   goods: Goods[],
-  { sortField, reverse }: { sortField: SortFild | ''; reverse: boolean },
+  { sortField, isReversed }: { sortField: SortFild | ''; isReversed: boolean },
 ) {
   let preparedGoods = [...goods];
 
@@ -40,7 +40,7 @@ function getPreparedGoods(
     });
   }
 
-  if (reverse) {
+  if (isReversed) {
     preparedGoods = preparedGoods.reverse();
   }
 
@@ -51,15 +51,15 @@ export const App: React.FC = () => {
   const goods = Object.values(Goods);
 
   const [sortField, setSortField] = useState<SortFild | ''>('');
-  const [reverse, setReverse] = useState(false);
+  const [isReversed, setReverse] = useState(false);
 
   const visibleGoods = getPreparedGoods(goods, {
     sortField,
-    reverse,
+    isReversed,
   });
 
   const toggleReverse = () => {
-    setReverse(!reverse);
+    setReverse(!isReversed);
   };
 
   const reset = () => {
@@ -67,12 +67,16 @@ export const App: React.FC = () => {
     setReverse(false);
   };
 
+  const getClassIslight = (SortFildKey: SortFild) => {
+    return `button is-info ${sortField !== SortFildKey && 'is-light'}`;
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortField !== SortFild.alphabet && 'is-light'}`}
+          className={getClassIslight(SortFild.alphabet)}
           onClick={() => setSortField(SortFild.alphabet)}
         >
           Sort alphabetically
@@ -80,7 +84,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-success ${sortField !== SortFild.length && 'is-light'}`}
+          className={getClassIslight(SortFild.length)}
           onClick={() => setSortField(SortFild.length)}
         >
           Sort by length
@@ -88,13 +92,13 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-warning ${!reverse && 'is-light'}`}
+          className={`button is-warning ${!isReversed && 'is-light'}`}
           onClick={toggleReverse}
         >
           Reverse
         </button>
 
-        {sortField || reverse ? (
+        {sortField || isReversed ? (
           <button
             type="button"
             className="button is-danger is-light"
