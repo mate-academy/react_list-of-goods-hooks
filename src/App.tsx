@@ -19,6 +19,7 @@ export enum Goods {
 export enum SortFild {
   alphabet = 'alphabet',
   length = 'length',
+  nome = '',
 }
 
 function getPreparedGoods(
@@ -50,7 +51,7 @@ function getPreparedGoods(
 export const App: React.FC = () => {
   const goods = Object.values(Goods);
 
-  const [sortField, setSortField] = useState<SortFild | ''>('');
+  const [sortField, setSortField] = useState<SortFild>(SortFild.nome);
   const [isReversed, setReverse] = useState(false);
 
   const visibleGoods = getPreparedGoods(goods, {
@@ -63,12 +64,12 @@ export const App: React.FC = () => {
   };
 
   const reset = () => {
-    setSortField('');
+    setSortField(SortFild.nome);
     setReverse(false);
   };
 
   const getClassIslight = (SortFildKey: SortFild) => {
-    return `button is-info ${sortField !== SortFildKey && 'is-light'}`;
+    return `button ${sortField !== SortFildKey && 'is-light'}`;
   };
 
   return (
@@ -76,7 +77,7 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={getClassIslight(SortFild.alphabet)}
+          className={`is-info ${getClassIslight(SortFild.alphabet)}`}
           onClick={() => setSortField(SortFild.alphabet)}
         >
           Sort alphabetically
@@ -84,7 +85,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={getClassIslight(SortFild.length)}
+          className={`is-success ${getClassIslight(SortFild.length)}`}
           onClick={() => setSortField(SortFild.length)}
         >
           Sort by length
@@ -98,7 +99,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {sortField || isReversed ? (
+        {(sortField || isReversed) && (
           <button
             type="button"
             className="button is-danger is-light"
@@ -106,7 +107,7 @@ export const App: React.FC = () => {
           >
             Reset
           </button>
-        ) : null}
+        )}
       </div>
 
       <GoodList goods={visibleGoods} />

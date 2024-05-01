@@ -1,5 +1,4 @@
 import React from 'react';
-
 export type Props = {
   good: string;
 };
