@@ -25,9 +25,9 @@ const prepareGoods = (goods: string[], sortField: string) => {
   const preparedGoods = [...goods];
 
   switch (sortField) {
-    case sortFields.SORT_FIELD_ALPHABETE:
+    case SortFields.SORT_FIELD_ALPHABETE:
       return preparedGoods.sort((a, b) => a.localeCompare(b));
-    case sortFields.SORT_FIELD_LENGTH:
+    case SortFields.SORT_FIELD_LENGTH:
       return preparedGoods.sort((a, b) => {
         const lengthDifference = a.length - b.length;
 
@@ -70,9 +70,9 @@ export const App = () => {
         <button
           type="button"
           className={classNames('button is-info', {
-            'is-light': sortField !== sortFields.SORT_FIELD_ALPHABETE,
+            'is-light': sortField !== SortFields.SORT_FIELD_ALPHABETE,
           })}
-          onClick={() => onSortChange(sortFields.SORT_FIELD_ALPHABETE)}
+          onClick={() => onSortChange(SortFields.SORT_FIELD_ALPHABETE)}
         >
           Sort alphabetically
         </button>
@@ -80,9 +80,9 @@ export const App = () => {
         <button
           type="button"
           className={classNames('button is-success', {
-            'is-light': sortField !== sortFields.SORT_FIELD_LENGTH,
+            'is-light': sortField !== SortFields.SORT_FIELD_LENGTH,
           })}
-          onClick={() => onSortChange(sortFields.SORT_FIELD_LENGTH)}
+          onClick={() => onSortChange(SortFields.SORT_FIELD_LENGTH)}
         >
           Sort by length
         </button>
