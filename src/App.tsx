@@ -19,6 +19,7 @@ export const goodsFromServer = [
 export enum SortFields {
   SORT_FIELD_ALPHABETE = 'Sort alphabetically',
   SORT_FIELD_LENGTH = 'Sort by length',
+  SORT_FIELD_DEFAULT = ''
 }
 
 const prepareGoods = (goods: string[], sortField: string) => {
@@ -43,7 +44,7 @@ const prepareGoods = (goods: string[], sortField: string) => {
 };
 
 export const App = () => {
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState(SortFields.SORT_FIELD_DEFAULT);
   const [isReversed, setIsReversed] = useState(false);
   let visibleGoods = prepareGoods(goodsFromServer, sortField);
 
@@ -51,7 +52,7 @@ export const App = () => {
     visibleGoods = [...visibleGoods].reverse();
   }
 
-  const onSortChange = (field: string | ((prevState: string) => string)) => {
+  const onSortChange = (field: SortFields | ((prevState: SortFields) => SortFields)) => {
     setSortField(field);
   };
 
