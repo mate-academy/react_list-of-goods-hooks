@@ -3,9 +3,6 @@ import 'bulma/css/bulma.css';
 import './App.scss';
 import cn from 'classnames';
 
-const SORT_ALPHABET = 'alphabet';
-const SORT_LENGTH = 'length';
-
 export const goodsFromServer = [
   'Dumplings',
   'Carrot',
@@ -33,10 +30,10 @@ const sortGoodsBy = (goods: string[], { sortField, reversed }: Filter) => {
   const copyGoods = [...goods];
 
   switch (sortField) {
-    case SORT_ALPHABET:
+    case SortType.Alphabet:
       copyGoods.sort((a, b) => a.localeCompare(b));
       break;
-    case SORT_LENGTH:
+    case SortType.Length:
       copyGoods.sort((a, b) => a.length - b.length);
       break;
     default:
