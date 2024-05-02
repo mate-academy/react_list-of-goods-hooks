@@ -19,6 +19,8 @@ export const goodsFromServer: string[] = [
 enum SortType {
   alpha = 'alpha',
   length = 'length',
+  Default = '',
+  All = 'All',
 }
 
 function getPreparedGoods(
@@ -50,9 +52,9 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState(SortType.All);
   const [reverseOrder, setReverseOrder] = useState(false);
-  const visibleGoods = getPreparedGoods(
+  const visibleGoods: string[] = getPreparedGoods(
     goodsFromServer,
     sortField,
     reverseOrder,
@@ -63,7 +65,7 @@ export const App: React.FC = () => {
   };
 
   const handleResetClick = (): void => {
-    setSortField('');
+    setSortField(SortType.All);
     setReverseOrder(false);
   };
 
@@ -72,11 +74,11 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           onClick={() => {
-            setSortField('alpha');
+            setSortField(SortType.alpha);
           }}
           type="button"
           className={cn('button', 'is-info', {
-            'is-light': sortField !== 'alpha',
+            'is-light': sortField !== SortType.alpha,
           })}
         >
           Sort alphabetically
@@ -84,11 +86,11 @@ export const App: React.FC = () => {
 
         <button
           onClick={() => {
-            setSortField('length');
+            setSortField(SortType.length);
           }}
           type="button"
           className={cn('button', 'is-success', {
-            'is-light': sortField !== 'length',
+            'is-light': sortField !== SortType.length,
           })}
         >
           Sort by length
@@ -105,7 +107,7 @@ export const App: React.FC = () => {
         >
           Reverse
         </button>
-        {visibleGoods[0] !== goodsFromServer[0] ? (
+        {(sortField !== SortType.All || reverseOrder) && (
           <button
             onClick={handleResetClick}
             type="button"
@@ -113,8 +115,6 @@ export const App: React.FC = () => {
           >
             Reset
           </button>
-        ) : (
-          ''
         )}
       </div>
       <ul>
