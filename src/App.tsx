@@ -19,7 +19,6 @@ export const goodsFromServer: string[] = [
 enum SortType {
   alpha = 'alpha',
   length = 'length',
-  Default = '',
   All = 'All',
 }
 
