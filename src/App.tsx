@@ -20,7 +20,6 @@ export const goodsFromServer = [
 enum SortType {
   ALPHABETICALLY = 'alphabetically',
   BY_LENGTH = 'by_length',
-  REVERSE = 'reverse',
   DEFAULT = 'default',
 }
 
@@ -51,8 +50,8 @@ export const App: React.FC = () => {
   const [isReverse, setIsReverse] = useState(false);
 
   function handleSortClick(newSortField: SortType) {
-    if (newSortField === SortType.REVERSE) {
-      setIsReverse(!isReverse);
+    if (newSortField === sortField) {
+      setIsReverse(isReverse);
     } else {
       setSortField(newSortField);
     }
@@ -86,9 +85,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button', 'is-warning', {
-            'is-light': sortField !== SortType.REVERSE && !isReverse,
+            'is-light': !isReverse,
           })}
-          onClick={() => handleSortClick(SortType.REVERSE)}
+          onClick={() => setIsReverse(!isReverse)}
         >
           Reverse
         </button>
