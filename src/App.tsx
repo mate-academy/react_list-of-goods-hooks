@@ -8,6 +8,7 @@ import './App.scss';
 enum SortType {
   Alphabetical = 'alphabetical',
   Length = 'length',
+  Default = '',
 }
 
 export const goodsFromServer: string[] = [
@@ -25,15 +26,22 @@ export const goodsFromServer: string[] = [
 
 const getPreparedGoods = (
   goods: string[],
-  sortType: SortType | null,
+  sortType: SortType,
   reverse: boolean,
 ): string[] => {
   const preparedGoods = [...goods];
 
-  if (sortType === SortType.Alphabetical) {
-    preparedGoods.sort((good1, good2) => good1.localeCompare(good2));
-  } else if (sortType === SortType.Length) {
-    preparedGoods.sort((good1, good2) => good1.length - good2.length);
+  switch (sortType) {
+    case SortType.Alphabetical:
+      preparedGoods.sort((good1, good2) => good1.localeCompare(good2));
+      break;
+
+    case SortType.Length:
+      preparedGoods.sort((good1, good2) => good1.length - good2.length);
+      break;
+
+    default:
+      break;
   }
 
   if (reverse) {
@@ -44,7 +52,7 @@ const getPreparedGoods = (
 };
 
 export const App: React.FC = () => {
-  const [sortType, setSortType] = useState<SortType | null>(null);
+  const [sortType, setSortType] = useState(SortType.Default);
   const [reverse, setReverse] = useState<boolean>(false);
 
   const visibleGoods = getPreparedGoods(goodsFromServer, sortType, reverse);
@@ -54,7 +62,7 @@ export const App: React.FC = () => {
   };
 
   const resetSort = () => {
-    setSortType(null);
+    setSortType(SortType.Default);
     setReverse(false);
   };
 
@@ -91,7 +99,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortType !== null || reverse) && (
+        {(sortType !== '' || reverse) && (
           <button
             type="button"
             className="button is-danger is-light"
