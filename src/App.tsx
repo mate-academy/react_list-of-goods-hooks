@@ -21,8 +21,8 @@ enum SortType {
 }
 
 interface SortBy {
-  reverseOrder: boolean;
-  sortField: SortType | '';
+  reverseOrder?: boolean;
+  sortField?: SortType | '';
 }
 
 interface Goods {
@@ -63,14 +63,30 @@ export const App: React.FC = () => {
 
   const goods = getPreparedGoods(goodsFromServer, { sortField, reverseOrder });
   const isGoods = goodsFromServer.every((good, i) => good === goods[i]);
+  const handleSortField = ({
+    sortField: field,
+    reverseOrder: order,
+  }: SortBy) => {
+    if (
+      field === SortType.Alphabetically ||
+      field === SortType.Length ||
+      field === ''
+    ) {
+      setSortField(field);
+    }
+
+    if (order === false || order === true) {
+      setReverseOrder(order);
+    }
+  };
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => {
-            setSortField(SortType.Alphabetically);
-          }}
+          onClick={() =>
+            handleSortField({ sortField: SortType.Alphabetically })
+          }
           type="button"
           className={`button is-info ${sortField === SortType.Alphabetically ? null : 'is-light'}`}
         >
@@ -78,9 +94,7 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={() => {
-            setSortField(SortType.Length);
-          }}
+          onClick={() => handleSortField({ sortField: SortType.Length })}
           type="button"
           className={`button is-success ${sortField === SortType.Length ? null : 'is-light'}`}
         >
@@ -88,9 +102,7 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={() => {
-            setReverseOrder(!reverseOrder);
-          }}
+          onClick={() => handleSortField({ reverseOrder: !reverseOrder })}
           type="button"
           className={`button is-warning ${reverseOrder ? null : 'is-light'}`}
         >
@@ -98,10 +110,9 @@ export const App: React.FC = () => {
         </button>
         {!isGoods ? (
           <button
-            onClick={() => {
-              setSortField('');
-              setReverseOrder(false);
-            }}
+            onClick={() =>
+              handleSortField({ sortField: '', reverseOrder: false })
+            }
             type="button"
             className="button is-danger is-light"
           >
