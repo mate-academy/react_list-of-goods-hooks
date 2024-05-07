@@ -22,6 +22,11 @@ export const App: React.FC = () => {
   const [sortBy, setSortBy] = useState(SortType.none);
   const [reverse, setReverse] = useState(false);
 
+  const reset = () => {
+    setSortBy(SortType.none);
+    setReverse(false);
+  };
+
   const resetButton =
     sortBy === SortType.none && reverse === false ? false : true;
 
@@ -43,11 +48,7 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={() => {
-            if (sortBy !== SortType.length) {
-              return setSortBy(SortType.length);
-            }
-          }}
+          onClick={() => setSortBy(SortType.length)}
           type="button"
           className={classNames('button', 'is-success', {
             'is-light': sortBy !== SortType.length,
@@ -57,9 +58,7 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={() =>
-            reverse === false ? setReverse(true) : setReverse(false)
-          }
+          onClick={() => setReverse(value => !value)}
           type="button"
           className={classNames('button', 'is-warning', {
             'is-light': reverse === false,
@@ -70,10 +69,7 @@ export const App: React.FC = () => {
 
         {resetButton && (
           <button
-            onClick={() => {
-              setSortBy(SortType.none);
-              setReverse(false);
-            }}
+            onClick={reset}
             type="button"
             className="button is-danger is-light"
           >
@@ -83,13 +79,11 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        <ul>
-          {visibleGoods(reverse, sortBy, goodsFromServer).map(good => (
-            <li key={good} data-cy="Good">
-              {good}
-            </li>
-          ))}
-        </ul>
+        {visibleGoods(reverse, sortBy, goodsFromServer).map(good => (
+          <li key={good} data-cy="Good">
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
