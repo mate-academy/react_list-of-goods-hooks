@@ -1,8 +1,13 @@
-import React from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
-import cn from 'classnames';
-import { useState } from 'react';
+import classNames from 'classnames';
+import { useState, FC } from 'react';
+
+enum SortField {
+  SORT_ALPHABET = 'alphabet',
+  SORT_LENGTH = 'length',
+  DEFAULT = '',
+}
 
 export const goodsFromServer = [
   'Dumplings',
@@ -17,89 +22,67 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-enum SortType {
-  ALPHABETICALLY = 'alphabetically',
-  BY_LENGTH = 'by_length',
-  DEFAULT = 'default',
-}
+export const App: FC = () => {
+  const [sortField, setSortField] = useState<SortField>(SortField.DEFAULT);
+  const [isReversed, setIsReversed] = useState(false);
 
-const getPreparedGoods = (
-  goods: string[],
-  currentField: SortType,
-  isReverse: boolean,
-) => {
-  let preparedGoods = [...goods];
-
-  if (currentField === SortType.ALPHABETICALLY) {
-    preparedGoods = preparedGoods.sort((a, b) => a.localeCompare(b));
-  }
-
-  if (currentField === SortType.BY_LENGTH) {
-    preparedGoods = preparedGoods.sort((a, b) => a.length - b.length);
-  }
-
-  if (isReverse) {
-    preparedGoods = preparedGoods.reverse();
-  }
-
-  return preparedGoods;
-};
-
-export const App: React.FC = () => {
-  const [sortField, setSortField] = useState(SortType.DEFAULT);
-  const [isReverse, setIsReverse] = useState(false);
-
-  function handleSortClick(newSortField: SortType) {
-    if (newSortField === sortField) {
-      setIsReverse(isReverse);
-    } else {
-      setSortField(newSortField);
+  let visibleGoods = [...goodsFromServer].sort((good1, good2) => {
+    switch (sortField) {
+      case SortField.SORT_ALPHABET:
+        return good1.localeCompare(good2);
+      case SortField.SORT_LENGTH:
+        return good1.length - good2.length;
+      default:
+        return 0;
     }
+  });
+
+  if (isReversed) {
+    visibleGoods = visibleGoods.reverse();
   }
 
-  const preparedGoods = getPreparedGoods(goodsFromServer, sortField, isReverse);
+  function reset() {
+    setSortField(SortField.DEFAULT);
+    setIsReversed(false);
+  }
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={cn('button', 'is-info', {
-            'is-light': sortField !== SortType.ALPHABETICALLY,
+          className={classNames('button', 'is-info', {
+            'is-light': sortField !== SortField.SORT_ALPHABET,
           })}
-          onClick={() => handleSortClick(SortType.ALPHABETICALLY)}
+          onClick={() => setSortField(SortField.SORT_ALPHABET)}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={cn('button', 'is-success', {
-            'is-light': sortField !== SortType.BY_LENGTH,
+          className={classNames('button', 'is-success', {
+            'is-light': sortField !== SortField.SORT_LENGTH,
           })}
-          onClick={() => handleSortClick(SortType.BY_LENGTH)}
+          onClick={() => setSortField(SortField.SORT_LENGTH)}
         >
           Sort by length
         </button>
 
         <button
           type="button"
-          className={cn('button', 'is-warning', {
-            'is-light': !isReverse,
+          className={classNames('button', 'is-warning', {
+            'is-light': !isReversed,
           })}
-          onClick={() => setIsReverse(!isReverse)}
+          onClick={() => setIsReversed(!isReversed)}
         >
           Reverse
         </button>
-
-        {(sortField !== SortType.DEFAULT || isReverse) && (
+        {(sortField || isReversed) && (
           <button
-            onClick={() => {
-              setSortField(SortType.DEFAULT);
-              setIsReverse(false);
-            }}
             type="button"
             className="button is-danger is-light"
+            onClick={() => reset()}
           >
             Reset
           </button>
@@ -107,8 +90,8 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {preparedGoods.map(good => (
-          <li key={good} data-cy="Good">
+        {visibleGoods.map(good => (
+          <li data-cy="Good" key={good}>
             {good}
           </li>
         ))}
