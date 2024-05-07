@@ -64,11 +64,7 @@ export const App: React.FC = () => {
   };
 
   const handleReverse = () => {
-    if (reversed) {
-      setReversed(false);
-    } else {
-      setReversed(true);
-    }
+    setReversed(!reversed);
   };
 
   const preparedGoods = prepareGoodsForOutput(goodsFromServer, {
@@ -121,13 +117,11 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        <ul>
-          {preparedGoods.map(good => (
-            <li key={good} data-cy="Good">
-              {good}
-            </li>
-          ))}
-        </ul>
+        {preparedGoods.map(good => (
+          <li key={good} data-cy="Good">
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
