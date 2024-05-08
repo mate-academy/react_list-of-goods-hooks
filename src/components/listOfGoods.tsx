@@ -5,11 +5,9 @@ type Props = {
 };
 
 export const List: React.FC<Props> = ({ goods }) => {
-  return goods.map(good => {
-    return (
-      <li data-cy="Good" key={good}>
-        {good}
-      </li>
-    );
-  });
+  return goods.map(good => (
+    <li data-cy="Good" key={good}>
+      {good}
+    </li>
+  ));
 };

@@ -54,6 +54,14 @@ export const App: React.FC = () => {
   const [sortField, setSortField] = useState(SortType.default);
   const [isReversed, setIsReversed] = useState(false);
 
+  const toReverse = () => {
+    if (!isReversed) {
+      return setIsReversed(true);
+    } else {
+      return setIsReversed(false);
+    }
+  };
+
   const visibleGoods = getPreparedGoods(goodsFromServer, sortField, isReversed);
 
   return (
@@ -89,11 +97,7 @@ export const App: React.FC = () => {
             'is-light': isReversed !== true,
           })}
           onClick={() => {
-            if (isReversed === false) {
-              setIsReversed(true);
-            } else {
-              setIsReversed(false);
-            }
+            toReverse();
           }}
         >
           Reverse
