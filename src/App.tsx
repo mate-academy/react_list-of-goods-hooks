@@ -27,8 +27,8 @@ enum SortType {
 
 function getPreparedGoods(
   goods: string[],
-  sortField: string,
-  reverseField: string,
+  sortField: SortType,
+  reverseField: boolean,
 ) {
   const preparedGoods = [...goods];
 
@@ -47,33 +47,14 @@ function getPreparedGoods(
     });
   }
 
-  return reverseField === SortType.reverse
-    ? preparedGoods.reverse()
-    : preparedGoods;
+  return reverseField ? preparedGoods.reverse() : preparedGoods;
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState<string>('');
-  const [sortFieldReverse, setSortFieldReverse] = useState<string>('');
+  const [sortField, setSortField] = useState(SortType.default);
+  const [isReversed, setIsReversed] = useState(false);
 
-  const visibleGoods = getPreparedGoods(
-    goodsFromServer,
-    sortField,
-    sortFieldReverse,
-  );
-
-  const buttonReset = (
-    <button
-      type="button"
-      className="button is-danger is-light"
-      onClick={() => {
-        setSortField('');
-        setSortFieldReverse('');
-      }}
-    >
-      Reset
-    </button>
-  );
+  const visibleGoods = getPreparedGoods(goodsFromServer, sortField, isReversed);
 
   return (
     <div className="section content">
@@ -105,20 +86,31 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-warning', {
-            'is-light': sortFieldReverse !== SortType.reverse,
+            'is-light': isReversed !== true,
           })}
           onClick={() => {
-            if (sortFieldReverse === SortType.default) {
-              setSortFieldReverse(SortType.reverse);
+            if (isReversed === false) {
+              setIsReversed(true);
             } else {
-              setSortFieldReverse(SortType.default);
+              setIsReversed(false);
             }
           }}
         >
           Reverse
         </button>
 
-        {sortField === '' && sortFieldReverse === '' ? null : buttonReset}
+        {(sortField !== SortType.default || isReversed) && (
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={() => {
+              setSortField(SortType.default);
+              setIsReversed(false);
+            }}
+          >
+            Reset
+          </button>
+        )}
       </div>
 
       <ul>
