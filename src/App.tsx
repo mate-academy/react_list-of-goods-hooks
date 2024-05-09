@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import classNames from 'classnames';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -60,13 +61,19 @@ export const App: React.FC = () => {
     isReversed: isReversed,
   });
 
+  const resetFunction = () => {
+    setValue(SortType.None);
+    setReverse(false);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info 
-            ${value !== SortType.Alphabet ? 'is-light' : ''}`}
+          className={classNames('button', 'is-info', {
+            'is-light': value !== SortType.Alphabet,
+          })}
           onClick={() => setValue(SortType.Alphabet)}
         >
           Sort alphabetically
@@ -74,7 +81,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-success ${value !== SortType.Length ? 'is-light' : ''}`}
+          className={classNames('button', 'is-success', {
+            'is-light': value !== SortType.Length,
+          })}
           onClick={() => setValue(SortType.Length)}
         >
           Sort by length
@@ -82,7 +91,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-warning ${!isReversed ? 'is-light' : ''}`}
+          className={classNames('button', 'is-warning', {
+            'is-light': !isReversed,
+          })}
           onClick={() => setReverse(!isReversed)}
         >
           Reverse
@@ -91,11 +102,8 @@ export const App: React.FC = () => {
         {(isReversed || value !== SortType.None) && (
           <button
             type="button"
-            className="button is-danger is-light"
-            onClick={() => {
-              setValue(SortType.None);
-              setReverse(false);
-            }}
+            className={classNames('button', 'is-danger', 'is-light')}
+            onClick={resetFunction}
           >
             Reset
           </button>
