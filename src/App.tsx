@@ -16,14 +16,16 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+type SortType = 'none' | 'alphabetical' | 'length';
+
 export const App: React.FC = () => {
-  const [sortedState, setSortedState] = useState<number>(0);
+  const [sortedState, setSortedState] = useState<SortType>('none');
   const [reverseList, setReverseList] = useState<boolean>(false);
   const [changedGoods, setChangedGoods] = useState<string[]>(goodsFromServer);
 
   const handleAlphaSort = (): void => {
-    if (sortedState !== 1) {
-      setSortedState(1);
+    if (sortedState !== 'alphabetical') {
+      setSortedState('alphabetical');
 
       if (reverseList) {
         setChangedGoods(
@@ -36,8 +38,8 @@ export const App: React.FC = () => {
   };
 
   const handleLengthSort = (): void => {
-    if (sortedState !== 2) {
-      setSortedState(2);
+    if (sortedState !== 'length') {
+      setSortedState('length');
 
       if (reverseList) {
         setChangedGoods([...changedGoods].sort((a, b) => b.length - a.length));
@@ -54,7 +56,7 @@ export const App: React.FC = () => {
 
   const handleReset = (): void => {
     setChangedGoods(goodsFromServer);
-    setSortedState(0);
+    setSortedState('none');
     setReverseList(false);
   };
 
@@ -63,14 +65,14 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortedState === 1 ? '' : 'is-light'}`}
+          className={`button is-info ${sortedState === 'alphabetical' ? '' : 'is-light'}`}
           onClick={handleAlphaSort}
         >
           Sort alphabetically
         </button>
         <button
           type="button"
-          className={`button is-success ${sortedState === 2 ? '' : 'is-light'}`}
+          className={`button is-success ${sortedState === 'length' ? '' : 'is-light'}`}
           onClick={handleLengthSort}
         >
           Sort by length
@@ -82,7 +84,7 @@ export const App: React.FC = () => {
         >
           Reverse
         </button>
-        {(sortedState !== 0 || reverseList) && (
+        {(sortedState !== 'none' || reverseList) && (
           <button
             type="button"
             className="button is-danger is-light"
