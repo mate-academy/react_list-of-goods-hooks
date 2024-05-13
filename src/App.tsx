@@ -25,10 +25,11 @@ enum SortType {
 
 type SortingFunction = (a: string, b: string) => number;
 
-const SORTING_FUNCTIONS: { [key in SortType]: SortingFunction } = {
+const SORTING_FUNCTIONS: {
+  [key in Exclude<SortType, SortType.Default>]: SortingFunction;
+} = {
   [SortType.Alpha]: (a, b) => a.localeCompare(b),
   [SortType.Length]: (a, b) => a.length - b.length,
-  [SortType.Default]: () => 0,
 };
 
 export const App: React.FC = () => {
@@ -36,20 +37,12 @@ export const App: React.FC = () => {
   const [sortField, setSortField] = useState<SortType>(SortType.Default);
   const [isReversed, setIsReversed] = useState<boolean>(false);
 
-  const handleGoods = () => {
-    const newGoods = [...goodsFromServer];
-
-    if (sortField !== SortType.Default) {
-      newGoods.sort(SORTING_FUNCTIONS[sortField]);
-    }
-
-    return isReversed
-      ? setVisibleGoods(newGoods.reverse())
-      : setVisibleGoods(newGoods);
+  const sortByAlpha = () => {
+    setSortField(SortType.Alpha);
   };
 
-  const sortBy = (type: SortType) => {
-    setSortField(type);
+  const sortByLength = () => {
+    setSortField(SortType.Length);
   };
 
   const reverse = () => {
@@ -66,7 +59,13 @@ export const App: React.FC = () => {
   };
 
   useEffect(() => {
-    handleGoods();
+    const newGoods = [...goodsFromServer];
+
+    if (sortField !== SortType.Default) {
+      newGoods.sort(SORTING_FUNCTIONS[sortField]);
+    }
+
+    setVisibleGoods(isReversed ? newGoods.reverse() : newGoods);
   }, [sortField, isReversed]);
 
   return (
@@ -74,7 +73,7 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          onClick={() => sortBy(SortType.Alpha)}
+          onClick={sortByAlpha}
           className={cn('button is-info', {
             'is-light': sortField !== SortType.Alpha,
           })}
@@ -84,7 +83,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          onClick={() => sortBy(SortType.Length)}
+          onClick={sortByLength}
           className={cn('button is-success', {
             'is-light': sortField !== SortType.Length,
           })}
