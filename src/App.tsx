@@ -21,13 +21,14 @@ export const goodsFromServer: Good[] = [
 export enum SortType {
   ALPHABETICALLY = 'ALPHABETICALLY',
   BY_LENGTH = 'BY_LENGTH',
+  DEFAULT = 'DEFAULT',
 }
 
-export type RereversType = true | false;
+//export type RereversType = true | false;
 
 interface SortParams {
   sortType: SortType;
-  isReverse: RereversType;
+  isReverse: boolean;
 }
 
 function getPreparedGoods(goods: Good[], { sortType, isReverse }: SortParams) {
@@ -55,7 +56,7 @@ function getPreparedGoods(goods: Good[], { sortType, isReverse }: SortParams) {
 
 export const App: React.FC = () => {
   const [isReverse, setIsReverse] = useState(false);
-  const [sortType, setSortType] = useState(SortType.ALPHABETICALLY);
+  const [sortType, setSortType] = useState(SortType.DEFAULT);
 
   const sortedGoods = getPreparedGoods(goodsFromServer, {
     sortType,
@@ -63,7 +64,7 @@ export const App: React.FC = () => {
   });
 
   function sortReset() {
-    setSortType(SortType.ALPHABETICALLY);
+    setSortType(SortType.DEFAULT);
     setIsReverse(false);
   }
 
