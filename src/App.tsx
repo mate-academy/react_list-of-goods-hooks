@@ -24,8 +24,6 @@ export enum SortType {
   DEFAULT = 'DEFAULT',
 }
 
-//export type RereversType = true | false;
-
 interface SortParams {
   sortType: SortType;
   isReverse: boolean;
@@ -36,10 +34,10 @@ function getPreparedGoods(goods: Good[], { sortType, isReverse }: SortParams) {
 
   preparedGoods.sort((good1, good2) => {
     switch (sortType) {
-      case 'ALPHABETICALLY':
+      case SortType.ALPHABETICALLY:
         return good1.localeCompare(good2);
 
-      case 'BY_LENGTH':
+      case SortType.BY_LENGTH:
         return good1.length - good2.length;
 
       default:
@@ -63,10 +61,10 @@ export const App: React.FC = () => {
     isReverse,
   });
 
-  function sortReset() {
+  const sortReset = () => {
     setSortType(SortType.DEFAULT);
     setIsReverse(false);
-  }
+  };
 
   return (
     <div className="section content">
@@ -104,7 +102,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => sortReset()}
+            onClick={sortReset}
           >
             Reset
           </button>
