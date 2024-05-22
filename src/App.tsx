@@ -39,7 +39,7 @@ function getPrepareGoods(
           return good1.length - good2.length;
 
         default:
-          return sortField;
+          return 0;
       }
     });
   }
