@@ -29,10 +29,10 @@ interface SortParams {
 }
 
 function getPreparedGoods(goods: string[], { sortField, reverse }: SortParams) {
-  const preparedGoods = [...goods];
+  const preparedGoods: string[] = [...goods];
 
   if (sortField) {
-    preparedGoods.sort((good1, good2) => {
+    preparedGoods.sort((good1: string, good2: string) => {
       switch (sortField) {
         case 'name':
           return good1.localeCompare(good2);
@@ -58,7 +58,7 @@ function getPreparedGoods(goods: string[], { sortField, reverse }: SortParams) {
 
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState<keyof SortModes>('initial');
-  const [reverse, setReverse] = useState(false);
+  const [reverse, setReverse] = useState<boolean>(false);
   const visibleGoods = getPreparedGoods(goodsFromServer, {
     sortField,
     reverse,
@@ -122,7 +122,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {visibleGoods.map((good, index) => (
+        {visibleGoods.map((good: string, index: number) => (
           <li data-cy="Good" key={`${good}${index + 1}`}>
             {good}
           </li>
