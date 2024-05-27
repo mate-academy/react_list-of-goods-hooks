@@ -23,7 +23,7 @@ enum SortType {
 
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState<SortType | ''>('');
-  const [reversed, setReversed] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
   const goods = [...goodsFromServer];
 
   if (sortField) {
@@ -39,13 +39,13 @@ export const App: React.FC = () => {
     });
   }
 
-  if (reversed) {
+  if (isReversed) {
     goods.reverse();
   }
 
   const reset = () => {
     setSortField('');
-    setReversed(false);
+    setIsReversed(false);
   };
 
   return (
@@ -74,18 +74,18 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={classNames('button is-warning', {
-            'is-light': !reversed,
+            'is-light': !isReversed,
           })}
-          onClick={() => setReversed(!reversed)}
+          onClick={() => setIsReversed(!isReversed)}
         >
           Reverse
         </button>
 
-        {(sortField || reversed) && (
+        {(sortField || isReversed) && (
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => reset()}
+            onClick={reset}
           >
             Reset
           </button>
