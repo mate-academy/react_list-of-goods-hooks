@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import classNames from 'classnames';
@@ -19,7 +19,6 @@ export const goodsFromServer = [
 enum SortType {
   name = 'name',
   length = 'length',
-  default = '',
 }
 
 const getVisibleGoods = (
@@ -50,19 +49,9 @@ const getVisibleGoods = (
 };
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState<SortType>(SortType.default);
+  const [sortField, setSortField] = useState<SortType | ''>('');
   const [isReversed, setIsReversed] = useState(false);
   const [visibleGoods, setVisibleGoods] = useState<string[]>(goodsFromServer);
-
-  useEffect(() => {
-    const sortedVisibleGoods = getVisibleGoods(
-      visibleGoods,
-      sortField,
-      isReversed,
-    );
-
-    setVisibleGoods(sortedVisibleGoods);
-  }, [visibleGoods, sortField, isReversed]);
 
   const sortAlphabetically = () => {
     setSortField(SortType.name);
@@ -75,12 +64,18 @@ export const App: React.FC = () => {
   const reset = () => {
     setVisibleGoods(goodsFromServer);
     setIsReversed(false);
-    setSortField(SortType.default);
+    setSortField('');
   };
 
   const reverseList = () => {
     setIsReversed(!isReversed);
   };
+
+  const sortedVisibleGoods = getVisibleGoods(
+    visibleGoods,
+    sortField,
+    isReversed,
+  );
 
   return (
     <div className="section content">
@@ -125,7 +120,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {visibleGoods.map(good => (
+        {sortedVisibleGoods.map(good => (
           <li key={good} data-cy="Good">
             {good}
           </li>
