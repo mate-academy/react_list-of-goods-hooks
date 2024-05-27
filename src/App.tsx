@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import classNames from 'classnames';
@@ -19,58 +19,68 @@ export const goodsFromServer = [
 enum SortType {
   name = 'name',
   length = 'length',
+  default = '',
 }
 
+const getVisibleGoods = (
+  goods: string[],
+  sortField: SortType,
+  isReversed: boolean,
+): string[] => {
+  if (!sortField) {
+    return goods;
+  }
+
+  const sortedGoods = [...goods].sort((good1, good2) => {
+    switch (sortField) {
+      case SortType.name:
+        return good1.localeCompare(good2);
+      case SortType.length:
+        return good1.length - good2.length;
+      default:
+        return 0;
+    }
+  });
+
+  if (isReversed) {
+    sortedGoods.reverse();
+  }
+
+  return sortedGoods;
+};
+
 export const App: React.FC = () => {
-  const [visibleGoods, setVisibleGoods] = useState<string[]>(goodsFromServer);
-  const [sortField, setSortField] = useState<SortType | ''>('');
+  const [sortField, setSortField] = useState<SortType>(SortType.default);
   const [isReversed, setIsReversed] = useState(false);
+  const [visibleGoods, setVisibleGoods] = useState<string[]>(goodsFromServer);
+
+  useEffect(() => {
+    const sortedVisibleGoods = getVisibleGoods(
+      visibleGoods,
+      sortField,
+      isReversed,
+    );
+
+    setVisibleGoods(sortedVisibleGoods);
+  }, [visibleGoods, sortField, isReversed]);
 
   const sortAlphabetically = () => {
-    const sortedGoods = [...visibleGoods].sort((a, b) => a.localeCompare(b));
-
-    setVisibleGoods(sortedGoods);
     setSortField(SortType.name);
   };
 
   const sortByLength = () => {
-    const sortedGoods = [...visibleGoods].sort((a, b) => a.length - b.length);
-
-    setVisibleGoods(sortedGoods);
     setSortField(SortType.length);
   };
 
   const reset = () => {
     setVisibleGoods(goodsFromServer);
-    setSortField('');
     setIsReversed(false);
+    setSortField(SortType.default);
   };
 
   const reverseList = () => {
-    setVisibleGoods([...visibleGoods].reverse());
     setIsReversed(!isReversed);
   };
-
-  React.useEffect(() => {
-    if (sortField) {
-      const sortedGoods = [...visibleGoods].sort((good1, good2) => {
-        switch (sortField) {
-          case SortType.name:
-            return good1.localeCompare(good2);
-          case SortType.length:
-            return good1.length - good2.length;
-          default:
-            return 0;
-        }
-      });
-
-      if (isReversed) {
-        sortedGoods.reverse();
-      }
-
-      setVisibleGoods(sortedGoods);
-    }
-  }, [sortField, isReversed, visibleGoods]);
 
   return (
     <div className="section content">
