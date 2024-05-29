@@ -58,6 +58,8 @@ export const App: React.FC = () => {
     sortField,
     isReversedField,
   });
+  let isReset = sortField || isReversedField;
+
 
   return (
     <div className="section content">
@@ -94,7 +96,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortField || isReversedField) && (
+        { (isReset) && (
           <button
             onClick={() => {
               setSortField('');
