@@ -99,7 +99,7 @@ export const App = () => {
           Reverse
         </button>
 
-        {!sortField && !reverseField ? null : (
+        {(sortField || reverseField) && (
           <button
             type="button"
             className="button is-danger is-light"
@@ -111,9 +111,10 @@ export const App = () => {
       </div>
 
       <ul>
-        {visibleGoods.map(good => (
-          // eslint-disable-next-line react/jsx-key
-          <li data-cy="Good">{good}</li>
+        {visibleGoods.map((good, index) => (
+          <li data-cy="Good" key={index}>
+            {good}
+          </li>
         ))}
       </ul>
     </div>
