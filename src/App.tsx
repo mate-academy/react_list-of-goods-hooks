@@ -111,8 +111,8 @@ export const App = () => {
       </div>
 
       <ul>
-        {visibleGoods.map((good, index) => (
-          <li data-cy="Good" key={index}>
+        {visibleGoods.map(good => (
+          <li data-cy="Good" key={good}>
             {good}
           </li>
         ))}
