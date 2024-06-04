@@ -18,6 +18,26 @@ export const goodsFromServer: string[] = [
 
 type SortType = 'alphabetically' | 'length' | null;
 
+const sortGoods = (
+  goods: string[],
+  sortBy: SortType,
+  isReversed: boolean,
+): string[] => {
+  const sortedGoods = [...goods];
+
+  if (sortBy === 'alphabetically') {
+    sortedGoods.sort();
+  } else if (sortBy === 'length') {
+    sortedGoods.sort((a, b) => a.length - b.length);
+  }
+
+  if (isReversed) {
+    sortedGoods.reverse();
+  }
+
+  return sortedGoods;
+};
+
 export const App = () => {
   const [sortBy, setSortBy] = useState<SortType>(null);
   const [isReversed, setIsReversed] = useState<boolean>(false);
@@ -38,18 +58,7 @@ export const App = () => {
     setSortBy(null);
     setIsReversed(false);
   };
-
-  const sortedGoods = [...goodsFromServer];
-
-  if (sortBy === 'alphabetically') {
-    sortedGoods.sort();
-  } else if (sortBy === 'length') {
-    sortedGoods.sort((a, b) => a.length - b.length);
-  }
-
-  if (isReversed) {
-    sortedGoods.reverse();
-  }
+  const sortedGoods = sortGoods(goodsFromServer, sortBy, isReversed);
 
   return (
     <div className="section content">
