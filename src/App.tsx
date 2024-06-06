@@ -42,6 +42,11 @@ export function getReorderedGoods(
       visibleGoods.sort(
         (firstGood, secondGood) => firstGood.length - secondGood.length,
       );
+      break;
+    case SortType.NONE:
+      break;
+    default:
+      throw new Error('Sort type is not valid!!!');
   }
 
   if (isReversed) {
