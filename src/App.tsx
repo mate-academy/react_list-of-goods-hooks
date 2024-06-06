@@ -30,12 +30,13 @@ function getPreparedGoods(
   isReverse: boolean,
 ) {
   const prepareGoods = [...goods];
+  
 
   if (sortField) {
     prepareGoods.sort((a, b) => {
       switch (sortField) {
         case SortType.Alphabetically:
-           return a.localeCompare(b);
+          return a.localeCompare(b);
 
         case SortType.Length:
           return a.length - b.length;
@@ -43,7 +44,7 @@ function getPreparedGoods(
         default:
           return 0;
       }
-    })
+    });
   }
 
   if (isReverse) {
@@ -58,6 +59,10 @@ export const App: React.FC = () => {
   const [isReverse, setIsReverse] = useState(false);
 
   const sortedGoods = getPreparedGoods(goodsFromServer, sortField, isReverse);
+  const reset = () => {
+    setSortField(SortType.Default);
+    setIsReverse(false);
+  }
 
   return (
     <div className="section content">
@@ -92,10 +97,7 @@ export const App: React.FC = () => {
 
         {(sortField || isReverse) && (
           <button
-            onClick={() => {
-              setSortField(SortType.Default);
-              setIsReverse(false);
-            }}
+            onClick={reset}
             type="button"
             className="button is-danger is-light"
           >
