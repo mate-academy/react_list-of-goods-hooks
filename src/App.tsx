@@ -41,6 +41,7 @@ export const App: React.FC = () => {
           if (reverse) {
             return good2.localeCompare(good1);
           }
+
           return good1.localeCompare(good2);
         }
 
@@ -52,6 +53,7 @@ export const App: React.FC = () => {
 
           return good1.length - good2.length;
         }
+
         return 0;
       }),
     );
