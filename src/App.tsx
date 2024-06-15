@@ -15,7 +15,10 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-type SortField = 'alphabet' | 'length' | '';
+enum SortField {
+  alphabet = 'alphabet',
+  length = 'length',
+}
 
 export const App: React.FC = () => {
   const [goods, setGoods] = useState<string[]>(goodsFromServer);
@@ -24,7 +27,7 @@ export const App: React.FC = () => {
 
   const resetSort = () => {
     setGoods([...goodsFromServer]);
-    setIsActive('');
+    setIsActive(undefined);
     setReverse(false);
   };
 
@@ -36,7 +39,7 @@ export const App: React.FC = () => {
   const sortedGoods = (type: SortField): void => {
     setGoods(
       [...goods].sort((good1, good2) => {
-        if (type === 'alphabet') {
+        if (type === SortField.alphabet) {
           setIsActive(type);
           if (reverse) {
             return good2.localeCompare(good1);
@@ -45,7 +48,7 @@ export const App: React.FC = () => {
           return good1.localeCompare(good2);
         }
 
-        if (type === 'length') {
+        if (type === SortField.length) {
           setIsActive(type);
           if (reverse) {
             return good2.length - good1.length;
@@ -64,20 +67,20 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           onClick={() => {
-            sortedGoods('alphabet');
+            sortedGoods(SortField.alphabet);
           }}
           type="button"
-          className={`button is-info ${isActive !== 'alphabet' ? 'is-light' : ''} `}
+          className={`button is-info ${isActive !== SortField.alphabet ? 'is-light' : ''} `}
         >
           Sort alphabetically
         </button>
 
         <button
           onClick={() => {
-            sortedGoods('length');
+            sortedGoods(SortField.length);
           }}
           type="button"
-          className={`button is-success ${isActive !== 'length' ? 'is-light' : ''} `}
+          className={`button is-success ${isActive !== SortField.length ? 'is-light' : ''} `}
         >
           Sort by length
         </button>
@@ -94,9 +97,7 @@ export const App: React.FC = () => {
 
         {(isActive || reverse) && (
           <button
-            onClick={() => {
-              resetSort();
-            }}
+            onClick={resetSort}
             type="button"
             className="button is-danger is-light"
           >
