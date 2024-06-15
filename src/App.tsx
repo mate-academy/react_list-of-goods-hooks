@@ -23,7 +23,7 @@ enum SortField {
 export const App: React.FC = () => {
   const [goods, setGoods] = useState<string[]>(goodsFromServer);
   const [isActive, setIsActive] = useState<SortField>();
-  const [reverse, setReverse] = useState(false);
+  const [reverse, setReverse] = useState<boolean>(false);
 
   const resetSort = () => {
     setGoods([...goodsFromServer]);
@@ -39,19 +39,21 @@ export const App: React.FC = () => {
   const sortedOfTypes = (
     arrayGoods: string[],
     sortType: SortField,
-    reverse: boolean,
+    isReverse: boolean,
   ) => {
     const result = [...arrayGoods].sort((good1, good2) => {
       switch (sortType) {
         case SortField.alphabet:
-          if (reverse) {
+          if (isReverse) {
             return good2.localeCompare(good1);
           }
+
           return good1.localeCompare(good2);
         case SortField.length:
-          if (reverse) {
+          if (isReverse) {
             return good2.length - good1.length;
           }
+
           return good1.length - good2.length;
         default:
           return 0;
