@@ -22,12 +22,12 @@ enum SortField {
 
 export const App: React.FC = () => {
   const [goods, setGoods] = useState<string[]>(goodsFromServer);
-  const [isActive, setIsActive] = useState<SortField>();
+  const [isActive, setIsActive] = useState('');
   const [reverse, setReverse] = useState<boolean>(false);
 
   const resetSort = () => {
     setGoods([...goodsFromServer]);
-    setIsActive(undefined);
+    setIsActive('');
     setReverse(false);
   };
 
