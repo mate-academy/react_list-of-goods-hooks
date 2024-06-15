@@ -36,30 +36,34 @@ export const App: React.FC = () => {
     setGoods([...foods].reverse());
   };
 
-  const sortedGoods = (type: SortField): void => {
-    setGoods(
-      [...goods].sort((good1, good2) => {
-        if (type === SortField.alphabet) {
-          setIsActive(type);
+  const sortedOfTypes = (
+    arrayGoods: string[],
+    sortType: SortField,
+    reverse: boolean,
+  ) => {
+    const result = [...arrayGoods].sort((good1, good2) => {
+      switch (sortType) {
+        case SortField.alphabet:
           if (reverse) {
             return good2.localeCompare(good1);
           }
-
           return good1.localeCompare(good2);
-        }
-
-        if (type === SortField.length) {
-          setIsActive(type);
+        case SortField.length:
           if (reverse) {
             return good2.length - good1.length;
           }
-
           return good1.length - good2.length;
-        }
+        default:
+          return 0;
+      }
+    });
 
-        return 0;
-      }),
-    );
+    return result;
+  };
+
+  const sortedGoods = (type: SortField): void => {
+    setGoods(sortedOfTypes(goods, type, reverse));
+    setIsActive(type);
   };
 
   return (
