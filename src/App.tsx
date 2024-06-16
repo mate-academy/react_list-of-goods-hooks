@@ -18,16 +18,18 @@ export const goodsFromServer = [
 enum SortField {
   alphabet = 'alphabet',
   length = 'length',
+  default = '',
 }
 
 export const App: React.FC = () => {
   const [goods, setGoods] = useState<string[]>(goodsFromServer);
-  const [isActive, setIsActive] = useState('');
-  const [reverse, setReverse] = useState<boolean>(false);
+  const [isActive, setIsActive] = useState(SortField.default);
+  const [reverse, setReverse] = useState(false);
+
 
   const resetSort = () => {
     setGoods([...goodsFromServer]);
-    setIsActive('');
+    setIsActive(SortField.default);
     setReverse(false);
   };
 
