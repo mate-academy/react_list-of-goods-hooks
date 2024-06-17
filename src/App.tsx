@@ -22,10 +22,10 @@ enum SortField {
 }
 
 const getPreparedGoods = (
-  goodsFromServer: string[],
+  goods: string[],
   { sortField, reversed }: { sortField: SortField; reversed: boolean },
 ) => {
-  const copyGoods = [...goodsFromServer];
+  const copyGoods = [...goods];
 
   if (sortField !== SortField.default) {
     copyGoods.sort((good1, good2) => {
@@ -43,62 +43,26 @@ const getPreparedGoods = (
   if (reversed) {
     copyGoods.reverse();
   }
+
   return copyGoods;
 };
 
 export const App: React.FC = () => {
-  // const [goods, setGoods] = useState<string[]>(goodsFromServer);
-  const [isActive, setIsActive] = useState(SortField.default);
-  const [reverse, setReverse] = useState(false);
+  const [fildSort, setFildSort] = useState(SortField.default);
+  const [isReverse, setIsReverse] = useState(false);
 
   const visibleGoods = getPreparedGoods(goodsFromServer, {
-    sortField: isActive,
-    reversed: reverse,
+    sortField: fildSort,
+    reversed: isReverse,
   });
 
   const resetSort = () => {
-    // setGoods([...goodsFromServer]);
-    setIsActive(SortField.default);
-    setReverse(false);
+    setFildSort(SortField.default);
+    setIsReverse(false);
   };
 
   const reversGoods = () => {
-    setReverse(!reverse);
-    // setGoods([...foods].reverse());
-  };
-
-  // const sortedOfTypes = (
-  //   arrayGoods: string[],
-  //   sortType: SortField,
-  //   isReverse: boolean,
-  // ) => {
-  //   const result = [...arrayGoods].sort((good1, good2) => {
-  //     switch (sortType) {
-  //       case SortField.alphabet:
-  //         if (isReverse) {
-  //           return good2.localeCompare(good1);
-  //         }
-
-  //         return good1.localeCompare(good2);
-  //       case SortField.length:
-  //         if (isReverse) {
-  //           return good2.length - good1.length;
-  //         }
-
-  //         return good1.length - good2.length;
-  //       default:
-  //         return 0;
-  //     }
-  //   });
-
-  //   return result;
-  // };
-
-  // handle is active
-
-  const sortedGoods = (type: SortField): void => {
-    // setGoods(sortedOfTypes(goods, type, reverse));
-    setIsActive(type);
+    setIsReverse(!isReverse);
   };
 
   return (
@@ -106,20 +70,20 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           onClick={() => {
-            setIsActive(SortField.alphabet);
+            setFildSort(SortField.alphabet);
           }}
           type="button"
-          className={`button is-info ${isActive !== SortField.alphabet ? 'is-light' : ''} `}
+          className={`button is-info ${fildSort !== SortField.alphabet ? 'is-light' : ''} `}
         >
           Sort alphabetically
         </button>
 
         <button
           onClick={() => {
-            setIsActive(SortField.length);
+            setFildSort(SortField.length);
           }}
           type="button"
-          className={`button is-success ${isActive !== SortField.length ? 'is-light' : ''} `}
+          className={`button is-success ${fildSort !== SortField.length ? 'is-light' : ''} `}
         >
           Sort by length
         </button>
@@ -129,12 +93,12 @@ export const App: React.FC = () => {
             reversGoods();
           }}
           type="button"
-          className={`button is-warning ${reverse ? '' : 'is-light'} `}
+          className={`button is-warning ${isReverse ? '' : 'is-light'} `}
         >
           Reverse
         </button>
 
-        {(isActive !== SortField.default || reverse) && (
+        {(fildSort !== SortField.default || isReverse) && (
           <button
             onClick={resetSort}
             type="button"
