@@ -60,6 +60,15 @@ export const App: React.FC = () => {
     setSortType(SortType.Default);
   };
 
+  const makeHandleSort = (typeOfSort: SortType) => () => {
+    setSortType(typeOfSort);
+  };
+
+  const handleSortAlphabet = makeHandleSort(SortType.Alphabet);
+  const handleSortLength = makeHandleSort(SortType.Length);
+
+  const handleReversed = () => setIsReversed(!isReversed);
+
   const visibleGoods = getPreperedArray(goodsFromServer, {
     sortType,
     isReversed,
@@ -69,7 +78,7 @@ export const App: React.FC = () => {
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => setSortType(SortType.Alphabet)}
+          onClick={handleSortAlphabet}
           type="button"
           className={classNames('button is-info', {
             'is-light': sortType !== SortType.Alphabet,
@@ -79,7 +88,7 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={() => setSortType(SortType.Length)}
+          onClick={handleSortLength}
           type="button"
           className={classNames('button is-success', {
             'is-light': sortType !== SortType.Length,
@@ -89,7 +98,7 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={() => setIsReversed(!isReversed)}
+          onClick={handleReversed}
           type="button"
           className={classNames('button is-warning', {
             'is-light': !isReversed,
@@ -100,7 +109,7 @@ export const App: React.FC = () => {
 
         {(isReversed || sortType) && (
           <button
-            onClick={() => reset()}
+            onClick={reset}
             type="button"
             className="button is-danger is-light"
           >
