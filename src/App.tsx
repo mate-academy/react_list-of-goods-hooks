@@ -96,7 +96,9 @@ export const App: React.FC = () => {
         <button
           onClick={reversGoods}
           type="button"
-          className={classNames('button is-warning', { 'is-light': isReverse })}
+          className={classNames('button is-warning', {
+            'is-light': !isReverse,
+          })}
         >
           Reverse
         </button>
