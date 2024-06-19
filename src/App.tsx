@@ -21,12 +21,12 @@ enum SortType {
   SORT_BY_LENGTH = 'length',
 }
 
-interface Goods {
+interface Options {
   sortField: SortType | '';
   reverse: boolean;
 }
 
-function getPreparedGoods(goods: string[], { sortField, reverse }: Goods) {
+function getPreparedGoods(goods: string[], { sortField, reverse }: Options) {
   const preparedGoods = [...goods];
 
   switch (sortField) {
@@ -50,10 +50,10 @@ function getPreparedGoods(goods: string[], { sortField, reverse }: Goods) {
 
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState<SortType | ''>('');
-  const [reverse, setReverse] = useState(false);
+  const [isReversed, setIsReverse] = useState(false);
   const visibleGoods = getPreparedGoods(goodsFromServer, {
     sortField,
-    reverse,
+    reverse: isReversed,
   });
 
   return (
@@ -82,20 +82,20 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-warning', {
-            'is-light': !reverse,
+            'is-light': !isReversed,
           })}
-          onClick={() => setReverse(!reverse)}
+          onClick={() => setIsReverse(!isReversed)}
         >
           Reverse
         </button>
 
-        {(sortField !== '' || reverse) && (
+        {(sortField !== '' || isReversed) && (
           <button
             type="button"
             className="button is-danger is-light"
             onClick={() => {
               setSortField('');
-              setReverse(false);
+              setIsReverse(false);
             }}
           >
             Reset
