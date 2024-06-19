@@ -79,7 +79,7 @@ export const App: React.FC = () => {
             'is-light': sortLabel !== SortType.Alphabetic,
           })}
         >
-          Sort Alphabetically
+          Sort alphabetically
         </button>
 
         <button
@@ -89,7 +89,7 @@ export const App: React.FC = () => {
           })}
           onClick={() => setSortLabel(SortType.Length)}
         >
-          Sort by Length
+          Sort by length
         </button>
 
         <button
@@ -105,7 +105,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => resetGoods()}
+            onClick={resetGoods}
           >
             Reset
           </button>
@@ -114,7 +114,11 @@ export const App: React.FC = () => {
 
       <ul>
         <ul>
-          {sortedList && sortedList.map(good => <li data-cy="Good">{good}</li>)}
+          {sortedList.map(good => (
+            <li data-cy="Good" key={good}>
+              {good}
+            </li>
+          ))}
         </ul>
       </ul>
     </div>
