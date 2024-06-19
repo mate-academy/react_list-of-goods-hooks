@@ -13,7 +13,7 @@ enum SortTypes {
 
 function getPreparedGoods(
   goods: string[],
-  sortField: string,
+  sortField: SortTypes,
   isReversedField: boolean,
 ) {
   const preparedGoods = [...goods];
@@ -41,13 +41,17 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState<SortTypes>(SortTypes.None);
   const [isReversedField, setIsReversedField] = useState(false);
-  const list = getPreparedGoods(goodsFromServer, sortField, isReversedField);
+  const preparedGoods = getPreparedGoods(
+    goodsFromServer,
+    sortField,
+    isReversedField,
+  );
 
   function resetStates() {
     setIsReversedField(false);
-    setSortField('');
+    setSortField(SortTypes.None);
   }
 
   return (
@@ -95,7 +99,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        <GoodsList goods={list} />
+        <GoodsList goods={preparedGoods} />
       </ul>
     </div>
   );
