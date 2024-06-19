@@ -5,17 +5,11 @@ import cn from 'classnames';
 import { GoodsList } from './components/GoodList/GoodList';
 import { goodsFromServer } from './api/data';
 
-interface SortTypes {
-  ALPHA: string;
-  LENGTH: string;
-  NONE: string;
+enum SortTypes {
+  Alphabet = 'alphabet',
+  Length = 'length',
+  None = '',
 }
-
-const sortFields: SortTypes = {
-  ALPHA: 'alphabet',
-  LENGTH: 'length',
-  NONE: 'string',
-};
 
 function getPreparedGoods(
   goods: string[],
@@ -27,10 +21,10 @@ function getPreparedGoods(
   if (sortField) {
     preparedGoods.sort((a, b) => {
       switch (sortField) {
-        case sortFields.ALPHA:
+        case SortTypes.Alphabet:
           return a.localeCompare(b);
 
-        case sortFields.LENGTH:
+        case SortTypes.Length:
           return a.length - b.length;
 
         default:
@@ -60,20 +54,20 @@ export const App: React.FC = () => {
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => setSortField(sortFields.ALPHA)}
+          onClick={() => setSortField(SortTypes.Alphabet)}
           type="button"
           className={cn('button', 'is-info', {
-            'is-light': sortField !== sortFields.ALPHA,
+            'is-light': sortField !== SortTypes.Alphabet,
           })}
         >
           Sort alphabetically
         </button>
 
         <button
-          onClick={() => setSortField(sortFields.LENGTH)}
+          onClick={() => setSortField(SortTypes.Length)}
           type="button"
           className={cn('button', 'is-success', {
-            'is-light': sortField !== sortFields.LENGTH,
+            'is-light': sortField !== SortTypes.Length,
           })}
         >
           Sort by length
