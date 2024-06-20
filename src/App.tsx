@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import cn from 'classnames';
@@ -56,6 +56,11 @@ export const App: React.FC = () => {
     reverse,
   });
 
+  const reset = useCallback(() => {
+    setSortField('');
+    setReverse(false);
+  }, []);
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -93,10 +98,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortField('');
-              setReverse(false);
-            }}
+            onClick={reset}
           >
             Reset
           </button>
