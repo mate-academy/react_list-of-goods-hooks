@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import cn from 'classnames';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -15,23 +16,30 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+enum SortType {
+  Name = 'name',
+  Length = 'length',
+  Default = '',
+}
+
 export const App: React.FC = () => {
-  const copyOfGoods = [...goodsFromServer];
-  const [sortType, setSortState] = useState('');
+  const preparedGoods = [...goodsFromServer];
+  const [sortType, setSortState] = useState(SortType.Default);
   const [isReversed, setIsReserve] = useState(false);
 
-  copyOfGoods.sort((good1, good2) => {
+  preparedGoods.sort((good1, good2) => {
     switch (sortType) {
-      case 'Sort by length':
+      case SortType.Length:
         return good1.length - good2.length;
-      case 'Sort alphabetically':
+      case SortType.Name:
         return good1.localeCompare(good2);
       default:
         return 0;
     }
   });
+
   if (isReversed) {
-    copyOfGoods.reverse();
+    preparedGoods.reverse();
   }
 
   const getButtonClass = (buttonType: string) => {
@@ -40,24 +48,28 @@ export const App: React.FC = () => {
 
   const reset = () => {
     setIsReserve(false);
-    setSortState('');
+    setSortState(SortType.Default);
   };
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => setSortState('Sort alphabetically')}
+          onClick={() => setSortState(SortType.Name)}
           type="button"
-          className={`button is-info ${getButtonClass('Sort alphabetically')}`}
+          className={cn('button', 'is-info', {
+            'is-light': getButtonClass(SortType.Name),
+          })}
         >
           Sort alphabetically
         </button>
 
         <button
-          onClick={() => setSortState('Sort by length')}
+          onClick={() => setSortState(SortType.Length)}
           type="button"
-          className={`button is-success ${getButtonClass('Sort by length')}`}
+          className={cn('button', 'is-info', {
+            'is-light': getButtonClass(SortType.Length),
+          })}
         >
           Sort by length
         </button>
@@ -65,7 +77,9 @@ export const App: React.FC = () => {
         <button
           onClick={() => setIsReserve(!isReversed)}
           type="button"
-          className={`button is-warning ${isReversed ? '' : 'is-light'}`}
+          className={cn('button', 'is-warning', {
+            'is-light': !isReversed,
+          })}
         >
           Reverse
         </button>
@@ -76,7 +90,9 @@ export const App: React.FC = () => {
               reset();
             }}
             type="button"
-            className={`button is-danger ${getButtonClass('Reset')}`}
+            className={cn('button', 'is-danger', {
+              'is-light': getButtonClass('Reset'),
+            })}
           >
             Reset
           </button>
@@ -84,7 +100,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {copyOfGoods.map(good => (
+        {preparedGoods.map(good => (
           <li key={good} data-cy="Good">
             {good}
           </li>
