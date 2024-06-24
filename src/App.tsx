@@ -22,7 +22,7 @@ enum SortBy {
 }
 
 type Filter = {
-  sortField: SortBy | '';
+  sortField: SortBy | null;
   isReversed: boolean;
 };
 
@@ -51,7 +51,7 @@ const getPreparedGoods = (
 };
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState<SortBy | ''>('');
+  const [sortField, setSortField] = useState<SortBy | null>(null);
   const [isReversed, setIsReversed] = useState<boolean>(false);
 
   const visibleGoods = getPreparedGoods(goodsFromServer, {
@@ -61,7 +61,7 @@ export const App: React.FC = () => {
 
   const reset = () => {
     setIsReversed(false);
-    setSortField('');
+    setSortField(null);
   };
 
   return (
@@ -92,7 +92,7 @@ export const App: React.FC = () => {
           className={cn('button is-warning', {
             'is-light': !isReversed,
           })}
-          onClick={() => setIsReversed(!isReversed)}
+          onClick={() => setIsReversed(value => !value)}
         >
           Reverse
         </button>
@@ -109,13 +109,11 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        <ul>
-          {visibleGoods.map(good => (
-            <li key={good} data-cy="Good">
-              {good}
-            </li>
-          ))}
-        </ul>
+        {visibleGoods.map(good => (
+          <li key={good} data-cy="Good">
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
