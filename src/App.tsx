@@ -22,28 +22,32 @@ enum SortType {
   Length = 'length',
 }
 
-interface TrackStatus {
+interface FilterProps {
   reversed: boolean;
   sortType: SortType;
 }
 
-const defaultState: TrackStatus = {
+const defaultState: FilterProps = {
   reversed: false,
   sortType: SortType.Default,
 };
 
 export const App: React.FC = () => {
-  const [trackStatus, setTrackStatus] = useState<TrackStatus>(defaultState);
+  const [trackStatus, setTrackStatus] = useState<FilterProps>(defaultState);
 
   const { reversed, sortType } = trackStatus;
 
   const getGoods = () => {
     const goods = [...goodsFromServer];
 
-    if (sortType === SortType.Alphabetical) {
-      goods.sort((a, b) => a.localeCompare(b));
-    } else if (sortType === SortType.Length) {
-      goods.sort((a, b) => a.length - b.length);
+    switch (sortType) {
+      case SortType.Alphabetical:
+        goods.sort((a, b) => a.localeCompare(b));
+        break;
+
+      case SortType.Length:
+        goods.sort((a, b) => a.length - b.length);
+        break;
     }
 
     if (reversed) {
@@ -57,7 +61,6 @@ export const App: React.FC = () => {
     setTrackStatus({
       ...trackStatus,
       sortType: SortType.Alphabetical,
-      reversed: reversed,
     });
   };
 
@@ -65,7 +68,6 @@ export const App: React.FC = () => {
     setTrackStatus({
       ...trackStatus,
       sortType: SortType.Length,
-      reversed: reversed,
     });
   };
 
