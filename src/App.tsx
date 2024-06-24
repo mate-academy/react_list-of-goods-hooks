@@ -16,59 +16,60 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-export const App: React.FC = () => {
-  enum SortType {
-    ALPHABETICALLY,
-    BY_LENGTH,
-    RESET,
+enum SortType {
+  ALPHABETICALLY,
+  BY_LENGTH,
+  DEFAULT,
+}
+
+const getSortedProducts = (sortingType: SortType, isReversed: boolean) => {
+  let sortedList: string[] = [];
+
+  switch (sortingType) {
+    case SortType.ALPHABETICALLY:
+      sortedList = [...goodsFromServer].sort((item1, item2) =>
+        item1.localeCompare(item2),
+      );
+      break;
+    case SortType.BY_LENGTH:
+      sortedList = [...goodsFromServer].sort(
+        (item1, item2) => item1.length - item2.length,
+      );
+      break;
+    case SortType.DEFAULT:
+      sortedList = [...goodsFromServer];
+      break;
   }
 
-  const [visibleList, setVisibleList] = useState<string[]>(goodsFromServer);
+  if (isReversed) {
+    sortedList.reverse();
+  }
+
+  return sortedList;
+};
+
+export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState<boolean>(false);
   const [actualSortType, setActualSortType] = useState<SortType>(
-    SortType.RESET,
+    SortType.DEFAULT,
   );
 
-  const sortBy = (sortingType: SortType) => {
-    let sortedList: string[] = [];
-
-    switch (sortingType) {
-      case SortType.ALPHABETICALLY:
-        sortedList = [...goodsFromServer].sort((item1, item2) =>
-          item1.localeCompare(item2),
-        );
-        break;
-      case SortType.BY_LENGTH:
-        sortedList = [...goodsFromServer].sort(
-          (item1, item2) => item1.length - item2.length,
-        );
-        break;
-      case SortType.RESET:
-        sortedList = [...goodsFromServer];
-        setIsReversed(false);
-        break;
-    }
-
-    if (isReversed && sortingType !== SortType.RESET) {
-      sortedList.reverse();
-    }
-
-    setVisibleList(sortedList);
-    setActualSortType(sortingType);
-  };
+  const sortedProducts = getSortedProducts(actualSortType, isReversed);
 
   const reverseList = () => {
-    const reversedList = [...visibleList].reverse();
-
-    setVisibleList(reversedList);
     setIsReversed(prev => !prev);
+  };
+
+  const reset = () => {
+    setIsReversed(false);
+    setActualSortType(SortType.DEFAULT);
   };
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => sortBy(SortType.ALPHABETICALLY)}
+          onClick={() => setActualSortType(SortType.ALPHABETICALLY)}
           type="button"
           className={classNames('button', 'is-info', {
             'is-light': actualSortType !== SortType.ALPHABETICALLY,
@@ -78,7 +79,7 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={() => sortBy(SortType.BY_LENGTH)}
+          onClick={() => setActualSortType(SortType.BY_LENGTH)}
           type="button"
           className={classNames('button', 'is-success', {
             'is-light': actualSortType !== SortType.BY_LENGTH,
@@ -97,9 +98,9 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(actualSortType !== SortType.RESET || isReversed) && (
+        {(actualSortType !== SortType.DEFAULT || isReversed) && (
           <button
-            onClick={() => sortBy(SortType.RESET)}
+            onClick={reset}
             type="button"
             className="button is-danger is-light"
           >
@@ -109,7 +110,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {visibleList.map(good => (
+        {sortedProducts.map(good => (
           <li key={good} data-cy="Good">
             {good}
           </li>
