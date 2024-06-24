@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
@@ -16,35 +16,79 @@ export const goodsFromServer = [
 ];
 
 export const App: React.FC = () => {
+  const copyOfGoods = [...goodsFromServer];
+  const [sortType, setSortState] = useState('');
+  const [isReversed, setIsReserve] = useState(false);
+
+  copyOfGoods.sort((good1, good2) => {
+    switch (sortType) {
+      case 'Sort by length':
+        return good1.length - good2.length;
+      case 'Sort alphabetically':
+        return good1.localeCompare(good2);
+      default:
+        return 0;
+    }
+  });
+  if (isReversed) {
+    copyOfGoods.reverse();
+  }
+
+  const getButtonClass = (buttonType: string) => {
+    return sortType === buttonType ? '' : 'is-light';
+  };
+
+  const reset = () => {
+    setIsReserve(false);
+    setSortState('');
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
-        <button type="button" className="button is-info is-light">
+        <button
+          onClick={() => setSortState('Sort alphabetically')}
+          type="button"
+          className={`button is-info ${getButtonClass('Sort alphabetically')}`}
+        >
           Sort alphabetically
         </button>
 
-        <button type="button" className="button is-success is-light">
+        <button
+          onClick={() => setSortState('Sort by length')}
+          type="button"
+          className={`button is-success ${getButtonClass('Sort by length')}`}
+        >
           Sort by length
         </button>
 
-        <button type="button" className="button is-warning is-light">
+        <button
+          onClick={() => setIsReserve(!isReversed)}
+          type="button"
+          className={`button is-warning ${isReversed ? '' : 'is-light'}`}
+        >
           Reverse
         </button>
 
-        <button type="button" className="button is-danger is-light">
-          Reset
-        </button>
+        {(sortType || isReversed) && (
+          <button
+            onClick={() => {
+              reset();
+            }}
+            type="button"
+            className={`button is-danger ${getButtonClass('Reset')}`}
+          >
+            Reset
+          </button>
+        )}
       </div>
 
       <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
+        {copyOfGoods.map(good => (
+          <li key={good} data-cy="Good">
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
