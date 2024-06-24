@@ -19,15 +19,18 @@ export const goodsFromServer = [
 enum SortType {
   Name = 'name',
   Length = 'length',
-  Empty = '',
+  Default = '',
 }
 
 interface FilterParams {
   sortField: string;
-  query: boolean;
+  isReversed: boolean;
 }
 
-function getSortedGoods(goods: string[], { sortField, query }: FilterParams) {
+function getSortedGoods(
+  goods: string[],
+  { sortField, isReversed: isReversed }: FilterParams,
+) {
   const preparedGoods = [...goods];
 
   if (sortField) {
@@ -45,7 +48,7 @@ function getSortedGoods(goods: string[], { sortField, query }: FilterParams) {
     });
   }
 
-  if (query) {
+  if (isReversed) {
     preparedGoods.reverse();
   }
 
@@ -53,17 +56,17 @@ function getSortedGoods(goods: string[], { sortField, query }: FilterParams) {
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState(SortType.Empty);
-  const [query, setQuery] = useState(false);
+  const [sortField, setSortField] = useState(SortType.Default);
+  const [isReversed, setIsReversed] = useState(false);
 
   const visibleGoods = getSortedGoods(goodsFromServer, {
     sortField,
-    query,
+    isReversed: isReversed,
   });
 
   function resetAllFilters() {
-    setSortField(SortType.Empty);
-    setQuery(false);
+    setSortField(SortType.Default);
+    setIsReversed(false);
   }
 
   return (
@@ -92,18 +95,18 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button', 'is-warning', {
-            'is-light': !query,
+            'is-light': !isReversed,
           })}
-          onClick={() => setQuery(!query)}
+          onClick={() => setIsReversed(!isReversed)}
         >
           Reversed
         </button>
 
-        {(sortField || query) && (
+        {(sortField || isReversed) && (
           <button
             type="button"
             className={cn('button', 'is-danger', {
-              'is-light': sortField !== '' || query,
+              'is-light': sortField !== '' || isReversed,
             })}
             onClick={resetAllFilters}
           >
@@ -113,13 +116,11 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        <ul>
-          {visibleGoods.map(good => (
-            <li data-cy="Good" key={good}>
-              {good}
-            </li>
-          ))}
-        </ul>
+        {visibleGoods.map(good => (
+          <li data-cy="Good" key={good}>
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
