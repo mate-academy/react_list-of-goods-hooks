@@ -19,6 +19,7 @@ export const goodsFromServer = [
 enum SortType {
   length = 'length',
   alphabet = 'alphabet',
+  default = 'default',
 }
 
 function getPraparedGoods(goods: string[], sortField: string) {
@@ -50,6 +51,10 @@ export const App: React.FC = () => {
   if (reversed) {
     visibleGoods = visibleGoods.reverse();
   }
+
+  const reset = () => {
+    setSortField(SortType.default);
+  };
 
   return (
     <div className="section content">
@@ -88,10 +93,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortField('');
-              setReversed(false);
-            }}
+            onClick={reset}
           >
             Reset
           </button>
