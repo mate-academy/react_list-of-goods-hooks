@@ -25,6 +25,7 @@ interface SortingParams {
 enum SortType {
   Alphabet = 'ALPHABET',
   Length = 'LENGTH',
+  Default = '',
 }
 
 function getPreparedGoods(
@@ -61,6 +62,11 @@ export const App: React.FC = () => {
     isReversed,
   });
 
+  const resetFilters = () => {
+    setSortField(SortType.Default);
+    setIsReversed(false);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -92,14 +98,11 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortField || isReversed) && (
+        {(sortField !== SortType.Default || isReversed) && (
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortField('');
-              setIsReversed(false);
-            }}
+            onClick={resetFilters}
           >
             Reset
           </button>
