@@ -67,6 +67,8 @@ export const App: React.FC = () => {
     setIsReversed(false);
   };
 
+  const sortingIsActive = sortField !== SortType.Default || isReversed;
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -98,7 +100,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortField !== SortType.Default || isReversed) && (
+        {sortingIsActive && (
           <button
             type="button"
             className="button is-danger is-light"
