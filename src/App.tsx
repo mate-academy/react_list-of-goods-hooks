@@ -18,34 +18,43 @@ export const App: React.FC<Props> = ({ initialGoods }) => {
   const [sortType, setSortType] = useState<SortType>(SortType.None);
   const [isReversedActive, setIsReversedActive] = useState<boolean>(false);
 
-  function sortGoods(type: SortType) {
-    let sortedGoods = [...goods];
+  function getPreparedGoods(
+    sortedGoods: string[],
+    currentSortType: SortType,
+    reversed: boolean
+  ): string[] {
+    const updatedGoods = [...sortedGoods];
 
-    switch (type) {
+    switch (currentSortType) {
       case SortType.Alphabetical:
-        sortedGoods.sort((one, two) => one.localeCompare(two));
-        setIsReversedActive(false);
+        updatedGoods.sort((one, two) => one.localeCompare(two));
         break;
       case SortType.ByLength:
-        sortedGoods.sort((one, two) => one.length - two.length);
-        setIsReversedActive(false);
-        break;
-      case SortType.None:
-        sortedGoods = [...initialGoods];
-        setIsReversedActive(false);
+        updatedGoods.sort((one, two) => one.length - two.length);
         break;
       default:
         break;
     }
 
-    setGoods(sortedGoods);
+    if (reversed) {
+      updatedGoods.reverse();
+    }
+
+    return updatedGoods;
+  }
+
+  function sortGoods(type: SortType) {
+    const sorted = getPreparedGoods(goods, type, false);
+
+    setGoods(sorted);
     setSortType(type);
+    setIsReversedActive(false);
   }
 
   function reverseGoods() {
-    const reversedGoods = [...goods].reverse();
+    const reversed = [...goods].reverse();
 
-    setGoods(reversedGoods);
+    setGoods(reversed);
     setIsReversedActive(!isReversedActive);
   }
 
@@ -54,6 +63,8 @@ export const App: React.FC<Props> = ({ initialGoods }) => {
     setSortType(SortType.None);
     setIsReversedActive(false);
   }
+
+  const preparedGoods = getPreparedGoods(goods, sortType, isReversedActive);
 
   return (
     <div className="section content">
@@ -100,7 +111,7 @@ export const App: React.FC<Props> = ({ initialGoods }) => {
       </div>
 
       <ul>
-        {goods.map(good => (
+        {preparedGoods.map(good => (
           <li key={good}>{good}</li>
         ))}
       </ul>
