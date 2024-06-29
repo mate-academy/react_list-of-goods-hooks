@@ -14,4 +14,6 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-createRoot(document.getElementById('root') as HTMLElement).render(<App goods={goodsFromServer} />);
+createRoot(document.getElementById('root') as HTMLElement).render(
+  <App initialGoods={goodsFromServer} />,
+);

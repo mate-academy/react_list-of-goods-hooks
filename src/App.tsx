@@ -4,44 +4,52 @@ import './App.scss';
 import cn from 'classnames';
 
 type Props = {
-  goods: string[];
-}
+  initialGoods: string[];
+};
 
 enum SortType {
   Alphabetical = 'Alphabetical',
   ByLength = 'ByLength',
-  Reversed = 'Reversed',
-  None = 'None'
+  None = 'None',
 }
 
-export const App: React.FC<Props> = ({ goods }) => {
-  const [newSorted, setNewSorted] = useState([...goods]);
-  const [sortTypes, setSortType] = useState<SortType>(SortType.None);
+export const App: React.FC<Props> = ({ initialGoods }) => {
+  const [goods, setGoods] = useState([...initialGoods]);
+  const [sortType, setSortType] = useState<SortType>(SortType.None);
   const [isReversedActive, setIsReversedActive] = useState<boolean>(false);
 
-  function sortAlphabetically() {
-    const sorted = [...newSorted].sort((one, two) => one.localeCompare(two));
-    setNewSorted(sorted);
-    setSortType(SortType.Alphabetical);
-    setIsReversedActive(false);
+  function sortGoods(type: SortType) {
+    let sortedGoods = [...goods];
+
+    switch (type) {
+      case SortType.Alphabetical:
+        sortedGoods.sort((one, two) => one.localeCompare(two));
+        setIsReversedActive(false);
+        break;
+      case SortType.ByLength:
+        sortedGoods.sort((one, two) => one.length - two.length);
+        setIsReversedActive(false);
+        break;
+      case SortType.None:
+        sortedGoods = [...initialGoods];
+        setIsReversedActive(false);
+        break;
+      default:
+        break;
+    }
+
+    setGoods(sortedGoods);
+    setSortType(type);
   }
 
-  function sortByLength() {
-    const sorted = [...newSorted].sort((one, two) => one.length - two.length);
-    setNewSorted(sorted);
-    setSortType(SortType.ByLength);
-    setIsReversedActive(false);
-  }
-
-  function reverse() {
-    const sorted = [...newSorted].reverse();
-    setNewSorted(sorted);
-    setSortType(SortType.Reversed);
+  function reverseGoods() {
+    const reversedGoods = [...goods].reverse();
+    setGoods(reversedGoods);
     setIsReversedActive(!isReversedActive);
   }
 
   function reset() {
-    setNewSorted([...goods]);
+    setGoods([...initialGoods]);
     setSortType(SortType.None);
     setIsReversedActive(false);
   }
@@ -52,9 +60,9 @@ export const App: React.FC<Props> = ({ goods }) => {
         <button
           type="button"
           className={cn('button', 'is-info', {
-            'is-light': sortTypes !== SortType.Alphabetical
+            'is-light': sortType !== SortType.Alphabetical,
           })}
-          onClick={sortAlphabetically}
+          onClick={() => sortGoods(SortType.Alphabetical)}
         >
           Sort alphabetically
         </button>
@@ -62,9 +70,9 @@ export const App: React.FC<Props> = ({ goods }) => {
         <button
           type="button"
           className={cn('button', 'is-success', {
-            'is-light': sortTypes !== SortType.ByLength
+            'is-light': sortType !== SortType.ByLength,
           })}
-          onClick={sortByLength}
+          onClick={() => sortGoods(SortType.ByLength)}
         >
           Sort by length
         </button>
@@ -72,14 +80,14 @@ export const App: React.FC<Props> = ({ goods }) => {
         <button
           type="button"
           className={cn('button', 'is-warning', {
-            'is-light': !isReversedActive
+            'is-light': !isReversedActive,
           })}
-          onClick={reverse}
+          onClick={reverseGoods}
         >
           Reverse
         </button>
 
-        {(sortTypes !== SortType.None && isReversedActive) && (
+        {(sortType !== SortType.None || isReversedActive) && (
           <button
             type="button"
             className="button is-danger is-light"
@@ -91,8 +99,8 @@ export const App: React.FC<Props> = ({ goods }) => {
       </div>
 
       <ul>
-        {newSorted.map(el => (
-          <li key={el}>{el}</li>
+        {goods.map(good => (
+          <li key={good}>{good}</li>
         ))}
       </ul>
     </div>
