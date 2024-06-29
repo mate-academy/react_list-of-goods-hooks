@@ -42,11 +42,10 @@ export const App: React.FC<Props> = ({ initialGoods }) => {
   const [isReversedActive, setIsReversedActive] = useState(false);
 
   function sortGoods(type: SortType) {
-    const sorted = getPreparedGoods(goods, type, false);
+    const sorted = getPreparedGoods(initialGoods, type, isReversedActive);
 
     setGoods(sorted);
     setSortType(type);
-    setIsReversedActive(false);
   }
 
   function reverseGoods() {
