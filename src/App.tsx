@@ -27,12 +27,8 @@ export const App: React.FC<Props> = ({ initialGoods }) => {
 
     switch (currentSortType) {
       case SortType.Alphabetical:
-        updatedGoods.sort((one, two) => one.localeCompare(two));
-        break;
       case SortType.ByLength:
-        updatedGoods.sort((one, two) => one.length - two.length);
-        break;
-      default:
+        updatedGoods.sort((one, two) => one.localeCompare(two));
         break;
     }
 
