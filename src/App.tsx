@@ -21,7 +21,7 @@ export const App: React.FC<Props> = ({ initialGoods }) => {
   function getPreparedGoods(
     sortedGoods: string[],
     currentSortType: SortType,
-    reversed: boolean
+    reversed: boolean,
   ): string[] {
     const updatedGoods = [...sortedGoods];
 
