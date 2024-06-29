@@ -13,31 +13,33 @@ enum SortType {
   None = 'None',
 }
 
-export const App: React.FC<Props> = ({ initialGoods }) => {
-  const [goods, setGoods] = useState([...initialGoods]);
-  const [sortType, setSortType] = useState<SortType>(SortType.None);
-  const [isReversedActive, setIsReversedActive] = useState<boolean>(false);
+function getPreparedGoods(
+  sortedGoods: string[],
+  currentSortType: SortType,
+  reversed: boolean,
+): string[] {
+  const updatedGoods = [...sortedGoods];
 
-  function getPreparedGoods(
-    sortedGoods: string[],
-    currentSortType: SortType,
-    reversed: boolean,
-  ): string[] {
-    const updatedGoods = [...sortedGoods];
-
-    switch (currentSortType) {
-      case SortType.Alphabetical:
-      case SortType.ByLength:
-        updatedGoods.sort((one, two) => one.localeCompare(two));
-        break;
-    }
-
-    if (reversed) {
-      updatedGoods.reverse();
-    }
-
-    return updatedGoods;
+  switch (currentSortType) {
+    case SortType.Alphabetical:
+      updatedGoods.sort((one, two) => one.localeCompare(two));
+      break;
+    case SortType.ByLength:
+      updatedGoods.sort((one, two) => one.length - two.length);
+      break;
   }
+
+  if (reversed) {
+    updatedGoods.reverse();
+  }
+
+  return updatedGoods;
+}
+
+export const App: React.FC<Props> = ({ initialGoods }) => {
+  const [goods, setGoods] = useState(initialGoods);
+  const [sortType, setSortType] = useState<SortType>(SortType.None);
+  const [isReversedActive, setIsReversedActive] = useState(false);
 
   function sortGoods(type: SortType) {
     const sorted = getPreparedGoods(goods, type, false);
@@ -60,8 +62,6 @@ export const App: React.FC<Props> = ({ initialGoods }) => {
     setIsReversedActive(false);
   }
 
-  const preparedGoods = getPreparedGoods(goods, sortType, isReversedActive);
-
   return (
     <div className="section content">
       <div className="buttons">
@@ -71,6 +71,7 @@ export const App: React.FC<Props> = ({ initialGoods }) => {
             'is-light': sortType !== SortType.Alphabetical,
           })}
           onClick={() => sortGoods(SortType.Alphabetical)}
+          data-cy="sortAlphabeticallyButton"
         >
           Sort alphabetically
         </button>
@@ -81,6 +82,7 @@ export const App: React.FC<Props> = ({ initialGoods }) => {
             'is-light': sortType !== SortType.ByLength,
           })}
           onClick={() => sortGoods(SortType.ByLength)}
+          data-cy="sortByLengthButton"
         >
           Sort by length
         </button>
@@ -91,6 +93,7 @@ export const App: React.FC<Props> = ({ initialGoods }) => {
             'is-light': !isReversedActive,
           })}
           onClick={reverseGoods}
+          data-cy="reverseButton"
         >
           Reverse
         </button>
@@ -100,6 +103,7 @@ export const App: React.FC<Props> = ({ initialGoods }) => {
             type="button"
             className="button is-danger is-light"
             onClick={reset}
+            data-cy="resetButton"
           >
             Reset
           </button>
@@ -107,8 +111,10 @@ export const App: React.FC<Props> = ({ initialGoods }) => {
       </div>
 
       <ul>
-        {preparedGoods.map(good => (
-          <li key={good}>{good}</li>
+        {goods.map((good, index) => (
+          <li key={index} data-cy="Good">
+            {good}
+          </li>
         ))}
       </ul>
     </div>
