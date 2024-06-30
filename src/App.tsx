@@ -65,11 +65,6 @@ export const App: React.FC<Props> = ({ initialGoods }) => {
           })}
           onClick={() => {
             setSortType(SortType.Alphabetical);
-            getPreparedGoods(
-              initialGoods,
-              SortType.Alphabetical,
-              isReversedActive,
-            );
           }}
           data-cy="sortAlphabeticallyButton"
         >
@@ -83,7 +78,6 @@ export const App: React.FC<Props> = ({ initialGoods }) => {
           })}
           onClick={() => {
             setSortType(SortType.ByLength);
-            getPreparedGoods(initialGoods, SortType.ByLength, isReversedActive);
           }}
           data-cy="sortByLengthButton"
         >
