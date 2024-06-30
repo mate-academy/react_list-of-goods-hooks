@@ -46,7 +46,6 @@ export const App: React.FC<Props> = ({ initialGoods }) => {
     isReversedActive,
   );
 
-
   function reverseGoods() {
     setIsReversedActive(!isReversedActive);
   }
