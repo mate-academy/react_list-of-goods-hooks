@@ -15,24 +15,27 @@ export const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-const SORT_ALPHABETICALLY = 'alphabetically';
-const SORT_BY_LENGTH = 'length';
+enum SortOptionsEnum {
+  ALPHABETICALLY = 'alphabetically',
+  BY_LENGTH = 'length',
+}
 
 type SortOptions = {
-  sortBy: string;
+  sortBy: SortOptionsEnum | '';
   reversed: boolean;
 };
+
 function prepareGoods(goods: string[], { sortBy, reversed }: SortOptions) {
   let preparedGoods: string[] = [...goods];
 
   if (sortBy) {
     switch (sortBy) {
-      case SORT_ALPHABETICALLY:
+      case SortOptionsEnum.ALPHABETICALLY:
         preparedGoods = preparedGoods.sort((a: string, b: string) => {
           return a.localeCompare(b);
         });
         break;
-      case SORT_BY_LENGTH:
+      case SortOptionsEnum.BY_LENGTH:
         preparedGoods = preparedGoods.sort((a: string, b: string) => {
           return a.length - b.length;
         });
@@ -50,7 +53,7 @@ function prepareGoods(goods: string[], { sortBy, reversed }: SortOptions) {
 }
 
 export const App = () => {
-  const [sortBy, setSortBy] = useState('');
+  const [sortBy, setSortBy] = useState<SortOptionsEnum | ''>('');
   const [reversed, setReversed] = useState(false);
   const goods: string[] = prepareGoods(goodsFromServer, { sortBy, reversed });
   const resetSorting = () => {
@@ -63,16 +66,16 @@ export const App = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortBy !== SORT_ALPHABETICALLY ? 'is-light' : ''}`}
-          onClick={() => setSortBy(SORT_ALPHABETICALLY)}
+          className={`button is-info ${sortBy !== SortOptionsEnum.ALPHABETICALLY ? 'is-light' : ''}`}
+          onClick={() => setSortBy(SortOptionsEnum.ALPHABETICALLY)}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={`button is-success ${sortBy !== SORT_BY_LENGTH ? 'is-light' : ''}`}
-          onClick={() => setSortBy(SORT_BY_LENGTH)}
+          className={`button is-success ${sortBy !== SortOptionsEnum.BY_LENGTH ? 'is-light' : ''}`}
+          onClick={() => setSortBy(SortOptionsEnum.BY_LENGTH)}
         >
           Sort by length
         </button>
