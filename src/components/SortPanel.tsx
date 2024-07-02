@@ -35,7 +35,7 @@ export const SortPanel: React.FC<Props> = ({
             'is-light': activeSortType !== sort.type,
           })}
           onClick={() => updateSort(sort.type)}
-          key={}
+          key={sort.id}
         >
           {sort.title}
         </button>

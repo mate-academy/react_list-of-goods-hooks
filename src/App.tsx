@@ -37,7 +37,11 @@ export const App: React.FC = () => {
   const [sortBy, setSortBy] = useState<SortType>(DEFAULT_SORT_TYPE);
   const [isReversed, setIsReversed] = useState<boolean>(false);
 
-  const visibleGoods: Product[] = getPreparedGoods(goodsFromServer, sortBy, isReversed);
+  const visibleGoods: Product[] = getPreparedGoods(
+    goodsFromServer,
+    sortBy,
+    isReversed,
+  );
 
   return (
     <div className="section content">
