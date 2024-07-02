@@ -1,51 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+import { goodsFromServer } from './data/goodsFromServer';
+import { DEFAULT_SORT_TYPE, SortType } from './types/Sort';
+import { SortPanel } from './components/SortPanel';
+import { Product } from './types/Product';
+import { ProductList } from './components/ProductList';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-export const goodsFromServer = [
-  'Dumplings',
-  'Carrot',
-  'Eggs',
-  'Ice cream',
-  'Apple',
-  'Bread',
-  'Fish',
-  'Honey',
-  'Jam',
-  'Garlic',
-];
+const getPreparedGoods = (
+  goods: Product[],
+  sortBy: SortType,
+  isReversed: boolean,
+): Product[] => {
+  const preparedGoods: Product[] = [...goods];
+
+  preparedGoods.sort((a, b) => {
+    switch (sortBy) {
+      case SortType.ASC:
+        return a.title.localeCompare(b.title);
+      case SortType.LENGTH:
+        return a.title.length - b.title.length;
+      default:
+        return 0;
+    }
+  });
+
+  if (isReversed) {
+    preparedGoods.reverse();
+  }
+
+  return preparedGoods;
+};
 
 export const App: React.FC = () => {
+  const [sortBy, setSortBy] = useState<SortType>(DEFAULT_SORT_TYPE);
+  const [isReversed, setIsReversed] = useState<boolean>(false);
+
+  const visibleGoods: Product[] = getPreparedGoods(
+    goodsFromServer,
+    sortBy,
+    isReversed,
+  );
+
   return (
     <div className="section content">
-      <div className="buttons">
-        <button type="button" className="button is-info is-light">
-          Sort alphabetically
-        </button>
+      <SortPanel
+        activeSortType={sortBy}
+        isReversed={isReversed}
+        updateSort={setSortBy}
+        updateReversed={setIsReversed}
+      />
 
-        <button type="button" className="button is-success is-light">
-          Sort by length
-        </button>
-
-        <button type="button" className="button is-warning is-light">
-          Reverse
-        </button>
-
-        <button type="button" className="button is-danger is-light">
-          Reset
-        </button>
-      </div>
-
-      <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
-      </ul>
+      <ProductList products={visibleGoods} />
     </div>
   );
 };
