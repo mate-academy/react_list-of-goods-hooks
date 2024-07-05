@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import cn from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import { GoodList } from './components/goodlist';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -16,23 +17,13 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-type Good = string;
-
 enum SortType {
   NONE = '',
   ALPHABET = 'alphabet',
   LENGTH = 'length',
 }
 
-const GoodList: React.FC<{ goods: Good[] }> = ({ goods }) => (
-  <ul>
-    {goods.map(good => (
-      <li key={good} data-cy="Good">
-        {good}
-      </li>
-    ))}
-  </ul>
-);
+type Good = string;
 
 function getPreparedGoods(
   goods: Good[],
@@ -45,8 +36,10 @@ function getPreparedGoods(
       switch (sortField) {
         case SortType.ALPHABET:
           return good1.localeCompare(good2);
+
         case SortType.LENGTH:
           return good1.length - good2.length;
+
         default:
           return 0;
       }
@@ -67,6 +60,11 @@ export const App = () => {
     sortField,
     isReversed,
   });
+
+  const reset = () => {
+    setSortField(SortType.NONE);
+    setIsReversed(false);
+  };
 
   return (
     <div className="section content">
@@ -104,10 +102,7 @@ export const App = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortField(SortType.NONE);
-              setIsReversed(false);
-            }}
+            onClick={reset}
           >
             Reset
           </button>
