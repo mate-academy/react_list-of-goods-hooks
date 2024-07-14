@@ -116,13 +116,11 @@ export const App: React.FC = () => {
 
       <ul>
         <ul>
-          {getReorderedGoods(goodsFromServer, sortOptions).map(goodie => {
-            return (
-              <li data-cy="Good" key={goodie}>
-                {goodie}
-              </li>
-            );
-          })}
+          {getReorderedGoods(goodsFromServer, sortOptions).map(goodie => (
+            <li data-cy="Good" key={goodie}>
+              {goodie}
+            </li>
+          ))}
         </ul>
       </ul>
     </div>
