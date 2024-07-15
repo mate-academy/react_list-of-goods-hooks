@@ -54,16 +54,16 @@ export const App = () => {
   const [isReversed, setReverseField] = useState<boolean>(false);
   const visibleGoods = getSortedArray(goodsFromServer, sortField, isReversed);
 
+  function onReverseHandler(isReverse: boolean) {
+    setReverseField(!isReverse);
+  }
+
   function onSortHandler(sortType: string, shouldReverse?: boolean) {
     setSortField(sortType);
 
     if (shouldReverse) {
       onReverseHandler(shouldReverse);
     }
-  }
-
-  function onReverseHandler(isReversed: boolean) {
-    setReverseField(!isReversed);
   }
 
   return (
