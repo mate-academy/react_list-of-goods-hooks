@@ -24,7 +24,7 @@ enum SortType {
 
 function getSortedArray(
   array: string[],
-  sortField: string,
+  sortField: SortType,
   isReversed: boolean,
 ): string[] {
   const preparedGoods = [...array];
@@ -50,15 +50,15 @@ function getSortedArray(
 }
 
 export const App = () => {
-  const [sortField, setSortField] = useState<string>('');
-  const [isReversed, setReverseField] = useState<boolean>(false);
+  const [sortField, setSortField] = useState(SortType.SORT_FIELD_RESET);
+  const [isReversed, setReverseField] = useState(false);
   const visibleGoods = getSortedArray(goodsFromServer, sortField, isReversed);
 
   function onReverseHandler(isReverse: boolean) {
     setReverseField(!isReverse);
   }
 
-  function onSortHandler(sortType: string, shouldReverse?: boolean) {
+  function onSortHandler(sortType: SortType, shouldReverse?: boolean) {
     setSortField(sortType);
 
     if (shouldReverse) {
