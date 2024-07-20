@@ -16,41 +16,30 @@ export const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-function generateRandomNumericId(length = 10): string {
-  const digits = '0123456789';
-  let randomId = '';
-
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * digits.length);
-
-    randomId += digits[randomIndex];
-  }
-
-  return randomId;
-}
-
 export const App: React.FC = () => {
   const [goodsList, setGoodsList] = useState<string[]>([...goodsFromServer]);
   const [sortType, setSortType] = useState<string>('');
   const [reversed, setReversed] = useState<boolean>(false);
 
-  const sortAlphabetically = (): void => {
-    setSortType('by name');
-    setGoodsList([...goodsList].sort());
-  };
+  const handleSort = (type: string): void => {
+    let sortedGoods = [...goodsList];
 
-  const sortByLength = (): void => {
-    setSortType('by length');
-    setGoodsList(
-      [...goodsList].sort(
-        (good1: string, good2: string) => good1.length - good2.length,
-      ),
-    );
-  };
+    switch (type) {
+      case 'by name':
+        sortedGoods.sort();
+        break;
+      case 'by length':
+        sortedGoods.sort((good1, good2) => good1.length - good2.length);
+        break;
+      case 'reverse':
+        sortedGoods.reverse();
+        break;
+      default:
+        sortedGoods = [...goodsFromServer];
+    }
 
-  const sortByReverse = (): void => {
-    setReversed(!reversed);
-    setGoodsList([...goodsList].reverse());
+    setSortType(type);
+    setGoodsList(sortedGoods);
   };
 
   const resetSort = (): void => {
@@ -67,7 +56,7 @@ export const App: React.FC = () => {
           className={classNames('button', 'is-info', {
             'is-light': sortType !== 'by name',
           })}
-          onClick={sortAlphabetically}
+          onClick={() => handleSort('by name')}
         >
           Sort alphabetically
         </button>
@@ -77,7 +66,7 @@ export const App: React.FC = () => {
           className={classNames('button', 'is-success', {
             'is-light': sortType !== 'by length',
           })}
-          onClick={sortByLength}
+          onClick={() => handleSort('by length')}
         >
           Sort by length
         </button>
@@ -87,7 +76,10 @@ export const App: React.FC = () => {
           className={classNames('button', 'is-warning', {
             'is-light': !reversed,
           })}
-          onClick={sortByReverse}
+          onClick={() => {
+            setReversed(!reversed);
+            handleSort('reverse');
+          }}
         >
           Reverse
         </button>
@@ -105,7 +97,7 @@ export const App: React.FC = () => {
 
       <ul>
         {goodsList.map(good => (
-          <li data-cy="Good" key={generateRandomNumericId()}>
+          <li data-cy="Good" key={good}>
             {good}
           </li>
         ))}
