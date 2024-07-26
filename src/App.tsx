@@ -48,7 +48,6 @@ export const App: React.FC = () => {
   };
 
   const resetGoods = () => {
-    setGoods([...goodsFromServer]);
     setSortType(SortType.None);
     setIsReversed(false);
   };
