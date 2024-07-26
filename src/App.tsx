@@ -44,9 +44,6 @@ export const App: React.FC = () => {
   };
 
   const toggleReverse = () => {
-    const reversedGoods = [...goods].reverse();
-
-    setGoods(reversedGoods);
     setIsReversed(!isReversed);
   };
 
