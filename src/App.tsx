@@ -91,7 +91,7 @@ const sortedGoods = sortGoods(sortType, isReversed)
 
       <ul>
         {sortedGoods.map((good) => (
-          <li key={index} data-cy="Good">
+          <li key={good} data-cy="Good">
             {good}
           </li>
         ))}
