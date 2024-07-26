@@ -50,7 +50,7 @@ export const App: React.FC = () => {
     setSortType(SortType.None);
     setIsReversed(false);
   };
-
+const sortedGoods = sortGoods(sortType, isReversed)
   return (
     <div className="section content">
       <div className="buttons">
