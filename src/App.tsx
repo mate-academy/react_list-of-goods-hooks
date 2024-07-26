@@ -39,8 +39,7 @@ export const App: React.FC = () => {
       sortedGoods.reverse();
     }
 
-    setGoods(sortedGoods);
-    setSortType(type);
+  return sortedGoods;
   };
 
   const toggleReverse = () => {
