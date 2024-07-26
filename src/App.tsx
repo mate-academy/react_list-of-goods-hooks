@@ -26,7 +26,7 @@ export const App: React.FC = () => {
   const [sortType, setSortType] = useState<SortType>(SortType.None);
   const [isReversed, setIsReversed] = useState<boolean>(false);
 
-  const sortGoods = (type: SortType) => {
+  const sortGoods = (type: SortType, isReversed: boolean) => {
     const sortedGoods = [...goodsFromServer];
 
     if (type === SortType.Alphabetically) {
