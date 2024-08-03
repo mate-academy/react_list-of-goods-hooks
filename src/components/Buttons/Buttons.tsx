@@ -1,6 +1,5 @@
 import React from 'react';
 import cn from 'classnames';
-import { Sort } from '../../types/Sort';
 import { SortMethod } from '../../types/SortMethod';
 
 type Props = {
@@ -21,9 +20,9 @@ export const Buttons: React.FC<Props> = ({
       <button
         type="button"
         className={cn('button is-info', {
-          'is-light': sortMethod !== Sort.alphabetically,
+          'is-light': sortMethod !== SortMethod.alphabetically,
         })}
-        onClick={() => setCurrentSortMethod(Sort.alphabetically)}
+        onClick={() => setCurrentSortMethod(SortMethod.alphabetically)}
       >
         Sort alphabetically
       </button>
@@ -31,9 +30,9 @@ export const Buttons: React.FC<Props> = ({
       <button
         type="button"
         className={cn('button is-success', {
-          'is-light': sortMethod !== Sort.byLength,
+          'is-light': sortMethod !== SortMethod.byLength,
         })}
-        onClick={() => setCurrentSortMethod(Sort.byLength)}
+        onClick={() => setCurrentSortMethod(SortMethod.byLength)}
       >
         Sort by length
       </button>
@@ -52,7 +51,7 @@ export const Buttons: React.FC<Props> = ({
           className="button is-danger is-light"
           onClick={() => {
             toggleOrderReversed(false);
-            setCurrentSortMethod(Sort.default);
+            setCurrentSortMethod(SortMethod.default);
           }}
         >
           Reset

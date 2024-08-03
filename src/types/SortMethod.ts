@@ -1,3 +1,5 @@
-import { Sort } from './Sort';
-
-export type SortMethod = Sort.alphabetically | Sort.byLength | '';
+export enum SortMethod {
+  default = '',
+  byLength = 'length',
+  alphabetically = 'alphabetically',
+}

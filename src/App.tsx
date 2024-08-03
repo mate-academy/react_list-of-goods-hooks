@@ -4,7 +4,6 @@ import './App.scss';
 import { GoodsList } from './components/GoodsList';
 import { Goods } from './types/Goods';
 import { Buttons } from './components/Buttons';
-import { Sort } from './types/Sort';
 import { SortMethod } from './types/SortMethod';
 
 export const goodsFromServer: Goods = [
@@ -34,9 +33,9 @@ const getPreparedGoods = (
   if (sortMethod) {
     preparedGoods.sort((good1, good2) => {
       switch (sortMethod) {
-        case Sort.alphabetically:
+        case SortMethod.alphabetically:
           return good1.localeCompare(good2);
-        case Sort.byLength:
+        case SortMethod.byLength:
           return good1.length - good2.length;
         default:
           return 0;
@@ -52,7 +51,7 @@ const getPreparedGoods = (
 };
 
 export const App: React.FC = () => {
-  const [sortMethod, setSortMethod] = useState<SortMethod>(Sort.default);
+  const [sortMethod, setSortMethod] = useState<SortMethod>(SortMethod.default);
   const [isReversed, setIsReversed] = useState(false);
 
   const showGoods: Goods = getPreparedGoods(goodsFromServer, {
