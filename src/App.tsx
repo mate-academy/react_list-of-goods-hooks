@@ -52,7 +52,7 @@ const getPreparedGoods = (
 };
 
 export const App: React.FC = () => {
-  const [sortMethod, setSortMethod] = useState<SortMethod>('');
+  const [sortMethod, setSortMethod] = useState<SortMethod>(Sort.default);
   const [isReversed, setIsReversed] = useState(false);
 
   const showGoods: Goods = getPreparedGoods(goodsFromServer, {

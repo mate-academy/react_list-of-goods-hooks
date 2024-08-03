@@ -51,11 +51,8 @@ export const Buttons: React.FC<Props> = ({
           type="button"
           className="button is-danger is-light"
           onClick={() => {
-            if (isReversed) {
-              toggleOrderReversed(false);
-            }
-
-            setCurrentSortMethod('');
+            toggleOrderReversed(false);
+            setCurrentSortMethod(Sort.default);
           }}
         >
           Reset
