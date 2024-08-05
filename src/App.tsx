@@ -19,6 +19,7 @@ export const goodsFromServer = [
 enum SortType {
   length = 'length',
   alphabet = 'alphabet',
+  default = '',
 }
 
 function getPraparedGoods(goods: string[], sortField: string) {
