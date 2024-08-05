@@ -101,7 +101,7 @@ export const App: React.FC = () => {
               setIsReversed(false);
             }}
             type="button"
-            className="button is-danger"
+            className="button is-danger is-light"
           >
             Reset
           </button>
