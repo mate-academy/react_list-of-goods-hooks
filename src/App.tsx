@@ -17,8 +17,8 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  Length = 'by-alph',
-  Alphabet = 'by-length',
+  Length = 'length',
+  Alphabet = 'alphabet',
   Default = '',
 }
 
@@ -55,7 +55,7 @@ function getPreparedGoods(goods: string[], params: SortParams) {
 export const App: React.FC = () => {
   const [sortBy, setSortBy] = useState<SortType>(SortType.Default);
   const [isReversed, setIsReversed] = useState<boolean>(false);
-  const isResetAppear = sortBy || isReversed;
+  const showReset = sortBy || isReversed;
 
   const reset = () => {
     setSortBy(SortType.Default);
@@ -72,10 +72,9 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={classNames(
-            'button is-info',
-            sortBy !== SortType.Alphabet && 'is-light',
-          )}
+          className={classNames('button is-info', {
+            'is-light': sortBy !== SortType.Alphabet,
+          })}
           onClick={() => setSortBy(SortType.Alphabet)}
         >
           Sort alphabetically
@@ -83,10 +82,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={classNames(
-            'button is-success',
-            sortBy !== SortType.Length && 'is-light',
-          )}
+          className={classNames('button is-success', {
+            'is-light': sortBy !== SortType.Length,
+          })}
           onClick={() => setSortBy(SortType.Length)}
         >
           Sort by length
@@ -100,7 +98,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {isResetAppear && (
+        {showReset && (
           <button
             type="button"
             className="button is-danger is-light"
