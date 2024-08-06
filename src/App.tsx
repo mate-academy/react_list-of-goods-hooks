@@ -19,12 +19,13 @@ export const goodsFromServer = [
 enum SortType {
   Alphabet = 'Sort alphabetically',
   Length = 'Sort by length',
+  None = '',
 }
 
-function goodInUse(
+function useGoodIn(
   good: string[],
   isReverse: boolean,
-  sortTypeFilter: string,
+  sortTypeFilter: SortType,
 ): string[] {
   const currentGoods: string[] = [...good];
 
@@ -49,9 +50,9 @@ function goodInUse(
 }
 
 export const App: React.FC = () => {
-  const [sortTypeFilter, setSortTypeFilter] = useState('');
+  const [sortTypeFilter, setSortTypeFilter] = useState(SortType.None);
   const [isReverse, setIsReverse] = useState(false);
-  const goodsList: string[] = goodInUse(
+  const sortedGoods: string[] = useGoodIn(
     goodsFromServer,
     isReverse,
     sortTypeFilter,
@@ -90,14 +91,12 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {sortTypeFilter === '' && isReverse === false ? (
-          ''
-        ) : (
+        {sortTypeFilter !== '' && isReverse === true && (
           <button
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              setSortTypeFilter('');
+              setSortTypeFilter(SortType.None);
               setIsReverse(false);
             }}
           >
@@ -108,9 +107,9 @@ export const App: React.FC = () => {
 
       <ul>
         <ul>
-          {goodsList.map(item => (
-            <li data-cy="Good" key={item}>
-              {item}
+          {sortedGoods.map(good => (
+            <li data-cy="Good" key={good}>
+              {good}
             </li>
           ))}
         </ul>
