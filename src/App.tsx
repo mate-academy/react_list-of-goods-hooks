@@ -41,6 +41,7 @@ const getPreparedGoods = (
         break;
     }
   }
+
   if (reverse) {
     preparedGoods.reverse();
   }
