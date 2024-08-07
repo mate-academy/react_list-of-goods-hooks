@@ -51,10 +51,10 @@ const getPreparedGoods = (
 
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState<SortType | null>(null);
-  const [reverse, setReverse] = useState(false);
+  const [isReverse, setIsReverse] = useState(false);
 
-  const preparedGoods = getPreparedGoods(goodsFromServer, sortField, reverse);
-  const isReset = sortField || reverse;
+  const preparedGoods = getPreparedGoods(goodsFromServer, sortField, isReverse);
+  const isReset = sortField || isReverse;
 
   return (
     <div className="section content">
@@ -82,9 +82,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={classNames('button is-warning', {
-            'is-light': !reverse,
+            'is-light': !isReverse,
           })}
-          onClick={() => setReverse(!reverse)}
+          onClick={() => setIsReverse(!isReverse)}
         >
           Reverse
         </button>
@@ -95,7 +95,7 @@ export const App: React.FC = () => {
             className="button is-danger is-light"
             onClick={() => {
               setSortField(null);
-              setReverse(false);
+              setIsReverse(false);
             }}
           >
             Reset
@@ -104,8 +104,8 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {preparedGoods.map((good: string, index: number) => (
-          <li key={index} data-cy="Good">
+        {preparedGoods.map((good: string) => (
+          <li data-cy="Good" key={good}>
             {good}
           </li>
         ))}
