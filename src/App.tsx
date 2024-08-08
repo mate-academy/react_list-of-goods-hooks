@@ -24,7 +24,7 @@ enum SortField {
 }
 
 interface SortParams {
-  sortField: string;
+  sortField: SortField;
   reversedField: boolean;
 }
 
@@ -55,8 +55,8 @@ function getPrepareGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState(SortField.DEFAULT);
-  const [reversedField, setReversedField] = useState(false);
+  const [sortField, setSortField] = useState<SortField>(SortField.DEFAULT);
+  const [reversedField, setReversedField] = useState<boolean>(false);
   const visibleGoods = getPrepareGoods(goodsFromServer, {
     sortField,
     reversedField,
