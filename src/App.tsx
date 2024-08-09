@@ -74,7 +74,7 @@ export const App: React.FC = () => {
           className={classNames('button is-warning', {
             'is-light': !reverse,
           })}
-          onClick={() => (!reverse ? setReverse(true) : setReverse(false))}
+          onClick={() => setReverse(!reverse)}
         >
           Reverse
         </button>
