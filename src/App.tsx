@@ -49,10 +49,7 @@ export const App: React.FC = () => {
   const [sortType, setsortType] = useState<SortType | ''>('');
 
   const sortedGoods: string[] = handleSort(sortType, isReversed);
-  const shouldShowResetButton =
-    sortType === SortType.SORT_ALPHABET ||
-    sortType === SortType.SORT_LENGTH ||
-    isReversed;
+  const shouldShowResetButton = sortType || isReversed;
 
   return (
     <div className="section content">
