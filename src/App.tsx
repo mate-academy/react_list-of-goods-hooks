@@ -4,7 +4,7 @@ import './App.scss';
 
 enum SortField {
   Alpha = 'alpha',
-  Length = 'Length',
+  Length = 'length',
 }
 
 export const goodsFromServer = [
@@ -45,7 +45,7 @@ export const App: React.FC = () => {
   const handleReset = () => {
     setSortField('');
     setReversed(false);
-  }
+  };
 
   return (
     <div className="section content">
@@ -80,7 +80,9 @@ export const App: React.FC = () => {
             reversed ? 'button is-warning' : 'button is-warning is-light'
           }
           onClick={() => setReversed(!reversed)}
-        >Reverse</button>
+        >
+          Reverse
+        </button>
 
         {(sortField || reversed) && (
           <button
@@ -88,8 +90,8 @@ export const App: React.FC = () => {
             className="button is-danger is-light"
             onClick={handleReset}
           >
-          Reset
-        </button>
+            Reset
+          </button>
         )}
       </div>
 
