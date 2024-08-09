@@ -22,9 +22,9 @@ interface SortOptions {
 }
 
 enum SortType {
-  Alphabetically = 'by-alph',
-  Length = 'by-length',
-  Default = '',
+  Alphabetically = 'alphabetically',
+  Length = 'length',
+  Default = 'default',
 }
 
 function getPreparedGoods(
@@ -62,7 +62,7 @@ export const App: React.FC = () => {
     sortField,
     isReversed,
   });
-  const isResetButtonVisible = isReversed || sortField;
+  const isResetButtonVisible = isReversed || sortField !== SortType.Default;
 
   const reset = () => {
     setSortField(SortType.Default);
@@ -84,7 +84,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={cn('button is-info', {
+          className={cn('button is-success', {
             'is-light': sortField !== SortType.Length,
           })}
           onClick={() => setSortField(SortType.Length)}
