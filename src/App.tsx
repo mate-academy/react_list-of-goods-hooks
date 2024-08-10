@@ -17,7 +17,6 @@ export const goodsFromServer = [
   'Fish',
   'Honey',
   'Jam',
-  'Garlic',
 ];
 
 export const App: React.FC = () => {
