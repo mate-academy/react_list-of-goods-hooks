@@ -51,7 +51,7 @@ function getSortedGoods(goods: string[], { sortField, isReversed }: SortParam) {
   return sortededGoods;
 }
 
-export const App = () => {
+export const App: React.FC = () => {
   const [sortField, setSortField] = useState<SortType>(SortType.default);
   const [isReversed, setIsReversed] = useState<boolean>(false);
   const visibleGoods = getSortedGoods(goodsFromServer, {
