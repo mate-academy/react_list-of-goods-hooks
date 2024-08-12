@@ -1,5 +1,6 @@
 import React from 'react';
 import { Good } from '../../types/Good';
+import { GoodItem } from '../Good';
 
 type Props = {
   goods: Good[];
@@ -8,9 +9,7 @@ type Props = {
 export const GoodList: React.FC<Props> = ({ goods }) => (
   <ul>
     {goods.map(good => (
-      <li data-cy="Good" key={good}>
-        {good}
-      </li>
+      <GoodItem good={good} key={good} />
     ))}
   </ul>
 );
