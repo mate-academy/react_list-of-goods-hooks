@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import cn from 'classnames';
+import { Goods } from './components/goods';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -42,15 +43,15 @@ function sortGoods(goods: string[], sortField: SortType) {
   return sortedGoods;
 }
 
-const Goods: React.FC<{ visibleGoods: string[] }> = ({ visibleGoods }) => (
-  <ul>
-    {visibleGoods.map((good: string) => (
-      <li data-cy="Good" key={good}>
-        {good}
-      </li>
-    ))}
-  </ul>
-);
+// const Goods: React.FC<{ visibleGoods: string[] }> = ({ visibleGoods }) => (
+//   <ul>
+//     {visibleGoods.map((good: string) => (
+//       <li data-cy="Good" key={good}>
+//         {good}
+//       </li>
+//     ))}
+//   </ul>
+// );
 
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState<SortType>(SortType.default);
