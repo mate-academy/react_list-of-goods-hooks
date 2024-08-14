@@ -2,7 +2,7 @@ import classNames from 'classnames';
 
 type ButtonProps = {
   name: string;
-  handlesortCriteria: (action: string) => void;
+  handleSortCriteria: (action: string) => void;
   sortCriteria: string;
   isReversed: boolean;
   children?: React.ReactNode;
@@ -10,37 +10,47 @@ type ButtonProps = {
 
 export const Button: React.FC<ButtonProps> = ({
   name,
-  handlesortCriteria,
+  handleSortCriteria,
   sortCriteria,
   isReversed,
   children,
 }) => {
-  const getButtonClass = (buttonName: string): string => {
+  const getButtonClass = (): string => {
+    let baseClass = '';
+
     switch (name) {
       case 'alphabet':
-        return 'is-info';
+        baseClass = 'is-info';
+        break;
       case 'length':
-        return 'is-success';
+        baseClass = 'is-success';
+        break;
       case 'reverse':
-        return 'is-warning';
+        baseClass = 'is-warning';
+        break;
       case 'reset':
-        return 'is-danger';
+        baseClass = 'is-danger';
+        break;
       default:
-        return buttonName === sortCriteria &&
-          buttonName === 'reverse' &&
-          isReversed
-          ? 'is-light'
-          : '';
+        baseClass = '';
     }
+
+    // Add 'is-light' if the button is not the active sortCriteria and is not reverse or reset
+    const additionalClass =
+      name !== sortCriteria && !(name === 'reverse' && isReversed)
+        ? 'is-light'
+        : '';
+
+    return classNames(baseClass, additionalClass);
   };
 
-  const buttonClass = classNames('button', getButtonClass(name));
+  const buttonClass = classNames('button', getButtonClass());
 
   return (
     <button
       type="button"
       className={buttonClass}
-      onClick={() => handlesortCriteria(name)}
+      onClick={() => handleSortCriteria(name)}
     >
       {children}
     </button>

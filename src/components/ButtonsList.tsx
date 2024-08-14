@@ -15,32 +15,40 @@ export const ButtonsList: React.FC<ButtonsListProps> = ({
     <div className="buttons">
       <Button
         name="alphabet"
-        handlesortCriteria={handlesortCriteria}
+        handleSortCriteria={handlesortCriteria}
         sortCriteria={sortCriteria}
         isReversed={isReversed}
-      />
+      >
+        Sort alphabetically
+      </Button>
 
       <Button
         name="length"
-        handlesortCriteria={handlesortCriteria}
+        handleSortCriteria={handlesortCriteria}
         sortCriteria={sortCriteria}
         isReversed={isReversed}
-      />
+      >
+        Sort by length
+      </Button>
 
       <Button
         name="reverse"
-        handlesortCriteria={handlesortCriteria}
+        handleSortCriteria={handlesortCriteria}
         sortCriteria={sortCriteria}
         isReversed={isReversed}
-      />
+      >
+        Reverse
+      </Button>
 
       {(sortCriteria || isReversed) && (
         <Button
           name="reset"
-          handlesortCriteria={handlesortCriteria}
+          handleSortCriteria={handlesortCriteria}
           sortCriteria={sortCriteria}
           isReversed={isReversed}
-        />
+        >
+          Reset
+        </Button>
       )}
     </div>
   );
