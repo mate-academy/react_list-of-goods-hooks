@@ -1,6 +1,8 @@
-import React from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import { useState } from 'react';
+import { ButtonsList } from './components/ButtonsList';
+import { GoodsList } from './components/GoodsList';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -15,37 +17,58 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+const getSortedGoods = (
+  goods: string[],
+  sortCriteria: string,
+  isReversed: boolean,
+): string[] => {
+  const sortedGoods = [...goods];
+
+  if (sortCriteria === 'alphabet') {
+    sortedGoods.sort((a, b) => a.localeCompare(b));
+  } else if (sortCriteria === 'length') {
+    sortedGoods.sort((a, b) => a.length - b.length);
+  }
+
+  if (isReversed) {
+    sortedGoods.reverse();
+  }
+
+  return sortedGoods;
+};
+
 export const App: React.FC = () => {
+  const [sortCriteria, setSortCriteria] = useState('');
+  const [isReversed, setIsReversed] = useState(false);
+
+  const handleSortCriteria = (action: string) => {
+    switch (action) {
+      case 'alphabet':
+      case 'length':
+        setSortCriteria(action);
+        break;
+      case 'reverse':
+        setIsReversed(prev => !prev);
+        break;
+      case 'reset':
+        setSortCriteria('');
+        setIsReversed(false);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const goods = getSortedGoods(goodsFromServer, sortCriteria, isReversed);
+
   return (
     <div className="section content">
-      <div className="buttons">
-        <button type="button" className="button is-info is-light">
-          Sort alphabetically
-        </button>
-
-        <button type="button" className="button is-success is-light">
-          Sort by length
-        </button>
-
-        <button type="button" className="button is-warning is-light">
-          Reverse
-        </button>
-
-        <button type="button" className="button is-danger is-light">
-          Reset
-        </button>
-      </div>
-
-      <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
-      </ul>
+      <ButtonsList
+        sortCriteria={sortCriteria}
+        handlesortCriteria={handleSortCriteria}
+        isReversed={isReversed}
+      />
+      <GoodsList goods={goods} />
     </div>
   );
 };
