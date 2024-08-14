@@ -22,7 +22,7 @@ export const App: React.FC = () => {
   const [filter, setFilter] = useState('');
   const [isReversed, setIsReversed] = useState(false);
 
-  const filterHandler = (action: string) => {
+  const handleFilter = (action: string) => {
     switch (action) {
       case 'alphabet':
         setFilter('alphabet');
@@ -63,7 +63,7 @@ export const App: React.FC = () => {
     <div className="section content">
       <ButtonsList
         filter={filter}
-        filterHandler={filterHandler}
+        handleFilter={handleFilter}
         isReversed={isReversed}
       />
       <GoodsList goods={goods} />

@@ -1,47 +1,52 @@
-import { Button } from "./Button";
+import { Button } from './Button';
+import { createRandomId } from '../utils/createRandomId';
 
 type ButtonsListProps = {
-  filterHandler: (action: string) => void;
+  handleFilter: (action: string) => void;
   filter: string;
   isReversed: boolean;
 };
 
 export const ButtonsList: React.FC<ButtonsListProps> = ({
-  filterHandler,
+  handleFilter,
   filter,
   isReversed,
 }) => {
   return (
     <div className="buttons">
       <Button
+        key={createRandomId()}
         name="alphabet"
         content="Sort alphabetically"
-        filterHandler={filterHandler}
+        handleFilter={handleFilter}
         filter={filter}
         isReversed={isReversed}
       />
 
       <Button
+        key={createRandomId()}
         name="length"
         content="Sort by length"
-        filterHandler={filterHandler}
+        handleFilter={handleFilter}
         filter={filter}
         isReversed={isReversed}
       />
 
       <Button
+        key={createRandomId()}
         name="reverse"
         content="Reverse"
-        filterHandler={filterHandler}
+        handleFilter={handleFilter}
         filter={filter}
         isReversed={isReversed}
       />
 
       {(filter || isReversed) && (
         <Button
+          key={createRandomId()}
           name="reset"
           content="Reset"
-          filterHandler={filterHandler}
+          handleFilter={handleFilter}
           filter={filter}
           isReversed={isReversed}
         />

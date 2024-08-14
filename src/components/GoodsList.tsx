@@ -1,3 +1,4 @@
+import { createRandomId } from '../utils/createRandomId';
 import { Good } from './Good';
 
 type GoodsListProps = {
@@ -7,8 +8,8 @@ type GoodsListProps = {
 export const GoodsList: React.FC<GoodsListProps> = ({ goods }) => {
   return (
     <ul>
-      {goods.map((good, index) => (
-        <Good goodName={good} key={index} />
+      {goods.map(good => (
+        <Good goodName={good} key={createRandomId()} />
       ))}
     </ul>
   );
