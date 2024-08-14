@@ -2,35 +2,47 @@ import classNames from 'classnames';
 
 type ButtonProps = {
   name: string;
-  content: string;
-  handleFilter: (action: string) => void;
-  filter: string;
+  handlesortCriteria: (action: string) => void;
+  sortCriteria: string;
   isReversed: boolean;
+  children?: React.ReactNode;
 };
 
 export const Button: React.FC<ButtonProps> = ({
   name,
-  content,
-  handleFilter,
-  filter,
+  handlesortCriteria,
+  sortCriteria,
   isReversed,
+  children,
 }) => {
-  const buttonClass = classNames('button', {
-    'is-info': name === 'alphabet',
-    'is-success': name === 'length',
-    'is-warning': name === 'reverse',
-    'is-danger': name === 'reset',
-    'is-light': name !== filter && !(name === 'reverse' && isReversed),
-  });
+  const getButtonClass = (buttonName: string): string => {
+    switch (name) {
+      case 'alphabet':
+        return 'is-info';
+      case 'length':
+        return 'is-success';
+      case 'reverse':
+        return 'is-warning';
+      case 'reset':
+        return 'is-danger';
+      default:
+        return buttonName === sortCriteria &&
+          buttonName === 'reverse' &&
+          isReversed
+          ? 'is-light'
+          : '';
+    }
+  };
+
+  const buttonClass = classNames('button', getButtonClass(name));
 
   return (
     <button
-      name={name}
       type="button"
       className={buttonClass}
-      onClick={() => handleFilter(name)}
+      onClick={() => handlesortCriteria(name)}
     >
-      {content}
+      {children}
     </button>
   );
 };

@@ -1,53 +1,44 @@
 import { Button } from './Button';
-import { createRandomId } from '../utils/createRandomId';
 
 type ButtonsListProps = {
-  handleFilter: (action: string) => void;
-  filter: string;
+  handlesortCriteria: (action: string) => void;
+  sortCriteria: string;
   isReversed: boolean;
 };
 
 export const ButtonsList: React.FC<ButtonsListProps> = ({
-  handleFilter,
-  filter,
+  handlesortCriteria,
+  sortCriteria,
   isReversed,
 }) => {
   return (
     <div className="buttons">
       <Button
-        key={createRandomId()}
         name="alphabet"
-        content="Sort alphabetically"
-        handleFilter={handleFilter}
-        filter={filter}
+        handlesortCriteria={handlesortCriteria}
+        sortCriteria={sortCriteria}
         isReversed={isReversed}
       />
 
       <Button
-        key={createRandomId()}
         name="length"
-        content="Sort by length"
-        handleFilter={handleFilter}
-        filter={filter}
+        handlesortCriteria={handlesortCriteria}
+        sortCriteria={sortCriteria}
         isReversed={isReversed}
       />
 
       <Button
-        key={createRandomId()}
         name="reverse"
-        content="Reverse"
-        handleFilter={handleFilter}
-        filter={filter}
+        handlesortCriteria={handlesortCriteria}
+        sortCriteria={sortCriteria}
         isReversed={isReversed}
       />
 
-      {(filter || isReversed) && (
+      {(sortCriteria || isReversed) && (
         <Button
-          key={createRandomId()}
           name="reset"
-          content="Reset"
-          handleFilter={handleFilter}
-          filter={filter}
+          handlesortCriteria={handlesortCriteria}
+          sortCriteria={sortCriteria}
           isReversed={isReversed}
         />
       )}

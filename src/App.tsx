@@ -19,22 +19,20 @@ export const goodsFromServer = [
 
 export const App: React.FC = () => {
   const [goods, setGoods] = useState(goodsFromServer);
-  const [filter, setFilter] = useState('');
+  const [sortCriteria, setsortCriteria] = useState('');
   const [isReversed, setIsReversed] = useState(false);
 
-  const handleFilter = (action: string) => {
+  const handlesortCriteria = (action: string) => {
     switch (action) {
       case 'alphabet':
-        setFilter('alphabet');
-        break;
       case 'length':
-        setFilter('length');
+        setsortCriteria(action);
         break;
       case 'reverse':
         setIsReversed(prev => !prev);
         break;
       case 'reset':
-        setFilter('');
+        setsortCriteria('');
         setGoods(goodsFromServer);
         setIsReversed(false);
         break;
@@ -46,9 +44,9 @@ export const App: React.FC = () => {
   useEffect(() => {
     let sortedGoods = [...goodsFromServer];
 
-    if (filter === 'alphabet') {
+    if (sortCriteria === 'alphabet') {
       sortedGoods = sortedGoods.sort((a, b) => a.localeCompare(b));
-    } else if (filter === 'length') {
+    } else if (sortCriteria === 'length') {
       sortedGoods = sortedGoods.sort((a, b) => a.length - b.length);
     }
 
@@ -56,14 +54,16 @@ export const App: React.FC = () => {
       sortedGoods.reverse();
     }
 
-    setGoods(sortedGoods);
-  }, [filter, isReversed]);
+    return () => {
+      setGoods(sortedGoods);
+    };
+  }, [sortCriteria, isReversed]);
 
   return (
     <div className="section content">
       <ButtonsList
-        filter={filter}
-        handleFilter={handleFilter}
+        sortCriteria={sortCriteria}
+        handlesortCriteria={handlesortCriteria}
         isReversed={isReversed}
       />
       <GoodsList goods={goods} />
