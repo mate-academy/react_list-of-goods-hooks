@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-export const goodsFromServer = [
+export const goodsFromServer: string[] = [
   'Dumplings',
   'Carrot',
   'Eggs',
@@ -15,10 +15,12 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-const SORT_FIELD_ALPHABET = 'aplha';
-const SORT_FIELD_LENGTH = 'length';
+enum SortField {
+  Alphabet = 'alphabet',
+  Length = 'length',
+}
 
-type Field = '' | typeof SORT_FIELD_ALPHABET | typeof SORT_FIELD_LENGTH;
+type Field = '' | SortField;
 
 function getPrepearedGoods(
   goods: string[],
@@ -29,10 +31,10 @@ function getPrepearedGoods(
 
   if (sortField) {
     switch (sortField) {
-      case SORT_FIELD_ALPHABET:
+      case SortField.Alphabet:
         prepearedGoods.sort((a, b) => a.localeCompare(b));
         break;
-      case SORT_FIELD_LENGTH:
+      case SortField.Length:
         prepearedGoods.sort((a, b) => a.length - b.length);
         break;
       default:
@@ -49,7 +51,7 @@ function getPrepearedGoods(
 
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState<Field>('');
-  const [isReversed, setIsReversed] = useState<boolean>(false);
+  const [isReversed, setIsReversed] = useState(false);
 
   const resetSort = () => {
     setSortField('');
@@ -61,9 +63,7 @@ export const App: React.FC = () => {
   };
 
   const handleReverseClick = () => {
-    setIsReversed(prevIsReversed => {
-      return !prevIsReversed;
-    });
+    setIsReversed(prevIsReversed => !prevIsReversed);
   };
 
   const visibleGoods = getPrepearedGoods(
@@ -79,16 +79,16 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          onClick={() => handleSortClick(SORT_FIELD_ALPHABET)}
-          className={`button is-info ${sortField === SORT_FIELD_ALPHABET ? '' : 'is-light'}`}
+          onClick={() => handleSortClick(SortField.Alphabet)}
+          className={`button is-info ${sortField === SortField.Alphabet ? '' : 'is-light'}`}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          onClick={() => handleSortClick(SORT_FIELD_LENGTH)}
-          className={`button is-success ${sortField === SORT_FIELD_LENGTH ? '' : 'is-light'}`}
+          onClick={() => handleSortClick(SortField.Length)}
+          className={`button is-success ${sortField === SortField.Length ? '' : 'is-light'}`}
         >
           Sort by length
         </button>
