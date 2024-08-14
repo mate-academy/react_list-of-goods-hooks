@@ -1,6 +1,8 @@
-import React from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import { useState, useEffect } from 'react';
+import { ButtonsList } from './components/ButtonsList';
+import { GoodsList } from './components/GoodsList';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -16,36 +18,55 @@ export const goodsFromServer = [
 ];
 
 export const App: React.FC = () => {
+  const [goods, setGoods] = useState(goodsFromServer);
+  const [filter, setFilter] = useState('');
+  const [isReversed, setIsReversed] = useState(false);
+
+  const filterHandler = (action: string) => {
+    switch (action) {
+      case 'alphabet':
+        setFilter('alphabet');
+        break;
+      case 'length':
+        setFilter('length');
+        break;
+      case 'reverse':
+        setIsReversed(prev => !prev);
+        break;
+      case 'reset':
+        setFilter('');
+        setGoods(goodsFromServer);
+        setIsReversed(false);
+        break;
+      default:
+        break;
+    }
+  };
+
+  useEffect(() => {
+    let sortedGoods = [...goodsFromServer];
+
+    if (filter === 'alphabet') {
+      sortedGoods = sortedGoods.sort((a, b) => a.localeCompare(b));
+    } else if (filter === 'length') {
+      sortedGoods = sortedGoods.sort((a, b) => a.length - b.length);
+    }
+
+    if (isReversed) {
+      sortedGoods.reverse();
+    }
+
+    setGoods(sortedGoods);
+  }, [filter, isReversed]);
+
   return (
     <div className="section content">
-      <div className="buttons">
-        <button type="button" className="button is-info is-light">
-          Sort alphabetically
-        </button>
-
-        <button type="button" className="button is-success is-light">
-          Sort by length
-        </button>
-
-        <button type="button" className="button is-warning is-light">
-          Reverse
-        </button>
-
-        <button type="button" className="button is-danger is-light">
-          Reset
-        </button>
-      </div>
-
-      <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
-      </ul>
+      <ButtonsList
+        filter={filter}
+        filterHandler={filterHandler}
+        isReversed={isReversed}
+      />
+      <GoodsList goods={goods} />
     </div>
   );
 };
