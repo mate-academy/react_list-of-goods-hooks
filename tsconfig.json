@@ -1,4 +1,9 @@
 {
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react"
+  },
   "extends": "@mate-academy/students-ts-config",
   "include": [
     "src"
