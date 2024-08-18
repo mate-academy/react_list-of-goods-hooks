@@ -23,7 +23,7 @@ export const App: React.FC = () => {
   enum SortType {
     ALPHABET = 'alphabet',
     LENGTH = 'length',
-    RESET = 'reset',
+    NONE = 'none',
   }
 
   const visibleGoods = [...goodsFromServer].sort(
@@ -33,9 +33,6 @@ export const App: React.FC = () => {
           return good1.localeCompare(good2);
         case SortType.LENGTH:
           return good1.length - good2.length;
-        case SortType.RESET:
-          return 0;
-
         default:
           return 0;
       }
