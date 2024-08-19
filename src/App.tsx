@@ -118,7 +118,7 @@ export const App: React.FC = () => {
 
       <ul>
         {sortGoods.map(good => (
-          <li data-cy="Good" key={good}>
+          <li data-cy="Good" key={good + sortGoods.indexOf(good)}>
             {good}
           </li>
         ))}
