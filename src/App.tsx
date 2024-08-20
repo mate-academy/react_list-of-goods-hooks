@@ -10,41 +10,47 @@ type GoodsFromServer = {
 
 type GoodsList = GoodsFromServer[];
 
-const goodsFromServer: string[] = [
-  'Dumplings',
-  'Carrot',
-  'Eggs',
-  'Ice cream',
-  'Apple',
-  'Bread',
-  'Fish',
-  'Honey',
-  'Jam',
-  'Garlic',
-];
-
 enum SortBy {
   'default',
   'alpabet',
   'length',
 }
 
-function getGoods(goodsFromServList: string[]): GoodsList {
-  return goodsFromServList.map((str, index) => ({ id: index, val: str }));
+function fetchGoods(): GoodsList {
+  const rawData: string[] = [
+    'Dumplings',
+    'Carrot',
+    'Eggs',
+    'Ice cream',
+    'Apple',
+    'Bread',
+    'Fish',
+    'Honey',
+    'Jam',
+    'Garlic',
+  ];
+
+  return rawData.map((str, index) => ({ id: index, val: str }));
 }
 
-function prepGoods(goods: GoodsList, oper: SortBy, revOp: boolean): GoodsList {
-  let tempArr = getGoods(goodsFromServer);
+function prepareGoods(
+  goods: GoodsList,
+  oper: SortBy,
+  revOp: boolean,
+): GoodsList {
+  let tempArr;
 
-  if (oper === 0) {
+  if (oper === SortBy.default) {
+    tempArr = fetchGoods();
+
     return revOp ? tempArr.reverse() : tempArr;
   }
 
-  tempArr = goods.sort((g1: GoodsFromServer, g2: GoodsFromServer) => {
+  tempArr = [...goods].sort((g1: GoodsFromServer, g2: GoodsFromServer) => {
     switch (oper) {
-      case 1:
+      case SortBy.alpabet:
         return g1.val.localeCompare(g2.val);
-      case 2:
+      case SortBy.length:
         return g1.val.length - g2.val.length;
       default:
         return 0;
@@ -58,7 +64,8 @@ export const App = () => {
   const [sortBy, setSortBy] = useState<SortBy>(0);
   const [rev, setRev] = useState<boolean>(false);
 
-  const visGoods = prepGoods(getGoods(goodsFromServer), sortBy, rev);
+  const visGoods = prepareGoods(fetchGoods(), sortBy, rev);
+
   return (
     <div className="section content">
       <div className="buttons">
