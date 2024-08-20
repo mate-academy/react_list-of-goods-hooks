@@ -59,7 +59,7 @@ export const App: React.FC = () => {
   const [sortField, setSortField] = useState<SortBy>(SortBy.Default);
   const [isReversed, setIsReversed] = useState(false);
 
-  const sortGoods = getPreparedGoods(goodsFromServer, {
+  const sortedGoods = getPreparedGoods(goodsFromServer, {
     sortField,
     isReversed,
   });
@@ -124,7 +124,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {sortGoods.map(good => (
+        {sortedGoods.map(good => (
           <li data-cy="Good" key={good}>
             {good}
           </li>
