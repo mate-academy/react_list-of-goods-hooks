@@ -66,15 +66,20 @@ export const App = () => {
 
   const visGoods = prepareGoods(fetchGoods(), sortBy, rev);
 
+  function reset() {
+    setSortBy(0);
+    setRev(false);
+  }
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
           className={cn('button', 'is-info', {
-            'is-light': sortBy !== 1,
+            'is-light': sortBy !== SortBy.alpabet,
           })}
-          onClick={() => setSortBy(1)}
+          onClick={() => setSortBy(SortBy.alpabet)}
         >
           Sort alphabetically
         </button>
@@ -82,9 +87,9 @@ export const App = () => {
         <button
           type="button"
           className={cn('button', 'is-success', {
-            'is-light': sortBy !== 2,
+            'is-light': sortBy !== SortBy.length,
           })}
-          onClick={() => setSortBy(2)}
+          onClick={() => setSortBy(SortBy.length)}
         >
           Sort by length
         </button>
@@ -102,14 +107,7 @@ export const App = () => {
         </button>
 
         {sortBy || rev ? (
-          <button
-            type="button"
-            className="button is-danger"
-            onClick={() => {
-              setSortBy(0);
-              setRev(false);
-            }}
-          >
+          <button type="button" className="button is-danger" onClick={reset}>
             Reset
           </button>
         ) : (
