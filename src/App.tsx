@@ -48,6 +48,11 @@ export const App: React.FC = () => {
 
   const newGoodsFromServer = sort(goodsFromServer, sortField, isReversed);
 
+  const reset = () => {
+    setSortField(SORT.DEFAULT);
+    setIsReversed(false);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -56,9 +61,7 @@ export const App: React.FC = () => {
           className={cn('button is-info', {
             'is-light': SORT.ALPHABET !== sortField,
           })}
-          onClick={() => {
-            setSortField(SORT.ALPHABET);
-          }}
+          onClick={() => setSortField(SORT.ALPHABET)}
         >
           Sort alphabetically
         </button>
@@ -68,9 +71,7 @@ export const App: React.FC = () => {
           className={cn('button is-success', {
             'is-light': SORT.LENGTH !== sortField,
           })}
-          onClick={() => {
-            setSortField(SORT.LENGTH);
-          }}
+          onClick={() => setSortField(SORT.LENGTH)}
         >
           Sort by length
         </button>
@@ -91,10 +92,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortField(SORT.DEFAULT);
-              setIsReversed(false);
-            }}
+            onClick={reset}
           >
             Reset
           </button>
