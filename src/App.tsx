@@ -16,23 +16,25 @@ export const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-type SortType = 'length' | 'abc' | '';
+enum SortType {
+  Alphabetically,
+  Length,
+  Reset,
+}
 
 const getSortedGoods = (sortType: SortType, reversed: boolean): string[] => {
   let sortedGoods = [...goodsFromServer];
 
-  if (sortType) {
-    sortedGoods.sort((a, b) => {
-      switch (sortType) {
-        case 'abc':
-          return a.localeCompare(b);
-        case 'length':
-          return a.length - b.length;
-        default:
-          return 0;
-      }
-    });
-  }
+  sortedGoods.sort((a, b) => {
+    switch (sortType) {
+      case SortType.Alphabetically:
+        return a.localeCompare(b);
+      case SortType.Length:
+        return a.length - b.length;
+      default:
+        return 0;
+    }
+  });
 
   if (reversed) {
     sortedGoods = sortedGoods.reverse();
@@ -42,7 +44,7 @@ const getSortedGoods = (sortType: SortType, reversed: boolean): string[] => {
 };
 
 export const App: React.FC = () => {
-  const [sortType, setSortType] = useState<SortType>('');
+  const [sortType, setSortType] = useState<SortType>(SortType.Reset);
   const [reversed, setReversed] = useState<boolean>(false);
 
   const visibleGoods = getSortedGoods(sortType, reversed);
@@ -57,7 +59,7 @@ export const App: React.FC = () => {
 
   const handleReset = (): void => {
     setReversed(false);
-    setSortType('');
+    setSortType(SortType.Reset);
   };
 
   return (
@@ -65,9 +67,9 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          onClick={() => handleSort('abc')}
+          onClick={() => handleSort(SortType.Alphabetically)}
           className={cn('button', 'is-info', {
-            'is-light': sortType !== 'abc',
+            'is-light': sortType !== SortType.Alphabetically,
           })}
         >
           Sort alphabetically
@@ -75,9 +77,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          onClick={() => handleSort('length')}
+          onClick={() => handleSort(SortType.Length)}
           className={cn('button', 'is-success', {
-            'is-light': sortType !== 'length',
+            'is-light': sortType !== SortType.Length,
           })}
         >
           Sort by length
@@ -90,7 +92,7 @@ export const App: React.FC = () => {
         >
           Reverse
         </button>
-        {(sortType || reversed) && (
+        {(sortType !== SortType.Reset || reversed) && (
           <button
             type="button"
             onClick={handleReset}
