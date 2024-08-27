@@ -53,7 +53,7 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState<string>(SortType.None);
+  const [sortField, setSortField] = useState<SortType>(SortType.None);
   const [reverse, setReverse] = useState<boolean>(false);
   const goods = getPreparedGoods(goodsFromServer, sortField, reverse);
 
