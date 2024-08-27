@@ -27,7 +27,7 @@ type SortObj = {
   isReversed?: boolean;
 };
 
-function getPreparedGoods(
+function prepareGoods(
   goods: string[],
   { sortField, isReversed = false }: SortObj,
 ) {
@@ -56,7 +56,7 @@ function getPreparedGoods(
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState<SortType>(SortType.default);
   const [isReversed, setIsReversed] = useState(false);
-  const visibledGoods = getPreparedGoods(goodsFromServer, {
+  const visibledGoods = prepareGoods(goodsFromServer, {
     sortField,
     isReversed,
   });
@@ -111,13 +111,11 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        <ul>
-          {visibledGoods.map(good => (
-            <li data-cy="Good" key={good}>
-              {good}
-            </li>
-          ))}
-        </ul>
+        {visibledGoods.map(good => (
+          <li data-cy="Good" key={good}>
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
