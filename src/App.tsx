@@ -1,7 +1,7 @@
 import React from 'react';
+import { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
-import { useState } from 'react';
 import cn from 'classnames';
 
 const goodsFromServer: string[] = [
@@ -37,7 +37,7 @@ function getPreparedGoods(
           return a.localeCompare(b);
 
         case SortType.Length:
-          return b.length - a.length;
+          return a.length - b.length;
 
         default:
           return 0;
