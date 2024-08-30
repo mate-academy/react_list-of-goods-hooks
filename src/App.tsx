@@ -5,7 +5,7 @@ import { goodsArrayFromServer } from './types/GoodsFromServer';
 import { SortType } from './types/SortType';
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState<SortType>(SortType.Default);
+  const [sortField, setSortField] = useState<SortType | ''>('');
   const [isReverse, setIsReverse] = useState(false);
 
   const visibleGoods = [...goodsArrayFromServer].sort((good1, good2) => {
@@ -20,7 +20,7 @@ export const App: React.FC = () => {
   });
 
   const reset = () => {
-    setSortField(SortType.Default);
+    setSortField('');
     setIsReverse(false);
   };
 
