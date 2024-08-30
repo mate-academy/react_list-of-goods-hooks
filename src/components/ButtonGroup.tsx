@@ -16,16 +16,17 @@ export const ButtonGroup: React.FC<Props> = ({
   setIsReversed,
   reset,
 }) => {
-  const handleSortAlphabetically = () => setSortField(SortType.ALPHABETICALLY);
-  const handleSortByLength = () => setSortField(SortType.BY_LENGTH);
-  const handleReverse = () => setIsReversed(!isReversed);
-  const handleReset = () => reset();
+  const handleClickSortAlphabetically = () =>
+    setSortField(SortType.ALPHABETICALLY);
+  const handleClickSortByLength = () => setSortField(SortType.BY_LENGTH);
+  const handleClickReverse = () => setIsReversed(!isReversed);
+  const handleClickReset = () => reset();
 
   return (
     <div className="buttons">
       <Button
         color="is-info"
-        onClick={handleSortAlphabetically}
+        onClick={handleClickSortAlphabetically}
         isLight={sortField !== SortType.ALPHABETICALLY}
       >
         Sort alphabetically
@@ -33,18 +34,22 @@ export const ButtonGroup: React.FC<Props> = ({
 
       <Button
         color="is-success"
-        onClick={handleSortByLength}
+        onClick={handleClickSortByLength}
         isLight={sortField !== SortType.BY_LENGTH}
       >
         Sort by length
       </Button>
 
-      <Button color="is-warning" onClick={handleReverse} isLight={!isReversed}>
+      <Button
+        color="is-warning"
+        onClick={handleClickReverse}
+        isLight={!isReversed}
+      >
         Reverse
       </Button>
 
       {(sortField || isReversed) && (
-        <Button color="is-danger" onClick={handleReset} isLight={true}>
+        <Button color="is-danger" onClick={handleClickReset} isLight={true}>
           Reset
         </Button>
       )}

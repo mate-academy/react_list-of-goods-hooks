@@ -43,7 +43,7 @@ export const App: React.FC = () => {
 
   const visibleGoods = getPreparedGoods(goodsFromServer, sortField, isReversed);
 
-  const reset = () => {
+  const resetSorting = () => {
     setSortField('');
     setIsReversed(false);
   };
@@ -55,7 +55,7 @@ export const App: React.FC = () => {
         isReversed={isReversed}
         setSortField={setSortField}
         setIsReversed={setIsReversed}
-        reset={reset}
+        reset={resetSorting}
       />
 
       <GoodList goods={visibleGoods} />
