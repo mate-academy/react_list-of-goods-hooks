@@ -5,7 +5,7 @@ import { goodsArrayFromServer } from './types/GoodsFromServer';
 import { SortType } from './types/SortType';
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState<SortType | ''>('');
+  const [sortField, setSortField] = useState<SortType>(SortType.Default);
   const [isReverse, setIsReverse] = useState(false);
 
   const visibleGoods = [...goodsArrayFromServer].sort((good1, good2) => {
@@ -20,7 +20,7 @@ export const App: React.FC = () => {
   });
 
   const reset = () => {
-    setSortField('');
+    setSortField(SortType.Default);
     setIsReverse(false);
   };
 
@@ -34,7 +34,7 @@ export const App: React.FC = () => {
         <button
           onClick={() => setSortField(SortType.Alphabetically)}
           type="button"
-          className={`button is-info ${sortField === 'alphabetically' ? '' : 'is-light'}`}
+          className={`button is-info ${sortField === SortType.Alphabetically ? '' : 'is-light'}`}
         >
           Sort alphabetically
         </button>
@@ -42,7 +42,7 @@ export const App: React.FC = () => {
         <button
           onClick={() => setSortField(SortType.Length)}
           type="button"
-          className={`button is-success ${sortField === 'length' ? '' : 'is-light'}`}
+          className={`button is-success ${sortField === SortType.Length ? '' : 'is-light'}`}
         >
           Sort by length
         </button>
