@@ -50,11 +50,7 @@ function prepareGoods(
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState(SortField.none);
   const [reverseField, setReverseField] = useState(false);
-  const visibleGoods = prepareGoods(
-    goodsFromServer,
-    sortField,
-    reverseField,
-  );
+  const visibleGoods = prepareGoods(goodsFromServer, sortField, reverseField);
 
   return (
     <div className="section content">
@@ -89,7 +85,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {sortField || reverseField ? (
+        {(sortField || reverseField) && (
           <button
             type="button"
             className="button is-danger is-light"
@@ -100,8 +96,6 @@ export const App: React.FC = () => {
           >
             Reset
           </button>
-        ) : (
-          ''
         )}
       </div>
 
