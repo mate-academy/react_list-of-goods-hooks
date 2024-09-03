@@ -61,13 +61,13 @@ function prepareGoods(
 }
 
 export const App = () => {
-  const [sortBy, setSortBy] = useState<SortBy>(0);
+  const [sortBy, setSortBy] = useState<SortBy>(SortBy.default);
   const [rev, setRev] = useState<boolean>(false);
 
   const visGoods = prepareGoods(fetchGoods(), sortBy, rev);
 
   function reset() {
-    setSortBy(0);
+    setSortBy(SortBy.default);
     setRev(false);
   }
 
