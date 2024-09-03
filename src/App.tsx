@@ -35,19 +35,13 @@ function fetchGoods(): GoodsList {
 
 function prepareGoods(
   goods: GoodsList,
-  oper: SortBy,
-  revOp: boolean,
+  sorting: SortBy,
+  order: boolean,
 ): GoodsList {
-  let tempArr;
-
-  if (oper === SortBy.default) {
-    tempArr = fetchGoods();
-
-    return revOp ? tempArr.reverse() : tempArr;
-  }
+  let tempArr = fetchGoods();
 
   tempArr = [...goods].sort((g1: GoodsFromServer, g2: GoodsFromServer) => {
-    switch (oper) {
+    switch (sorting) {
       case SortBy.alpabet:
         return g1.val.localeCompare(g2.val);
       case SortBy.length:
@@ -57,7 +51,11 @@ function prepareGoods(
     }
   });
 
-  return revOp ? tempArr.reverse() : tempArr;
+  if (order) {
+    return tempArr.reverse();
+  }
+
+  return tempArr;
 }
 
 export const App = () => {
