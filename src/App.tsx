@@ -23,13 +23,11 @@ enum SortType {
 }
 
 export const App: React.FC = () => {
-  const [items, setItems] = useState<string[]>(goodsFromServer);
   const [sortType, setSortType] = useState<SortType>(SortType.None);
   const [isReversed, setIsReversed] = useState<boolean>(false);
-  const [initialItems] = useState<string[]>(goodsFromServer);
 
   function sortItems(array: string[], sortValue: SortType, reverse: boolean) {
-    const sortedArray = [...array];
+    let sortedArray = [...array];
 
     switch (sortValue) {
       case SortType.Alphabet:
@@ -37,16 +35,11 @@ export const App: React.FC = () => {
         break;
 
       case SortType.Length:
-        sortedArray.sort((a, b) => {
-          if (a.length === b.length) {
-            return a.localeCompare(b);
-          }
-
-          return a.length - b.length;
-        });
+        sortedArray.sort((a, b) => a.length - b.length);
         break;
 
       default:
+        sortedArray = array;
         break;
     }
 
@@ -57,32 +50,21 @@ export const App: React.FC = () => {
     return sortedArray;
   }
 
-  function handleSort(sortValue: SortType) {
-    if (sortType === sortValue && !isReversed) {
-      return;
-    }
+  const items = sortItems(goodsFromServer, sortType, isReversed);
 
-    const sortedItems = sortItems(items, sortValue, isReversed);
-
-    setItems(sortedItems);
-    setSortType(sortValue);
-  }
-
-  const handleReset = () => {
-    setItems(initialItems);
-    setSortType(SortType.None);
-    setIsReversed(false);
+  const handleSort = (sortValue: SortType) => {
+    setSortType(currentSort =>
+      currentSort === sortValue && !isReversed ? SortType.None : sortValue,
+    );
   };
 
   const handleGoodsReverse = () => {
-    const reversedGoods = [...items].reverse();
-
-    setItems(reversedGoods);
     setIsReversed(!isReversed);
+  };
 
-    if (JSON.stringify(reversedGoods) === JSON.stringify(initialItems)) {
-      setIsReversed(false);
-    }
+  const handleReset = () => {
+    setSortType(SortType.None);
+    setIsReversed(false);
   };
 
   return (
@@ -118,7 +100,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortType || isReversed) && (
+        {(sortType !== SortType.None || isReversed) && (
           <button
             type="button"
             className={classNames('button', 'is-danger', 'is-light')}
