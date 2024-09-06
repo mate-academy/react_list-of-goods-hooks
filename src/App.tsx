@@ -53,9 +53,7 @@ export const App: React.FC = () => {
   const items = sortItems(goodsFromServer, sortType, isReversed);
 
   const handleSort = (sortValue: SortType) => {
-    setSortType(currentSort =>
-      currentSort === sortValue && !isReversed ? SortType.None : sortValue,
-    );
+    setSortType(sortValue);
   };
 
   const handleGoodsReverse = () => {
