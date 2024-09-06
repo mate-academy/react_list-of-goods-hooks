@@ -28,7 +28,7 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState<boolean>(false);
   const [initialItems] = useState<string[]>(goodsFromServer);
 
-  function sortByAlphabet() {
+  function handleAlphabetSort() {
     if (sortType === SortType.Alphabet && !isReversed) {
       return;
     }
@@ -43,7 +43,7 @@ export const App: React.FC = () => {
     setSortType(SortType.Alphabet);
   }
 
-  function sortByLength() {
+  function handleLengthSort() {
     if (sortType === SortType.Length && !isReversed) {
       return;
     }
@@ -64,13 +64,13 @@ export const App: React.FC = () => {
     setSortType(SortType.Length);
   }
 
-  const reset = () => {
+  const handleReset = () => {
     setItems(initialItems);
     setSortType(SortType.None);
     setIsReversed(false);
   };
 
-  const reverseGoods = () => {
+  const handleGoodsReverse = () => {
     const reversedGoods = [...items].reverse();
 
     setItems(reversedGoods);
@@ -89,7 +89,7 @@ export const App: React.FC = () => {
           className={classNames('button', 'is-info', {
             'is-light': sortType !== SortType.Alphabet,
           })}
-          onClick={sortByAlphabet}
+          onClick={handleAlphabetSort}
         >
           Sort alphabetically
         </button>
@@ -99,7 +99,7 @@ export const App: React.FC = () => {
           className={classNames('button', 'is-success', {
             'is-light': sortType !== SortType.Length,
           })}
-          onClick={sortByLength}
+          onClick={handleLengthSort}
         >
           Sort by length
         </button>
@@ -109,7 +109,7 @@ export const App: React.FC = () => {
           className={classNames('button', 'is-warning', {
             'is-light': !isReversed,
           })}
-          onClick={reverseGoods}
+          onClick={handleGoodsReverse}
         >
           Reverse
         </button>
@@ -118,7 +118,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className={classNames('button', 'is-danger', 'is-light')}
-            onClick={reset}
+            onClick={handleReset}
           >
             Reset
           </button>
@@ -126,8 +126,8 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {items.map(good => (
-          <li key={good} data-cy="Good">
+        {items.map((good, index) => (
+          <li key={index} data-cy="Good">
             {good}
           </li>
         ))}
