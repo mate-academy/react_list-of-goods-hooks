@@ -88,7 +88,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {sortField !== SortType.DEFAULT && (
+        {(sortField !== SortType.DEFAULT || isReversed === true) && (
           <button
             type="button"
             className="button is-danger is-light"
