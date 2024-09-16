@@ -25,8 +25,8 @@ enum SortType {
 }
 
 interface SortParams {
-  sortField: string;
-  reversSort: string;
+  sortField: SortType | '';
+  reversSort: boolean;
 }
 
 function getPreperetGoods(
@@ -37,14 +37,13 @@ function getPreperetGoods(
 
   if (sortField) {
     preperetGoods.sort((goods1, goods2) => {
-      switch (sortField) {
-        case SortType.SORT_FIELD_ALPHABET:
-          return goods1.localeCompare(goods2);
-        case SortType.SORT_FIELD_LENGHT:
-          return goods1.length - goods2.length;
-        default:
-          return 0;
+      if (sortField === SortType.SORT_FIELD_ALPHABET) {
+        return goods1.localeCompare(goods2);
       }
+      if (sortField === SortType.SORT_FIELD_LENGHT) {
+        return goods1.length - goods2.length;
+      }
+      return 0;
     });
   }
 
@@ -56,8 +55,8 @@ function getPreperetGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState('');
-  const [reversSort, setReversSort] = useState('');
+  const [sortField, setSortField] = useState<SortType | ''>('');
+  const [reversSort, setReversSort] = useState<boolean>(false);
   const visibleGoods = getPreperetGoods(goodsFromServer, {
     sortField,
     reversSort,
@@ -65,7 +64,7 @@ export const App: React.FC = () => {
 
   const reset = () => {
     setSortField('');
-    setReversSort('');
+    setReversSort(false);
   };
 
   return (
@@ -101,11 +100,7 @@ export const App: React.FC = () => {
             'button is-warning',
             !reversSort && SortType.NOT_ACTIVE_CLASS,
           )}
-          onClick={() =>
-            reversSort === ''
-              ? setReversSort(SortType.SORT_FIELD_REVERSE)
-              : setReversSort('')
-          }
+          onClick={() =>setReversSort(!reversSort)}
         >
           Reverse
         </button>
