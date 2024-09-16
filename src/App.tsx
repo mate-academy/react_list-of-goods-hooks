@@ -1,6 +1,14 @@
-import React from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import { useState } from 'react';
+import cn from 'classnames';
+
+enum SortType {
+  Alphabetically = 'Sort alphabetically',
+  Length = 'Sort by length',
+  Reverse = 'Reverse',
+  Reset = 'Reset',
+}
 
 export const goodsFromServer = [
   'Dumplings',
@@ -15,36 +23,109 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-export const App: React.FC = () => {
+const defaultState = {
+  alphabetically: false,
+  length: false,
+  reverse: false,
+};
+
+export const App = (): JSX.Element => {
+  const [sortedProducts, setSortedProducts] = useState(goodsFromServer);
+  const [actionState, setActionState] = useState(defaultState);
+
+  const sortByLetters = (): void => {
+    const sorted = [...goodsFromServer].sort((a, b) => a.localeCompare(b));
+
+    setSortedProducts(actionState.reverse ? sorted.reverse() : sorted);
+    setActionState(prevState => ({
+      ...prevState,
+      alphabetically: true,
+      length: false,
+    }));
+  };
+
+  const sortbyLength = (): void => {
+    const sorted = [...goodsFromServer].sort((a, b) => a.length - b.length);
+
+    setSortedProducts(actionState.reverse ? sorted.reverse() : sorted);
+    setActionState(prevState => ({
+      ...prevState,
+      alphabetically: false,
+      length: true,
+    }));
+  };
+
+  const handleReverseClick = (): void => {
+    const reversedProducts = [...sortedProducts].reverse();
+
+    setSortedProducts(reversedProducts);
+    setActionState(prevState => ({
+      ...prevState,
+      reverse: !prevState.reverse,
+    }));
+  };
+
+  const handleResetClick = (): void => {
+    setSortedProducts(goodsFromServer);
+    setActionState(defaultState);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
-        <button type="button" className="button is-info is-light">
-          Sort alphabetically
+        <button
+          onClick={sortByLetters}
+          type="button"
+          className={cn('button', 'is-info', {
+            'is-light': !actionState.alphabetically,
+          })}
+        >
+          {SortType.Alphabetically}
         </button>
 
-        <button type="button" className="button is-success is-light">
-          Sort by length
+        <button
+          onClick={sortbyLength}
+          type="button"
+          className={cn('button', 'is-success', {
+            'is-light': !actionState.length,
+          })}
+        >
+          {SortType.Length}
         </button>
 
-        <button type="button" className="button is-warning is-light">
-          Reverse
+        <button
+          onClick={handleReverseClick}
+          type="button"
+          className={cn('button', 'is-warning', {
+            'is-light': !actionState.reverse,
+          })}
+        >
+          {SortType.Reverse}
         </button>
 
-        <button type="button" className="button is-danger is-light">
-          Reset
-        </button>
+        {
+          // eslint-disable-next-line operator-linebreak
+          (actionState.alphabetically ||
+            // eslint-disable-next-line operator-linebreak
+            actionState.length ||
+            actionState.reverse) && (
+            <button
+              onClick={handleResetClick}
+              type="button"
+              className="button is-danger is-light"
+            >
+              {SortType.Reset}
+            </button>
+          )
+        }
       </div>
 
       <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
+        {sortedProducts.map(product => (
+          <li key={product} data-cy="Good">
+            {product}
+          </li>
+        ))}
       </ul>
     </div>
   );
