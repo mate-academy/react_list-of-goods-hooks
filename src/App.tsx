@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import cn from 'classNames';
+import cn from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
@@ -17,8 +17,8 @@ export const goodsFromServer = [
 ];
 
 export enum SortType {
-  ALPHABET = 'alphabet',
-  LENGTH = 'length',
+  ALPHABET = 'Sort alphabetically',
+  LENGTH = 'Sort by length',
   DEFAULT = 'default',
 }
 
@@ -63,7 +63,7 @@ export const App: React.FC = () => {
     sortType,
     reversed,
   });
-  const reset = () => {
+  const resetFilters = () => {
     setSortType(SortType.DEFAULT);
     setReversed(false);
   };
@@ -105,7 +105,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={reset}
+            onClick={resetFilters}
           >
             Reset
           </button>
