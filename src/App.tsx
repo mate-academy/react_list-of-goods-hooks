@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
@@ -16,64 +16,56 @@ export const goodsFromServer = [
 ];
 
 enum SortTypes {
-  alphabetically = "alphabetically",
-  length = 'length'
+  alphabetically = 'alphabetically',
+  length = 'length',
 }
 
 export const App: React.FC = () => {
-
   const [goodsOrdered, setGoodsOrdered] = useState(goodsFromServer);
   const [isReversed, setIsReversed] = useState(false);
   const [sortType, setSortType] = useState<SortTypes | null>(null);
 
-  const sortAlphabetically = () => {
-    const sorted = [...goodsOrdered].sort((a, b) => a.localeCompare(b));
+  useEffect(() => {
+    let sortedGoods = [...goodsFromServer];
 
-    if (isReversed) {
-      sorted.reverse();
+    if (sortType === SortTypes.alphabetically) {
+      sortedGoods.sort((a, b) => a.localeCompare(b));
+    } else if (sortType === SortTypes.length) {
+      sortedGoods.sort((a, b) => a.length - b.length);
     }
 
-    setSortType(SortTypes.alphabetically);
+    if (isReversed) {
+      sortedGoods.reverse();
+    }
 
-    return setGoodsOrdered(sorted);
+    setGoodsOrdered(sortedGoods);
+  }, [sortType, isReversed, goodsFromServer]);
+
+  const sortAlphabetically = () => {
+    setSortType(SortTypes.alphabetically);
   };
 
   const sortByLength = () => {
-    const goodsCopy = [...goodsFromServer];
-
-    const sorted = goodsCopy.sort(
-      (good1, good2) => good1.length - good2.length,
-    );
-
-    if (isReversed) {
-      sorted.reverse();
-    }
-
     setSortType(SortTypes.length);
-
-    return setGoodsOrdered(sorted);
   };
 
   const reverseArray = () => {
     setIsReversed(!isReversed);
-    const reversed = [...goodsOrdered].reverse();
-
-    return setGoodsOrdered(reversed);
   };
 
   const reset = () => {
-    setIsReversed(false);
     setSortType(null);
-
-    return setGoodsOrdered(goodsFromServer);
+    setIsReversed(false);
+    setGoodsOrdered(goodsFromServer);
   };
 
   const arraysAreEqual = (arr1: string[], arr2: string[]) => {
-    if (arr1.length !== arr2.length) return false;
+    if (arr1.length !== arr2.length) {
+      return false;
+    }
 
     return arr1.every((item, index) => item === arr2[index]);
   };
-
 
   return (
     <div className="section content">
@@ -93,7 +85,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={
-            sortType === SortTypes.length ? 'button is-info' : 'button is-info is-light'
+            sortType === SortTypes.length
+              ? 'button is-info'
+              : 'button is-info is-light'
           }
           onClick={sortByLength}
         >
