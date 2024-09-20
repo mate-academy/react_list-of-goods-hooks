@@ -26,7 +26,7 @@ export const App: React.FC = () => {
   const [sortType, setSortType] = useState<SortTypes | null>(null);
 
   useEffect(() => {
-    let sortedGoods = [...goodsFromServer];
+    const sortedGoods = [...goodsFromServer];
 
     if (sortType === SortTypes.alphabetically) {
       sortedGoods.sort((a, b) => a.localeCompare(b));
@@ -39,7 +39,7 @@ export const App: React.FC = () => {
     }
 
     setGoodsOrdered(sortedGoods);
-  }, [sortType, isReversed, goodsFromServer]);
+  }, [sortType, isReversed]);
 
   const sortAlphabetically = () => {
     setSortType(SortTypes.alphabetically);
