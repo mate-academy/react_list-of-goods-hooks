@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
 enum SortType {
   Alphabetical = 'ALPHA',
   Length = 'LENGTH',
+  Reverse = 'REVERSE',
+  Clear = 'CLEAR',
 }
 
-type SortedList = {
+type ProductWithKey = {
   id: number;
   product: string;
 };
@@ -25,45 +27,75 @@ export const goodsFromServer: string[] = [
   'Garlic',
 ];
 
+const goodsWithKeys = goodsFromServer.map((good, i) => {
+  return { id: i + 1, product: good };
+});
+
+type Action =
+  | { type: SortType.Alphabetical }
+  | { type: SortType.Length }
+  | { type: SortType.Reverse }
+  | { type: SortType.Clear };
+
+type State = {
+  sortedList: ProductWithKey[];
+  sortedBy: string;
+  isReversed: boolean;
+};
+
 export const App: React.FC = () => {
-  const [isReversed, setIsReversed] = useState(false);
-  const [sortValue, setSortValue] = useState('');
+  const initialState = {
+    sortedList: [...goodsWithKeys],
+    sortedBy: '',
+    isReversed: false,
+    isChanged: false,
+  };
 
-  function getSortedList(
-    array: string[],
-    sortBy: string,
-    isReverseActive: boolean,
-  ) {
-    const sortedArray: string[] = [...array].sort((a, b) => {
-      switch (sortBy) {
-        case SortType.Alphabetical:
-          return a.localeCompare(b);
-        case SortType.Length:
-          return a.length - b.length;
-        default:
-          return 0;
-      }
-    });
+  function reducer(state: State, action: Action): State {
+    let { sortedList, sortedBy, isReversed } = state;
 
-    function listForRender(list: string[]): SortedList[] {
-      return list.map((good: string, index: number) => {
-        return { id: index, product: good };
-      });
+    switch (action.type) {
+      case SortType.Alphabetical:
+        sortedBy = SortType.Alphabetical;
+        sortedList = !isReversed
+          ? [...sortedList].sort((a, b) => a.product.localeCompare(b.product))
+          : [...sortedList].sort((a, b) => b.product.localeCompare(a.product));
+        break;
+      case SortType.Length:
+        sortedBy = SortType.Length;
+        sortedList = !isReversed
+          ? [...sortedList].sort((a, b) => a.product.length - b.product.length)
+          : [...sortedList].sort((a, b) => b.product.length - a.product.length);
+        break;
+      case SortType.Reverse:
+        isReversed = !isReversed;
+        sortedList = sortedList.reverse();
+        break;
+      case SortType.Clear:
+        sortedBy = '';
+        isReversed = false;
+        sortedList = [...goodsWithKeys];
+        break;
+      default:
+        break;
     }
 
-    return isReverseActive
-      ? listForRender(sortedArray.reverse())
-      : listForRender(sortedArray);
+    return { sortedList, sortedBy, isReversed };
   }
+
+  const [{ sortedList, sortedBy, isReversed }, dispatch] = useReducer(
+    reducer,
+    initialState,
+  );
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => setSortValue(SortType.Alphabetical)}
+          onClick={() => dispatch({ type: SortType.Alphabetical })}
           type="button"
           className={
-            sortValue !== SortType.Alphabetical
+            sortedBy !== SortType.Alphabetical
               ? 'button is-info is-light'
               : 'button is-info'
           }
@@ -71,10 +103,10 @@ export const App: React.FC = () => {
           Sort alphabetically
         </button>
         <button
-          onClick={() => setSortValue(SortType.Length)}
+          onClick={() => dispatch({ type: SortType.Length })}
           type="button"
           className={
-            sortValue !== 'LENGTH'
+            sortedBy !== SortType.Length
               ? 'button is-success is-light'
               : 'button is-info'
           }
@@ -82,7 +114,7 @@ export const App: React.FC = () => {
           Sort by length
         </button>
         <button
-          onClick={() => setIsReversed(!isReversed)}
+          onClick={() => dispatch({ type: SortType.Reverse })}
           type="button"
           className={
             !isReversed ? 'button is-warning is-light' : 'button is-warning'
@@ -90,12 +122,9 @@ export const App: React.FC = () => {
         >
           Reverse
         </button>
-        {sortValue.length || isReversed ? (
+        {isReversed || sortedBy !== '' ? (
           <button
-            onClick={() => {
-              setIsReversed(false);
-              setSortValue('');
-            }}
+            onClick={() => dispatch({ type: SortType.Clear })}
             type="button"
             className="button is-danger is-light"
           >
@@ -105,13 +134,11 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {getSortedList(goodsFromServer, sortValue, isReversed).map(
-          ({ id, product }) => (
-            <li key={id} data-cy="Good">
-              {product}
-            </li>
-          ),
-        )}
+        {sortedList.map(({ id, product }) => (
+          <li key={id} data-cy="Good">
+            {product}
+          </li>
+        ))}
       </ul>
     </div>
   );
