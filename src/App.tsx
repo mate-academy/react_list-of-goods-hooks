@@ -52,7 +52,7 @@ export const App: React.FC = () => {
   const [sortField, setSortField] = useState<SortField>(null);
   const [reverse, setReverse] = useState<boolean>(false);
 
-  const handleSort = (field: SortField | typeof BY_REVERSE) => {
+  const sortGoods = (field: SortField | typeof BY_REVERSE) => {
     if (field === BY_REVERSE) {
       setReverse(prevReverse => !prevReverse);
     } else {
@@ -60,7 +60,7 @@ export const App: React.FC = () => {
     }
   };
 
-  const handleReset = () => {
+  const resetSorting = () => {
     setSortField(null);
     setReverse(false);
   };
@@ -73,7 +73,7 @@ export const App: React.FC = () => {
           className={cn('button', 'is-info', {
             'is-light': sortField !== BY_ALPHABETICALLY,
           })}
-          onClick={() => handleSort(BY_ALPHABETICALLY)}
+          onClick={() => sortGoods(BY_ALPHABETICALLY)}
         >
           Sort alphabetically
         </button>
@@ -83,7 +83,7 @@ export const App: React.FC = () => {
           className={cn('button', 'is-success', {
             'is-light': sortField !== BY_LENGTH,
           })}
-          onClick={() => handleSort(BY_LENGTH)}
+          onClick={() => sortGoods(BY_LENGTH)}
         >
           Sort by length
         </button>
@@ -91,7 +91,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button', 'is-warning', { 'is-light': !reverse })}
-          onClick={() => handleSort(BY_REVERSE)}
+          onClick={() => sortGoods(BY_REVERSE)}
         >
           Reverse
         </button>
@@ -100,7 +100,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={handleReset}
+            onClick={resetSorting}
           >
             Reset
           </button>
