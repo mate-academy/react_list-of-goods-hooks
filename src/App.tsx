@@ -22,11 +22,7 @@ const sortingActions = {
   length: 'Length',
 };
 
-function handleGoodsSortAction(
-  goods: string[],
-  action: string,
-  isReversed: boolean,
-) {
+function sortGoods(goods: string[], action: string, isReversed: boolean) {
   const renderedGoods = [...goods];
 
   renderedGoods.sort((good1, good2) => {
@@ -59,11 +55,7 @@ export const App: React.FC = () => {
 
   const { alphabetically, length } = sortingActions;
 
-  const handledGoods = handleGoodsSortAction(
-    goodsFromServer,
-    sortingAction,
-    reversed,
-  );
+  const handledGoods = sortGoods(goodsFromServer, sortingAction, reversed);
 
   return (
     <div className="section content">
