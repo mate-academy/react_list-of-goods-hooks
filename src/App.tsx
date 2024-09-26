@@ -24,6 +24,7 @@ export const goodsFromServer: string[] = [
 
 const SORT_ALPHABETICALLY = SortTypes.SORT_ALPHABETICALLY;
 const SORT_LENGTH = SortTypes.SORT_LENGTH;
+const isLigthButton = 'is-light';
 
 function getSortedGoods(sortBy: SortTypes, isReversed: boolean) {
   const sortArr = [...goodsFromServer];
@@ -68,7 +69,7 @@ export const App: React.FC = ({}) => {
         <button
           onClick={() => setSortBy(SORT_ALPHABETICALLY)}
           type="button"
-          className={`button is-info ${sortBy !== SORT_ALPHABETICALLY && 'is-light'}`}
+          className={`button is-info ${sortBy !== SORT_ALPHABETICALLY && isLigthButton}`}
         >
           Sort alphabetically
         </button>
@@ -76,7 +77,7 @@ export const App: React.FC = ({}) => {
         <button
           onClick={() => setSortBy(SORT_LENGTH)}
           type="button"
-          className={`button is-success ${sortBy !== SORT_LENGTH && 'is-light'}`}
+          className={`button is-success ${sortBy !== SORT_LENGTH && isLigthButton}`}
         >
           Sort by length
         </button>
@@ -84,7 +85,7 @@ export const App: React.FC = ({}) => {
         <button
           onClick={changeReversed}
           type="button"
-          className={`button is-warning ${!isReversed && 'is-light'}`}
+          className={`button is-warning ${!isReversed && isLigthButton}`}
         >
           Reverse
         </button>
