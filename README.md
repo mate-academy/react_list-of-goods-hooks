@@ -15,3 +15,36 @@ Copy everything you need from your previous solution.
 - Implement a solution following the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline).
 - Open one more terminal and run tests with `npm test` to ensure your solution is correct.
 - Replace `<your_account>` with your Github username in the [DEMO LINK](https://<your_account>.github.io/react_list-of-goods-hooks/) and add it to the PR description.
+enum SortTypes {
+  SORT_ALPHABETICALLY = 'is-info',
+  SORT_LENGTH = 'is-success',
+}
+
+export const goodsFromServer: string[] = [
+  'Dumplings',
+  'Carrot',
+  'Eggs',
+  'Ice cream',
+  'Apple',
+  'Bread',
+  'Fish',
+  'Honey',
+  'Jam',
+  'Garlic',
+];
+
+function getSortedGoods(sortBy: SortTypes, isReversed: boolean) {
+  const sortArr = [...goodsFromServer];
+
+  if (sortBy) {
+    sortArr.sort((good1, good2) => {
+      switch (sortBy) {
+        case SortTypes.SORT_ALPHABETICALLY:
+          return good1.localeCompare(good2);
+        case SortTypes.SORT_LENGTH:
+          return good1.length - good2.length;
+        default:
+          return 0;
+      }
+    });
+  }

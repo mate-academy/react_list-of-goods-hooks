@@ -3,11 +3,12 @@ import 'bulma/css/bulma.css';
 import './App.scss';
 import { useState } from 'react';
 
-/* enum SortBy {
-  SORT_ALPHABETICALLY = 'is-info',
-  SORT_LENGTH = 'is-success',
+enum SortTypes {
+  SORT_ALPHABETICALLY = 'alphabet',
+  SORT_LENGTH = 'length',
+  DEFAULT = '',
 }
- */
+
 export const goodsFromServer: string[] = [
   'Dumplings',
   'Carrot',
@@ -21,18 +22,18 @@ export const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-const SORT_ALPHABETICALLY = 'alphabet';
-const SORT_LENGTH = 'length';
+const SORT_ALPHABETICALLY = SortTypes.SORT_ALPHABETICALLY;
+const SORT_LENGTH = SortTypes.SORT_LENGTH;
 
-function getSortedGoods(sortBy: string, isReversed: boolean) {
+function getSortedGoods(sortBy: SortTypes, isReversed: boolean) {
   const sortArr = [...goodsFromServer];
 
   if (sortBy) {
     sortArr.sort((good1, good2) => {
       switch (sortBy) {
-        case SORT_ALPHABETICALLY:
+        case SortTypes.SORT_ALPHABETICALLY:
           return good1.localeCompare(good2);
-        case SORT_LENGTH:
+        case SortTypes.SORT_LENGTH:
           return good1.length - good2.length;
         default:
           return 0;
@@ -47,13 +48,13 @@ function getSortedGoods(sortBy: string, isReversed: boolean) {
   return sortArr;
 }
 
-export const App: React.FC = () => {
-  const [sortBy, setSortBy] = useState<string>('');
+export const App: React.FC = ({}) => {
+  const [sortBy, setSortBy] = useState<SortTypes>(SortTypes.DEFAULT);
   const [isReversed, setIsReversed] = useState<boolean>(false);
   const currentGoods = getSortedGoods(sortBy, isReversed);
 
   function reset() {
-    setSortBy('');
+    setSortBy(SortTypes.DEFAULT);
     setIsReversed(false);
   }
 
