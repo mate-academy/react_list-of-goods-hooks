@@ -21,10 +21,10 @@ export const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-const SORT_ALPHABETICALLY = 'is-info';
-const SORT_LENGTH = 'is-success';
+const SORT_ALPHABETICALLY = 'alphabet';
+const SORT_LENGTH = 'length';
 
-function sortGoods(sortBy: string, isReversed: boolean) {
+function getSortedGoods(sortBy: string, isReversed: boolean) {
   const sortArr = [...goodsFromServer];
 
   if (sortBy) {
@@ -50,7 +50,7 @@ function sortGoods(sortBy: string, isReversed: boolean) {
 export const App: React.FC = () => {
   const [sortBy, setSortBy] = useState<string>('');
   const [isReversed, setIsReversed] = useState<boolean>(false);
-  const currentGoods = sortGoods(sortBy, isReversed);
+  const currentGoods = getSortedGoods(sortBy, isReversed);
 
   function reset() {
     setSortBy('');
