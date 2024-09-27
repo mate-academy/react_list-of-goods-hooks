@@ -56,7 +56,7 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   const visibleGoods = getPreparedGoods(goodsFromServer, sortField, isReversed);
 
-  function handleReset(): void {
+  function resetSortAndOrder(): void {
     setSortField(null);
     setIsReversed(false);
   }
@@ -98,7 +98,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={handleReset}
+            onClick={resetSortAndOrder}
           >
             Reset
           </button>
@@ -106,8 +106,8 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {visibleGoods.map(good => (
-          <li data-cy="Good" key={good}>
+        {visibleGoods.map((good, i) => (
+          <li data-cy="Good" key={good + i}>
             {good}
           </li>
         ))}
