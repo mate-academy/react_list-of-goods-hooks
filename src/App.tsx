@@ -32,7 +32,6 @@ function getPreparedGoods(
   { sortOption, isReversed }: SortParams,
 ) {
   const preparedGoods = [...goods];
-  console.log('dick');
 
   if (sortOption) {
     preparedGoods.sort((good1, good2) => {
