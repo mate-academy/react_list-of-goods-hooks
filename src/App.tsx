@@ -1,50 +1,83 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
-import './App.scss';
+import cn from 'classnames';
 
-export const goodsFromServer = [
-  'Dumplings',
-  'Carrot',
-  'Eggs',
-  'Ice cream',
-  'Apple',
-  'Bread',
-  'Fish',
-  'Honey',
-  'Jam',
-  'Garlic',
-];
+import './App.scss';
+import { SortType } from './types/SortType';
+import { goodsFromServer } from './mocks';
+import { getPreparedGoods } from './utils/getPreparedGoods';
 
 export const App: React.FC = () => {
+  const [sortField, setSortField] = useState<SortType | ''>('');
+  const [isReversed, setIsReversed] = useState(false);
+
+  const handleClear = () => {
+    setSortField('');
+    setIsReversed(false);
+  };
+
+  const isChanged = sortField !== '' || isReversed;
+
+  const goods = getPreparedGoods(goodsFromServer, { sortField, isReversed });
+
+  const buttons = [
+    {
+      name: 'Sort alphabetically',
+      className: cn('is-info', { 'is-light': sortField !== SortType.Alphabet }),
+      handleClick() {
+        setSortField(SortType.Alphabet);
+      },
+    },
+    {
+      name: 'Sort by length',
+      className: cn('is-success', {
+        'is-light': sortField !== SortType.Length,
+      }),
+      handleClick() {
+        setSortField(SortType.Length);
+      },
+    },
+    {
+      name: 'Reverse',
+      className: cn('is-warning', { 'is-light': !isReversed }),
+      handleClick() {
+        setIsReversed(prevState => !prevState);
+      },
+    },
+  ];
+
   return (
     <div className="section content">
       <div className="buttons">
-        <button type="button" className="button is-info is-light">
-          Sort alphabetically
-        </button>
+        {buttons.map(button => (
+          <button
+            type="button"
+            className={cn(`button ${button.className}`)}
+            onClick={button.handleClick}
+            key={button.name}
+          >
+            {button.name}
+          </button>
+          // eslint-disable-next-line prettier/prettier
+        ))}
 
-        <button type="button" className="button is-success is-light">
-          Sort by length
-        </button>
-
-        <button type="button" className="button is-warning is-light">
-          Reverse
-        </button>
-
-        <button type="button" className="button is-danger is-light">
-          Reset
-        </button>
+        {isChanged && (
+          <button
+            type="button"
+            className={cn('button is-danger is-light')}
+            onClick={handleClear}
+          >
+            Reset
+          </button>
+        )}
       </div>
 
       <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
+        {goods.map(good => (
+          <li data-cy="Good" key={good}>
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
