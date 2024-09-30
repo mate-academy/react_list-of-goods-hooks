@@ -22,13 +22,15 @@ enum SortType {
   default = '',
 }
 
-function getPreparedGoods(
-  goods: string[],
-  { sortBy, isReversed }: { sortBy: SortType; isReversed: boolean },
-) {
+interface SortParams {
+  sortBy: SortType;
+  isReversed: boolean;
+}
+
+function getPreparedGoods(goods: string[], { sortBy, isReversed }: SortParams) {
   const preparedGoods = [...goods];
 
-  if (sortBy) {
+  if (sortBy !== SortType.default) {
     preparedGoods.sort((good1, good2) => {
       switch (sortBy) {
         case SortType.length:
@@ -96,7 +98,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortBy || isReversed) && (
+        {(sortBy !== SortType.default || isReversed) && (
           <button
             type="button"
             className="button is-danger is-light"
