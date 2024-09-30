@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import cn from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import { SortType } from './models/enum/enums';
+import { getPreparedGoods } from './utils/getPreparedGoods';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -16,45 +18,6 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-enum SortType {
-  BY_ALPHABET = 'alphabet',
-  BY_LENGTH = 'length',
-  DEFAULT = '',
-}
-
-interface FilterParams {
-  sortField: SortType;
-  isReversed: boolean;
-}
-
-function getPreparedGoods(
-  goods: string[],
-  { sortField, isReversed }: FilterParams,
-) {
-  const copiedGoods = [...goods];
-
-  if (sortField) {
-    copiedGoods.sort((good1, good2) => {
-      switch (sortField) {
-        case SortType.BY_ALPHABET:
-          return good1.localeCompare(good2);
-
-        case SortType.BY_LENGTH:
-          return good1.length - good2.length;
-
-        default:
-          return 0;
-      }
-    });
-  }
-
-  if (isReversed) {
-    return copiedGoods.reverse();
-  }
-
-  return copiedGoods;
-}
-
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState<SortType>(SortType.DEFAULT);
   const [isReversed, setIsReversed] = useState(false);
@@ -64,9 +27,13 @@ export const App: React.FC = () => {
     isReversed,
   });
 
-  const reset = () => {
+  const handleReset = () => {
     setSortField(SortType.DEFAULT);
     setIsReversed(false);
+  };
+
+  const handleReverse = () => {
+    setIsReversed(current => !current);
   };
 
   return (
@@ -97,7 +64,7 @@ export const App: React.FC = () => {
           className={cn('button is-warning', {
             'is-light': !isReversed,
           })}
-          onClick={() => setIsReversed(!isReversed)}
+          onClick={handleReverse}
         >
           Reverse
         </button>
@@ -106,7 +73,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={reset}
+            onClick={handleReset}
           >
             Reset
           </button>
