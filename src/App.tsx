@@ -12,12 +12,10 @@ export const App = () => {
   const [isReversed, setIsReversed] = useState(false);
 
   const sortGoods = (compareFunction: (a: string, b: string) => number) => {
-    const sortedGoods = [...goods].sort(compareFunction);
-
-    setGoods(sortedGoods);
+    setGoods(prevGoods => [...prevGoods].sort(compareFunction));
   };
 
-  const sort = (typeOfSortGoods: SortType) => {
+  const handleSort = (typeOfSortGoods: SortType) => {
     let compareFunction;
 
     switch (typeOfSortGoods) {
@@ -44,12 +42,12 @@ export const App = () => {
     sortGoods(compareFunction);
   };
 
-  const reverseGoods = () => {
+  const handleReverseGoods = () => {
     setGoods(prevGoods => [...prevGoods].reverse());
     setIsReversed(prevIsReversed => !prevIsReversed);
   };
 
-  const resetGoods = () => {
+  const handleResetGoods = () => {
     setGoods([...goodsFromServer]);
     setIsReversed(false);
     setActiveSort('');
@@ -63,7 +61,7 @@ export const App = () => {
           className={classNames('button is-info', {
             'is-light': activeSort !== SortType.Alphabetically,
           })}
-          onClick={() => sort(SortType.Alphabetically)}
+          onClick={() => handleSort(SortType.Alphabetically)}
         >
           Sort alphabetically
         </button>
@@ -73,7 +71,7 @@ export const App = () => {
           className={classNames('button is-success', {
             'is-light': activeSort !== SortType.ByLength,
           })}
-          onClick={() => sort(SortType.ByLength)}
+          onClick={() => handleSort(SortType.ByLength)}
         >
           Sort by length
         </button>
@@ -84,7 +82,7 @@ export const App = () => {
             'is-warning': isReversed,
             'is-warning is-light': !isReversed,
           })}
-          onClick={reverseGoods}
+          onClick={handleReverseGoods}
         >
           Reverse
         </button>
@@ -93,7 +91,7 @@ export const App = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={resetGoods}
+            onClick={handleResetGoods}
           >
             Reset
           </button>
@@ -101,8 +99,8 @@ export const App = () => {
       </div>
 
       <ul>
-        {goods.map(good => (
-          <li data-cy="Good" key={good}>
+        {goods.map((good, index) => (
+          <li data-cy="Good" key={index}>
             {good}
           </li>
         ))}
