@@ -1,5 +1,8 @@
 import { ListItem } from './ListItem';
-import { ListProps } from '../../types/list/ListProps';
+
+interface ListProps {
+  goods: string[];
+}
 
 export const GoodsList: React.FC<ListProps> = ({ goods }) => {
   return (

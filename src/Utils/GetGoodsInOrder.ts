@@ -1,7 +1,7 @@
-import { GoodsInOrder } from '../types/GoodsInOrder';
-import { SortType } from '../Enums/SortType';
+import { GoodsInOrder as GetGoodsInOrder } from '../types/GetGoodsInOrder';
+import { SortType } from '../types/SortType';
 
-export const getGoodsInOrder: GoodsInOrder = (goods, sortBy, isReversed) => {
+export const getGoodsInOrder: GetGoodsInOrder = (goods, sortBy, isReversed) => {
   const sortedGoods = [...goods];
 
   if (sortBy !== SortType.INITIAL) {

@@ -1,18 +1,12 @@
 import React from 'react';
 import { useState } from 'react';
+import cn from 'classnames';
 
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-import { SortType } from './Enums/SortType';
+import { SortType } from './types/SortType';
 import { getGoodsInOrder } from './Utils/GetGoodsInOrder';
-
-import {
-  SortByAlphabet,
-  SortByLength,
-  ReverseList,
-  ResetSort,
-} from './Components/Buttons';
 
 import { GoodsList } from './Components/GoodsList';
 
@@ -38,12 +32,47 @@ export const App: React.FC = () => {
   return (
     <div className="section content">
       <div className="buttons">
-        <SortByAlphabet setSortBy={setSortBy} sortBy={sortBy} />
-        <SortByLength setSortBy={setSortBy} sortBy={sortBy} />
-        <ReverseList setIsReversed={setIsReversed} isReversed={isReversed} />
+        <button
+          type="button"
+          className={cn('button is-info', {
+            'is-light': sortBy !== SortType.ALPHABET,
+          })}
+          onClick={() => setSortBy(SortType.ALPHABET)}
+        >
+          Sort alphabetically
+        </button>
+
+        <button
+          type="button"
+          className={cn('button is-success', {
+            'is-light': sortBy !== SortType.LENGTH,
+          })}
+          onClick={() => setSortBy(SortType.LENGTH)}
+        >
+          Sort by length
+        </button>
+
+        <button
+          type="button"
+          className={cn('button is-warning', {
+            'is-light': !isReversed,
+          })}
+          onClick={() => setIsReversed(currentState => !currentState)}
+        >
+          Reverse
+        </button>
 
         {(isReversed || sortBy !== SortType.INITIAL) && (
-          <ResetSort setSortBy={setSortBy} setIsReversed={setIsReversed} />
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={() => {
+              setSortBy(SortType.INITIAL);
+              setIsReversed(false);
+            }}
+          >
+            Reset
+          </button>
         )}
       </div>
 

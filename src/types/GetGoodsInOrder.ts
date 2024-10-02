@@ -1,4 +1,4 @@
-import { SortType } from '../Enums/SortType';
+import { SortType } from './SortType';
 
 export type GoodsInOrder = (
   goods: string[],
