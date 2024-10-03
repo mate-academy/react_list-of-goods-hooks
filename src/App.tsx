@@ -31,19 +31,15 @@ const sortingGoodsFunction = (
   goodsArray: string[],
   { sortingType, isReversed }: SortingConditionals,
 ) => {
-  let goodsArrayCopy = [...goodsArray];
+  const goodsArrayCopy = [...goodsArray];
 
   switch (sortingType) {
     case SortType.ALPHABETICALLY:
-      goodsArrayCopy = [...goodsArrayCopy].sort((good1, good2) =>
-        good1.localeCompare(good2),
-      );
+      goodsArrayCopy.sort((good1, good2) => good1.localeCompare(good2));
       break;
 
     case SortType.LENGTH:
-      goodsArrayCopy = [...goodsArrayCopy].sort(
-        (good1, good2) => good1.length - good2.length,
-      );
+      goodsArrayCopy.sort((good1, good2) => good1.length - good2.length);
       break;
 
     default:
@@ -99,7 +95,7 @@ export const App: React.FC = () => {
         <button
           onClick={() => setSortingType(SortType.LENGTH)}
           type="button"
-          className={cn('button is-info', {
+          className={cn('button is-success', {
             'is-light': sortingType !== SortType.LENGTH,
           })}
         >
