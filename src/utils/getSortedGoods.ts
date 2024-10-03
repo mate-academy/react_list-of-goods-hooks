@@ -15,7 +15,7 @@ export function getSortedGoods(
     preparedGoods = preparedGoods.sort(
       (currentGood: string, nextGood: string) => {
         switch (sortField) {
-          case SortType.ALPHABETIBALLY:
+          case SortType.ALPHABETICALLY:
             return currentGood.localeCompare(nextGood);
 
           case SortType.LENGTH:

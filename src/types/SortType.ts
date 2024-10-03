@@ -1,5 +1,5 @@
 export enum SortType {
   DEFAULT,
-  ALPHABETIBALLY,
+  ALPHABETICALLY,
   LENGTH,
 }
