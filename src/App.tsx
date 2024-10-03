@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import 'bulma/css/bulma.css';
 import classNames from 'classnames';
 import './App.scss';
@@ -19,23 +19,13 @@ export const goodsFromServer = [
 enum SortType {
   alphabet = 'alphabet',
   length = 'length',
-  default = 0,
 }
-
-// type SortConfig = {
-//   type: string | null;
-//   reversed: boolean;
-// };
 
 export const App = () => {
   const [sortType, setSortType] = useState('');
-  const [reversed, setReversed] = useState('');
+  const [reversed, setReversed] = useState(false);
 
-  function getSortedList(
-    goods: string[],
-    sortBy: string,
-    isReverse: string | boolean,
-  ) {
+  function sortGoodsList(goods: string[], sortBy: string, isReverse: boolean) {
     const sortedList = [...goods].sort((good1, good2) => {
       switch (sortBy) {
         case SortType.alphabet:
@@ -43,19 +33,19 @@ export const App = () => {
         case SortType.length:
           return good1.length - good2.length;
         default:
-          return SortType.default;
+          return 0;
       }
     });
 
     return isReverse ? sortedList.reverse() : sortedList;
   }
 
-  const reset = () => {
-    setReversed('');
+  const handleReset = () => {
+    setReversed(false);
     setSortType('');
   };
 
-  const visibleGoods = getSortedList(goodsFromServer, sortType, reversed);
+  const visibleGoods = sortGoodsList(goodsFromServer, sortType, reversed);
 
   return (
     <div className="section content">
@@ -72,7 +62,7 @@ export const App = () => {
         <button
           onClick={() => setSortType(SortType.length)}
           type="button"
-          className={classNames('button', 'is-succes', {
+          className={classNames('button', 'is-success', {
             'is-light': sortType !== SortType.length,
           })}
         >
@@ -89,7 +79,7 @@ export const App = () => {
         </button>
         {(sortType.length || reversed) && (
           <button
-            onClick={reset}
+            onClick={handleReset}
             type="button"
             className="button is-danger is-light"
           >
@@ -99,8 +89,8 @@ export const App = () => {
       </div>
 
       <ul>
-        {visibleGoods.map(good => (
-          <li key={good} data-cy="Good">
+        {visibleGoods.map((good, index) => (
+          <li key={index} data-cy="Good">
             {good}
           </li>
         ))}
