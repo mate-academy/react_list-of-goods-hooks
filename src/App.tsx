@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
@@ -16,82 +17,76 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  DEFAULT = 'default',
-  ALPHABET = 'alphabet',
-  LENGTH = 'length',
+  ALPHABET = 'Sort alphabetically',
+  LENGTH = 'Sort by length',
+  RESET = 'Reset',
 }
 
 const preparedGoods = [...goodsFromServer];
 
-const sortGoods = (order: SortType, isReversed: boolean): string[] => {
-  let sortedGoods: string[];
+const getSortedGoods = (order: SortType, isReversed: boolean): string[] => {
+  const sortedGoods = [...preparedGoods].sort((a, b) => {
+    switch (order) {
+      case SortType.ALPHABET:
+        return a.localeCompare(b);
+      case SortType.LENGTH:
+        return a.length - b.length;
+      default:
+        return 0;
+    }
+  });
 
-  switch (order) {
-    case SortType.ALPHABET:
-      sortedGoods = [...preparedGoods].sort((a, b) => a.localeCompare(b));
-      break;
-    case SortType.LENGTH:
-      sortedGoods = [...preparedGoods].sort((a, b) => a.length - b.length);
-      break;
-    default:
-      sortedGoods = [...preparedGoods];
-  }
-
-  if (isReversed) {
-    sortedGoods.reverse();
-  }
-
-  return sortedGoods;
+  return isReversed ? sortedGoods.reverse() : sortedGoods;
 };
 
 export const App: React.FC = () => {
-  const [goods, setGoods] = useState<string[]>(preparedGoods);
   const [isReversed, setIsReversed] = useState<boolean>(false);
-  const [sortOrder, setSortOrder] = useState<SortType>(SortType.DEFAULT);
+  const [sortOrder, setSortOrder] = useState<SortType>(SortType.RESET);
 
-  const handleSort = (order: SortType) => {
-    const sortedGoods = sortGoods(order, isReversed);
+  const handleSortOrderChange = (order: SortType) => {
+    if (order === SortType.RESET) {
+      setIsReversed(false);
+    }
 
-    setGoods(sortedGoods);
     setSortOrder(order);
   };
 
-  const reverseGoods = () => {
-    setGoods(prevGoods => [...prevGoods].reverse());
+  const handleReverseGoods = () => {
     setIsReversed(prevState => !prevState);
   };
 
-  const resetGoods = () => {
-    setGoods(preparedGoods);
-    setSortOrder(SortType.DEFAULT);
-    setIsReversed(false);
-  };
-
-  const isResetVisible = sortOrder !== SortType.DEFAULT || isReversed;
+  const goods = getSortedGoods(sortOrder, isReversed);
+  const isResetVisible = sortOrder !== SortType.RESET || isReversed;
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortOrder !== SortType.ALPHABET ? 'is-light' : ''}`}
-          onClick={() => handleSort(SortType.ALPHABET)}
+          className={classNames('button', 'is-info', {
+            'is-light': sortOrder !== SortType.ALPHABET,
+          })}
+          onClick={() => handleSortOrderChange(SortType.ALPHABET)}
         >
-          Sort alphabetically
+          {SortType.ALPHABET}
         </button>
 
         <button
           type="button"
-          className={`button is-success ${sortOrder !== SortType.LENGTH ? 'is-light' : ''}`}
-          onClick={() => handleSort(SortType.LENGTH)}
+          className={classNames('button', 'is-success', {
+            'is-light': sortOrder !== SortType.LENGTH,
+          })}
+          onClick={() => handleSortOrderChange(SortType.LENGTH)}
         >
-          Sort by length
+          {SortType.LENGTH}
         </button>
 
         <button
           type="button"
-          className={`button is-warning ${!isReversed ? 'is-light' : ''}`}
-          onClick={reverseGoods}
+          className={classNames('button', 'is-warning', {
+            'is-light': !isReversed,
+          })}
+          onClick={handleReverseGoods}
         >
           Reverse
         </button>
@@ -100,9 +95,9 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger"
-            onClick={resetGoods}
+            onClick={() => handleSortOrderChange(SortType.RESET)}
           >
-            Reset
+            {SortType.RESET}
           </button>
         )}
       </div>
