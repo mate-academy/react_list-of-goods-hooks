@@ -31,7 +31,7 @@ const getSortedGoods = (
   items: string[],
   { sortType, isReversed }: SortParams,
 ) => {
-  const sortedList = [...goodsFromServer];
+  const sortedList = [...items];
 
   switch (sortType) {
     case SortType.ALPHABETICAL:
@@ -51,7 +51,7 @@ export const App: React.FC = () => {
   const [sortType, setSortType] = useState<SortType>(SortType.DEFAULT);
   const [isReversed, setIsReversed] = useState(false);
 
-  const handleReset = () => {
+  const resetSortStyle = () => {
     setSortType(SortType.DEFAULT);
     setIsReversed(false);
   };
@@ -97,7 +97,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={handleReset}
+            onClick={resetSortStyle}
           >
             Reset
           </button>
@@ -105,13 +105,11 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        <ul>
-          {sortedGoods.map(good => (
-            <li key={good} data-cy="Good">
-              {good}
-            </li>
-          ))}
-        </ul>
+        {sortedGoods.map(good => (
+          <li key={good} data-cy="Good">
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
