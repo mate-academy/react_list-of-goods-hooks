@@ -53,7 +53,7 @@ export const App: React.FC = () => {
 
   function sortGoods(type: SortType) {
     setSortValue(type);
-  };
+  }
 
   const toggleReverse = () => {
     setReversed(!reversed);
@@ -71,7 +71,7 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={cn('button', 'is-info', {
+          className={cn('button is-info', {
             'is-light': sortValue !== SortType.ALPHABETICALLY,
           })}
           onClick={() => {
