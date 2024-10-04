@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import cn from 'classnames'
+import React, { useState, useMemo } from 'react';
+import cn from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
@@ -24,9 +24,9 @@ enum SortType {
 
 function prepareGoods(
   goods: string[],
-  sortedField: string,
+  sortedField: SortType,
   isReversed: boolean,
-) {
+): string[] {
   const copyGoods = [...goods];
 
   if (sortedField !== SortType.default) {
@@ -34,28 +34,27 @@ function prepareGoods(
       switch (sortedField) {
         case SortType.alphabet:
           return elementA.localeCompare(elementB);
-
         case SortType.length:
           return elementA.length - elementB.length;
-
-        case SortType.default:
         default:
           return 0;
       }
     });
   }
 
-  if (isReversed) {
-    copyGoods.reverse();
-  }
-
-  return copyGoods;
+  return isReversed ? copyGoods.reverse() : copyGoods;
 }
 
 export const App: React.FC = () => {
   const [sortedField, setSortField] = useState(SortType.default);
   const [isReversed, setIsReversed] = useState(false);
-  const visibleGoods = prepareGoods(goodsFromServer, sortedField, isReversed);
+
+  const visibleGoods = useMemo(
+    () => prepareGoods(goodsFromServer, sortedField, isReversed),
+    [sortedField, isReversed],
+  );
+
+  const shouldShowReset = sortedField !== SortType.default || isReversed;
 
   function handleReset() {
     setSortField(SortType.default);
@@ -93,7 +92,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortedField !== '' || isReversed) && (
+        {shouldShowReset && (
           <button
             type="button"
             className="button is-danger is-light"
