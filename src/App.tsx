@@ -48,11 +48,11 @@ const getSortedGoods = (
 };
 
 export const App: React.FC = () => {
-  const [sortValue, setActiveButton] = useState<SortType>(SortType.DEFAULT);
+  const [sortValue, setSortValue] = useState<SortType>(SortType.DEFAULT);
   const [reversed, setReversed] = useState<boolean>(false);
 
-  const sortGoods = (type: SortType) => {
-    setActiveButton(type);
+  function sortGoods(type: SortType) {
+    setSortValue(type);
   };
 
   const toggleReverse = () => {
@@ -61,7 +61,7 @@ export const App: React.FC = () => {
 
   const resetGoods = () => {
     setReversed(false);
-    setActiveButton(SortType.DEFAULT);
+    setSortValue(SortType.DEFAULT);
   };
 
   const sortedGoods = getSortedGoods(goodsFromServer, sortValue, reversed);
@@ -114,7 +114,7 @@ export const App: React.FC = () => {
 
       <ul>
         {sortedGoods.map(good => (
-          <li data-cy="Good" key={good}>
+          <li key={good} data-cy="Good">
             {good}
           </li>
         ))}
