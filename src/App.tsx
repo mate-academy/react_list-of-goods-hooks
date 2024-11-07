@@ -1,8 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
+import classNames from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-export const goodsFromServer = [
+type PreparedGoods = (a: string[], b: SortType, c: boolean) => string[];
+type Props = {
+  goods: string[];
+};
+
+enum SortType {
+  a = 'alphabet',
+  l = 'length',
+  default = '',
+}
+
+export const goodsFromServer: string[] = [
   'Dumplings',
   'Carrot',
   'Eggs',
@@ -15,37 +27,97 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-export const App: React.FC = () => {
+const prepareGoods: PreparedGoods = (goods, action, reverse) => {
+  const preparedGoods = [...goods];
+
+  if (action) {
+    switch (action) {
+      case SortType.a:
+        preparedGoods.sort();
+        break;
+
+      case SortType.l:
+        preparedGoods.sort((good1, good2) => good1.length - good2.length);
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  if (reverse) {
+    preparedGoods.reverse();
+  }
+
+  return preparedGoods;
+};
+
+const RenderGoodList: React.FC<Props> = ({ goods }) => {
+  return goods.map(good => (
+    <li key={good} data-cy="Good">
+      {good}
+    </li>
+  ));
+};
+
+export const App = () => {
+  const [sortAction, setSortAction] = useState<SortType>(SortType.default);
+  const [isReversed, setIsReversed] = useState<boolean>(false);
+  const showReset = sortAction || isReversed;
+  const handleReset = () => {
+    setSortAction(SortType.default);
+    setIsReversed(false);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
-        <button type="button" className="button is-info is-light">
+        <button
+          type="button"
+          className={classNames('button', 'is-info', {
+            'is-light': sortAction !== SortType.a,
+          })}
+          onClick={() => setSortAction(SortType.a)}
+        >
           Sort alphabetically
         </button>
 
-        <button type="button" className="button is-success is-light">
+        <button
+          type="button"
+          className={classNames('button', 'is-info', {
+            'is-light': sortAction !== SortType.l,
+          })}
+          onClick={() => setSortAction(SortType.l)}
+        >
           Sort by length
         </button>
 
-        <button type="button" className="button is-warning is-light">
+        <button
+          type="button"
+          className={classNames('button', 'is-info', {
+            'is-light': !isReversed,
+          })}
+          onClick={() => setIsReversed(!isReversed)}
+        >
           Reverse
         </button>
 
-        <button type="button" className="button is-danger is-light">
-          Reset
-        </button>
-      </div>
+        {showReset && (
+          <button
+            type="button"
+            className={classNames('button', 'is-info')}
+            onClick={handleReset}
+          >
+            Reset
+          </button>
+        )}
 
-      <ul>
         <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
+          <RenderGoodList
+            goods={prepareGoods(goodsFromServer, sortAction, isReversed)}
+          />
         </ul>
-      </ul>
+      </div>
     </div>
   );
 };
