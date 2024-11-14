@@ -38,6 +38,7 @@ export const App: React.FC = () => {
   const prepareGoods = (type: SortType) => {
     if (type === SortType.Reverse) {
       setVisibleGoods([...visibleGoods].reverse());
+
       return;
     }
 
@@ -48,9 +49,11 @@ export const App: React.FC = () => {
             switch (type) {
               case SortType.Alphabetically:
                 setSortField(type);
+
                 return good1.localeCompare(good2);
               case SortType.Length:
                 setSortField(type);
+
                 return +good1.length - good2.length;
               default:
                 return 0;
@@ -64,9 +67,11 @@ export const App: React.FC = () => {
           switch (type) {
             case SortType.Alphabetically:
               setSortField(type);
+
               return good1.localeCompare(good2);
             case SortType.Length:
               setSortField(type);
+
               return +good1.length - good2.length;
             default:
               return 0;
