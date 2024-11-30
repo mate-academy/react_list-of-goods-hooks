@@ -3,7 +3,7 @@ const page = {
   sortByLengthButton: () => cy.contains('button', 'Sort by length'),
   reverseButton: () => cy.contains('button', 'Reverse'),
   resetButton: () => cy.contains('button', 'Reset'),
-  goods: () => cy.byDataCy('Good'),
+  goods: () => cy.byDataCy('Good.tsx'),
 
   assertFirstGoods: (first, second, third) => {
     page.goods().eq(0).should('have.text', first);
@@ -194,7 +194,7 @@ describe('Page', () => {
 
     it('should allow to reverse again', () => {
       page.reverseButton().click();
-      
+
       page.assertFirstGoods('Apple', 'Bread', 'Carrot');
     });
 
@@ -273,7 +273,7 @@ describe('Page', () => {
 
     it('should allow to reverse again', () => {
       page.reverseButton().click();
-      
+
       page.assertFirstGoods('Jam', 'Eggs', 'Fish');
     });
 
