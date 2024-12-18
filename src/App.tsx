@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import { GoodList } from './components/GoodList';
+import { Buttons } from './components/Buttons';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -15,36 +17,65 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+export enum SortType {
+  NONE = 'none',
+  ALPHABET = 'alphabet',
+  LENGTH = 'length',
+}
+
 export const App: React.FC = () => {
+  const [vissibleGoods, setVisibleGoods] = useState<string[]>(goodsFromServer);
+  const [sortGoods, setSortGoods] = useState<SortType>(SortType.NONE);
+  const [isReversed, setIsReversed] = useState<boolean>(false);
+
+  const sortedGoods = (field: SortType) => {
+    const updatedGoods = [...goodsFromServer];
+
+    if (field !== SortType.NONE) {
+      switch (field) {
+        case SortType.ALPHABET:
+          updatedGoods.sort((item1, item2) => item1.localeCompare(item2));
+          break;
+        case SortType.LENGTH:
+          updatedGoods.sort((item1, item2) => item1.length - item2.length);
+          break;
+        default:
+          break;
+      }
+    }
+
+    if (isReversed) {
+      updatedGoods.reverse();
+    }
+
+    setVisibleGoods(updatedGoods);
+    setSortGoods(field);
+  };
+
+  const reverseItems = () => {
+    const reversedGoods = [...vissibleGoods].reverse();
+
+    setVisibleGoods(reversedGoods);
+    setIsReversed(prevReverse => !prevReverse);
+  };
+
+  const reset = () => {
+    setVisibleGoods([...goodsFromServer]);
+    setSortGoods(SortType.NONE);
+    setIsReversed(false);
+  };
+
   return (
     <div className="section content">
-      <div className="buttons">
-        <button type="button" className="button is-info is-light">
-          Sort alphabetically
-        </button>
-
-        <button type="button" className="button is-success is-light">
-          Sort by length
-        </button>
-
-        <button type="button" className="button is-warning is-light">
-          Reverse
-        </button>
-
-        <button type="button" className="button is-danger is-light">
-          Reset
-        </button>
-      </div>
-
+      <Buttons
+        sortBy={sortedGoods}
+        reset={reset}
+        sortField={sortGoods}
+        reverse={isReversed}
+        setReverse={reverseItems}
+      />
       <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
+        <GoodList goods={vissibleGoods} />
       </ul>
     </div>
   );
