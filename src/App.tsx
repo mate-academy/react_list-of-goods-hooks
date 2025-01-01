@@ -18,11 +18,12 @@ export const goodsFromServer = [
 enum SortType {
   Length = 'length',
   Alph = 'alph',
+  None = '',
 }
 
 function getPreparedGoods(
   goods: string[],
-  { sortField }: { sortField: SortType | '' },
+  { sortField }: { sortField: SortType | SortType.None },
 ): string[] {
   const preparedGoods = [...goods];
 
@@ -43,7 +44,9 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState<SortType | ''>('');
+  const [sortField, setSortField] = useState<SortType | SortType.None>(
+    SortType.None,
+  );
   const [reversed, setReversed] = useState<boolean>(false);
 
   const visibleGoods = getPreparedGoods(goodsFromServer, { sortField });
@@ -65,7 +68,7 @@ export const App: React.FC = () => {
               ? 'button is-success'
               : 'button is-success is-light'
           }
-          onClick={() => setSortField(SortType.Alph)}
+          onClick={(): void => setSortField(SortType.Alph)}
         >
           Sort alphabetically
         </button>
@@ -77,7 +80,7 @@ export const App: React.FC = () => {
               ? 'button is-success'
               : 'button is-success is-light'
           }
-          onClick={() => setSortField(SortType.Length)}
+          onClick={(): void => setSortField(SortType.Length)}
         >
           Sort by length
         </button>
@@ -87,7 +90,7 @@ export const App: React.FC = () => {
           className={
             reversed ? 'button is-success' : 'button is-success is-light'
           }
-          onClick={() => setReversed(!reversed)}
+          onClick={(): void => setReversed(!reversed)}
         >
           Reverse
         </button>
@@ -96,8 +99,8 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortField('');
+            onClick={(): void => {
+              setSortField(SortType.None);
               setReversed(false);
             }}
           >
