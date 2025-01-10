@@ -1,3 +1,5 @@
+[DEMO LINK](https://maksym2493.github.io/react_list-of-goods-hooks/)
+
 # React list of goods (Hooks)
 
 > DON'T use class components (for this and next tasks).
@@ -11,6 +13,7 @@ Copy everything you need from your previous solution.
 - Use `enum SortType` instead of string literals for possible sorting options (including the default one)
 
 ## Instructions
+
 - Install Prettier Extention and use this [VSCode settings](https://mate-academy.github.io/fe-program/tools/vscode/settings.json) to enable format on save.
 - Implement a solution following the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline).
 - Open one more terminal and run tests with `npm test` to ensure your solution is correct.
