@@ -15,19 +15,26 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+enum SortType {
+  None = 'none',
+  Alphabetically = 'alphabetically',
+  Length = 'length',
+}
 
-const prepareGoodsList = (goods: string[], sortOrder: string, isReversed: boolean) => {
+const prepareGoodsList = (
+  goods: string[],
+  sortOrder: SortType,
+  isReversed: boolean,
+): string[] => {
   const sortedGoods = [...goods];
 
-  if (sortOrder) {
+  if (sortOrder !== SortType.None) {
     sortedGoods.sort((item1, item2) => {
       switch (sortOrder) {
-        case 'alphabetically':
+        case SortType.Alphabetically:
           return item1.localeCompare(item2);
-
-        case 'length':
+        case SortType.Length:
           return item1.length - item2.length;
-
         default:
           return 0;
       }
@@ -42,38 +49,26 @@ const prepareGoodsList = (goods: string[], sortOrder: string, isReversed: boolea
 };
 
 export const App: React.FC = () => {
-  const [sortOrder, setSortOrder] = useState('');
-  const [isReversed, setIsReversed] = useState(false);
+  const [sortOrder, setSortOrder] = useState<SortType>(SortType.None);
+  const [isReversed, setIsReversed] = useState<boolean>(false);
 
+  const goodsToRender = prepareGoodsList(goodsFromServer, sortOrder, isReversed);
 
-  const goodsToRender = prepareGoodsList(
-    goodsFromServer,
-    sortOrder,
-    isReversed,
-  );
-
-  const sortAlphabetically = () => {
-    setSortOrder('alphabetically');
-  };
-
-  const sortByLength = () => {
-    setSortOrder('length');
-  };
-
-  const reverseOrder = () => {
-    setIsReversed(prev => !prev);
-  };
-
+  const sortAlphabetically = () => setSortOrder(SortType.Alphabetically);
+  const sortByLength = () => setSortOrder(SortType.Length);
+  const reverseOrder = () => setIsReversed(prev => !prev);
   const resetOrder = () => {
-    setSortOrder('');
+    setSortOrder(SortType.None);
     setIsReversed(false);
   };
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortOrder === 'alphabetically' ? '' : 'is-light'}`}
+          className={`button is-info ${sortOrder === SortType.Alphabetically ? '' : 'is-light'
+            }`}
           onClick={sortAlphabetically}
         >
           Sort alphabetically
@@ -81,7 +76,8 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-success ${sortOrder === 'length' ? '' : 'is-light'}`}
+          className={`button is-success ${sortOrder === SortType.Length ? '' : 'is-light'
+            }`}
           onClick={sortByLength}
         >
           Sort by length
@@ -95,7 +91,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortOrder || isReversed) && (
+        {(sortOrder !== SortType.None || isReversed) && (
           <button
             type="button"
             className="button is-danger"
