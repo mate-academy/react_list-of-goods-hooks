@@ -1,51 +1,27 @@
-import React from 'react';
 import 'bulma/css/bulma.css';
+import React, { useState } from 'react';
 import './App.scss';
-
-export const goodsFromServer = [
-  'Dumplings',
-  'Carrot',
-  'Eggs',
-  'Ice cream',
-  'Apple',
-  'Bread',
-  'Fish',
-  'Honey',
-  'Jam',
-  'Garlic',
-];
+import { sortTypeFunction } from './commons/functions/sortTypeFunction';
+import { goodsFromServer } from './commons/goodsFromServer';
+import { SortPage } from './pages/SortPage';
+import { SortType } from './types/SortType';
 
 export const App: React.FC = () => {
+  const [sortType, setSortType] = useState<SortType>(SortType.default);
+  const [reverse, setReverse] = useState<boolean>(false);
+  const visibleGoods: Array<string> = sortTypeFunction({
+    goods: goodsFromServer,
+    sortType,
+    reverse,
+  });
+
   return (
-    <div className="section content">
-      <div className="buttons">
-        <button type="button" className="button is-info is-light">
-          Sort alphabetically
-        </button>
-
-        <button type="button" className="button is-success is-light">
-          Sort by length
-        </button>
-
-        <button type="button" className="button is-warning is-light">
-          Reverse
-        </button>
-
-        <button type="button" className="button is-danger is-light">
-          Reset
-        </button>
-      </div>
-
-      <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
-      </ul>
-    </div>
+    <SortPage
+      sortType={sortType}
+      setSortType={setSortType}
+      reverse={reverse}
+      setReverse={setReverse}
+      visibleGoods={visibleGoods}
+    />
   );
 };
