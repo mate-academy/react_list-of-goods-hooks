@@ -1,17 +1,31 @@
-# React list of goods (Hooks)
+# List of Goods (Hooks)
 
-> DON'T use class components (for this and next tasks).
+## 🎮 About the Project
+A **React-based list management app** reimplemented using **React Hooks** and **TypeScript**.  
+This project is a modernized version of the original **[List of Goods](https://github.com/AndriiZakharenko/list-of-goods)** with improved state management and maintainability.
 
-Reimplement the **React list of goods** implemented before using hooks and typescript.
-Copy everything you need from your previous solution.
+## 🚀 Tech Stack
+- **HTML** (BEM methodology for structured markup)  
+- **CSS** (Bulma for styling)  
+- **JavaScript** (Core interactivity)  
+- **TypeScript** (Ensuring type safety)  
+- **React** (Component-based architecture with hooks)  
+- **ReactDOM** (Efficient rendering and updates)  
 
-> Here is [the working version](https://mate-academy.github.io/react_list-of-goods/)
+## 🛠️ Tools & Dependencies
+- **ESLint** – Code quality and linting  
+- **Prettier** – Code formatting  
+- **Cypress** – End-to-end testing  
+- **Mochawesome** – Test reporting  
+- **Babel** – JavaScript compiler  
 
-- Use the [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript) if needed.
-- Use `enum SortType` instead of string literals for possible sorting options (including the default one)
+## 📌 Features
+✅ Refactored to use **React Hooks**  
+✅ Improved **performance** and **maintainability**  
+✅ Strongly typed with **TypeScript**  
 
-## Instructions
-- Install Prettier Extention and use this [VSCode settings](https://mate-academy.github.io/fe-program/tools/vscode/settings.json) to enable format on save.
-- Implement a solution following the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline).
-- Open one more terminal and run tests with `npm test` to ensure your solution is correct.
-- Replace `<your_account>` with your Github username in the [DEMO LINK](https://<your_account>.github.io/react_list-of-goods-hooks/) and add it to the PR description.
+## 🌐 Demo
+🔗 [Live Demo](https://AndriiZakharenko.github.io/list-of-goods-hooks/)
+
+## 📜 License
+This project is forked from 💻 [Mate Academy](https://github.com/mate-academy/react_list-of-goods-hooks)
