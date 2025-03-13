@@ -16,24 +16,25 @@ export const goodsFromServer = [
 ];
 
 type SortStatus = {
-  sortBy: SortType,
-  isReversed: boolean
-}
+  sortBy: SortType;
+  isReversed: boolean;
+};
 
 enum SortType {
   Alphabet,
   Length,
-  Default
+  Default,
 }
 
-
-function modify(goods: string[], {sortBy, isReversed}: SortStatus) {
-  const visibleGoods = [...goods];
+function modify(goods: string[], { sortBy, isReversed }: SortStatus) {
+  let visibleGoods = [...goods];
 
   if (sortBy === SortType.Alphabet) {
     visibleGoods.sort((a, b) => a.localeCompare(b));
   } else if (sortBy === SortType.Length) {
     visibleGoods.sort((a, b) => a.length - b.length);
+  } else if (sortBy === SortType.Default) {
+    visibleGoods = [...goodsFromServer];
   }
 
   if (isReversed) {
@@ -43,11 +44,12 @@ function modify(goods: string[], {sortBy, isReversed}: SortStatus) {
   return visibleGoods;
 }
 
+
 export const App: React.FC = () => {
   const [sortBy, setSortBy] = useState(SortType.Default);
   const [isReversed, setReversed] = useState(false);
 
-  const goods = modify(goodsFromServer, {sortBy, isReversed});
+  const goods = modify(goodsFromServer, { sortBy, isReversed });
 
   return (
     <div className="section content">
