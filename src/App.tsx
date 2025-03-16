@@ -58,7 +58,7 @@ export const App: React.FC = () => {
 
   const goods = getPreparedGoods(goodsFromServer, { isReverse, sortField });
 
-  const reset = () => {
+  const handlerReset = () => {
     setIsReverse(false);
     setSortField(null);
   };
@@ -98,7 +98,7 @@ export const App: React.FC = () => {
 
         {(isReverse || sortField) && (
           <button
-            onClick={reset}
+            onClick={handlerReset}
             type="button"
             className="button is-danger is-light"
           >
