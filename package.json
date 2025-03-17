@@ -1,6 +1,6 @@
 {
   "name": "react_list-of-goods-hooks",
-  "homepage": "react_list-of-goods-hooks",
+  "homepage": "https://Olehgoon093.github.io/react_list-of-goods-hooks/",
   "version": "0.1.0",
   "keywords": [],
   "author": "Mate Academy",
@@ -14,11 +14,11 @@
   },
   "devDependencies": {
     "@cypress/react18": "^2.0.1",
-    "@mate-academy/scripts": "^1.8.5",
+    "@mate-academy/scripts": "^2.1.0",
     "@mate-academy/students-ts-config": "*",
     "@mate-academy/stylelint-config": "*",
     "@types/node": "^20.14.10",
-    "@types/react": "^18.3.3",
+    "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/parser": "^7.16.0",
     "@vitejs/plugin-react": "^4.3.1",
