@@ -43,59 +43,59 @@ function getSortedGoods(
     });
   }
 
-  if (isToReverse) {
-    sortedGoods.reverse();
-  }
-
-  return sortedGoods;
+  return isToReverse ? sortedGoods.reverse() : sortedGoods;
 }
 
 export const App: React.FC = () => {
   const [sortField, setSortField] = React.useState<SortType>(SortType.Default);
   const [reverseField, setReverseField] = React.useState(false);
+
   const readyGoods = getSortedGoods(goodsFromServer, sortField, reverseField);
+
+  const handleSortAlphabetically = () => setSortField(SortType.Alphabetically);
+  const handleSortByLength = () => setSortField(SortType.ByLength);
+  const handleToggleReverse = () => setReverseField(prev => !prev);
+  const handleReset = () => {
+    setSortField(SortType.Default);
+    setReverseField(false);
+  };
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info${sortField === SortType.Alphabetically ? '' : ' is-light'}`}
-          onClick={() => setSortField(SortType.Alphabetically)}
+          className={`button is-info ${sortField === SortType.Alphabetically ? 'is-active' : 'is-light'}`}
+          onClick={handleSortAlphabetically}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={`button is-success${sortField === SortType.ByLength ? '' : ' is-light'}`}
-          onClick={() => setSortField(SortType.ByLength)}
+          className={`button is-success ${sortField === SortType.ByLength ? 'is-active' : 'is-light'}`}
+          onClick={handleSortByLength}
         >
           Sort by length
         </button>
 
         <button
           type="button"
-          className={`button is-warning${reverseField === true ? '' : ' is-light'}`}
-          onClick={() => setReverseField(!reverseField)}
+          className={`button is-warning ${reverseField ? 'is-active' : 'is-light'}`}
+          onClick={handleToggleReverse}
         >
           Reverse
         </button>
 
-        {sortField === '' && reverseField === false ? (
-          ''
-        ) : (
+        {sortField !== SortType.Default || reverseField ? (
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortField(SortType.Default);
-              setReverseField(false);
-            }}
+            onClick={handleReset}
           >
             Reset
           </button>
-        )}
+        ) : null}
       </div>
 
       <ul>
