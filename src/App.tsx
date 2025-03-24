@@ -24,10 +24,10 @@ export const goodsFromServer: Goods = [
   'Garlic',
 ];
 
-function getPreparedGoods(goods: Goods, sortType: SortType): Goods {
+function prepareGoods(goods: Goods, sortType: SortType): Goods {
   let preparedGoods = [...goods];
 
-  if (sortType) {
+  if (sortType !== SortType.none) {
     preparedGoods = preparedGoods.sort((good1, good2) => {
       switch (sortType) {
         case SortType.alph:
@@ -48,7 +48,7 @@ function getPreparedGoods(goods: Goods, sortType: SortType): Goods {
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState<SortType>(SortType.none);
   const [isReversed, setReversed] = useState(false);
-  let visibleGoods = getPreparedGoods(goodsFromServer, sortField);
+  let visibleGoods = prepareGoods(goodsFromServer, sortField);
 
   if (isReversed) {
     visibleGoods = visibleGoods.toReversed();
