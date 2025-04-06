@@ -36,14 +36,10 @@ export const App: React.FC = () => {
     setIsReversed(false);
   };
 
-  const toggleReverseList = () => {
-    setIsReversed(!isReversed);
-  };
-
   const sortList = (sortRule: string) => {
     if (sortRule === SortType.REVERSE) {
       setGoodList([...goodsList].reverse());
-      toggleReverseList();
+      setIsReversed(!isReversed);
     } else {
       setGoodList(
         [...goodsList].sort((good1, good2) => {
