@@ -37,31 +37,34 @@ export const App: React.FC = () => {
   };
 
   const toggleReverseList = () => {
-    setGoodList([...goodsList].reverse());
     setIsReversed(!isReversed);
   };
 
-  const sortList = (sortRule: React.SetStateAction<string>) => {
-    setGoodList(
-      [...goodsList].sort((good1, good2) => {
-        switch (sortRule) {
-          case SortType.SORT_FIELD_ASC:
-            return isReversed
-              ? good2.localeCompare(good1)
-              : good1.localeCompare(good2);
+  const sortList = (sortRule: string) => {
+    if (sortRule === SortType.REVERSE) {
+      setGoodList([...goodsList].reverse());
+      toggleReverseList();
+    } else {
+      setGoodList(
+        [...goodsList].sort((good1, good2) => {
+          switch (sortRule) {
+            case SortType.SORT_FIELD_ASC:
+              return isReversed
+                ? good2.localeCompare(good1)
+                : good1.localeCompare(good2);
 
-          case SortType.SORT_FIELD_LENGTH:
-            return isReversed
-              ? good2.length - good1.length
-              : good1.length - good2.length;
+            case SortType.SORT_FIELD_LENGTH:
+              return isReversed
+                ? good2.length - good1.length
+                : good1.length - good2.length;
 
-          default:
-            return 0;
-        }
-      }),
-    );
-
-    setSortField(sortRule);
+            default:
+              return 0;
+          }
+        }),
+      );
+      setSortField(sortRule);
+    }
   };
 
   return (
@@ -90,7 +93,7 @@ export const App: React.FC = () => {
           className={classNames('button', 'is-warning', {
             'is-light': !isReversed,
           })}
-          onClick={() => toggleReverseList()}
+          onClick={() => sortList(SortType.REVERSE)}
         >
           {SortType.REVERSE}
         </button>
