@@ -1,51 +1,51 @@
-import React from 'react';
-import 'bulma/css/bulma.css';
-import './App.scss';
+import React, { useState } from 'react';
 
-export const goodsFromServer = [
-  'Dumplings',
-  'Carrot',
-  'Eggs',
-  'Ice cream',
-  'Apple',
-  'Bread',
-  'Fish',
-  'Honey',
-  'Jam',
-  'Garlic',
-];
+// Define the enum for sorting options
+enum SortType {
+  Default = 'default',
+  Alphabetically = 'alphabetically',
+  ByLength = 'byLength',
+}
 
-export const App: React.FC = () => {
+// Define the type for goods
+const goods: string[] = ['Apples', 'Oranges', 'Bananas', 'Pineapples', 'Grapes'];
+
+const ListOfGoods: React.FC = () => {
+  // State for goods and sort type
+  const [sortedGoods, setSortedGoods] = useState<string[]>(goods);
+  const [sortType, setSortType] = useState<SortType>(SortType.Default);
+
+  // Function to handle sorting
+  const handleSort = (type: SortType) => {
+    let updatedGoods = [...goods];
+    switch (type) {
+      case SortType.Alphabetically:
+        updatedGoods.sort((a, b) => a.localeCompare(b));
+        break;
+      case SortType.ByLength:
+        updatedGoods.sort((a, b) => a.length - b.length);
+        break;
+      case SortType.Default:
+      default:
+        updatedGoods = [...goods];
+    }
+    setSortedGoods(updatedGoods);
+    setSortType(type);
+  };
+
   return (
-    <div className="section content">
-      <div className="buttons">
-        <button type="button" className="button is-info is-light">
-          Sort alphabetically
-        </button>
-
-        <button type="button" className="button is-success is-light">
-          Sort by length
-        </button>
-
-        <button type="button" className="button is-warning is-light">
-          Reverse
-        </button>
-
-        <button type="button" className="button is-danger is-light">
-          Reset
-        </button>
-      </div>
-
+    <div>
+      <h1>List of Goods</h1>
       <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
+        {sortedGoods.map((good, index) => (
+          <li key={index}>{good}</li>
+        ))}
       </ul>
+      <button onClick={() => handleSort(SortType.Default)}>Default</button>
+      <button onClick={() => handleSort(SortType.Alphabetically)}>Sort Alphabetically</button>
+      <button onClick={() => handleSort(SortType.ByLength)}>Sort by Length</button>
     </div>
   );
 };
+
+export default ListOfGoods;
