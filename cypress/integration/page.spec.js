@@ -194,7 +194,7 @@ describe('Page', () => {
 
     it('should allow to reverse again', () => {
       page.reverseButton().click();
-      
+
       page.assertFirstGoods('Apple', 'Bread', 'Carrot');
     });
 
@@ -273,7 +273,7 @@ describe('Page', () => {
 
     it('should allow to reverse again', () => {
       page.reverseButton().click();
-      
+
       page.assertFirstGoods('Jam', 'Eggs', 'Fish');
     });
 
