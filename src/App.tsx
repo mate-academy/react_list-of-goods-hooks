@@ -97,7 +97,7 @@ export const App: React.FC = () => {
           type="button"
           className={`button is-warning ${sortType !== SortType.Default ? '' : 'is-light'}`}
           onClick={handleReverse}
-          disabled={sortType === SortType.Default}
+          disabled={sortType === SortType.Alphabet || SortType.Length}
         >
           Reverse
         </button>

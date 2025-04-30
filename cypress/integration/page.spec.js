@@ -53,9 +53,7 @@ describe('Page', () => {
 
   describe('after pressing "Reverse"', () => {
     beforeEach(() => {
-      cy.visit('/');
-      cy.contains('Sort alphabetically').click(); // ativa o botão Reverse
-      cy.contains('Reverse').click(); // agora funciona
+      page.reverseButton().click();
     });
 
     it(`should reverse goods`, () => {
