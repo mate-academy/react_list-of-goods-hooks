@@ -53,7 +53,9 @@ describe('Page', () => {
 
   describe('after pressing "Reverse"', () => {
     beforeEach(() => {
-      page.reverseButton().click();
+      cy.visit('/');
+      cy.contains('Sort alphabetically').click(); // ativa o botão Reverse
+      cy.contains('Reverse').click(); // agora funciona
     });
 
     it(`should reverse goods`, () => {
@@ -194,7 +196,7 @@ describe('Page', () => {
 
     it('should allow to reverse again', () => {
       page.reverseButton().click();
-      
+
       page.assertFirstGoods('Apple', 'Bread', 'Carrot');
     });
 
@@ -273,7 +275,7 @@ describe('Page', () => {
 
     it('should allow to reverse again', () => {
       page.reverseButton().click();
-      
+
       page.assertFirstGoods('Jam', 'Eggs', 'Fish');
     });
 
