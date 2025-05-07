@@ -1,8 +1,17 @@
-import React from 'react';
+/* eslint-disable @typescript-eslint/indent */
+import React, { useState, Dispatch, SetStateAction } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import classNames from 'classnames';
 
-export const goodsFromServer = [
+enum SortType {
+  'Sort alphabetically' = 'Sort alphabetically',
+  'Sort by length' = 'Sort by length',
+  'Reverse' = 'Reverse',
+  'Reset' = 'Reset',
+}
+
+export const goodsFromServer: string[] = [
   'Dumplings',
   'Carrot',
   'Eggs',
@@ -15,37 +24,103 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+export const namesOfButtons: (keyof typeof SortType)[] =
+  Object.values(SortType);
+
+export const typesOfButtons = [
+  'is-info',
+  'is-success',
+  'is-warning',
+  'is-danger',
+];
+
+type GoodListProps = {
+  visibleGoods: string[];
+};
+
+export const GoodList: React.FC<GoodListProps> = ({ visibleGoods }) => {
+  return (
+    <ul>
+      {visibleGoods.map(good => (
+        <li data-cy="Good" key={good}>
+          {good}
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+function getPreparedGoods(
+  goods: string[],
+  sortField: keyof typeof SortType | '',
+) {
+  const updatedList: string[] = [...goods];
+
+  if (sortField) {
+    switch (sortField) {
+      case 'Sort alphabetically':
+        return updatedList.sort((a, b) => a.localeCompare(b));
+      case 'Sort by length':
+        return updatedList.sort((a, b) => a.length - b.length);
+      case 'Reverse':
+        return updatedList.reverse();
+      case 'Reset':
+        return [...goodsFromServer];
+      default:
+        return [];
+    }
+  }
+
+  return updatedList;
+}
+
+type ButtonsProps = {
+  sortField: keyof typeof SortType | '';
+  setSortField: Dispatch<SetStateAction<keyof typeof SortType | ''>>;
+  setVisibleGood: Dispatch<SetStateAction<string[]>>;
+};
+
+export const Buttons: React.FC<ButtonsProps> = ({
+  sortField,
+  setSortField,
+  setVisibleGood,
+}) => {
+  return (
+    <div className="buttons">
+      {namesOfButtons.map((nameOfButton, index) => (
+        <button
+          type="button"
+          key={nameOfButton}
+          onClick={() => {
+            const newSortField = sortField === nameOfButton ? '' : nameOfButton;
+
+            setSortField(newSortField);
+            setVisibleGood(getPreparedGoods(goodsFromServer, newSortField));
+          }}
+          className={classNames('button', `${typesOfButtons[index]}`, {
+            'is-light': sortField !== nameOfButton,
+          })}
+        >
+          {nameOfButton}
+        </button>
+      ))}
+    </div>
+  );
+};
+
 export const App: React.FC = () => {
+  const [sortField, setSortField] = useState<keyof typeof SortType | ''>('');
+  const [visibleGoods, setVisibleGoods] = useState([...goodsFromServer]);
+
   return (
     <div className="section content">
-      <div className="buttons">
-        <button type="button" className="button is-info is-light">
-          Sort alphabetically
-        </button>
+      <Buttons
+        sortField={sortField}
+        setSortField={setSortField}
+        setVisibleGood={setVisibleGoods}
+      />
 
-        <button type="button" className="button is-success is-light">
-          Sort by length
-        </button>
-
-        <button type="button" className="button is-warning is-light">
-          Reverse
-        </button>
-
-        <button type="button" className="button is-danger is-light">
-          Reset
-        </button>
-      </div>
-
-      <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
-      </ul>
+      <GoodList visibleGoods={visibleGoods} />
     </div>
   );
 };
