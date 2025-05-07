@@ -59,13 +59,13 @@ export const App: React.FC = () => {
   const [isReversed, setReversed] = React.useState(false);
   const [sortType, setSortType] = React.useState(SortType.NONE);
 
-  const alphabetLight = classNames( {
+  const alphabetLight = classNames({
     'is-light': sortType !== SortType.ALPHABET,
   });
-  const lengthLight = classNames( {
+  const lengthLight = classNames({
     'is-light': sortType !== SortType.LENGTH,
   });
-  const reverseLight = classNames( {
+  const reverseLight = classNames({
     'is-light': !isReversed,
   });
 
