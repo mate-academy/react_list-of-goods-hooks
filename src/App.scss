@@ -1,3 +1,17 @@
 iframe {
   display: none;
 }
+
+.button.is-info:not(.is-light) {
+  color: #fff;
+  background-color: #315fb4;
+}
+
+.button.is-success:not(.is-light) {
+  color: #fff;
+  background-color: #1bb84a;
+}
+
+.button.is-warning:not(.is-light) {
+  color: #000;
+}
