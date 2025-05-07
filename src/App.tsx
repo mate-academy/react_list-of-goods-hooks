@@ -16,88 +16,101 @@ export const goodsFromServer: string[] = [
 ];
 
 enum SortType {
-  None = 'NONE',
-  Alphabetically = 'ALPHABETICALLY',
-  ByLength = 'BY_LENGTH',
+  ALPHABETICALLY = 'alphabetically',
+  LENGTH = 'length',
+  DEFAULT = '',
+}
+
+function getPreparedGoods(
+  goods: string[],
+  sortField: SortType,
+  isReversed: boolean,
+): string[] {
+  const preparedGoods = [...goods];
+
+  const compare = (a: string, b: string): number => {
+    switch (sortField) {
+      case SortType.ALPHABETICALLY:
+        return a.localeCompare(b);
+      case SortType.LENGTH:
+        return a.length - b.length;
+      default:
+        return 0;
+    }
+  };
+
+  preparedGoods.sort(compare);
+
+  if (isReversed) {
+    preparedGoods.reverse();
+  }
+
+  return preparedGoods;
 }
 
 export const App: React.FC = () => {
-  const [goods, setGoods] = useState<string[]>([...goodsFromServer]);
-  const [sortType, setSortType] = useState<SortType>(SortType.None);
-  const [isReversed, setIsReversed] = useState<boolean>(false);
+  const [sortField, setSortField] = useState<SortType>(SortType.DEFAULT);
+  const [isReversed, setIsReversed] = useState(false);
+  const [goods] = useState<string[]>([...goodsFromServer]);
 
-  const handleSortAlphabetically = () => {
-    const sorted = [...goodsFromServer].sort((a, b) => a.localeCompare(b));
-
-    setGoods(isReversed ? sorted.reverse() : sorted);
-    setSortType(SortType.Alphabetically);
-  };
-
-  const handleSortByLength = () => {
-    const sorted = [...goodsFromServer].sort((a, b) => a.length - b.length);
-
-    setGoods(isReversed ? sorted.reverse() : sorted);
-    setSortType(SortType.ByLength);
-  };
-
-  const handleReverse = () => {
-    const reversedGoods = [...goods].reverse();
-
-    setGoods(reversedGoods);
-    setIsReversed(prev => !prev);
-  };
-
-  const handleReset = () => {
-    setGoods([...goodsFromServer]);
-    setSortType(SortType.None);
-    setIsReversed(false);
-  };
+  const visibleGoods = getPreparedGoods(goods, sortField, isReversed);
 
   return (
-    <div className="section content">
-      <div className="buttons">
+    <>
+      <div className="section content">
+        <div className="buttons"></div>
         <button
+          onClick={() => setSortField(SortType.ALPHABETICALLY)}
+          className={
+            SortType.ALPHABETICALLY === sortField
+              ? 'button is-info'
+              : 'button is-info is-light'
+          }
           type="button"
-          className={`button is-info ${sortType === SortType.Alphabetically ? '' : 'is-light'}`}
-          onClick={handleSortAlphabetically}
         >
           Sort alphabetically
         </button>
-
         <button
+          onClick={() => setSortField(SortType.LENGTH)}
+          className={
+            SortType.LENGTH === sortField
+              ? 'button is-success'
+              : 'button is-success is-light'
+          }
           type="button"
-          className={`button is-success ${sortType === SortType.ByLength ? '' : 'is-light'}`}
-          onClick={handleSortByLength}
         >
           Sort by length
         </button>
-
         <button
+          onClick={() => setIsReversed(prev => !prev)}
+          className={
+            isReversed ? 'button is-warning' : 'button is-warning is-light'
+          }
           type="button"
-          className={`button is-warning ${isReversed ? '' : 'is-light'}`}
-          onClick={handleReverse}
         >
+          {' '}
           Reverse
         </button>
-
-        {(sortType !== SortType.None || isReversed) && (
+        {(sortField || isReversed) && (
           <button
+            onClick={() => {
+              setSortField(SortType.DEFAULT);
+              setIsReversed(false);
+            }}
             type="button"
-            className="button is-danger"
-            onClick={handleReset}
+            className="button is-danger is-light"
           >
             Reset
           </button>
         )}
       </div>
-
       <ul>
-        {goods.map(good => (
+        {visibleGoods.map(good => (
           <li key={good} data-cy="Good">
             {good}
           </li>
         ))}
       </ul>
-    </div>
+    </>
   );
 };
