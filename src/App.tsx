@@ -101,14 +101,12 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        <ul>
-          {visibleGoods &&
-            visibleGoods.map((good, index) => (
-              <li key={index} data-cy="Good">
-                {good}
-              </li>
-            ))}
-        </ul>
+        {visibleGoods &&
+          visibleGoods.map((good, index) => (
+            <li key={index} data-cy="Good">
+              {good}
+            </li>
+          ))}
       </ul>
     </div>
   );
