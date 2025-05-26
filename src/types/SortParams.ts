@@ -1,4 +1,4 @@
-import { SortType } from "./SortType";
+import { SortType } from './SortType';
 
 export interface SortParams {
   sortField: SortType;
