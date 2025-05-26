@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
@@ -16,36 +16,92 @@ export const goodsFromServer = [
 ];
 
 export const App: React.FC = () => {
+  const [selectedGood, setSelectedGood] = useState('');
+  const [goods, setGoods] = useState<string[]>(goodsFromServer);
+  const [isReversed, setIsReversed] = useState(false);
+
+  const handleReset = () => {
+    setGoods(goodsFromServer);
+    setSortType('');
+    setIsReversed(false);
+  };
+
+  const handleSortAlpha = () => {
+    const sorted = [...goods].sort((a, b) => a.localeCompare(b));
+
+    setGoods(sorted);
+    setIsReversed(false);
+  };
+
+  const handleSortLength = () => {
+    const sorted = [...goods].sort((a, b) => a.length - b.length);
+
+    setGoods(sorted);
+    setIsReversed(false);
+  };
+
+  const handleReverse = () => {
+    setGoods([...goods].reverse());
+    setIsReversed(!isReversed);
+  };
+
   return (
-    <div className="section content">
-      <div className="buttons">
-        <button type="button" className="button is-info is-light">
-          Sort alphabetically
-        </button>
+    <div className="section">
+      <div className="container">
+        <h1 className="title">
+          {selectedGood ? `${selectedGood} is selected` : 'No goods selected'}
+        </h1>
 
-        <button type="button" className="button is-success is-light">
-          Sort by length
-        </button>
+        <div className="buttons">
+          <button
+            type="button"
+            className="button is-info is-light"
+            onClick={handleSortAlpha}
+          >
+            Sort alphabetically
+          </button>
 
-        <button type="button" className="button is-warning is-light">
-          Reverse
-        </button>
+          <button
+            type="button"
+            className="button is-success is-light"
+            onClick={handleSortLength}
+          >
+            Sort by length
+          </button>
 
-        <button type="button" className="button is-danger is-light">
-          Reset
-        </button>
-      </div>
+          <button
+            type="button"
+            className="button is-warning is-light"
+            onClick={handleReverse}
+          >
+            Reverse
+          </button>
 
-      <ul>
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={handleReset}
+          >
+            Reset
+          </button>
+        </div>
+
         <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
+          {goods.map(good => (
+            <li
+              key={good}
+              data-cy="Good"
+              onClick={() => setSelectedGood(good)}
+              style={{
+                cursor: 'pointer',
+                fontWeight: selectedGood === good ? 'bold' : 'normal',
+              }}
+            >
+              {good}
+            </li>
+          ))}
         </ul>
-      </ul>
+      </div>
     </div>
   );
 };
