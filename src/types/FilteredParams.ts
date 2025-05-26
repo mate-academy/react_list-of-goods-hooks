@@ -1,4 +1,6 @@
+import { SortBy } from './SortBy';
+
 export interface FilteredParams {
-  sortByElement: string;
+  sortByElement: SortBy;
   reverseVisibleGoods: boolean;
 }
