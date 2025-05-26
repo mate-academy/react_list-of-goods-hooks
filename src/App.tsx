@@ -1,6 +1,12 @@
-import React from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+
+import React, { useState } from 'react';
+import { Good } from './types/Good';
+import { FilteredParams } from './types/FilteredParams';
+import { SortBy } from './types/SortBy';
+import { Goods } from './Goods';
+import { Buttons } from './Buttons';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -15,37 +21,71 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+const goodsWithID: Good[] = goodsFromServer.map((text: string, idx: number) => {
+  return {
+    id: idx,
+    text,
+  };
+});
+
+function getPreparedGoods(
+  goods: Good[],
+  { sortByElement, reverseVisibleGoods }: FilteredParams,
+) {
+  const preparedGoods = [...goods];
+
+  if (sortByElement) {
+    preparedGoods.sort((good1, good2) => {
+      const val1 = good1.text;
+      const val2 = good2.text;
+
+      switch (sortByElement) {
+        case SortBy.Length:
+          return val1.length - val2.length;
+
+        case SortBy.Alphabet:
+          return val1.localeCompare(val2);
+
+        default:
+          return 0;
+      }
+    });
+  }
+
+  if (reverseVisibleGoods) {
+    preparedGoods.reverse();
+  }
+
+  return preparedGoods;
+}
+
 export const App: React.FC = () => {
+  const [sortByElement, setSortByElement] = useState(SortBy.Default);
+  const [reverseVisibleGoods, setReverseVisibleGoods] = useState(false);
+
+  const visibleGoods = getPreparedGoods(goodsWithID, {
+    sortByElement,
+    reverseVisibleGoods,
+  });
+
+  const handleSortByElement = (sortBy: SortBy) => {
+    return setSortByElement(sortBy);
+  };
+
+  const handleReverseVisibleGoods = (isReverse: boolean) => {
+    return setReverseVisibleGoods(isReverse);
+  };
+
   return (
     <div className="section content">
-      <div className="buttons">
-        <button type="button" className="button is-info is-light">
-          Sort alphabetically
-        </button>
+      <Buttons
+        sortByElement={sortByElement}
+        reverseVisibleGoods={reverseVisibleGoods}
+        changeFilter={handleSortByElement}
+        changeDirection={handleReverseVisibleGoods}
+      />
 
-        <button type="button" className="button is-success is-light">
-          Sort by length
-        </button>
-
-        <button type="button" className="button is-warning is-light">
-          Reverse
-        </button>
-
-        <button type="button" className="button is-danger is-light">
-          Reset
-        </button>
-      </div>
-
-      <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
-      </ul>
+      <Goods goods={visibleGoods} />
     </div>
   );
 };
