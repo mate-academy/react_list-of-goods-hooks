@@ -22,7 +22,6 @@ export const App: React.FC = () => {
 
   const handleReset = () => {
     setGoods(goodsFromServer);
-    setSortType('');
     setIsReversed(false);
   };
 
