@@ -24,9 +24,20 @@ enum SortType {
 }
 
 export const App: React.FC = () => {
-  const [goods, setGoods] = useState(goodsFromServer);
   const [sortField, setSortField] = useState<SortType>(SortType.None);
   const [isReversed, setIsReversed] = useState(false);
+
+  const displayedGoods = [...goodsFromServer];
+
+  if (sortField === SortType.Alphabetically) {
+    displayedGoods.sort((a, b) => a.localeCompare(b));
+  } else if (sortField === SortType.ByLength) {
+    displayedGoods.sort((a, b) => a.length - b.length);
+  }
+
+  if (isReversed) {
+    displayedGoods.reverse();
+  }
 
   return (
     <div className="section content">
@@ -38,13 +49,9 @@ export const App: React.FC = () => {
           })}
           onClick={() => {
             setSortField(SortType.Alphabetically);
-            const sorted = [...goods].sort((a, b) => a.localeCompare(b));
-
             if (isReversed) {
-              sorted.reverse();
+              setIsReversed(true);
             }
-
-            setGoods(sorted);
           }}
         >
           Sort alphabetically
@@ -57,13 +64,10 @@ export const App: React.FC = () => {
           })}
           onClick={() => {
             setSortField(SortType.ByLength);
-            const sorted = [...goods].sort((a, b) => a.length - b.length);
 
             if (isReversed) {
-              sorted.reverse();
+              setIsReversed(true);
             }
-
-            setGoods(sorted);
           }}
         >
           Sort by length
@@ -75,21 +79,17 @@ export const App: React.FC = () => {
             'is-light': !isReversed,
           })}
           onClick={() => {
-            const reversed = [...goods].reverse();
-
-            setGoods(reversed);
             setIsReversed(!isReversed);
           }}
         >
           Reverse
         </button>
 
-        {JSON.stringify(goods) !== JSON.stringify(goodsFromServer) && (
+        {JSON.stringify(displayedGoods) !== JSON.stringify(goodsFromServer) && (
           <button
             type="button"
             className="button is-danger"
             onClick={() => {
-              setGoods(goodsFromServer);
               setSortField(SortType.None);
               setIsReversed(false);
             }}
@@ -100,7 +100,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {goods.map(good => (
+        {displayedGoods.map(good => (
           <li data-cy="Good" key={good}>
             {good}
           </li>
