@@ -18,9 +18,9 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  SORT_ALPHABEICALLY = 'Sort alphabetically',
+  SORT_ALPHABETICALLY = 'Sort alphabetically',
   SORT_BY_LENGTH = 'Sort by length',
-  UNSOTED = '',
+  UNSORTED = '',
 }
 interface FilterParams {
   sortField: SortType;
@@ -36,7 +36,7 @@ function getPrepareGoods(
   if (sortField) {
     prepareGoods.sort((good1, good2) => {
       switch (sortField) {
-        case SortType.SORT_ALPHABEICALLY:
+        case SortType.SORT_ALPHABETICALLY:
           return good1.localeCompare(good2);
         case SortType.SORT_BY_LENGTH:
           return good1.length - good2.length;
@@ -54,7 +54,7 @@ function getPrepareGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState<SortType>(SortType.UNSOTED);
+  const [sortField, setSortField] = useState<SortType>(SortType.UNSORTED);
   const [isReversed, setIsReversed] = useState(false);
 
   const prepareGoods = getPrepareGoods(goodsFromServer, {
@@ -63,7 +63,7 @@ export const App: React.FC = () => {
   });
 
   const resetGood = () => {
-    setSortField(SortType.UNSOTED);
+    setSortField(SortType.UNSORTED);
     setIsReversed(false);
   };
 
@@ -71,10 +71,10 @@ export const App: React.FC = () => {
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => setSortField(SortType.SORT_ALPHABEICALLY)}
+          onClick={() => setSortField(SortType.SORT_ALPHABETICALLY)}
           type="button"
           className={cn('button', 'is-info', {
-            'is-light': sortField !== SortType.SORT_ALPHABEICALLY,
+            'is-light': sortField !== SortType.SORT_ALPHABETICALLY,
           })}
         >
           Sort alphabetically
