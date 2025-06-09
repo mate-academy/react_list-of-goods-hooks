@@ -1,50 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-export const goodsFromServer = [
-  'Dumplings',
-  'Carrot',
-  'Eggs',
-  'Ice cream',
-  'Apple',
-  'Bread',
-  'Fish',
-  'Honey',
-  'Jam',
+const goodsFromServer = [
+  'Cabbage',
   'Garlic',
+  'Apple',
+  'Carrot',
+  'Potato',
+  'Onion',
 ];
 
 export const App: React.FC = () => {
+  const [visibleGoods, setVisibleGoods] = useState<string[]>([...goodsFromServer]);
+
+  const handleReset = () => {
+    setVisibleGoods([...goodsFromServer]);
+  };
+
+  const handleSortByLength = () => {
+    const sorted = [...goodsFromServer].sort((a, b) => b.length - a.length);
+    setVisibleGoods(sorted);
+  };
+
+  const handleSortAlphabetically = () => {
+    const sorted = [...goodsFromServer].sort((a, b) => a.localeCompare(b));
+    setVisibleGoods(sorted);
+  };
+
+  const handleReverse = () => {
+    setVisibleGoods(prev => [...prev].reverse());
+  };
+
   return (
-    <div className="section content">
+    <div className="section">
       <div className="buttons">
-        <button type="button" className="button is-info is-light">
-          Sort alphabetically
-        </button>
-
-        <button type="button" className="button is-success is-light">
-          Sort by length
-        </button>
-
-        <button type="button" className="button is-warning is-light">
-          Reverse
-        </button>
-
-        <button type="button" className="button is-danger is-light">
-          Reset
-        </button>
+        <button onClick={handleReset} className="button is-info">Reset</button>
+        <button onClick={handleSortByLength} className="button is-primary">Sort by Length</button>
+        <button onClick={handleSortAlphabetically} className="button is-warning">Sort Alphabetically</button>
+        <button onClick={handleReverse} className="button is-dark">Reverse</button>
       </div>
 
       <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
+        {visibleGoods.map(good => (
+          <li key={good}>{good}</li>
+        ))}
       </ul>
     </div>
   );
