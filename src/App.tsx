@@ -76,11 +76,7 @@ export const App: React.FC = () => {
             Sort by length
           </button>
           <button
-            onClick={() =>
-              setReverse(
-                reverse === SORT_FIELD_REVERSE ? true : SORT_FIELD_REVERSE,
-              )
-            }
+            onClick={() => setReverse(prev => !prev)}
             type="button"
             className={cn('button', 'is-warning', {
               'is-light': reverse === SORT_FIELD_REVERSE,
