@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-type Goods = string[]
+type Goods = string[];
 enum SortType {
   Alphabetically = 'Sort alphabetically',
   ByLength = 'Sort by length',
@@ -21,7 +21,6 @@ export const goodsFromServer: Goods = [
   'Garlic',
 ];
 
-
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState<SortType | ''>('');
   const [reversed, setReversed] = useState<boolean>(false);
@@ -38,7 +37,7 @@ export const App: React.FC = () => {
     visibleGoods.reverse();
   }
 
-  const isModified: boolean = sortField ? true : reversed;
+  const isModified: boolean = !!sortField || reversed;
 
   const sortOptions = [
     {
