@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
@@ -15,7 +15,6 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-// Тип перерахування для типів сортування (не використовується, але можеш зберегти для майбутнього)
 export enum SortType {
   Default,
   Alphabetically,
@@ -24,22 +23,31 @@ export enum SortType {
 }
 
 export const App: React.FC = () => {
-  const [goods, setGoods] = useState<string[]>([...goodsFromServer]);
+  const [goods, setGoods] = useState<string[]>([]);
+  const [sortType, setSortType] = useState<SortType>(SortType.Default);
 
-  const handleSortAlphabetically = () => {
-    setGoods([...goods].sort((a, b) => a.localeCompare(b)));
-  };
+  useEffect(() => {
+    switch (sortType) {
+      case SortType.Alphabetically:
+        setGoods([...goodsFromServer].sort((a, b) => a.localeCompare(b)));
+        break;
+      case SortType.ByLength:
+        setGoods([...goodsFromServer].sort((a, b) => a.length - b.length));
+        break;
+      case SortType.Reverse:
+        setGoods([...goodsFromServer].slice().reverse());
+        break;
+      default:
+        setGoods([...goodsFromServer]);
+    }
+  }, [sortType]);
 
-  const handleSortByLength = () => {
-    setGoods([...goods].sort((a, b) => a.length - b.length));
-  };
+  const getButtonClass = (type: SortType) => {
+    if (sortType === type) {
+      return 'is-primary';
+    }
 
-  const handleReverse = () => {
-    setGoods([...goods].slice().reverse());
-  };
-
-  const handleReset = () => {
-    setGoods([...goodsFromServer]);
+    return 'is-light';
   };
 
   return (
@@ -47,39 +55,39 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className="button is-info is-light"
-          onClick={handleSortAlphabetically}
+          className={`button is-info ${getButtonClass(SortType.Alphabetically)}`}
+          onClick={() => setSortType(SortType.Alphabetically)}
         >
           Сортувати за алфавітом
         </button>
 
         <button
           type="button"
-          className="button is-success is-light"
-          onClick={handleSortByLength}
+          className={`button is-success ${getButtonClass(SortType.ByLength)}`}
+          onClick={() => setSortType(SortType.ByLength)}
         >
           Сортувати за довжиною
         </button>
 
         <button
           type="button"
-          className="button is-warning is-light"
-          onClick={handleReverse}
+          className={`button is-warning ${getButtonClass(SortType.Reverse)}`}
+          onClick={() => setSortType(SortType.Reverse)}
         >
           Реверс
         </button>
 
         <button
           type="button"
-          className="button is-danger is-light"
-          onClick={handleReset}
+          className={`button is-danger ${getButtonClass(SortType.Default)}`}
+          onClick={() => setSortType(SortType.Default)}
         >
           Скинути
         </button>
       </div>
 
       <ul>
-        {goods.map((item) => (
+        {goods.map(item => (
           <li key={item} data-cy="Good">
             {item}
           </li>
