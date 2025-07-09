@@ -1,11 +1,11 @@
-import React from "react";
-import { GoodsItem } from "./GoodsItem";
+import React from 'react';
+import { GoodsItem } from './GoodsItem';
 
 type Props = {
   goods: string[];
-}
+};
 
-export const GoodsList: React.FC<Props> = ({goods}) => {
+export const GoodsList: React.FC<Props> = ({ goods }) => {
   return (
     <ul>
       {goods.map((good, index) => (
@@ -13,4 +13,4 @@ export const GoodsList: React.FC<Props> = ({goods}) => {
       ))}
     </ul>
   );
-}
+};

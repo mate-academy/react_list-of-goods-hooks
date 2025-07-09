@@ -25,36 +25,34 @@ enum SortType {
 export const App: React.FC = () => {
   const [sortBy, setSortBy] = useState<SortType | ''>('');
   const [isReversed, setIsReversed] = useState(false);
-  const [visibleGoods, setVisibleGoods] = useState([...goodsFromServer]);
 
-  function handleSort(type: SortType) {
-    setSortBy(type);
+  function getVisibleGoods() {
+    let sorted = [...goodsFromServer];
 
-    let sorted = [...visibleGoods];
-
-    if (type === SortType.Alphabet) {
+    if (sortBy === SortType.Alphabet) {
       sorted.sort((a, b) => a.localeCompare(b));
-    } else if (type === SortType.Length) {
+    } else if (sortBy === SortType.Length) {
       sorted.sort((a, b) => a.length - b.length);
-    } else if (type === SortType.Reset) {
-      sorted = [...goodsFromServer];
-      setSortBy('');
-      setIsReversed(false);
     }
 
     if (isReversed) {
       sorted.reverse();
     }
 
-    setVisibleGoods(sorted);
+    return sorted;
+  }
+
+  function handleSort(type: SortType) {
+    if (type === SortType.Reset) {
+      setSortBy('');
+      setIsReversed(false);
+    } else {
+      setSortBy(type);
+    }
   }
 
   function toggleReverse() {
-    setIsReversed(prev => {
-      const newReversed = !prev;
-      setVisibleGoods(prevGoods => [...prevGoods].reverse());
-      return newReversed;
-    });
+    setIsReversed(prev => !prev);
   }
 
   return (
@@ -95,7 +93,7 @@ export const App: React.FC = () => {
         )}
       </div>
 
-      <GoodsList goods={visibleGoods} />
+      <GoodsList goods={getVisibleGoods()} />
     </div>
   );
 };
