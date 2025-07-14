@@ -23,10 +23,10 @@ enum SortType {
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState('');
-  const [goods, setGoods] = useState([...goodsFromServer]);
-  const [stateReverse, setStateReverse] = useState(false);
-  const showResetButton = sortField || stateReverse;
+  const [sortField, setSortField] = useState<SortType>(SortType.RESET);
+  const [goods, setGoods] = useState<string[]>([...goodsFromServer]);
+  const [stateReverse, setStateReverse] = useState<boolean>(false);
+  const showResetButton: boolean | SortType = sortField || stateReverse;
 
   const sortedgoods = [...goods];
 
