@@ -20,6 +20,7 @@ type Goods = string[];
 enum SortType {
   Alph = 'alph',
   Length = 'length',
+  None = '',
 }
 
 function arraysAreEqual(a: Goods, b: Goods) {
@@ -50,7 +51,7 @@ function arraySorter(goods: Goods, sortMethod: SortType, isReversed: boolean) {
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState(SortType.None);
   const [isReversed, setIsReversed] = useState(false);
   const visibleGoods = arraySorter(
     goodsFromServer,
@@ -59,7 +60,7 @@ export const App: React.FC = () => {
   );
 
   const reset = () => {
-    setSortField('');
+    setSortField(SortType.None);
     setIsReversed(false);
   };
 
