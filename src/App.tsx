@@ -43,9 +43,13 @@ export const App: React.FC = () => {
   };
 
   useEffect(() => {
-    const updatedList = getSortedGoods(sortMode, isReversed);
+    if (sortMode === SortType.None && !isReversed) {
+      setGoodsList(goodsFromServer);
+    } else {
+      const updatedList = getSortedGoods(sortMode, isReversed);
 
-    setGoodsList(updatedList);
+      setGoodsList(updatedList);
+    }
   }, [sortMode, isReversed]);
 
   const handleSortAlphabetically = () => setSortMode(SortType.Alphabet);
