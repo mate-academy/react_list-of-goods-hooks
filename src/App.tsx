@@ -22,12 +22,9 @@ enum SortType {
 }
 
 type FilterParams = {
-  sortField: SortType;
+  sortField: SortType | '';
   isReversed: boolean;
 };
-
-const SORT_BY_ALPHABET = 'alphabet';
-const SORT_BY_LENGTH = 'length';
 
 function prepareGoods(
   goods: string[],
@@ -58,7 +55,7 @@ function prepareGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState<SortType | ''>('');
   const [isReversed, setIsReversed] = useState(false);
   const goods = prepareGoods(goodsFromServer, { sortField, isReversed });
 
@@ -68,9 +65,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={classNames('button', 'is-info', {
-            'is-light': sortField !== SORT_BY_ALPHABET,
+            'is-light': sortField !== SortType.alphabet,
           })}
-          onClick={() => setSortField(SORT_BY_ALPHABET)}
+          onClick={() => setSortField(SortType.alphabet)}
         >
           Sort alphabetically
         </button>
@@ -78,9 +75,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={classNames('button', 'is-success', {
-            'is-light': sortField !== SORT_BY_LENGTH,
+            'is-light': sortField !== SortType.length,
           })}
-          onClick={() => setSortField(SORT_BY_LENGTH)}
+          onClick={() => setSortField(SortType.length)}
         >
           Sort by length
         </button>
