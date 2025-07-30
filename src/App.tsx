@@ -1,11 +1,33 @@
 import 'bulma/css/bulma.css';
 import './App.scss';
-import { useState, createContext } from 'react';
+import React, {
+  useState,
+  createContext,
+  Dispatch,
+  SetStateAction,
+} from 'react';
 import { ButtonList } from './components/ButtonList/ButtonList';
 import { GoodList } from './components/GoodsList/GoodsList';
 import { goodsFromServer } from './model/GoodsFromServer.model';
+import { TGood } from './types/TGood';
 
-export const GoodsContext = createContext();
+interface IGoodsContext {
+  goods: IGood[];
+  setGood: Dispatch<React.SetStateAction<string[]>>;
+  historyOrder: SortType[];
+  setHistoryOrder: Dispatch<SetStateAction<SortType[]>>;
+  counterReset: 0 | 1;
+  setCounterReset: Dispatch<SetStateAction<0 | 1>>;
+  isLightAlpha: boolean;
+  setLightAlpha: () => {};
+  isLightLength: boolean;
+  setLightLength: () => {};
+  isLightReverse: boolean;
+  setLightReverse: () => {};
+}
+
+export const GoodsContext: React.Context<IGoodsContext | null> =
+  createContext(null);
 
 export enum SortType {
   Alphabetically = 'alpha',
@@ -13,7 +35,7 @@ export enum SortType {
 }
 
 export const App = () => {
-  const [goods, setGoods] = useState<string[]>([...goodsFromServer]);
+  const [goods, setGoods] = useState<TGood[]>([...goodsFromServer]);
   const [historyOrder, setHistoryOrder] = useState<SortType[]>([]);
   const [counterReset, setCounterReset] = useState<0 | 1>(0);
   const [isLightAlpha, setIsLightAlpha] = useState<boolean>(true);

@@ -1,13 +1,6 @@
 import React from 'react';
 import { Good } from '../Good/Good';
-
-export interface IGood {
-  good: string;
-}
-
-export type TGood = {
-  good: IGood;
-};
+import { TGood } from '../../types/TGood';
 
 type Props = {
   goods: TGood[];

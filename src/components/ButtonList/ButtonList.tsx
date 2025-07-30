@@ -1,7 +1,13 @@
+import React from 'react';
 import { buttonsSchema } from '../../model/Buttons.model';
 import { Button } from '../Button/Button';
+import { TButton } from '../../types/TButton';
 
-export const ButtonList = () => {
+type Props = {
+  button: TButton;
+};
+
+export const ButtonList: React.FC<Props> = () => {
   return (
     <div className="buttons">
       {buttonsSchema.map(button => {
