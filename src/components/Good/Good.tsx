@@ -6,5 +6,5 @@ type Props = {
 };
 
 export const Good: React.FC<Props> = ({ good }) => {
-  return <li data-cy="Good">{good}</li>;
+  return <li data-cy="Good">{good.toString()}</li>;
 };
