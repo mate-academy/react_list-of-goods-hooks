@@ -12,18 +12,18 @@ import { goodsFromServer } from './model/GoodsFromServer.model';
 import { TGood } from './types/TGood';
 
 interface IGoodsContext {
-  goods: IGood[];
-  setGood: Dispatch<React.SetStateAction<string[]>>;
+  goods: TGood[];
+  setGoods: Dispatch<React.SetStateAction<TGood[]>>;
   historyOrder: SortType[];
   setHistoryOrder: Dispatch<SetStateAction<SortType[]>>;
   counterReset: 0 | 1;
   setCounterReset: Dispatch<SetStateAction<0 | 1>>;
   isLightAlpha: boolean;
-  setLightAlpha: () => {};
+  setIsLightAlpha: Dispatch<SetStateAction<boolean>>;
   isLightLength: boolean;
-  setLightLength: () => {};
+  setIsLightLength: Dispatch<SetStateAction<boolean>>;
   isLightReverse: boolean;
-  setLightReverse: () => {};
+  setIsLightReverse: Dispatch<SetStateAction<boolean>>;
 }
 
 export const GoodsContext: React.Context<IGoodsContext | null> =

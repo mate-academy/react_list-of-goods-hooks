@@ -1,4 +1,4 @@
-export const buttonsSchema = [
+export const buttonsSchema:{}[] = [
   {
     className: 'button is-info',
     textContent: 'Sort alphabetically',
