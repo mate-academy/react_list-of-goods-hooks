@@ -1,51 +1,71 @@
-import React from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import React, {
+  useState,
+  createContext,
+  Dispatch,
+  SetStateAction,
+} from 'react';
+import { ButtonList } from './components/ButtonList/ButtonList';
+import { GoodList } from './components/GoodsList/GoodsList';
+import { goodsFromServer } from './model/GoodsFromServer.model';
+import { TGood } from './types/TGood';
 
-export const goodsFromServer = [
-  'Dumplings',
-  'Carrot',
-  'Eggs',
-  'Ice cream',
-  'Apple',
-  'Bread',
-  'Fish',
-  'Honey',
-  'Jam',
-  'Garlic',
-];
+interface IGoodsContext {
+  goods: TGood[];
+  setGoods: Dispatch<React.SetStateAction<TGood[]>>;
+  historyOrder: SortType[];
+  setHistoryOrder: Dispatch<SetStateAction<SortType[]>>;
+  counterReset: 0 | 1;
+  setCounterReset: Dispatch<SetStateAction<0 | 1>>;
+  isLightAlpha: boolean;
+  setIsLightAlpha: Dispatch<SetStateAction<boolean>>;
+  isLightLength: boolean;
+  setIsLightLength: Dispatch<SetStateAction<boolean>>;
+  isLightReverse: boolean;
+  setIsLightReverse: Dispatch<SetStateAction<boolean>>;
+}
 
-export const App: React.FC = () => {
+export const GoodsContext: React.Context<IGoodsContext | null> =
+  createContext(null);
+
+export enum SortType {
+  Alphabetically = 'alpha',
+  Length = 'length',
+}
+
+export const App = () => {
+  const [goods, setGoods] = useState<TGood[]>([...goodsFromServer]);
+  const [historyOrder, setHistoryOrder] = useState<SortType[]>([]);
+  const [counterReset, setCounterReset] = useState<0 | 1>(0);
+  const [isLightAlpha, setIsLightAlpha] = useState<boolean>(true);
+  const [isLightLength, setIsLightLength] = useState<boolean>(true);
+  const [isLightReverse, setIsLightReverse] = useState<boolean>(true);
+
   return (
-    <div className="section content">
-      <div className="buttons">
-        <button type="button" className="button is-info is-light">
-          Sort alphabetically
-        </button>
+    <GoodsContext.Provider
+      value={{
+        goods,
+        setGoods,
+        historyOrder,
+        setHistoryOrder,
+        counterReset,
+        setCounterReset,
+        isLightAlpha,
+        isLightLength,
+        isLightReverse,
+        setIsLightAlpha,
+        setIsLightLength,
+        setIsLightReverse,
+      }}
+    >
+      <>
+        <div className="section content">
+          <ButtonList />
 
-        <button type="button" className="button is-success is-light">
-          Sort by length
-        </button>
-
-        <button type="button" className="button is-warning is-light">
-          Reverse
-        </button>
-
-        <button type="button" className="button is-danger is-light">
-          Reset
-        </button>
-      </div>
-
-      <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
-      </ul>
-    </div>
+          <GoodList goods={goods} />
+        </div>
+      </>
+    </GoodsContext.Provider>
   );
 };
