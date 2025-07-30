@@ -4,32 +4,33 @@ import { goodsFromServer } from '../../model/GoodsFromServer.model';
 import { TButton } from '../../types/TButton';
 
 type Props = {
-  button: TButton
-}
+  button: TButton;
+};
 
-export const Button:React.FC<Props> = ({ button }) => {
-
+export const Button: React.FC<Props> = ({ button }) => {
   const context = useContext(GoodsContext);
 
   if (!context) {
-    throw new Error('Button component must be used within a GoodsContext.Provider');
+    throw new Error(
+      'Button component must be used within a GoodsContext.Provider',
+    );
   }
 
-  const { 
-    goods, 
-    setGoods, 
-    historyOrder, 
-    setHistoryOrder, 
-    counterReset, 
-    setCounterReset, 
-    isLightAlpha, 
-    isLightReverse, 
-    isLightLength, 
-    setIsLightAlpha, 
-    setIsLightLength, 
-    setIsLightReverse 
+  const {
+    goods,
+    setGoods,
+    historyOrder,
+    setHistoryOrder,
+    counterReset,
+    setCounterReset,
+    isLightAlpha,
+    isLightReverse,
+    isLightLength,
+    setIsLightAlpha,
+    setIsLightLength,
+    setIsLightReverse,
   } = context;
-  
+
   const handleOrderByAlpha = () => {
     setIsLightAlpha(false);
     setIsLightLength(true);
