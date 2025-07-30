@@ -1,23 +1,23 @@
 import React from 'react';
 import { Good } from '../Good/Good';
 
-interface IGood {
+export interface IGood {
   good: string;
 }
 
-type Good = {
-  good: IGood
-}
+export type TGood = {
+  good: IGood;
+};
 
 type Props = {
-  goods: Good[]
-}
+  goods: TGood[];
+};
 
-export const GoodList:React.FC<Props> = ({goods}) => {
+export const GoodList: React.FC<Props> = ({ goods }) => {
   return (
     <ul>
-      {goods.map((good:Good) => {
-        return <Good good={good} />;
+      {goods.map((good: TGood, index: number) => {
+        return <Good good={good} key={index} />;
       })}
     </ul>
   );

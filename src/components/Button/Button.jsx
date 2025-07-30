@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { GoodsContext, SortType } from '../../App';
 import { goodsFromServer } from '../../model/GoodsFromServer.model';
 
@@ -54,7 +54,6 @@ export const Button = ({ button }) => {
     setGoods(goodsFromServer);
   };
 
-
   const handleOrderByReverse = () => {
     if (counterReset > 1) {
       setCounterReset(0);
@@ -108,22 +107,19 @@ export const Button = ({ button }) => {
                 {button.textContent}
               </button>
             );
-          case 'Reset':
-            {
-              
-              if(!isLightAlpha || !isLightLength || !isLightReverse) {
-                return (
-                  <button
-                    type="button"
-                    onClick={() => handleOrderReset()}
-                    className={`${button.className}`}
-                  >
-                    {button.textContent}
-                  </button>
-                );
-              }
-              
+          case 'Reset': {
+            if (!isLightAlpha || !isLightLength || !isLightReverse) {
+              return (
+                <button
+                  type="button"
+                  onClick={() => handleOrderReset()}
+                  className={`${button.className}`}
+                >
+                  {button.textContent}
+                </button>
+              );
             }
+          }
         }
       })()}
     </>

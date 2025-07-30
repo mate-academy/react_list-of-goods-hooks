@@ -9,11 +9,11 @@ export const GoodsContext = createContext();
 
 export enum SortType {
   Alphabetically = 'alpha',
-  Length = 'length'
+  Length = 'length',
 }
 
 export const App = () => {
-  const [goods, setGoods] = useState<string[]>(goodsFromServer);
+  const [goods, setGoods] = useState<string[]>([...goodsFromServer]);
   const [historyOrder, setHistoryOrder] = useState<SortType[]>([]);
   const [counterReset, setCounterReset] = useState<0 | 1>(0);
   const [isLightAlpha, setIsLightAlpha] = useState<boolean>(true);
@@ -41,7 +41,7 @@ export const App = () => {
         <div className="section content">
           <ButtonList />
 
-          <GoodList goods={goods}/>
+          <GoodList goods={goods} />
         </div>
       </>
     </GoodsContext.Provider>
