@@ -1,6 +1,12 @@
 {
-  "extends": "@mate-academy/students-ts-config",
-  "include": [
-    "src"
-  ]
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "target": "es6",
+    "module": "esnext",
+    "forceConsistentCasingInFileNames": true
+  }
 }
