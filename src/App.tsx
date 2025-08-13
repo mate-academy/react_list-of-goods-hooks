@@ -14,15 +14,23 @@ export const App: React.FC = () => {
     [...arr].sort((a, b) => a.length - b.length);
 
   const handleSortAlphabet = () => {
-    let sorted = sortAlphabet([...goodsFromServer]);
-    if (isReversed) sorted.reverse();
+    const sorted = sortAlphabet([...goodsFromServer]);
+
+    if (isReversed) {
+      sorted.reverse();
+    }
+
     setGoods(sorted);
     setSortType(SortType.Alphabetical);
   };
 
   const handleSortByLength = () => {
-    let sorted = sortByLength([...goodsFromServer]);
-    if (isReversed) sorted.reverse();
+    const sorted = sortByLength([...goodsFromServer]);
+
+    if (isReversed) {
+      sorted.reverse();
+    }
+
     setGoods(sorted);
     setSortType(SortType.Length);
   };
@@ -43,8 +51,7 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          data-cy="sortAlphabet"
-          className={sortType === SortType.Alphabetical ? '' : 'is-light'}
+          className={`button is-info ${sortType === SortType.Alphabetical ? 'is-active' : 'is-light'}`}
           onClick={handleSortAlphabet}
         >
           Sort alphabetically
@@ -52,8 +59,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          data-cy="sortByLength"
-          className={sortType === SortType.Length ? '' : 'is-light'}
+          className={`button is-success ${sortType === SortType.Length ? 'is-active' : 'is-light'}`}
           onClick={handleSortByLength}
         >
           Sort by length
@@ -61,8 +67,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          data-cy="reverse"
-          className={isReversed ? '' : 'is-light'}
+          className={`button is-warning ${isReversed ? 'is-active' : 'is-light'}`}
           onClick={handleReverse}
         >
           Reverse
@@ -70,9 +75,10 @@ export const App: React.FC = () => {
 
         {(sortType !== SortType.None || isReversed) && (
           <button
-          type="button"
-          data-cy="reset"
-          onClick={handleReset}>
+            type="button"
+            className="button is-danger is-light"
+            onClick={handleReset}
+          >
             Reset
           </button>
         )}
