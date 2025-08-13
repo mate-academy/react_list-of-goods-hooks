@@ -27,12 +27,16 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
 
   const handleSortAlphabet = () => {
-    setGoods(prev => [...prev].sort((a, b) => a.localeCompare(b)));
+    const sorted = [...goodsFromServer].sort((a, b) => a.localeCompare(b));
+
+    setGoods(isReversed ? sorted.reverse() : sorted);
     setSortType(SortType.alphabet);
   };
 
   const handleSortLength = () => {
-    setGoods(prev => [...prev].sort((a, b) => a.length - b.length));
+    const sorted = [...goodsFromServer].sort((a, b) => a.length - b.length);
+
+    setGoods(isReversed ? sorted.reverse() : sorted);
     setSortType(SortType.length);
   };
 
@@ -88,13 +92,11 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        <ul>
-          {goods.map(good => (
-            <li key={good} data-cy="Good">
-              {good}
-            </li>
-          ))}
-        </ul>
+        {goods.map(good => (
+          <li key={good} data-cy="Good">
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
