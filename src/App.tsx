@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import { goodsFromServer, SortType } from './types';
-
+import { GoodItem } from './GoodItem';
 export const App: React.FC = () => {
   const [goods, setGoods] = useState<string[]>([...goodsFromServer]);
   const [sortType, setSortType] = useState<SortType>(SortType.None);
@@ -86,9 +86,7 @@ export const App: React.FC = () => {
 
       <ul>
         {goods.map(item => (
-          <li key={item} data-cy="Good">
-            {item}
-          </li>
+          <GoodItem good={item} key={item} />
         ))}
       </ul>
     </div>
