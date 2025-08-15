@@ -1,3 +1,23 @@
 iframe {
   display: none;
 }
+
+.is-active {
+  background-color: #48c78e;
+  border-color: #0000;
+  color: #fff;
+  cursor: pointer;
+
+  &-reverse {
+    background-color: #ffe08a;
+    border-color: #0000;
+    color: #000000b3;
+  }
+
+  &-reset {
+    background-color: #f14668;
+    border-color: #0000;
+    color: #fff;
+    cursor: pointer;
+  }
+}
