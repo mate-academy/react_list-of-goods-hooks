@@ -53,7 +53,7 @@ function getPreparedGoods(
 export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.Default);
   const [isReversed, setIsReversed] = useState(false);
-  const preparedGoods = getPreparedGoods(goods, sortType, isReversed);
+  const preparedGoods = getPreparedGoods(goodsFromServer, sortType, isReversed);
 
   return (
     <div className="section content">
