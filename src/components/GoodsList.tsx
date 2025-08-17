@@ -6,14 +6,12 @@ type Props = {
 
 export const GoodsList: React.FC<Props> = ({ goods }) => {
   return (
-    <ul>
-      {goods.map(good => {
-        return (
-          <li data-cy="good" key={good}>
-            {good}
-          </li>
-        );
-      })}
+    <ul data-cy="goods">
+      {goods.map(good => (
+        <li key={good} data-cy="Good">
+          {good}
+        </li>
+      ))}
     </ul>
   );
 };
