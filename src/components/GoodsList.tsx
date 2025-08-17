@@ -7,8 +7,8 @@ type Props = {
 export const GoodsList: React.FC<Props> = ({ goods }) => {
   return (
     <ul data-cy="goods">
-      {goods.map(good => (
-        <li key={good} data-cy="Good">
+      {goods.map((good, index) => (
+        <li key={`${good}-${index}`} data-cy="Good">
           {good}
         </li>
       ))}
