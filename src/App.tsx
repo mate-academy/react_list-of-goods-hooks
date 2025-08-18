@@ -18,13 +18,14 @@ export const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-const SORT_FIELD_ALPHABET = 'Sort alphabetically';
-const SORT_FIELD_LENGTH = 'Sort by length';
-
-type SortField = typeof SORT_FIELD_ALPHABET | typeof SORT_FIELD_LENGTH | '';
+enum SortType {
+  Alphabetically = 'Sort alphabetically',
+  ByLength = 'Sort by length',
+  None = '',
+}
 
 interface PrepareOptions {
-  sortField: SortField;
+  sortField: SortType;
   reversed: boolean;
 }
 
@@ -37,9 +38,9 @@ const getPreparedGoods = (
   if (sortField) {
     preparedGoods.sort((a, b) => {
       switch (sortField) {
-        case SORT_FIELD_ALPHABET:
+        case SortType.Alphabetically:
           return a.localeCompare(b);
-        case SORT_FIELD_LENGTH:
+        case SortType.ByLength:
           return a.length - b.length;
         default:
           return 0;
@@ -55,7 +56,7 @@ const getPreparedGoods = (
 };
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState<SortField>('');
+  const [sortField, setSortField] = useState<SortType>(SortType.None);
   const [reversed, setReversed] = useState<boolean>(false);
 
   const visibleGoods = getPreparedGoods(goodsFromServer, {
@@ -66,13 +67,13 @@ export const App: React.FC = () => {
   return (
     <div className="section content">
       <div className="buttons">
-        {[SORT_FIELD_ALPHABET, SORT_FIELD_LENGTH].map(field => (
+        {[SortType.Alphabetically, SortType.ByLength].map(field => (
           <button
             key={field}
             className={classNames('button', 'is-info', {
               'is-light': sortField !== field,
             })}
-            onClick={() => setSortField(field as SortField)}
+            onClick={() => setSortField(field)}
             type="button"
           >
             {field}
@@ -94,7 +95,7 @@ export const App: React.FC = () => {
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              setSortField('');
+              setSortField(SortType.None);
               setReversed(false);
             }}
           >
