@@ -17,13 +17,13 @@ export const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-const SORT_BY_ALPHABET = 'alphabet';
-const SORT_BY_LENGTH = 'length';
-
-type SortBy = typeof SORT_BY_ALPHABET | typeof SORT_BY_LENGTH;
+enum SortType {
+  Alphabet = 'ALPHABET',
+  Length = 'LENGTH',
+}
 
 type Options = {
-  sortBy: SortBy | null;
+  sortBy: SortType | null;
   isReversed: boolean;
 };
 
@@ -37,12 +37,12 @@ function getPreparedGoods(
 ): string[] {
   const preparedGoods = [...goods];
 
-  if (sortBy === SORT_BY_ALPHABET || sortBy === SORT_BY_LENGTH) {
+  if (sortBy === SortType.Alphabet || sortBy === SortType.Length) {
     preparedGoods.sort((good1, good2) => {
       switch (sortBy) {
-        case SORT_BY_ALPHABET:
+        case SortType.Alphabet:
           return good1.localeCompare(good2);
-        case SORT_BY_LENGTH:
+        case SortType.Length:
           return good1.length - good2.length;
         default:
           return 0;
@@ -58,21 +58,31 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortBy, setSortBy] = useState<SortBy | null>(null);
+  const [sortBy, setSortBy] = useState<SortType | null>(null);
   const [isReversed, setIsReversed] = useState(false);
   const visibleGoods = getPreparedGoods(goodsFromServer, {
     sortBy,
     isReversed,
   });
 
+  const handleSortChange = (sortType: SortType) => {
+    setSortBy(sortType);
+  };
+
+  const handleReverseToggle = () => setIsReversed(prev => !prev);
+  const handleReset = () => {
+    setSortBy(null);
+    setIsReversed(false);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          onClick={() => setSortBy(SORT_BY_ALPHABET)}
+          onClick={() => handleSortChange(SortType.Alphabet)}
           className={cn('button', 'is-info', {
-            'is-light': sortBy !== SORT_BY_ALPHABET,
+            'is-light': sortBy !== SortType.Alphabet,
           })}
         >
           Sort alphabetically
@@ -80,16 +90,16 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          onClick={() => setSortBy(SORT_BY_LENGTH)}
+          onClick={() => handleSortChange(SortType.Length)}
           className={cn('button', 'is-success', {
-            'is-light': sortBy !== SORT_BY_LENGTH,
+            'is-light': sortBy !== SortType.Length,
           })}
         >
           Sort by length
         </button>
         <button
           type="button"
-          onClick={() => setIsReversed(prev => !prev)}
+          onClick={handleReverseToggle}
           className={cn('button', 'is-warning', {
             'is-light': !isReversed,
           })}
@@ -99,10 +109,7 @@ export const App: React.FC = () => {
         {!areArraysEqual(visibleGoods, goodsFromServer) && (
           <button
             type="button"
-            onClick={() => {
-              setSortBy(null);
-              setIsReversed(false);
-            }}
+            onClick={handleReset}
             className="button is-danger is-light"
           >
             Reset
