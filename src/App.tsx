@@ -15,85 +15,81 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-const SORT_ALPHABETICALLY = 'alphabet';
-const SORT_BY_LENGTH = 'length';
-
-type SortField = typeof SORT_ALPHABETICALLY | typeof SORT_BY_LENGTH | '';
+enum SortType {
+  Alphabet = 'alphabet',
+  Length = 'length',
+  Reverse = 'reverse',
+  None = '',
+}
 
 function getPreparedGoods(
   goods: string[],
-  { sortField }: { sortField: SortField },
+  { sortField }: { sortField: SortType },
 ): string[] {
   const preparedGoods = [...goods];
 
-  if (sortField) {
-    preparedGoods.sort((good1, good2) => {
-      switch (sortField) {
-        case SORT_ALPHABETICALLY:
-          return good1.localeCompare(good2);
-
-        case SORT_BY_LENGTH:
-          return good1.length - good2.length;
-
-        default:
-          return 0;
-      }
-    });
+  switch (sortField) {
+    case SortType.Alphabet:
+      return preparedGoods.sort((a, b) => a.localeCompare(b));
+    case SortType.Length:
+      return preparedGoods.sort((a, b) => a.length - b.length);
+    default:
+      return preparedGoods;
   }
-
-  return preparedGoods;
 }
 
 export const App: React.FC = () => {
   const initialGoods = [...goodsFromServer];
   const [goods, setGoods] = useState<string[]>(initialGoods);
+  const [activeButton, setActiveButton] = useState<SortType>(SortType.None);
 
   const isChanged =
     goods.length !== goodsFromServer.length ||
     goods.some((good, index) => good !== goodsFromServer[index]);
 
-  const [activeButton, setActiveButton] = useState<string | null>(null);
+  const handleSortAlphabetically = () => {
+    setGoods(getPreparedGoods([...goods], { sortField: SortType.Alphabet }));
+    setActiveButton(SortType.Alphabet);
+  };
+
+  const handleSortByLength = () => {
+    setGoods(getPreparedGoods([...goods], { sortField: SortType.Length }));
+    setActiveButton(SortType.Length);
+  };
+
+  const handleReverse = () => {
+    setGoods([...goods].reverse());
+    setActiveButton(SortType.Reverse);
+  };
+
+  const handleReset = () => {
+    setGoods([...goodsFromServer]);
+    setActiveButton(SortType.None);
+  };
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${activeButton === SORT_ALPHABETICALLY ? '' : 'is-light'}`}
-          onClick={() => {
-            setGoods(
-              getPreparedGoods([...goods], {
-                sortField: SORT_ALPHABETICALLY,
-              }),
-            );
-            setActiveButton(SORT_ALPHABETICALLY);
-          }}
+          className={`button is-info ${activeButton === SortType.Alphabet ? '' : 'is-light'}`}
+          onClick={handleSortAlphabetically}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={`button is-success ${activeButton === SORT_BY_LENGTH ? '' : 'is-light'}`}
-          onClick={() => {
-            setGoods(
-              getPreparedGoods([...goods], {
-                sortField: SORT_BY_LENGTH,
-              }),
-            );
-            setActiveButton(SORT_BY_LENGTH);
-          }}
+          className={`button is-success ${activeButton === SortType.Length ? '' : 'is-light'}`}
+          onClick={handleSortByLength}
         >
           Sort by length
         </button>
 
         <button
           type="button"
-          className={`button is-warning ${activeButton === 'reverse' ? '' : 'is-light'}`}
-          onClick={() => {
-            setGoods([...goods].reverse());
-            setActiveButton('reverse');
-          }}
+          className={`button is-warning ${activeButton === SortType.Reverse ? '' : 'is-light'}`}
+          onClick={handleReverse}
         >
           Reverse
         </button>
@@ -102,10 +98,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setGoods([...goodsFromServer]);
-              setActiveButton(null);
-            }}
+            onClick={handleReset}
           >
             Reset
           </button>
