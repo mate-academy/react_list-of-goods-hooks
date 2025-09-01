@@ -17,7 +17,7 @@ export enum GoodsFromServer {
 }
 
 interface FilterParams {
-  sortParam: string;
+  sortParam: SortType;
   isReversed: boolean;
 }
 
@@ -35,9 +35,9 @@ function getPrepareGoods(
 
   prepareGoods.sort((goods1, goods2) => {
     switch (sortParam) {
-      case 'alphabetically':
+      case SortType.Alphabetically:
         return goods1.localeCompare(goods2);
-      case 'byLength':
+      case SortType.ByLength:
         return goods1.length - goods2.length;
       default:
         return 0;
@@ -75,15 +75,30 @@ export const App: React.FC = () => {
     { sortParam, isReversed },
   );
 
+  const handleSortAlphabetically = () => {
+    setSortParam(SortType.Alphabetically);
+  };
+
+  const handleSortByLength = () => {
+    setSortParam(SortType.ByLength);
+  };
+
+  const handleSortDefault = () => {
+    setSortParam(SortType.Default);
+    setIsReversed(false);
+  };
+
+  const handleSortReversed = () => {
+    setIsReversed(!isReversed);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
           className={`button is-info ${sortParam === SortType.Alphabetically ? '' : 'is-light'}`}
-          onClick={() => {
-            setSortParam(SortType.Alphabetically);
-          }}
+          onClick={handleSortAlphabetically}
         >
           Sort alphabetically
         </button>
@@ -91,9 +106,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={`button is-success ${sortParam === SortType.ByLength ? '' : 'is-light'}`}
-          onClick={() => {
-            setSortParam(SortType.ByLength);
-          }}
+          onClick={handleSortByLength}
         >
           Sort by length
         </button>
@@ -101,9 +114,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={`button is-warning ${isReversed === true ? '' : 'is-light'}`}
-          onClick={() => {
-            setIsReversed(!isReversed);
-          }}
+          onClick={handleSortReversed}
         >
           Reverse
         </button>
@@ -117,10 +128,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className={`button is-danger ${sortParam === SortType.Default && !isReversed ? '' : 'is-light'}`}
-            onClick={() => {
-              setSortParam(SortType.Default);
-              setIsReversed(false);
-            }}
+            onClick={handleSortDefault}
           >
             Reset
           </button>
