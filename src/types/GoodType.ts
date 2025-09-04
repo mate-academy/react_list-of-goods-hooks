@@ -1,0 +1,1 @@
+export type GoodType = string;
