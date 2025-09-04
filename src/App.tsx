@@ -1,10 +1,13 @@
-/* eslint-disable-next-line */
 import 'bulma/css/bulma.css';
 import './App.scss';
 import React, { useState, useMemo } from 'react';
 
-// 1. Definimos o tipo 'SortMode' com os valores permitidos
-type SortMode = 'original' | 'alphabetical' | 'length';
+// O enum SortType exigido
+enum SortType {
+  Original = 'original',
+  Alphabetical = 'alphabetical',
+  Length = 'length',
+}
 
 export const goodsFromServer: string[] = [
   'Dumplings',
@@ -19,25 +22,23 @@ export const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-// O componente App agora é tipado como React.FC
 export const App: React.FC = () => {
-  // 2. Usamos o tipo 'SortMode' para o estado 'sortMode'
-  const [sortMode, setSortMode] = useState<SortMode>('original');
+  const [sortType, setSortType] = useState<SortType>(SortType.Original);
   const [isReversed, setIsReversed] = useState<boolean>(false);
 
   const baseGoods = useMemo(() => {
-    switch (sortMode) {
-      case 'alphabetical':
+    switch (sortType) {
+      case SortType.Alphabetical:
         return [...goodsFromServer].sort((a, b) => a.localeCompare(b));
-      case 'length':
+      case SortType.Length:
         return [...goodsFromServer].sort(
           (a, b) => a.length - b.length || a.localeCompare(b),
         );
-      case 'original':
+      case SortType.Original:
       default:
         return [...goodsFromServer];
     }
-  }, [sortMode]);
+  }, [sortType]);
 
   const goods = useMemo(
     () => (isReversed ? [...baseGoods].reverse() : baseGoods),
@@ -46,20 +47,18 @@ export const App: React.FC = () => {
 
   // Handlers
   const handleSortAlphabetically = () => {
-    setSortMode('alphabetical');
-    // não reseta isReversed → persiste reverso
+    setSortType(SortType.Alphabetical);
   };
 
   const handleSortByLength = () => {
-    setSortMode('length');
-    // não reseta isReversed → persiste reverso
+    setSortType(SortType.Length);
   };
 
   const handleReverse = () => setIsReversed(prev => !prev);
 
   const handleReset = () => {
-    setSortMode('original');
-    setIsReversed(false); // reset total
+    setSortType(SortType.Original);
+    setIsReversed(false);
   };
 
   return (
@@ -67,7 +66,7 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortMode === 'alphabetical' ? '' : 'is-light'}`}
+          className={`button is-info ${sortType === SortType.Alphabetical ? '' : 'is-light'}`}
           onClick={handleSortAlphabetically}
           data-cy="SortByName"
         >
@@ -76,7 +75,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-success ${sortMode === 'length' ? '' : 'is-light'}`}
+          className={`button is-success ${sortType === SortType.Length ? '' : 'is-light'}`}
           onClick={handleSortByLength}
           data-cy="SortByLength"
         >
@@ -92,7 +91,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortMode !== 'original' || isReversed) && (
+        {(sortType !== SortType.Original || isReversed) && (
           <button
             type="button"
             className="button is-danger"
