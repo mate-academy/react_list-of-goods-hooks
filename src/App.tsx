@@ -1,65 +1,85 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
+type Good = {
+  name: string;
+  price: number;
+};
+
 enum SortType {
-  Default,
-  Alphabetically,
-  Length,
+  Default = 'Default',
+  Alphabetically = 'Alphabetically',
+  Price = 'Price',
 }
-export const goodsFromServer = [
-  'Dumplings',
-  'Carrot',
-  'Eggs',
-  'Ice cream',
-  'Apple',
-  'Bread',
-  'Fish',
-  'Honey',
-  'Jam',
-  'Garlic',
+
+export const goodsFromServer: Good[] = [
+  { name: 'Dumplings', price: 50 },
+  { name: 'Carrot', price: 16 },
+  { name: 'Eggs', price: 30 },
+  { name: 'Ice cream', price: 120 },
+  { name: 'Apple', price: 20 },
+  { name: 'Bread', price: 25 },
+  { name: 'Fish', price: 80 },
+  { name: 'Honey', price: 100 },
+  { name: 'Jam', price: 60 },
+  { name: 'Garlic', price: 12 },
 ];
 
 export const App: React.FC = () => {
   const [sortOrder, setSortOrder] = useState<SortType>(SortType.Default);
-  const [isReversed, setIsReversed] = useState<boolean>(false);
+  const [query, setQuery] = useState<string>('');
 
-  function resetSorting() {
-    setSortOrder(SortType.Default);
-    setIsReversed(false);
-  }
+  const goods = useMemo(() => {
+    const q = query.trim().toLowerCase();
 
-  function sortByType(type: SortType): string[] {
-    const orders = [...goodsFromServer];
+    // começa na ordem original e filtra pelo nome
+    let prepared = goodsFromServer.filter(g =>
+      g.name.toLowerCase().includes(q)
+    );
 
-    switch (type) {
-      case SortType.Alphabetically: {
-        orders.sort();
+    switch (sortOrder) {
+      case SortType.Alphabetically:
+        prepared = [...prepared].sort((a, b) => a.name.localeCompare(b.name));
         break;
-      }
 
-      case SortType.Length: {
-        orders.sort((a, b) => a.length - b.length);
+      case SortType.Price:
+        prepared = [...prepared].sort((a, b) => a.price - b.price);
         break;
-      }
 
       default:
+        // Default: mantém a ordem original (já filtrada)
         break;
     }
 
-    if (isReversed) {
-      orders.reverse();
-    }
+    return prepared;
+  }, [sortOrder, query]);
 
-    return orders;
+  function reset() {
+    setSortOrder(SortType.Default);
+    setQuery('');
   }
-
-  const goods = sortByType(sortOrder);
 
   return (
     <div className="section content">
+      <div className="field">
+        <label className="label" htmlFor="search">Search</label>
+        <div className="control">
+          <input
+            id="search"
+            data-cy="Search"
+            className="input"
+            type="text"
+            placeholder="Search goods..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </div>
+      </div>
+
       <div className="buttons">
         <button
+          data-cy="SortByName"
           type="button"
           className={`button is-info ${sortOrder !== SortType.Alphabetically && 'is-light'}`}
           onClick={() => setSortOrder(SortType.Alphabetically)}
@@ -68,26 +88,20 @@ export const App: React.FC = () => {
         </button>
 
         <button
+          data-cy="SortByPrice"
           type="button"
-          className={`button is-success ${sortOrder !== SortType.Length && 'is-light'}`}
-          onClick={() => setSortOrder(SortType.Length)}
+          className={`button is-success ${sortOrder !== SortType.Price && 'is-light'}`}
+          onClick={() => setSortOrder(SortType.Price)}
         >
-          Sort by length
+          Sort by price
         </button>
 
-        <button
-          type="button"
-          className={`button is-warning ${!isReversed && 'is-light'}`}
-          onClick={() => setIsReversed(prev => !prev)}
-        >
-          Reverse
-        </button>
-
-        {(sortOrder || isReversed) && (
+        {(sortOrder !== SortType.Default || query) && (
           <button
+            data-cy="Reset"
             type="button"
             className="button is-danger is-light"
-            onClick={resetSorting}
+            onClick={reset}
           >
             Reset
           </button>
@@ -95,9 +109,9 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {goods.map(order => (
-          <li data-cy="Good" key={order}>
-            {order}
+        {goods.map(good => (
+          <li data-cy="Good" key={good.name}>
+            {good.name} — {good.price}
           </li>
         ))}
       </ul>
