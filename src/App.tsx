@@ -2,10 +2,7 @@ import React, { useMemo, useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-type Good = {
-  name: string;
-  price: number;
-};
+type Good = { name: string; price: number };
 
 enum SortType {
   Default = 'Default',
@@ -28,37 +25,29 @@ export const goodsFromServer: Good[] = [
 
 export const App: React.FC = () => {
   const [sortOrder, setSortOrder] = useState<SortType>(SortType.Default);
-  const [query, setQuery] = useState<string>('');
+  const [query, setQuery] = useState('');
 
   const goods = useMemo(() => {
     const q = query.trim().toLowerCase();
-
-    // começa na ordem original e filtra pelo nome
-    let prepared = goodsFromServer.filter(g =>
-      g.name.toLowerCase().includes(q)
-    );
+    let prepared = goodsFromServer.filter(g => g.name.toLowerCase().includes(q));
 
     switch (sortOrder) {
       case SortType.Alphabetically:
         prepared = [...prepared].sort((a, b) => a.name.localeCompare(b.name));
         break;
-
       case SortType.Price:
         prepared = [...prepared].sort((a, b) => a.price - b.price);
         break;
-
       default:
-        // Default: mantém a ordem original (já filtrada)
         break;
     }
-
     return prepared;
   }, [sortOrder, query]);
 
-  function reset() {
+  const reset = () => {
     setSortOrder(SortType.Default);
     setQuery('');
-  }
+  };
 
   return (
     <div className="section content">
