@@ -44,7 +44,6 @@ function getPreparedGoods(
 
     case SortType.None:
     default:
-      // sem ordenação
       break;
   }
 
@@ -56,7 +55,6 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [isStarted, setIsStarted] = useState(false);
   const [sortField, setSortField] = useState<SortType>(SortType.None);
   const [reverseField, setReverseField] = useState(false);
 
@@ -64,10 +62,6 @@ export const App: React.FC = () => {
     () => getPreparedGoods(goodsFromServer, { sortField, reverseField }),
     [sortField, reverseField],
   );
-
-  const handleStart = useCallback(() => {
-    setIsStarted(true);
-  }, []);
 
   const handleSortByName = useCallback(() => {
     setSortField(SortType.name);
@@ -88,72 +82,59 @@ export const App: React.FC = () => {
 
   return (
     <div className="section content">
-      {!isStarted ? (
+      <div className="buttons">
         <button
           type="button"
-          className="button is-primary is-medium"
-          data-cy="Start"
-          onClick={handleStart}
+          className={classNames('button is-info', {
+            'is-light': sortField !== SortType.name,
+          })}
+          data-cy="SortByName"
+          onClick={handleSortByName}
         >
-          Start
+          Sort alphabetically
         </button>
-      ) : (
-        <>
-          <div className="buttons">
-            <button
-              type="button"
-              className={classNames('button is-info', {
-                'is-light': sortField !== SortType.name,
-              })}
-              data-cy="SortByName"
-              onClick={handleSortByName}
-            >
-              Sort alphabetically
-            </button>
 
-            <button
-              type="button"
-              className={classNames('button is-success', {
-                'is-light': sortField !== SortType.length,
-              })}
-              data-cy="SortByLength"
-              onClick={handleSortByLength}
-            >
-              Sort by length
-            </button>
+        <button
+          type="button"
+          className={classNames('button is-success', {
+            'is-light': sortField !== SortType.length,
+          })}
+          data-cy="SortByLength"
+          onClick={handleSortByLength}
+        >
+          Sort by length
+        </button>
 
-            <button
-              type="button"
-              className={classNames('button is-warning', {
-                'is-light': !reverseField,
-              })}
-              data-cy="Reverse"
-              onClick={handleToggleReverse}
-            >
-              Reverse
-            </button>
+        <button
+          type="button"
+          className={classNames('button is-warning', {
+            'is-light': !reverseField,
+          })}
+          data-cy="Reverse"
+          onClick={handleToggleReverse}
+        >
+          Reverse
+        </button>
 
-            {(reverseField || sortField !== SortType.None) && (
-              <button
-                type="button"
-                className="button is-danger is-light"
-                data-cy="Reset"
-                onClick={handleReset}
-              >
-                Reset
-              </button>
-            )}
-          </div>
+        {(reverseField || sortField !== SortType.None) && (
+          <button
+            type="button"
+            className="button is-danger is-light"
+            data-cy="Reset"
+            onClick={handleReset}
+          >
+            Reset
+          </button>
+        )}
+      </div>
 
-          <ul>
-            {goodsPrepared.map(good => (
-              <li data-cy="Good" key={good}>
-                {good}
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
+      <ul>
+        {goodsPrepared.map(good => (
+          <li data-cy="Good" key={good}>
+            {good}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
