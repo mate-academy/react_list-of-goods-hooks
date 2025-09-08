@@ -1,96 +1,115 @@
-import React, { useMemo, useState } from 'react';
+import React from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import { useState } from 'react';
+import classNames from 'classnames';
 
-type Good = { name: string; price: number };
-
-enum SortType {
-  Default = 'Default',
-  Alphabetically = 'Alphabetically',
-  Price = 'Price',
-}
-
-export const goodsFromServer: Good[] = [
-  { name: 'Dumplings', price: 50 },
-  { name: 'Carrot', price: 16 },
-  { name: 'Eggs', price: 30 },
-  { name: 'Ice cream', price: 120 },
-  { name: 'Apple', price: 20 },
-  { name: 'Bread', price: 25 },
-  { name: 'Fish', price: 80 },
-  { name: 'Honey', price: 100 },
-  { name: 'Jam', price: 60 },
-  { name: 'Garlic', price: 12 },
+export const goodsFromServer = [
+  'Dumplings',
+  'Carrot',
+  'Eggs',
+  'Ice cream',
+  'Apple',
+  'Bread',
+  'Fish',
+  'Honey',
+  'Jam',
+  'Garlic',
 ];
 
+enum SortType {
+  name = 'name',
+  length = 'length',
+}
+
+interface FilterParams {
+  sortField: SortType | '';
+  reverseField: boolean;
+}
+
+function getPreparedGoods(
+  goods: string[],
+  { sortField, reverseField }: FilterParams,
+) {
+  let preparedGoods = [...goods];
+
+  if (sortField) {
+    preparedGoods.sort((a, b) => {
+      switch (sortField) {
+        case SortType.name:
+          return a.localeCompare(b);
+
+        case SortType.length:
+          return a.length - b.length;
+
+        default:
+          return 0;
+      }
+    });
+  }
+
+  if (reverseField) {
+    preparedGoods = preparedGoods.reverse();
+  }
+
+  return preparedGoods;
+}
+
 export const App: React.FC = () => {
-  const [sortOrder, setSortOrder] = useState<SortType>(SortType.Default);
-  const [query, setQuery] = useState('');
-
-  const goods = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    let prepared = goodsFromServer.filter(g => g.name.toLowerCase().includes(q));
-
-    switch (sortOrder) {
-      case SortType.Alphabetically:
-        prepared = [...prepared].sort((a, b) => a.name.localeCompare(b.name));
-        break;
-      case SortType.Price:
-        prepared = [...prepared].sort((a, b) => a.price - b.price);
-        break;
-      default:
-        break;
-    }
-    return prepared;
-  }, [sortOrder, query]);
-
-  const reset = () => {
-    setSortOrder(SortType.Default);
-    setQuery('');
-  };
+  const [sortField, setSortField] = useState<SortType | ''>('');
+  const [reverseField, setReverseField] = useState(false);
+  const goodsFromServerCopy = getPreparedGoods(goodsFromServer, {
+    sortField,
+    reverseField,
+  });
 
   return (
     <div className="section content">
-      <div className="field">
-        <label className="label" htmlFor="search">Search</label>
-        <div className="control">
-          <input
-            id="search"
-            data-cy="Search"
-            className="input"
-            type="text"
-            placeholder="Search goods..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-        </div>
-      </div>
-
       <div className="buttons">
         <button
-          data-cy="SortByName"
           type="button"
-          className={`button is-info ${sortOrder !== SortType.Alphabetically && 'is-light'}`}
-          onClick={() => setSortOrder(SortType.Alphabetically)}
+          className={classNames('button is-info', {
+            'is-light': sortField !== SortType.name,
+          })}
+          onClick={() => {
+            setSortField(SortType.name);
+          }}
         >
           Sort alphabetically
         </button>
 
         <button
-          data-cy="SortByPrice"
           type="button"
-          className={`button is-success ${sortOrder !== SortType.Price && 'is-light'}`}
-          onClick={() => setSortOrder(SortType.Price)}
+          className={classNames('button is-success', {
+            'is-light': sortField !== SortType.length,
+          })}
+          onClick={() => {
+            setSortField(SortType.length);
+          }}
         >
-          Sort by price
+          Sort by length
         </button>
 
-        {(sortOrder !== SortType.Default || query) && (
+        <button
+          type="button"
+          className={classNames('button is-warning', {
+            'is-light': reverseField === false,
+          })}
+          onClick={() => {
+            setReverseField(!reverseField);
+          }}
+        >
+          Reverse
+        </button>
+
+        {(reverseField || sortField) && (
           <button
-            data-cy="Reset"
             type="button"
             className="button is-danger is-light"
-            onClick={reset}
+            onClick={() => {
+              setSortField('');
+              setReverseField(false);
+            }}
           >
             Reset
           </button>
@@ -98,9 +117,9 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {goods.map(good => (
-          <li data-cy="Good" key={good.name}>
-            {good.name} — {good.price}
+        {goodsFromServerCopy.map((good, key) => (
+          <li data-cy="Good" key={key}>
+            {good}
           </li>
         ))}
       </ul>
