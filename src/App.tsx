@@ -15,17 +15,21 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-type SortField = 'alphabet' | 'length' | 'reverse' | '';
+enum SortType {
+  Deafault = '',
+  Alphabet = 'alphabet',
+  Length = 'length',
+}
 
 const SORT_FIELD_ALPHABET = 'alphabet';
 const SORT_FIELD_LENGTH = 'length';
 
 interface FilterParams {
-  sortField: SortField;
+  sortField: SortType;
   order: boolean;
 }
 
-function getPrepearedGods(
+function getPrepearedGoods(
   goods: string[],
   { sortField, order }: FilterParams,
 ): string[] {
@@ -48,12 +52,12 @@ function getPrepearedGods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState<SortField>('');
+  const [sortField, setSortField] = useState<SortType>(SortType.Deafault);
   const [order, setOrder] = useState(false);
 
-  const visibleGoods = getPrepearedGods(goodsFromServer, { sortField, order });
+  const visibleGoods = getPrepearedGoods(goodsFromServer, { sortField, order });
 
-  const handleSort = (field: SortField) => {
+  const handleClearSort = (field: SortType) => {
     if (field === sortField) {
       setOrder(!order);
     } else {
@@ -62,12 +66,14 @@ export const App: React.FC = () => {
     }
   };
 
+  const handleReset = () => setSortField(SortType.Deafault);
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
           onClick={() => {
-            handleSort(SORT_FIELD_ALPHABET);
+            handleClearSort(SortType.Alphabet);
           }}
           type="button"
           className={
@@ -81,7 +87,7 @@ export const App: React.FC = () => {
 
         <button
           onClick={() => {
-            handleSort(SORT_FIELD_LENGTH);
+            handleClearSort(SortType.Length);
           }}
           type="button"
           className={
@@ -96,31 +102,30 @@ export const App: React.FC = () => {
         <button
           onClick={() => setOrder(!order)}
           type="button"
-          className="button is-warning is-light"
+          className={order ? 'button is-warning' : 'button is-light'}
         >
           Reverse
         </button>
 
-        <button
-          onClick={() => {
-            handleSort('');
-          }}
-          style={{ display: sortField === '' ? 'none' : 'inline-block' }}
-          type="button"
-          className="button is-danger is-light"
-        >
-          Reset
-        </button>
+        {(sortField !== SortType.Deafault || order) && (
+          <button
+            onClick={() => {
+              handleReset();
+            }}
+            type="button"
+            className="button is-danger is-light"
+          >
+            Reset
+          </button>
+        )}
       </div>
 
       <ul>
-        <ul>
-          {visibleGoods.map(good => (
-            <li className="item" key={good} data-cy="Good">
-              {good}
-            </li>
-          ))}
-        </ul>
+        {visibleGoods.map(good => (
+          <li className="item" key={good} data-cy="Good">
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
