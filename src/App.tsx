@@ -51,7 +51,7 @@ export const App: React.FC = () => {
   }, [sort, reversed]);
 
   const showReset =
-    sort !== 'none' ||
+    sort !== SortType.None ||
     reversed ||
     displayedGoods.join() !== goodsFromServer.join();
 
@@ -60,16 +60,20 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={cn('button is-info', { 'is-light': sort !== 'alph' })}
-          onClick={() => handleSortAlphabetically()}
+          className={cn('button is-info', {
+            'is-light': sort !== SortType.Alph,
+          })}
+          onClick={handleSortAlphabetically}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={cn('button is-success', { 'is-light': sort !== 'len' })}
-          onClick={() => handleSortByLength()}
+          className={cn('button is-success', {
+            'is-light': sort !== SortType.Len,
+          })}
+          onClick={handleSortByLength}
         >
           Sort by length
         </button>
@@ -77,7 +81,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-warning', { 'is-light': !reversed })}
-          onClick={() => handleToggleReverse()}
+          onClick={handleToggleReverse}
         >
           Reverse
         </button>
@@ -86,9 +90,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              handleReset();
-            }}
+            onClick={handleReset}
           >
             Reset
           </button>
