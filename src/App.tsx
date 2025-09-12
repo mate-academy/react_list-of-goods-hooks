@@ -19,13 +19,14 @@ export const goodsFromServer: Goods = [
 ];
 
 enum SortType {
+  default = '',
   name = 'name',
   length = 'length',
 }
 
 const getPreparedGoods = (
   goods: Goods,
-  sortField: SortType | '',
+  sortField: SortType,
   reverse: boolean,
 ): Goods => {
   let preparedGoods: Goods = [...goods];
@@ -46,14 +47,14 @@ const getPreparedGoods = (
 };
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState<SortType | ''>('');
+  const [sortField, setSortField] = useState<SortType>(SortType.default);
   const [reverse, setReverse] = useState<boolean>(false);
 
   const visibleGoods = getPreparedGoods(goodsFromServer, sortField, reverse);
 
   const handleReset = () => {
     setReverse(false);
-    setSortField('');
+    setSortField(SortType.default);
   };
 
   return (
