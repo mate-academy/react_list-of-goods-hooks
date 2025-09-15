@@ -43,7 +43,7 @@ function getPreparedGoods(
   }
 
   if (reversed) {
-    preparedGoods = preparedGoods.toReversed();
+    preparedGoods = preparedGoods.reverse();
   }
 
   return preparedGoods;
@@ -54,45 +54,59 @@ export const App: React.FC = () => {
   const [reversed, setReversed] = useState(false);
   const visibleGoods = getPreparedGoods(goodsFromServer, sortField, reversed);
 
+  const handleSortAlphabet = () => {
+    setSortField(SortType.SORT_FIELD_ALPHABET);
+  };
+
+  const handleSortLength = () => {
+    setSortField(SortType.SORT_FIELD_LENGTH);
+  };
+
+  const handleToggleReverse = () => {
+    setReversed(!reversed);
+  };
+
+  const handleReset = () => {
+    setSortField(SortType.Default);
+    setReversed(false);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
+          onClick={handleSortAlphabet}
           type="button"
           className={cn('button', 'is-info', {
             'is-light': sortField !== SortType.SORT_FIELD_ALPHABET,
           })}
-          onClick={() => setSortField(SortType.SORT_FIELD_ALPHABET)}
         >
           Sort alphabetically
         </button>
 
         <button
+          onClick={handleSortLength}
           type="button"
           className={cn('button', 'is-success', {
             'is-light': sortField !== SortType.SORT_FIELD_LENGTH,
           })}
-          onClick={() => setSortField(SortType.SORT_FIELD_LENGTH)}
         >
           Sort by length
         </button>
 
         <button
+          onClick={handleToggleReverse}
           type="button"
           className={cn('button', 'is-warning', { 'is-light': !reversed })}
-          onClick={() => setReversed(!reversed)}
         >
           Reverse
         </button>
 
         {visibleGoods.join() !== goodsFromServer.join() ? (
           <button
+            onClick={handleReset}
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortField(SortType.Default);
-              setReversed(false);
-            }}
           >
             Reset
           </button>
