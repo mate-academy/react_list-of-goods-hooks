@@ -1,6 +1,8 @@
 {
   "extends": "@mate-academy/students-ts-config",
-  "include": [
-    "src"
-  ]
+  "compilerOptions": {
+    "baseUrl": "src",          // 👈 add this
+    "types": ["cypress"]       // 👈 also helps Cypress typings
+  },
+  "include": ["src", "cypress"]
 }

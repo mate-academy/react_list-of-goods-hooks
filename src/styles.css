@@ -1,0 +1,6 @@
+.controls button.active,
+.controls button[aria-pressed="true"] {
+  background-color: #007bff;
+  color: #fff;
+  border: 1px solid #0056b3;
+}
