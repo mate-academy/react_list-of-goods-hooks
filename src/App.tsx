@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
@@ -23,67 +23,71 @@ enum SortType {
 }
 
 export const App: React.FC = () => {
-  const [goods, setGoods] = useState<string[]>(goodsFromServer);
+  const [sortType, setSortType] = useState<SortType>(SortType.Default);
 
-  const handleSort = (type: SortType) => {
-    switch (type) {
+  const sortedGoods = useMemo(() => {
+    switch (sortType) {
       case SortType.Alphabetical:
-        setGoods([...goods].sort((a, b) => a.localeCompare(b)));
-        break;
+        return [...goodsFromServer].sort((a, b) => a.localeCompare(b));
 
       case SortType.Length:
-        setGoods([...goods].sort((a, b) => a.length - b.length));
-        break;
+        return [...goodsFromServer].sort((a, b) => a.length - b.length);
 
       case SortType.Reverse:
-        setGoods([...goods].reverse());
-        break;
+        return [...goodsFromServer].slice().reverse();
 
       case SortType.Default:
       default:
-        setGoods([...goodsFromServer]);
-        break;
+        return [...goodsFromServer];
     }
-  };
+  }, [sortType]);
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className="button is-info is-light"
-          onClick={() => handleSort(SortType.Alphabetical)}
+          className={`button is-info is-light ${
+            sortType === SortType.Alphabetical ? 'is-focused' : ''
+          }`}
+          onClick={() => setSortType(SortType.Alphabetical)}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className="button is-success is-light"
-          onClick={() => handleSort(SortType.Length)}
+          className={`button is-success is-light ${
+            sortType === SortType.Length ? 'is-focused' : ''
+          }`}
+          onClick={() => setSortType(SortType.Length)}
         >
           Sort by length
         </button>
 
         <button
           type="button"
-          className="button is-warning is-light"
-          onClick={() => handleSort(SortType.Reverse)}
+          className={`button is-warning is-light ${
+            sortType === SortType.Reverse ? 'is-focused' : ''
+          }`}
+          onClick={() => setSortType(SortType.Reverse)}
         >
           Reverse
         </button>
 
         <button
           type="button"
-          className="button is-danger is-light"
-          onClick={() => handleSort(SortType.Default)}
+          className={`button is-danger is-light ${
+            sortType === SortType.Default ? 'is-focused' : ''
+          }`}
+          onClick={() => setSortType(SortType.Default)}
         >
           Reset
         </button>
       </div>
 
       <ul>
-        {goods.map(good => (
+        {sortedGoods.map(good => (
           <li key={good} data-cy="Good">
             {good}
           </li>
