@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-// Lista de bens original
+// Lista original
 export const goodsFromServer: string[] = [
   'Dumplings',
   'Carrot',
@@ -16,6 +16,7 @@ export const goodsFromServer: string[] = [
   'Garlic',
 ];
 
+// Enum para opções de ordenação
 enum SortType {
   Default = 'DEFAULT',
   Alphabetical = 'ALPHABETICAL',
@@ -28,7 +29,7 @@ export const App: React.FC = () => {
   const [sortType, setSortType] = useState<SortType>(SortType.Default);
 
   const handleSort = (type: SortType) => {
-    let sortedGoods = [...goodsFromServer];
+    const sortedGoods = [...goodsFromServer]; // sempre parte da lista original
 
     switch (type) {
       case SortType.Alphabetical:
@@ -40,12 +41,12 @@ export const App: React.FC = () => {
         break;
 
       case SortType.Reverse:
-        sortedGoods = [...goods].reverse();
+        sortedGoods.reverse();
         break;
 
       case SortType.Default:
       default:
-        sortedGoods = [...goodsFromServer];
+        // já inicializa com goodsFromServer
         break;
     }
 
@@ -58,7 +59,7 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className="button is-info is-light"
+          className={`button is-info is-light ${sortType === SortType.Alphabetical ? 'is-active' : ''}`}
           onClick={() => handleSort(SortType.Alphabetical)}
         >
           Sort alphabetically
@@ -66,7 +67,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className="button is-success is-light"
+          className={`button is-success is-light ${sortType === SortType.Length ? 'is-active' : ''}`}
           onClick={() => handleSort(SortType.Length)}
         >
           Sort by length
@@ -74,7 +75,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className="button is-warning is-light"
+          className={`button is-warning is-light ${sortType === SortType.Reverse ? 'is-active' : ''}`}
           onClick={() => handleSort(SortType.Reverse)}
         >
           Reverse
@@ -82,7 +83,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className="button is-danger is-light"
+          className={`button is-danger is-light ${sortType === SortType.Default ? 'is-active' : ''}`}
           onClick={() => handleSort(SortType.Default)}
         >
           Reset
