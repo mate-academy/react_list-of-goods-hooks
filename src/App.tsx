@@ -21,9 +21,13 @@ export const goodsFromServer: Good[] = [
 enum SortMethod {
   Alphabetically,
   ByLength,
+  Default,
 }
 
-type Direction = 'straight' | 'reverse';
+enum Direction {
+  Straight,
+  Reverse,
+}
 
 function sortList(
   list: Good[],
@@ -43,22 +47,25 @@ function sortList(
       sortedList = [...list];
   }
 
-  return direction === 'reverse' ? sortedList.reverse() : sortedList;
+  switch (direction) {
+    case Direction.Straight:
+      return sortedList;
+    case Direction.Reverse:
+      return sortedList.reverse();
+  }
 }
 
 export const App: React.FC = () => {
-  const [sortMethod, setSortMethod] = useState<SortMethod | undefined>(
-    undefined,
-  );
+  const [sortMethod, setSortMethod] = useState<SortMethod>(SortMethod.Default);
 
-  const [direction, setDirection] = useState<Direction>('straight');
+  const [direction, setDirection] = useState<Direction>(Direction.Straight);
 
   function resetSort() {
-    setSortMethod(undefined);
-    setDirection('straight');
+    setSortMethod(SortMethod.Default);
+    setDirection(Direction.Straight);
   }
 
-  const sortedGoods: Good[] = sortList(goodsFromServer, sortMethod, direction);
+  const sortedGoods = sortList(goodsFromServer, sortMethod, direction);
 
   return (
     <div className="section content">
@@ -86,20 +93,25 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={classNames('button is-warning', {
-            'is-light': direction !== 'reverse',
+            'is-light': direction !== Direction.Reverse,
           })}
           onClick={() =>
-            setDirection(direction === 'straight' ? 'reverse' : 'straight')
+            setDirection(
+              direction === Direction.Straight
+                ? Direction.Reverse
+                : Direction.Straight,
+            )
           }
         >
           Reverse
         </button>
 
-        {(sortMethod !== undefined || direction !== 'straight') && (
+        {(sortMethod !== SortMethod.Default ||
+          direction !== Direction.Straight) && (
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => resetSort()}
+            onClick={resetSort}
           >
             Reset
           </button>
