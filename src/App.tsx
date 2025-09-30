@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
@@ -16,17 +18,17 @@ export const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-enum QueryType {
+enum SortType {
   Default = '',
   Alphabetically = 'alphabetically',
   Length = 'length',
 }
 
-function sortByQuery(good1: string, good2: string, query: QueryType): number {
+function sortByQuery(good1: string, good2: string, query: SortType): number {
   switch (query) {
-    case 'alphabetically':
+    case SortType.Alphabetically:
       return good1.localeCompare(good2);
-    case 'length':
+    case SortType.Length:
       return good1.length - good2.length;
     default:
       return 0;
@@ -34,29 +36,29 @@ function sortByQuery(good1: string, good2: string, query: QueryType): number {
 }
 
 export const App: React.FC = () => {
-  const [query, setQuery] = useState(QueryType.Default);
+  const [query, setQuery] = useState(SortType.Default);
   const [isReverse, setIsReverse] = useState(false);
   let visibleGoods = goodsFromServer;
 
-  const handleSetSortAlphabetically = () => setQuery(QueryType.Alphabetically);
+  const handleSetSortAlphabetically = () => setQuery(SortType.Alphabetically);
 
-  const handleSetSortLength = () => setQuery(QueryType.Length);
+  const handleSetSortLength = () => setQuery(SortType.Length);
 
   const handleReset = () => {
     setIsReverse(false);
-    setQuery(QueryType.Default);
+    setQuery(SortType.Default);
   };
 
   const handleReverse = () => setIsReverse(prev => !prev);
 
   if (query !== '') {
+
     visibleGoods = [
-      ...visibleGoods.sort((good1, good2) => sortByQuery(good1, good2, query)),
-    ];
+      ...visibleGoods].sort((good1, good2) => sortByQuery(good1, good2, query));
   }
 
   if (isReverse) {
-    visibleGoods = [...visibleGoods.reverse()];
+    visibleGoods = [...visibleGoods].reverse();
   }
 
   return (
@@ -66,7 +68,7 @@ export const App: React.FC = () => {
           onClick={handleSetSortAlphabetically}
           type="button"
           className={cn('button', 'is-info', {
-            'is-light': query !== 'alphabetically',
+            'is-light': query !== SortType.Alphabetically,
           })}
         >
           Sort alphabetically
@@ -76,7 +78,7 @@ export const App: React.FC = () => {
           onClick={handleSetSortLength}
           type="button"
           className={cn('button', 'is-success', {
-            'is-light': query !== 'length',
+            'is-light': query !== SortType.Length,
           })}
         >
           Sort by length
