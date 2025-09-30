@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
-import { useState } from 'react';
 import classNames from 'classnames';
 
 export const goodsFromServer = [
@@ -17,63 +16,72 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+// ✅ Enum з дефолтним значенням
 enum SortType {
-  name = 'name',
-  length = 'length',
+  None = 'none',
+  Name = 'name',
+  Length = 'length',
 }
 
 interface FilterParams {
-  sortField: SortType | '';
+  sortField: SortType;
   reverseField: boolean;
 }
 
+// ✅ Сортування + реверс (чиста функція)
 function getPreparedGoods(
   goods: string[],
   { sortField, reverseField }: FilterParams,
 ) {
   let preparedGoods = [...goods];
 
-  if (sortField) {
-    preparedGoods.sort((a, b) => {
-      switch (sortField) {
-        case SortType.name:
-          return a.localeCompare(b);
-
-        case SortType.length:
-          return a.length - b.length;
-
-        default:
-          return 0;
-      }
-    });
+  switch (sortField) {
+    case SortType.Name:
+      preparedGoods.sort((a, b) => a.localeCompare(b));
+      break;
+    case SortType.Length:
+      preparedGoods.sort((a, b) => a.length - b.length);
+      break;
+    default:
+      break;
   }
 
   if (reverseField) {
-    preparedGoods = preparedGoods.reverse();
+    preparedGoods.reverse();
   }
 
   return preparedGoods;
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState<SortType | ''>('');
+  // ✅ Початковий стан: "none", не пустий рядок
+  const [sortField, setSortField] = useState<SortType>(SortType.None);
   const [reverseField, setReverseField] = useState(false);
-  const goodsFromServerCopy = getPreparedGoods(goodsFromServer, {
+
+  const visibleGoods = getPreparedGoods(goodsFromServer, {
     sortField,
     reverseField,
   });
 
+  // ✅ Окремі обробники
+  const handleSortByName = () => setSortField(SortType.Name);
+  const handleSortByLength = () => setSortField(SortType.Length);
+  const handleToggleReverse = () => setReverseField(prev => !prev);
+  const handleReset = () => {
+    setSortField(SortType.None);
+    setReverseField(false);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
+
         <button
           type="button"
           className={classNames('button is-info', {
-            'is-light': sortField !== SortType.name,
+            'is-light': sortField !== SortType.Name,
           })}
-          onClick={() => {
-            setSortField(SortType.name);
-          }}
+          onClick={handleSortByName}
         >
           Sort alphabetically
         </button>
@@ -81,11 +89,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={classNames('button is-success', {
-            'is-light': sortField !== SortType.length,
+            'is-light': sortField !== SortType.Length,
           })}
-          onClick={() => {
-            setSortField(SortType.length);
-          }}
+          onClick={handleSortByLength}
         >
           Sort by length
         </button>
@@ -93,23 +99,18 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={classNames('button is-warning', {
-            'is-light': reverseField === false,
+            'is-light': !reverseField,
           })}
-          onClick={() => {
-            setReverseField(!reverseField);
-          }}
+          onClick={handleToggleReverse}
         >
           Reverse
         </button>
 
-        {(reverseField || sortField) && (
+        {(sortField !== SortType.None || reverseField) && (
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={() => {
-              setSortField('');
-              setReverseField(false);
-            }}
+            onClick={handleReset}
           >
             Reset
           </button>
@@ -117,8 +118,8 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {goodsFromServerCopy.map((good, key) => (
-          <li data-cy="Good" key={key}>
+        {visibleGoods.map((good) => (
+          <li data-cy="Good" key={good}>
             {good}
           </li>
         ))}
