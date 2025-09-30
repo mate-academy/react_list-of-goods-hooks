@@ -3,7 +3,7 @@ import 'bulma/css/bulma.css';
 import './App.scss';
 import cn from 'classnames';
 
-export const goodsFromServer = [
+export const goodsFromServer: string[] = [
   'Dumplings',
   'Carrot',
   'Eggs',
@@ -16,7 +16,13 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-function sortByQuery(good1: string, good2: string, query: string): number {
+enum QueryType {
+  Default = '',
+  Alphabetically = 'alphabetically',
+  Length = 'length',
+}
+
+function sortByQuery(good1: string, good2: string, query: QueryType): number {
   switch (query) {
     case 'alphabetically':
       return good1.localeCompare(good2);
@@ -28,25 +34,36 @@ function sortByQuery(good1: string, good2: string, query: string): number {
 }
 
 export const App: React.FC = () => {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState(QueryType.Default);
   const [isReverse, setIsReverse] = useState(false);
   let visibleGoods = goodsFromServer;
 
+  const handleSetSortAlphabetically = () => setQuery(QueryType.Alphabetically);
+
+  const handleSetSortLength = () => setQuery(QueryType.Length);
+
+  const handleReset = () => {
+    setIsReverse(false);
+    setQuery(QueryType.Default);
+  };
+
+  const handleReverse = () => setIsReverse(prev => !prev);
+
   if (query !== '') {
-    visibleGoods = visibleGoods.toSorted((good1, good2) =>
-      // eslint-disable-next-line prettier/prettier
-      sortByQuery(good1, good2, query));
+    visibleGoods = [
+      ...visibleGoods.sort((good1, good2) => sortByQuery(good1, good2, query)),
+    ];
   }
 
   if (isReverse) {
-    visibleGoods = visibleGoods.toReversed();
+    visibleGoods = [...visibleGoods.reverse()];
   }
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => setQuery('alphabetically')}
+          onClick={handleSetSortAlphabetically}
           type="button"
           className={cn('button', 'is-info', {
             'is-light': query !== 'alphabetically',
@@ -56,7 +73,7 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={() => setQuery('length')}
+          onClick={handleSetSortLength}
           type="button"
           className={cn('button', 'is-success', {
             'is-light': query !== 'length',
@@ -66,7 +83,7 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={() => setIsReverse(prev => !prev)}
+          onClick={handleReverse}
           type="button"
           className={cn('button', 'is-warning', { 'is-light': !isReverse })}
         >
@@ -75,10 +92,7 @@ export const App: React.FC = () => {
 
         {(query !== '' || isReverse === true) && (
           <button
-            onClick={() => {
-              setIsReverse(false);
-              setQuery('');
-            }}
+            onClick={handleReset}
             type="button"
             className="button is-danger is-light"
           >
