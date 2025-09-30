@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import cn from 'classnames';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -15,36 +16,83 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+function sortByQuery(good1: string, good2: string, query: string): number {
+  switch (query) {
+    case 'alphabetically':
+      return good1.localeCompare(good2);
+    case 'length':
+      return good1.length - good2.length;
+    default:
+      return 0;
+  }
+}
+
 export const App: React.FC = () => {
+  const [query, setQuery] = useState('');
+  const [isReverse, setIsReverse] = useState(false);
+  let visibleGoods = goodsFromServer;
+
+  if (query !== '') {
+    visibleGoods = visibleGoods.toSorted((good1, good2) =>
+      // eslint-disable-next-line prettier/prettier
+      sortByQuery(good1, good2, query));
+  }
+
+  if (isReverse) {
+    visibleGoods = visibleGoods.toReversed();
+  }
+
   return (
     <div className="section content">
       <div className="buttons">
-        <button type="button" className="button is-info is-light">
+        <button
+          onClick={() => setQuery('alphabetically')}
+          type="button"
+          className={cn('button', 'is-info', {
+            'is-light': query !== 'alphabetically',
+          })}
+        >
           Sort alphabetically
         </button>
 
-        <button type="button" className="button is-success is-light">
+        <button
+          onClick={() => setQuery('length')}
+          type="button"
+          className={cn('button', 'is-success', {
+            'is-light': query !== 'length',
+          })}
+        >
           Sort by length
         </button>
 
-        <button type="button" className="button is-warning is-light">
+        <button
+          onClick={() => setIsReverse(prev => !prev)}
+          type="button"
+          className={cn('button', 'is-warning', { 'is-light': !isReverse })}
+        >
           Reverse
         </button>
 
-        <button type="button" className="button is-danger is-light">
-          Reset
-        </button>
+        {(query !== '' || isReverse === true) && (
+          <button
+            onClick={() => {
+              setIsReverse(false);
+              setQuery('');
+            }}
+            type="button"
+            className="button is-danger is-light"
+          >
+            Reset
+          </button>
+        )}
       </div>
 
       <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
+        {visibleGoods.map(good => (
+          <li key={good} data-cy="Good">
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
