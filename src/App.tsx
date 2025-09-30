@@ -3,10 +3,10 @@ import './App.scss';
 import { useState } from 'react';
 
 enum SortType {
-  alphabet = 'Sort alphabetically',
-  length = 'Sort by length',
-  reverse = 'Reverse',
-  reset = 'Reset',
+  Alphabet = 'Sort alphabetically',
+  Length   = 'Sort by length',
+  Reverse  = 'Reverse',
+  Reset    = 'Reset'
 }
 
 export const goodsFromServer: string[] = [
@@ -23,133 +23,105 @@ export const goodsFromServer: string[] = [
 ];
 
 export const App: React.FC = () => {
-  const [goods, setGoods] = useState<string[]>([]);
-  const [count, setCount] = useState<string>('1');
-  const [count1, setCount1] = useState<string>('1');
-  const [count2, setCount2] = useState<boolean>(true);
-  const [count3, setCount3] = useState<string>('1');
-  const [showGoods, setShowGoods] = useState<boolean>(false);
+  const [goods, setGoods] = useState<string[]>([...goodsFromServer]);
+  const [activeSort, setActiveSort] = useState<SortType | null>(null);
+  const [isAscending, setIsAscending] = useState<boolean>(true);
 
-  const sortGoods = (type: SortType, reverseToggle = count2) => {
-    let sorted = [...goods];
+  const handleSort = (type: SortType) => {
+    let sortedGoods = [...goods];
 
     switch (type) {
-      case SortType.alphabet:
-        sorted.sort((a, b) =>
-          reverseToggle ? a.localeCompare(b) : b.localeCompare(a),
+      case SortType.Alphabet:
+        sortedGoods.sort((a, b) => 
+          isAscending ? a.localeCompare(b) : b.localeCompare(a)
         );
+        setActiveSort(SortType.Alphabet);
         break;
 
-      case SortType.length:
-        sorted.sort((a, b) =>
-          reverseToggle ? a.length - b.length : b.length - a.length,
+      case SortType.Length:
+        sortedGoods.sort((a, b) => 
+          isAscending ? a.length - b.length : b.length - a.length
         );
+        setActiveSort(SortType.Length);
         break;
 
-      case SortType.reverse:
-        sorted.reverse();
+      case SortType.Reverse:
+        sortedGoods.reverse();
+        setIsAscending(prev => !prev);
+        setActiveSort(SortType.Reverse);
+        break;
+
+      case SortType.Reset:
+        sortedGoods = [...goodsFromServer];
+        setActiveSort(null);
+        setIsAscending(true);
         break;
 
       default:
-        sorted = [...goodsFromServer];
+        break;
     }
 
-    setGoods(sorted);
+    setGoods(sortedGoods);
   };
 
-  const getColor = (value: SortType) => {
-  if (value === SortType.alphabet) {
-    return `is-info ${count === '1' ? 'is-light' : ''}`;
-  }
-
-  if (value === SortType.length) {
-    return `is-success ${count1 === '1' ? 'is-light' : ''}`;
-  }
-
-  if (value === SortType.reverse) {
-    return `is-warning ${count2 ? 'is-light' : ''}`;
-  }
-
-  if (value === SortType.reset) {
-    return `is-danger ${count3 === '0' ? 'is-light' : ''}`;
-  }
-
-  return '';
+  const handleSortClick = (type: SortType) => {
+    if (type === SortType.Reverse) {
+      // For reverse, we want to toggle the order and reverse the list
+      setIsAscending(prev => !prev);
+    } else if (type !== SortType.Reset) {
+      // For other sorts, set ascending order and the active sort type
+      setIsAscending(true);
+    }
+    
+    handleSort(type);
   };
+
+  const getButtonColor = (type: SortType): string => {
+    const baseClasses: Record<SortType, string> = {
+      [SortType.Alphabet]: 'is-info',
+      [SortType.Length]: 'is-success',
+      [SortType.Reverse]: 'is-warning',
+      [SortType.Reset]: 'is-danger',
+    };
+
+    const isActive = activeSort === type;
+    const lightClass = isActive ? 'is-light' : '';
+
+    return `${baseClasses[type]} ${lightClass}`;
+  };
+
+  const shouldShowResetButton = !goods.every(
+    (item, index) => item === goodsFromServer[index]
+  );
 
   return (
     <div className="section content">
-      {!showGoods ? (
-        <button
-          type="button"
-          className="button is-primary"
-          onClick={() => {
-            setGoods([...goodsFromServer]);
-            setShowGoods(true);
-          }}
-        >
-          Start
-        </button>
-      ) : (
-        <>
-          <div className="buttons">
-            {Object.values(SortType).map(value => {
-              const isResetHidden =
-                value === SortType.reset &&
-                goods.every((item, i) => item === goodsFromServer[i]);
+      <div className="buttons">
+        {Object.values(SortType).map((type) => {
+          if (type === SortType.Reset && !shouldShowResetButton) {
+            return null;
+          }
 
-              if (isResetHidden) {
-return null;
-}
+          return (
+            <button
+              key={type}
+              type="button"
+              className={`button ${getButtonColor(type)}`}
+              onClick={() => handleSortClick(type)}
+            >
+              {type}
+            </button>
+          );
+        })}
+      </div>
 
-              return (
-                <button
-                  key={value}
-                  type="button"
-                  className={`button ${getColor(value)}`}
-                  onClick={() => {
-                    if (value === SortType.alphabet) {
-                      setCount('0');
-                      setCount1('1');
-                      setCount3('0');
-                      sortGoods(value as SortType, count2);
-                    } else if (value === SortType.length) {
-                      setCount('1');
-                      setCount1('0');
-                      setCount3('0');
-                      sortGoods(value as SortType, count2);
-                    } else if (value === SortType.reverse) {
-                      const newReverse = !count2;
-
-                      setCount2(newReverse);
-                      setCount('1');
-                      setCount1('1');
-                      setCount3('0');
-                      sortGoods(value as SortType, newReverse);
-                    } else if (value === SortType.reset) {
-                      setGoods([...goodsFromServer]);
-                      setCount3('1');
-                      setCount('1');
-                      setCount1('1');
-                      setCount2(true);
-                    }
-                  }}
-                >
-                  {value}
-                </button>
-              );
-            })}
-          </div>
-
-          <ul>
-            {goods.map(good => (
-              <li key={good} data-cy="Good">
-                {good}
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
+      <ul>
+        {goods.map((good) => (
+          <li key={good} data-cy="Good">
+            {good}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
