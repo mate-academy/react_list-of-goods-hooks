@@ -28,7 +28,7 @@ export const App: React.FC = () => {
   const hasChanges = sortType !== SortType.Default || isReversed;
 
   const sortedGoods = useMemo(() => {
-    let result = [...goodsFromServer];
+    const result = [...goodsFromServer];
 
     if (sortType === SortType.Alphabet) {
       result.sort((a, b) => a.localeCompare(b));
@@ -45,10 +45,10 @@ export const App: React.FC = () => {
     return result;
   }, [sortType, isReversed]);
 
-  const onSortAlphabet = () => setSortType(SortType.Alphabet);
-  const onSortLength = () => setSortType(SortType.Length);
-  const onReverse = () => setIsReversed(prev => !prev);
-  const onReset = () => {
+  const handleSortAlphabet = () => setSortType(SortType.Alphabet);
+  const handleSortLength = () => setSortType(SortType.Length);
+  const handleReverse = () => setIsReversed(prev => !prev);
+  const handleReset = () => {
     setSortType(SortType.Default);
     setIsReversed(false);
   };
@@ -61,7 +61,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={`button is-info ${sortType === SortType.Alphabet ? '' : inactiveClass}`}
-          onClick={onSortAlphabet}
+          onClick={handleSortAlphabet}
         >
           Sort alphabetically
         </button>
@@ -69,7 +69,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={`button is-success ${sortType === SortType.Length ? '' : inactiveClass}`}
-          onClick={onSortLength}
+          onClick={handleSortLength}
         >
           Sort by length
         </button>
@@ -77,13 +77,17 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={`button is-warning ${isReversed ? '' : inactiveClass}`}
-          onClick={onReverse}
+          onClick={handleReverse}
         >
           Reverse
         </button>
 
         {hasChanges && (
-          <button type="button" className="button is-danger" onClick={onReset}>
+          <button
+            type="button"
+            className="button is-danger"
+            onClick={handleReset}
+          >
             Reset
           </button>
         )}
