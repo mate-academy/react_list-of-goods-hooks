@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import { SortType } from './types/SortType';
@@ -21,37 +21,27 @@ export const App: React.FC = () => {
   const [sortType, setSortType] = useState<SortType>(SortType.None);
   const [isReversed, setIsReversed] = useState(false);
 
-  const visibleGoods = useMemo(() => {
-    const prepared = [...goodsFromServer];
-
-    switch (sortType) {
-      case SortType.Alphabetical:
-        prepared.sort((a, b) => a.localeCompare(b));
-        break;
-      case SortType.Length:
-        prepared.sort((a, b) => a.length - b.length);
-        break;
-      case SortType.None:
-      default:
-        break;
-    }
-
-    if (isReversed) {
-      prepared.reverse();
-    }
-
-    return prepared;
-  }, [sortType, isReversed]);
-
   const handleReset = () => {
     setSortType(SortType.None);
     setIsReversed(false);
   };
 
-  const hasChanges = sortType !== SortType.None || isReversed;
-
   const buttonClass = (base: string, active: boolean) =>
     `button ${base}${active ? ' is-selected' : ' is-light'}`;
+
+  let visibleGoods = [...goodsFromServer];
+
+  if (sortType === SortType.Alphabetical) {
+    visibleGoods.sort((a, b) => a.localeCompare(b));
+  } else if (sortType === SortType.Length) {
+    visibleGoods.sort((a, b) => a.length - b.length);
+  }
+
+  if (isReversed) {
+    visibleGoods.reverse();
+  }
+
+  const hasChanges = sortType !== SortType.None || isReversed;
 
   return (
     <section className="section content">
