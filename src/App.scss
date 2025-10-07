@@ -1,3 +1,9 @@
 iframe {
   display: none;
 }
+
+.buttons .button.is-selected {
+  border-width: 2px;
+  box-shadow: 0 0 0 1px currentColor inset;
+  filter: brightness(95%);
+}
