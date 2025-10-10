@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import cn from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
@@ -15,36 +16,122 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+enum SortType {
+  Default,
+  Alphabetically = 'Alphabetically',
+  ByLength = 'ByLength',
+}
+
+function getPreparedGoods(
+  goods: string[],
+  { sortType: sortType, reverse }: { sortType: SortType; reverse: boolean },
+): string[] {
+  const preparedGoods = [...goods];
+
+  preparedGoods.sort((good1, good2) => {
+    switch (sortType) {
+      case SortType.Alphabetically:
+        return good1.localeCompare(good2);
+
+      case SortType.ByLength:
+        return good1.length - good2.length;
+
+      case SortType.Default:
+        return 0;
+    }
+  });
+
+  if (reverse) {
+    return preparedGoods.reverse();
+  }
+
+  return preparedGoods;
+}
+
 export const App: React.FC = () => {
+  const [sortType, getSortType] = useState(SortType.Default);
+  const [reverse, getReverse] = useState(false);
+  const goodsList = getPreparedGoods(goodsFromServer, {
+    sortType: sortType,
+    reverse,
+  });
+  const isChanged = sortType !== SortType.Default || reverse;
+
+  function resetSort() {
+    getSortType(SortType.Default);
+    getReverse(false);
+  }
+
+  function sortByName() {
+    getSortType(SortType.Alphabetically);
+  }
+
+  function sortByLength() {
+    getSortType(SortType.ByLength);
+  }
+
+  function toggleReverse() {
+    getReverse(prev => !prev);
+  }
+
   return (
     <div className="section content">
       <div className="buttons">
-        <button type="button" className="button is-info is-light">
+        <button
+          type="button"
+          className={cn('button is-info', {
+            'is-light': sortType !== SortType.Alphabetically,
+          })}
+          onClick={() => {
+            if (sortType !== SortType.Alphabetically) {
+              sortByName();
+            }
+          }}
+        >
           Sort alphabetically
         </button>
 
-        <button type="button" className="button is-success is-light">
+        <button
+          type="button"
+          className={cn('button is-success', {
+            'is-light': sortType !== SortType.ByLength,
+          })}
+          onClick={() => {
+            if (sortType !== SortType.ByLength) {
+              sortByLength();
+            }
+          }}
+        >
           Sort by length
         </button>
 
-        <button type="button" className="button is-warning is-light">
+        <button
+          type="button"
+          className={cn('button is-warning', {
+            'is-light': !reverse,
+          })}
+          onClick={toggleReverse}
+        >
           Reverse
         </button>
 
-        <button type="button" className="button is-danger is-light">
-          Reset
-        </button>
+        {isChanged && (
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={resetSort}
+          >
+            Reset
+          </button>
+        )}
       </div>
 
       <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
+        {goodsList.map(good => (
+          <li key={good} data-cy="Good">
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
