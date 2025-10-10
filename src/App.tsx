@@ -15,29 +15,33 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-const SORT_BY_ABC = 'abc';
-const SORT_BY_LEN = 'length';
+enum SortType {
+  Default,
+  Alphabetically,
+  ByLength,
+}
 
 interface FilterParams {
-  sort: string;
+  sort: SortType;
   reversed: boolean;
 }
 
-function getPreparedGoods(goods: string[], { sort, reversed }: FilterParams) {
+function getPreparedGoods(
+  goods: string[],
+  { sort, reversed }: FilterParams,
+): string[] {
   const preparedGoods = [...goods];
 
-  if (sort) {
-    preparedGoods.sort((a, b) => {
-      switch (sort) {
-        case SORT_BY_ABC:
-          return a.localeCompare(b);
-        case SORT_BY_LEN:
-          return a.length - b.length;
-        default:
-          return 0;
-      }
-    });
-  }
+  preparedGoods.sort((a, b) => {
+    switch (sort) {
+      case SortType.Alphabetically:
+        return a.localeCompare(b);
+      case SortType.ByLength:
+        return a.length - b.length;
+      case SortType.Default:
+        return 0;
+    }
+  });
 
   if (reversed) {
     preparedGoods.reverse();
@@ -51,7 +55,7 @@ function arraysEqual(a: string[], b: string[]) {
 }
 
 export const App = () => {
-  const [sortBy, setSortBy] = useState('');
+  const [sortBy, setSortBy] = useState(SortType.Default);
   const [isReversed, setIsReversed] = useState(false);
 
   const visibleGoods = getPreparedGoods(goodsFromServer, {
@@ -62,11 +66,11 @@ export const App = () => {
   const isOriginalOrder = arraysEqual(visibleGoods, goodsFromServer);
 
   const handleSortAlphabetically = () => {
-    setSortBy(SORT_BY_ABC);
+    setSortBy(SortType.Alphabetically);
   };
 
   const handleSortByLength = () => {
-    setSortBy(SORT_BY_LEN);
+    setSortBy(SortType.ByLength);
   };
 
   const handleReverse = () => {
@@ -74,7 +78,7 @@ export const App = () => {
   };
 
   const handleReset = () => {
-    setSortBy('');
+    setSortBy(SortType.Default);
     setIsReversed(false);
   };
 
@@ -86,7 +90,7 @@ export const App = () => {
             handleSortAlphabetically();
           }}
           type="button"
-          className={`button is-info ${sortBy === SORT_BY_ABC ? '' : 'is-light'}`}
+          className={`button is-info ${sortBy === SortType.Alphabetically ? '' : 'is-light'}`}
         >
           Sort alphabetically
         </button>
@@ -96,7 +100,7 @@ export const App = () => {
             handleSortByLength();
           }}
           type="button"
-          className={`button is-info ${sortBy === SORT_BY_LEN ? '' : 'is-light'}`}
+          className={`button is-info ${sortBy === SortType.ByLength ? '' : 'is-light'}`}
         >
           Sort by length
         </button>
