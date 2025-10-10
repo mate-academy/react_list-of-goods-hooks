@@ -37,14 +37,11 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
+        {goodsFromServer.map((good: string) => (
+          <li key={good}>
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
