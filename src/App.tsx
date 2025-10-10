@@ -49,8 +49,8 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortType, getSortType] = useState(SortType.Default);
-  const [reverse, getReverse] = useState(false);
+  const [sortType, setSortType] = useState(SortType.Default);
+  const [reverse, setReverse] = useState(false);
   const goodsList = getPreparedGoods(goodsFromServer, {
     sortType: sortType,
     reverse,
@@ -58,20 +58,20 @@ export const App: React.FC = () => {
   const isChanged = sortType !== SortType.Default || reverse;
 
   function resetSort() {
-    getSortType(SortType.Default);
-    getReverse(false);
+    setSortType(SortType.Default);
+    setReverse(false);
   }
 
   function sortByName() {
-    getSortType(SortType.Alphabetically);
+    setSortType(SortType.Alphabetically);
   }
 
   function sortByLength() {
-    getSortType(SortType.ByLength);
+    setSortType(SortType.ByLength);
   }
 
   function toggleReverse() {
-    getReverse(prev => !prev);
+    setReverse(prev => !prev);
   }
 
   return (
