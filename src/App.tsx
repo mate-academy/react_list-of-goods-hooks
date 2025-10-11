@@ -25,7 +25,7 @@ enum SortType {
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState<SortType>(SortType.None);
   const [reversed, setReversed] = useState(false);
-  const [isLight, setIsLight] = useState('');
+  const [isLight, setIsLight] = useState(SortType.None);
 
   let visibleGoods = [...goodsFromServer];
 
@@ -46,7 +46,7 @@ export const App: React.FC = () => {
   const resetList = () => {
     setSortField(SortType.None);
     setReversed(false);
-    setIsLight('');
+    setIsLight(SortType.None);
   };
 
   if (sortField) {
@@ -79,7 +79,7 @@ export const App: React.FC = () => {
           onClick={handleSortAlphabetically}
           type="button"
           className={classNames('button', 'is-info', {
-            'is-light': isLight !== 'alphabetically',
+            'is-light': isLight !== SortType.Alphabetically,
           })}
         >
           Sort alphabetically
@@ -89,7 +89,7 @@ export const App: React.FC = () => {
           onClick={handleSortByLength}
           type="button"
           className={classNames('button', 'is-success', {
-            'is-light': isLight !== 'length',
+            'is-light': isLight !== SortType.Length,
           })}
         >
           Sort by length
