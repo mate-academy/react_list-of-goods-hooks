@@ -1,51 +1,63 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
-
-export const goodsFromServer = [
-  'Dumplings',
-  'Carrot',
-  'Eggs',
-  'Ice cream',
-  'Apple',
-  'Bread',
-  'Fish',
-  'Honey',
-  'Jam',
-  'Garlic',
-];
+import { GoodList } from './components/GoodsList/GoodsList';
+import { SortButtons } from './components/SortButtons/SortButtons';
+import { SortType } from './types/SortType';
+import { Good } from './types/Good';
+import { goodsFromServer } from './constants/goodsFromServer';
+import { Sorter } from './types/Sorter';
 
 export const App: React.FC = () => {
+  const [reversed, setReversed] = useState(false);
+  const [sortField, setSortField] = useState<SortType>(SortType.Default);
+
+  const sorters: Record<SortType, Sorter> = {
+    [SortType.Default]: () => 0,
+    [SortType.Alphabetic]: (a: string, b: string): number => a.localeCompare(b),
+    [SortType.Length]: (a: string, b: string): number => a.length - b.length,
+  };
+
+  const reset = () => {
+    setReversed(false);
+    setSortField(SortType.Default);
+  };
+
+  const getVisibleGoods = (): Good[] => {
+    let goods: Good[] = [...goodsFromServer]; // копіюємо масив
+
+    if (sortField !== SortType.Default) {
+      goods = [...goods].sort(sorters[sortField]);
+    }
+
+    if (reversed) {
+      goods = [...goods].reverse();
+    }
+
+    return goods;
+  };
+
+  const handleSortButtonClick = (field: SortType) => {
+    setSortField(field);
+  };
+
+  const handleReverseButtonClick = () => {
+    setReversed(prev => !prev);
+  };
+
+  const visibleGoods: Good[] = getVisibleGoods();
+
   return (
     <div className="section content">
-      <div className="buttons">
-        <button type="button" className="button is-info is-light">
-          Sort alphabetically
-        </button>
+      <SortButtons
+        currentSortField={sortField}
+        isReversed={reversed}
+        handleSortButtonClick={handleSortButtonClick}
+        handleReverseButtonClick={handleReverseButtonClick}
+        handleReset={reset}
+      />
 
-        <button type="button" className="button is-success is-light">
-          Sort by length
-        </button>
-
-        <button type="button" className="button is-warning is-light">
-          Reverse
-        </button>
-
-        <button type="button" className="button is-danger is-light">
-          Reset
-        </button>
-      </div>
-
-      <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
-      </ul>
+      <GoodList goods={visibleGoods} />
     </div>
   );
 };
