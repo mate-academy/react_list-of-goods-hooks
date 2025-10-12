@@ -24,14 +24,14 @@ export const App: React.FC = () => {
   };
 
   const getVisibleGoods = (): Good[] => {
-    let goods: Good[] = [...goodsFromServer];
+    let goods: Good[] = [...goodsFromServer]; // копіюємо масив
 
     if (sortField !== SortType.Default) {
-      goods = goods.toSorted(sorters[sortField]);
+      goods = [...goods].sort(sorters[sortField]);
     }
 
     if (reversed) {
-      goods = goods.toReversed();
+      goods = [...goods].reverse();
     }
 
     return goods;
