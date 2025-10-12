@@ -34,7 +34,7 @@ function getPreparedGoods(
 ): string[] {
   const preparedGoods = [...goods];
 
-  if (sortField) {
+  if (sortField !== SortType.None) {
     preparedGoods.sort((good1, good2) => {
       switch (sortField) {
         case SortType.Name:
