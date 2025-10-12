@@ -24,7 +24,7 @@ type GoodProps = {
 const Good: React.FC<GoodProps> = ({ good }) => <li data-cy="Good">{good}</li>;
 
 enum SortType {
-  Default = '',
+  Default = 'default',
   Alphabetically = 'abc',
   ByLength = 'length',
   Reverse = 'reverse',
