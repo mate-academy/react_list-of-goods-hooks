@@ -46,7 +46,7 @@ const sortByCondition = (array: string[], sortField: SortType): string[] => {
 
 export const App: React.FC = () => {
   const [action, setAction] = useState<SortType>(SortType.Default);
-  const [direction, setDirection] = useState<SortType | ''>('');
+  const [direction, setDirection] = useState<SortType>(SortType.Default);
 
   const sortedGoods = sortByCondition(goodsFromServer, action);
 
@@ -58,12 +58,14 @@ export const App: React.FC = () => {
     displayedGoods.some((v, i) => v !== goodsFromServer[i]);
 
   const changeDirection = () => {
-    setDirection(prev => (prev === '' ? SortType.Reverse : ''));
+    setDirection(prev =>
+      prev === SortType.Default ? SortType.Reverse : SortType.Default,
+    );
   };
 
   const handleReset = () => {
     setAction(SortType.Default);
-    setDirection('');
+    setDirection(SortType.Default);
   };
 
   return (
@@ -91,7 +93,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={cn('button is-warning', { 'is-light': direction === '' })}
+          className={cn('button is-warning', {
+            'is-light': direction === SortType.Default,
+          })}
           onClick={changeDirection}
         >
           Reverse
