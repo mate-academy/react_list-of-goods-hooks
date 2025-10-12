@@ -52,9 +52,9 @@ export const App: React.FC = () => {
       <SortButtons
         currentSortField={sortField}
         isReversed={reversed}
-        onSortButtonClick={handleSortButtonClick}
-        onReverseButtonClick={handleReverseButtonClick}
-        onReset={reset}
+        handleSortButtonClick={handleSortButtonClick}
+        handleReverseButtonClick={handleReverseButtonClick}
+        handleReset={reset}
       />
 
       <GoodList goods={visibleGoods} />

@@ -5,17 +5,17 @@ import { SortType } from '../../types/SortType';
 interface Props {
   currentSortField: SortType;
   isReversed: boolean;
-  onSortButtonClick: (sortField: SortType) => void;
-  onReverseButtonClick: () => void;
-  onReset: () => void;
+  handleSortButtonClick: (sortField: SortType) => void;
+  handleReverseButtonClick: () => void;
+  handleReset: () => void;
 }
 
 export const SortButtons: React.FC<Props> = ({
   currentSortField,
   isReversed,
-  onSortButtonClick,
-  onReverseButtonClick,
-  onReset,
+  handleSortButtonClick,
+  handleReverseButtonClick,
+  handleReset,
 }) => {
   const showReset = isReversed || currentSortField !== SortType.Default;
 
@@ -27,7 +27,7 @@ export const SortButtons: React.FC<Props> = ({
           'is-light': currentSortField !== SortType.Alphabetic,
         })}
         onClick={() => {
-          onSortButtonClick(SortType.Alphabetic);
+          handleSortButtonClick(SortType.Alphabetic);
         }}
       >
         Sort alphabetically
@@ -39,7 +39,7 @@ export const SortButtons: React.FC<Props> = ({
           'is-light': currentSortField !== SortType.Length,
         })}
         onClick={() => {
-          onSortButtonClick(SortType.Length);
+          handleSortButtonClick(SortType.Length);
         }}
       >
         Sort by length
@@ -48,7 +48,7 @@ export const SortButtons: React.FC<Props> = ({
       <button
         type="button"
         className={cn('button is-warning', { 'is-light': !isReversed })}
-        onClick={onReverseButtonClick}
+        onClick={handleReverseButtonClick}
       >
         Reverse
       </button>
@@ -57,9 +57,9 @@ export const SortButtons: React.FC<Props> = ({
         <button
           type="button"
           className={cn('button is-danger is-light')}
-          onClick={onReset}
+          onClick={handleReset}
         >
-          onReset
+          Reset
         </button>
       )}
     </div>
