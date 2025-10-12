@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { useState } from 'react';
 
 enum SortType {
+  None = 'none',
   Name = 'name',
   Length = 'length',
 }
@@ -23,7 +24,7 @@ export const goodsFromServer = [
 ];
 
 interface FilterParams {
-  sortField: SortType | '';
+  sortField: SortType;
   reversed: boolean;
 }
 
@@ -66,7 +67,7 @@ function displayReset(visibleArray: string[]) {
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState<SortType | ''>('');
+  const [sortField, setSortField] = useState<SortType>(SortType.None);
   const [reversed, setReversed] = useState(false);
 
   const visibleGoods = getPreparedGoods(goodsFromServer, {
@@ -111,10 +112,10 @@ export const App: React.FC = () => {
           <button
             type="button"
             className={classNames('button', 'is-danger', {
-              'is-light': sortField === '' && reversed === false,
+              'is-light': sortField === SortType.None && reversed === false,
             })}
             onClick={() => {
-              setSortField('');
+              setSortField(SortType.None);
               setReversed(false);
             }}
           >
