@@ -27,7 +27,7 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
 
   const getSortedGoods = (): string[] => {
-    let sortedGoods = [...goodsFromServer];
+    const sortedGoods = [...goodsFromServer];
 
     switch (sortType) {
       case SortType.Alphabetically:
@@ -49,8 +49,6 @@ export const App: React.FC = () => {
     return sortedGoods;
   };
 
-  function setClassName()
-
   const visibleGoods = getSortedGoods();
 
   return (
@@ -58,7 +56,9 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={cn('button', 'is-info', {'is-light': sortType !== SortType.Alphabetically})}
+          className={cn('button', 'is-info', {
+            'is-light': sortType !== SortType.Alphabetically,
+          })}
           onClick={() => setSortType(SortType.Alphabetically)}
         >
           Sort alphabetically
@@ -66,7 +66,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={cn('button', 'is-success', {'is-light': sortType !== SortType.Length})}
+          className={cn('button', 'is-success', {
+            'is-light': sortType !== SortType.Length,
+          })}
           onClick={() => setSortType(SortType.Length)}
         >
           Sort by length
@@ -74,12 +76,14 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={cn('button', 'is-warning', {'is-light': isReversed !== true})}
+          className={cn('button', 'is-warning', {
+            'is-light': isReversed !== true,
+          })}
           onClick={() => setIsReversed(prev => !prev)}
         >
           Reverse
         </button>
-        {(isReversed || sortType !== SortType.None) &&
+        {(isReversed || sortType !== SortType.None) && (
           <button
             type="button"
             className="button is-danger is-light"
@@ -90,7 +94,7 @@ export const App: React.FC = () => {
           >
             Reset
           </button>
-        }
+        )}
       </div>
 
       <ul>
