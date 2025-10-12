@@ -45,11 +45,11 @@ export const App: React.FC = () => {
     setIsReversed(false);
   };
 
-  if (sortType === 'alpha') {
+  if (sortType === SortType.Alphabetically) {
     list.sort((good1, good2) => good1.localeCompare(good2));
   }
 
-  if (sortType === 'length') {
+  if (sortType === SortType.ByLength) {
     list.sort((good1, good2) => good1.length - good2.length);
   }
 
