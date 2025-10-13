@@ -80,7 +80,7 @@ export const App: React.FC = () => {
     lengthBtnClass = 'button is-success';
   }
 
-  if (isReversed || sortType !== SortType.Original) {
+  if (isReversed) {
     reverseBtnClass = 'button is-warning';
   }
 
