@@ -17,28 +17,31 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-const SORT_FIELD_ALPHABETYCALY = 'alphabetically';
-const SORT_FIELD_LENGTH = 'length';
+enum SortType {
+  Default,
+  Alphabetically = 'alphabetically',
+  ByLength = 'length',
+}
 
 function getPreparedGoods(
   goods: string[],
   {
-    sortFiled,
+    sortField,
     reversed,
   }: {
-    sortFiled: string;
+    sortField: SortType;
     reversed: boolean;
   },
-): string[] {
+) {
   let preparedGoods = [...goods];
 
-  if (sortFiled) {
+  if (sortField) {
     preparedGoods.sort((good1, good2) => {
-      switch (sortFiled) {
-        case SORT_FIELD_ALPHABETYCALY:
+      switch (sortField) {
+        case SortType.Alphabetically:
           return good1.localeCompare(good2);
 
-        case SORT_FIELD_LENGTH:
+        case SortType.ByLength:
           return good1.length - good2.length;
 
         default:
@@ -55,11 +58,11 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortFiled] = useState('');
+  const [sortField, setSortField] = useState(SortType.Default);
   const [reversed, setReversed] = useState(false);
   const [initialGoods] = useState(goodsFromServer);
   const visibleGoods = getPreparedGoods(goodsFromServer, {
-    sortFiled: sortField,
+    sortField: sortField,
     reversed,
   });
 
@@ -67,12 +70,12 @@ export const App: React.FC = () => {
     (good, i) => good === visibleGoods[i],
   );
 
-  const handleSortAlphabetically = () => setSortFiled(SORT_FIELD_ALPHABETYCALY);
+  const handleSortAlphabetically = () => setSortField(SortType.Alphabetically);
 
-  const handleSortByLength = () => setSortFiled(SORT_FIELD_LENGTH);
+  const handleSortByLength = () => setSortField(SortType.ByLength);
   const handleReverse = () => setReversed(!reversed);
   const handleReset = () => {
-    setSortFiled('');
+    setSortField(SortType.Default);
     setReversed(false);
   };
 
@@ -83,7 +86,7 @@ export const App: React.FC = () => {
           type="button"
           onClick={handleSortAlphabetically}
           className={cn('button', 'is-info', {
-            'is-light': sortField !== SORT_FIELD_ALPHABETYCALY,
+            'is-light': sortField !== SortType.Alphabetically,
           })}
         >
           Sort alphabetically
@@ -93,7 +96,7 @@ export const App: React.FC = () => {
           type="button"
           onClick={handleSortByLength}
           className={cn('button', 'is-success', {
-            'is-light': sortField !== SORT_FIELD_LENGTH,
+            'is-light': sortField !== SortType.ByLength,
           })}
         >
           Sort by length
