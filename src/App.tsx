@@ -41,33 +41,42 @@ export const App: React.FC = () => {
     [selectedSort],
   );
 
+  const handleSetSort = (type: SortType) => {
+    setSelectedSort(type);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
+          data-cy="SortAlphabetically"
           className={`button is-info is-light ${
             selectedSort === SortType.Alphabetical ? 'is-active' : ''
           }`}
-          onClick={() => setSelectedSort(SortType.Alphabetical)}
+          onClick={() => handleSetSort(SortType.Alphabetical)}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
+          data-cy="SortByLength"
           className={`button is-success is-light ${
             selectedSort === SortType.Length ? 'is-active' : ''
           }`}
-          onClick={() => setSelectedSort(SortType.Length)}
+          onClick={() => handleSetSort(SortType.Length)}
         >
           Sort by length
         </button>
 
         <button
           type="button"
-          className="button is-danger is-light"
-          onClick={() => setSelectedSort(SortType.None)}
+          data-cy="Reset"
+          className={`button is-danger is-light ${
+            selectedSort === SortType.None ? 'is-active' : ''
+          }`}
+          onClick={() => handleSetSort(SortType.None)}
         >
           Reset
         </button>
@@ -75,7 +84,9 @@ export const App: React.FC = () => {
 
       <ul>
         {sortedGoods.map((good: string) => (
-          <li key={good}>{good}</li>
+          <li key={good} data-cy="Good">
+            {good}
+          </li>
         ))}
       </ul>
     </div>
