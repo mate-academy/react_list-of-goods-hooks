@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 
 import 'bulma/css/bulma.css';
 import './App.scss';
@@ -26,30 +26,37 @@ export const App: React.FC = () => {
   const [sortType, setSortType] = useState<SortType>(SortType.Default);
   const [isReversed, setIsReversed] = useState(false);
 
-  const sortedGoods = [...goodsFromServer];
+  const sortedGoods = useMemo(() => {
+    const items = [...goodsFromServer];
 
-  if (sortType !== SortType.Default) {
-    sortedGoods.sort((a, b) => {
-      switch (sortType) {
-        case SortType.Alphabet:
-          return a.localeCompare(b);
-        case SortType.Length:
-          return a.length - b.length;
-        default:
-          return 0;
-      }
-    });
-  }
+    if (sortType !== SortType.Default) {
+      items.sort((a, b) => {
+        switch (sortType) {
+          case SortType.Alphabet:
+            return a.localeCompare(b);
+          case SortType.Length:
+            return a.length - b.length;
+          default:
+            return 0;
+        }
+      });
+    }
 
-  if (isReversed) {
-    sortedGoods.reverse();
-  }
+    if (isReversed) {
+      items.reverse();
+    }
+
+    return items;
+  }, [sortType, isReversed]);
 
   const isChanged = sortType !== SortType.Default || isReversed;
 
   const handleSortByAlphabet = () => setSortType(SortType.Alphabet);
+
   const handleSortByLength = () => setSortType(SortType.Length);
-  const handleToggleReverse = () => setIsReversed(prev => !prev);
+
+  const handleReverse = () => setIsReversed(prev => !prev);
+
   const handleReset = () => {
     setSortType(SortType.Default);
     setIsReversed(false);
@@ -59,7 +66,7 @@ export const App: React.FC = () => {
     <div className="section content">
       <div className="buttons">
         <button
-          type="button"
+          aria-pressed={sortType === SortType.Alphabet}
           className={`button is-info ${sortType !== SortType.Alphabet ? 'is-light' : ''}`}
           onClick={handleSortByAlphabet}
         >
@@ -77,7 +84,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={`button is-warning ${!isReversed ? 'is-light' : ''}`}
-          onClick={handleToggleReverse}
+          onClick={handleReverse}
         >
           Reverse
         </button>
