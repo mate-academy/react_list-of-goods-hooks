@@ -74,6 +74,7 @@ export const App: React.FC = () => {
         </button>
 
         <button
+          aria-pressed={sortType === SortType.Length}
           type="button"
           className={`button is-success ${sortType !== SortType.Length ? 'is-light' : ''}`}
           onClick={handleSortByLength}
@@ -82,6 +83,7 @@ export const App: React.FC = () => {
         </button>
 
         <button
+          aria-pressed={isReversed}
           type="button"
           className={`button is-warning ${!isReversed ? 'is-light' : ''}`}
           onClick={handleReverse}
