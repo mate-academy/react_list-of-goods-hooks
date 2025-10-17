@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import cn from 'classNames';
+import cn from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
@@ -17,25 +17,25 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-enum Sortype {
-  defalut = '',
+enum SorType {
+  Default = '',
   Alphabetically = 'alphabet',
   Length = 'length',
 }
 
 const getSortedGoods = (
   goods: string[],
-  sortType: Sortype,
+  sortType: SorType,
   isReversed: boolean,
 ) => {
   const sortedGoods = [...goods];
 
   switch (sortType) {
-    case 'alphabet':
+    case SorType.Alphabetically:
       sortedGoods.sort((a, b) => a.localeCompare(b));
       break;
 
-    case 'length':
+    case SorType.Length:
       sortedGoods.sort((a, b) => a.length - b.length);
       break;
 
@@ -51,25 +51,25 @@ const getSortedGoods = (
 };
 
 export const App: React.FC = () => {
-  const [activeSort, setActiveSort] = useState(Sortype.defalut);
+  const [activeSort, setActiveSort] = useState(SorType.Default);
   const [isReversed, setIsReversed] = useState(false);
 
   const sortedGoods = getSortedGoods(goodsFromServer, activeSort, isReversed);
 
-  const applySort = (sortType: Sortype) => {
+  const handleSortChange = (sortType: SorType) => {
     setActiveSort(sortType);
   };
 
-  const toggleReverse = () => {
+  const handleToggleReverse = () => {
     setIsReversed(prev => !prev);
   };
 
-  const resetGoods = () => {
-    setActiveSort(Sortype.defalut);
+  const handleResetGoods = () => {
+    setActiveSort(SorType.Default);
     setIsReversed(false);
   };
 
-  const isModified = activeSort !== '' || isReversed;
+  const isModified = activeSort !== SorType.Default || isReversed;
 
   return (
     <div className="section content">
@@ -79,7 +79,7 @@ export const App: React.FC = () => {
           className={cn('button', 'is-info', {
             'is-light': activeSort !== 'alphabet',
           })}
-          onClick={() => applySort(Sortype.Alphabetically)}
+          onClick={() => handleSortChange(SorType.Alphabetically)}
         >
           Sort alphabetically
         </button>
@@ -89,7 +89,7 @@ export const App: React.FC = () => {
           className={cn('button', 'is-success', {
             'is-light': activeSort !== 'length',
           })}
-          onClick={() => applySort(Sortype.Length)}
+          onClick={() => handleSortChange(SorType.Length)}
         >
           Sort by length
         </button>
@@ -99,7 +99,7 @@ export const App: React.FC = () => {
           className={cn('button', 'is-warning', {
             'is-light': !isReversed,
           })}
-          onClick={toggleReverse}
+          onClick={handleToggleReverse}
         >
           Reverse
         </button>
@@ -108,7 +108,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger"
-            onClick={resetGoods}
+            onClick={handleResetGoods}
           >
             Reset
           </button>
