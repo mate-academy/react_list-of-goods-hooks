@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import { SortType, Good } from './types';
+import { RenderGoodsButtons } from './RenderGoodsButtons';
+import { RenderGoodlist } from './RenderGoodlist';
 
-export const goodsFromServer = [
+export const goodsFromServer: string[] = [
   'Dumplings',
   'Carrot',
   'Eggs',
@@ -16,36 +19,66 @@ export const goodsFromServer = [
 ];
 
 export const App: React.FC = () => {
+  const [sortBy, setSortBy] = useState<SortType>(SortType.None);
+  const [isReversed, setIsReversed] = useState<boolean>(false);
+
+  const getVisibleGoods = (): Good[] => {
+    const visibleGoods = goodsFromServer.map((name, index) => ({
+      id: index + 1,
+      name,
+    }));
+
+    switch (sortBy) {
+      case SortType.Alphabet:
+        visibleGoods.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+
+      case SortType.Length:
+        visibleGoods.sort((a, b) => a.name.length - b.name.length);
+        break;
+
+      default:
+        break;
+    }
+
+    if (isReversed) {
+      visibleGoods.reverse();
+    }
+
+    return visibleGoods;
+  };
+
+  const goods = getVisibleGoods();
+
+  const handleReset = (): void => {
+    setSortBy(SortType.None);
+    setIsReversed(false);
+  };
+
+  const handleSortAlphabetically = (): void => {
+    setSortBy(SortType.Alphabet);
+  };
+
+  const handleSortByLength = (): void => {
+    setSortBy(SortType.Length);
+  };
+
+  const handleReverse = (): void => {
+    setIsReversed(prev => !prev);
+  };
+
   return (
     <div className="section content">
-      <div className="buttons">
-        <button type="button" className="button is-info is-light">
-          Sort alphabetically
-        </button>
+      <RenderGoodsButtons
+        sortBy={sortBy}
+        isReversed={isReversed}
+        onSortAlphabetically={handleSortAlphabetically}
+        onSortByLength={handleSortByLength}
+        onReverse={handleReverse}
+        onReset={handleReset}
+      />
 
-        <button type="button" className="button is-success is-light">
-          Sort by length
-        </button>
-
-        <button type="button" className="button is-warning is-light">
-          Reverse
-        </button>
-
-        <button type="button" className="button is-danger is-light">
-          Reset
-        </button>
-      </div>
-
-      <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
-      </ul>
+      <RenderGoodlist goods={goods} />
     </div>
   );
 };
