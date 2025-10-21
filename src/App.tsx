@@ -17,17 +17,22 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-type SortType = 'alpha' | 'length' | '';
+// type SortType = SortType.alpha | SortType.length | SortType.default;
+enum SortType {
+  alpha,
+  length,
+  default,
+}
 
 function sortGoods(list: string[], sortType: SortType): string[] {
   const listCopy = [...list];
 
   listCopy.sort((good1, good2) => {
     switch (sortType) {
-      case 'alpha':
+      case SortType.alpha:
         return good1.localeCompare(good2);
 
-      case 'length':
+      case SortType.length:
         return good1.length - good2.length;
 
       default:
@@ -35,7 +40,7 @@ function sortGoods(list: string[], sortType: SortType): string[] {
     }
   });
 
-  if (sortType === '') {
+  if (sortType === SortType.default) {
     return [...goodsFromServer];
   }
 
@@ -43,7 +48,7 @@ function sortGoods(list: string[], sortType: SortType): string[] {
 }
 
 export const App = () => {
-  const [sortType, setSortType] = useState<SortType>('');
+  const [sortType, setSortType] = useState<SortType>(SortType.default);
   const [reversed, setReversed] = useState(false);
   let sortedList = [...goodsFromServer];
 
@@ -65,9 +70,9 @@ export const App = () => {
         <button
           type="button"
           className={cn('button', 'is-info', {
-            'is-light': sortType !== 'alpha',
+            'is-light': sortType !== SortType.alpha,
           })}
-          onClick={() => setSortType('alpha')}
+          onClick={() => setSortType(SortType.alpha)}
         >
           Sort alphabetically
         </button>
@@ -75,9 +80,9 @@ export const App = () => {
         <button
           type="button"
           className={cn('button', 'is-success', {
-            'is-light': sortType !== 'length',
+            'is-light': sortType !== SortType.length,
           })}
-          onClick={() => setSortType('length')}
+          onClick={() => setSortType(SortType.length)}
         >
           Sort by length
         </button>
@@ -92,12 +97,12 @@ export const App = () => {
           Reverse
         </button>
 
-        {sortType || reversed ? (
+        {sortType !== SortType.default || reversed ? (
           <button
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              setSortType('');
+              setSortType(SortType.default);
               setReversed(false);
             }}
           >
