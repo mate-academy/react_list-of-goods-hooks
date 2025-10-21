@@ -52,16 +52,12 @@ export const App = () => {
   const [reversed, setReversed] = useState(false);
   let sortedList = [...goodsFromServer];
 
-  if (sortType) {
+  if (sortType !== SortType.default) {
     sortedList = sortGoods(goodsFromServer, sortType);
   }
 
   if (reversed) {
     sortedList.reverse();
-  }
-
-  if (!sortType && !reversed) {
-    sortedList = [...goodsFromServer];
   }
 
   return (
