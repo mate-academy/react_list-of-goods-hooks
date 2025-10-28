@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import cn from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
@@ -67,31 +68,14 @@ export const App: React.FC = () => {
     setIsReversed(false);
   };
 
-  let alphabetBtnClass = 'button is-info is-light';
-  let lengthBtnClass = 'button is-success is-light';
-  let reverseBtnClass = 'button is-warning is-light';
-  const resetBtnClass = 'button is-danger is-light';
-
-  if (sortType === SortType.Alphabet) {
-    alphabetBtnClass = 'button is-info';
-  }
-
-  if (sortType === SortType.Length) {
-    lengthBtnClass = 'button is-success';
-  }
-
-  if (isReversed) {
-    reverseBtnClass = 'button is-warning';
-  }
-
-  const showReset = sortType !== SortType.Original || isReversed;
-
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={alphabetBtnClass}
+          className={cn('button', 'is-info', {
+            'is-light': sortType !== SortType.Alphabet,
+          })}
           onClick={handleAlphabetSort}
         >
           Sort alphabetically
@@ -99,7 +83,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={lengthBtnClass}
+          className={cn('button', 'is-success', {
+            'is-light': sortType !== SortType.Length,
+          })}
           onClick={handleLengthSort}
         >
           Sort by length
@@ -107,16 +93,18 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={reverseBtnClass}
+          className={cn('button', 'is-warning', {
+            'is-light': !isReversed,
+          })}
           onClick={handleReverseSort}
         >
           Reverse
         </button>
 
-        {showReset && (
+        {(sortType !== SortType.Original || isReversed) && (
           <button
             type="button"
-            className={resetBtnClass}
+            className="button is-danger is-light"
             onClick={handleResetList}
           >
             Reset
