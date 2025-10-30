@@ -3,17 +3,19 @@ import 'bulma/css/bulma.css';
 import './App.scss';
 
 export const goodsFromServer = [
-  'Dumplings',
-  'Carrot',
-  'Eggs',
-  'Ice cream',
-  'Apple',
-  'Bread',
-  'Fish',
-  'Honey',
-  'Jam',
-  'Garlic',
+  'Dumplings - $12',
+  'Carrot - $2',
+  'Eggs - $4',
+  'Ice cream - $7.5',
+  'Apple - $3',
+  'Bread - $2.5',
+  'Fish - $15',
+  'Honey - $10',
+  'Jam - $6',
+  'Garlic - $1.8',
 ];
+
+const getName = (s: string) => s.split(' - $')[0];
 
 enum SortType {
   None = 'none',
@@ -30,11 +32,16 @@ export const App: React.FC = () => {
 
     switch (sortBy) {
       case SortType.Alphabet:
-        prepared.sort((a, b) => a.localeCompare(b));
+        prepared.sort((a, b) => getName(a).localeCompare(getName(b)));
         break;
 
       case SortType.Length:
-        prepared.sort((a, b) => a.length - b.length);
+        prepared.sort((a, b) => {
+          const na = getName(a);
+          const nb = getName(b);
+
+          return na.length - nb.length || na.localeCompare(nb);
+        });
         break;
 
       case SortType.None:
@@ -63,7 +70,6 @@ export const App: React.FC = () => {
           type="button"
           className={`button is-info ${sortBy === SortType.Alphabet ? '' : 'is-light'}`}
           onClick={() => setSortBy(SortType.Alphabet)}
-          data-cy="SortByName"
         >
           Sort alphabetically
         </button>
@@ -72,7 +78,6 @@ export const App: React.FC = () => {
           type="button"
           className={`button is-success ${sortBy === SortType.Length ? '' : 'is-light'}`}
           onClick={() => setSortBy(SortType.Length)}
-          data-cy="SortByLength"
         >
           Sort by length
         </button>
@@ -81,7 +86,6 @@ export const App: React.FC = () => {
           type="button"
           className={`button is-warning ${isReversed ? '' : 'is-light'}`}
           onClick={() => setIsReversed(prev => !prev)}
-          data-cy="Reverse"
         >
           Reverse
         </button>
@@ -91,7 +95,6 @@ export const App: React.FC = () => {
             type="button"
             className="button is-danger"
             onClick={handleReset}
-            data-cy="Reset"
           >
             Reset
           </button>
@@ -101,7 +104,7 @@ export const App: React.FC = () => {
       <ul>
         {visibleGoods.map(good => (
           <li key={good} data-cy="Good">
-            {good}
+            {getName(good)}
           </li>
         ))}
       </ul>
