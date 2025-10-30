@@ -16,8 +16,8 @@ export const goodsFromServer: string[] = [
 ];
 
 enum SortType {
-  Length = 'length',
-  Alphabet = 'alphabet',
+  Newest = 'length',
+  Cheapest = 'alphabet',
   None = 'none',
 }
 
@@ -27,10 +27,10 @@ function getPreparedGoods(goods: string[], sortField: SortType) {
   if (sortField) {
     preparedGoods.sort((good1, good2) => {
       switch (sortField) {
-        case SortType.Length:
+        case SortType.Newest:
           return good1.length - good2.length;
 
-        case SortType.Alphabet:
+        case SortType.Cheapest:
           return good1.localeCompare(good2);
 
         default:
@@ -84,16 +84,16 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortField === SortType.Alphabet ? '' : 'is-light'}`}
-          onClick={() => sort(SortType.Alphabet)}
+          className={`button is-info ${sortField === SortType.Cheapest ? '' : 'is-light'}`}
+          onClick={() => sort(SortType.Cheapest)}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={`button is-info ${sortField === SortType.Length ? '' : 'is-light'}`}
-          onClick={() => sort(SortType.Length)}
+          className={`button is-info ${sortField === SortType.Newest ? '' : 'is-light'}`}
+          onClick={() => sort(SortType.Newest)}
         >
           Sort by length
         </button>
