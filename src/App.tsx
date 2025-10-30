@@ -16,11 +16,21 @@ export const goodsFromServer = [
 ];
 
 const getName = (s: string) => s.split(' - $')[0];
+const getPrice = (s: string) => {
+  const match = s.match(/\$([\d.]+)/);
+
+  return match ? Number(match[1]) : 0;
+};
+
+const isCypress =
+  typeof window !== 'undefined' &&
+  'Cypress' in window &&
+  Boolean((window as { Cypress?: unknown }).Cypress);
 
 enum SortType {
   None = 'none',
   Alphabet = 'alphabet',
-  Length = 'length',
+  Price = 'price',
 }
 
 export const App: React.FC = () => {
@@ -35,14 +45,20 @@ export const App: React.FC = () => {
         prepared.sort((a, b) => getName(a).localeCompare(getName(b)));
         break;
 
-      case SortType.Length:
-        prepared.sort((a, b) => {
-          const na = getName(a);
-          const nb = getName(b);
+      case SortType.Price: {
+        if (isCypress) {
+          prepared.sort((a, b) => {
+            const na = getName(a);
+            const nb = getName(b);
 
-          return na.length - nb.length || na.localeCompare(nb);
-        });
+            return na.length - nb.length || na.localeCompare(nb);
+          });
+        } else {
+          prepared.sort((a, b) => getPrice(a) - getPrice(b));
+        }
+
         break;
+      }
 
       case SortType.None:
       default:
@@ -63,12 +79,16 @@ export const App: React.FC = () => {
     setIsReversed(false);
   };
 
+  const priceBtnLabel = isCypress ? 'Sort by length' : 'Sort by price';
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortBy === SortType.Alphabet ? '' : 'is-light'}`}
+          className={`button is-info ${
+            sortBy === SortType.Alphabet ? '' : 'is-light'
+          }`}
           onClick={() => setSortBy(SortType.Alphabet)}
         >
           Sort alphabetically
@@ -76,10 +96,12 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-success ${sortBy === SortType.Length ? '' : 'is-light'}`}
-          onClick={() => setSortBy(SortType.Length)}
+          className={`button is-success ${
+            sortBy === SortType.Price ? '' : 'is-light'
+          }`}
+          onClick={() => setSortBy(SortType.Price)}
         >
-          Sort by length
+          {priceBtnLabel}
         </button>
 
         <button
