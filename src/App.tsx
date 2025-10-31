@@ -57,53 +57,56 @@ export const App: React.FC = () => {
   const [isReversed, setReversed] = useState<boolean>(false);
 
   return (
-    <div className="section content">
-      <div className="buttons">
-        <button
-          type="button"
-          onClick={() => setSortType(SortTypeEnum.alphabeticallySort)}
-          className={`button is-info ${!sortType.includes(SortTypeEnum.alphabeticallySort) ? 'is-light' : ''}`}
-        >
-          Sort alphabetically
-        </button>
+    <>
+      <div className="section content">
+        <div className="buttons">
+          <button
+            type="button"
+            onClick={() => setSortType(SortTypeEnum.alphabeticallySort)}
+            className={`button is-info ${sortType !== SortTypeEnum.alphabeticallySort ? 'is-light' : ''}`}
+          >
+            Sort alphabetically
+          </button>
 
-        <button
-          type="button"
-          onClick={() => setSortType(SortTypeEnum.lengthSort)}
-          className={`button is-success ${!sortType.includes(SortTypeEnum.lengthSort) ? 'is-light' : ''}`}
-        >
-          Sort by length
-        </button>
+          <button
+            type="button"
+            onClick={() => setSortType(SortTypeEnum.lengthSort)}
+            className={`button is-success ${sortType !== SortTypeEnum.lengthSort ? 'is-light' : ''}`}
+          >
+            Sort by length
+          </button>
 
-        <button
-          type="button"
-          onClick={() => setReversed(!isReversed)}
-          className={`button is-warning ${!isReversed ? 'is-light' : ''}`}
-        >
-          Reverse
-        </button>
+          <button
+            type="button"
+            onClick={() => setReversed(!isReversed)}
+            className={`button is-warning ${!isReversed ? 'is-light' : ''}`}
+          >
+            Reverse
+          </button>
 
-        <button
-          type="button"
-          onClick={() => {
-            setSortType(SortTypeEnum.None);
-            setReversed(false);
-          }}
-          className={sortType || isReversed ? 'button is-danger is-light' : ''}
-        >
-          {(sortType || isReversed) && 'Reset'}
-        </button>
+          <button
+            type="button"
+            onClick={() => {
+              setSortType(SortTypeEnum.None);
+              setReversed(false);
+            }}
+            className={
+              sortType || isReversed ? 'button is-danger is-light' : ''
+            }
+          >
+            {(sortType || isReversed) && 'Reset'}
+          </button>
+        </div>
+        <ul>
+          {getSortedGoods(goodsFromServer, sortType, isReversed).map(good => {
+            return (
+              <li data-cy="Good" key={good}>
+                {good}
+              </li>
+            );
+          })}
+        </ul>
       </div>
-
-      <ul>
-        {getSortedGoods(goodsFromServer, sortType, isReversed).map(good => {
-          return (
-            <li data-cy="Good" key={good}>
-              {good}
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+    </>
   );
 };
