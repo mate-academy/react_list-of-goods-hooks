@@ -16,13 +16,10 @@ export const goodsFromServer = [
 ];
 
 enum SortTypeEnum {
-  alphabeticallysort = 'ALPHABETICALLY_SORT',
-  lengthsort = 'LENGTH_SORT',
-  none = '',
+  alphabeticallySort = 'ALPHABETICALLY_SORT',
+  lengthSort = 'LENGTH_SORT',
+  None = '',
 }
-
-const ALPHABETICALLY_SORT = 'alphabetically';
-const LENGTH_SORT = 'length';
 
 function getSortedGoods(
   goodsList: string[],
@@ -32,13 +29,13 @@ function getSortedGoods(
   const sortedGoods = [...goodsList];
 
   switch (sortType) {
-    case SortTypeEnum.alphabeticallysort:
+    case SortTypeEnum.alphabeticallySort:
       sortedGoods.sort((good1: string, good2: string) =>
         good1.localeCompare(good2),
       );
       break;
 
-    case SortTypeEnum.lengthsort:
+    case SortTypeEnum.lengthSort:
       sortedGoods.sort(
         (good1: string, good2: string) => good1.length - good2.length,
       );
@@ -56,7 +53,7 @@ function getSortedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortType, setSortType] = useState<SortTypeEnum>(SortTypeEnum.none);
+  const [sortType, setSortType] = useState<SortTypeEnum>(SortTypeEnum.None);
   const [isReversed, setReversed] = useState<boolean>(false);
 
   return (
@@ -64,16 +61,16 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          onClick={() => setSortType(SortTypeEnum.alphabeticallysort)}
-          className={`button is-info ${!sortType.includes(ALPHABETICALLY_SORT) ? 'is-light' : ''}`}
+          onClick={() => setSortType(SortTypeEnum.alphabeticallySort)}
+          className={`button is-info ${!sortType.includes(SortTypeEnum.alphabeticallySort) ? 'is-light' : ''}`}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          onClick={() => setSortType(SortTypeEnum.lengthsort)}
-          className={`button is-success ${!sortType.includes(LENGTH_SORT) ? 'is-light' : ''}`}
+          onClick={() => setSortType(SortTypeEnum.lengthSort)}
+          className={`button is-success ${!sortType.includes(SortTypeEnum.lengthSort) ? 'is-light' : ''}`}
         >
           Sort by length
         </button>
@@ -89,7 +86,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           onClick={() => {
-            setSortType(SortTypeEnum.none);
+            setSortType(SortTypeEnum.None);
             setReversed(false);
           }}
           className={sortType || isReversed ? 'button is-danger is-light' : ''}
