@@ -42,10 +42,6 @@ export const App: React.FC = () => {
   const visibleGoods = useMemo(() => {
     const goods = [...goodsFromServer];
 
-    if (isReversed) {
-      goods.reverse();
-    }
-
     if (sortField !== SortType.default) {
       switch (sortField) {
         case SortType.SORT_FIELD_ALPHABET:
@@ -55,6 +51,10 @@ export const App: React.FC = () => {
           goods.sort((a, b) => a.length - b.length);
           break;
       }
+    }
+
+    if (isReversed) {
+      goods.reverse();
     }
 
     return goods;
