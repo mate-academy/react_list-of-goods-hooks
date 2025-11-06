@@ -2,38 +2,49 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-export const goodsFromServer: string[] = [
-  'Dumplings',
-  'Carrot',
-  'Eggs',
-  'Ice cream',
-  'Apple',
-  'Bread',
-  'Fish',
-  'Honey',
-  'Jam',
-  'Garlic',
+type Good = {
+  name: string;
+  age: number;
+  price: number;
+};
+
+export const goodsFromServer: Good[] = [
+  { name: 'Dumplings', age: 2, price: 12.5 },
+  { name: 'Carrot', age: 1, price: 3.2 },
+  { name: 'Eggs', age: 3, price: 6.0 },
+  { name: 'Ice cream', age: 5, price: 15.0 },
+  { name: 'Apple', age: 2, price: 4.5 },
+  { name: 'Bread', age: 1, price: 5.0 },
+  { name: 'Fish', age: 4, price: 20.0 },
+  { name: 'Honey', age: 6, price: 25.0 },
+  { name: 'Jam', age: 3, price: 10.0 },
+  { name: 'Garlic', age: 2, price: 2.5 },
 ];
 
 enum SortType {
   None = '',
   Name = 'name',
-  Length = 'length',
+  Age = 'age',
+  Price = 'price',
 }
 
 function getPreparedGoods(
-  goods: string[],
+  goods: Good[],
   sortField: SortType,
   isReversed: boolean,
-): string[] {
+): Good[] {
   const preparedGoods = [...goods];
 
   if (sortField === SortType.Name) {
-    preparedGoods.sort((a, b) => a.localeCompare(b));
+    preparedGoods.sort((a, b) => a.name.localeCompare(b.name));
   }
 
-  if (sortField === SortType.Length) {
-    preparedGoods.sort((a, b) => a.length - b.length);
+  if (sortField === SortType.Age) {
+    preparedGoods.sort((a, b) => a.age - b.age);
+  }
+
+  if (sortField === SortType.Price) {
+    preparedGoods.sort((a, b) => a.price - b.price);
   }
 
   if (isReversed) {
@@ -70,15 +81,22 @@ export const App: React.FC = () => {
         </button>
         <button
           type="button"
-          className={`button is-success ${sortField === SortType.Length ? '' : 'is-light'}`}
-          onClick={() => handleSort(SortType.Length)}
+          className={`button is-success ${sortField === SortType.Age ? '' : 'is-light'}`}
+          onClick={() => handleSort(SortType.Age)}
         >
-          Sort by length
+          Sort by age
+        </button>
+        <button
+          type="button"
+          className={`button is-pricy ${sortField === SortType.Price ? '' : 'is-light'}`}
+          onClick={() => handleSort(SortType.Price)}
+        >
+          Sort by price
         </button>
         <button
           type="button"
           className={`button is-warning ${isReversed ? '' : 'is-light'}`}
-          onClick={() => handleReverse}
+          onClick={handleReverse}
         >
           Reverse
         </button>
