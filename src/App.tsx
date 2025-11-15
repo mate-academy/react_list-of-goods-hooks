@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import { GoodsList } from './GoodsList';
 
-export const goodsFromServer = [
+export const goodsFromServer: string[] = [
   'Dumplings',
   'Carrot',
   'Eggs',
@@ -15,37 +16,101 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+export enum SortType {
+  Default = 'default',
+  Alphabet = 'alphabet',
+  Length = 'length',
+}
+interface AppState {
+  activeSort: SortType;
+  isReversed: boolean;
+}
+
 export const App: React.FC = () => {
+  const [activeSort, setActiveSort] = useState<SortType>(SortType.Default);
+  const [isReversed, setIsReversed] = useState<AppState['isReversed']>(false);
+
+  const transformedGoods = useMemo(() => {
+    const sorted = [...goodsFromServer];
+
+    switch (activeSort) {
+      case SortType.Alphabet:
+        sorted.sort((a, b) => a.localeCompare(b));
+        break;
+      case SortType.Length:
+        sorted.sort((a, b) => a.length - b.length);
+        break;
+      default:
+        break;
+    }
+
+    if (isReversed) {
+      sorted.reverse();
+    }
+
+    return sorted;
+  }, [activeSort, isReversed]);
+
+  const sortAlphabetically = () => {
+    setActiveSort(prev =>
+      prev === SortType.Alphabet ? SortType.Default : SortType.Alphabet,
+    );
+  };
+
+  const sortByLength = () => {
+    setActiveSort(prev =>
+      prev === SortType.Length ? SortType.Default : SortType.Length,
+    );
+  };
+
+  const reverseGood = () => setIsReversed(prev => !prev);
+
+  const resetGoods = () => {
+    setActiveSort(SortType.Default);
+    setIsReversed(false);
+  };
+
+  const isModified = activeSort !== SortType.Default || isReversed;
+
   return (
     <div className="section content">
       <div className="buttons">
-        <button type="button" className="button is-info is-light">
+        <button
+          type="button"
+          className={`button is-info ${activeSort === SortType.Alphabet ? '' : 'is-light'}`}
+          onClick={sortAlphabetically}
+        >
           Sort alphabetically
         </button>
 
-        <button type="button" className="button is-success is-light">
+        <button
+          type="button"
+          className={`button is-success ${activeSort === SortType.Length ? '' : 'is-light'}`}
+          onClick={sortByLength}
+        >
           Sort by length
         </button>
 
-        <button type="button" className="button is-warning is-light">
+        <button
+          type="button"
+          className={`button is-warning ${isReversed ? '' : 'is-light'}`}
+          onClick={reverseGood}
+        >
           Reverse
         </button>
 
-        <button type="button" className="button is-danger is-light">
-          Reset
-        </button>
+        {isModified && (
+          <button
+            type="button"
+            className="button is-danger"
+            onClick={resetGoods}
+          >
+            Reset
+          </button>
+        )}
       </div>
 
-      <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
-      </ul>
+      <GoodsList goods={transformedGoods} />
     </div>
   );
 };
