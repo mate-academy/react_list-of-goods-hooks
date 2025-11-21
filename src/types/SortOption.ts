@@ -1,4 +1,6 @@
+import { SortType } from '../App';
+
 export interface SortOption {
-  sortField: string;
+  sortField: SortType;
   reverse: boolean;
 }
