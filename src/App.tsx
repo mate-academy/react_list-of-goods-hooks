@@ -17,13 +17,14 @@ export const goodsFromServer: string[] = [
 ];
 
 enum SortType {
+  None = '',
   ByAlphabetically = 'alphabetically',
   ByLength = 'length',
 }
 
 const getPreparedGoods = (
   goods: string[],
-  sortField: SortType | '',
+  sortField: SortType,
   isReversed: boolean,
 ): string[] => {
   let preparedGoods = [...goods];
@@ -53,13 +54,13 @@ const getPreparedGoods = (
 };
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState<SortType | ''>('');
+  const [sortField, setSortField] = useState<SortType>(SortType.None);
   const [reversed, setReversed] = useState(false);
 
   const visibleGoods = getPreparedGoods(goodsFromServer, sortField, reversed);
 
   const reset = () => {
-    setSortField('');
+    setSortField(SortType.None);
     setReversed(false);
   };
 
