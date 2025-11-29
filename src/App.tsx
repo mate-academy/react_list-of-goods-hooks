@@ -45,11 +45,11 @@ export const App: React.FC = () => {
 
   let sortedGoods = [...goodsFromServer];
 
-  if (sortType === 'alphabet') {
+  if (sortType === SortType.ALPHABET) {
     sortedGoods = [...goodsFromServer].sort((a, b) => {
       return a.localeCompare(b);
     });
-  } else if (sortType === 'length') {
+  } else if (sortType === SortType.LENGTH) {
     sortedGoods = [...goodsFromServer].sort((a, b) => {
       return a.length - b.length;
     });
@@ -59,10 +59,10 @@ export const App: React.FC = () => {
     sortedGoods = [...sortedGoods].reverse();
   }
 
-  const isAlphabetActive = sortType === 'alphabet';
-  const isLengthActive = sortType === 'length';
+  const isAlphabetActive = sortType === SortType.ALPHABET;
+  const isLengthActive = sortType === SortType.LENGTH;
   const isReverseActive = isReverse;
-  const isNotInitialState = sortType !== 'none' || isReverse;
+  const isNotInitialState = sortType !== SortType.NONE || isReverse;
 
   return (
     <div className="section content">
