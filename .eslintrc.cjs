@@ -26,7 +26,7 @@ module.exports = {
       jsx: true,
     },
     ecmaVersion: 12,
-    project: './tsconfig.json',
+    project: './react_list-of-goods-hooks/tsconfig.json',
     sourceType: 'module',
   },
   plugins: [
