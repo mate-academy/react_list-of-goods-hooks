@@ -1,3 +1,22 @@
 iframe {
   display: none;
 }
+.active-btn {
+  border: 2px solid #3273dc;
+  box-shadow: 0 0 0 2px rgba(50, 115, 220, 0.2);
+}
+
+.button.is-warning.active-btn {
+  border-color: #ffdd57;
+  box-shadow: 0 0 0 2px rgba(255, 221, 87, 0.3);
+}
+
+.button.is-success.active-btn {
+  border-color: #48c774;
+  box-shadow: 0 0 0 2px rgba(72, 199, 116, 0.2);
+}
+
+.button.is-info.active-btn {
+  border-color: #209cee;
+  box-shadow: 0 0 0 2px rgba(32, 156, 238, 0.25);
+}
