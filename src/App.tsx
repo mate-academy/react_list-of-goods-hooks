@@ -2,7 +2,6 @@ import React, { useReducer } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-// --- Початкові дані ---
 export const goodsFromServer = [
   'Dumplings',
   'Carrot',
@@ -16,50 +15,75 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-// --- Типи для Reducer ---
-type SortType = 'alphabet' | 'length' | 'reverse' | null;
-
-interface State {
-  goods: string[];
-  activeSort: SortType;
+export enum SortType {
+  None,
+  Alphabet,
+  Length,
+  Reverse,
 }
 
-type Action =
-  | { type: 'SORT_ALPHABET' }
-  | { type: 'SORT_LENGTH' }
-  | { type: 'REVERSE' }
-  | { type: 'RESET' };
+export enum ActionType {
+  SortAlphabet,
+  SortLength,
+  Reverse,
+  Reset,
+}
 
-// --- Початковий стан ---
-const initialState: State = {
-  goods: [...goodsFromServer],
-  activeSort: null,
+type State = {
+  goods: string[];
+  activeSort: SortType;
 };
 
-// --- Reducer ---
-const goodsReducer = (state: State, action: Action): State => {
+type Action = {
+  type: ActionType;
+};
+
+const NOT_ACTIVE_CLASS = 'is-light';
+
+const initialState: State = {
+  goods: [...goodsFromServer],
+  activeSort: SortType.None,
+};
+
+function arraysEqual(a: string[], b: string[]) {
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return false;
+  return true;
+}
+
+const handleGoodsState = (state: State, action: Action): State => {
   switch (action.type) {
-    case 'SORT_ALPHABET':
+    case ActionType.SortAlphabet:
       return {
-        goods: [...goodsFromServer].sort(),
-        activeSort: 'alphabet',
+        goods: [...goodsFromServer].sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase())),
+        activeSort: SortType.Alphabet,
       };
 
-    case 'SORT_LENGTH':
+    case ActionType.SortLength:
       return {
-        // Сортування від найдовшого до найкоротшого
-        goods: [...goodsFromServer].sort((a, b) => b.length - a.length),
-        activeSort: 'length',
+        goods: [...goodsFromServer].sort((a, b) => {
+          const lenDiff = b.length - a.length;
+          if (lenDiff !== 0) return lenDiff;
+          return a.toLowerCase().localeCompare(b.toLowerCase());
+        }),
+        activeSort: SortType.Length,
       };
 
-    case 'REVERSE':
+    case ActionType.Reverse:
+      let nextSort = state.activeSort;
+
+      if (state.activeSort === SortType.None) {
+        nextSort = SortType.Reverse;
+      } else if (state.activeSort === SortType.Reverse) {
+        nextSort = SortType.None;
+      }
+
       return {
-        // Реверсуємо поточний стан (для збереження порядку після попереднього сортування)
         goods: [...state.goods].reverse(),
-        activeSort: 'reverse',
+        activeSort: nextSort,
       };
 
-    case 'RESET':
+    case ActionType.Reset:
       return initialState;
 
     default:
@@ -67,30 +91,33 @@ const goodsReducer = (state: State, action: Action): State => {
   }
 };
 
-// --- Компонент App ---
-export const App: React.FC = () => {
-  const [state, dispatch] = useReducer(goodsReducer, initialState);
 
-  const isResetVisible = state.activeSort !== null;
+export const App: React.FC = () => {
+  const [state, dispatch] = useReducer(handleGoodsState, initialState);
 
   const getButtonClass = (buttonType: SortType) => {
-    // Якщо поточний тип сортування збігається з типом кнопки, робимо її активною ('is-warning')
-    if (state.activeSort === buttonType) return 'button is-warning';
+    if (buttonType === SortType.Reverse) {
+        const isReversedFromInitial = arraysEqual(state.goods, [...goodsFromServer].reverse());
 
-    // Якщо активна кнопка 'reverse', вона не може бути 'is-warning' сама по собі,
-    // але не повинна мати клас 'is-light'
-    if (state.activeSort === 'reverse') return 'button';
+        if (state.activeSort === SortType.Reverse || isReversedFromInitial) {
+            return 'button is-warning';
+        }
+    }
 
-    return 'button is-light';
+    return state.activeSort === buttonType ? 'button is-warning' : `button ${NOT_ACTIVE_CLASS}`;
   };
+
+  const isResetVisible = state.activeSort !== SortType.None;
 
   return (
     <div className="section content">
+      <h1 className="title">Goods List</h1>
+
       <div className="buttons">
         <button
           type="button"
-          className={getButtonClass('alphabet')}
-          onClick={() => dispatch({ type: 'SORT_ALPHABET' })}
+          className={getButtonClass(SortType.Alphabet)}
+          onClick={() => dispatch({ type: ActionType.SortAlphabet })}
           data-cy="SortAlphabet"
         >
           Sort alphabetically
@@ -98,8 +125,8 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={getButtonClass('length')}
-          onClick={() => dispatch({ type: 'SORT_LENGTH' })}
+          className={getButtonClass(SortType.Length)}
+          onClick={() => dispatch({ type: ActionType.SortLength })}
           data-cy="SortLength"
         >
           Sort by length
@@ -107,8 +134,8 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={getButtonClass('reverse')}
-          onClick={() => dispatch({ type: 'REVERSE' })}
+          className={getButtonClass(SortType.Reverse)}
+          onClick={() => dispatch({ type: ActionType.Reverse })}
           data-cy="Reverse"
         >
           Reverse
@@ -117,8 +144,8 @@ export const App: React.FC = () => {
         {isResetVisible && (
           <button
             type="button"
-            className="button is-danger is-light"
-            onClick={() => dispatch({ type: 'RESET' })}
+            className="button is-danger"
+            onClick={() => dispatch({ type: ActionType.Reset })}
             data-cy="Reset"
           >
             Reset
