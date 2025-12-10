@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
@@ -15,36 +15,79 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+export enum SortType {
+  Default = 'DEFAULT',
+  Alphabetical = 'ALPHABETICAL',
+  Length = 'LENGTH',
+  Reverse = 'REVERSE',
+}
+
 export const App: React.FC = () => {
+  const [sortType, setSortType] = useState<SortType>(SortType.Default);
+
+  const getSortedGoods = (): string[] => {
+    switch (sortType) {
+      case SortType.Alphabetical:
+        return [...goodsFromServer].sort((a, b) => a.localeCompare(b));
+      case SortType.Length:
+        return [...goodsFromServer].sort((a, b) => a.length - b.length);
+      case SortType.Reverse:
+        return [...goodsFromServer].slice().reverse();
+      case SortType.Default:
+      default:
+        return [...goodsFromServer];
+    }
+  };
+
+  const goods = getSortedGoods();
+
+  const getButtonClass = (type: SortType, baseClass: string) =>
+    `button ${baseClass} ${sortType === type ? '' : 'is-light'}`;
+
   return (
     <div className="section content">
       <div className="buttons">
-        <button type="button" className="button is-info is-light">
+        <button
+          type="button"
+          className={getButtonClass(SortType.Alphabetical, 'is-info')}
+          onClick={() => setSortType(SortType.Alphabetical)}
+        >
           Sort alphabetically
         </button>
 
-        <button type="button" className="button is-success is-light">
+        <button
+          type="button"
+          className={getButtonClass(SortType.Length, 'is-success')}
+          onClick={() => setSortType(SortType.Length)}
+        >
           Sort by length
         </button>
 
-        <button type="button" className="button is-warning is-light">
+        <button
+          type="button"
+          className={getButtonClass(SortType.Reverse, 'is-warning')}
+          onClick={() => setSortType(SortType.Reverse)}
+        >
           Reverse
         </button>
 
-        <button type="button" className="button is-danger is-light">
-          Reset
-        </button>
+        {sortType !== SortType.Default && (
+          <button
+            type="button"
+            className="button is-danger"
+            onClick={() => setSortType(SortType.Default)}
+          >
+            Reset
+          </button>
+        )}
       </div>
 
       <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
+        {goods.map(good => (
+          <li key={good} data-cy="Good">
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
