@@ -17,20 +17,26 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+enum SortType {
+  none = '',
+  alphabet = 'alphabet',
+  length = 'length'
+}
+
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState<SortType>(SortType.none);
   const [visibleGoods, setVisibleGoods] = useState([...goodsFromServer]);
   const [isReverseGoods, setIsReverseGoods] = useState(false);
 
-  const getSortGoods = (fieldSort: string) => {
+  const getSortGoods = (fieldSort: SortType) => {
     setSortField(fieldSort);
     const sortedGoods = [...goodsFromServer];
 
-    if (fieldSort === 'alphabet') {
+    if (fieldSort === SortType.alphabet) {
       sortedGoods.sort((goodA, goodB) => goodA.localeCompare(goodB));
     }
 
-    if (fieldSort === 'length') {
+    if (fieldSort === SortType.length) {
       sortedGoods.sort((goodA, goodB) => goodA.length - goodB.length);
     }
 
@@ -42,7 +48,7 @@ export const App: React.FC = () => {
   };
 
   const resetGoods = () => {
-    setSortField('');
+    setSortField(SortType.none);
     setIsReverseGoods(false);
     setVisibleGoods([...goodsFromServer]);
   };
@@ -59,9 +65,9 @@ export const App: React.FC = () => {
           type="button"
           className={`
             button is-info
-            ${sortField === 'alphabet' ? '' : 'is-light'}
+            ${sortField === SortType.alphabet ? '' : 'is-light'}
           `}
-          onClick={() => getSortGoods('alphabet')}
+          onClick={() => getSortGoods(SortType.alphabet)}
         >
           Sort alphabetically
         </button>
@@ -70,9 +76,9 @@ export const App: React.FC = () => {
           type="button"
           className={`
             button is-success
-            ${sortField === 'length' ? '' : 'is-light'}
+            ${sortField === SortType.length ? '' : 'is-light'}
           `}
-          onClick={() => getSortGoods('length')}
+          onClick={() => getSortGoods(SortType.length)}
         >
           Sort by length
         </button>
