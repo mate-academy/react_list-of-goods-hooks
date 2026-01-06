@@ -23,7 +23,7 @@ enum SortType {
 
 export const App: React.FC = () => {
   const [goods, setGoods] = React.useState(goodsFromServer);
-  const [sortField, setSortField] = React.useState('');
+  const [sortField, setSortField] = React.useState<SortType>(SortType.Default);
   const [isReversed, setIsReversed] = React.useState(false);
 
   const toggleReverse = () => {
@@ -52,7 +52,7 @@ export const App: React.FC = () => {
 
   const reset = () => {
     setGoods(goodsFromServer);
-    setSortField('');
+    setSortField(SortType.Default);
     setIsReversed(false);
   };
 
@@ -71,14 +71,15 @@ export const App: React.FC = () => {
   };
 
   const isModified =
-    sortField !== '' || isReversed || goods.join() !== goodsFromServer.join();
-
+    sortField !== SortType.Default ||
+    isReversed ||
+    goods.join() !== goodsFromServer.join();
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
-          className={`button is-info ${sortField === 'alphabet' ? '' : 'is-light'}`}
+          className={`button is-info ${sortField === SortType.Alphabet ? '' : 'is-light'}`}
           onClick={sortByAlphabet}
           type="button"
         >
@@ -88,7 +89,7 @@ export const App: React.FC = () => {
 
       <div className="buttons">
         <button
-          className={`button is-success ${sortField === 'length' ? '' : 'is-light'}`}
+          className={`button is-success ${sortField === SortType.Length ? '' : 'is-light'}`}
           onClick={sortByLength}
           type="button"
         >
@@ -98,11 +99,11 @@ export const App: React.FC = () => {
 
       <div className="buttons">
         <button
-          className={`button is-warning ${isReversed ? '' : 'is-light'}`}
+          className={`button is-warning ${isReversed ? SortType.Default : 'is-light'}`}
           onClick={toggleReverse}
           type="button"
         >
-          Reverse {isReversed ? '(ON)' : ''}
+          Reverse {isReversed ? '(ON)' : SortType.Default}
         </button>
       </div>
 
