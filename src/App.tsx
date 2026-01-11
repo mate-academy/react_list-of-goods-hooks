@@ -36,6 +36,8 @@ function getPreparedGoods(
           return good1.localeCompare(good2);
         case SortType.Length:
           return good1.length - good2.length;
+        case SortType.Reset:
+          return 0;
         default:
           return 0;
       }
@@ -61,7 +63,7 @@ export const App = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortField === SortType.Alphabet ? 'is-light' : ''}`}
+          className={`button is-info ${sortField === SortType.Alphabet ? '' : 'is-light'}`}
           onClick={() => setSortField(SortType.Alphabet)}
         >
           Sort alphabetically
@@ -69,7 +71,7 @@ export const App = () => {
 
         <button
           type="button"
-          className={`button is-success ${sortField === SortType.Length ? 'is-light' : ''}`}
+          className={`button is-success ${sortField === SortType.Length ? '' : 'is-light'}`}
           onClick={() => setSortField(SortType.Length)}
         >
           Sort by length
@@ -86,7 +88,7 @@ export const App = () => {
         <button
           type="button"
           className={`button is-danger ${sortField === SortType.Reset ? 'is-light' : ''}`}
-          onClick={() => setSortField(SortType.Default)}
+          onClick={() => setSortField(SortType.Reset)}
         >
           Reset
         </button>
