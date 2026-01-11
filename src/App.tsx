@@ -19,7 +19,6 @@ enum SortType {
   Default,
   Alphabet,
   Length,
-  Reset,
 }
 
 function getPreparedGoods(
@@ -36,8 +35,6 @@ function getPreparedGoods(
           return good1.localeCompare(good2);
         case SortType.Length:
           return good1.length - good2.length;
-        case SortType.Reset:
-          return 0;
         default:
           return 0;
       }
@@ -87,8 +84,11 @@ export const App = () => {
 
         <button
           type="button"
-          className={`button is-danger ${sortField === SortType.Reset ? 'is-light' : ''}`}
-          onClick={() => setSortField(SortType.Reset)}
+          className="button is-danger is-light"
+          onClick={() => {
+            setSortField(SortType.Default);
+            setReverse(false);
+          }}
         >
           Reset
         </button>
