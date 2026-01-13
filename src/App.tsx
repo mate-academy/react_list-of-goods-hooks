@@ -28,7 +28,7 @@ function getPreperedGoods(
   goods: string[],
   sortType: SortType,
   isReversed: boolean,
-) {
+): string[] {
   const preperedGoods = [...goods];
 
   preperedGoods.sort((good1, good2) => {
@@ -95,7 +95,7 @@ export const App: React.FC = () => {
             className="button is-danger is-light"
             onClick={() => {
               setReversed(false);
-              setSortType('');
+              setSortType(SortType.none);
             }}
           >
             Reset
