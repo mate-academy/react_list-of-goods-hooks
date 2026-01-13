@@ -12,7 +12,7 @@ export const App: React.FC = () => {
   const [sortField, setSortField] = useState<SortType>(SortType.DEFAULT);
   const [isReversed, setIsReversed] = useState(false);
 
-  const filteredGoods = handleSortGoods(goodsFromServer, sortField);
+  let filteredGoods = handleSortGoods(goodsFromServer, sortField);
 
   function handleSortType(field: SortType) {
     setSortField(field);
@@ -28,7 +28,7 @@ export const App: React.FC = () => {
   }
 
   if (isReversed) {
-    filteredGoods.reverse();
+    filteredGoods = [...filteredGoods].reverse();
   }
 
   return (
