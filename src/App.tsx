@@ -75,9 +75,7 @@ export const App: React.FC = () => {
         )}
       </div>
 
-      <ul>
-        <GoodsList goods={filteredGoods} />
-      </ul>
+      <GoodsList goods={filteredGoods} />
     </div>
   );
 };
