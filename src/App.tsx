@@ -31,7 +31,7 @@ function getPreparedGoods(
   if (sortField === SORT_FIELD_ALPHABETICAL) {
     preparedGoods.sort((goodA, goodB) => goodA.localeCompare(goodB));
   } else if (sortField === SORT_FIELD_LENGTH) {
-    preparedGoods.sort((a, b) => b.length - a.length);
+    preparedGoods.sort((a, b) => a.length - b.length);
   }
 
   if (reverseOrder) {
@@ -76,16 +76,19 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        <button
-          type="button"
-          className={`button is-warning is-light ${cn({ 'is-hidden': !reverseOrder && !sortField })}`}
-          onClick={() => {
-            setSortField('');
-            setReverseOrder(false);
-          }}
-        >
-          Reset
-        </button>
+        {sortField || reverseOrder ? (
+          <button
+            type="button"
+            className={`button is-warning is-light ${cn({ 'is-hidden': !reverseOrder && !sortField })}`}
+            onClick={() => {
+              setSortField('');
+              setReverseOrder(false);
+            }}
+          >
+            Reset
+          </button>
+
+        ) : null}
       </div>
 
       <ul>
