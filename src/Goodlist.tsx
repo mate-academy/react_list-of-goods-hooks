@@ -1,4 +1,4 @@
-import { GoodCard } from "./Goodcard";
+import { GoodCard } from './Goodcard';
 
 type Props = {
   goods: string[];
@@ -6,8 +6,8 @@ type Props = {
 
 export const GoodList: React.FC<Props> = ({ goods }) => (
   <ul>
-    {goods.map(good =>
-    <GoodCard good={good} key={good} />
-    )}
+    {goods.map(good => (
+      <GoodCard good={good} key={good} />
+    ))}
   </ul>
 );
