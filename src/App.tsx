@@ -17,6 +17,7 @@ export const goodsFromServer: string[] = [
 ];
 
 enum SortType {
+  DEFAULT = '',
   ALPHABETICAL = 'alphabetical',
   LENGTH = 'length',
 }
@@ -26,7 +27,7 @@ function getPreparedGoods(
   {
     sortField,
     reverseOrder = false,
-  }: { sortField: string; reverseOrder?: boolean },
+  }: { sortField: SortType; reverseOrder?: boolean },
 ) {
   const preparedGoods = [...goods];
 
@@ -44,7 +45,7 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState<SortType>(SortType.DEFAULT);
   const [reverseOrder, setReverseOrder] = useState(false);
   const visibleGoods = getPreparedGoods(goodsFromServer, {
     sortField,
@@ -78,18 +79,18 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {sortField || reverseOrder ? (
+        {(sortField !== SortType.DEFAULT || reverseOrder) && (
           <button
             type="button"
             className={`button is-warning is-light ${cn({ 'is-hidden': !reverseOrder && !sortField })}`}
             onClick={() => {
-              setSortField('');
+              setSortField(SortType.DEFAULT);
               setReverseOrder(false);
             }}
           >
             Reset
           </button>
-        ) : null}
+        )}
       </div>
 
       <ul>
