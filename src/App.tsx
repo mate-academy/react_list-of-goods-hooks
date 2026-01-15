@@ -8,11 +8,11 @@ type Goods = string[];
 enum SortType {
   None = '',
   Alphabet = 'alphabet',
-  Length = 'length'
+  Length = 'length',
 }
 
 interface SortParams {
-  sortField: string;
+  sortField: SortType;
   isReversed: boolean;
 }
 
