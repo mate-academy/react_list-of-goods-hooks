@@ -5,12 +5,15 @@ import './App.scss';
 
 type Goods = string[];
 
-type SortField = '' | typeof SORT_BY_ALPHABET | typeof SORT_BY_LENGTH;
+enum SortType {
+  None = '',
+  Alphabet = 'alphabet',
+  Length = 'length'
+}
 
 interface SortParams {
   sortField: string;
   isReversed: boolean;
-
 }
 
 export const goodsFromServer: Goods = [
@@ -26,23 +29,16 @@ export const goodsFromServer: Goods = [
   'Garlic',
 ];
 
-const SORT_BY_LENGTH = 'length';
-const SORT_BY_ALPHABET = 'alphabet';
-
-function getPreparedGoods(
-  goods: Goods,
-  { sortField, isReversed}: SortParams,
-) {
-
+function getPreparedGoods(goods: Goods, { sortField, isReversed }: SortParams) {
   const preparedGoods = [...goods];
 
   if (sortField) {
     preparedGoods.sort((good1, good2) => {
       switch (sortField) {
-        case SORT_BY_ALPHABET:
+        case SortType.Alphabet:
           return good1.localeCompare(good2);
 
-        case SORT_BY_LENGTH:
+        case SortType.Length:
           return good1.length - good2.length;
 
         default:
@@ -59,7 +55,7 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState<SortField>('');
+  const [sortField, setSortField] = useState<SortType>(SortType.None);
   const [isReversed, setIsReversed] = useState<boolean>(false);
 
   const visibleGoods = getPreparedGoods(goodsFromServer, {
@@ -71,56 +67,56 @@ export const App: React.FC = () => {
 
   return (
     <div className="section content">
-    <div className="buttons">
-      <button
-        type="button"
-        onClick={() => setSortField(SORT_BY_ALPHABET)}
-        className={cn('button is-info', {
-          'is-light': sortField !== SORT_BY_ALPHABET,
-        })}
-      >
-        Sort alphabetically
-      </button>
-
-      <button
-        type="button"
-        onClick={() => setSortField(SORT_BY_LENGTH)}
-        className={cn('button is-success', {
-          'is-light': sortField !== SORT_BY_LENGTH,
-        })}
-      >
-        Sort by length
-      </button>
-
-      <button
-        type="button"
-        onClick={() => setIsReversed(prev => !prev)}
-        className={cn('button is-warning', { 'is-light': !isReversed })}
-      >
-        Reverse
-      </button>
-
-      {isResetVisible && (
+      <div className="buttons">
         <button
           type="button"
-          onClick={() => {
-            setSortField('');
-            setIsReversed(false);
-          }}
-          className="button is-danger is-light"
+          onClick={() => setSortField(SortType.Alphabet)}
+          className={cn('button is-info', {
+            'is-light': sortField !== SortType.Alphabet,
+          })}
         >
-          Reset
+          Sort alphabetically
         </button>
-      )}
-    </div>
 
-    <ul>
-      {visibleGoods.map(good => (
-        <li key={good} data-cy="Good">
-          {good}
-        </li>
-      ))}
-    </ul>
-  </div>
+        <button
+          type="button"
+          onClick={() => setSortField(SortType.Length)}
+          className={cn('button is-success', {
+            'is-light': sortField !== SortType.Length,
+          })}
+        >
+          Sort by length
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setIsReversed(prev => !prev)}
+          className={cn('button is-warning', { 'is-light': !isReversed })}
+        >
+          Reverse
+        </button>
+
+        {isResetVisible && (
+          <button
+            type="button"
+            onClick={() => {
+              setSortField(SortType.None);
+              setIsReversed(false);
+            }}
+            className="button is-danger is-light"
+          >
+            Reset
+          </button>
+        )}
+      </div>
+
+      <ul>
+        {visibleGoods.map(good => (
+          <li key={good} data-cy="Good">
+            {good}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
