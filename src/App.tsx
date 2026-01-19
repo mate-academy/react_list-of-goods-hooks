@@ -15,11 +15,17 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-type SortField = 'name' | 'length' | null;
+// type SortField = 'name' | 'length' | null;
+
+enum SortType {
+  name = 'name',
+  length = 'length',
+  null,
+}
 
 function getPreparedGoods(
   goods: string[],
-  { sortField }: { sortField: SortField },
+  { sortField }: { sortField: SortType },
 ): string[] {
   const preparedGoods = [...goods];
 
@@ -35,14 +41,14 @@ function getPreparedGoods(
         default:
           return 0;
       }
-    })
+    });
   }
 
   return preparedGoods;
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState<SortType>(null);
   const [reversed, setReversed] = useState(false);
   let visableGoods: string[] = getPreparedGoods(goodsFromServer, { sortField });
 
@@ -53,7 +59,6 @@ export const App: React.FC = () => {
   return (
     <div className="section content">
       <div className="buttons">
-
         <button
           type="button"
           className={`button is-info ${sortField === 'name' ? '' : 'is-light'}`}
@@ -85,7 +90,7 @@ export const App: React.FC = () => {
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              setSortField('');
+              setSortField(null);
               setReversed(false);
             }}
           >
@@ -93,18 +98,12 @@ export const App: React.FC = () => {
           </button>
         ) : null}
       </div>
-
       <ul>
-        <ul>
-          {visableGoods.map(good => (
-            <li
-              data-cy="Good"
-              key={good}
-            >
-              {good}
-            </li>
-          ))}
-        </ul>
+        {visableGoods.map(good => (
+          <li data-cy="Good" key={good}>
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
