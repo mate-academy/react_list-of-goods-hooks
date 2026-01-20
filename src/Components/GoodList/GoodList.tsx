@@ -8,7 +8,7 @@ type Props = {
 export const GoodList: React.FC<Props> = ({ goods }: Props) => (
   <ul>
     {goods.map(good => (
-      <Good good={good} key={goods.indexOf(good)} />
+      <Good good={good} key={good} />
     ))}
   </ul>
 );

@@ -16,7 +16,7 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-enum State {
+enum SortType {
   alphabet,
   length,
   default,
@@ -25,15 +25,15 @@ enum State {
 export const App: React.FC = () => {
   const [preparedGoods, setPreparedGoods] = useState<string[]>(goodsFromServer);
   const [reverse, setReverse] = useState<boolean>(false);
-  const [state, setState] = useState<State>(State.default);
+  const [state, setState] = useState<SortType>(SortType.default);
 
-  function sortGoods(query: State): void {
+  function sortGoods(query: SortType): void {
     const newGoods = [...goodsFromServer].sort((good1, good2) => {
       switch (query) {
-        case State.length:
+        case SortType.length:
           return good1.length - good2.length;
 
-        case State.alphabet:
+        case SortType.alphabet:
           return good1.localeCompare(good2);
 
         default:
@@ -54,17 +54,18 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={
-            state === State.alphabet
+            state === SortType.alphabet
               ? 'button is-info'
               : 'button is-info is-light'
           }
           onClick={() => {
-            if (state !== State.alphabet) {
-              sortGoods(State.alphabet);
-              setState(State.alphabet);
+            if (state !== SortType.alphabet) {
+              sortGoods(SortType.alphabet);
+              setState(SortType.alphabet);
             } else {
               setPreparedGoods(goodsFromServer);
-              setState(State.default);
+              setState(SortType.default);
+              setReverse(false);
             }
           }}
         >
@@ -74,17 +75,18 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={
-            state === State.length
+            state === SortType.length
               ? 'button is-success'
               : 'button is-success is-light'
           }
           onClick={() => {
-            if (state !== State.length) {
-              sortGoods(State.length);
-              setState(State.length);
+            if (state !== SortType.length) {
+              sortGoods(SortType.length);
+              setState(SortType.length);
             } else {
               setPreparedGoods(goodsFromServer);
-              setState(State.default);
+              setState(SortType.default);
+              setReverse(false);
             }
           }}
         >
@@ -113,8 +115,7 @@ export const App: React.FC = () => {
             onClick={() => {
               setReverse(false);
               setPreparedGoods([...goodsFromServer]);
-
-              setState(State.default);
+              setState(SortType.default);
             }}
           >
             Reset
