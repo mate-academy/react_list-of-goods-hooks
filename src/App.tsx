@@ -16,66 +16,53 @@ export const goodsFromServer: string[] = [
   'Garlic',
 ];
 
+enum SortType {
+  Alphabetical,
+  Length,
+  Original,
+}
+
 export const App: React.FC = () => {
   const originalGoods: string[] = goodsFromServer;
 
-  enum SortType {
-    Alphabetical,
-    Length,
-    Original,
-  }
-
-  const [baseGoods, setBaseGoods] = useState(originalGoods);
   const [isReverted, setIsReverted] = useState(false);
-  const [isActive, setIsActive] = useState<SortType>(SortType.original);
+  const [isActive, setIsActive] = useState<SortType>(SortType.Original);
 
-  const isOriginalOrder =
-    baseGoods.length === originalGoods.length &&
-    baseGoods.every((g, i) => g === originalGoods[i]);
-
-  const renderGoods = isReverted ? [...baseGoods].reverse() : baseGoods;
-
-  const sortByName = () => {
-    const sorted = [...originalGoods].sort((a, b) => a.localeCompare(b));
-
-    setBaseGoods(sorted);
-    setIsReverted(false);
-    setIsActive('alphabetical');
-  };
-
-  const sortByLength = () => {
-    const sorted = [...originalGoods].sort((a, b) => a.length - b.length);
-
-    setBaseGoods(sorted);
-    setIsReverted(false);
-    setIsActive('length');
-  };
+  const isOriginalOrder: boolean = isActive === SortType.Original;
 
   const toggleReverse = () => {
     setIsReverted(prev => !prev);
   };
 
-  const resetGoods = () => {
-    setBaseGoods(originalGoods);
-    setIsReverted(false);
-    setIsActive('original');
-  };
+  const sortedGoods = [...originalGoods];
+
+  if (isActive === SortType.Alphabetical) {
+    sortedGoods.sort((a, b) => a.localeCompare(b));
+  }
+
+  if (isActive === SortType.Length) {
+    sortedGoods.sort((a, b) => a.length - b.length);
+  }
+
+  const renderGoods: string[] = isReverted
+    ? [...sortedGoods].reverse()
+    : sortedGoods;
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${isActive !== 'alphabetical' ? 'is-light' : ''}`}
-          onClick={sortByName}
+          className={`button is-info ${isActive !== SortType.Alphabetical ? 'is-light' : ''}`}
+          onClick={() => setIsActive(SortType.Alphabetical)}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={`button is-success ${isActive !== 'length' ? 'is-light' : ''}`}
-          onClick={sortByLength}
+          className={`button is-success ${isActive !== SortType.Length ? 'is-light' : ''}`}
+          onClick={() => setIsActive(SortType.Length)}
         >
           Sort by length
         </button>
@@ -92,7 +79,10 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={resetGoods}
+            onClick={() => {
+              setIsActive(SortType.Original);
+              setIsReverted(false);
+            }}
           >
             Reset
           </button>
