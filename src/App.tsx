@@ -1,8 +1,9 @@
 import 'bulma/css/bulma.css';
 import './App.scss';
 import { useState } from 'react';
+import React from 'react';
 
-export const goodsFromServer = [
+export const goodsFromServer: string[] = [
   'Dumplings',
   'Carrot',
   'Eggs',
@@ -15,12 +16,18 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-export const App = () => {
-  const originalGoods = goodsFromServer;
+export const App: React.FC = () => {
+  const originalGoods: string[] = goodsFromServer;
+
+  enum SortType {
+    Alphabetical,
+    Length,
+    Original,
+  }
 
   const [baseGoods, setBaseGoods] = useState(originalGoods);
   const [isReverted, setIsReverted] = useState(false);
-  const [isActive, setIsActive] = useState('original');
+  const [isActive, setIsActive] = useState<SortType>(SortType.original);
 
   const isOriginalOrder =
     baseGoods.length === originalGoods.length &&
