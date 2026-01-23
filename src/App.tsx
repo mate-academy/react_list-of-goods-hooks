@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-enum SortMode {
+enum SortType {
   Alphabetically,
   Length,
   Reset,
@@ -22,22 +22,22 @@ export const goodsFromServer = [
 ];
 
 export const App: React.FC = () => {
-  const [activeSort, setActiveSort] = useState<SortMode>(SortMode.Reset);
+  const [activeSort, setActiveSort] = useState<SortType>(SortType.Reset);
   const [isReversed, setIsReversed] = useState(false);
 
   const goods = useMemo(() => {
-    let result = [...goodsFromServer];
+    const result = [...goodsFromServer];
 
     switch (activeSort) {
-      case SortMode.Alphabetically:
+      case SortType.Alphabetically:
         result.sort();
         break;
 
-      case SortMode.Length:
+      case SortType.Length:
         result.sort((a, b) => a.length - b.length);
         break;
 
-      case SortMode.Reset:
+      case SortType.Reset:
       default:
         break;
     }
@@ -50,7 +50,7 @@ export const App: React.FC = () => {
   }, [activeSort, isReversed]);
 
   const handleReset = () => {
-    setActiveSort(SortMode.Reset);
+    setActiveSort(SortType.Reset);
     setIsReversed(false);
   };
 
@@ -59,9 +59,9 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          onClick={() => setActiveSort(SortMode.Alphabetically)}
+          onClick={() => setActiveSort(SortType.Alphabetically)}
           className={`button is-info ${
-            activeSort === SortMode.Alphabetically ? 'is-active' : 'is-light'
+            activeSort === SortType.Alphabetically ? 'is-active' : 'is-light'
           }`}
         >
           Sort alphabetically
@@ -69,9 +69,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          onClick={() => setActiveSort(SortMode.Length)}
+          onClick={() => setActiveSort(SortType.Length)}
           className={`button is-success ${
-            activeSort === SortMode.Length ? 'is-active' : 'is-light'
+            activeSort === SortType.Length ? 'is-active' : 'is-light'
           }`}
         >
           Sort by length
@@ -87,7 +87,7 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {activeSort !== SortMode.Reset || isReversed ? (
+        {activeSort !== SortType.Reset || isReversed ? (
           <button
             type="button"
             onClick={handleReset}
