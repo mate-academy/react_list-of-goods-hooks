@@ -61,21 +61,21 @@ export const App: React.FC = () => {
     });
   };
 
-  const clickAlphabet = () => {
+  const handleClickAlphabet = () => {
     setOrder(prev => ({
       ...prev,
       sortType: SortType.ALPHABET,
     }));
   };
 
-  const clickLength = () => {
+  const handleClickLength = () => {
     setOrder(prev => ({
       ...prev,
       sortType: SortType.LENGTH,
     }));
   };
 
-  const clickRevers = () => {
+  const handleClickRevers = () => {
     setOrder(prev => ({
       ...prev,
       isReversed: !prev.isReversed,
@@ -92,7 +92,7 @@ export const App: React.FC = () => {
               ? 'button is-info'
               : 'button is-info is-light'
           }
-          onClick={clickAlphabet}
+          onClick={handleClickAlphabet}
         >
           Sort alphabetically
         </button>
@@ -104,7 +104,7 @@ export const App: React.FC = () => {
               ? 'button is-success'
               : 'button is-success is-light'
           }
-          onClick={clickLength}
+          onClick={handleClickLength}
         >
           Sort by length
         </button>
@@ -116,7 +116,7 @@ export const App: React.FC = () => {
               ? 'button is-warning'
               : 'button is-warning is-light'
           }
-          onClick={clickRevers}
+          onClick={handleClickRevers}
         >
           Reverse
         </button>
