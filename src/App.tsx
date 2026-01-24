@@ -17,7 +17,7 @@ const goodsFromServer = [
 ];
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState(SortType['']);
+  const [sortField, setSortField] = useState(SortType.None);
   const [reversed, setReversed] = useState(false);
 
   const visibleList = useMemo(() => {
@@ -25,9 +25,9 @@ export const App: React.FC = () => {
 
     result.sort((a, b) => {
       switch (sortField) {
-        case SortType.alphabetically:
+        case SortType.Alphabetically:
           return a.localeCompare(b);
-        case SortType.length:
+        case SortType.Length:
           return a.length - b.length;
         default:
           return 0;
@@ -47,12 +47,12 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={
-            sortField === SortType.alphabetically
+            sortField === SortType.Alphabetically
               ? 'button is-info'
               : 'button is-info is-light'
           }
           onClick={() => {
-            setSortField(SortType.alphabetically);
+            setSortField(SortType.Alphabetically);
           }}
         >
           Sort alphabetically
@@ -61,12 +61,12 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={
-            sortField === SortType.length
+            sortField === SortType.Length
               ? 'button is-info'
               : 'button is-info is-light'
           }
           onClick={() => {
-            setSortField(SortType.length);
+            setSortField(SortType.Length);
           }}
         >
           Sort by length
@@ -84,13 +84,13 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortField !== SortType[''] || reversed) && (
+        {(sortField !== SortType.None || reversed) && (
           <button
             type="button"
             className="button is-danger is-light"
             onClick={() => {
               setReversed(false);
-              setSortField(SortType['']);
+              setSortField(SortType.None);
             }}
           >
             Reset
