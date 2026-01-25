@@ -72,7 +72,7 @@ export const App = () => {
 
   const resetGoods = () => {
     setGoods([...goodsFromServer]);
-    setSortMode('');
+    setSortMode(SortType.None);
     setReverse(false);
   };
 
@@ -108,7 +108,7 @@ export const App = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortMode === 'alphabet' ? '' : 'is-light'}`}
+          className={`button is-info ${sortMode === SortType.Alphabet ? '' : 'is-light'}`}
           onClick={() => {
             sortGoods(SortType.Alphabet);
           }}
@@ -118,7 +118,7 @@ export const App = () => {
 
         <button
           type="button"
-          className={`button is-success ${sortMode === 'length' ? '' : 'is-light'}`}
+          className={`button is-success ${sortMode === SortType.Length ? '' : 'is-light'}`}
           onClick={() => {
             sortGoods(SortType.Length);
           }}

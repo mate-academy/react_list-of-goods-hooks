@@ -1,7 +1,7 @@
 enum SortType {
   Alphabet = 'alphabet',
   Length = 'length',
-  None = 'none',
+  None = '',
 }
 
 export default SortType;
