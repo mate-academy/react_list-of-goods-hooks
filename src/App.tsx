@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import './types/SortType';
+import { SortType } from './types/SortType';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -76,7 +78,7 @@ export const App = () => {
 
   const alphabetGoods = [...goodsFromServer].sort((a, b) => a.localeCompare(b));
 
-  const sortGoods = (mode: string) => {
+  const sortGoods = (mode: SortType) => {
     setSortMode(mode);
     if (mode === 'alphabet') {
       const alphabetGoodsNew = alphabetGoods;
@@ -108,7 +110,7 @@ export const App = () => {
           type="button"
           className={`button is-info ${sortMode === 'alphabet' ? '' : 'is-light'}`}
           onClick={() => {
-            sortGoods('alphabet');
+            sortGoods(SortType.Alphabet);
           }}
         >
           Sort alphabetically
@@ -118,7 +120,7 @@ export const App = () => {
           type="button"
           className={`button is-success ${sortMode === 'length' ? '' : 'is-light'}`}
           onClick={() => {
-            sortGoods('length');
+            sortGoods(SortType.Length);
           }}
         >
           Sort by length
