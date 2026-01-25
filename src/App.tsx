@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import './types/SortType';
-import { SortType } from './types/SortType';
+import SortType from './types/SortType';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -63,7 +63,7 @@ function areArraysEqual(arr1: string[], arr2: string[]) {
 export const App = () => {
   const [goods, setGoods] = useState([...goodsFromServer]);
   const [reverse, setReverse] = useState(false);
-  const [sortMode, setSortMode] = useState('none');
+  const [sortMode, setSortMode] = useState<SortType>(SortType.None);
 
   const reverseGoods = () => {
     setGoods([...goods].reverse());
@@ -80,7 +80,7 @@ export const App = () => {
 
   const sortGoods = (mode: SortType) => {
     setSortMode(mode);
-    if (mode === 'alphabet') {
+    if (mode === SortType.Alphabet) {
       const alphabetGoodsNew = alphabetGoods;
 
       if (reverse === true) {
@@ -90,7 +90,7 @@ export const App = () => {
       }
     }
 
-    if (mode === 'length') {
+    if (mode === SortType.Length) {
       const lengthGoods = [...goodsFromServer].sort(
         (a, b) => a.length - b.length,
       );
