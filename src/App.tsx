@@ -16,20 +16,24 @@ export const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-type SortType = 'none' | 'alphabet' | 'length';
+enum SortType {
+  None = 'none',
+  Alphabet = 'alphabet',
+  Length = 'length',
+}
 
 export const App: React.FC = () => {
-  const [sortType, setSortType] = useState<SortType>('none');
+  const [sortType, setSortType] = useState<SortType>(SortType.None);
   const [reversed, setReversed] = useState(false);
 
   const goods = useMemo(() => {
     const result = [...goodsFromServer];
 
-    if (sortType === 'alphabet') {
+    if (sortType === SortType.Alphabet) {
       result.sort((a: string, b: string) => a.localeCompare(b));
     }
 
-    if (sortType === 'length') {
+    if (sortType === SortType.Length) {
       result.sort((a: string, b: string) => a.length - b.length);
     }
 
@@ -40,18 +44,18 @@ export const App: React.FC = () => {
     return result;
   }, [reversed, sortType]);
 
-  const isDefaultOrder = sortType === 'none' && !reversed;
+  const isDefaultOrder = sortType === SortType.None && !reversed;
 
-  const sortByAlphabetically = (): void => setSortType('alphabet');
-  const sortByLength = (): void => setSortType('length');
+  const sortByAlphabetically = (): void => setSortType(SortType.Alphabet);
+  const sortByLength = (): void => setSortType(SortType.Length);
   const reverseGoods = (): void => setReversed(prev => !prev);
   const resetGoods = (): void => {
-    setSortType('none');
+    setSortType(SortType.None);
     setReversed(false);
   };
 
-  const isAlphabetActive = sortType === 'alphabet';
-  const isLengthActive = sortType === 'length';
+  const isAlphabetActive = sortType === SortType.Alphabet;
+  const isLengthActive = sortType === SortType.Length;
   const isReverseActive = reversed;
 
   return (
