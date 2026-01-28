@@ -31,21 +31,16 @@ export const App: React.FC = () => {
     switch (sortType) {
       case SortType.Alphabetically:
         return copy.sort((a, b) => a.localeCompare(b));
-        break;
 
       case SortType.Length:
         return copy.sort((a, b) => a.length - b.length);
-        break;
 
       case SortType.Reverse:
         return copy.reverse();
-        break;
 
       case SortType.Default:
         return copy;
     }
-
-    return copy;
   }, [sortType]);
 
   return (
@@ -53,7 +48,7 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className="button is-info is-light"
+          className={`button is-info is-light ${sortType === SortType.Alphabetically ? 'is-active' : ''}`}
           onClick={() => setSortType(SortType.Alphabetically)}
         >
           Sort alphabetically
@@ -61,7 +56,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className="button is-success is-light"
+          className={`button is-success is-light ${sortType === SortType.Length ? 'is-active' : ''}`}
           onClick={() => setSortType(SortType.Length)}
         >
           Sort by length
@@ -69,7 +64,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className="button is-warning is-light"
+          className={`button is-warning is-light ${sortType === SortType.Reverse ? 'is-active' : ''}`}
           onClick={() => setSortType(SortType.Reverse)}
         >
           Reverse
@@ -77,7 +72,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className="button is-danger is-light"
+          className={`button is-danger is-light ${sortType === SortType.Default ? 'is-active' : ''}`}
           onClick={() => setSortType(SortType.Default)}
         >
           Reset
@@ -85,13 +80,11 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        <ul>
-          {visibleGoods.map(good => (
-            <li key={good} data-cy="Good">
-              {good}
-            </li>
-          ))}
-        </ul>
+        {visibleGoods.map(good => (
+          <li key={good} data-cy="Good">
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
