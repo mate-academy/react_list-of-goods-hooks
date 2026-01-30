@@ -1,17 +1,61 @@
-# React list of goods (Hooks)
+# React List of Goods (Hooks)
 
-> DON'T use class components (for this and next tasks).
+Projeto desenvolvido em React com foco em manipulação de estado utilizando Hooks e TypeScript, a partir de uma lista de produtos com diferentes formas de ordenação.
 
-Reimplement the **React list of goods** implemented before using hooks and typescript.
-Copy everything you need from your previous solution.
+[DEMO LINK](https://Igor-hrm.github.io/react_list-of-goods-hooks/)
 
-> Here is [the working version](https://mate-academy.github.io/react_list-of-goods/)
+---
 
-- Use the [React TypeScript cheat sheet](https://mate-academy.github.io/fe-program/js/extra/react-typescript) if needed.
-- Use `enum SortType` instead of string literals for possible sorting options (including the default one)
+## Sobre o projeto
 
-## Instructions
-- Install Prettier Extention and use this [VSCode settings](https://mate-academy.github.io/fe-program/tools/vscode/settings.json) to enable format on save.
-- Implement a solution following the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline).
-- Open one more terminal and run tests with `npm test` to ensure your solution is correct.
-- Replace `<your_account>` with your Github username in the [DEMO LINK](https://Igor-hrm.github.io/react_list-of-goods-hooks/) and add it to the PR description.
+Este projeto é uma reimplementação do **React List of Goods**, agora utilizando Hooks e TypeScript.
+O objetivo foi refatorar a solução anterior, substituindo class components por hooks e adicionando tipagem para melhorar a organização e a segurança do código.
+
+A aplicação permite ordenar os produtos de diferentes formas, inverter a ordem atual e restaurar o estado inicial da lista.
+
+---
+
+## Tecnologias utilizadas
+
+- React
+- TypeScript
+- CSS
+- Vite
+
+---
+
+## O que foi desenvolvido
+
+- Reimplementação da lógica utilizando Hooks (`useState`, `useMemo`)
+- Uso de `enum` para definir os tipos de ordenação
+- Ordenação alfabética da lista de produtos
+- Ordenação baseada no tamanho do texto
+- Inversão da ordem atual da lista
+- Restauração da ordem original
+- Controle visual do estado dos botões
+- Tipagem dos dados e estados da aplicação
+- Manutenção das classes CSS exigidas para testes automatizados
+- Deploy da aplicação com GitHub Pages
+
+---
+
+## Aprendizados
+
+Com este projeto, pratiquei:
+
+- Uso de Hooks no React
+- Tipagem de componentes e estados com TypeScript
+- Refatoração de class components para hooks
+- Organização de lógica de ordenação
+- Escrita de código mais seguro e previsível
+
+---
+
+## Como rodar o projeto localmente
+
+```bash
+git clone https://github.com/Igor-hrm/react_list-of-goods-hooks.git
+cd react_list-of-goods-hooks
+npm install
+npm run dev
+```
