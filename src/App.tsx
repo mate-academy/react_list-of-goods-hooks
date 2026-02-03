@@ -28,13 +28,12 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
 
   const sortAlphabetically = () => {
-    setGoods([...goods].sort((a, b) => a.localeCompare(b)));
+    setGoods([...goodsFromServer].sort((a, b) => a.localeCompare(b)));
     setSortBy(SortType.Alphabetically);
   };
 
   const sortByLength = () => {
-    setGoods([...goods].sort((a, b) => a.length - b.length));
-
+    setGoods([...goodsFromServer].sort((a, b) => a.length - b.length));
     setSortBy(SortType.Length);
   };
 
