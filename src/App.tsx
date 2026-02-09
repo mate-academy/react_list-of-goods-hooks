@@ -30,9 +30,7 @@ export const App: React.FC = () => {
 
   if (sortParams.sort === SortType.Alphabet) {
     visibleGoods.sort((a, b) => a.localeCompare(b));
-  }
-
-  if (sortParams.sort === SortType.Length) {
+  } else if (sortParams.sort === SortType.Length) {
     visibleGoods.sort((a, b) => a.length - b.length);
   }
 
@@ -73,9 +71,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-warning ${
-            sortParams.reverse ? '' : 'is-light'
-          }`}
+          className={`button is-warning ${sortParams.reverse ? '' : 'is-light'}`}
           onClick={() =>
             setSortParams(prev => ({
               ...prev,
