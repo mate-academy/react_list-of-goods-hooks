@@ -17,25 +17,26 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-export enum SortOptions {
+export enum SortType {
   Alphabetically = 'alphabetically',
   Length = 'length',
+  None = '',
 }
 
 interface SortParams {
-  sortStatus: SortOptions | '';
+  sortStatus: SortType;
   reverse: boolean;
 }
 
 function sortGoods(goods: string[], { sortStatus, reverse }: SortParams) {
   const preparedGoods = [...goods];
 
-  if (sortStatus !== '') {
+  if (sortStatus !== SortType.None) {
     preparedGoods.sort((good1, good2) => {
       switch (sortStatus) {
-        case SortOptions.Alphabetically:
+        case SortType.Alphabetically:
           return good1.localeCompare(good2);
-        case SortOptions.Length:
+        case SortType.Length:
           return good1.length - good2.length;
       }
     });
@@ -50,7 +51,7 @@ function sortGoods(goods: string[], { sortStatus, reverse }: SortParams) {
 
 export const App: React.FC = () => {
   const [reverse, setReverse] = useState(false);
-  const [sortStatus, setSortOptions] = useState<SortOptions | ''>('');
+  const [sortStatus, setSortOptions] = useState<SortType>(SortType.None);
   const visibleGood = sortGoods(goodsFromServer, { sortStatus, reverse });
   const reset = goodsFromServer.some(
     (value, index) => value !== visibleGood[index],
@@ -62,10 +63,10 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={classNames('button', 'is-info', {
-            'is-light': sortStatus !== SortOptions.Alphabetically,
+            'is-light': sortStatus !== SortType.Alphabetically,
           })}
           onClick={() => {
-            setSortOptions(SortOptions.Alphabetically);
+            setSortOptions(SortType.Alphabetically);
           }}
         >
           Sort alphabetically
@@ -74,10 +75,10 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={classNames('button', 'is-success', {
-            'is-light': sortStatus !== SortOptions.Length,
+            'is-light': sortStatus !== SortType.Length,
           })}
           onClick={() => {
-            setSortOptions(SortOptions.Length);
+            setSortOptions(SortType.Length);
           }}
         >
           Sort by length
@@ -99,7 +100,7 @@ export const App: React.FC = () => {
             className="button is-danger is-light"
             onClick={() => {
               setReverse(false);
-              setSortOptions('');
+              setSortOptions(SortType.None);
             }}
           >
             Reset
