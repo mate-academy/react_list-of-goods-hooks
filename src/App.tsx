@@ -6,7 +6,7 @@ import cn from 'classnames';
 const enum Sort {
   none = 'none',
   alphabetical = 'alphabetical',
-  length = 'length'
+  length = 'length',
 }
 
 export const goodsFromServer = [
@@ -23,17 +23,17 @@ export const goodsFromServer = [
 ];
 
 const getPreparedGoods = (
-      goods: string[], 
-      sortField: Sort, 
-      reverseField: boolean
-  ) => {
+  goods: string[],
+  sortField: Sort,
+  reverseField: boolean,
+) => {
   const preparedGoods = [...goods];
 
   if (sortField === Sort.alphabetical) {
     preparedGoods.sort((a, b) => a.localeCompare(b));
   } else if (sortField === Sort.length) {
     preparedGoods.sort((a, b) => {
-      return (a.length - b.length) || a.localeCompare(b);
+      return a.length - b.length || a.localeCompare(b);
     });
   }
 
@@ -44,14 +44,13 @@ const getPreparedGoods = (
   return preparedGoods;
 };
 
-
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState<Sort>(Sort.none);
   const [reverseField, setReverseField] = useState(false);
-  
+
   const visibleGoods = useMemo(() => {
     return getPreparedGoods(goodsFromServer, sortField, reverseField);
-  }, [goodsFromServer, sortField, reverseField]);
+  }, [sortField, reverseField]);
 
   const handleReset = () => {
     setSortField(Sort.none);
