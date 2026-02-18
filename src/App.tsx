@@ -38,7 +38,7 @@ export enum SortType {
   Length = 'length',
 }
 interface FilterParams {
-  sortField: string;
+  sortField: SortType;
   reversed: boolean;
 }
 
@@ -52,7 +52,7 @@ function getSortGoods(goods: string[], { sortField, reversed }: FilterParams) {
   }
 
   if (reversed) {
-    return pGoods.toReversed();
+    return pGoods.reverse();
   }
 
   return pGoods;
@@ -121,7 +121,7 @@ export const App: React.FC = () => {
             }}
             type="button"
             className={
-              sortField === ''
+              sortField === SortType.Default
                 ? 'button is-danger'
                 : 'button is-danger is-light'
             }
