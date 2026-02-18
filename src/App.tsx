@@ -121,9 +121,7 @@ export const App: React.FC = () => {
             }}
             type="button"
             className={
-              sortField === SortType.Default
-                ? 'button is-danger'
-                : 'button is-danger is-light'
+              isChanged ? 'button is-danger' : 'button is-danger is-light'
             }
           >
             Reset
