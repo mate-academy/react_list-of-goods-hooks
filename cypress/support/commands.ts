@@ -40,7 +40,7 @@ export {};
 
 declare global {
   namespace Cypress {
-    interface Chainable<Subject> {
+    interface Chainable {
       getByDataCy(selector: string): Chainable<JQuery<HTMLElement>>;
       byDataCy(name: string): Chainable<JQuery<HTMLElement>>;
     }
@@ -48,7 +48,7 @@ declare global {
 }
 
 Cypress.Commands.add('getByDataCy', selector => {
-  cy.get(`[data-cy="${selector}"]`);
+  return cy.get(`[data-cy="${selector}"]`);
 });
 
 Cypress.Commands.add(
