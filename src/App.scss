@@ -1,3 +1,19 @@
 iframe {
   display: none;
 }
+
+button {
+  margin-right: 8px;
+  cursor: pointer;
+  padding: 6px 12px;
+}
+
+button.active {
+  border: 1px solid #007bff;
+  background-color: #007bff;
+  color: white;
+}
+
+button.active:hover {
+  opacity: 0.9;
+}
