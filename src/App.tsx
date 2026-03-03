@@ -6,7 +6,10 @@ import './App.scss';
 import { ListGoods } from './components/ListGoods/ListGoods';
 import { Buttons } from './components/Buttons/Buttons';
 
-export type SortType = 'alphabet' | 'length' | null;
+export enum SortType {
+  Alphabet = 'alphabet',
+  Length = 'length',
+}
 
 export const goodsFromServer = [
   'Dumplings',
@@ -22,17 +25,17 @@ export const goodsFromServer = [
 ];
 
 export const App: React.FC = () => {
-  const [sort, setSort] = useState<SortType>(null); // тип сортування
+  const [sort, setSort] = useState<SortType | null>(null); // тип сортування
   const [isResetVisible, setIsResetVisible] = useState(false); // видимість кнопке ресет
   const [isReverseActive, setIsReverseActive] = useState(false); // флаг для кнопки реверс
 
   const sortAlphabetically = () => {
-    setSort('alphabet');
+    setSort(SortType.Alphabet);
     setIsResetVisible(true);
   };
 
   const sortLength = () => {
-    setSort('length');
+    setSort(SortType.Length);
     setIsResetVisible(true);
   };
 
@@ -49,11 +52,11 @@ export const App: React.FC = () => {
 
   const preparedGoods = [...goodsFromServer];
 
-  if (sort === 'alphabet') {
+  if (sort === SortType.Alphabet) {
     preparedGoods.sort((a, b) => a.localeCompare(b));
   }
 
-  if (sort === 'length') {
+  if (sort === SortType.Length) {
     preparedGoods.sort((a, b) => a.length - b.length);
   }
 

@@ -1,5 +1,5 @@
 //..
-import type { SortType } from '../../App';
+import { SortType } from '../../App';
 type ButtonsProps = {
   sortAlph: () => void;
   sortLeng: () => void;
@@ -24,7 +24,7 @@ export const Buttons = ({
       <button
         type="button"
         className={
-          activeSort === 'alphabet'
+          activeSort === SortType.Alphabet
             ? 'button is-success'
             : 'button is-success is-light'
         }
@@ -36,7 +36,7 @@ export const Buttons = ({
       <button
         type="button"
         className={
-          activeSort === 'length'
+          activeSort === SortType.Length
             ? 'button is-success'
             : 'button is-success is-light'
         }
