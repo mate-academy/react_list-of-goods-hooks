@@ -5,7 +5,7 @@ type ButtonsProps = {
   sortLeng: () => void;
   resetArr: () => void;
   isReverseActive: boolean;
-  activeSort: SortType;
+  activeSort: SortType | null;
   isResetVisible: boolean;
   onReverse: () => void;
 };
@@ -48,15 +48,13 @@ export const Buttons = ({
       <button
         type="button"
         className={
-          isReverseActive === true
-            ? 'button is-warning'
-            : 'button is-warning is-light'
+          isReverseActive ? 'button is-warning' : 'button is-warning is-light'
         }
         onClick={onReverse}
       >
         Reverse
       </button>
-      {isResetVisible === true ? (
+      {isResetVisible && (
         <button
           type="button"
           className="button is-danger is-light"
@@ -64,8 +62,6 @@ export const Buttons = ({
         >
           Reset
         </button>
-      ) : (
-        false
       )}
     </div>
   );
