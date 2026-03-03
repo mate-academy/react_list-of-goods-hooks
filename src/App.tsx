@@ -1,6 +1,12 @@
+//..
+import { useState } from 'react';
 import React from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
+import { ListGoods } from './components/ListGoods/ListGoods';
+import { Buttons } from './components/Buttons/Buttons';
+
+export type SortType = 'alphabet' | 'length' | null;
 
 export const goodsFromServer = [
   'Dumplings',
@@ -16,36 +22,57 @@ export const goodsFromServer = [
 ];
 
 export const App: React.FC = () => {
+  const [sort, setSort] = useState<SortType>(null); // тип сортування
+  const [isResetVisible, setIsResetVisible] = useState(false); // видимість кнопке ресет
+  const [isReverseActive, setIsReverseActive] = useState(false); // флаг для кнопки реверс
+
+  const sortAlphabetically = () => {
+    setSort('alphabet');
+    setIsResetVisible(true);
+  };
+
+  const sortLength = () => {
+    setSort('length');
+    setIsResetVisible(true);
+  };
+
+  const reset = () => {
+    setSort(null);
+    setIsReverseActive(false);
+    setIsResetVisible(false);
+  };
+
+  const reverse = () => {
+    setIsReverseActive(prev => !prev);
+    setIsResetVisible(true);
+  };
+
+  const preparedGoods = [...goodsFromServer];
+
+  if (sort === 'alphabet') {
+    preparedGoods.sort((a, b) => a.localeCompare(b));
+  }
+
+  if (sort === 'length') {
+    preparedGoods.sort((a, b) => a.length - b.length);
+  }
+
+  if (isReverseActive) {
+    preparedGoods.reverse();
+  }
+
   return (
     <div className="section content">
-      <div className="buttons">
-        <button type="button" className="button is-info is-light">
-          Sort alphabetically
-        </button>
-
-        <button type="button" className="button is-success is-light">
-          Sort by length
-        </button>
-
-        <button type="button" className="button is-warning is-light">
-          Reverse
-        </button>
-
-        <button type="button" className="button is-danger is-light">
-          Reset
-        </button>
-      </div>
-
-      <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
-      </ul>
+      <Buttons
+        sortAlph={sortAlphabetically}
+        sortLeng={sortLength}
+        resetArr={reset}
+        activeSort={sort}
+        onReverse={reverse}
+        isResetVisible={isResetVisible}
+        isReverseActive={isReverseActive}
+      />
+      <ListGoods goods={preparedGoods} />
     </div>
   );
 };
