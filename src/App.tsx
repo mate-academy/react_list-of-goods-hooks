@@ -38,9 +38,9 @@ export const App: React.FC = () => {
 
   let visibleGoods = [...goodsFromServer].sort((a, b) => {
     switch (sortBy) {
-      case SORT_BY_ALPHA:
+      case SortType.Alphabetical:
         return a.localeCompare(b);
-      case SORT_BY_LENGTH:
+      case SortType.Length:
         return a.length - b.length;
       default:
         return 0;
@@ -94,10 +94,7 @@ export const App: React.FC = () => {
           </button>
         )}
       </div>
-
-      <ul>
-        <ListGoods goods={visibleGoods} />
-      </ul>
+      <ListGoods goods={visibleGoods} />
     </div>
   );
 };
