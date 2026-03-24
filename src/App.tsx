@@ -15,21 +15,28 @@ const goodsFromServer: string[] = [
   'Garlic',
 ];
 
+// 🔹 Enum для типу сортування
+export enum SortType {
+  Alphabet = 'alphabet',
+  Length = 'length',
+  None = '',
+}
+
 export const App: React.FC = () => {
   const [goods, setGoods] = useState<string[]>(goodsFromServer);
-  const [sortType, setSortType] = useState<'alphabet' | 'length' | ''>('');
+  const [sortType, setSortType] = useState<SortType>(SortType.None);
   const [isReversed, setIsReversed] = useState<boolean>(false);
 
-  // Завжди сортуємо з оригінального списку
+  // 🔹 Завжди сортуємо з оригіналу
   const sortAlphabetically = () => {
     setGoods([...goodsFromServer].sort((a, b) => a.localeCompare(b)));
-    setSortType('alphabet');
+    setSortType(SortType.Alphabet);
     setIsReversed(false);
   };
 
   const sortByLength = () => {
     setGoods([...goodsFromServer].sort((a, b) => a.length - b.length));
-    setSortType('length');
+    setSortType(SortType.Length);
     setIsReversed(false);
   };
 
@@ -40,12 +47,12 @@ export const App: React.FC = () => {
 
   const resetGoods = () => {
     setGoods(goodsFromServer);
-    setSortType('');
+    setSortType(SortType.None);
     setIsReversed(false);
   };
 
   const isResetVisible =
-    sortType !== '' ||
+    sortType !== SortType.None ||
     isReversed ||
     goods.join('') !== goodsFromServer.join('');
 
@@ -54,7 +61,7 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortType === 'alphabet' ? '' : 'is-light'}`}
+          className={`button is-info ${sortType === SortType.Alphabet ? '' : 'is-light'}`}
           onClick={sortAlphabetically}
         >
           Sort alphabetically
@@ -62,7 +69,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-success ${sortType === 'length' ? '' : 'is-light'}`}
+          className={`button is-success ${sortType === SortType.Length ? '' : 'is-light'}`}
           onClick={sortByLength}
         >
           Sort by length
