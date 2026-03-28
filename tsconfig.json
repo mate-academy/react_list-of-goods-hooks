@@ -1,6 +1,12 @@
 {
   "extends": "@mate-academy/students-ts-config",
-  "include": [
-    "src"
-  ]
+  "include": ["src"],
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "target": "ESNext",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true
+  }
 }
