@@ -1,3 +1,3 @@
-import { STATES } from '../state/state';
+import { SORTING } from '../state/state';
 
-export type StateValue = (typeof STATES)[keyof typeof STATES];
+export type SortingType = (typeof SORTING)[keyof typeof SORTING];

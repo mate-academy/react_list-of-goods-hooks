@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-import { StateValue } from './types/state';
+import { SortingType } from './types/state';
 
-import { STATES } from './state/state';
+import { SORTING } from './state/state';
 import { SORT } from './state/sorting';
 
 import { Button } from './components/Button';
@@ -24,19 +24,18 @@ export const goodsFromServer = [
 ];
 
 type AppState = {
-  type: StateValue;
+  type: SortingType;
   isReversed: boolean;
 };
 
 export const App: React.FC = () => {
   const [sorting, setSorting] = useState<AppState>({
-    type: STATES.DEFAULT,
+    type: SORTING.DEFAULT,
     isReversed: false,
   });
 
   const sortedGoods = (() => {
-    const arr = SORT[sorting.type ?? STATES.DEFAULT](goodsFromServer);
-    // isn't protected from invalid strings though.
+    const arr = SORT[sorting.type ?? SORTING.DEFAULT](goodsFromServer);
 
     if (sorting.isReversed) {
       arr.reverse();
@@ -51,11 +50,11 @@ export const App: React.FC = () => {
         <Button
           text="Sort alphabetically"
           highlightClass="is-info"
-          highlightCondition={sorting.type === STATES.ALPHABETICALLY}
+          highlightCondition={sorting.type === SORTING.ALPHABETICALLY}
           handleClick={() =>
             setSorting(currrentSorting => ({
               ...currrentSorting,
-              type: STATES.ALPHABETICALLY,
+              type: SORTING.ALPHABETICALLY,
             }))
           }
         />
@@ -63,11 +62,11 @@ export const App: React.FC = () => {
         <Button
           text="Sort by length"
           highlightClass="is-success"
-          highlightCondition={sorting.type === STATES.BY_LENGTH}
+          highlightCondition={sorting.type === SORTING.BY_LENGTH}
           handleClick={() =>
             setSorting(currrentSorting => ({
               ...currrentSorting,
-              type: STATES.BY_LENGTH,
+              type: SORTING.BY_LENGTH,
             }))
           }
         />
@@ -84,14 +83,14 @@ export const App: React.FC = () => {
           }
         />
 
-        {(sorting.type !== STATES.DEFAULT || sorting.isReversed) && (
+        {(sorting.type !== SORTING.DEFAULT || sorting.isReversed) && (
           <Button
             text="Reset"
             highlightClass="is-danger"
             highlightCondition={false}
             handleClick={() =>
               setSorting({
-                type: STATES.DEFAULT,
+                type: SORTING.DEFAULT,
                 isReversed: false,
               })
             }
