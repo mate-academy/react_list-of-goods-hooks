@@ -20,9 +20,10 @@ export const goodsFromServer = [
 enum SortType {
   sortAlphabetically = 'Sort alphabetically',
   sortByLength = 'Sort by length',
+  defolt = '',
 }
 
-function getSortedList(sign: string, reverse: boolean) {
+function getSortedList(sign: SortType, reverse: boolean) {
   let newList = [...goodsFromServer];
 
   if (reverse) {
@@ -77,7 +78,7 @@ function getSortedList(sign: string, reverse: boolean) {
 }
 
 export const App = () => {
-  const [sortSign, setSortSign] = useState('');
+  const [sortSign, setSortSign] = useState(SortType.defolt);
   const [reverse, setReverseSortList] = useState(false);
   const newSortList = getSortedList(sortSign, reverse);
 
@@ -117,11 +118,11 @@ export const App = () => {
         {sortSign || reverse ? (
           <button
             onClick={() => {
-              setSortSign('');
+              setSortSign(SortType.defolt);
               setReverseSortList(false);
             }}
             type="button"
-            className={cn('button is-dangeris-light')}
+            className={cn('button is-danger is-light')}
           >
             Reset
           </button>
