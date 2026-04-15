@@ -17,13 +17,13 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-export const App: React.FC = () => {
-  enum SortType {
-    Default = 'default',
-    Alphabetical = 'alphabetical',
-    Length = 'length',
-  }
+enum SortType {
+  Default = 'default',
+  Alphabetical = 'alphabetical',
+  Length = 'length',
+}
 
+export const App: React.FC = () => {
   const [sortType, setSortType] = useState<SortType>(SortType.Default);
   const [isReversed, setIsReversed] = useState(false);
 
@@ -83,13 +83,11 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        <ul>
-          {visibleGoods.map(good => (
-            <li data-cy="Good" key={good}>
-              {good}
-            </li>
-          ))}
-        </ul>
+        {visibleGoods.map(good => (
+          <li data-cy="Good" key={good}>
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
