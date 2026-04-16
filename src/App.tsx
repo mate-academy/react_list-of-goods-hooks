@@ -44,7 +44,7 @@ export const App: React.FC = () => {
     visibleGoods.reverse();
   }
 
-  const defaultOrder = sortType === 'default' && !isReversed;
+  const defaultOrder = sortType === SortType.Default && !isReversed;
 
   return (
     <div className="section content">
