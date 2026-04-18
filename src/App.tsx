@@ -4,7 +4,7 @@ import cn from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-export const goodsFromServer = [
+export const goodsFromServer: string[] = [
   'Dumplings',
   'Carrot',
   'Eggs',
@@ -17,12 +17,15 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-const sortbyletter: string = 'sortByLetter';
-const sortbylength: string = 'sortByLength';
+enum SortType {
+  Default = 'default',
+  Alphabet = 'alhabet',
+  Length = 'length',
+}
 
 function getPrepareGoods(
   goods: string[],
-  sortField: string,
+  sortField: SortType,
   revers: boolean,
 ): string[] {
   const prepareGoods: string[] = [...goods];
@@ -30,9 +33,9 @@ function getPrepareGoods(
   if (sortField) {
     prepareGoods.sort((good1: string, good2: string) => {
       switch (sortField) {
-        case sortbyletter:
+        case SortType.Alphabet:
           return good1.localeCompare(good2);
-        case sortbylength:
+        case SortType.Length:
           return good1.length - good2.length;
         default:
           return 0;
@@ -48,31 +51,36 @@ function getPrepareGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState('');
-  const [sortReverse, setSortReverse] = useState(false);
-  const visibleGoods = getPrepareGoods(goodsFromServer, sortField, sortReverse);
-  const isResetVisible = sortField !== '' || sortReverse;
+  const [sortField, setSortField] = useState<SortType>(SortType.Default);
+  const [sortReverse, setSortReverse] = useState<boolean>(false);
+  const [isReset, setIsReset] = useState<boolean>(false);
 
+  const visibleGoods = getPrepareGoods(goodsFromServer, sortField, sortReverse);
   const reset = () => {
-    setSortField('');
+    setSortField(SortType.Default);
     setSortReverse(false);
+    setIsReset(false);
   };
 
   const sortByLength = () => {
-    setSortField(sortbylength);
+    setSortField(SortType.Length);
+    setIsReset(true);
   };
 
   const sortByLetter = () => {
-    setSortField(sortbyletter);
+    setSortField(SortType.Alphabet);
+    setIsReset(true);
   };
 
   const reverse = () => {
     if (sortReverse) {
       setSortReverse(false);
+      setIsReset(false);
 
       return;
     }
 
+    setIsReset(true);
     setSortReverse(true);
   };
 
@@ -83,7 +91,7 @@ export const App: React.FC = () => {
           type="button"
           onClick={sortByLetter}
           className={cn('button  is-info ', {
-            'is-light': sortField !== sortbyletter,
+            'is-light': sortField !== SortType.Alphabet,
           })}
         >
           Sort alphabetically
@@ -93,7 +101,7 @@ export const App: React.FC = () => {
           onClick={sortByLength}
           type="button"
           className={cn('button is-success ', {
-            'is-light': sortField !== sortbylength,
+            'is-light': sortField !== SortType.Length,
           })}
         >
           Sort by length
@@ -108,7 +116,7 @@ export const App: React.FC = () => {
         >
           Reverse
         </button>
-        {isResetVisible && (
+        {isReset && (
           <button
             onClick={reset}
             type="button"
@@ -121,7 +129,7 @@ export const App: React.FC = () => {
 
       <ul>
         {visibleGoods.map(good => (
-          <li data-cy="Good" key={good}>
+          <li key={good} data-cy="Good">
             {good}
           </li>
         ))}
