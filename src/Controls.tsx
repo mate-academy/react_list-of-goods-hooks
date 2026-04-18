@@ -1,10 +1,10 @@
 import React from 'react';
 import cn from 'classnames';
-import { SORT_FIELD } from './constants';
+import { SortType } from './constants';
 
 interface Buttons {
-  sortField: string;
-  onSortField: (sortField: string) => void;
+  sortField: SortType;
+  onSortField: (sortField: SortType) => void;
   isReversed: boolean;
   onIsReversed: (isReversed: boolean) => void;
 }
@@ -19,9 +19,9 @@ export const Controls: React.FC<Buttons> = ({
     <button
       type="button"
       className={cn('button is-info', {
-        'is-light': sortField !== SORT_FIELD.ALPHABET,
+        'is-light': sortField !== SortType.Alphabet,
       })}
-      onClick={() => onSortField(SORT_FIELD.ALPHABET)}
+      onClick={() => onSortField(SortType.Alphabet)}
     >
       Sort alphabetically
     </button>
@@ -29,9 +29,9 @@ export const Controls: React.FC<Buttons> = ({
     <button
       type="button"
       className={cn('button is-success', {
-        'is-light': sortField !== SORT_FIELD.LENGTH,
+        'is-light': sortField !== SortType.Length,
       })}
-      onClick={() => onSortField(SORT_FIELD.LENGTH)}
+      onClick={() => onSortField(SortType.Length)}
     >
       Sort by length
     </button>
@@ -50,7 +50,7 @@ export const Controls: React.FC<Buttons> = ({
         type="button"
         className="button is-danger is-light"
         onClick={() => {
-          onSortField('');
+          onSortField(SortType.None);
           onIsReversed(false);
         }}
       >

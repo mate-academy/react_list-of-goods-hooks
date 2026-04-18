@@ -1,4 +1,5 @@
-export const SORT_FIELD = {
-  ALPHABET: 'alphabet',
-  LENGTH: 'length',
-};
+export enum SortType {
+  None = '',
+  Alphabet = 'alphabet',
+  Length = 'length',
+}

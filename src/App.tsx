@@ -3,7 +3,7 @@ import 'bulma/css/bulma.css';
 import './App.scss';
 import { GoodsList } from './GoodsList';
 import { Controls } from './Controls';
-import { SORT_FIELD } from './constants';
+import { SortType } from './constants';
 
 export const goodsFromServer = [
   'Dumplings',
@@ -19,7 +19,7 @@ export const goodsFromServer = [
 ];
 
 interface SortSettings {
-  sortField: string;
+  sortField: SortType;
   isReversed: boolean;
 }
 
@@ -32,9 +32,9 @@ function getPreparedGoods(
   if (sortField) {
     preparedGoods.sort((good1, good2) => {
       switch (sortField) {
-        case SORT_FIELD.ALPHABET:
+        case SortType.Alphabet:
           return good1.localeCompare(good2);
-        case SORT_FIELD.LENGTH:
+        case SortType.Length:
           return good1.length - good2.length;
         default:
           return 0;
@@ -50,7 +50,7 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState<SortType>(SortType.None);
   const [isReversed, setIsReversed] = useState(false);
   const visibleGoods = getPreparedGoods(goodsFromServer, {
     sortField,

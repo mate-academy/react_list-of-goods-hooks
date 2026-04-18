@@ -5,12 +5,10 @@ interface Props {
 
 export const GoodsList: React.FC<Props> = ({ goods }) => (
   <ul>
-    <ul>
-      {goods.map(good => (
-        <li data-cy="Good" key={good}>
-          {good}
-        </li>
-      ))}
-    </ul>
+    {goods.map(good => (
+      <li data-cy="Good" key={good}>
+        {good}
+      </li>
+    ))}
   </ul>
 );
