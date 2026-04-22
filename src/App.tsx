@@ -15,20 +15,20 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-enum SortBy {
+enum SortType {
   Alphabet = 'alphabet',
   Length = 'length',
 }
 
 export const App: React.FC = () => {
-  const [sortBy, setSortBy] = useState<SortBy | ''>('');
+  const [sortType, setSortType] = useState<SortType | ''>('');
   const [isReversed, setIsReversed] = useState(false);
 
   const visibleGoods = [...goodsFromServer];
 
-  if (sortBy === SortBy.Alphabet) {
+  if (sortType === SortType.Alphabet) {
     visibleGoods.sort((a, b) => a.localeCompare(b));
-  } else if (sortBy === SortBy.Length) {
+  } else if (sortType === SortType.Length) {
     visibleGoods.sort((a, b) => a.length - b.length);
   }
 
@@ -36,28 +36,28 @@ export const App: React.FC = () => {
     visibleGoods.reverse();
   }
 
-  const reset = () => {
-    setSortBy('');
+  const handleReset = () => {
+    setSortType('');
     setIsReversed(false);
   };
 
-  const isChanged = sortBy !== '' || isReversed;
+  const isChanged = sortType !== '' || isReversed;
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortBy !== 'alphabet' ? 'is-light' : ''}`}
-          onClick={() => setSortBy(SortBy.Alphabet)}
+          className={`button is-info ${sortType !== SortType.Alphabet ? 'is-light' : ''}`}
+          onClick={() => setSortType(SortType.Alphabet)}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={`button is-success ${sortBy !== 'length' ? 'is-light' : ''}`}
-          onClick={() => setSortBy(SortBy.Length)}
+          className={`button is-success ${sortType !== SortType.Length ? 'is-light' : ''}`}
+          onClick={() => setSortType(SortType.Length)}
         >
           Sort by length
         </button>
@@ -74,7 +74,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={reset}
+            onClick={handleReset}
           >
             Reset
           </button>
