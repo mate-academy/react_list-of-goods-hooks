@@ -1,6 +1,11 @@
 {
   "extends": "@mate-academy/students-ts-config",
-  "include": [
-    "src"
-  ]
+  "compilerOptions": {
+    "target": "ES2020",
+    "moduleResolution": "node16",
+    "module": "Node16",
+    "jsx": "react-jsx"
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
 }
