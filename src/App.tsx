@@ -45,11 +45,11 @@ export const App = () => {
 
   const visibleGoods = getPreparedGoods();
 
-  const sortByAlpha = () => {
+  const handleSortByAlpha = () => {
     setSortField(SortType.ALPHA);
   };
 
-  const sortByLength = () => {
+  const handleSortByLength = () => {
     setSortField(SortType.LENGTH);
   };
 
@@ -67,29 +67,29 @@ export const App = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortField === 'alpha' ? '' : 'is-light'}`}
-          onClick={sortByAlpha}
+          className={`button is-info ${sortField === SortType.ALPHA ? '' : 'is-light'}`}
+          onClick={handleSortByAlpha}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={`button is-success ${sortField === 'length' ? '' : 'is-light'}`}
-          onClick={sortByLength}
+          className={`button is-success ${sortField === SortType.LENGTH ? '' : 'is-light'}`}
+          onClick={handleSortByLength}
         >
           Sort by length
         </button>
 
         <button
           type="button"
-          className={`button is-warning ${isReversed ? '' : 'is-light'}`}
+          className={`button is-warning ${isReversed ? SortType.NONE : 'is-light'}`}
           onClick={reverseGoods}
         >
           Reverse
         </button>
 
-        {(sortField !== '' || isReversed) && (
+        {(sortField !== SortType.NONE || isReversed) && (
           <button
             type="button"
             className="button is-danger is-light"
