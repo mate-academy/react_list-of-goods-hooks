@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { clsx } from 'clsx';
 import 'bulma/css/bulma.css';
 import './App.scss';
 import { getFilteredGoods } from './utils';
@@ -33,9 +32,7 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={clsx('button is-info', {
-            'is-light': sortField !== SortType.Alphabet,
-          })}
+          className={`button is-info ${sortField === SortType.Alphabet ? '' : 'is-light'}`}
           onClick={() => setSortField(SortType.Alphabet)}
         >
           Sort alphabetically
@@ -43,9 +40,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={clsx('button is-success', {
-            'is-light': sortField !== SortType.Length,
-          })}
+          className={`button is-success ${sortField === SortType.Length ? '' : 'is-light'}`}
           onClick={() => setSortField(SortType.Length)}
         >
           Sort by length
@@ -53,9 +48,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={clsx('button is-warning', {
-            'is-light': !reverse,
-          })}
+          className={`button is-warning ${reverse ? '' : 'is-light'}`}
           onClick={() => setReverse(prev => !prev)}
         >
           Reverse
