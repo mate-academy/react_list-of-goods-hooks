@@ -15,21 +15,25 @@ export const goodsFromServer = [
   'Jam',
   'Garlic',
 ];
-const SORT_FIELD_ALPHABET = 'alphabet';
-const SORT_FIELD_LENGTH = 'length';
 
 type SortInterface = {
   goods: string[];
-  sortField: string;
+  sortField: SortType;
   isReversed: boolean;
+};
+
+enum SortType {
+  Default = '',
+  Alphabet = 'alphabet',
+  Length = 'length',
 }
 
 function sortGoods({ goods, sortField, isReversed }: SortInterface): string[] {
   const preparedGoods = [...goods];
 
-  if (sortField === SORT_FIELD_ALPHABET) {
+  if (sortField === SortType.Alphabet) {
     preparedGoods.sort();
-  } else if (sortField === SORT_FIELD_LENGTH) {
+  } else if (sortField === SortType.Length) {
     preparedGoods.sort((good1, good2) => good1.length - good2.length);
   }
 
@@ -41,12 +45,12 @@ function sortGoods({ goods, sortField, isReversed }: SortInterface): string[] {
 }
 
 export const App = () => {
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState<SortType>(SortType.Default);
   const [isReversed, setIsReversed] = useState(false);
   const visibleGoods: string[] = sortGoods({
     goods: goodsFromServer,
     sortField,
-    isReversed
+    isReversed,
   });
 
   return (
@@ -55,9 +59,9 @@ export const App = () => {
         <button
           type="button"
           className={cn('button', 'is-success', {
-            'is-light': sortField !== SORT_FIELD_ALPHABET,
+            'is-light': sortField !== SortType.Alphabet,
           })}
-          onClick={() => setSortField(SORT_FIELD_ALPHABET)}
+          onClick={() => setSortField(SortType.Alphabet)}
         >
           Sort alphabetically
         </button>
@@ -65,10 +69,10 @@ export const App = () => {
         <button
           type="button"
           className={cn('button', 'is-success', {
-            'is-light': sortField !== SORT_FIELD_LENGTH,
+            'is-light': sortField !== SortType.Length,
           })}
           onClick={() => {
-            setSortField(SORT_FIELD_LENGTH);
+            setSortField(SortType.Length);
           }}
         >
           Sort by length
@@ -84,12 +88,12 @@ export const App = () => {
           Reverse
         </button>
 
-        {(sortField !== '' || isReversed) && (
+        {(sortField !== SortType.Default || isReversed) && (
           <button
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              setSortField('');
+              setSortField(SortType.Default);
               setIsReversed(false);
             }}
           >
