@@ -18,16 +18,20 @@ export const goodsFromServer = [
 
 export const App: React.FC = () => {
   const [goods, setGoods] = useState<string[]>([...goodsFromServer]);
+  const [toShow, setToShow] = useState<boolean>(false);
   const sortAlphabetically = () => {
     setGoods([...goods].sort((a: string, b: string) => a.localeCompare(b)));
+    setToShow(true);
   };
 
   const sortByLength = () => {
     setGoods([...goods].sort((a: string, b: string) => a.length - b.length));
+    setToShow(true);
   };
 
   const reverse = () => {
     setGoods([...goods].reverse());
+    setToShow(true);
   };
 
   return (
@@ -57,13 +61,18 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        <button
-          type="button"
-          className="button is-danger is-light"
-          onClick={() => setGoods([...goodsFromServer])}
-        >
-          Reset
-        </button>
+        {toShow && (
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={() => {
+              setGoods([...goodsFromServer]);
+              setToShow(false);
+            }}
+          >
+            Reset
+          </button>
+        )}
       </div>
       <GoodList vals={goods} />
     </div>
