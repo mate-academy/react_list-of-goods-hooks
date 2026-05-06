@@ -3,7 +3,7 @@ import 'bulma/css/bulma.css';
 import './App.scss';
 import classNames from 'classnames';
 
-enum Sort {
+enum SortType {
   alphabet = 'alphabet',
   length = 'length',
 }
@@ -23,15 +23,15 @@ export const goodsFromServer: string[] = [
 
 function getSortedProducts(
   goods: string[],
-  { sort, isReversed }: { sort: Sort; isReversed: boolean },
+  { sort, isReversed }: { sort: SortType; isReversed: boolean },
 ): string[] {
   const sortedProducts = [...goods];
 
   sortedProducts.sort((good1, good2) => {
     switch (sort) {
-      case Sort.alphabet:
+      case SortType.alphabet:
         return good1.localeCompare(good2);
-      case Sort.length:
+      case SortType.length:
         return good1.length - good2.length;
       default:
         return 0;
@@ -50,7 +50,7 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
 
   const sortedProducts: string[] = getSortedProducts(goodsFromServer, {
-    sort: sort as Sort,
+    sort: sort as SortType,
     isReversed,
   });
 
@@ -65,9 +65,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={classNames('button is-info', {
-            'is-light': sort !== Sort.alphabet,
+            'is-light': sort !== SortType.alphabet,
           })}
-          onClick={() => setSort(Sort.alphabet)}
+          onClick={() => setSort(SortType.alphabet)}
         >
           Sort alphabetically
         </button>
@@ -75,9 +75,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={classNames('button is-success', {
-            'is-light': sort !== Sort.length,
+            'is-light': sort !== SortType.length,
           })}
-          onClick={() => setSort(Sort.length)}
+          onClick={() => setSort(SortType.length)}
         >
           Sort by length
         </button>
@@ -106,13 +106,11 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        <ul>
-          {sortedProducts.map((good, id) => (
-            <li key={id} data-cy="Good">
-              {good}
-            </li>
-          ))}
-        </ul>
+        {sortedProducts.map((good, id) => (
+          <li key={id} data-cy="Good">
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
