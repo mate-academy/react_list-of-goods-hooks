@@ -18,7 +18,7 @@ export const goodsFromServer = [
 
 export const App: React.FC = () => {
   const [goods, setGoods] = useState<string[]>([...goodsFromServer]);
-  const [toShow, setToShow] = useState<boolean>(true);
+  const [toShow, setToShow] = useState<boolean>(false);
   const sortAlphabetically = () => {
     setGoods([...goods].sort((a: string, b: string) => a.localeCompare(b)));
     setToShow(true);
