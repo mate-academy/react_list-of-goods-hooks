@@ -60,7 +60,7 @@ export const App = () => {
         <button
           type="button"
           className={classNames('button', {
-            'is-light': sortBy !== 'alphabet',
+            'is-light': sortBy !== SortType.Alphabet,
           })}
           onClick={() => setSortBy(SortType.Alphabet)}
         >
@@ -70,7 +70,7 @@ export const App = () => {
         <button
           type="button"
           className={classNames('button is-success', {
-            'is-light': sortBy !== 'length',
+            'is-light': sortBy !== SortType.Length,
           })}
           onClick={() => setSortBy(SortType.Length)}
         >
