@@ -80,7 +80,9 @@ export const App = () => {
 
         <button
           type="button"
-          className={clsx('button', 'is-warning', { 'is-light': !reversed })}
+          className={clsx('button', 'is-warning', {
+            'is-light': reversed === false,
+          })}
           onClick={() => setReversed(!reversed)}
         >
           Reverse
