@@ -2,6 +2,11 @@ import 'bulma/css/bulma.css';
 import './App.scss';
 import { useState } from 'react';
 
+enum Fields {
+  alphabet = 'alphabet',
+  length = 'length',
+}
+
 export const goodsFromServer: string[] = [
   'Dumplings',
   'Carrot',
@@ -15,11 +20,11 @@ export const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-const SORT_FIELD_ALPHABET: string = 'alphabet';
-const SORT_FIELD_LENGTH: string = 'length';
+const SORT_FIELD_ALPHABET: Fields = Fields.alphabet;
+const SORT_FIELD_LENGTH: Fields = Fields.length;
 
 export const App = () => {
-  const [sortField, setSortField] = useState<string>('');
+  const [sortField, setSortField] = useState('');
   const [reversed, setReversed] = useState(false);
 
   const getPreparedGoods = () => {
