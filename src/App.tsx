@@ -3,9 +3,6 @@ import cn from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-const SORT_FIELD_ALPHABET = 'alphabet';
-const SORT_FIELD_LENGTH = 'length';
-
 export const goodsFromServer = [
   'Dumplings',
   'Carrot',
@@ -19,17 +16,22 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+enum SortField {
+  ALPHABET = 'alphabet',
+  LENGTH = 'length',
+}
+
 const getPreparedGoods = (
   goods: string[],
-  { sortField, isReversed }: { sortField: string; isReversed: boolean },
+  { sortField, isReversed }: { sortField: SortField; isReversed: boolean },
 ) => {
   const preparedGoods = [...goods];
 
-  if (sortField === SORT_FIELD_ALPHABET) {
+  if (sortField === SortField.ALPHABET) {
     preparedGoods.sort((good1, good2) => good1.localeCompare(good2));
   }
 
-  if (sortField === SORT_FIELD_LENGTH) {
+  if (sortField === SortField.LENGTH) {
     preparedGoods.sort((good1, good2) => good1.length - good2.length);
   }
 
@@ -41,11 +43,11 @@ const getPreparedGoods = (
 };
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState<SortField | ''>('');
   const [isReversed, setIsReversed] = useState(false);
 
   const visibleGoods = getPreparedGoods(goodsFromServer, {
-    sortField,
+    sortField: sortField as SortField,
     isReversed,
   });
 
@@ -62,9 +64,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-info', {
-            'is-light': sortField !== SORT_FIELD_ALPHABET,
+            'is-light': sortField !== SortField.ALPHABET,
           })}
-          onClick={() => setSortField(SORT_FIELD_ALPHABET)}
+          onClick={() => setSortField(SortField.ALPHABET)}
         >
           Sort alphabetically
         </button>
@@ -72,9 +74,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-success', {
-            'is-light': sortField !== SORT_FIELD_LENGTH,
+            'is-light': sortField !== SortField.LENGTH,
           })}
-          onClick={() => setSortField(SORT_FIELD_LENGTH)}
+          onClick={() => setSortField(SortField.LENGTH)}
         >
           Sort by length
         </button>
