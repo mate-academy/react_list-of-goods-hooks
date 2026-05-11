@@ -2,9 +2,10 @@ import 'bulma/css/bulma.css';
 import './App.scss';
 import { useState } from 'react';
 
-enum Fields {
-  alphabet = 'alphabet',
-  length = 'length',
+enum SortType {
+  Alphabet = 'alphabet',
+  Length = 'length',
+  None = '',
 }
 
 export const goodsFromServer: string[] = [
@@ -20,11 +21,11 @@ export const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-const SORT_FIELD_ALPHABET: Fields = Fields.alphabet;
-const SORT_FIELD_LENGTH: Fields = Fields.length;
+const SORT_FIELD_ALPHABET: SortType = SortType.Alphabet;
+const SORT_FIELD_LENGTH: SortType = SortType.Length;
 
 export const App = () => {
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState<SortType>(SortType.None);
   const [reversed, setReversed] = useState(false);
 
   const getPreparedGoods = () => {
@@ -46,7 +47,7 @@ export const App = () => {
   const goods = getPreparedGoods();
 
   // Определение видимости кнопки Reset
-  const isResetVisible = sortField !== '' || reversed;
+  const getIsResetVisible = () => sortField !== SortType.None || reversed;
 
   return (
     <div className="section content">
@@ -75,12 +76,12 @@ export const App = () => {
           Reverse
         </button>
 
-        {isResetVisible && (
+        {getIsResetVisible() && (
           <button
             type="button"
             className="button is-danger"
             onClick={() => {
-              setSortField('');
+              setSortField(SortType.None);
               setReversed(false);
             }}
           >
