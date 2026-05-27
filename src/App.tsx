@@ -25,7 +25,7 @@ enum SortType {
 function getSortedGoods(
   goods: string[],
   sortField: SortType,
-  reversed: true | false,
+  reversed: boolean,
 ): string[] {
   const prepareGoods = [...goods];
 
@@ -48,7 +48,7 @@ function getSortedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState(SortType.UNSORTED);
   const [reversed, setReversed] = useState(false);
   const sortedGoods = getSortedGoods(goodsFromServer, sortField, reversed);
   const isInitialOrder = sortField === SortType.UNSORTED && !reversed;
