@@ -32,11 +32,8 @@ export const App: React.FC = () => {
   // goods зберігає наш поточний список товарів
   const [goods, setGoods] = useState<string[]>(goodsFromServer);
 
-  // isReversed зберігає булеве значение: перевернутий список чи ні
+  // isReversed зберігає булеве значення: перевернутий список чи ні
   const [isReversed, setIsReversed] = useState<boolean>(false);
-
-  // 👁️ Новий стан: керує видимістю всього списку товарів (за замовчуванням — false)
-  const [isGoodsVisible, setIsGoodsVisible] = useState<boolean>(true);
 
   //  3. Логіка обробки масиву (виконується "на льоту" при кожному рендерингі).
   // Створюємо копію масиву товарів, щоб не змінювати оригінальний стан напряму.
@@ -55,83 +52,75 @@ export const App: React.FC = () => {
     sortedGoods.reverse();
   }
 
+  // 🗑️ Нова функція: видаляє конкретний товар із масиву товарів у стані
+  const handleDelete = (itemToDelete: string) => {
+    setGoods(goods.filter(good => good !== itemToDelete));
+  };
+
   //  4. Функція для повного скидання до початкового стану
   const handleReset = () => {
     setSortType(SortType.Default);
-    setGoods(goodsFromServer);
+    setGoods(goodsFromServer); // Повертаємо всі 10 товарів назад у стан
     setIsReversed(false);
-    // 🧹 Додатково приховуємо список товарів при повному скиданні
-    setIsGoodsVisible(true);
   };
 
   return (
     <div className="section content">
-      {/* 🔘 Новий блок: Кнопка-перемикач, що змінює текст залежно від стану isGoodsVisible */}
-      <div className="block">
+      {/* Кнопки керування списком */}
+      <div className="buttons">
+        {/* Кнопка алфавітного сортування */}
         <button
           type="button"
-          className="button is-primary"
-          // Перемикаємо стан видимості на протилежний (з false на true і навпаки)
-          onClick={() => setIsGoodsVisible(!isGoodsVisible)}
+          className={`button is-info ${sortType === SortType.Alphabet ? '' : 'is-light'}`}
+          onClick={() => setSortType(SortType.Alphabet)}
         >
-          {isGoodsVisible ? 'Hide goods' : 'Show goods'}
+          Sort alphabetically
         </button>
+
+        {/* Кнопка сортування за довжиною */}
+        <button
+          type="button"
+          className={`button is-success ${sortType === SortType.Length ? '' : 'is-light'}`}
+          onClick={() => setSortType(SortType.Length)}
+        >
+          Sort by length
+        </button>
+
+        {/* Кнопка реверсу (перемикає true/false на протилежне) */}
+        <button
+          type="button"
+          className={`button is-warning ${isReversed ? '' : 'is-light'}`}
+          onClick={() => setIsReversed(!isReversed)}
+        >
+          Reverse
+        </button>
+
+        {/* Кнопка Reset показується, якщо активоване сортування, реверс АБО якщо кількість товарів змінилася */}
+        {(sortType !== SortType.Default || isReversed || goods.length !== goodsFromServer.length) && (
+          <button
+            type="button"
+            className="button is-danger"
+            onClick={handleReset}
+          >
+            Reset
+          </button>
+        )}
       </div>
 
-      {/* 🔄 Логічне "І" (&&): весь блок інтерфейсу з'явиться в DOM лише тоді, коли список видимий */}
-      {isGoodsVisible && (
-        <>
-          {/* Кнопки керування списком */}
-          <div className="buttons">
-            {/* Кнопка алфавітного сортування */}
+      {/* 5. Динамічний вивід відсортованого та обробленого масиву */}
+      <ul>
+        {sortedGoods.map(good => (
+          <li key={good} data-cy="Good">
+            {good}
+            {/* ❌ Нова кнопка видалення товару зі списку */}
             <button
               type="button"
-              className={`button is-info ${sortType === SortType.Alphabet ? '' : 'is-light'}`}
-              onClick={() => setSortType(SortType.Alphabet)}
-            >
-              Sort alphabetically
-            </button>
-
-            {/* Кнопка сортування за довжиною */}
-            <button
-              type="button"
-              className={`button is-success ${sortType === SortType.Length ? '' : 'is-light'}`}
-              onClick={() => setSortType(SortType.Length)}
-            >
-              Sort by length
-            </button>
-
-            {/* Кнопка реверсу (перемикає true/false на протилежне) */}
-            <button
-              type="button"
-              className={`button is-warning ${isReversed ? '' : 'is-light'}`}
-              onClick={() => setIsReversed(!isReversed)}
-            >
-              Reverse
-            </button>
-
-            {/* Кнопка Reset показується, лише якщо активоване сортування або реверс */}
-            {(sortType !== SortType.Default || isReversed) && (
-              <button
-                type="button"
-                className="button is-danger"
-                onClick={handleReset}
-              >
-                Reset
-              </button>
-            )}
-          </div>
-
-          {/* 5. Динамічний вивід відсортого та обробленого масиву */}
-          <ul>
-            {sortedGoods.map(good => (
-              <li key={good} data-cy="Good">
-                {good}
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
+              className="delete ml-2" // Клас Bulma для маленького хрестика видалення
+              onClick={() => handleDelete(good)}
+            />
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
