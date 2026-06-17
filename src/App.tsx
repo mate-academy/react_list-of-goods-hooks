@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-export const goodsFromServer = [
+//  1. Оголошуємо перелік (enum) для типів сортування.
+// Це захищає нас від друкарських помилок у рядках.
+enum SortType {
+  Default = '',
+  Alphabet = 'alphabet',
+  Length = 'length',
+}
+
+// Початковий масив товарів, який ми отримали "із сервера"
+const goodsFromServer = [
   'Dumplings',
   'Carrot',
   'Eggs',
@@ -16,35 +25,101 @@ export const goodsFromServer = [
 ];
 
 export const App: React.FC = () => {
+  //  2. Створюємо стани (useState) всередині компонента.
+  // sortType зберігає поточний тип сортування (за замовчуванням — Default)
+  const [sortType, setSortType] = useState<SortType>(SortType.Default);
+
+  // goods зберігає наш поточний список товарів
+  const [goods, setGoods] = useState<string[]>(goodsFromServer);
+
+  // isReversed зберігає булеве значення: перевернутий список чи ні
+  const [isReversed, setIsReversed] = useState<boolean>(false);
+
+  //  3. Логіка обробки масиву (виконується "на льоту" при кожному рендерингі).
+  // Створюємо копію масиву товарів, щоб не змінювати оригінальний стан напряму.
+  const sortedGoods = [...goods];
+
+  // Перевіряємо, чи увімкнено сортування за алфавітом
+  if (sortType === SortType.Alphabet) {
+    sortedGoods.sort((a, b) => a.localeCompare(b));
+    // Перевіряємо, чи увімкнено сортування за довжиною слова
+  } else if (sortType === SortType.Length) {
+    sortedGoods.sort((a, b) => a.length - b.length);
+  }
+
+  // Після основного сортування перевіряємо, чи активовано реверс
+  if (isReversed) {
+    sortedGoods.reverse();
+  }
+
+  // 🗑️ Нова функція: видаляє конкретний товар із масиву товарів у стані
+  const handleDelete = (itemToDelete: string) => {
+    setGoods(goods.filter(good => good !== itemToDelete));
+  };
+
+  //  4. Функція для повного скидання до початкового стану
+  const handleReset = () => {
+    setSortType(SortType.Default);
+    setGoods(goodsFromServer); // Повертаємо всі 10 товарів назад у стан
+    setIsReversed(false);
+  };
+
   return (
     <div className="section content">
+      {/* Кнопки керування списком */}
       <div className="buttons">
-        <button type="button" className="button is-info is-light">
+        {/* Кнопка алфавітного сортування */}
+        <button
+          type="button"
+          className={`button is-info ${sortType === SortType.Alphabet ? '' : 'is-light'}`}
+          onClick={() => setSortType(SortType.Alphabet)}
+        >
           Sort alphabetically
         </button>
 
-        <button type="button" className="button is-success is-light">
+        {/* Кнопка сортування за довжиною */}
+        <button
+          type="button"
+          className={`button is-success ${sortType === SortType.Length ? '' : 'is-light'}`}
+          onClick={() => setSortType(SortType.Length)}
+        >
           Sort by length
         </button>
 
-        <button type="button" className="button is-warning is-light">
+        {/* Кнопка реверсу (перемикає true/false на протилежне) */}
+        <button
+          type="button"
+          className={`button is-warning ${isReversed ? '' : 'is-light'}`}
+          onClick={() => setIsReversed(!isReversed)}
+        >
           Reverse
         </button>
 
-        <button type="button" className="button is-danger is-light">
-          Reset
-        </button>
+        {/* Кнопка Reset показується, якщо активоване сортування, реверс АБО якщо кількість товарів змінилася */}
+        {(sortType !== SortType.Default || isReversed || goods.length !== goodsFromServer.length) && (
+          <button
+            type="button"
+            className="button is-danger"
+            onClick={handleReset}
+          >
+            Reset
+          </button>
+        )}
       </div>
 
+      {/* 5. Динамічний вивід відсортованого та обробленого масиву */}
       <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
+        {sortedGoods.map(good => (
+          <li key={good} data-cy="Good">
+            {good}
+            {/* ❌ Нова кнопка видалення товару зі списку */}
+            <button
+              type="button"
+              className="delete ml-2" // Клас Bulma для маленького хрестика видалення
+              onClick={() => handleDelete(good)}
+            />
+          </li>
+        ))}
       </ul>
     </div>
   );
