@@ -27,6 +27,32 @@ interface FilterParams {
   isReversed: boolean;
 }
 
+interface ButtonProps {
+  onClick: () => void;
+  colorClass: 'is-info' | 'is-success' | 'is-warning' | 'is-danger';
+  isLight: boolean;
+  children: React.ReactNode;
+}
+
+const Button: React.FC<ButtonProps> = ({
+  onClick,
+  colorClass,
+  isLight,
+  children,
+}) => {
+  return (
+    <button
+      type="button"
+      className={cn('button', colorClass, {
+        'is-light': isLight,
+      })}
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  );
+};
+
 function getPreparedGoods(
   goods: string[],
   { sortField, isReversed }: FilterParams,
@@ -70,47 +96,41 @@ export const App = () => {
   return (
     <div className="section content">
       <div className="buttons">
-        <button
-          type="button"
-          className={cn('button is-info', {
-            'is-light': sortField !== SortType.ALPHABET,
-          })}
+        <Button
+          colorClass="is-info"
+          isLight={sortField !== SortType.ALPHABET}
           onClick={() => setSortField(SortType.ALPHABET)}
         >
           Sort alphabetically
-        </button>
+        </Button>
 
-        <button
-          type="button"
-          className={cn('button is-success', {
-            'is-light': sortField !== SortType.LENGTH,
-          })}
+        <Button
+          colorClass="is-success"
+          isLight={sortField !== SortType.LENGTH}
           onClick={() => setSortField(SortType.LENGTH)}
         >
           Sort by length
-        </button>
+        </Button>
 
-        <button
-          type="button"
-          className={cn('button is-warning', {
-            'is-light': !isReversed,
-          })}
+        <Button
+          colorClass="is-warning"
+          isLight={!isReversed}
           onClick={() => setIsReversed(!isReversed)}
         >
           Reverse
-        </button>
+        </Button>
 
         {!isInitialOrder && (
-          <button
-            type="button"
-            className="button is-danger is-light"
+          <Button
+            colorClass="is-danger"
+            isLight={true}
             onClick={() => {
               setSortField(SortType.NONE);
               setIsReversed(false);
             }}
           >
             Reset
-          </button>
+          </Button>
         )}
       </div>
 
@@ -124,38 +144,3 @@ export const App = () => {
     </div>
   );
 };
-
-// export const App: React.FC = () => {
-//   return (
-//     <div className="section content">
-//       <div className="buttons">
-//         <button type="button" className="button is-info is-light">
-//           Sort alphabetically
-//         </button>
-
-//         <button type="button" className="button is-success is-light">
-//           Sort by length
-//         </button>
-
-//         <button type="button" className="button is-warning is-light">
-//           Reverse
-//         </button>
-
-//         <button type="button" className="button is-danger is-light">
-//           Reset
-//         </button>
-//       </div>
-
-//       <ul>
-//         <ul>
-//           <li data-cy="Good">Dumplings</li>
-//           <li data-cy="Good">Carrot</li>
-//           <li data-cy="Good">Eggs</li>
-//           <li data-cy="Good">Ice cream</li>
-//           <li data-cy="Good">Apple</li>
-//           <li data-cy="Good">...</li>
-//         </ul>
-//       </ul>
-//     </div>
-//   );
-// };
