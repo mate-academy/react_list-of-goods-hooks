@@ -27,7 +27,7 @@ export const App: React.FC = () => {
 
   const handleSortAlpha = () => setSortBy(SortType.Alpha);
   const handleSortLength = () => setSortBy(SortType.Length);
-  const handleToggleReverse = () => setIsReversed(prevs => !prevs);
+  const handleToggleReverse = () => setIsReversed(prev => !prev);
 
   const handleReset = () => {
     setSortBy(SortType.None);
@@ -36,9 +36,9 @@ export const App: React.FC = () => {
 
   const visibleGoods = [...goodsFromServer];
 
-  if (sortBy === 'alpha') {
+  if (sortBy === SortType.Alpha) {
     visibleGoods.sort((a, b) => a.localeCompare(b));
-  } else if (sortBy === 'length') {
+  } else if (sortBy === SortType.Length) {
     visibleGoods.sort((a, b) => a.length - b.length);
   }
 
@@ -46,7 +46,7 @@ export const App: React.FC = () => {
     visibleGoods.reverse();
   }
 
-  const isChanged = sortBy !== '' || isReversed;
+  const isChanged = sortBy !== SortType.None || isReversed;
 
   return (
     <div className="section content">
