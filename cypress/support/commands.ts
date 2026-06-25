@@ -47,8 +47,8 @@ declare global {
   }
 }
 
-Cypress.Commands.add('getByDataCy', selector => {
-  cy.get(`[data-cy="${selector}"]`);
+Cypress.Commands.add('getByDataCy', (value: string) => {
+  return cy.get(`[data-cy="${value}"]`);
 });
 
 Cypress.Commands.add(
