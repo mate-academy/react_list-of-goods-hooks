@@ -15,9 +15,24 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+enum SortType {
+  None = '',
+  Alpha = 'alpha',
+  Length = 'length',
+}
+
 export const App: React.FC = () => {
-  const [sortBy, setSortBy] = useState('');
-  const [isReversed, setIsReversed] = useState(false);
+  const [sortBy, setSortBy] = useState<SortType>(SortType.None);
+  const [isReversed, setIsReversed] = useState<boolean>(false);
+
+  const handleSortAlpha = () => setSortBy(SortType.Alpha);
+  const handleSortLength = () => setSortBy(SortType.Length);
+  const handleToggleReverse = () => setIsReversed(prevs => !prevs);
+
+  const handleReset = () => {
+    setSortBy(SortType.None);
+    setIsReversed(false);
+  };
 
   const visibleGoods = [...goodsFromServer];
 
@@ -38,16 +53,16 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortBy !== 'alpha' ? 'is-light' : ''}`}
-          onClick={() => setSortBy('alpha')}
+          className={`button is-info ${sortBy !== SortType.Alpha ? 'is-light' : ''}`}
+          onClick={handleSortAlpha}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={`button is-success ${sortBy !== 'length' ? 'is-light' : ''}`}
-          onClick={() => setSortBy('length')}
+          className={`button is-success ${sortBy !== SortType.Length ? 'is-light' : ''}`}
+          onClick={handleSortLength}
         >
           Sort by length
         </button>
@@ -55,7 +70,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={`button is-warning ${!isReversed ? 'is-light' : ''}`}
-          onClick={() => setIsReversed(!isReversed)}
+          onClick={handleToggleReverse}
         >
           Reverse
         </button>
@@ -64,10 +79,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger"
-            onClick={() => {
-              setSortBy('');
-              setIsReversed(false);
-            }}
+            onClick={handleReset}
           >
             Reset
           </button>
