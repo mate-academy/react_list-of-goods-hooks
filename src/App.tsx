@@ -47,7 +47,7 @@ const sortGoods: SortGoods = (goods, filter, reverse) => {
 };
 
 export const App = () => {
-  const [filterState, setFilterState] = useState('');
+  const [filterState, setFilterState] = useState(SortType.RESET);
   const [reverse, setReverse] = useState(false);
 
   const isResetVisible = filterState || reverse;
