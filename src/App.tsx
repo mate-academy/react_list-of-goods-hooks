@@ -1,9 +1,9 @@
+import { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
-import { useState } from 'react';
 
 enum SortType {
-  None = 'None',
+  None = '',
   Alphabet = 'alphabet',
   Length = 'length',
 }
@@ -28,11 +28,11 @@ export const App = () => {
   const visibleGoods = [...goodsFromServer];
 
   if (sortType === SortType.Alphabet) {
-    visibleGoods.sort((a: string, b: string) => a.localeCompare(b));
+    visibleGoods.sort((a, b) => a.localeCompare(b));
   }
 
   if (sortType === SortType.Length) {
-    visibleGoods.sort((a: string, b: string) => a.length - b.length);
+    visibleGoods.sort((a, b) => a.length - b.length);
   }
 
   if (isReversed) {
@@ -44,7 +44,9 @@ export const App = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortType === SortType.Alphabet ? '' : 'is-light'}`}
+          className={`button is-info ${
+            sortType === SortType.Alphabet ? '' : 'is-light'
+          }`}
           onClick={() => setSortType(SortType.Alphabet)}
         >
           Sort alphabetically
@@ -52,7 +54,9 @@ export const App = () => {
 
         <button
           type="button"
-          className={`button is-success ${sortType === SortType.Length ? '' : 'is-light'}`}
+          className={`button is-success ${
+            sortType === SortType.Length ? '' : 'is-light'
+          }`}
           onClick={() => setSortType(SortType.Length)}
         >
           Sort by length
@@ -60,13 +64,13 @@ export const App = () => {
 
         <button
           type="button"
-          className={`button is-warning ${isReversed ? SortType.None : 'is-light'}`}
+          className={`button is-warning ${isReversed ? '' : 'is-light'}`}
           onClick={() => setIsReversed(!isReversed)}
         >
           Reverse
         </button>
 
-        {(sortType || isReversed) && (
+        {(sortType !== SortType.None || isReversed) && (
           <button
             type="button"
             className="button is-danger is-light"
