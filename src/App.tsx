@@ -2,7 +2,11 @@ import { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-type SortType = '' | 'alphabet' | 'length';
+enum SortType {
+  Default = '',
+  Alphabet = 'alphabet',
+  Length = 'length',
+}
 
 export const goodsFromServer: string[] = [
   'Dumplings',
@@ -18,18 +22,18 @@ export const goodsFromServer: string[] = [
 ];
 
 export const App = () => {
-  const [sortType, setSortType] = useState<SortType>('');
+  const [sortType, setSortType] = useState<SortType>(SortType.Default);
   const [isReversed, setIsReversed] = useState(false);
 
-  const isModified = sortType !== '' || isReversed;
+  const isModified = sortType !== SortType.Default || isReversed;
 
   const visibleGoods = [...goodsFromServer];
 
-  if (sortType === 'alphabet') {
+  if (sortType === SortType.Alphabet) {
     visibleGoods.sort((a, b) => a.localeCompare(b));
   }
 
-  if (sortType === 'length') {
+  if (sortType === SortType.Length) {
     visibleGoods.sort((a, b) => a.length - b.length);
   }
 
@@ -43,12 +47,12 @@ export const App = () => {
         <button
           type="button"
           className={
-            sortType === 'alphabet'
+            sortType === SortType.Alphabet
               ? 'button is-info'
               : 'button is-info is-light'
           }
           onClick={() => {
-            setSortType('alphabet');
+            setSortType(SortType.Alphabet);
           }}
         >
           Sort alphabetically
@@ -57,12 +61,12 @@ export const App = () => {
         <button
           type="button"
           className={
-            sortType === 'length'
+            sortType === SortType.Length
               ? 'button is-success'
               : 'button is-success is-light'
           }
           onClick={() => {
-            setSortType('length');
+            setSortType(SortType.Length);
           }}
         >
           Sort by length
@@ -71,9 +75,7 @@ export const App = () => {
         <button
           type="button"
           className={
-            isReversed
-              ? 'button is-warning'
-              : 'button is-warning is-light'
+            isReversed ? 'button is-warning' : 'button is-warning is-light'
           }
           onClick={() => {
             setIsReversed(!isReversed);
@@ -87,7 +89,7 @@ export const App = () => {
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              setSortType('');
+              setSortType(SortType.Default);
               setIsReversed(false);
             }}
           >
