@@ -15,83 +15,60 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-enum SortType {
+enum SortField {
   None = 'None',
-  Reversed = 'Reversed',
   Alphabetically = 'Alphabetically',
-  AlphabeticallyReversed = 'AlphabeticallyReversed',
   ByLength = 'ByLength',
-  ByLengthReversed = 'ByLengthReversed',
 }
 
-// Какое значение получить, если нажали "Reverse" при текущем sortType
-const reversedMap: Record<SortType, SortType> = {
-  [SortType.None]: SortType.Reversed,
-  [SortType.Reversed]: SortType.None,
-  [SortType.Alphabetically]: SortType.AlphabeticallyReversed,
-  [SortType.AlphabeticallyReversed]: SortType.Alphabetically,
-  [SortType.ByLength]: SortType.ByLengthReversed,
-  [SortType.ByLengthReversed]: SortType.ByLength,
+type SortConfig = {
+  field: SortField;
+  reversed: boolean;
 };
 
-const isReversedType = (type: SortType) =>
-  type === SortType.Reversed ||
-  type === SortType.AlphabeticallyReversed ||
-  type === SortType.ByLengthReversed;
-
 export const App: React.FC = () => {
-  const [sortType, setSortType] = useState<SortType>(SortType.None);
+  const [sortConfig, setSortConfig] = useState<SortConfig>({
+    field: SortField.None,
+    reversed: false,
+  });
 
   const visibleGoods = [...goodsFromServer];
 
-  switch (sortType) {
-    case SortType.Alphabetically:
+  switch (sortConfig.field) {
+    case SortField.Alphabetically:
       visibleGoods.sort((good1, good2) => good1.localeCompare(good2));
       break;
-    case SortType.AlphabeticallyReversed:
-      visibleGoods.sort((good1, good2) => good2.localeCompare(good1));
-      break;
-    case SortType.ByLength:
+    case SortField.ByLength:
       visibleGoods.sort((good1, good2) => good1.length - good2.length);
-      break;
-    case SortType.ByLengthReversed:
-      visibleGoods.sort((good1, good2) => good2.length - good1.length);
-      break;
-    case SortType.Reversed:
-      visibleGoods.reverse();
       break;
     default:
       break;
   }
 
+  if (sortConfig.reversed) {
+    visibleGoods.reverse();
+  }
+
   function sortAlphabetically() {
-    setSortType(prev =>
-      isReversedType(prev)
-        ? SortType.AlphabeticallyReversed
-        : SortType.Alphabetically,
-    );
+    setSortConfig(prev => ({ ...prev, field: SortField.Alphabetically }));
   }
 
   function sortByLength() {
-    setSortType(prev =>
-      isReversedType(prev) ? SortType.ByLengthReversed : SortType.ByLength,
-    );
+    setSortConfig(prev => ({ ...prev, field: SortField.ByLength }));
   }
 
   function toggleReverse() {
-    setSortType(reversedMap[sortType]);
+    setSortConfig(prev => ({ ...prev, reversed: !prev.reversed }));
   }
 
   function resetSorting() {
-    setSortType(SortType.None);
+    setSortConfig({ field: SortField.None, reversed: false });
   }
 
-  const isAlphabetActive =
-    sortType === SortType.Alphabetically ||
-    sortType === SortType.AlphabeticallyReversed;
-
-  const isLengthActive = sortType === SortType.ByLength
-    || sortType === SortType.ByLengthReversed;
+  const isAlphabetActive = sortConfig.field === SortField.Alphabetically;
+  const isLengthActive = sortConfig.field === SortField.ByLength;
+  const isResetVisible =
+    sortConfig.field !== SortField.None || sortConfig.reversed;
 
   return (
     <div className="section content">
@@ -114,13 +91,13 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-warning ${isReversedType(sortType) ? '' : 'is-light'}`}
+          className={`button is-warning ${sortConfig.reversed ? '' : 'is-light'}`}
           onClick={toggleReverse}
         >
           Reverse
         </button>
 
-        {sortType !== SortType.None && (
+        {isResetVisible && (
           <button
             type="button"
             className="button is-danger is-light"
