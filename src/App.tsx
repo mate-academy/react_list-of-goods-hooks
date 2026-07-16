@@ -16,68 +16,115 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
+  None = 'None',
+  Reversed = 'Reversed',
   Alphabetically = 'Alphabetically',
+  AlphabeticallyReversed = 'AlphabeticallyReversed',
   ByLength = 'ByLength',
-  Reverse = 'Reverse',
-  Reset = 'Reset',
+  ByLengthReversed = 'ByLengthReversed',
 }
+
+// Какое значение получить, если нажали "Reverse" при текущем sortType
+const reversedMap: Record<SortType, SortType> = {
+  [SortType.None]: SortType.Reversed,
+  [SortType.Reversed]: SortType.None,
+  [SortType.Alphabetically]: SortType.AlphabeticallyReversed,
+  [SortType.AlphabeticallyReversed]: SortType.Alphabetically,
+  [SortType.ByLength]: SortType.ByLengthReversed,
+  [SortType.ByLengthReversed]: SortType.ByLength,
+};
+
+const isReversedType = (type: SortType) =>
+  type === SortType.Reversed ||
+  type === SortType.AlphabeticallyReversed ||
+  type === SortType.ByLengthReversed;
 
 export const App: React.FC = () => {
   const [sortType, setSortType] = useState<SortType>(SortType.None);
-  const [isReversed, setIsReversed] = useState<boolean>(false);
 
-  const visibleGoods = [...goodsFromServer].sort((good1, good2) => {
-    switch (sortType) {
-      case SortType.Alphabetically:
-        return good1.localeCompare(good2);
-      case SortType.ByLength:
-        return good1.length - good2.length;
-      default:
-        return 0;
-    }
-  });
+  const visibleGoods = [...goodsFromServer];
 
-  if (isReversed) {
-    visibleGoods.reverse();
+  switch (sortType) {
+    case SortType.Alphabetically:
+      visibleGoods.sort((good1, good2) => good1.localeCompare(good2));
+      break;
+    case SortType.AlphabeticallyReversed:
+      visibleGoods.sort((good1, good2) => good2.localeCompare(good1));
+      break;
+    case SortType.ByLength:
+      visibleGoods.sort((good1, good2) => good1.length - good2.length);
+      break;
+    case SortType.ByLengthReversed:
+      visibleGoods.sort((good1, good2) => good2.length - good1.length);
+      break;
+    case SortType.Reversed:
+      visibleGoods.reverse();
+      break;
+    default:
+      break;
   }
 
-  function reset() {
+  function sortAlphabetically() {
+    setSortType(prev =>
+      isReversedType(prev)
+        ? SortType.AlphabeticallyReversed
+        : SortType.Alphabetically,
+    );
+  }
+
+  function sortByLength() {
+    setSortType(prev =>
+      isReversedType(prev) ? SortType.ByLengthReversed : SortType.ByLength,
+    );
+  }
+
+  function toggleReverse() {
+    setSortType(reversedMap[sortType]);
+  }
+
+  function resetSorting() {
     setSortType(SortType.None);
-    setIsReversed(false);
   }
+
+  const isAlphabetActive =
+    sortType === SortType.Alphabetically ||
+    sortType === SortType.AlphabeticallyReversed;
+
+  const isLengthActive = sortType === SortType.ByLength
+    || sortType === SortType.ByLengthReversed;
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortType === SortType.Alphabetically ? '' : 'is-light'}`}
-          onClick={() => setSortType(SortType.Alphabetically)}
+          className={`button is-info ${isAlphabetActive ? '' : 'is-light'}`}
+          onClick={sortAlphabetically}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={`button is-success ${sortType === SortType.ByLength ? '' : 'is-light'}`}
-          onClick={() => setSortType(SortType.ByLength)}
+          className={`button is-success ${isLengthActive ? '' : 'is-light'}`}
+          onClick={sortByLength}
         >
           Sort by length
         </button>
 
         <button
           type="button"
-          className={`button is-warning ${isReversed ? '' : 'is-light'}`}
-          onClick={() => setIsReversed(!isReversed)}
+          className={`button is-warning ${isReversedType(sortType) ? '' : 'is-light'}`}
+          onClick={toggleReverse}
         >
           Reverse
         </button>
 
-        {(sortType !== SortType.None || isReversed) && (
+        {sortType !== SortType.None && (
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={reset}
+            onClick={resetSorting}
           >
             Reset
           </button>
