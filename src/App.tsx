@@ -15,7 +15,7 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-enum SortField {
+enum SortType {
   EMPTY = 'empty',
   LENGTH = 'length',
   ALPHABET = 'alphabet',
@@ -23,16 +23,16 @@ enum SortField {
 
 function getSortedGoods(
   goods: string[],
-  sortedField: SortField,
+  sortedField: SortType,
   isReversed: boolean = false,
 ) {
   const newGoods = [...goods];
 
-  if (sortedField === SortField.LENGTH) {
+  if (sortedField === SortType.LENGTH) {
     newGoods.sort((good1, good2) => {
       return good1.length - good2.length;
     });
-  } else if (sortedField === SortField.ALPHABET) {
+  } else if (sortedField === SortType.ALPHABET) {
     newGoods.sort((good1, good2) => {
       return good1.localeCompare(good2);
     });
@@ -46,20 +46,18 @@ function getSortedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortedField, setSortedField] = useState<SortField>(
-    SortField.EMPTY,
-  );
+  const [sortedField, setSortedField] = useState<SortType>(SortType.EMPTY);
   const [isReversed, setIsReversed] = useState<boolean>(false);
-  const isDefaultOrder = sortedField === SortField.EMPTY && !isReversed;
+  const isDefaultOrder = sortedField === SortType.EMPTY && !isReversed;
 
-  const visiableGoods = getSortedGoods(
+  const visibleGoods = getSortedGoods(
     goodsFromServer,
     sortedField,
     isReversed,
   );
 
   const reset = () => {
-    setSortedField(SortField.EMPTY);
+    setSortedField(SortType.EMPTY);
     setIsReversed(false);
   };
 
@@ -68,20 +66,20 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           onClick={() => {
-            setSortedField(SortField.ALPHABET);
+            setSortedField(SortType.ALPHABET);
           }}
           type="button"
-          className={`button is-info ${sortedField === SortField.ALPHABET ? '' : 'is-light'}`}
+          className={`button is-info ${sortedField === SortType.ALPHABET ? '' : 'is-light'}`}
         >
           Sort alphabetically
         </button>
 
         <button
           onClick={() => {
-            setSortedField(SortField.LENGTH);
+            setSortedField(SortType.LENGTH);
           }}
           type="button"
-          className={`button is-success ${sortedField === SortField.LENGTH ? '' : 'is-light'}`}
+          className={`button is-success ${sortedField === SortType.LENGTH ? '' : 'is-light'}`}
         >
           Sort by length
         </button>
@@ -108,7 +106,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {visiableGoods.map(good => (
+        {visibleGoods.map(good => (
           <li key={good} data-cy="Good">
             {good}
           </li>
