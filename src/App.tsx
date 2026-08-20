@@ -60,7 +60,7 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           onClick={() => {
-            setSortedField(SORT_FIELD_ALPHABET);
+            setSortedField(SortFieldType.ALPHABET);
           }}
           type="button"
           className={`button is-info ${sortedField === SORT_FIELD_ALPHABET ? '' : 'is-light'}`}
@@ -70,7 +70,7 @@ export const App: React.FC = () => {
 
         <button
           onClick={() => {
-            setSortedField(SORT_FIELD_LENGHT);
+            setSortedField(SortFieldType.LENGTH);
           }}
           type="button"
           className={`button is-success ${sortedField === SORT_FIELD_LENGHT ? '' : 'is-light'}`}
