@@ -16,19 +16,19 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-enum SortBy {
+enum SortType {
   alphabetically = 'alphabetically',
   length = 'length',
   no_sort = 'none',
 }
 
-function sort(data: string[], sortBy: SortBy): string[] {
+function sortGoods(data: string[], sortByType: SortType): string[] {
   const dataCopy = [...data];
 
-  switch (sortBy) {
-    case SortBy.length:
+  switch (sortByType) {
+    case SortType.length:
       return dataCopy.sort((a, b) => a.length - b.length);
-    case SortBy.alphabetically:
+    case SortType.alphabetically:
       return dataCopy.sort((a, b) => a.localeCompare(b));
     default:
       return data;
@@ -36,14 +36,14 @@ function sort(data: string[], sortBy: SortBy): string[] {
 }
 
 export const App: React.FC = () => {
-  const [sortBy, setSortBy] = useState<SortBy>(SortBy.no_sort);
+  const [sortType, setSortType] = useState<SortType>(SortType.no_sort);
   const [isReversed, setIsReversed] = useState(false);
 
   const visibleGoods = useMemo(() => {
     let result = [...goodsFromServer];
 
-    if (sortBy !== SortBy.no_sort) {
-      result = sort(result, sortBy);
+    if (sortType !== SortType.no_sort) {
+      result = sortGoods(result, sortType);
     }
 
     if (isReversed) {
@@ -51,7 +51,7 @@ export const App: React.FC = () => {
     }
 
     return result;
-  }, [sortBy, isReversed]);
+  }, [sortType, isReversed]);
 
   return (
     <div className="section content">
@@ -59,11 +59,11 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button', {
-            'is-info': sortBy === SortBy.alphabetically,
-            'is-info is-light': sortBy !== SortBy.alphabetically,
+            'is-info': sortType === SortType.alphabetically,
+            'is-info is-light': sortType !== SortType.alphabetically,
           })}
           onClick={() => {
-            setSortBy(SortBy.alphabetically);
+            setSortType(SortType.alphabetically);
           }}
         >
           Sort alphabetically
@@ -72,11 +72,11 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button', {
-            'is-success': sortBy === SortBy.length,
-            'is-success is-light': sortBy !== SortBy.length,
+            'is-success': sortType === SortType.length,
+            'is-success is-light': sortType !== SortType.length,
           })}
           onClick={() => {
-            setSortBy(SortBy.length);
+            setSortType(SortType.length);
           }}
         >
           Sort by length
@@ -93,15 +93,17 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-        {(sortBy !== SortBy.no_sort || isReversed) && (
+        {(sortType !== SortType.no_sort || isReversed) && (
           <button
             type="button"
             className={cn('button', {
-              'is-danger': sortBy === SortBy.no_sort && !isReversed,
-              'is-danger is-light': !(sortBy === SortBy.no_sort && !isReversed),
+              'is-danger': sortType === SortType.no_sort && !isReversed,
+              'is-danger is-light': !(
+                sortType === SortType.no_sort && !isReversed
+              ),
             })}
             onClick={() => {
-              setSortBy(SortBy.no_sort);
+              setSortType(SortType.no_sort);
               setIsReversed(false);
             }}
           >
