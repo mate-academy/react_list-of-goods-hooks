@@ -28,11 +28,11 @@ export const App = () => {
   const getGoods = (): string[] => {
     const goods = [...goodsFromServer];
 
-    if (sortType === 'alphabetically') {
+    if (sortType === SortType.Alphabetically) {
       goods.sort();
     }
 
-    if (sortType === 'length') {
+    if (sortType === SortType.Length) {
       goods.sort((a, b) => a.length - b.length);
     }
 
