@@ -15,15 +15,18 @@ export const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-type SortType = 'alphabetically' | 'length' | null;
+enum SortType {
+  Alphabetically = 'alphabetically',
+  ByLength = 'length',
+}
 
 export const App = () => {
   const [goods, setGoods] = useState<string[]>(goodsFromServer);
-  const [activeSort, setActiveSort] = useState<SortType>(null);
+  const [activeSort, setActiveSort] = useState<SortType | null>(null);
   const [isReversed, setIsReversed] = useState<boolean>(false);
 
   const applySorting = (
-    sortType: Exclude<SortType, null>,
+    sortType: SortType,
     sortFunction: (a: string, b: string) => number,
   ) => {
     const sortedGoods = [...goodsFromServer].sort(sortFunction);
@@ -44,11 +47,11 @@ export const App = () => {
   };
 
   const sortAlphabetically = () => {
-    applySorting('alphabetically', (a, b) => a.localeCompare(b));
+    applySorting(SortType.Alphabetically, (a, b) => a.localeCompare(b));
   };
 
   const sortByLength = () => {
-    applySorting('length', (a, b) => a.length - b.length);
+    applySorting(SortType.ByLength, (a, b) => a.length - b.length);
   };
 
   const reverseGoods = () => {
@@ -57,7 +60,7 @@ export const App = () => {
   };
 
   const resetGoods = () => {
-    setGoods(goodsFromServer);
+    setGoods([...goodsFromServer]);
     setActiveSort(null);
     setIsReversed(false);
   };
@@ -72,7 +75,7 @@ export const App = () => {
         <button
           type="button"
           className={`button is-info ${
-            activeSort === 'alphabetically' ? '' : 'is-light'
+            activeSort === SortType.Alphabetically ? '' : 'is-light'
           }`}
           onClick={sortAlphabetically}
         >
@@ -82,7 +85,7 @@ export const App = () => {
         <button
           type="button"
           className={`button is-success ${
-            activeSort === 'length' ? '' : 'is-light'
+            activeSort === SortType.ByLength ? '' : 'is-light'
           }`}
           onClick={sortByLength}
         >
