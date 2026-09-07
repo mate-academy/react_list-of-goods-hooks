@@ -31,11 +31,15 @@ export const App: React.FC = () => {
     const currentGoods = [...goodsFromServer];
 
     if (sortBy === SortType.ALPHABET) {
-      currentGoods.sort((a, b) => a.localeCompare(b))
+      currentGoods.sort((a, b) => a.localeCompare(b));
     }
 
     if (sortBy === SortType.LENGTH) {
-      currentGoods.sort((a, b) => a.length - b.length)
+      currentGoods.sort((a, b) => a.length - b.length);
+    }
+
+    if (isReversed) {
+      currentGoods.reverse();
     }
 
     return currentGoods;
@@ -64,18 +68,30 @@ export const App: React.FC = () => {
           Sort by length
         </button>
 
-        <button type="button" className="button is-warning is-light">
+        <button
+          type="button"
+          className={cn('button', 'is-warning', {
+            'is-light': !isReversed,
+          })}
+          onClick={() => setIsReversed(!isReversed)}
+        >
           Reverse
         </button>
 
-        <button type="button" className="button is-danger is-light">
-          Reset
-        </button>
+        {(sortBy !== SortType.NONE || isReversed) && (
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={() => {
+              setSortBy(SortType.NONE);
+              setIsReversed(false);
+            }}
+          >
+            Reset
+          </button>
+        )}
       </div>
-
-      <ul>
-        <GoodsList goods={getCurrentGoods()} />
-      </ul>
+      <GoodsList goods={getCurrentGoods()} />
     </div>
   );
 };
