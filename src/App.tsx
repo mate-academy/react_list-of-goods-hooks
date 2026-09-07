@@ -3,7 +3,7 @@ import cn from 'classnames';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-export const goodsFromServer = [
+export const goodsFromServer: string[] = [
   'Dumplings',
   'Carrot',
   'Eggs',
@@ -26,7 +26,7 @@ export const App: React.FC = () => {
   const [sortType, setSortType] = useState(SortType.NONE);
   const [reversed, setReversed] = useState(false);
 
-  let visibleGoods = goodsFromServer;
+  let visibleGoods = [...goodsFromServer];
 
   visibleGoods = visibleGoods.toSorted((good1, good2) => {
     switch (sortType) {
@@ -68,7 +68,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-info', {
-            'is-light': sortType !== 'sortAlphabetically',
+            'is-light': sortType !== SortType.ALPHABET,
           })}
           onClick={handleSortAlphabetically}
         >
@@ -78,7 +78,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button is-success', {
-            'is-light': sortType !== 'sortByLength',
+            'is-light': sortType !== SortType.LENGTH,
           })}
           onClick={handleSortByLength}
         >
