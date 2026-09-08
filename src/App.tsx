@@ -19,7 +19,7 @@ export const goodsFromServer = [
 
 // type SortType = SortType.Default | 'alphabet' | 'length';
 enum SortType {
-  Default = SortType.Default,
+  Default = '',
   Alphabet = 'alphabet',
   Length = 'length',
 }
