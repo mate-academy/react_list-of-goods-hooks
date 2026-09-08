@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import cn from 'classnames';
+import { getSortedGoods, SortType } from './utils/getSortedGoods';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
@@ -16,35 +18,67 @@ export const goodsFromServer = [
 ];
 
 export const App: React.FC = () => {
+  const [sortBy, setSortBy] = useState<SortType | null>(null);
+  const [reversed, setReversed] = useState<boolean>(false);
+
+  const goods = getSortedGoods(goodsFromServer, sortBy, reversed);
+
+  const isSorted = sortBy !== null || reversed;
+
+  const handleReset = () => {
+    setSortBy(null);
+    setReversed(false);
+  };
+
   return (
     <div className="section content">
       <div className="buttons">
-        <button type="button" className="button is-info is-light">
+        <button
+          type="button"
+          className={cn('button', 'is-info', {
+            'is-light': sortBy !== SortType.Alphabet,
+          })}
+          onClick={() => setSortBy(SortType.Alphabet)}
+        >
           Sort alphabetically
         </button>
 
-        <button type="button" className="button is-success is-light">
+        <button
+          type="button"
+          className={cn('button', 'is-success', {
+            'is-light': sortBy !== SortType.Length,
+          })}
+          onClick={() => setSortBy(SortType.Length)}
+        >
           Sort by length
         </button>
 
-        <button type="button" className="button is-warning is-light">
+        <button
+          type="button"
+          className={cn('button', 'is-warning', {
+            'is-light': !reversed,
+          })}
+          onClick={() => setReversed(!reversed)}
+        >
           Reverse
         </button>
-
-        <button type="button" className="button is-danger is-light">
-          Reset
-        </button>
+        {isSorted && (
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={handleReset}
+          >
+            Reset
+          </button>
+        )}
       </div>
 
       <ul>
-        <ul>
-          <li data-cy="Good">Dumplings</li>
-          <li data-cy="Good">Carrot</li>
-          <li data-cy="Good">Eggs</li>
-          <li data-cy="Good">Ice cream</li>
-          <li data-cy="Good">Apple</li>
-          <li data-cy="Good">...</li>
-        </ul>
+        {goods.map(good => (
+          <li key={good} data-cy="Good">
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
