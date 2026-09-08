@@ -17,26 +17,31 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-type SortType = '' | 'alphabet' | 'length';
+// type SortType = SortType.Default | 'alphabet' | 'length';
+enum SortType {
+  Default = SortType.Default,
+  Alphabet = 'alphabet',
+  Length = 'length',
+}
 
-const SORT_ALPHABETICALY: SortType = 'alphabet';
-const SORT_LENGTHLY: SortType = 'length';
+// const SortType.Alphabet: SortType = 'alphabet';
+// const SortType.Length: SortType = 'length';
 
 export const App: React.FC = () => {
-  const [sortBy, setSortBy] = useState<SortType>('');
+  const [sortBy, setSortBy] = useState<SortType>(SortType.Default);
   const [isReversed, setIsReversed] = useState(false);
 
   function sortedGoods(goodsArr: string[]): string[] {
     const sortedArray = [...goodsArr];
 
     switch (sortBy) {
-      case SORT_ALPHABETICALY:
+      case SortType.Alphabet:
         sortedArray.sort((good1: string, good2: string) =>
           good1.localeCompare(good2),
         );
         break;
 
-      case SORT_LENGTHLY:
+      case SortType.Length:
         sortedArray.sort(
           (good1: string, good2: string) => good1.length - good2.length,
         );
@@ -56,9 +61,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button', 'is-info', {
-            'is-light': sortBy !== SORT_ALPHABETICALY,
+            'is-light': sortBy !== SortType.Alphabet,
           })}
-          onClick={() => setSortBy(SORT_ALPHABETICALY)}
+          onClick={() => setSortBy(SortType.Alphabet)}
         >
           Sort alphabetically
         </button>
@@ -66,9 +71,9 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={cn('button', 'is-success', {
-            'is-light': sortBy !== SORT_LENGTHLY,
+            'is-light': sortBy !== SortType.Length,
           })}
-          onClick={() => setSortBy(SORT_LENGTHLY)}
+          onClick={() => setSortBy(SortType.Length)}
         >
           Sort by length
         </button>
@@ -90,7 +95,7 @@ export const App: React.FC = () => {
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              setSortBy('');
+              setSortBy(SortType.Default);
               setIsReversed(false);
             }}
           >
