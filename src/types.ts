@@ -1,5 +1,5 @@
 export type IsActive = 'inactive' | 'active';
-export type SortOptionst = {
+export type SortOptions = {
   byAlphabet: IsActive;
   byLength: IsActive;
   reverse: IsActive;
