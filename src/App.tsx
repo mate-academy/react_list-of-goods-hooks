@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
+import cn from 'classnames';
+import { getSortedGoods, SortType } from './utils/getSortedGoods';
 import 'bulma/css/bulma.css';
 import './App.scss';
-
-enum SortType {
-  Alphabet = 'alphabet',
-  Length = 'length',
-}
 
 export const goodsFromServer = [
   'Dumplings',
@@ -21,26 +18,12 @@ export const goodsFromServer = [
 ];
 
 export const App: React.FC = () => {
-  const goods = [...goodsFromServer];
   const [sortBy, setSortBy] = useState<SortType | null>(null);
   const [reversed, setReversed] = useState<boolean>(false);
 
+  const goods = getSortedGoods(goodsFromServer, sortBy, reversed);
+
   const isSorted = sortBy !== null || reversed;
-
-  switch (sortBy) {
-    case SortType.Alphabet:
-      goods.sort((word1, word2) => word1.localeCompare(word2));
-      break;
-    case SortType.Length:
-      goods.sort((word1, word2) => word1.length - word2.length);
-      break;
-    default:
-      break;
-  }
-
-  if (reversed) {
-    goods.reverse();
-  }
 
   const handleReset = () => {
     setSortBy(null);
@@ -52,7 +35,9 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortBy === SortType.Alphabet ? '' : 'is-light'}`}
+          className={cn('button', 'is-info', {
+            'is-light': sortBy !== SortType.Alphabet,
+          })}
           onClick={() => setSortBy(SortType.Alphabet)}
         >
           Sort alphabetically
@@ -60,7 +45,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-success ${sortBy === SortType.Length ? '' : 'is-light'}`}
+          className={cn('button', 'is-success', {
+            'is-light': sortBy !== SortType.Length,
+          })}
           onClick={() => setSortBy(SortType.Length)}
         >
           Sort by length
@@ -68,7 +55,9 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-warning ${reversed ? '' : 'is-light'}`}
+          className={cn('button', 'is-warning', {
+            'is-light': !reversed,
+          })}
           onClick={() => setReversed(!reversed)}
         >
           Reverse
@@ -85,13 +74,11 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        <ul>
-          {goods.map(good => (
-            <li key={good} data-cy="Good">
-              {good}
-            </li>
-          ))}
-        </ul>
+        {goods.map(good => (
+          <li key={good} data-cy="Good">
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
