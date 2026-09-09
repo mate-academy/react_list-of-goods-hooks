@@ -1,6 +1,1 @@
-{
-  "extends": "@mate-academy/students-ts-config",
-  "include": [
-    "src"
-  ]
-}
+{ "extends": "@mate-academy/students-ts-config", "include": ["src"] }
