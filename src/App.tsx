@@ -61,7 +61,7 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button-is-info ${
+          className={`button is-info ${
             sortType === SortType.Alphabet ? '' : 'is-light'
           }`}
           onClick={handleSortAlphabet}
@@ -71,7 +71,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button-is-success ${
+          className={`button is-success ${
             sortType === SortType.Length ? '' : 'is-light'
           }`}
           onClick={handleSortByLength}
@@ -81,7 +81,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button-is-warning ${isReversed ? '' : 'is-light'}`}
+          className={`button is-warning ${isReversed ? '' : 'is-light'}`}
           onClick={handleToggleReverse}
         >
           Reverse
@@ -90,7 +90,7 @@ export const App: React.FC = () => {
         {isModified && (
           <button
             type="button"
-            className="button-is-danger"
+            className="button is-danger"
             onClick={handleReset}
           >
             Reset
