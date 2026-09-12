@@ -15,41 +15,45 @@ export const goodsFromServer: string[] = [
   'Garlic',
 ];
 
-type SortType = 'alphabetically' | 'length' | null;
+enum SortType {
+  Default = 'default',
+  Alphabetically = 'alphabetically',
+  Length = 'length',
+}
 
 export const App = () => {
   const [goods, setGoods] = useState<string[]>(goodsFromServer);
-  const [sortType, setSortType] = useState<SortType>(null);
-  const [isReversed, setIsReversed] = useState<boolean>(false);
+  const [sortType, setSortType] = useState<SortType>(SortType.Default);
+  const [isReversed, setIsReversed] = useState(false);
 
-  const sortAlphabetically = (): void => {
+  const sortAlphabetically = () => {
     const sortedGoods = [...goodsFromServer].sort((a, b) => a.localeCompare(b));
 
     setGoods(isReversed ? sortedGoods.reverse() : sortedGoods);
-    setSortType('alphabetically');
+    setSortType(SortType.Alphabetically);
   };
 
-  const sortByLength = (): void => {
+  const sortByLength = () => {
     const sortedGoods = [...goodsFromServer].sort(
       (a, b) => a.length - b.length,
     );
 
     setGoods(isReversed ? sortedGoods.reverse() : sortedGoods);
-    setSortType('length');
+    setSortType(SortType.Length);
   };
 
-  const reverseGoods = (): void => {
+  const reverseGoods = () => {
     setGoods([...goods].reverse());
     setIsReversed(prev => !prev);
   };
 
-  const resetGoods = (): void => {
+  const resetGoods = () => {
     setGoods(goodsFromServer);
-    setSortType(null);
+    setSortType(SortType.Default);
     setIsReversed(false);
   };
 
-  const isOriginalOrder = !isReversed && sortType === null;
+  const isOriginalOrder = !isReversed && sortType === SortType.Default;
 
   return (
     <div className="section content">
@@ -57,7 +61,7 @@ export const App = () => {
         <button
           type="button"
           className={`button is-info ${
-            sortType === 'alphabetically' ? '' : 'is-light'
+            sortType === SortType.Alphabetically ? '' : 'is-light'
           }`}
           onClick={sortAlphabetically}
         >
@@ -67,7 +71,7 @@ export const App = () => {
         <button
           type="button"
           className={`button is-success ${
-            sortType === 'length' ? '' : 'is-light'
+            sortType === SortType.Length ? '' : 'is-light'
           }`}
           onClick={sortByLength}
         >
