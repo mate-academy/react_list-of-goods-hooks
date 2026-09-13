@@ -95,9 +95,7 @@ export const App: React.FC = () => {
         )}
       </div>
 
-      <ul>
-        <Goods goods={visibleGoods} />
-      </ul>
+      <Goods goods={visibleGoods} />
     </div>
   );
 };
