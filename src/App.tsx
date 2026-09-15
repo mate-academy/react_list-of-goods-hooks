@@ -19,7 +19,7 @@ enum SortType {
   Alphabetically,
   ByLength,
   Reverse,
-  Reset
+  Reset,
 }
 
 export const App: React.FC = () => {
@@ -37,10 +37,10 @@ export const App: React.FC = () => {
     case SortType.Reverse:
       copyOfGoods = [...copyOfGoods].reverse();
       break;
-    case SortType.Reset: 
-      default:
-        copyOfGoods = [...goodsFromServer];
-        break;
+    case SortType.Reset:
+    default:
+      copyOfGoods = [...goodsFromServer];
+      break;
   }
 
   return (
@@ -50,7 +50,7 @@ export const App: React.FC = () => {
           type="button"
           className={`button is-info ${sortField === SortType.Alphabetically ? '' : 'is-light'}`}
           onClick={() => setSortField(SortType.Alphabetically)}
-          >
+        >
           Sort alphabetically
         </button>
 
@@ -85,8 +85,7 @@ export const App: React.FC = () => {
             <li key={good} data-cy="Good">
               {good}
             </li>
-          ))
-          }
+          ))}
         </ul>
       </ul>
     </div>
