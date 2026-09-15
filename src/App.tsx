@@ -38,6 +38,7 @@ export const App: React.FC = () => {
   if (reversed) {
     copyOfGoods = [...copyOfGoods].reverse();
   }
+
   return (
     <div className="section content">
       <div className="buttons">
@@ -71,18 +72,18 @@ export const App: React.FC = () => {
           Reverse
         </button>
 
-          {(sortField !== SortType.Default || reversed) &&
-            <button
-              type="button"
-              className="button is-danger is-light"
-              onClick={() => {
-                setSortField(SortType.Default);
-                setReversed(false);
-              }}
-            >
+        {(sortField !== SortType.Default || reversed) && (
+          <button
+            type="button"
+            className="button is-danger is-light"
+            onClick={() => {
+              setSortField(SortType.Default);
+              setReversed(false);
+            }}
+          >
             Reset
           </button>
-          }
+        )}
       </div>
 
       <ul>
