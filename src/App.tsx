@@ -40,7 +40,7 @@ export const App: React.FC = () => {
     visibleGoods.reverse();
   }
 
-  const reset = () => {
+  const handleReset = () => {
     setSortType(SortType.NONE);
     setIsReversed(false);
   };
@@ -80,7 +80,7 @@ export const App: React.FC = () => {
           <button
             type="button"
             className="button is-danger is-light"
-            onClick={reset}
+            onClick={handleReset}
           >
             Reset
           </button>
