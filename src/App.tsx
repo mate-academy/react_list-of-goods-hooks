@@ -41,7 +41,7 @@ export const App: React.FC = () => {
 
   const isDefault = sortType === SortType.None && !isReversed;
 
-  const reset = () => {
+  const handleReset = () => {
     setSortType(SortType.None);
     setIsReversed(false);
   };
@@ -78,7 +78,11 @@ export const App: React.FC = () => {
         </button>
 
         {!isDefault && (
-          <button type="button" className="button is-danger" onClick={reset}>
+          <button
+            type="button"
+            className="button is-danger"
+            onClick={handleReset}
+          >
             Reset
           </button>
         )}
