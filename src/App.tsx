@@ -70,7 +70,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={`button is-warning ${!isReversed ? 'is-light' : ''}`}
-          onClick={() => setIsReversed((prev) => !prev)}
+          onClick={() => setIsReversed(prev => !prev)}
         >
           Reverse
         </button>
@@ -87,7 +87,7 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        {visibleGoods.map((good) => (
+        {visibleGoods.map(good => (
           <li key={good} data-cy="Good">
             {good}
           </li>
