@@ -20,7 +20,6 @@ Cypress.on('fail', (e) => {
   failed = true;
   throw e;
 });
-
 describe('Page', () => {
   beforeEach(() => {
     if (failed) Cypress.runner.stop();
@@ -194,7 +193,7 @@ describe('Page', () => {
 
     it('should allow to reverse again', () => {
       page.reverseButton().click();
-      
+
       page.assertFirstGoods('Apple', 'Bread', 'Carrot');
     });
 
@@ -273,7 +272,7 @@ describe('Page', () => {
 
     it('should allow to reverse again', () => {
       page.reverseButton().click();
-      
+
       page.assertFirstGoods('Jam', 'Eggs', 'Fish');
     });
 
