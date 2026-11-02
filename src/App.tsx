@@ -16,15 +16,18 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-enum SortMethod {
+enum SortType {
   Alphabet = 'alphabet',
   Length = 'length',
 }
 
 function getPreparedGoods(
   goods: string[],
-  { sortMethod, isReversed }: {
-    sortMethod: SortMethod | '';
+  {
+    sortMethod,
+    isReversed,
+  }: {
+    sortMethod: SortType | '';
     isReversed: boolean;
   },
 ) {
@@ -33,10 +36,10 @@ function getPreparedGoods(
   if (sortMethod) {
     preparedGoods.sort((good1, good2) => {
       switch (sortMethod) {
-        case SortMethod.Length:
+        case SortType.Length:
           return good1.length - good2.length;
 
-        case SortMethod.Alphabet:
+        case SortType.Alphabet:
           return good1.localeCompare(good2);
 
         default:
@@ -53,7 +56,7 @@ function getPreparedGoods(
 }
 
 export const App: React.FC = () => {
-  const [sortMethod, setSortMethod] = useState<SortMethod | ''>('');
+  const [sortMethod, setSortMethod] = useState<SortType | ''>('');
   const [isReversed, setIsReversed] = useState(false);
   const visibleGoods = getPreparedGoods(goodsFromServer, {
     sortMethod,
@@ -66,16 +69,16 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortMethod === SortMethod.Alphabet ? '' : 'is-light'}`}
-          onClick={() => setSortMethod(SortMethod.Alphabet)}
+          className={`button is-info ${sortMethod === SortType.Alphabet ? '' : 'is-light'}`}
+          onClick={() => setSortMethod(SortType.Alphabet)}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={`button is-success ${sortMethod === SortMethod.Length ? '' : 'is-light'}`}
-          onClick={() => setSortMethod(SortMethod.Length)}
+          className={`button is-success ${sortMethod === SortType.Length ? '' : 'is-light'}`}
+          onClick={() => setSortMethod(SortType.Length)}
         >
           Sort by length
         </button>
