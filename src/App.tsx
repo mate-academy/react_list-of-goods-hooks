@@ -14,8 +14,6 @@ interface SortParams {
   reverse: boolean;
 }
 
-// type SortField = typeof SortType;
-
 export const goodsFromServer: string[] = [
   'Dumplings',
   'Carrot',
