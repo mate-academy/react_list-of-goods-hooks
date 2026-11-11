@@ -42,6 +42,7 @@ export const App = () => {
               }),
             );
             setSortType(SortType.ALPHABET);
+            setIsReversed(false);
           }}
         >
           Sort alphabetically
@@ -60,6 +61,7 @@ export const App = () => {
               }),
             );
             setSortType(SortType.LENGTH);
+            setIsReversed(false);
           }}
         >
           Sort by length
