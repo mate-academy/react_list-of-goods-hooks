@@ -38,11 +38,12 @@ export const App = () => {
           onClick={() => {
             setGoods(
               [...goodsFromServer].sort((a, b) => {
-                return a.localeCompare(b);
+                return !isReversed
+                ? a.localeCompare(b)
+                : b.localeCompare(a);
               }),
             );
             setSortType(SortType.ALPHABET);
-            setIsReversed(false);
           }}
         >
           Sort alphabetically
@@ -56,12 +57,13 @@ export const App = () => {
           }
           onClick={() => {
             setGoods(
-              [...goodsFromServer].sort((a, b) => {
-                return a.length - b.length;
+              [...goods].sort((a, b) => {
+                return !isReversed
+                ? a.length - b.length
+                : b.length - a.length
               }),
             );
             setSortType(SortType.LENGTH);
-            setIsReversed(false);
           }}
         >
           Sort by length
