@@ -38,9 +38,7 @@ export const App = () => {
           onClick={() => {
             setGoods(
               [...goodsFromServer].sort((a, b) => {
-                return !isReversed
-                ? a.localeCompare(b)
-                : b.localeCompare(a);
+                return !isReversed ? a.localeCompare(b) : b.localeCompare(a);
               }),
             );
             setSortType(SortType.ALPHABET);
@@ -58,9 +56,7 @@ export const App = () => {
           onClick={() => {
             setGoods(
               [...goods].sort((a, b) => {
-                return !isReversed
-                ? a.length - b.length
-                : b.length - a.length
+                return !isReversed ? a.length - b.length : b.length - a.length;
               }),
             );
             setSortType(SortType.LENGTH);
