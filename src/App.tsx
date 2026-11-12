@@ -16,12 +16,13 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
+  Default,
   Alphabetically,
   Length,
 }
 
 export const App: React.FC = () => {
-  const [sortType, setSortType] = useState<SortType | null>(null);
+  const [sortType, setSortType] = useState<SortType>(SortType.Default);
   const [isReversed, setIsReversed] = useState(false);
 
   const visibleGoods = [...goodsFromServer];
@@ -38,10 +39,10 @@ export const App: React.FC = () => {
     visibleGoods.reverse();
   }
 
-  const isChanged = sortType !== null || isReversed;
+  const isChanged = sortType !== SortType.Default || isReversed;
 
   const reset = () => {
-    setSortType(null);
+    setSortType(SortType.Default);
     setIsReversed(false);
   };
 
