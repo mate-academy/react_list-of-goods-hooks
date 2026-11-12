@@ -27,7 +27,7 @@ export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
   let sortingF = [];
 
-  function listChanging(goods: string[]) {
+  function changeList(goods: string[]) {
     sortingF = goods.toSorted((good1, good2) => {
       switch (sortField) {
         case SortType.alphabetically:
@@ -48,7 +48,7 @@ export const App: React.FC = () => {
     return sortingF;
   }
 
-  const sorting = listChanging(goodsFromServer);
+  const sorting = changeList(goodsFromServer);
 
   return (
     <div className="section content">
@@ -66,7 +66,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={classNames('button', 'is-success', {
-            'is-light': SortType.length,
+            'is-light': sortField !== SortType.length,
           })}
           onClick={() => setSortField(SortType.length)}
         >
