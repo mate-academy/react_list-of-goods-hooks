@@ -22,12 +22,13 @@ export const goodsFromServer: Good[] = [
 ];
 
 enum SortType {
+  Default = '',
   Name = 'name',
   Length = 'length',
 }
 
 export const App = () => {
-  const [sortType, setSortType] = useState<SortType | ''>('');
+  const [sortType, setSortType] = useState<SortType | ''>(SortType.Default);
   const [isReversed, setIsReversed] = useState(false);
 
   const visibleGoods = [...goodsFromServer];
@@ -53,7 +54,7 @@ export const App = () => {
     );
 
   const reset = () => {
-    setSortType('');
+    setSortType(SortType.Default);
     setIsReversed(false);
   };
 
