@@ -16,16 +16,22 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
+enum SortType {
+  NONE = '',
+  ALPHABETICALLY = 'Sort alphabetically',
+  BY_LENGTH = 'Sort by length',
+}
+
 export const App = () => {
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState<SortType>(SortType.NONE);
   const [reversed, setReversed] = useState(false);
-  const sortArr = ['Sort alphabetically', 'Sort by length'];
+  const sortArr = [SortType.ALPHABETICALLY, SortType.BY_LENGTH];
 
   let visibleGoods = [...goodsFromServer].sort((good1, good2) => {
     switch (sortField) {
-      case 'Sort by length':
+      case SortType.BY_LENGTH:
         return good1.length - good2.length;
-      case 'Sort alphabetically':
+      case SortType.ALPHABETICALLY:
         return good1.localeCompare(good2);
       default:
         return 0;
@@ -61,12 +67,12 @@ export const App = () => {
         >
           Reverse
         </button>
-        {(sortField !== '' || reversed) && (
+        {(sortField !== SortType.NONE || reversed) && (
           <button
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              setSortField('');
+              setSortField(SortType.NONE);
               setReversed(false);
             }}
           >
