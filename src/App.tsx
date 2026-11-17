@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
-
+import { SortType } from './types/SortTypes';
+import { getPreparedGoods } from './utils/getPreparedGoods';
 export const goodsFromServer = [
   'Dumplings',
   'Carrot',
@@ -15,46 +16,21 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-enum SortType {
-  Alphabet = 'alphabet',
-  Length = 'length',
-  None = 'none',
-}
-
-function getPreparedGoods(
-  goods: string[],
-  sortType: SortType,
-  reverse: boolean,
-): string[] {
-  const preparedGoods = [...goods];
-
-  switch (sortType) {
-    case SortType.Alphabet:
-      preparedGoods.sort((a, b) => a.localeCompare(b));
-      break;
-    case SortType.Length:
-      preparedGoods.sort((a, b) => a.length - b.length);
-      break;
-  }
-
-  if (reverse) {
-    preparedGoods.reverse();
-  }
-
-  return preparedGoods;
-}
-
 export const App: React.FC = () => {
   const [sortType, setSortType] = useState<SortType>(SortType.None);
   const [reverse, setReverse] = useState(false);
   const preparedGoods = getPreparedGoods(goodsFromServer, sortType, reverse);
   const umova = sortType !== SortType.None || reverse;
 
+  function handleSortChange(newSortType: SortType) {
+    setSortType(newSortType);
+  }
+
   return (
     <div className="section content">
       <div className="buttons">
         <button
-          onClick={() => setSortType(SortType.Alphabet)}
+          onClick={() => handleSortChange(SortType.Alphabet)}
           type="button"
           className={`button is-info ${sortType === SortType.Alphabet ? '' : 'is-light'}`}
         >
@@ -62,7 +38,7 @@ export const App: React.FC = () => {
         </button>
 
         <button
-          onClick={() => setSortType(SortType.Length)}
+          onClick={() => handleSortChange(SortType.Length)}
           type="button"
           className={`button is-success ${sortType === SortType.Length ? '' : 'is-light'}`}
         >
