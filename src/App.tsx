@@ -17,26 +17,27 @@ export const goodsFromServer = [
 // const ALPHABET = 'alphabet';
 // const LENGTH = 'length';
 
-enum Method {
+enum SortType {
+  default,
  alphabet = 'alphabet',
   length = 'length',
 }
 
 type Params = {
-  sortField: Method | '',
+  sortField: SortType,
   reverse: boolean,
 }
 
 const sort = (list: string[], { sortField, reverse }: Params) => {
   const preparedList = [...list].sort((good1, good2) => {
     switch (sortField) {
-      case Method.alphabet:
+      case SortType.alphabet:
         return good1.localeCompare(good2);
 
-      case Method.length:
+      case SortType.length:
         return good1.length - good2.length;
 
-      default:
+      case SortType.default:
         return 0;
     }
   });
@@ -49,7 +50,7 @@ const sort = (list: string[], { sortField, reverse }: Params) => {
 };
 
 export const App = () => {
-  const [sortField, setSortField] = useState<Method | ''>('');
+  const [sortField, setSortField] = useState<SortType>(SortType.default);
   const [reverse, setReverse] = useState(false);
 
   const preparedList = sort(goodsFromServer, { sortField, reverse });
@@ -60,12 +61,12 @@ export const App = () => {
         <button
           type="button"
           className={
-            sortField === Method.alphabet
+            sortField === SortType.alphabet
               ? 'button is-info'
               : 'button is-success is-light'
           }
           onClick={() => {
-            setSortField(Method.alphabet);
+            setSortField(SortType.alphabet);
           }}
         >
           Sort alphabetically
@@ -74,12 +75,12 @@ export const App = () => {
         <button
           type="button"
           className={
-            sortField === Method.length
+            sortField === SortType.length
               ? 'button is-success'
               : 'button is-success is-light'  
           }
           onClick={() => {
-            setSortField(Method.length);
+            setSortField(SortType.length);
           }}
         >
           Sort by length
@@ -104,7 +105,7 @@ export const App = () => {
             type="button"
             className="button is-danger"
             onClick={() => {
-              setSortField('');
+              setSortField(SortType.default);
               setReverse(false);
             }}
           >
