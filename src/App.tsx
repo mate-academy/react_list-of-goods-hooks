@@ -37,7 +37,7 @@ export const App: React.FC = () => {
 
   const sortByLength = () => {
     const sortedGoods = [...goods].sort((a, b) => {
-      return isReversed ? a.length - b.length : b.length - a.length;
+      return isReversed ? b.length - a.length : a.length - b.length;
     });
 
     setGoods(sortedGoods);
