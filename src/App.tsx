@@ -2,6 +2,12 @@ import { useState } from 'react';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
+enum SortType {
+  None,
+  Alphabet,
+  Length,
+}
+
 export const goodsFromServer = [
   'Dumplings',
   'Carrot',
@@ -16,16 +22,16 @@ export const goodsFromServer = [
 ];
 
 export const App = () => {
-  const [sortBy, setSortBy] = useState('');
+  const [sortBy, setSortBy] = useState<SortType>(SortType.None);
   const [isReversed, setIsReversed] = useState(false);
 
   const goods = [...goodsFromServer];
 
-  if (sortBy === 'alphabet') {
+  if (sortBy === SortType.Alphabet) {
     goods.sort();
   }
 
-  if (sortBy === 'length') {
+  if (sortBy === SortType.Length) {
     goods.sort((a, b) => a.length - b.length);
   }
 
@@ -33,23 +39,23 @@ export const App = () => {
     goods.reverse();
   }
 
-  const isOriginalOrder = sortBy === '' && !isReversed;
+  const isOriginalOrder = sortBy === SortType.None && !isReversed;
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortBy === 'alphabet' ? '' : 'is-light'}`}
-          onClick={() => setSortBy('alphabet')}
+          className={`button is-info ${sortBy === SortType.Alphabet ? '' : 'is-light'}`}
+          onClick={() => setSortBy(SortType.Alphabet)}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={`button is-success ${sortBy === 'length' ? '' : 'is-light'}`}
-          onClick={() => setSortBy('length')}
+          className={`button is-success ${sortBy === SortType.Length ? '' : 'is-light'}`}
+          onClick={() => setSortBy(SortType.Length)}
         >
           Sort by length
         </button>
@@ -67,7 +73,7 @@ export const App = () => {
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              setSortBy('');
+              setSortBy(SortType.None);
               setIsReversed(false);
             }}
           >
