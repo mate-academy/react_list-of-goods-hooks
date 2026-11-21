@@ -48,6 +48,7 @@ export const App: React.FC = () => {
     <div className="section content">
       <div className="buttons">
         <button
+          data-cy="SortAlphabetically"
           type="button"
           className={`button is-info ${
             sortType === SortType.ALPHABETICALLY ? '' : 'is-light'
@@ -58,6 +59,7 @@ export const App: React.FC = () => {
         </button>
 
         <button
+          data-cy="SortByLength"
           type="button"
           className={`button is-success ${
             sortType === SortType.LENGTH ? '' : 'is-light'
@@ -68,6 +70,7 @@ export const App: React.FC = () => {
         </button>
 
         <button
+          data-cy="Reverse"
           type="button"
           className={`button is-warning ${isReversed ? '' : 'is-light'}`}
           onClick={() => setIsReversed(previous => !previous)}
@@ -77,6 +80,7 @@ export const App: React.FC = () => {
 
         {(sortType !== SortType.NONE || isReversed) && (
           <button
+            data-cy="Reset"
             type="button"
             className="button is-danger is-light"
             onClick={reset}
