@@ -69,8 +69,8 @@ export const App = () => {
               : 'button is-info is-light'
           }
           onClick={() => {
-            setValue(sortGoods(value, 'alphabetically', reve));
-            actValue('alphabetically');
+            setValue(sortGoods(value, SortType.Alphabetically, reve));
+            actValue(SortType.Alphabetically);
           }}
         >
           Sort alphabetically
@@ -84,8 +84,8 @@ export const App = () => {
               : 'button is-success is-light'
           }
           onClick={() => {
-            setValue(sortGoods(value, 'length', reve));
-            actValue('length');
+            setValue(sortGoods(value, SortType.Length, reve));
+            actValue(SortType.Length);
           }}
         >
           Sort by length
@@ -99,10 +99,10 @@ export const App = () => {
           onClick={() => {
             if (!reve) {
               revValue(true);
-              setValue(sortGoods(value, 'reverse', true));
+              setValue(sortGoods(value, SortType.Reverse, true));
             } else {
               revValue(false);
-              setValue(sortGoods(value, 'reverse', false));
+              setValue(sortGoods(value, SortType.Reverse, false));
             }
           }}
         >
@@ -115,7 +115,7 @@ export const App = () => {
             className="button is-danger is-light"
             onClick={() => {
               setValue(goodsFromServer);
-              actValue('');
+              actValue(SortType.None);
               revValue(false);
             }}
           >
