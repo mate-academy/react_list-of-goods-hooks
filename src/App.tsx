@@ -64,7 +64,7 @@ export const App = () => {
         <button
           type="button"
           className={
-            act === 'alphabetically'
+            act === SortType.Alphabetically
               ? 'button is-info '
               : 'button is-info is-light'
           }
@@ -79,7 +79,7 @@ export const App = () => {
         <button
           type="button"
           className={
-            act === 'length'
+            act === SortType.Length
               ? 'button is-success'
               : 'button is-success is-light'
           }
@@ -109,7 +109,7 @@ export const App = () => {
           Reverse
         </button>
 
-        {(act !== '' || reve) && (
+        {(act !== SortType.None || reve) && (
           <button
             type="button"
             className="button is-danger is-light"
