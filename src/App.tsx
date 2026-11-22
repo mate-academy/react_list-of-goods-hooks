@@ -14,11 +14,16 @@ export const goodsFromServer = [
   'Jam',
   'Garlic',
 ];
-type SortType = 'alphabetically' | 'length' | 'reverse' | '';
+enum SortType {
+  Alphabetically = 'alphabetically',
+  Length = 'length',
+  Reverse = 'reverse',
+  None = '',
+}
 
 export const App = () => {
   const [value, setValue] = useState<string[]>(goodsFromServer);
-  const [act, actValue] = useState<SortType>('');
+  const [act, actValue] = useState<SortType>(SortType.None);
   const [reve, revValue] = useState(false);
 
   function sortGoods(
@@ -28,24 +33,24 @@ export const App = () => {
   ): string[] {
     const val = [...good];
 
-    if (setvalue === 'alphabetically') {
+    if (setvalue === SortType.Alphabetically) {
       val.sort((good1, good2) => good1.localeCompare(good2));
     }
 
-    if (setvalue === 'length') {
+    if (setvalue === SortType.Length) {
       val.sort((good1, good2) => good1.length - good2.length);
     }
 
-    if (setvalue === 'reverse') {
+    if (setvalue === SortType.Reverse) {
       val.reverse();
     }
 
     if (rev) {
-      if (setvalue === 'alphabetically') {
+      if (setvalue === SortType.Alphabetically) {
         val.sort((good1, good2) => good2.localeCompare(good1));
       }
 
-      if (setvalue === 'length') {
+      if (setvalue === SortType.Length) {
         val.sort((good1, good2) => good2.length - good1.length);
       }
     }
