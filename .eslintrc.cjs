@@ -61,13 +61,12 @@ module.exports = {
       { blankLine: 'always', prev: 'directive', next: '*' },
       { blankLine: 'always', prev: 'block-like', next: '*' },
     ],
-    'implicit-arrow-linebreak:': 0,
+    'implicit-arrow-linebreak': 0,
 
     // React
     'react/prop-types': 0,
     'react/require-default-props': 0,
     'import/prefer-default-export': 0,
-    'standard/no-callback-literal': 0,
     'react/jsx-filename-extension': [1, { extensions: ['.tsx'] }],
     'react/destructuring-assignment': 0,
     'react/jsx-props-no-spreading': 0,
