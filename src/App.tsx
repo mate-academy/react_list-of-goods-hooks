@@ -16,20 +16,23 @@ export const goodsFromServer = [
   'Garlic',
 ];
 
-const SORT_NONE = '';
-const SORT_ALPHABET = 'alphabet';
-const SORT_LENGTH = 'length';
+enum SortType {
+  SORT_NONE = '',
+  SORT_ALPHABET = 'alphabet',
+  SORT_LENGTH = 'length',
+}
+
 
 function getPreparedGoods(
   goods: string[],
-  sortType: string,
+  sortType: SortType,
   isReversed: boolean
 ) {
   const prepared = [...goods];
 
-  if (sortType === SORT_ALPHABET) {
+  if (sortType === SortType.SORT_ALPHABET) {
     prepared.sort((a, b) => a.localeCompare(b));
-  } else if (sortType === SORT_LENGTH) {
+  } else if (sortType === SortType.SORT_LENGTH) {
     prepared.sort((a, b) => a.length - b.length);
   }
 
@@ -41,14 +44,14 @@ function getPreparedGoods(
 }
 
 export const App = () => {
-  const [sortType, setSortType] = useState(SORT_NONE);
+  const [sortType, setSortType] = useState(SortType.SORT_NONE);
   const [isReversed, setIsReversed] = useState(false);
 
   const visibleGoods = getPreparedGoods(goodsFromServer, sortType, isReversed);
-  const isOriginalOrder = sortType === SORT_NONE && !isReversed;
+  const isOriginalOrder = sortType === SortType.SORT_NONE && !isReversed;
 
   const reset = () => {
-    setSortType(SORT_NONE);
+    setSortType(SortType.SORT_NONE);
     setIsReversed(false);
   };
 
@@ -57,16 +60,16 @@ export const App = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortType === SORT_ALPHABET ? '' : 'is-light'}`}
-          onClick={() => setSortType(SORT_ALPHABET)}
+          className={`button is-info ${sortType === SortType.SORT_ALPHABET ? '' : 'is-light'}`}
+          onClick={() => setSortType(SortType.SORT_ALPHABET)}
         >
           Sort alphabetically
         </button>
 
         <button
           type="button"
-          className={`button is-success ${sortType === SORT_LENGTH ? '' : 'is-light'}`}
-          onClick={() => setSortType(SORT_LENGTH)}
+          className={`button is-success ${sortType === SortType.SORT_LENGTH ? '' : 'is-light'}`}
+          onClick={() => setSortType(SortType.SORT_LENGTH)}
         >
           Sort by length
         </button>
