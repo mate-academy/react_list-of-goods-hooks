@@ -27,9 +27,6 @@ enum TypeSort {
   None = '',
 }
 
-// const SORT_FIELD_ALPHABET = 'alphabet';
-// const SORT_FIELD_LENGTH = 'length';
-
 function getPreparedGoods(
   goods: string[],
   { sortField, isReverse }: Props,
@@ -39,10 +36,8 @@ function getPreparedGoods(
   preparedGoods.sort((good1, good2) => {
     switch (sortField) {
       case TypeSort.Length:
-      // case SORT_FIELD_LENGTH:
         return good1.length - good2.length;
       case TypeSort.Alphabet:
-      // case SORT_FIELD_ALPHABET:
         return good1.localeCompare(good2);
 
       default:
@@ -59,7 +54,6 @@ function getPreparedGoods(
 
 export const App = () => {
   const [sortField, setSortField] = useState<TypeSort>(TypeSort.None);
-  // const [sortField, setSortField] = useState<string>('');
   const [isReverse, setIsReverse] = useState<boolean>(false);
   const visibleGoods = getPreparedGoods(goodsFromServer, {
     sortField,
@@ -73,10 +67,8 @@ export const App = () => {
           type="button"
           className={cn('button is-info', {
             'is-light': sortField !== TypeSort.Alphabet,
-            // 'is-light': sortField !== SORT_FIELD_ALPHABET,
           })}
           onClick={() => setSortField(TypeSort.Alphabet)}
-          // onClick={() => setSortField(SORT_FIELD_ALPHABET)}
         >
           Sort alphabetically
         </button>
@@ -85,10 +77,8 @@ export const App = () => {
           type="button"
           className={cn('button is-success', {
             'is-light': sortField !== TypeSort.Length,
-            // 'is-light': sortField !== SORT_FIELD_LENGTH,
           })}
           onClick={() => setSortField(TypeSort.Length)}
-          // onClick={() => setSortField(SORT_FIELD_LENGTH)}
         >
           Sort by length
         </button>
