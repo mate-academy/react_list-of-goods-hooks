@@ -17,11 +17,11 @@ export const goodsFromServer = [
 ];
 
 interface Props {
-  sortField: TypeSort;
+  sortField: SortType;
   isReverse: boolean;
 }
 
-enum TypeSort {
+enum SortType {
   Alphabet = 'alphabet',
   Length = 'length',
   None = '',
@@ -35,9 +35,9 @@ function getPreparedGoods(
 
   preparedGoods.sort((good1, good2) => {
     switch (sortField) {
-      case TypeSort.Length:
+      case SortType.Length:
         return good1.length - good2.length;
-      case TypeSort.Alphabet:
+      case SortType.Alphabet:
         return good1.localeCompare(good2);
 
       default:
@@ -53,7 +53,7 @@ function getPreparedGoods(
 }
 
 export const App = () => {
-  const [sortField, setSortField] = useState<TypeSort>(TypeSort.None);
+  const [sortField, setSortField] = useState<SortType>(SortType.None);
   const [isReverse, setIsReverse] = useState<boolean>(false);
   const visibleGoods = getPreparedGoods(goodsFromServer, {
     sortField,
@@ -66,9 +66,9 @@ export const App = () => {
         <button
           type="button"
           className={cn('button is-info', {
-            'is-light': sortField !== TypeSort.Alphabet,
+            'is-light': sortField !== SortType.Alphabet,
           })}
-          onClick={() => setSortField(TypeSort.Alphabet)}
+          onClick={() => setSortField(SortType.Alphabet)}
         >
           Sort alphabetically
         </button>
@@ -76,9 +76,9 @@ export const App = () => {
         <button
           type="button"
           className={cn('button is-success', {
-            'is-light': sortField !== TypeSort.Length,
+            'is-light': sortField !== SortType.Length,
           })}
-          onClick={() => setSortField(TypeSort.Length)}
+          onClick={() => setSortField(SortType.Length)}
         >
           Sort by length
         </button>
@@ -96,7 +96,7 @@ export const App = () => {
             type="button"
             className="button is-danger is-light"
             onClick={() => {
-              setSortField(TypeSort.None);
+              setSortField(SortType.None);
               setIsReverse(false);
             }}
           >
