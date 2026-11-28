@@ -50,8 +50,8 @@ function getPreparedGoods(
 }
 
 export const App = () => {
-  const [sortField, setSortField] = useState('');
-  const [isReverse, setIsReverse] = useState(false);
+  const [sortField, setSortField] = useState<string>('');
+  const [isReverse, setIsReverse] = useState<boolean>(false);
   const visibleGoods = getPreparedGoods(goodsFromServer, {
     sortField,
     isReverse,
